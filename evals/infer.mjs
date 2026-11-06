@@ -14,6 +14,9 @@
 //                                        # sample of evals/resumes/external/ (the calibration's set, scored on its own role)
 //   node evals/infer.mjs --private       # also evals/resumes/private/* (gitignored, never in the baseline)
 //   node evals/infer.mjs --only grad     # filter samples by substring
+//   node evals/infer.mjs --set all       # what the site sends with CONFIG.TECH_ENABLED on: the tech set's skills too,
+//                                        # found ids from Atlas.roughFit (shown and shownT), tech samples on their tech
+//                                        # role; --baseline writes evals/infer_baseline_tech.md
 //
 // Saved answers: data/experiments/infer/<hash>.json (gitignored, a pipeline cache: never swept), one per resume,
 // keyed by the model, the prompt, the skill list, the set, the text and the found ids, so a change to any of them
@@ -45,7 +48,10 @@ const url = args.includes("--url") ? args[args.indexOf("--url") + 1] : null;
 if (url && !/^https?:\/\/[^/]+\/.*api\/infer\/?$/.test(url)) { console.error(`--url wants the route itself, e.g. https://gradbuddy-atlas.vercel.app/api/infer (got ${url})`); process.exit(1); }
 if (priv && baseline) { console.error("--private samples are not written to the baseline; run them without --baseline"); process.exit(1); }
 const CACHE = path.join(root, "data/experiments/infer");
-const SET = "both";   // what the site sends (web/app.js, inferResume)
+// what the site sends (web/app.js, inferResume): "both", or "all" with the tech set on
+const SET = args.includes("--set") ? args[args.indexOf("--set") + 1] : "both";
+if (!["both", "all"].includes(SET)) { console.error(`--set is both or all (got ${SET})`); process.exit(1); }
+const ALL = SET === "all";
 
 // the key, from the environment or .env (KEY=value lines; the value is never printed)
 function apiKey() {
@@ -66,7 +72,13 @@ function target(spec) {
   const [fam, lv] = spec.split(":");
   return { jobs: G.jobs.filter(x => x.family === fam && (lv === "__all" || x.level === lv)), label: spec, level: lv === "__all" ? null : lv };
 }
-const foundOf = text => { const ev = ROUGH.tag(ROUGH.readRoles(ROUGH.parseResume(text))); return Object.entries(ev).filter(([, e]) => ROUGH.shownBy(e)).map(([id]) => id).sort(); };
+// The site's own code, for the published samples' bands and, with --set all, for `found` (Atlas.roughFit's shown and
+// shownT, read with no inferred list). "both" keeps its reader above, so its saved answers keep their keys.
+const atlas = require(path.join(root, "web/atlas.js"))({ load: u => JSON.parse(fs.readFileSync(path.join(root, "web", u), "utf8")), Matcher: require(path.join(root, "web/match.js")), config: () => ({ TECH_ENABLED: ALL }) });
+const foundOf = async text => {
+  if (ALL) { const rg = await atlas.roughFit(text, { inferred: [] }); return [...new Set([...rg.shown, ...(rg.shownT || [])])].sort(); }
+  const ev = ROUGH.tag(ROUGH.readRoles(ROUGH.parseResume(text))); return Object.entries(ev).filter(([, e]) => ROUGH.shownBy(e)).map(([id]) => id).sort();
+};
 
 const sha = s => crypto.createHash("sha256").update(s).digest("hex");
 const cacheKey = (text, found) => sha(JSON.stringify([I.MODEL, I.PROMPT, I.taxonomyBlock(SET), SET, text, found])).slice(0, 24);
@@ -95,7 +107,7 @@ const tally = { gained: 0, lost: 0, inferred: 0, resumes: 0 };
 // One resume's answer: the saved one, else (not --reuse) asked through the route or directly and saved; then validated
 // again. Returns { rec, found, inferred, dropped } or null (printed: failed or no saved answer).
 async function readOne(name, text) {
-  const found = foundOf(text), k = cacheKey(text, found), file = path.join(CACHE, k + ".json");
+  const found = await foundOf(text), k = cacheKey(text, found), file = path.join(CACHE, k + ".json");
   let rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
   if (rec) saved++;
   else if (!reuse && (key || url)) {
@@ -160,14 +172,14 @@ out(summary);
 const ext = { present: 0, total: Object.keys(SOURCES).length, rows: [], skipped: [], t0: Date.now() };
 if (full) {
   ext.present = fs.existsSync(EXTERNAL_DIR) ? fs.readdirSync(EXTERNAL_DIR).filter(f => READABLE.test(f) && SOURCES[f.replace(READABLE, "")]).length : 0;
-  const atlas = require(path.join(root, "web/atlas.js"))({ load: u => JSON.parse(fs.readFileSync(path.join(root, "web", u), "utf8")), Matcher: require(path.join(root, "web/match.js")) });
   const Mx = require(path.join(root, "web/match.js"));
-  const ix = await atlas.index(), TAXBY = Object.fromEntries(TAXM.skills.map(s => [s.id, s]));
-  const ownOf = r => r === "pm" ? "product.pm" : ix.roles[r] && ix.roles[r].set === "mba" ? r : null;
+  const ix = await atlas.index(), TAXBY = Object.fromEntries([...(ALL ? J("web/data/taxonomy_tech.json").skills : []), ...TAXM.skills].map(s => [s.id, s]));
+  // a sample's own role as the site names it: product.pm, an MBA role, or (with --set all) tech.<family>
+  const ownOf = r => r === "pm" ? "product.pm" : ix.roles[r] && ix.roles[r].set === "mba" ? r : ALL && ix.roles["tech." + r] ? "tech." + r : null;
   out(`\n## The published samples (evals/resumes/external/: ${ext.present} of ${ext.total} files present)`);
   for (const smp of await externalSamples({ only })) {
     const { id, text } = smp;
-    if (!text || !smp.role || (smp.spec && smp.spec.kind !== "single")) { ext.skipped.push(`${id} (${smp.error ? "unreadable" : !smp.role ? "no role" : "not a single resume"})`); continue; }
+    if (!text || !smp.role || (smp.spec && smp.spec.kind !== "single" && !smp.spec.only_years)) { ext.skipped.push(`${id} (${smp.error ? "unreadable" : !smp.role ? "no role" : "not a single resume"})`); continue; }
     if (text.trim().split(/\s+/).length < 120) { ext.skipped.push(`${id} (under 120 words)`); continue; }
     const one = await readOne("external/" + id, text.trim()); if (!one) continue;
     const { inferred, dropped } = one, own = ownOf(smp.role);
@@ -181,7 +193,7 @@ if (full) {
     ext.rows.push({ id, inferred, move, audit: au, ms: one.rec.ms || 0, cost: one.dollars });
     out(`\n=== external/${id}  (${smp.role}, ${smp.seniority}) → ${inferred.length} inferred${dropped ? `, ${dropped} dropped by validation` : ""}; ${one.found.length} found by the patterns`);
     for (const x of inferred) out(`  ◈ ${x.id.padEnd(26)} “${x.line.slice(0, 110)}” — ${x.why}`);
-    out(own ? `  ${own.padEnd(26)} overall ${pct(a.overall)} → ${pct(b.overall)}  band ${ba || "none"} → ${bb || "none"}${move ? `  BAND ${move.toUpperCase()}` : ""}` : `  no MBA role for ${smp.role}: no band`);
+    out(own ? `  ${own.padEnd(26)} overall ${pct(a.overall)} → ${pct(b.overall)}  band ${ba || "none"} → ${bb || "none"}${move ? `  BAND ${move.toUpperCase()}` : ""}` : `  no ${ALL ? "" : "MBA "}role for ${smp.role}: no band`);
     const bad = ["credentials", "behaviours", "ungrounded", "unknown"].filter(k => au[k].length);
     if (bad.length) out(`  MUST BE ZERO: ${bad.map(k => `${k} ${au[k].join(", ")}`).join("; ")}`);
   }
@@ -198,12 +210,13 @@ if (full) {
 if (baseline) {
   const none = tally.resumes === 0 && !ext.rows.length;
   const pathLine = [...paths].map(p => p === "direct" ? "direct calls to the Anthropic API" : `the deployed route at ${p.slice(6)}`).join(" and ");
-  const md = [`# Model read eval baseline`, ``, `Generated by \`node evals/infer.mjs --baseline${reuse ? " --reuse" : ""}${url ? " --url " + url : ""}\` on ${new Date().toISOString().slice(0, 10)}: ${I.MODEL}, the prompt and validation of \`web/api/infer.js\`, set \`${SET}\`. Do not edit by hand.`, ``,
+  const md = [`# Model read eval baseline${ALL ? ": the tech set on (set all)" : ""}`, ``, `Generated by \`node evals/infer.mjs --baseline${ALL ? " --set all" : ""}${reuse ? " --reuse" : ""}${url ? " --url " + url : ""}\` on ${new Date().toISOString().slice(0, 10)}: ${I.MODEL}, the prompt and validation of \`web/api/infer.js\`, set \`${SET}\`. Do not edit by hand.`, ``,
     full ? `Two sections: the eight samples against their expectations, then the published samples of \`evals/resumes/external/\` (${ext.present} of the ${ext.total} files in \`external_sources.json\` were present for this run; \`python -m pipeline.store pull evals\` brings the rest) on their own role, with the aggregate.` : `The eight samples only (\`--quick\`).`, ``,
     ...(!paths.size ? [] : [`Answers from ${pathLine}.`, ``]),
     none ? `No saved answers yet: nothing was inferred. \`node evals/infer.mjs --baseline --url https://gradbuddy-atlas.vercel.app/api/infer\` (the key lives on Vercel) or, with \`ANTHROPIC_API_KEY\` in the environment or \`.env\`, \`node evals/infer.mjs --baseline\` asks the model once per resume and saves the answers under \`data/experiments/infer/\`; \`--reuse\` then reruns from them without network or key.` :
       `Per resume: each inferred skill with the line that suggested it, then per target the matcher's overall score without → with the inferred skills, and on the first target the expectations (evals/resumes/*.json) each way. A GAINED must_evidence is a skill the patterns miss and the model read finds; a LOST line is a must_not_tag or real_gaps skill the model read tags.`,
     ``, "```", ...lines.map(l => l.replace(/^\n/, "")), "```", ``];
-  fs.writeFileSync(path.join(here, "infer_baseline.md"), md.join("\n"));
-  console.log("\nwrote evals/infer_baseline.md");
+  const file = ALL ? "infer_baseline_tech.md" : "infer_baseline.md";
+  fs.writeFileSync(path.join(here, file), md.join("\n"));
+  console.log("\nwrote evals/" + file);
 }

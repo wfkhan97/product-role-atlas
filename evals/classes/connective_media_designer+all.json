@@ -1,0 +1,24 @@
+{
+ "resume": "connective_media_designer",
+ "roles": [
+  "tech.product_designer",
+  "tech.ux_researcher"
+ ],
+ "note": "Design and research together: advanced UX and user research serves both; theory seminars serve neither.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "INFO 5305"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6816",
+   "ORIE 7590"
+  ]
+ },
+ "known_failures": {
+  "must_top INFO 5305": "The same as the UX research case: the product management course covers more of the gaps."
+ }
+}

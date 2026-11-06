@@ -1,0 +1,24 @@
+{
+ "resume": "meng_cs_new_grad",
+ "roles": [
+  "tech.software_engineer",
+  "tech.ml_engineer"
+ ],
+ "note": "Both roles together: ML systems serves the software and the ML side at once; real estate and employment law serve neither.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 6787"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "LAW 6332"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 6787": "Tagged only AI/ML and hardware (see the ML case); ML Hardware and Systems leads in its place."
+ }
+}

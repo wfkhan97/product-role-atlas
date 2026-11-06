@@ -1,0 +1,26 @@
+{
+ "resume": "security_career_changer",
+ "roles": [
+  "tech.security_engineer"
+ ],
+ "note": "A SOC analyst moving toward security engineering: the cybersecurity course and privacy in the digital age are the role's subject; 3D interaction design, real estate law and branding are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "NBAY 5725",
+   "CS 5436"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "DESIGN 5358",
+   "REAL 5590",
+   "TECH 5240"
+  ]
+ },
+ "known_failures": {
+  "must_top NBAY 5725": "No gaps, so the order is relevance; the security role's core asks are mostly general (ownership, cloud, communication), so broad courses outrank the cybersecurity course.",
+  "must_top CS 5436": "The same: tagged security and surveys only, so its relevance to a role whose core asks are general stays low."
+ }
+}

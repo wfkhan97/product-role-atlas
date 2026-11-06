@@ -1,0 +1,21 @@
+{
+ "resume": "analyst_to_data_engineer",
+ "roles": [
+  "tech.data_engineer"
+ ],
+ "note": "An analytics engineer with dbt, Airflow and Kafka: the data science course with real-world data is the nearest; 3D interaction design and law are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 5304"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "DESIGN 5358",
+   "LAW 6332",
+   "REAL 5590"
+  ]
+ }
+}

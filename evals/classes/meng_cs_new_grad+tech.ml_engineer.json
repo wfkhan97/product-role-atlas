@@ -1,0 +1,29 @@
+{
+ "resume": "meng_cs_new_grad",
+ "roles": [
+  "tech.ml_engineer"
+ ],
+ "note": "A software engineer with no ML work yet: language modeling, ML systems and the practical ML course are the way in; law and branding courses are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 5744",
+   "CS 6787",
+   "INFO 5368"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "LAW 6332",
+   "TECH 5240",
+   "NBAY 6600",
+   "LAW 6896"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 5744": "ML Hardware and Systems and the practical ML course lead, a fair choice; Language Modeling's tags (AI/ML, LLMs, algorithms) cover fewer of the gaps than theirs.",
+  "must_top CS 6787": "Tagged only AI/ML and hardware: the syllabus words for training and serving are not read, so it covers few gaps."
+ }
+}

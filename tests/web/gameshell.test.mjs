@@ -68,6 +68,12 @@ test("pickDefault: the role in the hash first, else the profile's first field's 
   assert.equal(pickDefault(ix, null, "b", can), "a", "a hash role the game cannot play falls through to the largest playable one");
   assert.equal(pickDefault(ix, null, null, id => id === "c"), "c");
   assert.equal(pickDefault(ix, null, null, new Set()), null);
+  // a tech role only for a game that deals the tech set (opts.tech)
+  const tix = { roles: { ...ix.roles, "tech.software_engineer": { set: "tech", nOpen: 5000 } }, groups: [...ix.groups, { id: "software", roles: ["tech.software_engineer"] }] };
+  assert.equal(pickDefault(tix, null, "tech.software_engineer"), "product.pm", "a game without the tech set never opens on a tech role");
+  assert.equal(pickDefault(tix, { fields: ["software"] }, null), "product.pm");
+  assert.equal(pickDefault(tix, null, "tech.software_engineer", null, { tech: true }), "tech.software_engineer");
+  assert.equal(pickDefault(tix, { fields: ["software"] }, null, null, { tech: true }), "tech.software_engineer");
 });
 
 test("the Know-your-role record: noteRole merges sets, counts demand and never changes its input; summary reads it against the role's asks", () => {

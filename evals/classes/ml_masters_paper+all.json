@@ -1,0 +1,24 @@
+{
+ "resume": "ml_masters_paper",
+ "roles": [
+  "tech.ml_engineer",
+  "tech.data_engineer"
+ ],
+ "note": "ML and data engineering together: ML systems sits between them; law courses do not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 6787"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "LAW 6332"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 6787": "Tagged only AI/ML and hardware, which this résumé already shows."
+ }
+}

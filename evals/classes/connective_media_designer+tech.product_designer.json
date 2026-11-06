@@ -1,0 +1,25 @@
+{
+ "resume": "connective_media_designer",
+ "roles": [
+  "tech.product_designer"
+ ],
+ "note": "A product designer in Connective Media: 3D interaction design and advanced UX research are the design courses; algorithm analysis, a cryptography seminar and applied probability are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "DESIGN 5358",
+   "INFO 5305"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6820",
+   "CS 6816",
+   "ORIE 7590"
+  ]
+ },
+ "known_failures": {
+  "must_top DESIGN 5358": "Three small gaps (prioritization among them): any class naming one ranks first, and 3D Interaction Design names none of them."
+ }
+}

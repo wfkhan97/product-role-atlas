@@ -68,6 +68,11 @@ called right is *known*. The role screen's card, About you and every end screen 
 - a **decoy**: at most 10% of the role's postings name it (15% when fewer than 14 decoys qualify), and some other
   openable role prizes it: at least 40% of its postings, twice the average role. A decoy's `diff` is 0 (another world),
   1 (asked fairly widely: lift under 5) or 2 (a role in the same field prizes it); the board's stage picks the tier;
+- the **tech roles** (with `CONFIG.TECH_ENABLED` on, 2026-11-06): the same rules over the tech index's skills
+  (`ix.T.skills`); a decoy's other role is another tech role, or an MBA role that prizes a skill the two sets share,
+  with the tech set's own baseline for the lift (`ix.baselineTech`). The shell offers a tech role only to a game that
+  says it deals the set (`defaultRole(..., { tech: true })`, `picker({ tech: true })`); the other games keep to the
+  product and MBA roles;
 - a **call**: any skill at least 10% of the role's postings name (`CALL_MIN`), the anchor excluded; the calls of a
   round are at least `gap` from half (0.20, 0.12, 0.08 by stage), as many over as under as the pool allows, skills
   not yet dealt first.

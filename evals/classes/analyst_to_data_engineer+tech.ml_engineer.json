@@ -1,0 +1,23 @@
+{
+ "resume": "analyst_to_data_engineer",
+ "roles": [
+  "tech.ml_engineer"
+ ],
+ "note": "An analyst eyeing ML: the practical ML course is the first step; a meta-complexity and cryptography seminar and employment law are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "INFO 5368"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6816",
+   "LAW 6332"
+  ]
+ },
+ "known_failures": {
+  "must_top INFO 5368": "Rank 12: three advanced ML systems courses name more of a beginner's many gaps (25) than the practical ML course does."
+ }
+}

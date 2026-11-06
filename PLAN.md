@@ -2089,10 +2089,9 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
 
 **Step 3, built (`feat/journey-state`, stacked on step 2): the saved state.** Decisions:
 
-- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`; NOT applied as of 2026-11-05: the
-  auto-mode classifier refuses a thread's migrations, so the owner pastes the file into the SQL editor or allows
-  the Supabase `apply_migration` tool; an earlier line here said it was applied, which `list_tables` disproved):
-  `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
+- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`; applied 2026-11-06 through the Supabase
+  connector once the owner allowed its `apply_migration` tool in the worktree's local settings; an earlier line here
+  said 2026-11-05, which `list_tables` disproved): `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
   résumé on file), `hearts` (one list of role ids: the card's heart and the open role's are the same), `reads` (one
   row per résumé hash per role: the band, the core and common skills with their state and the one line that showed
   each, the gaps, the model read's inferred ids). Row-level security for every verb on `user_id = auth.uid()`,
@@ -2518,90 +2517,153 @@ management. The legal skills (contracts, litigation, IP, privacy) sit among the 
 scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
 the taxonomy, not to the bands.
 
+## The model read for the tech set (`feat/tech-infer`, 2026-11-06)
+
+**What changed.**
+- `/api/infer` offers a fourth set, `"all"`: the MBA list plus the 45 skills only the tech set has. They are offered by
+  name only, because tech skills have no definitions yet.
+- The site sends `"all"` only with `CONFIG.TECH_ENABLED` on. Its `found` then includes what the tech patterns found
+  (`Atlas.roughFit`'s new `shownT`).
+- The tech rough reader now applies the model's answer, as the MBA reader already did; before, the tech roles' rough
+  scores ignored it.
+- The `"both"` request stays byte-identical, so the site with the switch off asks exactly what it asked before.
+
+**The runs.** Both settings ran over the whole résumé set through this branch's preview route (the 8 samples plus 376
+published résumés, 344 files present). Answers were not in the store's caches, so every résumé was asked again, about
+$0.45 a run.
+- **`"both"`** (`infer_baseline.md`): 3.2 skills inferred per résumé; 40 bands up, none down. All four must-be-zero
+  counts are zero (credentials, behaviours, unknown ids, quotes not in the text).
+- **`"all"`** (`infer_baseline_tech.md`): 3.3 per résumé; 45 bands up, none down; the four counts are zero.
+  - On the 72 tech samples scored on their own tech role: 196 skills inferred, 56 of them tech-only (litigation,
+    databases, contracts, privacy law, visual design, backend services lead).
+  - Median score 38% → 41%, three bands up.
+- **One expectation lost in the `"both"` run.** `pivot_phd_hci` got `stakeholder_mgmt` from "coordinated timelines with
+  clinicians and IRB", and it is one of that sample's `real_gaps`. The request is unchanged, and the same résumé was not
+  tagged in the 2026-11-01 baseline or in the `"all"` run, so this is the model's variance. It is left as measured,
+  not tuned away.
+
+## The class picker for the tech set (`feat/tech-classes`, 2026-11-06)
+
+**The tags.** `pipeline/catalog_tags.mjs` reads each class twice: with the MBA taxonomy, as before (`tags`), and with
+the tech set's (`tags_tech`). It records the tech taxonomy's hash, so `tests/web/catalog_files.test.mjs` fails when the
+tags go stale; that test also checks a sample of the tech reading against a live read. Of 127 classes, 114 carry a tech
+tag and 66 a skill only the tech set has (algorithms, backend services, prototyping and model training lead).
+
+**The picker.** With a tech role among the chosen roles, a card's tags are the two readings joined (`Catalog.tagsFor`,
+in `web/classes.js` and the network screen's professors). With none, the MBA reading alone, as before.
+
+**The catalog.** `pipeline.catalog_export` was rerun to build the local file. The research folder's roster is from
+2026-11-01, so the public file gains two classes (INFO 5315 Conversation Engineering, LAW 6492 IPOs for Technology
+Companies). The MBA reading changed for four classes: those two, plus INFO 5305 and NBAY 5180, whose text changed.
+
+**The eval.** `evals/run_classes.mjs` gains 21 cases: the seven tech samples, each against its own tech role, one
+neighbour and both together. The lawyer's neighbour is the MBA compliance role, so one case mixes the sets. The
+expectations were written from the catalog before the picker ran on them.
+- 0 failures, 16 known failures, each with its reason. They share two shapes:
+  - The gaps sort lets a class that names one small gap outrank the role's core course (AI Law and Policy above
+    Advanced Operating Systems for a CS student, whose gaps include hardware and security).
+  - Broad syllabus tags (Advanced ML Systems is tagged only AI/ML and hardware).
+- Some misses read acceptably: ML Hardware and Systems leads the ML cases in place of Advanced ML Systems.
+
+**Not this change.** The MBA and product cases have 11 failures and 2 known failures that now pass, on `main` as
+well. The data refreshes since the 2026-10-31 baseline moved them, and the class eval is not in CI. The baseline
+committed here records them as they are.
+
+## The games for the tech set (`feat/tech-games`, 2026-11-06)
+
+**Know the role deals the tech roles.** It is the game a role page's "Practise" link opens, and it works from posting
+shares alone. A tech role's pool uses the same rules over the tech index's skills.
+- A decoy's other role is another tech role, or an MBA role that prizes a skill the two sets share.
+- The lift is measured against the tech set's baseline (`ix.baselineTech`), as the site's matcher does.
+- The shell offers a tech role only to a game that says it deals the set (`defaultRole(..., { tech: true })`,
+  `picker({ tech: true })`), so the other games never open on one.
+- `evals/game_know_the_role.mjs` runs with the tech index on: 63 roles, all playable, every rule holds.
+- On the tech roles: 14 to 22 real asks a role, 28 to 39 decoys; a first board's decoys come from business roles
+  (vendor management, partnerships, positioning).
+
+**The other five stay with the product and MBA roles,** each for a reason in the data or the design:
+- **Climb the ladder** sorts a skill's statements by level, from the depth files. The tech skills have none (checklist
+  C10 and C11 in "Adding a role").
+- **Skill path** plays on the skill map, which does not cover the tech set.
+- **Spot the real ask** reads passages that `pipeline/game_passages.py` cuts from postings; none are cut from tech
+  postings yet.
+- **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
+  The owner decided on 2026-11-06 that both stay business-only: no tech edition.
+
 ## Later
 
-- Tech bands (2026-11-06): ten or more samples for data and AI (5) and design (8), from résumé-site samples the
-  owner downloads by hand or from more school guides (URI's data-science sample is a Google Doc, not fetched); counsel's
-  asks, so that legal practice, not compliance, is what counsel asks for (a taxonomy change: the whole chain in
-  CLAUDE.md), then `calibrate.mjs --roles tech` again. The product and MBA bands were not rerun: the 64 new files
-  join their "other field" when they are.
-- After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
-  storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
-  submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).
+The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
+done). One line per item; the section that explains it is named where it helps.
 
-- The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
-  `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then
-  part D: sample resumes and bands for the `impact` group, game passages, `mba_roles.json` credentials.
-- `node evals/rough_fit.mjs` in the checks step of `refresh-mba.yml` (after `pipeline.store pull evals` and `npm ci` in
-  `evals/`), so a refresh that moves the MBA roles also checks the interface's rough read. Not in `ci.yml`: no store key.
-- `role_coverage` reports only existing skills; a column of a role's top `role_terms` phrases that no skill pattern
-  matches would make the taxonomy gap visible on every refresh. Also `COVERS` for the new roles (business analytics
-  over data analyst?), unconfirmed.
-- ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
-  row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
-- The map self-serve, the judgment half (proposed 2026-11-04; the deterministic half is built as the visitor journey's
-  step 4, `web/api/tree.js`, 2026-11-05): a résumé plus a role on the site produce a map the way the model read
-  infers skills. The deterministic half (`ground`, `assemble`, `check` run in node on the atlas's files) now runs in
-  the function; the judgment half is the cards (R15 to R19) and the company research. The proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
-  company; `ground` runs in the function; the model (Haiku 5.5 for the cards, a Sonnet-class model for the four research
-  reads over the company's public pages) writes `cards`, `gap_sentence` and `who_sees_it` under the skill's rules, with
-  every quote checked word for word by `check` before the map is written to `maps/<uid>/map.json` with the service
-  role; a map that fails the check is not written and the screen says so. Cost per map, at today's prices: about $0.10
-  to $0.40 (research pages in, 11 cards out, two passes), plus the per-request limit already on `/api/infer`. Behind a
-  flag, `CONFIG.MAP_SELF_SERVE`, off by default, so the owner's hand-run maps stay the product until the first ten
-  self-serve maps have been read by him; the atlas still runs no model for anyone who has not signed in.
-- After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
-  rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
-  world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
-  Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
-  Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
-- Owner steps v20 left open (2026-10-31): ~~commit the B1 files in `gradbuddy/apprentice/`~~ (the generator moved into
-  the atlas on 2026-11-04; GradBuddy's `apprentice/` folder and `/apprentice-map` skill are superseded by `pipeline/apprentice/`,
-  and the owner decides whether to retire them or leave a pointer there); the four steps in
-  `pipeline/sql/2026-11-03_maps.sql` (sign-ups off, the bucket and policies, the invite, the publish) on the
-  gradbuddy-catalog project; `CATALOG_SERVICE_ROLE_KEY` in `.env`.
-- Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog
-  project before #125 merges; create the Vercel project (README, "Hosting"). The two Tally form ids went into
-  `web/config.js` on 2026-10-31 (`chore/four-verbs-close`); the native forms stay as the fallback behind them.
-- The Supabase URL and key stay in `web/config.js` for `capture.js` alone (v19 B3 removed the client); if capture
-  moves to Tally's own counts, both can go.
-- The editorial pass over the data strings (`evals/copy_baseline.md` lists them): role and skill names with abbreviations (PRDs, OKRs, P&L), long blurbs, passive lines.
-- The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
-- An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
-  closed postings the way the MBA graph does (a `data/` branch).
-- ~~v14 step 6, `chore/adaptive-6-signals`~~: dropped for good on 2026-10-25 (v16, decision 3). `signals` stay as the
-  fallback for the 98 product skills; a reader-judged line per skill is GradBuddy's synthesis, not an atlas fact.
-- `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
-  band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
-- ~~The application boxes are the cohort application (v18 step 1)~~: since v19 B5 they are the coming-soon intake
-  ("GradBuddy is coming soon.", an email, Notify me); the journeys behind them are GradBuddy's.
-- American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
-  American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
-  `data/` branch.
-- LLM-based extraction (Claude) for the postings: higher-recall skill tagging and the requirement vs nice-to-have split. The résumé side landed on 2026-11-01 (v21, the model read); the first live `evals/infer.mjs --url` baseline, a rate-limit rule on `/api/infer` and a spend cap on the key are open.
+**The owner's items**
+- The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
+  the catalog project's Auth settings; then "Allow new users to sign up" back on there (off since 2026-11-06, so only
+  invited addresses get a session), the rate limits, and the flip ("The visitor journey", step 2).
+- A spend cap on the Anthropic key and a rate-limit rule on `/api/infer` (the function has a same-origin check and
+  body limits, nothing per visitor).
+- `CATALOG_SERVICE_ROLE_KEY` in the local `.env` when a map is next published by hand (`map_publish`,
+  `map_feedback`; both send a new-style secret key in `apikey` alone, not yet run against one).
+- Retire GradBuddy's `apprentice/` folder and skill, or leave a pointer: superseded by `pipeline/apprentice/`.
+- Delete `auth.users` rows by hand when a person asks to be forgotten (the button deletes the three tables only).
+
+**The tech role set** (off behind `TECH_ENABLED`; "A third role set")
+- Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
+  school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
+  `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
+- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+  résumé-title twin, role blurbs and campus subjects for the five fields.
+- The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
+  gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
+  Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
+- The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
+  `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
+  `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
+- Its checklist items C10 and C11: `skill_audit --roles tech`, then definitions and depth for the 48 tech-only skills.
+- A tech wording for the shared product skills that fire on company blurbs (launch, partnerships, growth loops,
+  pricing; the golden ceiling is 27% against the MBA set's 16%). Whether `ux_researcher` folds into
+  `product_designer`. Law firms on the registry; the full Fortune 500.
+
+**The MBA role set**
+- The skills pass ("Adding a role", part C) for the 15 roles added after the first 50, once the refresh that gives the
+  13 business roles postings has merged; then part D (samples and bands for the `impact` group, game passages,
+  `mba_roles.json` credentials). A sample résumé with a product-engineer line; Texas Instruments' "Product Marketing
+  Engineer" postings kept as `pmm`.
+- `node evals/rough_fit.mjs` in the checks step of `refresh-mba.yml` (after `store pull evals` and `npm ci`).
+- `role_coverage`: a column of each role's top `role_terms` phrases that no pattern matches; `COVERS` for the new roles.
+- `evals/run_depth.py` has failures on `main` since the 2026-10-25 refresh (sub-skill shares outside 5% to 50%): a
+  `depth_publish` rerun on a `data/` branch with the baseline. The American-spelling rule in `depth_gen` and the
+  taxonomy names (the display map `Atlas.us` covers the screens).
+- The editorial pass over the data strings `evals/copy_baseline.md` lists (abbreviations, long blurbs, passive lines).
+- A carrier tie-break that prefers the carrier closer to the behaviour over the postings' order.
+
+**The site**
+- The apprentice map's judgment half, self-serve: the build cards and the company research from a model, behind
+  a flag, every quote checked by `check` before the map is written; the deterministic half is `/api/tree`
+  ("The visitor journey", step 4). Uploads of more context to `maps/<uid>/context/` with a storage policy, read into
+  `profile.md`. Missions that cover a whole class's gaps (R16); the quest map's one-world view; the layout eval
+  (`evals/README.md`, "Evals to build").
+- Find jobs: a Newest sort once the product graph carries `first_seen` (a `build_graph` then `jobs_open` rebuild on a
+  `data/` branch; the MBA rows carry it). An "Open now / Last 12 months" switch on the field and role pages, once the
+  product graph keeps closed postings as the MBA graph does.
+- An events feed for Networking (the intake promises one).
+- IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
+  `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.
+- The class matching's next lever: six known failures in `evals/classes/` share one shape, one small gap carrying a
+  class the role does not need; try a per-line score or a cap on small gaps (a relevance floor was tried and is not it).
+- The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
+
+**The pipeline**
+- LLM extraction for postings (higher recall, the requirement versus nice-to-have split); the résumé side is the
+  model read. A production `evals/infer.mjs --url` baseline is not yet recorded.
 - History of postings over time (the backlog's dated snapshots are the raw material).
-- One Supabase project for both repositories: move the backlog, `atlas-store` and `runs` into gradbuddy-catalog, or the
-  catalog the other way, and drop the second `SUPABASE_DB_URL` secret (v17 found two projects where the brief assumed one).
-- `pipeline/log.py`: record the exit code of a stage that ends with `sys.exit(message)` after no ERROR line (v17).
-- The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
-  variables, and the self-hosted runner only if a family is blocked.
-- A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
-  research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
-- More families: engineering, design and legal are the tech role set (2026-11-05, above; PR 5 and the evals listed under PR 4 to come). A tech wording for the shared product skills that fire on company blurbs in tech postings (launch, partnerships, growth loops, go-to-market, pricing): the golden ceiling is 27% against the MBA set's 16%. Its checklist items C10 and C11: `skill_audit --roles tech` (a model judges about 200 postings for the 48 new skills) and the new skills' definitions and depth (`pipeline.depth_gen`). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
-  roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
-  `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
-  Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).
-- IE New York in the picker (v18, step 3): before `catalog: true` for `ienyc`, `Catalog.loadCatalog` must read
-  `classes` filtered on the new `campus` column (one line; the campus id is in the campus file), or both campuses'
-  rows show in one picker. Then the owner applies `db/schema_ienyc.sql`, runs the loader and flips the flag.
-- ~~IE New York sign-in~~: sign-in is gone (v19 B3); the IE roster opens with its catalog file, no domain needed.
-- ~~The price on the cohort application box~~: the box is gone (v19 B5).
-- Frozen with the fit flow (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
-  work (v18); these stay listed so the reasoning is not lost, not as work to pick up.
-  - The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
-    every skill has a kind and the shared skills a field reading (v13, v14); the lanes without a resume can read `kind`
-    instead of the measured fallback.
-  - Behaviours in the score: rerun `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` (and the product set) on the
-    full 304-resume calibration set; switch both bands files to `"score"` only if neither rank statistic falls and no
-    group loses its bands, moving the six samples' `score_band` in the same commit. Measured on 48 files on 2026-10-25:
-    no fall (v14).
+- One Supabase project for both repositories, or the two kept on purpose; `pipeline/backlog.py` still defaults to the
+  GradBuddy project.
+- `pipeline/log.py`: record the exit code of a stage that ends with `sys.exit(message)` after no ERROR line.
+- The runner trial's results (`evals/runner_trial_2026-10-26.md`) were never written; the refreshes run and merge on
+  the hosted runners, so the note and its tooling can go unless a family is ever blocked.
+- The first live run of `evals/lines_judged.mjs` (the report file is a placeholder).
+
+**Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
+work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the
+score (`BEHAVIOURS=score node evals/calibrate.mjs` on the full set, switch only if neither rank statistic falls;
+"Evals to build", item 6).

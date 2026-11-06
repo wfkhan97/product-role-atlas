@@ -2,7 +2,7 @@
 
 - `main` is protected by convention: never commit to it directly. Every change goes on a branch
   (`feat/…`, `fix/…`, `data/…`, `chore/…`) and lands through a pull request.
-- Open the PR with the GitHub CLI in `tools/bin/gh` (not in git; see README). Merge only when the
+- Open the PR with the GitHub CLI (`gh`, from Homebrew). Merge only when the
   user says so. The one standing exception (owner, 2026-11-01): a refresh workflow merges its own `data/` PR when
   the pipeline evals and every CI check pass in the job; a failing refresh stays a draft for the user.
 - Commits end with `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
@@ -26,7 +26,9 @@
   a carrier a field entry names must co-occur with the skill in the field's postings, so when the eval fails, change the
   carrier, not the threshold. The kind says nothing to extraction: a change to kinds, evidence or fields alone needs no
   re-extraction, only `pipeline.build_graph` for both role sets.
-- The taxonomy serves every role set (`product`, `mba`). A change to a shared skill, to an MBA skill, to the
+- The taxonomy serves every role set (`product`, `mba`, `tech`; the tech set has its own chain: `pipeline.extract
+  --roles tech`, `role_coverage --roles tech`, `evals/run_pipeline.py --roles tech`, `node evals/run_tech.mjs`,
+  `calibrate.mjs --roles tech`). A change to a shared skill, to an MBA skill, to the
   cleaner in `pipeline/extract.py` or to the title rules in `pipeline/roles_mba.py` also means
   `.venv/bin/python -m pipeline.extract --roles mba`, then `pipeline.experiments.role_corpus --roles mba` and
   `pipeline.experiments.role_coverage --roles mba`, and committing the updated `evals/extraction_baseline_mba.md`;
@@ -56,8 +58,11 @@
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is
   shown in the interface. New kinds of evals are listed in `evals/README.md` under "Evals to build".
 - Two kinds of writing, kept apart. **Lasting documentation** is what a future session needs to understand the
-  project: `README.md` (what exists and how to run it), `PLAN.md` (the decisions and why, one dated section per
-  change), `evals/README.md`, `evals/NOTES.md`, `tests/README.md`, `games/README.md`. **Interim artifacts** are what one
+  project: `README.md` (what exists and how to run it), `docs/MODULES.md` (what each module does), `PLAN.md` (the
+  decisions and why, one dated section per change), `evals/README.md`, `evals/NOTES.md`, `tests/README.md`,
+  `games/README.md`, `pipeline/apprentice/README.md`, `docs/GRADBUDDY_CONTRACT.md` (the interface another program
+  reads), `docs/SELF_HOSTED_RUNNER.md`. Every one but `PLAN.md` and `evals/NOTES.md` (the changelogs) states what is
+  true now, tersely, without history. **Interim artifacts** are what one
   thread needs while it works: plans under review, mockups, audits, scratch scripts, notes to self. They never go in
   the tree: put them in the session scratchpad or under `data/experiments/scratch/<topic>/` (gitignored), and name
   them so another session can tell what they were for.
@@ -70,4 +75,9 @@
 - The catalog rows in `web/data/catalog/cornell_tech.json` change only by rerunning `.venv/bin/python -m pipeline.catalog_export`
   from the research folder, never by hand. A change to either taxonomy file (`web/data/taxonomy.json`, `web/data/taxonomy_mba.json`)
   also means `node pipeline/catalog_tags.mjs` and committing `web/data/catalog/cornell_tech_tags.json`.
-- Secrets go in `.env` (gitignored), never in code, docs or chat.
+- Secrets go in `.env` (gitignored), the repository's Actions secrets, or the Vercel project's environment; never in
+  code, docs or chat, and a thread never reads or types a secret's value.
+- A feature ships behind its flag in `web/config.js` and flips in a one-line PR once what it needs exists; a flag never
+  runs ahead of its migration. Migrations (`pipeline/sql/`) are applied through the Supabase connector (its
+  `apply_migration` tool, allowed in `.claude/settings.local.json`) or by the owner in the SQL editor, never by a
+  browser session; `list_tables` confirms before a flip.

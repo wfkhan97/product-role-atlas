@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import { require, web, readJson, realAtlas } from "./_load.mjs";
+import { require, web, readJson, realAtlas, atlasFactory, Matcher } from "./_load.mjs";
 
 const PUBLIC = readJson("catalog/cornell_tech.json");
 const TAGS = readJson("catalog/cornell_tech_tags.json");
@@ -43,14 +43,16 @@ test("every reference in the public file resolves", () => {
   for (const m of PUBLIC.meetings) assert.ok(nbrs.has(m.class_nbr), `meeting for unknown section ${m.class_nbr}`);
 });
 
-test("the tags file has one entry per class code and no other", () => {
-  const tagged = Object.keys(TAGS.tags);
-  assert.deepEqual(tagged.sort(), [...codes].sort());
+test("the tags file has one entry per class code and no other, in both readings", () => {
+  for (const [name, T] of [["tags", TAGS.tags], ["tags_tech", TAGS.tags_tech]]) {
+  const tagged = Object.keys(T || {});
+  assert.deepEqual(tagged.sort(), [...codes].sort(), `${name}: one entry per class code`);
   for (const code of tagged) {
-    const t = TAGS.tags[code];
+    const t = T[code];
     assert.ok(Array.isArray(t.found) && Array.isArray(t.teaches), `${code}: found and teaches are lists`);
     assert.deepEqual(t.found, [...t.found].sort(), `${code}: found is sorted`);
     for (const id of t.teaches) assert.ok(t.found.includes(id), `${code}: ${id} taught but not found`);
+  }
   }
 });
 
@@ -58,6 +60,7 @@ test("the tags were read with the taxonomy files as they are now", () => {
   const hint = "stale tags: rerun node pipeline/catalog_tags.mjs";
   assert.equal(TAGS.taxonomy_sha256, sha256("taxonomy_mba.json"), `taxonomy_mba.json changed; ${hint}`);
   assert.equal(TAGS.taxonomy_product_sha256, sha256("taxonomy.json"), `taxonomy.json changed; ${hint}`);
+  assert.equal(TAGS.taxonomy_tech_sha256, sha256("taxonomy_tech.json"), `taxonomy_tech.json changed; ${hint}`);
 });
 
 test("the tags equal a live read of the local catalog under the same rule", async t => {
@@ -72,5 +75,12 @@ test("the tags equal a live read of the local catalog under the same rule", asyn
   for (const cls of sample) {
     const rd = await Atlas.readCourse(Catalog.matcherText(cls));
     assert.deepEqual(TAGS.tags[cls.code], { found: keep(rd, rd.found), teaches: keep(rd, rd.teaches) }, `${cls.code}: tags differ from a live read`);
+  }
+  // the tech reading, with the tech index on as pipeline/catalog_tags.mjs reads it
+  if (!fs.existsSync(path.join(web, "data", "graph_tech.json"))) return;
+  const AT = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(web, url), "utf8")), Matcher, config: () => ({ TECH_ENABLED: true }) });
+  for (const cls of sample) {
+    const rt = await AT.readCourse(Catalog.matcherText(cls), { set: "tech" });
+    assert.deepEqual(TAGS.tags_tech[cls.code], { found: keep(rt, rt.found), teaches: keep(rt, rt.teaches) }, `${cls.code}: tech tags differ from a live read`);
   }
 });

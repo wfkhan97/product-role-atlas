@@ -1,0 +1,21 @@
+{
+ "resume": "analyst_to_data_engineer",
+ "roles": [
+  "tech.data_engineer",
+  "tech.ml_engineer"
+ ],
+ "note": "Data and ML together: the data science course serves both; real estate and employment law serve neither.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 5304"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "LAW 6332"
+  ]
+ }
+}

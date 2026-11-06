@@ -1,9 +1,29 @@
-# Matcher evals
+# Evals
 
-Sample inputs plus human-written expectations for the "Match my resume" feature, so every change to
-the matcher can be checked against the same cases and compared with [baseline.md](baseline.md).
+Every runner that checks the pipeline, the matcher, the data files or the screens against labelled baselines. The
+expectation files are the spec; a baseline (`*_baseline.md`, `calibration*.md`) is committed with the change that
+moves it. Scratch (a draft baseline, a one-off report) goes under `data/experiments/scratch/<topic>/`, never here.
 
-Scratch from a thread (a draft baseline, a one-off report) goes under `data/experiments/scratch/<topic>/`, never here; `./sweep_scratch.sh` clears it at the end of the thread. Only baselines, expectation files and these notes stay.
+| Runner | Checks | CI | Needs |
+|---|---|---|---|
+| `node evals/run.mjs` | The matcher on the sample résumés; `--external`, `--private` add the other sets | yes | |
+| `node evals/run_tech.mjs` | The tech set's samples | yes | |
+| `node evals/calibrate.mjs [--roles mba\|tech]` | The bands of fit from the published samples → `web/data/bands*.json`, `calibration*.md` | | `store pull evals` |
+| `node evals/rough_fit.mjs` | The interface's rough read against the full matcher | | `store pull evals` |
+| `python evals/run_pipeline.py [--roles tech]` | Titles, levels, entry marks, countries, golden postings, sponsorship, integrity, graph, js, matcher | yes | |
+| `python evals/run_taxonomy.py` | Kinds, evidence and field entries against the postings | yes | |
+| `python evals/run_depth.py` | The published MBA skill depth | | |
+| `node evals/adaptive.mjs`, `stage.mjs`, `posting.mjs` | The sentences and carriers over every role; what each stage leads with; the pasted posting | yes | |
+| `node evals/copy.mjs` | Every string the screens own against the writing rule (gated by `tests/web/copy.test.mjs`) | via the test | |
+| `node evals/run_classes.mjs` | The class picker's matching on the test résumés | | |
+| `node evals/infer.mjs` | The model read over the whole résumé set | | `ANTHROPIC_API_KEY` or `--url`; `store pull evals` |
+| `node evals/lines_judged.mjs` | A model reader on 50 generated sentences | | `OPENROUTER_API_KEY` |
+| The game evals (below) | Each game's pools and deals over every role | | |
+
+## Matcher evals
+
+Sample inputs plus human-written expectations for the résumé read, so every change to the matcher can be checked
+against the same cases and compared with [baseline.md](baseline.md).
 
 ```bash
 node evals/run.mjs               # score every sample, check expectations, print a report
@@ -51,9 +71,6 @@ none. `node evals/run.mjs` checks it with the role families of `web/data/roles_m
 reported and not counted.
 
 `node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
-
-`evals/runner_trial.py` writes the table of the GitHub-runner trial of the MBA refresh (`runner_trial_2026-10-26.md`,
-`runner_trial.json`) from the logs the jobs push to the `logs` store.
 
 `node evals/parse_health.mjs` reads every external file and flags the ones the parser reads badly (no jobs, a job
 with no title, implausible years), with no expectations needed.
@@ -125,7 +142,6 @@ fix the expectation and say why in the commit.
 2. Run `node evals/run.mjs --only <name>` and read the tagged list.
 3. Write `<name>.json` from that list and the resume: what is clearly shown, what is a false positive,
    what is genuinely missing.
-4. The random internet PM resume that scored 36% belongs here as the first real-world sample.
 
 ## What the runner checks
 
@@ -150,9 +166,9 @@ The runner requires `web/match.js` directly, so it always runs the code the app 
 `node evals/run_tech.mjs` runs `evals/resumes_tech/`, scored as the site scores the set (the setting in
 `web/data/bands_tech.json` and `techBaseline`), (a `.txt` and its `.json` per sample, the fields of the table
 above plus `known_miss`: `{skill id, "level" or target: reason}`, a wrong answer accepted for now that fails when it starts
-to pass) through `web/match.js` with `web/data/taxonomy_tech.json`. What a résumé shows is checked everywhere; a score
-needs the set's graph and waits where it is absent. `--baseline` writes `baseline_tech.md`. A sample's band is a judgment
-call; the calibrated bands are in `bands_tech.json` (software and security so far).
+to pass) through `web/match.js` with `web/data/taxonomy_tech.json`. `--baseline` writes `baseline_tech.md`. A sample's band is a judgment
+call; the calibrated bands are in `bands_tech.json` (software and security; data and AI, design and legal wait for
+samples).
 
 ## Extraction baselines
 
@@ -206,13 +222,13 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 |---|---|---|
 | backlog | – | What a refresh does to a company's postings (`pipeline.scrape.merge`): it adds new ones, closes missing ones, reopens returning ones, drops none, and closes nothing when most postings fail to come back. A posting is its requisition id (its URL on a board that gives none): a requisition under a new URL is the same row and takes the current URL and title; two rows of one requisition fold into the one seen last. |
 | titles | `titles_mba.json` | 810 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"), 156 cover campus titles, sector bankers and entry-level grades (set `entry-2026-10-13`), 17 the AI transformation role and its edges (set `ai-transformation-2026-10-30`: engineers, research labs, AI governance and AI strategy are not it). |
-| golden, entry, integrity, graph, matcher (tech) | `golden_tech.json`, `entry_tech.json` | `run_pipeline.py --roles tech`: 14 golden postings (two per role) with must and must-not skills, floors 0.87 and 0.27; 130 postings with their entry mark, read with their text. Integrity, graph and matcher read `data/processed/jobs_tech.json` and `web/data/graph_tech*` and report that they wait where those are absent (CI until the first tech refresh). The js part also checks that `web/data/taxonomy_tech.json` is the set's part of the taxonomy (`python -m pipeline.roles_tech`). |
+| golden, entry, integrity, graph, matcher (tech) | `golden_tech.json`, `entry_tech.json` | `run_pipeline.py --roles tech`: 14 golden postings (two per role) with must and must-not skills, floors 0.87 and 0.27; 130 postings with their entry mark, read with their text. Integrity, graph and matcher read `data/processed/jobs_tech.json` and `web/data/graph_tech*`. The js part also checks that `web/data/taxonomy_tech.json` is the set's part of the taxonomy (`python -m pipeline.roles_tech`). |
 | titles (tech) | `titles_tech.json` | `run_pipeline.py --roles tech`: 748 titles with the role, level, ladder and entry mark each must get in the tech role set (PLAN.md, "A third role set"), labelled by two readers who saw a written spec and never the rules: 480 drawn from a census of the Greenhouse, Lever and Ashby boards, 236 written at the borders with the product and MBA sets, hardware, banks and the ladders, 32 entry titles. The same run checks `web/data/roles_tech.json` against `export()` and `evals/roles_tech.mjs` against `pipeline/roles_tech.py`. Baseline: `pipeline_baseline_tech.md`. The other parts come with the set's scrape and graph build. |
 | levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
 | entry | `entry_mba.json` | 231 postings with the entry mark each must get: `mba`, `pre_mba` or none, and internship or not. 210 are real US postings drawn by seed from 20 strata; 21 are titles written to probe the firm table. 32 are read with their posting text. The part also checks that every row of the firm table has a source. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
 | golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |
-| sponsorship | `sponsorship.json` | Visa sponsorship as a posting fact (PLAN.md v16, step 8): postings labelled by reading them (yes: the employer says it sponsors; no: it says it does not; null: it says nothing, eight of them naming a project sponsor or a sponsored event), with the deciding sentence in `note`. `pipeline.sponsorship.read` must equal every label; the part also prints the values in the processed file. 22 rows on 2026-10-25 (1 yes, 11 no, 10 silent, all from the golden postings); the brief's 15 yes and 15 no need the backlog, as the file's `about` says. |
+| sponsorship | `sponsorship.json` | Visa sponsorship as a posting fact: postings labelled by reading them (yes: the employer says it sponsors; no: it says it does not; null: it says nothing, some naming a project sponsor or a sponsored event), with the deciding sentence in `note`. `pipeline.sponsorship.read` must equal every label; the part also prints the values in the processed file. 22 rows, all from the golden postings; a fuller set (15 yes, 15 no) needs the backlog. |
 | integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings, except a role the current rules would fill from postings stored under another role (a role added since the last extraction: reported as waiting for `pipeline.extract --roles mba`, with the count of stale postings). Every posting has an entry mark from the allowed values, and a source exactly when it has a mark. |
 | graph | – | The role files add up to the index. A role with no postings is in the index with n 0, has an empty file and is in no group; every other role is in exactly one group. Every posting is a US posting of its role. The entry marks in the files equal the processed file, and the entry counts in the index (per role and ladder, per ladder) add up to the files. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
 | js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level, ladder and entry mark as `pipeline/roles_mba.py` on every title we hold, and the same entry mark on the labelled postings that carry a text. |
@@ -269,8 +285,8 @@ sub-skill shares are measured on the same postings the patterns were drafted fro
 
 ## Game evals
 
-The games (`games/`, built in `web/games/`; reached from the role pages at `#/play/<slug>` since v19 B2 took the
-start screen away) draw their rounds from the atlas data with
+The games (`games/`, built in `web/games/`; reached from the role pages at `#/play/<slug>`) draw their rounds from
+the atlas data with
 rules written in their design packages (`games/<slug>/README.md`). Each game keeps its data rules as pure functions
 apart from its screens, so node can run them over every role with no install. Each exits 1 on a rule violation.
 
@@ -279,7 +295,7 @@ node evals/skill_path.mjs             # Skill path: the board, the README's exam
 node evals/games_guess_the_role.mjs   # Guess the role: the pool, distractors and the three clues over all 48 roles
 node evals/game_passages.mjs          # Spot the real ask: the passages file web/data/game_passages.json
 node evals/game_spot_scoring.mjs      # Spot the real ask: the lines and the scorer, five simulated readers answering line by line
-node evals/game_know_the_role.mjs     # Know the role: the pools and the deals (boards, calls, field hop) over all 54 roles
+node evals/game_know_the_role.mjs     # Know the role: the pools and the deals (boards, calls, field hop) over all 63 roles, the tech set's seven included
 ```
 
 | eval | what it guards |
@@ -287,14 +303,13 @@ node evals/game_know_the_role.mjs     # Know the role: the pools and the deals (
 | `skill_path.mjs` | Loads `web/atlas.js`, the skill map's own board (`SkillMap.board()`) and the game's `logic`. The board has 240 skills and 938 links in one piece, each skill with 2 links or more (`buildBoard` drops dead ends). Product Manager's arrival skills, Marketing's start skill, the shortest route (3 hops, 1 of them good), the budget (5), the four choices at each hop of the README's Marketing → Product Manager round with ★ on the ones that end it, its result (arrived in 4, 1 good) and Build next before and after ticks. Supply chain & procurement → Product Manager: start skill, par 4, and the biggest-blue-number route ends 3 hops short with 2 good hops. The random pool (485 pairings from a field, 2,396 from a role: a shortest route of 2 to 6 hops, no small role). All 56 pickable roles have three arrival skills. Four simulated players on every pairing: none is ever left with no choice and no step back, and the perfect player always arrives. |
 | `games_guess_the_role.mjs` | Every role has a playable posting. Every distractor set is three distinct roles, none above similarity 0.90, in a 2 + 2 or 1 + 1 + 1 + 1 field pattern. Every clue set of every playable posting is three distinct eligible skills, none generic, each asked by at least a quarter of the role's postings, in rising order of lift, with no red herring and the giveaway's disc above 0; the first clue comes from the more distinctive half of the candidates and the second is the most distinctive but the giveaway (v12). It prints the counts the README states (22,367 open, 20,313 playable, 46 roles with 2 + 2, the relaxed rule for 364) and warns, without failing, when a data refresh moves them. |
 | `game_passages.mjs` | Checks `web/data/game_passages.json`, written by `pipeline/game_passages.py`: valid chunk labels, every ask names a skill of its set's taxonomy, each block's chunks join back to its text, shares in [0, 1], no passage over 700 characters, at most 12 per role and one employer per role, the file under 1 MB, every role id in `graph_mba.json` or `graph.json`. |
-| `game_know_the_role.mjs` | Loads `web/atlas.js` and the game's `logic`. Every role is playable (three real asks at 40% and a decoy or more; the counts: 54 roles, real asks 10 to 27 a role, decoys 12 to 99, calls 42 to 80). For every role and stage: a board of twelve with five real asks (never a decoy that is an ask, never a tile twice, the first board's decoys from another world when the pool has them), eight calls that exclude the anchor, sit on both sides of half and outside the stage's gap when the pool allows, and a field hop over roles of other fields; a seed repeats a deal; a perfect and an all-wrong player score as they should. The three games it replaced (Higher or lower, What does it ask for, Build the hire) had no eval. |
+| `game_know_the_role.mjs` | Loads `web/atlas.js` (with the tech index on) and the game's `logic`. Every role is playable, the seven tech roles included (three real asks at 40% and a decoy or more; the counts: 54 roles, real asks 10 to 27 a role, decoys 12 to 99, calls 42 to 80). For every role and stage: a board of twelve with five real asks (never a decoy that is an ask, never a tile twice, the first board's decoys from another world when the pool has them), eight calls that exclude the anchor, sit on both sides of half and outside the stage's gap when the pool allows, and a field hop over roles of other fields; a seed repeats a deal; a perfect and an all-wrong player score as they should. The three games it replaced (Higher or lower, What does it ask for, Build the hire) had no eval. |
 | `game_spot_scoring.mjs` | Loads `web/data/game_passages.json` and the game's `logic` (its lines, deal and scorer). The lines of every passage are its ask and filler chunks in reading order, each inside its bullet, with an ask and a filler line in every passage (456 passages, 3,661 lines, 4 to 17 a passage). Five simulated readers play 4,000 runs each of one easy, one medium and one hard passage, dealt as the game deals (seed 7), answering every line: perfect, careful (an ask called an ask with p 0.85, a filler line with p 0.20), keyword (0.60 / 0.50), all-ask, all-filler. The perfect reader reads 1 in every run, all-ask exactly 0.5, all-filler 0; the careful reader's mean read is at least 0.75 and never below 0.3 over a run; the keyword reader's mean is at least 0.2 below the careful reader's and above 0.4, and it finds fewer asks and lets less filler pass. Prints the mean read, the asks found and the filler let pass per reader. |
 
-The expected numbers are today's data. After a data refresh `skill_path.mjs` prints the new values and fails, and
-`games_guess_the_role.mjs` warns; update the game's README and the eval together on a `data/` branch. When a refresh of
-the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: the scorer in
-`web/games/spot-the-real-ask.js` and the band in the eval are then retuned together (there are no rank thresholds
-since v12).
+The expected numbers are the data's at the last run. After a data refresh `skill_path.mjs` prints the new values and
+fails, and `games_guess_the_role.mjs` warns; update the game's README and the eval together on a `data/` branch. When
+a refresh of the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: the scorer in
+`web/games/spot-the-real-ask.js` and the band in the eval are then retuned together.
 
 ## Taxonomy evals
 
@@ -315,7 +330,7 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 | carriers | Each carrier a behaviour's or a practice's evidence names is asked for with it in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
 | published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
 
-**The tech set.** Its five fields (`pipeline/roles_tech.py`, `GROUPS`) are read from `data/processed/jobs_tech.json` beside the MBA fields and counted apart: a skill four tech fields ask for needs an entry per asking tech field. A checkout without that file (CI, until the first `refresh-tech` lands) reports the tech fields as waiting and checks their entries for shape only; `refresh-tech.yml` runs the full eval on the fresh data.
+**The tech set.** Its five fields (`pipeline/roles_tech.py`, `GROUPS`) are read from `data/processed/jobs_tech.json` beside the MBA fields and counted apart: a skill four tech fields ask for needs an entry per asking tech field. A checkout without that file reports the tech fields as waiting and checks their entries for shape only.
 
 **What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
 not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.
@@ -323,9 +338,9 @@ The thresholds were set once on the data of 2026-10-24.
 
 ## Adaptive evals
 
-The taxonomy adapted to each role (PLAN.md v14) puts its logic in pure functions the app runs (`web/evidence_text.js`;
+The taxonomy adapted to each role puts its logic in pure functions the app runs (`web/evidence_text.js`;
 `carriers()`, `areas()` and `readCourse()` in `web/atlas.js`), so one runner checks them over every role of both sets
-with no DOM. Exits 1 on a rule violation; in CI from step 2.
+with no DOM. Exits 1 on a rule violation; in CI.
 
 ```bash
 node evals/adaptive.mjs                 # every part
@@ -342,33 +357,29 @@ node evals/adaptive.mjs --only text     # one part
 ## The stage eval
 
 The stage answer (`you.stage`: looking, targeting, curious), asked in About you, step 2, decides what About you and
-the role rail lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action
-each screen offers is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or
-the gaps; curious: explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and
-that the screens do read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the
-rail and the fit screen is the one box (since v19 B5 the intake box: `Stage.cta` is "GradBuddy is coming soon.", the
-copy in the pure table `Intake`, which names no cohort, price or date) and that the rail's three placeholders and the
-fit screen draw that box. Since v19 B2 there is no start
-screen to check: the door and home never ask the stage, and the eval checks that too (the reason is at its top). In
+the role rail lead with. `node evals/stage.mjs` checks, for each stage, that the first action each screen offers is
+the one the stage asks for (looking: a résumé drop or the fields; targeting: the role search or the gaps; curious:
+explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and that the screens do
+read it; that the first call to action on the rail and the fit screen is the intake box (`Stage.cta`, the copy in
+the pure table `Intake`, which names no cohort, price or date); and that the door and home never ask the stage. In
 CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
-(`pipeline/funnel.py`) or resumes per kind.
+(`pipeline/funnel.py`) or résumés per kind.
 
 ## The pasted posting
 
-The fit screen reads a pasted posting in the browser (PLAN.md v16, step 9): `Atlas.readPosting` runs
+The fit screen reads a pasted posting in the browser: `Atlas.readPosting` runs
 `Matcher.tagPosting`, the taxonomy's own patterns over the text with the boilerplate cut the way `pipeline/extract.py`
 cuts it (EEO, benefits, legal, the employer describing itself; the employer's name is inferred from the line openings
 it repeats, since a pasted posting carries none), none of the matcher's resume-language extras. `node evals/posting.mjs`
 pastes the 99 golden MBA postings one by one and compares with the tags the pipeline gives the same text (a short
 python run, no network): each posting must show at least 80% of its pipeline-tagged skills and never a skill the
-pipeline does not tag. On 2026-10-25: 2,318 of 2,321 tags shown (99.9%), 0 extras, the lowest posting at 12 of 14. In
-CI. What it does not show: whether the skills a posting names are the ones it weighs; a pasted posting is read as one
+pipeline does not tag. In CI. What it does not show: whether the skills a posting names are the ones it weighs; a pasted posting is read as one
 document, so the band stays the role's.
 
 ## Lines judged
 
-The sentences the screens show about a skill are built from the data by `web/evidence_text.js` (PLAN.md v14, decision
-2); no reader had judged them. `node evals/lines_judged.mjs` draws 50 sentences per release over both role sets, a
+The sentences the screens show about a skill are built from the data by `web/evidence_text.js`; no reader had judged
+them. `node evals/lines_judged.mjs` draws 50 sentences per release over both role sets, a
 third each of field lines (`pipeline/fields.json`), templates (`pipeline/evidence.json`) and gap sentences, one from each
 kind-by-field cell in a seeded order, and asks a model reader of a different family from the depth's drafter
 (`anthropic/claude-haiku-5.5` through OpenRouter; `openai/gpt-6.1-sol` drafted the depth) three yes/no questions per
@@ -377,12 +388,13 @@ the measure or points to other work); in the field's words rather than another f
 `data/experiments/lines_judged/` (a rerun sends only what is missing); `--dry-run` states the sample and the cost and
 sends nothing; `--n`, `--seed` and `--model` change the sample and the reader. The report is
 [lines_judged.md](lines_judged.md), failures listed by skill and field so `fields.json` or `evidence.json` can be fixed;
-the runner exits 1 while a judged sentence fails. The gate (PLAN.md v16, decision 10): it runs before any later PR
-changes a sentence template or shows a new generated line. Needs `OPENROUTER_API_KEY` in `.env`; not in CI.
+the runner exits 1 while a judged sentence fails. The gate: it runs before any later PR changes a sentence template
+or shows a new generated line. Needs `OPENROUTER_API_KEY` in `.env`; not in CI. The report file is a placeholder until
+the first live run.
 
 **What it does not show.** One reader, once, on 50 sentences; whether a student reads a line as the reader does is not
 measured, and a sentence the reader accepts can still be an odd line for a role whose field reading does not fit it
-(the role overrides of v16 step 6 are the remedy the grounding check points to).
+(the role overrides in `pipeline/fields.json` are the remedy the grounding check points to).
 
 ## The class picker's matching
 
@@ -399,8 +411,10 @@ node evals/run_classes.mjs --only pivot  # the cases whose id contains the text
 
 A case is one test résumé from `evals/resumes/*.txt` and one role, or a résumé and all its roles together
 (`+all`, through `Catalog.combineRoles`). The roles per résumé are a fixed table at the top of the runner: Product
-Manager for every résumé, then the two MBA roles the rough fit ranked highest on 2026-10-29. Eight résumés give 32
-cases. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
+Manager for every résumé, then the two MBA roles the rough fit ranked highest when the cases were written. Eight résumés give 32
+cases. The seven tech samples (`evals/resumes_tech/`) add 21: each against its own tech role and one neighbour (the
+lawyer's is the MBA compliance role), and both together; a case with a tech role reads the MBA and tech tags joined
+(`Catalog.tagsFor`), as the picker does. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
 (`web/data/catalog/cornell_tech_tags.json`) through `Catalog.relevanceScore`, `relevanceBand` and `gapsCovered`,
 and orders the cards with `sortCards("gaps")` and the campus field tie-break. It records the top 10 with score,
 band, the gaps covered and their share sum.
@@ -419,11 +433,10 @@ The expectation files are `evals/classes/<resume>+<roleId>.json` and `<resume>+a
 
 A check named under `known_failures` is a failure the spec keeps on purpose: the reader's expectation stands, the
 matching does not meet it yet, and the reason says why. The runner reports it as KNOWN, counts it apart from the
-failures, and stays green on it; a known failure that starts to pass fails the run until its line is dropped. Five
-cases carry one today (2026-10-31), all of one shape: one small gap, such as the Office suite, carries a class the
-role does not need (Health Law and Policy fourth for a Strategy Manager). The next lever is a per-line score or a cap
-on small gaps; a floor on the relevance band was tried and sank a right answer (Customer Analytics to 52nd), so it is
-not the fix.
+failures, and stays green on it; a known failure that starts to pass fails the run until its line is dropped. The
+known failures share one shape: one small gap, such as the Office suite, carries a class the role does not need. The
+next lever is a per-line score or a cap on small gaps; a floor on the relevance band was tried and sank a right
+answer, so it is not the fix (PLAN.md, Later).
 
 `must_top`: each code sits in the top n. `must_not_top`: none of the codes does. `must_cover`: each listed code
 covers that gap of the case (optional). `no_cover`: whether the case must be one no class covers (optional). A
@@ -432,7 +445,7 @@ want it; an expectation the picker fails stays when the output reads worse, and 
 A case with no file, and a file with no case, both fail.
 
 `--cut` pools every card score over all cases and prints the two thresholds that keep the share of "high" at about
-2.3% and of "medium or high" at about 54% of card reads (the tuning study's shares, 2026-10-29). The numbers go in
+2.3% and of "medium or high" at about 54% of card reads (the tuning study's shares). The numbers go in
 `web/data/sp27_campus.json`, `cornell_tech.relevance`.
 
 Rerun after any change to the scoring in `web/catalog.js`, to the tags file, to the thresholds or to
@@ -440,7 +453,7 @@ Rerun after any change to the scoring in `web/catalog.js`, to the tags file, to 
 
 ## The copy eval
 
-The brief's rule for every string a screen owns ("How to write", v19 B6): sentences of at most 20 words, active
+The rule for every string a screen owns ("How to write"): sentences of at most 20 words, active
 voice, simple words (never utilize, leverage, facilitate, via, in order to), American spelling, no bare codes, and
 never a percentage or a score in what a person reads about a fit (bands and "N of M"). `node evals/copy.mjs` reads
 `web/copy.js` (every string in the table, recursively; functions skipped), `web/data/sp27_campus.json` and
@@ -464,8 +477,8 @@ baseline; the product graph `web/data/graph.json` is not read. In CI through the
 
 `web/api/infer.js` asks a model (Haiku 5.5) for the skills a resume shows without naming them; the matcher credits
 them as `inferred` (0.75, between a mention and a line of work; `web/match.js`, INFERRED). `node evals/infer.mjs`
-runs the same prompt, request and validation over the whole resume set (the rule since 2026-11-01; `--quick` is
-the eight samples alone). For the eight samples it reports, per resume, each inferred skill with
+runs the same prompt, request and validation over the whole resume set (`CLAUDE.md`; `--quick` is the eight samples
+alone). For the eight samples it reports, per resume, each inferred skill with
 the line that suggested it, the overall score per target without and with them, and on the first target which
 expectations it gains (a `must_evidence` the patterns miss) or loses (a `must_not_tag` or `real_gaps` skill it tags).
 Then every readable published sample of `evals/resumes/external/` the calibration reads (a single resume with a role
@@ -485,6 +498,14 @@ the site sends and saves the answer with the route's host (check the deploy firs
 `.env`. The baseline says which path produced its answers. Rerun with `--baseline` after any change to the prompt, the
 validation or the merge, and commit the baseline. `node evals/run.mjs --baseline` must not move when no list is
 passed: the patterns' read is the floor.
+
+`--set all` runs what the site sends with the tech set on (`CONFIG.TECH_ENABLED`): the skill list adds the 45
+skills only the tech set has (names only: tech skills have no definitions yet), `found` comes from `Atlas.roughFit`
+(its `shown` and the tech reader's `shownT`), and a sample filed under a tech role is scored and banded on that role
+(`bands_tech.json`). It writes [infer_baseline_tech.md](infer_baseline_tech.md). The `"both"` list does not change with
+the tech set, so its saved answers keep their keys. Both runs read the templates marked `only_years`, as the
+calibration does. A preview deploy behind Vercel Authentication takes `INFER_COOKIE` (the `_vercel_jwt` cookie its
+share link sets).
 
 ## Adding a role (the checklist)
 
@@ -535,9 +556,7 @@ ticked; until then PLAN.md carries it under Later with the boxes left.
 
 ## Evals to build
 
-The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
-model audit, the pipeline evals and the content evals above (items 1 to 6 of the first list). Still to build, in
-this order:
+Still to build, in this order:
 
 1. **Matcher evals per role group.** Built for what a resume shows: skill lists for 130 published samples, two or
    three per role, and resume titles to role families (see "Published sample resumes"). Score bands for the MBA roles
@@ -555,19 +574,14 @@ this order:
    without bands. The behaviours enter the score only when neither falls; otherwise they stay shown with no weight. The
    bands files already record the setting under `scoring.behaviours`; the 48 files on the build machine gave no fall
    (PLAN.md v14, "Decisions settled on the way").
-7. ~~A reader's judgment of the generated lines~~: built as `evals/lines_judged.mjs` (v16 step 6, "Lines judged" above).
-8. **The door funnel.** Door shown → passed → each verb on home, from the `events` rows (`door`, `door_passed`,
-   `home_<verb>`, `intake_<surface>`; v19 B7), once the owner applies `pipeline/sql/2026-10-31_doors.sql`.
-   `pipeline.funnel` prints it. The eval checks that no step's share rises above the step before it. A band for the
-   pass rate comes once a week of sessions exists.
-9. **The jobs fit line against the full matcher.** For the test résumés in `evals/resumes/`, the "N of M" a posting
+7. **The door funnel.** Door shown → passed → each verb on home, from the `events` rows (`door`, `door_passed`,
+   `home_<verb>`, `intake_<surface>`). `pipeline.funnel` prints it. The eval checks that no step's share rises above
+   the step before it. A band for the pass rate comes once a week of sessions exists.
+8. **The jobs fit line against the full matcher.** For the test résumés in `evals/resumes/`, the "N of M" a posting
    card shows (`Jobs.fitOf`: the posting's tagged skills the résumé's skill set holds) against the matcher's evidenced
    skills for that posting's role (`m.match` rows at `evidenced`). A skill the card counts must be one the fit screen
    would show, and the two must never disagree on a core ask.
-
-9. **The apprentice map's layout against a hand-placed example** (PLAN.md v20). `MapModel.treeLayout` and
-   `questLayout` are deterministic; the eval holds them to a hand-placed layout of the example map
-   (`gradbuddy/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
-   stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order. The example lives in
-   the GradBuddy repository, so the eval reads it by path and skips when the folder is absent, as `tests/web/map.test.mjs`
-   does today.
+9. **The apprentice map's layout against a hand-placed example.** `MapModel.treeLayout` and `questLayout` are
+   deterministic; the eval holds them to a hand-placed layout of the example map
+   (`pipeline/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
+   stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order.
