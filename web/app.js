@@ -931,7 +931,7 @@
     page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.mapLine)}</p><p>${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
       <form class="si" id="si" novalidate><input type="email" id="si-email" required autocomplete="email" placeholder="${esc(S.emailPlaceholder)}" aria-label="${esc(S.email)}"><button class="btn primary" type="submit" id="si-send">${esc(S.button)}</button></form>
       <div class="si-out" id="si-out" aria-live="polite"></div>
-      <p class="small muted si-note">${esc(S.note)} <a href="#/skills">${esc(S.explore)}</a></p>`, true);
+      <p class="small muted si-note">${esc(S.note)} <a href="#/skills" id="si-explore">${esc(S.explore)}</a></p>`, true);
     const out = $("#si-out"), send = $("#si-send");
     $("#si").onsubmit = async e => {
       e.preventDefault();
@@ -945,6 +945,7 @@
       const ask = refused && feedbackOn() ? `<button type="button" class="linkish link" id="si-ask">${esc(S.askInvite)}</button> · ` : "";
       out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>`
         : `<p class="si-no">${esc(r.message || S.failed)}</p>${refused ? `<p class="small si-ask">${ask}<a href="#/skills">${esc(S.explore)}</a></p>` : ""}`;
+      const ex = $("#si-explore"); if (ex) ex.hidden = refused;   // the way back once: under the refused line when it shows
       const b = $("#si-ask"); if (b) b.onclick = () => openFeedback({ prompted: false, lead: FB.inviteLead, email });
     };
   }
@@ -3080,7 +3081,7 @@
   // line only for an address that opens them), what it counts (from the data), how it reads a posting, and privacy (the
   // funnel events, the list kept true to web/capture.js EVENTS; the email; the resume text once to the model read,
   // web/infer.js). The page draws once: the class count and the product set arrive late and fill their own cells
-  // (#ab-classes, #ab-product), so the scroll and an open list stay as they are (2026-11-06).
+  // (#ab-classes, #ab-roles, #ab-product), so the scroll and an open list stay as they are (2026-11-06).
   async function about() {
     const [ix, counts] = await Promise.all([Atlas.index(), openCounts()]);
     const AB = Copy.about;
@@ -3102,7 +3103,7 @@
       <h3>${esc(AB.network)}</h3>
       <p class="small">${esc(AB.networkLine)}${gate.flag ? " " + esc(AB.networkAlumni) : ""}</p>
       <h3>${esc(AB.count)}</h3>
-      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(roleCount(ix)), AB.facts.roles)}${classesOpen ? fact("—", fill(AB.facts.classes, { term }), "ab-classes") : ""}</div>
+      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(roleCount(ix)), AB.facts.roles, "ab-roles")}${classesOpen ? fact("—", fill(AB.facts.classes, { term }), "ab-classes") : ""}</div>
       <p class="small">${esc(fill(AB.countLine, { date: niceDate(M.meta.generated), fortune: fmt(o.fortune), startups: fmt(o.startup), mba: fmt(o.mba) }))}</p>
       ${disc("about-top", esc(AB.topEmployers), `<p>${top(M.meta.companies, 15)}</p>`)}
       <h3>${esc(AB.howRead)}</h3>
@@ -3113,7 +3114,8 @@
       <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}${feedbackOn() ? `<p class="small">${esc(AB.privacyFeedback)}</p>` : ""}
       <h3>${esc(AB.product)}</h3><div id="ab-product"><p class="small muted">${esc(AB.productLoading)}</p></div></div>`, true);
     const cell = sel => location.hash.startsWith("#/about") ? main.querySelector(sel) : null;
-    Atlas.product().then(P => { const G = P.G, el = cell("#ab-product"); if (el) el.innerHTML = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; }).catch(console.error);
+    // the product set's roles join the index's when it loads (roleCount): the roles fact counts them in its own cell
+    Atlas.product().then(P => { const r = cell("#ab-roles b"); if (r) r.textContent = fmt(roleCount(ix)); const G = P.G, el = cell("#ab-product"); if (el) el.innerHTML = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; }).catch(console.error);
     if (window.Catalog && classesOpen) Catalog.loadCatalog().then(d => { const el = cell("#ab-classes b"); if (el) el.textContent = fmt(d.classes.length); }).catch(() => { });
   }
 

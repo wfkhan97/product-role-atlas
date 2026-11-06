@@ -71,6 +71,7 @@ test("sign-in: one line says what the map is; a refused send shows a way to ask 
   const ask = page.locator("#si-out #si-ask");
   await expect(ask).toBeVisible();
   await expect(page.locator("#si-out a[href='#/skills']")).toBeVisible();
+  await expect(page.locator("#main a[href='#/skills']:visible"), "the way back drawn once").toHaveCount(1);
   await ask.click();
   await page.locator("#fb-box").waitFor();
   await expect(page.locator("#fb-box")).toContainText(Copy.feedback.inviteLead);
@@ -122,6 +123,16 @@ test("About: the footer link and the page share one name; the count line has no 
   const text = await page.locator("#main #about").innerText();
   const long = text.split("\n").flatMap(sentences).filter(s => wordCount(s) > MAX_WORDS);
   expect(long).toEqual([]);
+});
+
+test("About opened directly shows the same roles count Explore shows", async ({ visitor }) => {
+  const page = await visit(visitor, { hash: "#/explore" });
+  await expect(page.locator("#main .lead").first()).toContainText(/\d+ roles/);
+  const explore = (await page.locator("#main .lead").first().innerText()).match(/(\d[\d,]*) roles/)[1];
+  const about = await visit(visitor, { hash: "#/about" });
+  await about.reload();
+  await about.locator("#main h1").waitFor();
+  await expect(about.locator(".about-facts .fact", { hasText: Copy.about.facts.roles }).locator("b")).toHaveText(explore, { timeout: 15_000 });
 });
 
 test("About counts the verbs this visitor has, and names alumni only for a campus address", async ({ visitor }) => {
