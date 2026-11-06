@@ -203,7 +203,7 @@ and evals run the code the site runs.
   first self-serve tree); `emailOk` (empty, or one well-formed address); `offer` (the address on file, offered as one
   press: the box opens empty); `Feedback.send(row)` into the insert-only `feedback` table; the marks in localStorage.
 - `guide.js` — the tips per screen: on a visitor's first visit to a screen, two to four spotlight steps on its
-  controls (the door: one). `Guide.STEPS` is the step table (screen, step id, the selectors tried in order, the state
+  controls; the door has none. `Guide.STEPS` is the step table (screen, step id, the selectors tried in order, the state
   a step needs); a step whose target is not in the page is skipped. The seen-state is `localStorage["guide.seen"]`
   (screen → version). A run is due when the flag is on, nothing else is open and the screen is unseen or its version
   is higher. Calls to action: `guide_<screen>` shown, click, done; `guide_skip` done; `guide_relaunch` click. On a

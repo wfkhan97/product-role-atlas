@@ -2601,7 +2601,8 @@ No matcher, taxonomy, model-read or pipeline file changed, so no eval chain was 
 
 **The guide** (`feat/site-guide`, `web/guide.js`, behind `GUIDE_ENABLED`, shipped off).
 - Shape: tips per screen, not a linear tour. On a first visit to a screen, two to four spotlight steps on its
-  controls (the door: one), 42 rows over 12 screens. "Show me around" in the top bar and the footer replays them.
+  controls, 41 rows over 11 screens; the door has none (the owner dropped its one tip on the morning after: the door's
+  own copy is the guide there). "Show me around" in the top bar and the footer replays them.
 - Build: hand-rolled, no library: a classic script like `feedback.js`, with a pure part node tests. Strings in
   `Copy.guide`, checked by the copy rule; styles from the tokens. A step whose target is not in the page is skipped, so a
   step never points at nothing.
