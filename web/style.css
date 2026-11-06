@@ -300,6 +300,10 @@ button.tag:hover { border-color: var(--input); }
 .link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 .linkish { background: transparent; border: 0; padding: 0; color: var(--foreground); text-align: left; }
 .linkish:hover { text-decoration: underline; text-underline-offset: 3px; }
+.linkish.link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }   /* a button that reads as a link in a sentence ("choose a file") */
+/* A link inside a sentence is told apart by more than colour (usability pass 2026-11-06; axe link-in-text-block):
+   an underline. :where() keeps it weak, so a row, a card or a button styled as a link keeps its own look. */
+:where(p, li, dd, label, figcaption) a:where(:not(.btn)) { text-decoration: underline; text-underline-offset: 3px; }
 .aside .list .r { padding: 8px 0; } .aside .list .r .t { font-size: var(--text-base); }
 .about-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 8px; }
 .about-facts .fact { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; display: grid; gap: 2px; }
@@ -482,7 +486,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .gm-tools .tip { margin: 0; }
 .gm-quit { color: var(--muted-foreground); white-space: nowrap; } .gm-quit:hover { color: var(--foreground); }
 .gm kbd { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted-foreground); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--muted); line-height: 1.5; font-weight: var(--weight-regular); }
-.gm .btn.primary kbd { background: transparent; color: inherit; border-color: currentColor; opacity: 0.8; }
+.gm .btn.primary kbd { background: transparent; color: var(--primary-foreground); border-color: currentColor; }   /* the button's own pairing: 4.5:1 or more (it was 4.09:1 at opacity 0.8) */
 .gm-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .gm-foot { display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
 .gm-foot .btn.quiet { padding-left: 8px; }

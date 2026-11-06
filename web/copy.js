@@ -39,7 +39,6 @@
     theme: "Theme follows your device. Click to change.",
     themeSet: "Theme: {theme}. Click to change.",
     railTab: "Your fit",
-    railOpen: "Open the side panel",
     tipLabel: "What this means",
     failHeading: "Something did not load",
     failLine: "{message}. Reload the page. If it happens again, the data files may be missing.",
@@ -234,7 +233,7 @@
     countsTip: "Counts are open postings in the US: business fields refreshed {date}{product}.",
     countsTipProduct: ", Product scraped {date} ({n} worldwide)",
     findSkill: "Find a skill",
-    viewAria: "View", gridView: "Fields", mapView: "Skill map",
+    viewAria: "View", gridView: "Fields as cards", mapView: "Skill map",   // the names of the ▦ and ⊞ buttons
     key: { have: "Already on your resume", todo: "Gaps these roles require", quiet: "Other skills: select a dot to see its name", top: "The 35 skills most postings ask for", rest: "The rest: select a dot to see its name", you: "Fields your answers and resume point to" },
     fieldsAlone: "Show the fields alone", allSkills: "Show all skills",
     example: "e.g. {names}", moreRole: ", +{n} more role", moreRoles: ", +{n} more roles",
@@ -610,6 +609,7 @@
     coversHint: "covers {n} of your gaps",
     noTitle: "Title not on the roster",
     sideAria: "Prep a chat",
+    typesAria: "The person to meet",   // the type tabs' tablist (usability pass 2026-11-06)
     gapsOf: "{n} of {m} gaps", covers: " · covers {names}",
     teachesOf: "teaches {n} of the {m} skills this role's postings ask for most", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
     moreProfs: "{n} more in the Professor list of the prep card.",
@@ -859,6 +859,9 @@
     saved: "Saved",
     saveAria: "Save {role}",
     unsaveAria: "Remove {role} from your saved roles",
+    // the open role's Save: the name starts with the words on the button, so a speech user can say them (2026-11-06)
+    saveRoleAria: "Save role: {role}",
+    savedRoleAria: "Saved: {role}",
     kept: "Kept in this browser.",
     signIn: "Sign in to keep it on your account.",
   };

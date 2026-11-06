@@ -249,11 +249,13 @@
   // the things to do with the role; a skill or posting card draws over it with "← Back". Under the breakpoint in
   // style.css the rail collapses to an edge tab and opens as the overlay.
   let railBase = null;   // a function that draws the rail's own content, so a toggle inside it redraws from the current state
-  const railTab = document.createElement("button"); railTab.type = "button"; railTab.className = "rail-tab"; railTab.textContent = CM.railTab; railTab.setAttribute("aria-label", CM.railOpen); railTab.onclick = () => shell.classList.toggle("rail-open"); shell.appendChild(railTab);
+  const railTab = document.createElement("button"); railTab.type = "button"; railTab.className = "rail-tab"; railTab.textContent = CM.railTab; railTab.setAttribute("aria-controls", "aside"); railTab.setAttribute("aria-expanded", "false"); railTab.onclick = () => railTab.setAttribute("aria-expanded", String(shell.classList.toggle("rail-open"))); shell.appendChild(railTab);
   function showRail(base) { railBase = base; shell.classList.add("with-rail"); aside.classList.add("rail"); }
-  function leaveRail() { railBase = null; shell.classList.remove("with-rail", "rail-open"); aside.classList.remove("rail"); }
+  function leaveRail() { railBase = null; shell.classList.remove("with-rail", "rail-open"); railTab.setAttribute("aria-expanded", "false"); aside.classList.remove("rail"); }
+  // asideEsc: the close of a screen's own panel (Find jobs' posting), run by Esc; any showAside(null) clears it
+  let asideEsc = null;
   function showAside(html) {
-    if (html == null) { if (railBase) { const y = aside.hidden ? 0 : aside.scrollTop; aside.hidden = false; aside.innerHTML = railBase(); aside.scrollTop = y; wireRail(); return; } aside.hidden = true; shell.classList.remove("with-aside"); aside.innerHTML = ""; return; }
+    if (html == null) { asideEsc = null; if (railBase) { const y = aside.hidden ? 0 : aside.scrollTop; aside.hidden = false; aside.innerHTML = railBase(); aside.scrollTop = y; wireRail(); return; } aside.hidden = true; shell.classList.remove("with-aside"); aside.innerHTML = ""; return; }
     aside.hidden = false; if (!railBase) shell.classList.add("with-aside"); aside.innerHTML = html; aside.scrollTop = 0;
   }
   function page(html, narrow) { main.innerHTML = `<div class="page${narrow ? " narrow" : ""}">${html}</div>`; window.scrollTo(0, 0); }
@@ -288,6 +290,7 @@
     if (e.key !== "Escape") return;
     if (tipFor) { hideTip(); return; }
     if (state.more && $("#drawer")) { state.more = false; keepScroll(renderRole); return; }
+    if (asideEsc && !aside.hidden) { asideEsc(); return; }
     if (state.selected && !aside.hidden) select(null, Routes.parseRoute(location.hash).name !== "role");
   });
 
@@ -323,9 +326,11 @@
   const hearted = id => hearts().includes(id);
   const HT = Copy.heart;
   function heartHtml(id, opts) {
-    const o = opts || {}, on = hearted(id), aria = fill(on ? HT.unsaveAria : HT.saveAria, { role: o.label || id });
+    const o = opts || {}, on = hearted(id), role = o.label || id, aria = fill(on ? HT.unsaveAria : HT.saveAria, { role });
+    // with words on it (the open role's Save), the name starts with those words (B-24); the title keeps the sentence
+    const name = o.save ? fill(on ? HT.savedRoleAria : HT.saveRoleAria, { role }) : aria;
     const icon = `<span class="hi" aria-hidden="true">${on ? "♥" : "♡"}</span>`;
-    return `<button type="button" class="heart${on ? " on" : ""}${o.save ? " heart-save" : ""}" data-heart="${esc(id)}" data-label="${esc(o.label || id)}" aria-pressed="${on}" aria-label="${esc(aria)}" title="${esc(aria)}">${icon}${o.save ? ` ${esc(on ? HT.saved : HT.save)}` : ""}</button>`;
+    return `<button type="button" class="heart${on ? " on" : ""}${o.save ? " heart-save" : ""}" data-heart="${esc(id)}" data-label="${esc(role)}" aria-pressed="${on}" aria-label="${esc(name)}" title="${esc(aria)}">${icon}${o.save ? ` ${esc(on ? HT.saved : HT.save)}` : ""}</button>`;
   }
   // the line under the open role's Save: kept here, sign in to keep it on your account (accounts on, no session)
   const heartNote = id => hearted(id) && accountsOn() && !Auth.stored() ? `${esc(HT.kept)} <a href="${esc(signinHref())}" data-heart-signin>${esc(HT.signIn)}</a>` : "";
@@ -339,7 +344,7 @@
   }
   // every heart of that id on the page follows the list; the note under the open role too
   function paintHearts(root) {
-    root.querySelectorAll("[data-heart]").forEach(b => { const fresh = document.createElement("span"); fresh.innerHTML = heartHtml(b.dataset.heart, { label: b.dataset.label, save: b.classList.contains("heart-save") }); b.replaceWith(fresh.firstElementChild); });
+    root.querySelectorAll("[data-heart]").forEach(b => { const had = b === document.activeElement, fresh = document.createElement("span"); fresh.innerHTML = heartHtml(b.dataset.heart, { label: b.dataset.label, save: b.classList.contains("heart-save") }); const nb = fresh.firstElementChild; b.replaceWith(nb); if (had) nb.focus(); });
     root.querySelectorAll("[data-heart-note]").forEach(p => { p.innerHTML = heartNote(p.dataset.heartNote); p.hidden = !p.innerHTML; });
     wireHearts(root, true);
   }
@@ -461,6 +466,9 @@
     const email = (sess && sess.email) || doorKept().email || "";
     const lead = o.why === "tree" ? FB.treeLead : prompted ? FB.promptLead : FB.lead;
     fbOpen = true;
+    // the control that opened the sheet gets focus back when it closes, whatever closes it (C-10); a prompt opened by
+    // the timer has none, so focus goes to the Feedback link in the top bar
+    const opener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
     const wrap = document.createElement("div");
     wrap.innerHTML = `<div class="fb-back" id="fb-back"></div><div class="fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-h" id="fb-box">
       <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2><button type="button" class="close" id="fb-close" aria-label="${esc(FB.close)}">×</button></div>
@@ -472,8 +480,23 @@
       <p class="small fb-out" id="fb-out" aria-live="polite"></p>
     </div>`;
     document.body.appendChild(wrap);
-    const close = () => { fbOpen = false; wrap.remove(); document.removeEventListener("keydown", onKey); };
-    const onKey = e => { if (e.key === "Escape") close(); };
+    const close = () => {
+      fbOpen = false; wrap.remove(); document.removeEventListener("keydown", onKey);
+      const back = opener && opener.isConnected ? opener : document.querySelector(".top [data-feedback]");
+      if (back) back.focus();
+    };
+    // the sheet is modal (aria-modal): Tab and Shift+Tab go round its own controls and never reach the page behind it
+    const box = wrap.querySelector("#fb-box");
+    const onKey = e => {
+      if (e.key === "Escape") { close(); return; }
+      if (e.key !== "Tab") return;
+      const els = [...box.querySelectorAll("button, textarea, input, a[href]")].filter(el => !el.disabled && !el.hidden && el.offsetParent !== null);
+      if (!els.length) return;
+      const first = els[0], last = els[els.length - 1], at = document.activeElement;
+      if (!box.contains(at)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && at === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", onKey);
     for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
     const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send");
@@ -486,7 +509,7 @@
       const ok = await Feedback.send({ text, email: wrap.querySelector("#fb-email").value, screen, prompted, session: window.Capture ? Capture.session() : null, visitor: window.Capture ? Capture.visitor() : null, user_id: sess ? sess.uid : null });
       if (!ok) { out.textContent = FB.failed; btn.disabled = false; return; }
       if (window.Capture) Capture.cta(id, "done", { role_id: state.roleId });
-      out.textContent = FB.thanks; ta.value = ""; ta.disabled = true; btn.hidden = true; wrap.querySelector("#fb-later").textContent = FB.close;
+      out.textContent = FB.thanks; ta.value = ""; ta.disabled = true; btn.hidden = true; const later = wrap.querySelector("#fb-later"); later.textContent = FB.close; later.focus();
       setTimeout(() => { if (fbOpen) close(); }, 2500);
     };
     ta.focus();
@@ -751,14 +774,15 @@
         ${light.rows.length ? `<h3>${esc(C.resume.closest)}</h3><div class="list">${light.rows.map(x => `<a class="r" href="#/role/${esc(x.id)}/fit"><span class="t">${esc(x.label)}</span><span class="n">${x.n} of ${x.m}</span></a>`).join("")}</div><p class="small muted">${esc(C.resume.ranked)}</p>` : ""}
         ${you}</section>`;
     };
+    // focus follows the person (B-12): a tile hands it to the field's first role, the way back to the tile it came from
     const wireLeft = () => {
-      main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); });
-      const back = $("#lf-back"); if (back) back.onclick = () => { s.field = null; drawLeft(); };
+      main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); const r = main.querySelector("#lf-body .lf-field a.r"); if (r) r.focus(); });
+      const back = $("#lf-back"); if (back) back.onclick = () => { const was = s.field; s.field = null; drawLeft(); const t = was && main.querySelector(`#lf-body [data-field="${CSS.escape(was)}"]`); if (t) t.focus(); };
     };
     const drawLeft = () => { $("#lf-body").innerHTML = left(); wireLeft(); writeHash(); };
     const wireRight = () => {
       if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = RF.nothing; }; }
-      const ch = $("#lf-change"); if (ch) ch.onclick = () => { s.change = true; drawRight(); };
+      const ch = $("#lf-change"); if (ch) ch.onclick = () => { s.change = true; drawRight(); const p = $("#file-pick"); if (p) p.focus(); };
     };
     const drawRight = () => {
       $("#lf-side").innerHTML = right(); wireRight();
@@ -1459,7 +1483,9 @@
       const target = targets.length ? targets.find(t => t.key === s.key).row : null;
       writeHash();
       const W = Network.who(s.type, K), outs = Network.where(s.type, K, target), S = Network.say(s.type, K, target);
-      const tabs = `<div class="tabs nw-tabs" role="tablist">${types.map(t => `<button type="button" role="tab" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div>`;
+      // the types are tabs (usability pass 2026-11-06, the Networking tabs): one Tab stop (the type chosen), the arrow
+      // keys, Home and End move and choose; the page under them is the tab panel
+      const tabs = `<div class="tabs nw-tabs" role="tablist" aria-label="${esc(C.typesAria)}">${types.map(t => `<button type="button" role="tab" id="nw-tab-${esc(t.id)}" aria-controls="nw-panel" tabindex="${t.id === s.type ? 0 : -1}" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div>`;
       // who to look for: one line per level, the five employers with the most open postings of the role and the way
       // to the rest in Find jobs, or the professors
       const lv = W.levels.length ? `<ul class="plain nw-lv">${W.levels.map(l => `<li><b>${esc(l.label)}</b> · ${l.titles.map(x => `${esc(x.title)} <span class="muted">(${esc(x.company)})</span>`).join(" · ")}</li>`).join("")}</ul>` : "";
@@ -1481,13 +1507,26 @@
       const prep = `<section class="pcard" id="nw-prep"><p class="eyebrow">${esc(C.prep)} · ${esc(role.label)}</p><h2>${esc(type.label)}</h2>${pickHtml}${where}${approach}</section>`;
       page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1>
         <div class="nw-head"><div class="dlabel nw-role"><span>${esc(C.role)}</span><div id="nw-role"></div></div>${tabs}</div>
-        <div class="nw"><div class="nw-main">${who}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}</aside></div>`);
+        <div class="nw" role="tabpanel" id="nw-panel" aria-labelledby="nw-tab-${esc(s.type)}"><div class="nw-main">${who}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}</aside></div>`);
       main.firstElementChild.classList.add("wide", "nw-page");
       // ---- the wiring ----
       wireWait(main, redraw);
-      picks.push(Pick.mount($("#nw-role"), { options: roleOptions, value: role.id, placeholder: C.rolePlaceholder, label: C.role, onChange: v => { if (roleOk(v)) { s.role = v; s.key = null; reload(); } } }));
-      if (targets.length) picks.push(Pick.mount($("#nw-target"), { options: targets.map(t => ({ value: t.key, label: t.label, hint: t.hint })), value: s.key, placeholder: s.type === "faculty" ? C.professorPlaceholder : C.companyPlaceholder, label: s.type === "faculty" ? C.professor : C.company, onChange: v => { if (v) { s.key = v; redraw(); } } }));
-      main.querySelectorAll("[data-type]").forEach(b => b.onclick = () => { s.type = b.dataset.type; s.key = null; redraw(); });
+      const rolePick = Pick.mount($("#nw-role"), { options: roleOptions, value: role.id, placeholder: C.rolePlaceholder, label: C.role, onChange: v => { if (roleOk(v)) { s.role = v; s.key = null; s.focusNext = "role"; reload(); } } });
+      picks.push(rolePick);
+      const targetPick = targets.length ? Pick.mount($("#nw-target"), { options: targets.map(t => ({ value: t.key, label: t.label, hint: t.hint })), value: s.key, placeholder: s.type === "faculty" ? C.professorPlaceholder : C.companyPlaceholder, label: s.type === "faculty" ? C.professor : C.company, onChange: v => { if (v) { s.key = v; s.focusNext = "target"; setTimeout(redraw, 0); } } }) : null;
+      if (targetPick) picks.push(targetPick);
+      const choose = id => { if (id === s.type) { const b = main.querySelector(`[data-type="${CSS.escape(id)}"]`); if (b) b.focus(); return; } s.type = id; s.key = null; s.focusNext = "type"; redraw(); };
+      main.querySelectorAll("[data-type]").forEach(b => b.onclick = () => choose(b.dataset.type));
+      main.querySelector(".nw-tabs").onkeydown = e => {
+        const ids = types.map(t => t.id), i = ids.indexOf(e.target.dataset.type); if (i < 0) return;
+        const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ids.length - 1 }[e.key]; if (j == null) return;
+        e.preventDefault(); choose(ids[(j + ids.length) % ids.length]);
+      };
+      // focus after the draw (the Networking focus fix, 2026-11-06): the control the person used, drawn anew
+      const next = s.focusNext; s.focusNext = null;
+      if (next === "type") { const b = main.querySelector(`[data-type="${CSS.escape(s.type)}"]`); if (b) b.focus({ preventScroll: true }); }
+      else if (next === "target") (targetPick || rolePick).focus();
+      else if (next === "role") rolePick.focus();
       // Copy: the plain text of the approach (a head line, lead with, the ask, the questions), for an AI helper or notes
       const ok = $("#nw-copied");
       const said = m => { ok.textContent = m; setTimeout(() => { if (ok.isConnected) ok.textContent = ""; }, 2000); };
@@ -1694,7 +1733,12 @@
     const r = state.resume;
     // the first personal act (step 2): with accounts on and no session, the drop zone is the sign-in's door
     if (accountsOn() && !Auth.stored() && !r) { const S = Copy.signin; return `<div class="si-gate" id="drop-gate"><b>${esc(S.gateHeading)}</b><p class="small muted">${esc(S.gateLine)}</p><a class="btn primary" href="${esc(signinHref())}">${esc(S.gateButton)}</a></div>`; }
-    return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>`;
+    return dropZone(RF.drop, r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : "");
+  }
+  // The one drop zone (usability pass 2026-11-06, B-02): drag and drop, or "choose a file", a real button that opens the
+  // file dialog on Enter and Space (the input stays hidden; a label is not a Tab stop). `status` is HTML, already escaped.
+  function dropZone(heading, status = "") {
+    return `<div class="drop" id="drop"><p><b>${esc(heading)}</b> ${esc(RF.or)} <button type="button" class="linkish link" id="file-pick" aria-controls="file">${esc(RF.choose)}</button></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden tabindex="-1"><p class="small muted" id="file-status">${status}</p></div>`;
   }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
@@ -1720,6 +1764,7 @@
     drop.ondragover = e => { e.preventDefault(); drop.classList.add("over"); };
     drop.ondragleave = () => drop.classList.remove("over");
     drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0] && !drop.classList.contains("busy")) read(e.dataTransfer.files[0]); };
+    const pick = $("#file-pick"); if (pick) pick.onclick = () => { if (!drop.classList.contains("busy")) $("#file").click(); };
     $("#file").onchange = e => { if (e.target.files[0] && !drop.classList.contains("busy")) read(e.target.files[0]); };
     const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); status.textContent = RF.forgotten; };
   }
@@ -1881,7 +1926,7 @@
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
       return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
-        <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2>${esc(r.title)}</h2>
+        <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2 id="jdetail-h" tabindex="-1">${esc(r.title)}</h2>
         <p class="facts">${facts.map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
         ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="#/you">${esc(JB.addResume)}</a> ${esc(JB.addResumeAfter)}</p>`}
@@ -1892,14 +1937,20 @@
     };
     const mark = () => pageEl.querySelectorAll(".jcard").forEach(c => c.classList.toggle("on", c.dataset.id === s.open));
     let panelFor = null;   // the posting the panel shows, so a filter change does not redraw it under the reader
+    // The panel (usability pass 2026-11-06, B-12): opened from a card, it takes focus on its heading; × or Esc closes it
+    // and focus goes back to the card's title
+    const closePanel = () => {
+      const id = s.open; s.open = ""; panelFor = null; mark(); showAside(null); writeHash();
+      const back = id && pageEl.querySelector(`.jcard [data-open="${CSS.escape(id)}"]`); if (back) back.focus();
+    };
     const drawPanel = () => {
       const r = s.open ? byId.get(s.open) : null;
       if (!r) { s.open = ""; panelFor = null; showAside(null); return; }
       if (panelFor === r.id && !aside.hidden) return;
-      panelFor = r.id; showAside(panel(r));
-      aside.querySelector(".close").onclick = () => { s.open = ""; panelFor = null; mark(); showAside(null); writeHash(); };
+      panelFor = r.id; showAside(panel(r)); asideEsc = closePanel;
+      aside.querySelector(".close").onclick = closePanel;
     };
-    const openPosting = id => { s.open = id; mark(); drawPanel(); writeHash(); };
+    const openPosting = id => { s.open = id; mark(); drawPanel(); writeHash(); const h = $("#jdetail-h"); if (h) h.focus(); };
     // ---- the rail: each facet with the count it would leave on; one that would leave none is plain ----
     // which facets are open: Field always, so a person starts by picking a field (owner's feedback 2026-11-01); every
     // other facet only when the person opens it (owner's feedback 2026-11-01, second pass: neither a picked field nor a
@@ -1944,7 +1995,22 @@
     const chipHtml = ([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="${esc(fill(JB.remove, { label: l }))}">${esc(l)} <span class="n">×</span></button>`;
     const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(chipHtml).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----
+    // Focus after a draw (B-12): the rail, the chips and the pager are drawn anew, so the control the person used is
+    // found again by its key; one that is gone hands focus to its facet's heading, the first chip or the search box
+    const focusKeyOf = el => {
+      if (!el || !pageEl.contains(el)) return null;
+      const d = el.dataset || {};
+      if (d.key) return { sel: `[data-key="${CSS.escape(d.key)}"][data-val="${CSS.escape(d.val)}"]`, near: `details[data-group="${CSS.escape(d.key === "remote" || d.key === "sponsor" ? "work" : d.key)}"] > summary` };
+      if (d.remove) return { sel: `[data-remove="${CSS.escape(d.remove)}"]`, near: "#jactive [data-remove], #jsearch input[name=q]" };
+      if (d.page) return { sel: `[data-page="${CSS.escape(d.page)}"]:not([disabled])`, near: "#jpager [data-page]:not([disabled])" };
+      if (d.clear) return { sel: "#jsearch input[name=q]" };
+      if (d.moreCompanies) return { sel: 'details[data-group="company"] > button.frow:nth-of-type(21)', near: 'details[data-group="company"] > summary' };
+      if (el.tagName === "SUMMARY" && el.parentElement.dataset.group) return { sel: `details[data-group="${CSS.escape(el.parentElement.dataset.group)}"] > summary` };
+      return null;
+    };
+    const refocus = k => { if (!k) return; const el = pageEl.querySelector(k.sel) || (k.near && pageEl.querySelector(k.near)); if (el) el.focus({ preventScroll: true }); };
     const draw = () => {
+      const want = focusKeyOf(document.activeElement);
       const f = Jobs.filterOf(s);
       const searched = lastSearched = Jobs.searchJobs(rows, s.q, ctx);
       const d = Jobs.dedupe(Jobs.filterJobs(searched, f, ctx)); dupes = d.dupes;
@@ -1957,7 +2023,7 @@
       $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
       $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>${esc(fill(JB.previous, { n: Jobs.PAGE }))}</button><span>${esc(fill(JB.pageOf, { p: fmt(pg.page), n: fmt(pg.pages) }))}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>${esc(fill(JB.next, { n: Jobs.PAGE }))}</button>` : "";
       railEl.innerHTML = rail(searched, f);
-      drawPanel(); writeHash();
+      drawPanel(); writeHash(); refocus(want);
     };
     const syncInputs = () => { form.q.value = s.q; form.loc.value = s.loc; $("#jsort").value = s.sort; };
     const change = () => { s.page = 1; draw(); };
@@ -1978,7 +2044,7 @@
       const t = e.target;
       if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; Object.assign(opened, openedFor()); moreCompanies = false; syncInputs(); draw(); return; }
       const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }
-      if (t.closest("[data-more-companies]")) { moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); return; }
+      if (t.closest("[data-more-companies]")) { const want = focusKeyOf(document.activeElement); moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); refocus(want); return; }
       const fb = t.closest("[data-key]"); if (fb) { toggleFacet(fb.dataset.key, fb.dataset.val); return; }
       const pb = t.closest("[data-page]"); if (pb) { if (pb.disabled) return; s.page += Number(pb.dataset.page); draw(); $("#jlist").scrollIntoView({ block: "start" }); return; }
       const ob = t.closest("[data-open]"); if (ob) { openPosting(ob.dataset.open); return; }
@@ -2011,7 +2077,7 @@
       const nRoles = all.reduce((a, g) => a + g.roles.length, 0);
       const chips = fit ? profileStrip(ix, ff.why) : "";
       const asMap = SkillMap.mode() === "map";
-      const view = `<div class="filters explore-row">${asMap ? `<input class="sm-find" id="sm-find" type="search" placeholder="${esc(EX.findSkill)}" list="sm-names" aria-label="${esc(EX.findSkill)}"><datalist id="sm-names"></datalist>` : ""}<div class="seg views" role="group" aria-label="${esc(EX.viewAria)}"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="${esc(EX.gridView)}">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="${esc(EX.mapView)}">⊞</button></div></div>`;
+      const view = `<div class="filters explore-row">${asMap ? `<input class="sm-find" id="sm-find" type="search" placeholder="${esc(EX.findSkill)}" list="sm-names" aria-label="${esc(EX.findSkill)}"><datalist id="sm-names"></datalist>` : ""}<div class="seg views" role="group" aria-label="${esc(EX.viewAria)}"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" aria-label="${esc(EX.gridView)}" title="${esc(EX.gridView)}">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" aria-label="${esc(EX.mapView)}" title="${esc(EX.mapView)}">⊞</button></div></div>`;
       const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
       const dates = tip(fill(EX.countsTip, { date: mg.generated, product: pg.generated ? fill(EX.countsTipProduct, { date: pg.generated, n: fmt(pg.nWorld) }) : "" }));
       const nOpen = g => g.nOpen == null ? EX.loading : fill(CM.nOpen, { n: fmt(g.nOpen) });
@@ -2558,7 +2624,7 @@
     // only for a visitor whose address opens a roster (campusGate, as the top bar): for anyone else #/classes goes home
     const classesOpen = !!window.ClassScreens && campusGate().open;
     const cta = classesOpen ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
-    const drop = `<div class="drop" id="drop"><p><b>${esc(RF.dropShort)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
+    const drop = `${dropZone(RF.dropShort)}<p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
       if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
       // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
@@ -2717,7 +2783,7 @@
     state.postingOpen = false;
   }
   function postingForm() {
-    return `<div class="drop" id="drop"><p><b>${esc(FT.dropPosting)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div>
+    return `${dropZone(FT.dropPosting)}
       <p class="small muted">${esc(FT.pastePosting)}</p><textarea id="paste" rows="6" aria-label="${esc(FT.postingAria)}" placeholder="${esc(FT.postingPlaceholder)}"></textarea>`;
   }
   // "N of the M skills this posting asks for are on your resume": M is the posting's skills that are this role's
@@ -2737,7 +2803,7 @@
     const c = state.course && state.course.roleId === role.id ? state.course : null;
     // what a course can show, by kind (PLAN.md v14, decision 5); a course saved before the split is split here
     const split = c ? (c.teaches ? { teaches: c.teaches, named: c.named } : Atlas.courseSplit(c.found, R.skillById)) : null;
-    const form = `<div class="drop" id="drop"><p><b>${esc(CO.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${c ? esc(fill(CO.read, { name: c.name })) : ""}</p></div>
+    const form = `${dropZone(CO.drop, c ? esc(fill(CO.read, { name: c.name })) : "")}
       <p class="small muted">${esc(CO.paste)}</p><textarea id="paste" rows="6" aria-label="${esc(CO.aria)}" placeholder="${esc(CO.placeholder)}">${c ? esc(c.text) : ""}</textarea>
       <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
     let result = "";
