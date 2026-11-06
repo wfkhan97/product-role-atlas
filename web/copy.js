@@ -175,6 +175,9 @@
     forgetting: "Forgetting…",
     forgotten: "Forgotten. Nothing of yours is on our side now.",
     forgetFailed: "That did not go through. Try again in a moment.",
+    // the hearts (step 5, 2026-11-05): the roles the person saved, listed here with their hearts
+    savedRoles: "Roles you saved",
+    noSaved: "None yet. The heart on a role keeps it here.",
     resumeLine: "{words} words, read in your browser and once by our AI reader",
     replace: "replace",
     closest: "Your closest matches",
@@ -212,6 +215,7 @@
 
   // ---------- Explore (#/explore) and a field (#/field/<id>) ----------
   const explore = {
+    saved: "Saved:",   // the strip of hearted roles above the fields (step 5, 2026-11-05)
     crumb: "Explore",
     heading: "Explore the roles",
     counts: "{fields} fields, {roles} roles.",
@@ -371,6 +375,8 @@
     addLead: "We read it in your browser against what {role} postings ask for. Its text goes once to our AI reader, and we do not store it. Nothing else leaves your browser.",
     backRole: "← Back to the role",
     backTo: "← Back to {role}", backAfter: ", with your fit marked on every skill.",
+    // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered under the read when the tree is on
+    tree: { heading: "Get your tree", lead: "Every skill {role} asks for as a node: what your résumé shows, what to evidence better, what to build. Yours to keep.", button: "Get your tree →" },
     // how the résumé reads, by persona
     persona: {
       experienced: "Your resume reads as a {level} {field} profile: {roleYears} in the role, {years} of work overall.",
@@ -802,6 +808,16 @@
     gateButton: "Sign in →",
   };
 
+  // ---------- the heart (step 5, 2026-11-05): one list, on a role's row and on the open role ----------
+  const heart = {
+    save: "Save role",
+    saved: "Saved",
+    saveAria: "Save {role}",
+    unsaveAria: "Remove {role} from your saved roles",
+    kept: "Kept in this browser.",
+    signIn: "Sign in to keep it on your account.",
+  };
+
   // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
   // B2 draws the map as plain text: the title, the role at the company, the band, the worlds and their missions.
   const map = {
@@ -1061,5 +1077,5 @@
     knowLine: "You know {n} things {role} postings ask for{change}.", knowCount: "{n} of the {m}", upFrom: " · up from {was}", downFrom: " · down from {was}",
   };
 
-  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, map, about, games };
+  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, heart, map, about, games };
 });

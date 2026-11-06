@@ -1059,6 +1059,19 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .tr-also { border: 0; padding: 0; margin: 10px 0 0; } .tr-also legend { font-size: var(--text-sm); color: var(--muted-foreground); padding: 0; margin-bottom: 4px; }
 .tr-also label { display: block; padding: 2px 0; }
 .tr-out { min-height: 1.4em; } .map-self { margin-top: 4px; } .map-self a { color: var(--primary); }
+/* the heart (step 5, 2026-11-05): beside a role's row (outside its link) and beside the open role's title, with a word */
+.list .rw { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.list .rw .r { flex: 1; border-bottom: 0; min-width: 0; }
+.heart { background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--muted-foreground); font-size: var(--text-md); line-height: 1; padding: 6px 8px; cursor: pointer; white-space: nowrap; }
+.heart:hover, .heart:focus-visible { color: var(--primary); border-color: var(--border); }
+.heart.on, .heart.on:hover { color: var(--primary); }
+.heart .hi { font-size: 1.15em; vertical-align: -1px; }
+.heart-save { font-size: var(--text-sm); border-color: var(--border); padding: 6px 12px; }
+.role-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; } .role-head h1 { margin-right: auto; }
+.heart-note { margin: -6px 0 10px; } .heart-note a { color: var(--primary); }
+.saved-strip { margin: 0 0 12px; } .saved-strip .hi { color: var(--primary); } .saved-strip a { color: var(--primary); }
+.tree-cta { margin: 20px 0 6px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.tree-cta b { display: block; margin-bottom: 4px; } .tree-cta p { margin: 0 0 10px; }
 .lf-slot { margin: 16px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); } .lf-slot a { color: var(--primary); }
 .si { display: flex; gap: 8px; margin-top: 16px; }
 .si input { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 9px 12px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; }
