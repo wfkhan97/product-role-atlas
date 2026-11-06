@@ -99,7 +99,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 - `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
   the course catalog's loader dry and writes `web/data/catalog/cornell_tech.json` (committed) and
   `web/data/local/catalog_full.json` (this machine; the only copy with the syllabus digest). `catalog_tags` reads the
-  local file, runs `Atlas.readCourse` per class and writes `cornell_tech_tags.json` with the taxonomy files' hashes;
+  local file, runs `Atlas.readCourse` per class twice (the MBA taxonomy into `tags`, the tech set's into `tags_tech`) and
+  writes `cornell_tech_tags.json` with the three taxonomy files' hashes; the picker joins the two readings when a tech
+  role is chosen (`Catalog.tagsFor`);
   `tests/web/catalog_files.test.mjs` fails when a hash is stale.
 - `pipeline/funnel.py` — the funnel from the catalog project's tables for a date range: sessions and the share
   reaching each event, applications by source, the door funnel, drop-off by day and screen, calls to action

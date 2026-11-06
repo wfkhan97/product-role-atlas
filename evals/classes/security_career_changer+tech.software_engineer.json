@@ -1,0 +1,20 @@
+{
+ "resume": "security_career_changer",
+ "roles": [
+  "tech.software_engineer"
+ ],
+ "note": "A systems administrator aiming at software: operating systems builds on the server work; law courses do not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 6412"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "LAW 6332",
+   "REAL 5590"
+  ]
+ }
+}

@@ -1337,9 +1337,10 @@
   // one read per campus entry (the flag's roster: Cornell Tech for cornell, IE New York for ienyc once its switch is on
   // and its files exist), through the class picker's own Catalog.loadCatalog
   const rosterP = {};
-  const roster = cm => rosterP[cm.id] ||= Promise.all([Catalog.loadCatalog(cm), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { delete rosterP[cm.id]; throw e; });
-  async function campusProfs(cm, gaps) {
-    const { data, generic, cards, reads } = await roster(cm);
+  // reads: the MBA reading; readsTech: joined with the tech reading, for a tech role (Catalog.tagsFor)
+  const roster = cm => rosterP[cm.id] ||= Promise.all([Catalog.loadCatalog(cm), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); const readsOf = t => Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, Catalog.tagsFor(data, t))])); return { data, generic, cards, reads: readsOf(false), readsTech: readsOf(true) }; }).catch(e => { delete rosterP[cm.id]; throw e; });
+  async function campusProfs(cm, gaps, tech = false) {
+    const { data, generic, cards, reads: mbaReads, readsTech } = await roster(cm); const reads = tech ? readsTech : mbaReads;
     const covered = gaps ? Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered(reads[c.key].teaches, gaps, generic)])) : {};
     return data.professors.map(p => { const mine = Catalog.instructorCards(cards, { slug: p.slug, name: p.name }); return { slug: p.slug, name: p.name, title: p.title, affiliation: p.affiliation, codes: [...new Set(mine.flatMap(c => c.codes))], gaps: gaps ? Catalog.instructorGaps(mine, covered).map(g => ({ id: g.id, name: g.name })) : [] }; })
       .filter(p => p.codes.length).sort((a, b) => b.gaps.length - a.gaps.length || a.name.localeCompare(b.name));
@@ -1394,7 +1395,7 @@
       const R = await Atlas.role(s.role); const fieldJobs = await fieldJobsOf(R.role.group);
       const m = state.resume ? await matchRole(s.role).catch(e => { console.error(e); return null; }) : null;
       let profs = [], rosterFailed = false;
-      if (gate.open) { try { profs = await campusProfs(gate.campus, m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
+      if (gate.open) { try { profs = await campusProfs(gate.campus, m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core), R.set === "tech"); } catch (e) { console.error(e); rosterFailed = true; } }
       const rg = state.resume && !m ? await rough().catch(() => null) : null;
       const generic = await Atlas.genericSkills().catch(() => new Set());
       const o = { flag: gate.flag, roster: gate.open, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };

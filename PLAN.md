@@ -2542,6 +2542,33 @@ $0.45 a run.
   tagged in the 2026-11-01 baseline or in the `"all"` run, so this is the model's variance. It is left as measured,
   not tuned away.
 
+## The class picker for the tech set (`feat/tech-classes`, 2026-11-06)
+
+**The tags.** `pipeline/catalog_tags.mjs` reads each class twice: with the MBA taxonomy, as before (`tags`), and with
+the tech set's (`tags_tech`). It records the tech taxonomy's hash, so `tests/web/catalog_files.test.mjs` fails when the
+tags go stale; that test also checks a sample of the tech reading against a live read. Of 127 classes, 114 carry a tech
+tag and 66 a skill only the tech set has (algorithms, backend services, prototyping and model training lead).
+
+**The picker.** With a tech role among the chosen roles, a card's tags are the two readings joined (`Catalog.tagsFor`,
+in `web/classes.js` and the network screen's professors). With none, the MBA reading alone, as before.
+
+**The catalog.** `pipeline.catalog_export` was rerun to build the local file. The research folder's roster is from
+2026-11-01, so the public file gains two classes (INFO 5315 Conversation Engineering, LAW 6492 IPOs for Technology
+Companies). The MBA reading changed for four classes: those two, plus INFO 5305 and NBAY 5180, whose text changed.
+
+**The eval.** `evals/run_classes.mjs` gains 21 cases: the seven tech samples, each against its own tech role, one
+neighbour and both together. The lawyer's neighbour is the MBA compliance role, so one case mixes the sets. The
+expectations were written from the catalog before the picker ran on them.
+- 0 failures, 16 known failures, each with its reason. They share two shapes:
+  - The gaps sort lets a class that names one small gap outrank the role's core course (AI Law and Policy above
+    Advanced Operating Systems for a CS student, whose gaps include hardware and security).
+  - Broad syllabus tags (Advanced ML Systems is tagged only AI/ML and hardware).
+- Some misses read acceptably: ML Hardware and Systems leads the ML cases in place of Advanced ML Systems.
+
+**Not this change.** The MBA and product cases have 11 failures and 2 known failures that now pass, on `main` as
+well. The data refreshes since the 2026-10-31 baseline moved them, and the class eval is not in CI. The baseline
+committed here records them as they are.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2562,9 +2589,11 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: `catalog_tags.mjs` reads `taxonomy_tech.json`; class
-  cases and game evals over tech roles; a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+- Before the set is shown: game evals over tech roles; a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
+- The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
+  gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
+  Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
 - The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
   `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
   `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
