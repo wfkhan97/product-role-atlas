@@ -2590,6 +2590,47 @@ shares alone. A tech role's pool uses the same rules over the tech index's skill
 - **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
   The owner decided on 2026-11-06 that both stay business-only: no tech edition.
 
+## Skills for the later MBA roles (`feat/skills-later-roles`, 2026-11-06)
+
+Part C of "Adding a role" for the 15 roles added after the first 50, run on the refresh that gave the 13 business roles
+postings (54,792 US MBA postings, 64 roles).
+
+**Title rules first.** Seven labelled titles (set `noise-2026-11-06` in `evals/titles_mba.json`) keep customer service
+reps, Halliburton's ESG service codes, chip and network implementation and janitorial project managers out of
+`sustainability`, `implementation` and `project_manager`.
+
+**Eleven MBA-only skills,** drafted from each role's `role_terms` and probed on its postings:
+- A new cluster, "Sustainability & public affairs": `esg_reporting`, `carbon_accounting`, `decarbonization_strategy`,
+  `government_affairs`.
+- In existing clusters: `fraud_prevention` (risk), `ats_tools` (tools), `technical_demos_poc` and
+  `implementation_delivery` (sales), `crisis_issues_mgmt`, `editorial_writing` and `research_design` (marketing).
+- Every pattern ties its noun to a working verb or object ("ESG reporting", not "ESG"), the lesson of the audit below.
+
+**Context.**
+- Evidence entries for all eleven.
+- The `impact` field (sustainability and public policy) gets 20 field entries. `business_case`, `genai_llm`,
+  `supply_chain` and `synthesis_recommendations` crossed four asking fields and get an entry for each.
+- Sixteen carriers changed where the eval found no co-occurrence; no threshold moved.
+- Each new skill has a "what" in its depth file (`mba_impact.json` is new). Ladders and sub-skills wait for
+  `depth_gen`, which needs the OpenRouter key.
+
+**The text cache keys on what tagging reads.** `TextCache`'s fingerprint read the whole depth files, so a new
+definition voided the cache and cost a cold re-extract. It now hashes the sub-skill patterns only. A test pins that a
+definition change keeps the cache.
+
+**Evals.**
+- `run_pipeline` passes (1274) and `run_taxonomy` passes.
+- `run_depth` keeps 64 failures that `main` already had after the 2026-11-05 refresh: 20 cited postings no longer in
+  their ladder and level, and 44 sub-skill shares outside 5% to 50%. The baseline is not rewritten, because it is written
+  only from a clean run. The fix is a `depth_publish` rerun (Later).
+- Bands: `calibrate.mjs --roles mba` places the 13 roles in their groups. The upper lines hold (54%, 73%) and the
+  groups' bottom lines move by a point or two. `impact` gets no bands, with fewer than 10 same-role résumés. `run.mjs`
+  passes (515).
+
+**The audit of what counts as a skill** (owner's request, same day) is a proposal, not a change. It covers years of
+experience, credentials, industry tags, broad patterns and behaviours across all three sets; nothing was pruned. The
+owner decides row by row. The rows that land get their own dated sections.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2624,14 +2665,15 @@ done). One line per item; the section that explains it is named where it helps.
   `product_designer`. Law firms on the registry; the full Fortune 500.
 
 **The MBA role set**
-- The skills pass ("Adding a role", part C) for the 15 roles added after the first 50, once the refresh that gives the
-  13 business roles postings has merged; then part D (samples and bands for the `impact` group, game passages,
-  `mba_roles.json` credentials). A sample résumé with a product-engineer line; Texas Instruments' "Product Marketing
+- Part D of "Adding a role" for the 15 later roles: samples and bands for the `impact` group, game passages,
+  `mba_roles.json` credentials; and C10/C11 for their 11 skills (`skill_audit --reuse`, ladders and sub-skills from
+  `depth_gen`, both need the OpenRouter key). A sample résumé with a product-engineer line; Texas Instruments' "Product Marketing
   Engineer" postings kept as `pmm`.
 - `node evals/rough_fit.mjs` in the checks step of `refresh-mba.yml` (after `store pull evals` and `npm ci`).
 - `role_coverage`: a column of each role's top `role_terms` phrases that no pattern matches; `COVERS` for the new roles.
-- `evals/run_depth.py` has failures on `main` since the 2026-10-25 refresh (sub-skill shares outside 5% to 50%): a
-  `depth_publish` rerun on a `data/` branch with the baseline. The American-spelling rule in `depth_gen` and the
+- `evals/run_depth.py` has 64 failures on `main` since the 2026-11-05 refresh (20 stale citations, 44 sub-skill shares
+  outside 5% to 50%): a `depth_publish` rerun on a `data/` branch with the baseline, and `run_depth` in the refresh checks.
+- `product_engineer` reads as engineering (system architecture 86%, APIs 79%): whether it moves to the tech set. The American-spelling rule in `depth_gen` and the
   taxonomy names (the display map `Atlas.us` covers the screens).
 - The editorial pass over the data strings `evals/copy_baseline.md` lists (abbreviations, long blurbs, passive lines).
 - A carrier tie-break that prefers the carrier closer to the behaviour over the postings' order.

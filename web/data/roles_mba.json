@@ -160,7 +160,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 350
+   "n": 346
   },
   {
    "id": "solutions_engineer",
@@ -174,7 +174,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1348
+   "n": 1346
   },
   {
    "id": "account_executive",
@@ -188,7 +188,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 7744
+   "n": 7740
   },
   {
    "id": "ib_associate",
@@ -202,7 +202,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 904
+   "n": 903
   },
   {
    "id": "ma_integration",
@@ -228,7 +228,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 291
+   "n": 289
   },
   {
    "id": "strategic_finance",
@@ -271,7 +271,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 175
+   "n": 173
   },
   {
    "id": "commercial_banking_rm",
@@ -351,7 +351,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 252
+   "n": 249
   },
   {
    "id": "vc_associate",
@@ -379,7 +379,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 397
+   "n": 396
   },
   {
    "id": "chief_of_staff",
@@ -391,7 +391,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 169
+   "n": 165
   },
   {
    "id": "data_scientist",
@@ -405,21 +405,21 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1170
+   "n": 1144
   },
   {
    "id": "sustainability",
    "label": "Sustainability and ESG Manager",
    "group": "impact",
    "patterns": [
-    "\\bsustainab(ility|le)\\b|\\bESG\\b|\\bclimate\\s+(strategy|program(me)?|risk|action|impact|solutions|lead|manager|analyst|associate|director)\\b|\\bdecarboni[sz]ation\\b|\\bnet[- ]zero\\b|\\b(social|environmental)\\s+impact\\b|\\bcorporate\\s+(social\\s+)?responsibility\\b|\\bCSR\\b|\\benergy\\s+transition\\b"
+    "\\bsustainab(ility|le)\\b|\\bESG\\b(?!-)|\\bclimate\\s+(strategy|program(me)?|risk|action|impact|lead|manager|analyst|associate|director)\\b|\\bdecarboni[sz]ation\\b|\\bnet[- ]zero\\b|\\b(social|environmental)\\s+impact\\b|\\bcorporate\\s+(social\\s+)?responsibility\\b|\\benergy\\s+transition\\b"
    ],
    "exclude": [
-    "\\b(engineer\\w*|software|developer|scientist|technician|designer|chemist|business\\s+development|sales|account|compliance|procurement|supply\\s+chain|sourcing|commodity|hr\\s+business\\s+partner|product\\s+(manag\\w*|mgr)|financial\\s+analyst|finance\\s+manager|manager,\\s+finance)\\b"
+    "\\b(engineer\\w*|software|developer|scientist|technician|designer|chemist|operator|crew|warehouse|teller|business\\s+development|sales|account|compliance|procurement|supply\\s+chain|sourcing|commodity|hr\\s+business\\s+partner|product\\s+(manag\\w*|mgr)|financial\\s+analyst|finance\\s+manager|manager,\\s+finance)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 251
+   "n": 130
   },
   {
    "id": "tech_strategy",
@@ -433,7 +433,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 163
+   "n": 159
   },
   {
    "id": "product_strategy",
@@ -448,7 +448,7 @@
     "product_manager"
    ],
    "product_gate": "pm",
-   "n": 97
+   "n": 115
   },
   {
    "id": "product_manager",
@@ -463,7 +463,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 4791
+   "n": 5141
   },
   {
    "id": "recruiter",
@@ -491,7 +491,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 500
+   "n": 490
   },
   {
    "id": "implementation",
@@ -501,11 +501,11 @@
     "\\bimplementations?\\s+(senior\\s+)?(manager|consultant|specialist|lead|leader|director|analyst|associate|engineer|project\\s+manager|product\\s+specialist)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(implementation|onboarding)\\b|\\b(customer|client|partner)\\s+(onboarding|implementation)\\b|\\bonboarding\\s+(manager|specialist|lead|consultant|associate|director)\\b|\\b(customer|client)\\s+experience\\s+(senior\\s+)?(manager|lead|director|strategist|analyst)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(customer|client)\\s+experience\\b|\\bCX\\s+(manager|lead|director|strategist|analyst)\\b|\\bhead\\s+of\\s+CX\\b"
    ],
    "exclude": [
-    "\\b(software|engineering\\s+manager|supplier|vendor|logistics|supply\\s+chain|design\\w*|research\\w*|employee|new\\s+hire|people|talent|representative|agent)\\b"
+    "\\b(software|engineering\\s+manager|cpu|gpu|graphics|network|physical|silicon|asic|soc|rtl|fe|supplier|vendor|logistics|supply\\s+chain|design\\w*|research\\w*|employee|new\\s+hire|people|talent|representative|agent)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 367
+   "n": 330
   },
   {
    "id": "bizops",
@@ -517,7 +517,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 945
+   "n": 942
   },
   {
    "id": "corp_strategy_analyst",
@@ -563,7 +563,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 182
+   "n": 173
   },
   {
    "id": "digital_transformation",
@@ -577,7 +577,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 74
+   "n": 72
   },
   {
    "id": "opex",
@@ -591,7 +591,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 203
+   "n": 202
   },
   {
    "id": "transformation",
@@ -638,7 +638,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 2045
+   "n": 2044
   },
   {
    "id": "general_manager",
@@ -652,7 +652,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 303
+   "n": 302
   },
   {
    "id": "program_manager",
@@ -666,7 +666,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3592
+   "n": 3576
   },
   {
    "id": "pmm",
@@ -679,7 +679,7 @@
    "covers": [],
    "covered_by": [],
    "product_gate": "pmm",
-   "n": 774
+   "n": 841
   },
   {
    "id": "brand_manager",
@@ -705,7 +705,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 353
+   "n": 352
   },
   {
    "id": "customer_success",
@@ -731,7 +731,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 535
+   "n": 533
   },
   {
    "id": "bizdev",
@@ -791,7 +791,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 668
+   "n": 655
   },
   {
    "id": "strategic_sourcing",
@@ -833,7 +833,7 @@
     "strategic_sourcing"
    ],
    "covered_by": [],
-   "n": 687
+   "n": 686
   },
   {
    "id": "supply_chain",
@@ -847,7 +847,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 894
+   "n": 882
   },
   {
    "id": "project_manager",
@@ -857,11 +857,11 @@
     "\\bproject\\s+(senior\\s+)?(manager|management|lead|leader|coordinator|director|analyst|associate|specialist)\\b|\\bPMO\\b|\\bproject\\s+management\\s+office\\b"
    ],
    "exclude": [
-    "\\b(construction|site|field|electrical|mechanical|civil|install\\w*|facilit\\w*|workplace|capital\\s+projects?|engineering|architect\\w*|interior|solar|wind|substation|transmission|power|grid|interconnection|infrastructure|utilit(y|ies)|commissioning|mep|hvac|plumbing|roofing|manufacturing|machine|tool|hardware|npi|veterinary|data\\s+cent(er|re)|plant)\\b"
+    "\\b(construction|site|field|electrical|mechanical|civil|install\\w*|facilit\\w*|workplace|capital\\s+projects?|engineering|architect\\w*|interior|solar|wind|substation|transmission|power|grid|interconnection|infrastructure|utilit(y|ies)|commissioning|mep|hvac|plumbing|roofing|janitorial|custodial|manufacturing|machine|tool|hardware|npi|veterinary|data\\s+cent(er|re)|plant)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1503
+   "n": 1482
   },
   {
    "id": "comp_benefits",
@@ -875,7 +875,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 455
+   "n": 452
   },
   {
    "id": "org_dev",
@@ -889,7 +889,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 205
+   "n": 204
   },
   {
    "id": "hr_manager",
@@ -903,7 +903,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1698
+   "n": 1696
   },
   {
    "id": "enterprise_risk",
@@ -917,7 +917,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 708
+   "n": 706
   },
   {
    "id": "compliance",
@@ -943,7 +943,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 264
+   "n": 261
   },
   {
    "id": "sales_manager",
@@ -971,7 +971,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 287
+   "n": 286
   },
   {
    "id": "market_research",
@@ -985,7 +985,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 186
+   "n": 183
   },
   {
    "id": "marketing_manager",
@@ -997,7 +997,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 1237
+   "n": 1234
   },
   {
    "id": "communications",
@@ -1011,7 +1011,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 585
+   "n": 583
   },
   {
    "id": "public_policy",
@@ -1039,7 +1039,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3883
+   "n": 3881
   }
  ],
  "covers_status": "confirmed",
