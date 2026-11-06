@@ -182,7 +182,10 @@ jobs:
     needs: [gate, scrape]
     if: ${{ !cancelled() && needs.gate.outputs.go == 'true' && inputs.count_only != true }}
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # 340, not 180: an extract with a cold text cache (any change to the taxonomy, pipeline/tax.py,
+    # pipeline/extract.py or a depth file empties it) tags every posting on two cores, ~3.5 hours for the MBA set
+    # of 2026-11-05; the refresh-mba run of that day was cancelled at 180 minutes with the scrape already done
+    timeout-minutes: 340
     env:
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
