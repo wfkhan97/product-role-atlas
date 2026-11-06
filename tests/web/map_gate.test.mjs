@@ -51,12 +51,18 @@ test("redirectTo: the site's own address, its query and hash dropped, then #/map
   assert.equal(Pure.redirectTo({ origin: "https://site.example", pathname: "/atlas/", search: "?x=1", hash: "#/signin" }), "https://site.example/atlas/#/map");
 });
 
-test("refusedMessage: an address with no invite reads as the refused copy; anything else as the plain failure", () => {
+test("refusedMessage: an address with no invite reads as the refused copy; too many emails as the wait; any other answer as the service line, never the connection", () => {
   assert.equal(Copy.signin.refused, "This email has no invite.");
   assert.equal(Pure.refusedMessage({ code: 422, error_code: "otp_disabled", msg: "Signups not allowed for otp" }), Copy.signin.refused);
   assert.equal(Pure.refusedMessage("Signups not allowed for otp"), Copy.signin.refused);
   assert.equal(Pure.refusedMessage({ error: "invalid_request", error_description: "User not found" }), Copy.signin.refused);
-  for (const b of [{ msg: "For security purposes, you can only request this after 30 seconds." }, { error_code: "over_email_send_rate_limit" }, "", null, undefined]) assert.equal(Pure.refusedMessage(b), Copy.signin.failed, JSON.stringify(b));
+  // C-13, the sign-in said "Check your connection" on a rate limit: GoTrue's 429 reads as the wait
+  assert.equal(Pure.refusedMessage({ code: 429, error_code: "over_email_send_rate_limit", msg: "Email rate limit exceeded" }), Copy.signin.rateLimited);
+  assert.equal(Pure.refusedMessage({ error_code: "over_email_send_rate_limit" }), Copy.signin.rateLimited);
+  assert.equal(Pure.refusedMessage({ code: 429, error_code: "over_email_send_rate_limit", msg: "For security purposes, you can only request this after 30 seconds." }), Copy.fill(Copy.signin.rateWait, { n: 30 }), "GoTrue's own seconds");
+  assert.equal(Copy.signin.rateLimited, "Too many emails sent. Try again in an hour.");
+  for (const b of [{ code: 500, msg: "Error sending magic link email" }, "boom", "", null, undefined]) assert.equal(Pure.refusedMessage(b), Copy.signin.serviceFailed, JSON.stringify(b));
+  for (const b of [{ error_code: "over_email_send_rate_limit" }, { msg: "boom" }, "", null]) assert.notEqual(Pure.refusedMessage(b), Copy.signin.failed, "the connection line is for a network failure alone");
 });
 
 test("feedbackPath: <uid>/feedback/<card>.json; a card id is lower-case letters, digits and hyphens", () => {
@@ -87,6 +93,18 @@ test("MapGate.next: off, the launcher; no session, the sign-in; a session and a 
   assert.equal(G.next(), "launcher");
 });
 
+// C-12, the map sent a visitor to the sign-in without the place it came from
+test("MapGate.signinHash and landing: the map's own address goes to the sign-in as next and comes back; nothing else does", () => {
+  const G = Pure.MapGate;
+  assert.equal(G.signinHash("#/map?build=1&role=product.pm"), "#/signin?next=" + encodeURIComponent("#/map?build=1&role=product.pm"));
+  assert.equal(G.signinHash("#/map"), "#/signin", "the plain map needs no next: the link lands there anyway");
+  for (const h of ["", null, "#/jobs", "#/signin?next=x", "https://evil.example/#/map", "#/map?x=<script>", "#/mapx"]) assert.equal(G.signinHash(h), "#/signin", String(h));
+  assert.equal(G.landing("#/map?build=1&role=product.pm"), "#/map?build=1&role=product.pm");
+  for (const h of ["", null, undefined, "#/jobs", "javascript:alert(1)", "#/map#access_token=x"]) assert.equal(G.landing(h), "#/map", String(h));
+  const back = new URLSearchParams(G.signinHash("#/map?build=1&role=product.pm").split("?").slice(1).join("?")).get("next");
+  assert.equal(G.landing(back), "#/map?build=1&role=product.pm", "the round trip keeps the form and its role");
+});
+
 test("sendLink posts /auth/v1/otp with create_user false and the redirect; refused and failed answers read as copy", async () => {
   const { A, calls } = makeAuth(() => reply(200, {}));
   assert.deepEqual(await A.sendLink(" student@example.com "), { ok: true });
@@ -98,7 +116,8 @@ test("sendLink posts /auth/v1/otp with create_user false and the redirect; refus
   assert.equal(calls[0].init.method, "POST");
   assert.equal(calls[0].init.headers.apikey, "pk");
   assert.deepEqual(await makeAuth(() => reply(422, { error_code: "otp_disabled", msg: "Signups not allowed for otp" })).A.sendLink("nobody@example.com"), { ok: false, message: Copy.signin.refused });
-  assert.deepEqual(await makeAuth(() => reply(500, "boom")).A.sendLink("a@example.com"), { ok: false, message: Copy.signin.failed });
+  assert.deepEqual(await makeAuth(() => reply(500, "boom")).A.sendLink("a@example.com"), { ok: false, message: Copy.signin.serviceFailed });
+  assert.deepEqual(await makeAuth(() => reply(429, { code: 429, error_code: "over_email_send_rate_limit", msg: "Email rate limit exceeded" })).A.sendLink("a@example.com"), { ok: false, message: Copy.signin.rateLimited });
   assert.deepEqual(await makeAuth(() => { throw new TypeError("Failed to fetch"); }).A.sendLink("a@example.com"), { ok: false, message: Copy.signin.failed }, "no network: the plain failure, never a rejection");
   const none = makeAuth(() => reply(200, {}));
   assert.equal((await none.A.sendLink("not an email")).ok, false);
@@ -106,7 +125,7 @@ test("sendLink posts /auth/v1/otp with create_user false and the redirect; refus
 });
 
 // ---------- the code flow (the visitor journey, step 2, 2026-11-05) ----------
-test("sendCode posts /auth/v1/otp with create_user true and no redirect; sign-ups off or a rate limit read as the refused copy, the rest as the plain failure", async () => {
+test("sendCode posts /auth/v1/otp with create_user true and no redirect; sign-ups off reads as the refused copy, a rate limit as the wait, another answer as the service line, no network as the connection line", async () => {
   const S = Copy.signin;
   const ok = makeAuth(async () => reply(200, {}));
   assert.deepEqual(await ok.A.sendCode(" Student@Example.com "), { ok: true });
@@ -114,8 +133,8 @@ test("sendCode posts /auth/v1/otp with create_user true and no redirect; sign-up
   assert.deepEqual(ok.calls[0].body, { email: "Student@Example.com", create_user: true });
   assert.equal(ok.calls[0].init.headers.apikey, "pk");
   assert.deepEqual(await makeAuth(async () => reply(422, { code: 422, msg: "Signups not allowed for otp" })).A.sendCode("a@b.co"), { ok: false, message: S.codeRefused });
-  assert.deepEqual(await makeAuth(async () => reply(429, { error_code: "over_email_send_rate_limit" })).A.sendCode("a@b.co"), { ok: false, message: S.codeRefused });
-  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.sendCode("a@b.co"), { ok: false, message: S.failed });
+  assert.deepEqual(await makeAuth(async () => reply(429, { error_code: "over_email_send_rate_limit" })).A.sendCode("a@b.co"), { ok: false, message: S.rateLimited });
+  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.sendCode("a@b.co"), { ok: false, message: S.serviceFailed });
   assert.deepEqual(await makeAuth(async () => { throw new Error("offline"); }).A.sendCode("a@b.co"), { ok: false, message: S.failed });
   const bad = makeAuth(async () => reply(200, {}));
   assert.deepEqual(await bad.A.sendCode("not an email"), { ok: false, message: S.invalid });
@@ -137,7 +156,8 @@ test("verifyCode posts /auth/v1/verify with type email and keeps the session; a 
   const short = makeAuth(async () => reply(200, {}));
   assert.deepEqual(await short.A.verifyCode("student@example.com", "12"), { ok: false, message: S.codeWrong }, "six digits or nothing is sent");
   assert.equal(short.calls.length, 0);
-  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.verifyCode("a@b.co", "123456"), { ok: false, message: S.failed });
+  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.verifyCode("a@b.co", "123456"), { ok: false, message: S.serviceFailed });
+  assert.deepEqual(await makeAuth(async () => { throw new TypeError("Failed to fetch"); }).A.verifyCode("a@b.co", "123456"), { ok: false, message: S.failed }, "no network: the connection line");
   const noUid = makeAuth(async () => reply(200, { access_token: "not.a.jwt", refresh_token: "r" }));
   assert.deepEqual(await noUid.A.verifyCode("a@b.co", "123456"), { ok: false, message: S.failed });
 });
@@ -239,7 +259,11 @@ test("the copy: every string the two screens and the launcher's slot draw is in 
   for (const k of ["title", "roleAt", "band", "world", "waiting", "others", "back", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
   assert.equal(Copy.signin.sent, "Check your email for the link. It works once.");
   assert.equal(Copy.map.back, "← Back to your map");
-  assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite? Sign in.");
+  // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
+  assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite to an apprentice map, a private plan for one role? Sign in.");
+  // C-02, the sign-in gave a visitor without an invite no way forward: what the map is, and a way to ask
+  for (const k of ["mapLine", "askInvite", "rateLimited", "rateWait", "serviceFailed"]) assert.ok(Copy.signin[k], `signin.${k}`);
+  assert.match(Copy.signin.mapLine, /invite/);
 });
 
 test("the migration: a private bucket `maps`, the person's own folder to read, only feedback to write, nothing for anon", () => {

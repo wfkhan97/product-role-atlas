@@ -228,7 +228,37 @@
       return here.length || level === "all" ? { core: here, all: level === "all" } : { core: atAll.filter(showable), all: true, fellBack: true };
     },
   };
-  return { parseRoute, Stage, Intake, Door, RoleFilters, You, FitCounts, CourseCore };
+  // The breadcrumbs (2026-11-06): one rule for every route, section then screen. The section is the top bar's verb the
+  // screen sits under, named as the top bar names it; a section's own screen is the section alone; a screen under no
+  // verb (About, About you, the sign-in) is the screen alone; the door and home have none (the brand is home). The
+  // section is where the person came from when the screen's first crumb links to another section's screen (a professor
+  // opened from Networking): that crumb keeps its own hash, so the tab and the role come back. The top bar's current
+  // mark is the same section. `items` are the screen's own crumbs ([label, href or null]); a leading Home is dropped.
+  const SECTION_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  const SECTIONS = new Set(["jobs", "skills", "network", "classes"]);
+  const Crumbs = {
+    SECTION_OF,
+    trail(name, items) {
+      if (name === "door" || name === "home") return { section: null, items: [] };
+      let rest = (items || []).filter(it => it && it[0] !== Copy.common.home);
+      const from = rest[0] && rest[0][1] ? parseRoute(rest[0][1]).name : null;
+      const section = SECTIONS.has(from) ? from : SECTION_OF[name] || null;
+      if (!section) return { section: null, items: rest };
+      const label = Copy.common.bar[section];
+      if (name === section) return { section, items: [[label, null]] };
+      let href = "#/" + section;
+      if (SECTIONS.has(from)) { href = rest[0][1]; rest = rest.slice(1); }
+      return { section, items: [[label, href], ...rest] };
+    },
+  };
+  // The theme button (2026-11-06): the device's theme is the first state only; a press always changes what is on
+  // screen, so from the device's it goes to the other one, then light and dark take turns. `dark`: the device is dark.
+  const Theme = {
+    STATES: ["system", "light", "dark"],
+    next: (now, dark) => now === "system" ? (dark ? "light" : "dark") : now === "dark" ? "light" : "dark",
+    label: now => Copy.fill(Copy.common.themeLabel, { theme: Copy.common.themeNames[now] || Copy.common.themeNames.system }),
+  };
+  return { parseRoute, Stage, Intake, Door, RoleFilters, You, FitCounts, CourseCore, Crumbs, Theme };
 });
 (function () {
   "use strict";
@@ -276,16 +306,18 @@
     return esc(b.text) + (title ? ` <span class="small muted">${esc(Copy.role.source)}${src}${b.grounding === "input only" ? esc(Copy.role.inputOnly) : ""}.</span>` : "");
   }
 
-  // ---------- theme: the device decides unless the person overrides ----------
-  const THEMES = ["system", "dark", "light"], GLYPH = { system: "◐", dark: "●", light: "○" };
+  // ---------- theme: the device decides until the person presses the button (Routes.Theme) ----------
+  const GLYPH = { system: "◐", dark: "●", light: "○" };
   let theme = "system"; try { theme = localStorage.getItem("theme") || "system"; } catch { }
-  function applyTheme(t) { theme = THEMES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"); b.textContent = GLYPH[theme]; b.title = theme === "system" ? CM.theme : fill(CM.themeSet, { theme }); }
+  const deviceDark = () => { try { return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches); } catch { return false; } };
+  function applyTheme(t) { theme = Routes.Theme.STATES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"), name = Routes.Theme.label(theme); b.textContent = GLYPH[theme]; b.title = name; b.setAttribute("aria-label", name); }
   applyTheme(theme);
-  $("#theme").onclick = () => { applyTheme(THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]); try { localStorage.setItem("theme", theme); } catch { } remountForms(); };
+  $("#theme").onclick = () => { applyTheme(Routes.Theme.next(theme, deviceDark())); try { localStorage.setItem("theme", theme); } catch { } remountForms(); };
 
   // ---------- shell helpers ----------
   const main = $("#main"), aside = $("#aside"), shell = $("#shell");
-  function crumbs(items) { $("#crumbs").innerHTML = items.map((it, i) => (i ? '<span class="sep">/</span>' : "") + (it[1] ? `<a href="${esc(it[1])}">${esc(it[0])}</a>` : `<span class="here">${esc(it[0])}</span>`)).join(""); document.title = (items.length ? items[items.length - 1][0] + " · " : "") + CM.title; }
+  // every screen's crumbs go through Routes.Crumbs (one rule: section, then screen), and the top bar marks that section
+  function crumbs(given) { const t = Routes.Crumbs.trail(screenNow, given), items = t.items; markVerb(t.section); $("#crumbs").innerHTML = items.map((it, i) => (i ? '<span class="sep">/</span>' : "") + (it[1] ? `<a href="${esc(it[1])}">${esc(it[0])}</a>` : `<span class="here">${esc(it[0])}</span>`)).join(""); document.title = (items.length ? items[items.length - 1][0] + " · " : "") + CM.title; }
   // The side column has two modes. Elsewhere it is an overlay that opens on a selection (owner's choice 8B). On a
   // role screen it is the rail (owner's decision 2026-10-24): always there, holding the legend, the person's fit and
   // the things to do with the role; a skill or posting card draws over it with "← Back". Under the breakpoint in
@@ -441,14 +473,17 @@
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
   // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
-  const VERB_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
-    const on = VERB_OF[name] || null;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + whoHtml(name);
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + whoHtml(name);
+    markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
     const fb = el.querySelector("[data-feedback]"); if (fb) fb.onclick = () => openFeedback({ prompted: false });
     const ff = $("#foot-feedback"); if (ff) ff.hidden = !feedbackOn() || name === "door";
+  }
+  function markVerb(on) {
+    for (const a of document.querySelectorAll("#verbs a.toplink[data-verb]")) { const is = a.dataset.verb === on; a.classList.toggle("on", is); if (is) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }
   }
   // the signed-in address and Sign out at the bar's end, or Sign in; nothing when accounts are off (the map's own
   // sign-in stays on its screens)
@@ -492,7 +527,9 @@
   const accountsOn = () => !!((window.CONFIG || {}).ACCOUNTS_ENABLED && window.Auth);
   // ---------- feedback (the visitor journey, step 6, 2026-11-05; web/feedback.js, pipeline/sql/2026-11-05_feedback.sql) ----------
   // A persistent Feedback link in the top bar and the footer opens a small sheet: the sentence (at most 500
-  // characters), an email only if wanted (prefilled from the session or the door), Send. The prompt opens the same
+  // characters), an email only if wanted (empty; the address of the session or the door is one press away, "Use …",
+  // owner's decision 4a of 2026-11-06, so the privacy line stays true), Send; an address that is not an email stops
+  // Send with one line. The prompt opens the same
   // sheet once per browser after twelve meaningful actions or six minutes of visible time, never on the door or the
   // sign-in nor within a minute of signing in; shown counts as asked; again after thirty days with new actions; and
   // once more at the first tree opened (Feedback.due is the rule, pure and tested). The funnel reads the link as the
@@ -505,8 +542,8 @@
     if (!feedbackOn() || fbOpen) return;
     const o = opts || {}, prompted = !!o.prompted, id = prompted ? "feedback_prompt" : "feedback";
     const screen = Routes.parseRoute(location.hash).name, sess = window.Auth ? Auth.stored() : null;
-    const email = (sess && sess.email) || doorKept().email || "";
-    const lead = o.why === "tree" ? FB.treeLead : prompted ? FB.promptLead : FB.lead;
+    const onFile = Feedback.offer("", o.email || (sess && sess.email) || doorKept().email || "");
+    const lead = o.lead || (o.why === "tree" ? FB.treeLead : prompted ? FB.promptLead : FB.lead);
     fbOpen = true;
     // the control that opened the sheet gets focus back when it closes, whatever closes it (C-10); a prompt opened by
     // the timer has none, so focus goes to the Feedback link in the top bar
@@ -516,7 +553,8 @@
       <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2><button type="button" class="close" id="fb-close" aria-label="${esc(FB.close)}">×</button></div>
       <p class="small muted" style="margin:0">${esc(lead)}</p>
       <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
-      <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="${esc(email)}" autocomplete="email"></label>
+      <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="" autocomplete="email"></label>
+      ${onFile ? `<p class="fb-use"><button type="button" class="linkish link" id="fb-use">${esc(fill(FB.useEmail, { email: onFile }))}</button></p>` : ""}
       <p class="small muted" style="margin:0">${esc(FB.privacy)}</p>
       <div class="fb-f"><button type="button" class="btn quiet" id="fb-later">${esc(FB.notNow)}</button><button type="button" class="btn primary" id="fb-send">${esc(FB.send)}</button></div>
       <p class="small fb-out" id="fb-out" aria-live="polite"></p>
@@ -541,14 +579,17 @@
     };
     document.addEventListener("keydown", onKey);
     for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
-    const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send");
+    const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send"), em = wrap.querySelector("#fb-email");
+    const use = wrap.querySelector("#fb-use");
+    if (use) use.onclick = () => { em.value = onFile; use.parentElement.hidden = true; out.textContent = ""; em.focus(); };
     ta.oninput = () => { wrap.querySelector("#fb-count").textContent = fill(FB.count, { n: ta.value.length, max: Feedback.LIMITS.text }); };
     btn.onclick = async () => {
       const text = ta.value.trim();
       if (!text) { out.textContent = FB.empty; ta.focus(); return; }
+      if (!Feedback.emailOk(em.value)) { out.textContent = FB.badEmail; em.focus(); return; }
       if (window.Capture) Capture.cta(id, "click", { role_id: state.roleId });
       btn.disabled = true; out.textContent = FB.sending;
-      const ok = await Feedback.send({ text, email: wrap.querySelector("#fb-email").value, screen, prompted, session: window.Capture ? Capture.session() : null, visitor: window.Capture ? Capture.visitor() : null, user_id: sess ? sess.uid : null });
+      const ok = await Feedback.send({ text, email: em.value, screen, prompted, session: window.Capture ? Capture.session() : null, visitor: window.Capture ? Capture.visitor() : null, user_id: sess ? sess.uid : null });
       if (!ok) { out.textContent = FB.failed; btn.disabled = false; return; }
       if (window.Capture) Capture.cta(id, "done", { role_id: state.roleId });
       out.textContent = FB.thanks; ta.value = ""; ta.disabled = true; btn.hidden = true; const later = wrap.querySelector("#fb-later"); later.textContent = FB.close; later.focus();
@@ -581,7 +622,8 @@
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
     // session and the hash becomes #/map before anything parses it; a spent or expired link lands on the sign-in
     const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
-    if (landed) { history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1")); if (landed === "session") noteSignedIn(); }
+    // the map's own address the sign-in was asked from (maps.next, kept by signinScreen) comes back after the link
+    if (landed) { let back = "#/map"; if (landed === "session") { try { back = MapGate.landing(localStorage.getItem("maps.next")); localStorage.removeItem("maps.next"); } catch { } } history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? back : "#/signin?expired=1")); if (landed === "session") noteSignedIn(); }
     const parsed = Routes.parseRoute(location.hash);
     if (!restoredOnce) { restoredOnce = true; if (stateOn()) restoreState(Auth.stored()); }   // step 3: the server's copy, once per page
     unmount(true);
@@ -608,6 +650,7 @@
   }
   window.addEventListener("hashchange", route);
   { const ff = $("#foot-feedback"); if (ff) { ff.textContent = FB.link; ff.hidden = !feedbackOn(); ff.onclick = () => openFeedback({ prompted: false }); } }
+  { const fa = document.querySelector("footer.foot a[href='#/about']"); if (fa) fa.textContent = Copy.about.heading; }   // the page's own name
 
   // ---------- 1. the door and home (v19 B2) ----------
   // the games list, for a game's own screen (web/data/games.json)
@@ -862,15 +905,18 @@
     }
     return { gate: MapGate.next({ enabled: true, session, hasMap: !!map }), map };
   }
-  // #/signin, invited mode: an email, Send me a link, then the sent state, the refused line or the plain failure. A
-  // session already on file goes to the map. GoTrue sends the link to an existing user only (web/auth.js).
+  // #/signin, invited mode: what the map is, an email, Send me a link, then the sent state, the refused line (with a way
+  // to ask for an invite and the way back to Explore careers) or the failure. A session already on file goes to the
+  // map, or to the map's own address the sign-in came from (?next=, MapGate.landing). GoTrue sends the link to an
+  // existing user only (web/auth.js), and always to #/map: the next hash waits in maps.next until the link lands.
   async function signinScreen() {
     const S = Copy.signin;
-    crumbs([[CM.home, "#/home"], [S.crumb, null]]); showAside(null);
+    crumbs([[S.crumb, null]]); showAside(null);
     if (accountsOn()) { codeSignin(); return; }
-    if (Auth.stored()) { toHash("#/map"); return; }
-    const expired = Routes.parseRoute(location.hash).query.expired === "1";
-    page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
+    const q = Routes.parseRoute(location.hash).query, next = MapGate.landing(q.next);
+    if (Auth.stored()) { toHash(next); return; }
+    const expired = q.expired === "1";
+    page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.mapLine)}</p><p>${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
       <form class="si" id="si" novalidate><input type="email" id="si-email" required autocomplete="email" placeholder="${esc(S.emailPlaceholder)}" aria-label="${esc(S.email)}"><button class="btn primary" type="submit" id="si-send">${esc(S.button)}</button></form>
       <div class="si-out" id="si-out" aria-live="polite"></div>
       <p class="small muted si-note">${esc(S.note)} <a href="#/skills">${esc(S.explore)}</a></p>`, true);
@@ -879,10 +925,15 @@
       e.preventDefault();
       const email = $("#si-email").value.trim();
       send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
+      if (next !== "#/map") try { localStorage.setItem("maps.next", next); } catch { }
       const r = await Auth.sendLink(email);
       send.disabled = false;
       if (Routes.parseRoute(location.hash).name !== "signin") return;
-      out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>` : `<p class="si-no">${esc(r.message || S.failed)}</p>`;
+      const refused = !r.ok && r.message === S.refused;
+      const ask = refused && feedbackOn() ? `<button type="button" class="linkish link" id="si-ask">${esc(S.askInvite)}</button> · ` : "";
+      out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>`
+        : `<p class="si-no">${esc(r.message || S.failed)}</p>${refused ? `<p class="small si-ask">${ask}<a href="#/skills">${esc(S.explore)}</a></p>` : ""}`;
+      const b = $("#si-ask"); if (b) b.onclick = () => openFeedback({ prompted: false, lead: FB.inviteLead, email });
     };
   }
   // the code flow (step 2): the email, then the six-digit code, then back to where the person came from (?next=);
@@ -936,12 +987,12 @@
   // launcher link; without a session, the sign-in; with MAPS_ENABLED off, the launcher
   async function mapScreen() {
     const MC = Copy.map;
-    crumbs([[CM.home, "#/home"], [MC.crumb, null]]); showAside(null);
+    crumbs([[MC.crumb, null]]); showAside(null);
     if (!mapsOn()) { toHash("#/skills"); return; }
     page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(MC.loading)}</p>`, true);
     const g = await mapGate();
     if (Routes.parseRoute(location.hash).name !== "map") return;
-    if (g.gate === "signin") { toHash("#/signin"); return; }
+    if (g.gate === "signin") { toHash(MapGate.signinHash(location.hash)); return; }   // the map's own address goes with it
     const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
     const build = Routes.parseRoute(location.hash).query.build === "1";
     if (g.gate === "map" && !(build && treeOn() && selfServe(g.map))) {
@@ -3013,29 +3064,33 @@
   const niceDate = d => { const [y, m, day] = String(d || "").split("-"); const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return m && day ? `${Number(day)} ${names[Number(m) - 1]} ${y}` : esc(d); };
   // employers by where they come from: the Fortune 500 list, venture-backed startups, and the employers added for the MBA set
   const origins = cs => { const n = { fortune: 0, startup: 0, mba: 0 }; for (const c of cs) n[c.group === "startup" ? "startup" : c.group === "mba_employer" ? "mba" : "fortune"]++; return n; };
-  // About (v19 B5): what the site is (the four verbs), what it counts (from the data), how it reads a posting, and
-  // privacy (the funnel events, the list kept true to web/capture.js EVENTS; the email; the resume text once to the model read, web/infer.js)
+  // About (v19 B5): what the site is (the verbs this visitor has: Door.verbs, the open ones; Find classes and the alumni
+  // line only for an address that opens them), what it counts (from the data), how it reads a posting, and privacy (the
+  // funnel events, the list kept true to web/capture.js EVENTS; the email; the resume text once to the model read,
+  // web/infer.js). The page draws once: the class count and the product set arrive late and fill their own cells
+  // (#ab-classes, #ab-product), so the scroll and an open list stay as they are (2026-11-06).
   async function about() {
     const [ix, counts] = await Promise.all([Atlas.index(), openCounts()]);
     const AB = Copy.about;
     crumbs([[AB.crumb, null]]); showAside(null);
     const M = ix.M, o = origins(M.meta.companies), n = homeCounts(ix, counts);   // the same open count as home and Find jobs
     const top = (cs, k) => cs.slice().sort((a, b) => b.n - a.n).slice(0, k).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
-    const fact = (v, l) => `<div class="fact"><b>${v}</b><span>${esc(l)}</span></div>`;
-    let nClasses = null, productPart = `<p class="small muted">${esc(AB.productLoading)}</p>`;
+    const fact = (v, l, id) => `<div class="fact"${id ? ` id="${id}"` : ""}><b>${v}</b><span>${esc(l)}</span></div>`;
     const term = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
-    const render = () => page(`<div id="about"><h1>${esc(AB.heading)}</h1>
-      <p class="lead">${esc(AB.lead)}</p>
+    const gate = campusGate(), verbs = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open);
+    const classesOpen = verbs.some(v => v.key === "classes");
+    page(`<div id="about"><h1>${esc(AB.heading)}</h1>
+      <p class="lead">${esc(AB.lead)} ${esc(AB.counts[verbs.length] || "")}</p>
       <h3>${esc(AB.jobs)}</h3>
       <p class="small">${esc(AB.jobsLine)}</p>
       <h3>${esc(AB.skills)}</h3>
       <p class="small">${esc(AB.skillsLine)}</p>
-      <h3>${esc(AB.classes)}</h3>
-      <p class="small">${esc(fill(AB.classesLine, { term }))}</p>
+      ${classesOpen ? `<h3>${esc(AB.classes)}</h3>
+      <p class="small">${esc(fill(AB.classesLine, { term }))}</p>` : ""}
       <h3>${esc(AB.network)}</h3>
-      <p class="small">${esc(AB.networkLine)}</p>
+      <p class="small">${esc(AB.networkLine)}${gate.flag ? " " + esc(AB.networkAlumni) : ""}</p>
       <h3>${esc(AB.count)}</h3>
-      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(roleCount(ix)), AB.facts.roles)}${fact(nClasses == null ? "—" : fmt(nClasses), fill(AB.facts.classes, { term }))}</div>
+      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(roleCount(ix)), AB.facts.roles)}${classesOpen ? fact("—", fill(AB.facts.classes, { term }), "ab-classes") : ""}</div>
       <p class="small">${esc(fill(AB.countLine, { date: niceDate(M.meta.generated), fortune: fmt(o.fortune), startups: fmt(o.startup), mba: fmt(o.mba) }))}</p>
       ${disc("about-top", esc(AB.topEmployers), `<p>${top(M.meta.companies, 15)}</p>`)}
       <h3>${esc(AB.howRead)}</h3>
@@ -3044,14 +3099,14 @@
       <h3>${esc(AB.privacy)}</h3>
       <p class="small">${esc(AB.privacyEvents)}</p>
       <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}${feedbackOn() ? `<p class="small">${esc(AB.privacyFeedback)}</p>` : ""}
-      <h3>${esc(AB.product)}</h3>${productPart}</div>`, true);
-    render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
-    if (window.Catalog) Catalog.loadCatalog().then(d => { nClasses = d.classes.length; if (location.hash.startsWith("#/about")) render(); }).catch(() => { });
+      <h3>${esc(AB.product)}</h3><div id="ab-product"><p class="small muted">${esc(AB.productLoading)}</p></div></div>`, true);
+    const cell = sel => location.hash.startsWith("#/about") ? main.querySelector(sel) : null;
+    Atlas.product().then(P => { const G = P.G, el = cell("#ab-product"); if (el) el.innerHTML = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; }).catch(console.error);
+    if (window.Catalog && classesOpen) Catalog.loadCatalog().then(d => { const el = cell("#ab-classes b"); if (el) el.textContent = fmt(d.classes.length); }).catch(() => { });
   }
 
-  // the footer is the "About the data" link alone (owner's feedback 2026-11-01): the count and the refresh date it
-  // carried live on #/about, from the same number as home and Find jobs
+  // the footer is the About link alone (owner's feedback 2026-11-01; named as the page since 2026-11-06): the count
+  // and the refresh date it carried live on #/about, from the same number as home and Find jobs
 
   route();
 })();

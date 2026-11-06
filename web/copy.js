@@ -36,8 +36,10 @@
     loading: "Loading…",
     loadingRoles: "Loading the roles…",
     bar: { jobs: "Find jobs", skills: "Explore careers", classes: "Find classes", network: "Networking" },   // the top bar's short labels
-    theme: "Theme follows your device. Click to change.",
-    themeSet: "Theme: {theme}. Click to change.",
+    // the theme button's name (2026-11-06): it says the theme now; the device's is the first state only, and a press
+    // always changes what is on screen (light and dark take turns)
+    themeLabel: "Theme: {theme}",
+    themeNames: { system: "device", light: "light", dark: "dark" },
     railTab: "Your fit",
     tipLabel: "What this means",
     failHeading: "Something did not load",
@@ -843,6 +845,9 @@
     crumb: "Sign in",
     heading: "Sign in",
     lead: "Have an invite? Enter the email it came to.",
+    // what the map is, on the invited sign-in (2026-11-06): a visitor without an invite reads this first
+    mapLine: "Your apprentice map is a private plan of what to build for one role. It opens by invite today.",
+    askInvite: "Ask for an invite",
     email: "Email",
     emailPlaceholder: "The email on the invite",
     button: "Send me a link",
@@ -850,7 +855,11 @@
     sent: "Check your email for the link. It works once.",
     sentTo: "Sent to {email}.",
     refused: "This email has no invite.",
-    failed: "The link did not go out. Check your connection and try again.",
+    failed: "The link did not go out. Check your connection and try again.",   // a network failure alone
+    // GoTrue answered, and said no (2026-11-06): too many emails, or another refusal; never the connection line
+    rateLimited: "Too many emails sent. Try again in an hour.",
+    rateWait: "Too many emails in a short time. Try again in {n} seconds.",
+    serviceFailed: "The email service did not send it. Try again in a few minutes.",
     invalid: "Enter the email address on your invite.",
     expired: "That link no longer works. Send yourself a new one.",
     note: "The link opens your map. Nothing else here needs a sign-in.",
@@ -897,6 +906,12 @@
     thanks: "Thanks. We read every one.",
     failed: "That did not go through. Try again in a moment.",
     privacy: "We keep what you type here, the screen it came from and your email only if you typed it.",
+    // the email box starts empty (owner, decision 4a, 2026-11-06): the address on file is one press away, never sent
+    // unasked
+    useEmail: "Use {email}",
+    badEmail: "Check the email, or leave it empty.",
+    // the sheet opened from the sign-in's "Ask for an invite"
+    inviteLead: "Ask for an invite to an apprentice map. Say the role you want it for, and add your email so we can reply.",
   };
 
   // ---------- the heart (step 5, 2026-11-05): one list, on a role's row and on the open role ----------
@@ -928,7 +943,7 @@
     signOut: "Sign out",
     others: "Explore other roles →",
     back: "← Back to your map",
-    invite: "Have an invite?",
+    invite: "Have an invite to an apprentice map, a private plan for one role?",
     inviteLink: "Sign in.",
     // the self-serve tree (step 4, 2026-11-05): the form on #/map for a signed-in person with no map, and the line
     // under a map the site built
@@ -1119,22 +1134,25 @@
   const about = {
     crumb: "About GradBuddy",
     heading: "About GradBuddy",
-    lead: "GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people. Four things to do here, all built from live job postings.",
+    lead: "GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people.",
+    // the verbs this visitor has (Door.verbs, the open ones): three without a campus roster, four with one
+    counts: { 2: "Two things to do here, all built from live job postings.", 3: "Three things to do here, all built from live job postings.", 4: "Four things to do here, all built from live job postings." },
     jobs: "Find jobs",
-    jobsLine: "One search over every open US posting we hold, for both role sets. With a résumé on file, each posting says how many of its skills you show.",
+    jobsLine: "One search over every open US posting we hold, for business roles and product roles. With a résumé on file, each posting says how many of its skills you show.",
     skills: "Explore careers",
     skillsLine: "Every role by field, with the skills most of its postings ask for. We read your résumé against them, in your browser and once with our AI reader. The fit says which skills are gaps.",
     classes: "Find classes",
     classesLine: "The {term} roster at Cornell Tech, read against the roles you want. Each class says which of your gaps it covers.",
     network: "Networking",
-    networkLine: "Who to meet for one role, from the postings: hiring managers, people in the role, recruiters and alumni. A prep card says where to find them and what to ask.",
+    networkLine: "Who to meet for one role, from the postings: hiring managers, people in the role and recruiters. A prep card says where to find them and what to ask.",
+    networkAlumni: "Your campus email also opens a search for alumni in the role.",
     count: "What we count",
     facts: { open: "open US postings", employers: "employers", roles: "roles", classes: "{term} classes" },
-    countLine: "Every number comes from job postings on employers' own careers pages, refreshed every week; the last refresh was {date}. The business roles show US postings: {fortune} Fortune 500 companies, {startups} venture-backed startups, and {mba} employers that MBA students target.",
+    countLine: "Every number comes from job postings on employers' own careers pages. We refresh them every week. The last refresh was {date}. The business roles show US postings: {fortune} Fortune 500 companies, {startups} venture-backed startups, and {mba} employers that MBA students target.",
     topEmployers: "Employers with the most postings",
     howRead: "How we read a posting",
     howReadLine: "Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down counts as closed. It leaves the list and stays in the shares for a year.",
-    editorial: "Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.",
+    editorial: "We write some parts ourselves, not the postings. These are the smaller skills inside a skill, the levels from entry to lead, and how to build each skill. Every quoted sentence comes from a posting.",
     privacy: "Privacy",
     privacyEvents: "We count which screens a visit reaches and how long each stays open while you use it. Each count carries a random id for the visit and one for this browser. So a return visit reads as one. It also carries your program and stage answers and the role or field on screen. With a sign-in it carries your account id. It never carries text, a skill or a file name.",
     privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Your résumé text goes once to our AI reader, a Claude model from Anthropic. It finds the skills your résumé shows without naming them. We do not store the text, and no syllabus or pasted posting leaves your browser.",

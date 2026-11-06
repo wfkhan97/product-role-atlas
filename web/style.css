@@ -25,9 +25,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
 
 /* ---------- top bar: brand · breadcrumbs · the four verbs (v19 B2) · theme ---------- */
-.top { height: var(--topbar-height); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--card); font-size: var(--text-sm); color: var(--subtle-foreground); }
+header.top { height: var(--topbar-height); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--card); font-size: var(--text-sm); color: var(--subtle-foreground); }
 .verbs-nav { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
-.toplink.on { color: var(--heading-foreground); font-weight: var(--weight-medium); }
 /* a phone: two rows (usability pass 2026-11-06; it was four). The brand and the crumbs share the first; the verbs,
    Feedback and Sign in take the second as one strip that scrolls sideways (no verb is hidden), the theme button at
    its end. header.top: the skill map's key has an i.sw.top */
@@ -45,7 +44,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .crumbs .here { color: var(--foreground); overflow: hidden; text-overflow: ellipsis; }
 .crumbs .sep { color: var(--subtle-foreground); }
 .top-actions { display: flex; align-items: center; gap: 16px; }
-.toplink { color: var(--muted-foreground); } .toplink:hover { color: var(--foreground); }
+/* the chrome's links, one style (2026-11-06): the verbs, Feedback (a button) and Sign in alike; the current mark only on
+   the current verb (markVerb). The footer's two links alike, underlined as links. */
+.top-actions .toplink { color: var(--muted-foreground); font: inherit; text-decoration: none; } .top-actions .toplink:hover { color: var(--foreground); text-decoration: none; }
+.top-actions .toplink.on { color: var(--heading-foreground); font-weight: var(--weight-medium); }
 .icon { width: 30px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: transparent; color: var(--muted-foreground); display: grid; place-items: center; }
 
 /* ---------- shell: main column, optional side panel (owner's choice 8B) ---------- */
@@ -111,7 +113,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .aside .empty { color: var(--muted-foreground); font-size: var(--text-base); margin-top: 8px; }
 .aside .close { float: right; border: 0; background: transparent; color: var(--muted-foreground); font-size: 20px; line-height: 1; padding: 0 2px; }
 .foot { border-top: 1px solid var(--border); padding: 12px 32px; font-size: var(--text-sm); color: var(--subtle-foreground); }
-.foot a { color: var(--primary); }
+.foot .footlink { color: var(--primary); font: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- buttons, chips, choices ---------- */
 .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius-md); padding: 9px 14px; font-size: var(--text-base); border: 1px solid var(--input); background: transparent; color: var(--foreground); text-decoration: none; }
@@ -1364,7 +1366,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .map-print.light { --background: var(--neutral-900); --foreground: var(--neutral-100); --heading-foreground: var(--neutral-50); --card: var(--neutral-900); --muted: var(--neutral-800); --muted-foreground: var(--neutral-300); --subtle-foreground: var(--neutral-500); --border: var(--neutral-700); --input: var(--neutral-500); --primary: var(--green-400); --primary-foreground: var(--green-950); --secondary: var(--blue-400); --warning: var(--amber-400); }
 @media print {
   @page { size: landscape; margin: 10mm; }
-  body:has(.map-print) .top, body:has(.map-print) .foot, body:has(.map-print) .aside, body:has(.map-print) .rail-tab, body:has(.map-print) .tipbox { display: none !important; }
+  body:has(.map-print) header.top, body:has(.map-print) .foot, body:has(.map-print) .aside, body:has(.map-print) .rail-tab, body:has(.map-print) .tipbox { display: none !important; }
   body:has(.map-print) { min-height: 0; display: block; }
   body:has(.map-print) .main { padding: 0; }
   body:has(.map-print) .shell.with-aside .main > .page.wide { padding-right: 0; }

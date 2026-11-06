@@ -94,3 +94,18 @@ test("the Faculty tab's count says what it counts in plain words, never a bare \
   assert.equal(t, "teaches 3 of the 12 skills this role's postings ask for most");
   assert.doesNotMatch(t, /\b\d+ asks\b/);
 });
+
+// the usability pass of 2026-11-06, cluster "feedback, the sign-in, About and the chrome"
+test("C-24, About's count line ran to 22 words once the date filled in: no sentence over the limit with the longest date", () => {
+  const filled = Copy.fill(Copy.about.countLine, { date: "30 Sep 2026", fortune: "468", startups: "1,204", mba: "97" });
+  assert.deepEqual(checkAll([{ path: "about.countLine (filled)", text: filled }]).map(o => `${o.rule} ${o.hit}`), []);
+  assert.doesNotMatch(Copy.about.jobsLine, /role sets/, "no unexplained term");
+  assert.doesNotMatch(Copy.about.editorial, /editorial|sub-skills|ladders/i, "no unexplained term");
+});
+
+test("C-25, About said \"Four things\" to every visitor: one count per number of verbs, and the alumni line apart", () => {
+  for (const n of [3, 4]) assert.match(Copy.about.counts[n], new RegExp(`^${["", "One", "Two", "Three", "Four"][n]} things`));
+  assert.doesNotMatch(Copy.about.lead, /Four|things/);
+  assert.doesNotMatch(Copy.about.networkLine, /alumni/);
+  assert.match(Copy.about.networkAlumni, /alumni/);
+});

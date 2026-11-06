@@ -83,7 +83,10 @@ test("the shell loads feedback.js after capture.js (after state.js, so auth.js k
   const html = fs.readFileSync(path.join(web, "index.html"), "utf8");
   const at = s => html.indexOf(`<script src="${s}"></script>`);
   assert.ok(at("capture.js") < at("feedback.js") && at("feedback.js") < at("app.js"));
-  assert.match(html, /<button type="button" class="linkish link" id="foot-feedback" hidden>/);
+  assert.match(html, /<button type="button" class="linkish footlink" id="foot-feedback" hidden>/);
+  // C-23, the footer said "About the data" and the page "About GradBuddy"; C-20, the footer's two links looked different
+  assert.match(html, /<a class="footlink" href="#\/about">About GradBuddy<\/a>/);
+  assert.equal(Copy.about.heading, "About GradBuddy");
   const cfgSrc = fs.readFileSync(path.join(web, "config.js"), "utf8");
   assert.match(cfgSrc, /FEEDBACK_ENABLED: (true|false),/, "the switch exists; it flipped on with chore/feedback-on once the table was applied");
   for (const k of ["link", "heading", "lead", "promptLead", "treeLead", "placeholder", "emailLabel", "count", "send", "sending", "notNow", "close", "empty", "thanks", "failed", "privacy"]) assert.equal(typeof Copy.feedback[k], "string", k);
@@ -115,4 +118,24 @@ test("capture sums the visible, active time of the heartbeats in this browser an
   assert.equal(C.visible(), 60000);
   await new Promise(r => setTimeout(r, 0));   // the posts go in a microtask
   assert.deepEqual(calls.map(r => r.name), ["heartbeat", "heartbeat"], "the sum is local; only the beats go");
+});
+
+// the usability pass of 2026-11-06, cluster "feedback, the sign-in, About and the chrome"
+test("C-09, the box took an address that is not an email: emailOk passes empty or one well-formed address, nothing else", () => {
+  for (const v of ["", "   ", null, undefined, "a@b.co", " wk@cornell.edu "]) assert.equal(F0.emailOk(v), true, String(v));
+  for (const v of ["not-an-email", "a@b", "a b@c.co", "@b.co", "a@@b.co", "x".repeat(320) + "@b.co"]) assert.equal(F0.emailOk(v), false, v);
+  assert.equal(Copy.feedback.badEmail, "Check the email, or leave it empty.");
+});
+
+test("C-03, the box sent the door's email unasked: offer names the address on file for one press, and send carries it only when it is in the box", async () => {
+  assert.equal(F0.offer("", "wk332@cornell.edu"), "wk332@cornell.edu");
+  assert.equal(F0.offer("WK332@cornell.edu", "wk332@cornell.edu"), "", "already in the box: no offer");
+  for (const f of ["", null, "not-an-email"]) assert.equal(F0.offer("", f), "", String(f));
+  const { F, calls } = make();
+  await F.send({ text: "hello", email: "" });
+  assert.equal("email" in calls[0].body, false, "the box empty: no email, whatever is on file");
+  assert.equal(Copy.fill(Copy.feedback.useEmail, { email: "a@b.co" }), "Use a@b.co");
+  const app = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  assert.match(app, /id="fb-email" maxlength="\$\{Feedback\.LIMITS\.email\}" value=""/, "the field is drawn empty");
+  assert.match(app, /Feedback\.emailOk\(em\.value\)/, "Send checks the field first");
 });
