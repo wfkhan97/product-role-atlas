@@ -2469,8 +2469,38 @@ management. The legal skills (contracts, litigation, IP, privacy) sit among the 
 scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
 the taxonomy, not to the bands.
 
+## The model read for the tech set (`feat/tech-infer`, 2026-11-06)
+
+**What changed.**
+- `/api/infer` offers a fourth set, `"all"`: the MBA list plus the 45 skills only the tech set has. They are offered by
+  name only, because tech skills have no definitions yet.
+- The site sends `"all"` only with `CONFIG.TECH_ENABLED` on. Its `found` then includes what the tech patterns found
+  (`Atlas.roughFit`'s new `shownT`).
+- The tech rough reader now applies the model's answer, as the MBA reader already did; before, the tech roles' rough
+  scores ignored it.
+- The `"both"` request stays byte-identical, so the site with the switch off asks exactly what it asked before.
+
+**The runs.** Both settings ran over the whole résumé set through this branch's preview route (the 8 samples plus 376
+published résumés, 344 files present). Answers were not in the store's caches, so every résumé was asked again, about
+$0.45 a run.
+- **`"both"`** (`infer_baseline.md`): 3.2 skills inferred per résumé; 40 bands up, none down. All four must-be-zero
+  counts are zero (credentials, behaviours, unknown ids, quotes not in the text).
+- **`"all"`** (`infer_baseline_tech.md`): 3.3 per résumé; 45 bands up, none down; the four counts are zero.
+  - On the 72 tech samples scored on their own tech role: 196 skills inferred, 56 of them tech-only (litigation,
+    databases, contracts, privacy law, visual design, backend services lead).
+  - Median score 38% → 41%, three bands up.
+- **One expectation lost in the `"both"` run.** `pivot_phd_hci` got `stakeholder_mgmt` from "coordinated timelines with
+  clinicians and IRB", and it is one of that sample's `real_gaps`. The request is unchanged, and the same résumé was not
+  tagged in the 2026-11-01 baseline or in the `"all"` run, so this is the model's variance. It is left as measured,
+  not tuned away.
+
 ## Later
 
+- Model read (2026-11-06): `pivot_phd_hci`'s `real_gaps` `stakeholder_mgmt` was tagged in 1 of 3 runs of the same
+  request (coordinating with clinicians and an IRB). Tighten the prompt's stakeholder reading only if it repeats.
+  Tech skills need definitions (the `what` the MBA skills have) before the `"all"` list matches the MBA list in detail.
+  Push `data/experiments/infer/` to the caches store (`pipeline.store push caches`), so `--reuse` works on another
+  checkout.
 - Tech bands (2026-11-06): ten or more samples for data and AI (5) and design (8), from résumé-site samples the
   owner downloads by hand or from more school guides (URI's data-science sample is a Google Doc, not fetched); counsel's
   asks, so that legal practice, not compliance, is what counsel asks for (a taxonomy change: the whole chain in

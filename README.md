@@ -75,7 +75,9 @@ per upload, to Claude Haiku 5.5 for the skills it shows without naming them, and
 `ANTHROPIC_API_KEY` in the project's environment variables and answers 503 without it, when the site reads the
 patterns alone. `CONFIG.INFER_ENABLED` (web/config.js) turns the call off. The local python server has no `/api`, so
 a local run reads the patterns alone; the eval is `node evals/infer.mjs` (evals/README.md, "The model read"), run
-over the whole external résumé set (`pipeline.store pull evals` first), never the eight samples alone (CLAUDE.md).
+over the whole external résumé set (`pipeline.store pull evals` first), never the eight samples alone (CLAUDE.md). With
+`CONFIG.TECH_ENABLED` on, the site asks with set `"all"`: the skill list adds the tech set's own skills, and what the
+tech patterns found counts as found (`Atlas.roughFit`'s `shownT`); `node evals/infer.mjs --set all` is its eval.
 
 A second function, `web/api/tree.js` (`POST /api/tree`, the visitor journey's step 4), builds a signed-in person's
 apprentice map without a model: the résumé text and one to four role ids of one field in, the class tree, the read and
