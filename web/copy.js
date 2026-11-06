@@ -521,6 +521,10 @@
     // the four level words on the rail and the card, the entry marks, the employer types
     levels: { associate: "Analyst or associate", mid: "Manager", staff: "Lead or principal", director: "Director" },
     entries: { mba: "MBA entry", bachelor: "Bachelor's entry", intern: "Internship" },
+    // the years filter: the most a posting may ask for; a posting that names no number always counts
+    years: { "2": "Up to 2 years", "5": "Up to 5 years", "8": "Up to 8 years" },
+    yearsNote: "Postings that name no number of years count too.",
+    yearsFact: "asks for {n}+ years", clearanceFact: "asks for a security clearance",
     employers: { fortune500: "Fortune 500", startup: "Startup", mba_employer: "MBA employer" },
     groupStartup: "Startup", groupMBA: "MBA employer", groupFortune: "Fortune {n}",
     who: { intern: "An internship", mba: "A job for MBA graduates", grads: "A job for new graduates" },
@@ -533,8 +537,8 @@
     dupeOne: "1 more posting", dupes: "{n} more postings", dupeAfter: "with this title at {company}{where}. We show it once.", dupeWhere: " in {location}",
     // the rail
     dead: "No posting matches this with the other filters on",
-    facets: { field: "Field", role: "Role", level: "Level", entry: "Entry", group: "Employer type", company: "Company", work: "Work" },
-    remoteFacet: "Remote", sponsorFacet: "Says it sponsors a visa",
+    facets: { field: "Field", role: "Role", level: "Level", entry: "Entry", years: "Years of experience", sector: "Industry", group: "Employer type", company: "Company", work: "Work" },
+    remoteFacet: "Remote", sponsorFacet: "Says it sponsors a visa", noclearFacet: "No security clearance",
     more: "more…",
     // the empty state and the count
     quoted: "“{q}”", inLoc: "in {loc}",

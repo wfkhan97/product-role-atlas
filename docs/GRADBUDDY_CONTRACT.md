@@ -131,7 +131,12 @@ raw, 1.8 MB gzipped); home reads `jobs_meta.json`, the counts alone.
 **What is in it.** Every product posting is open: `graph.json` drops closed ones. A product posting is in when its
 country is `United States`. An MBA posting is in when its row in `graph_mba/<role id>.json` has `open` true and the
 country of the index's `meta`. `jobs_meta.json` holds the current counts (on 2026-11-06: 32,482 rows, 1,511
-companies, 58 roles). No pay (no posting carries one), no snippet, no sub-skills, no years of experience.
+companies, 58 roles). No pay (no posting carries one), no snippet, no sub-skills.
+
+**Skills and requirements.** A row's `skills` are what a person can learn or show. Credentials (years, degrees,
+licences, clearance; kind `credential`) are never in them: the years asked are the `yoe` column and a clearance ask is
+flag `128`. An industry (cluster `domain`) is in them only when it defines the posting's MBA role (`graph_mba.json`
+`roles.<id>.defining`); the employer's industry is `companies[].sector`.
 
 **The shape.** Column-oriented. The tables are lists, and a row indexes into them:
 
@@ -143,15 +148,15 @@ companies, 58 roles). No pay (no posting carries one), no snippet, no sub-skills
 - `levels` (`product`, `mba`: the eight level ids of each set), `level_labels` (the same, with words), `flags` (the bit
   names below), `generated`, `country`.
 - `rows[]`, sorted by set then by number. Each row is, in this order:
-  `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen]`. `levelIdx` indexes
+  `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe]`. `levelIdx` indexes
   `levels[<set>]`; `skills` are indexes into `skill_ids`, sorted; `url` is the posting's URL after its company's
-  `url_prefix`; `firstSeen` is a date or null.
+  `url_prefix`; `firstSeen` is a date or null; `yoe` is the years of experience the posting asks for, or null.
 - The flag bits: `1` MBA set (clear for the product set), `2` internship, `4` remote, `8` MBA entry, `16` bachelor's
-  entry (`pre_mba`), `32` says it sponsors a visa, `64` says it does not.
+  entry (`pre_mba`), `32` says it sponsors a visa, `64` says it does not, `128` asks for a security clearance.
 
 `Jobs.rowsOf(file)` (`web/jobs.js`; `require("web/jobs.js")` in node) expands the file once into row objects:
 `{ id, set, role, title, company, group, sector, level, entry, intern, location, remote, sponsorship, url, skills,
-first_seen }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
+first_seen, yoe, clearance }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
 `m<num>` for an MBA posting, where `num` is its row id in the role file. So a row joins back to the graphs. `set` is
 `product` or `mba`; `entry` is `mba` · `pre_mba` · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
 `skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA rows and null on the product rows until

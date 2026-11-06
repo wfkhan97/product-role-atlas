@@ -209,7 +209,10 @@
     const grows = id => { const l = lead.share(id), e = entry.share(id); return l >= GROW.ratio * Math.max(GROW.floor, e) && l >= GROW.min; };
     const rows = [[[], []], [[], []], [[], []]];
     for (const s of R.skills) {
-      if (s.cluster === "credentials" || s.id.startsWith(CRED_PREFIX)) continue;
+      if (s.cluster === "credentials" || s.kind === "credential" || s.id.startsWith(CRED_PREFIX)) continue;
+      // an industry (cluster domain) is the employer's sector, listed under the role's Industries; it is one of the
+      // role's skills only when it defines the role (fintech for treasury; skills audit, 2026-11-06)
+      if (s.cluster === "domain" && !R.role.defining.has(s.id)) continue;
       const sh = st.share(s.id);
       const tier = sh >= TIER.core ? 0 : sh >= TIER.common ? 1 : sh >= TIER.some ? 2 : null;
       if (tier === null) continue;

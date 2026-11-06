@@ -15,8 +15,12 @@ const fresh = async () => {
 };
 const { SM, ix } = await fresh();
 
-test("every skill of the MBA index is on the map, at a point inside the drawing", () => {
-  assert.deepEqual(Object.keys(SM.byId).sort(), ix.M.skills.map(s => s.id).sort());
+test("every skill of the MBA index is on the map, at a point inside the drawing; credentials and the industries that define no role are not", () => {
+  const defines = new Set(Object.values(ix.M.roles).flatMap(r => (r.defining || []).map(a => a.id)));
+  const learnable = s => s.cluster !== "credentials" && s.kind !== "credential" && (s.cluster !== "domain" || defines.has(s.id));
+  assert.deepEqual(Object.keys(SM.byId).sort(), ix.M.skills.filter(learnable).map(s => s.id).sort());
+  assert.ok(!SM.byId.bachelors && !SM.byId.yoe_5, "no credential on the map");
+  assert.ok(SM.byId.fintech, "fintech defines the banking roles, so it stays");
   for (const nd of SM.nodes) {
     assert.ok(Number.isFinite(nd.x) && Number.isFinite(nd.y), `${nd.id} has a position`);
     assert.ok(nd.x >= 0 && nd.x <= SM.A && nd.y >= 0 && nd.y <= 1, `${nd.id} at ${nd.x}, ${nd.y} is outside ${SM.A} x 1`);

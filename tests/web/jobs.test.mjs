@@ -161,7 +161,10 @@ test("the state round-trips through the query string; defaults stay out", () => 
   assert.equal(J.parseState("page=abc").page, 1);
   assert.equal(J.parseState("page=-2").page, 1);
   assert.equal(J.stateQuery({ company: "Goldman Sachs & Co" }), "company=Goldman+Sachs+%26+Co");
-  assert.deepEqual(J.filterOf(s), { field: "product", role: "", level: "mid", entry: "", location: "new york", remote: true, sponsor: false, group: "", company: "" });
+  assert.deepEqual(J.filterOf(s), { field: "product", role: "", level: "mid", entry: "", years: "", sector: "", location: "new york", remote: true, sponsor: false, noclear: false, group: "", company: "" });
+  const t = { ...J.blankState(), years: "5", sector: "Health Care", noclear: true };
+  assert.equal(J.stateQuery(t), "years=5&sector=Health+Care&noclear=1");
+  assert.deepEqual(J.parseState(J.stateQuery(t)), t, "the years, the industry and the clearance filter round-trip");
   assert.ok(J.isFiltered(J.filterOf(s)) && !J.isFiltered(J.filterOf(J.blankState())));
 });
 
@@ -181,17 +184,17 @@ test("rowsOf expands the column-oriented file into the row objects the other fun
     companies: [{ name: "Acme", group: "fortune50", sector: "Consulting", url_prefix: "https://acme.test/jobs/" }, { name: "Adobe", group: "fortune250", sector: null, url_prefix: "" }],
     locations: ["New York, NY", "Remote - USA"], roles: ["management_consultant", "product.pm"], titles: ["Consultant", "Director of Product"],
     rows: [
-      [7, 0, 0, 0, 2, 0, 1 | 8 | 32, [0, 1], "123", null],
-      [3, 1, 1, 1, 1, 1, 4, [3], "https://adobe.test/x", "2026-10-01"],
+      [7, 0, 0, 0, 2, 0, 1 | 8 | 32, [0, 1], "123", null, 5],
+      [3, 1, 1, 1, 1, 1, 4 | 128, [3], "https://adobe.test/x", "2026-10-01", null],
       [9, 0, 0, 0, 0, 0, 1 | 2 | 16 | 64, [], "", null],
     ],
   };
   const rows = J.rowsOf(file);
-  assert.deepEqual(rows[0], { id: "m7", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "senior", entry: "mba", intern: false, location: "New York, NY", remote: false, sponsorship: "yes", url: "https://acme.test/jobs/123", skills: [0, 1], first_seen: null });
-  assert.deepEqual(rows[1], { id: "p3", set: "product", role: "product.pm", title: "Director of Product", company: "Adobe", group: "fortune250", sector: null, level: "mid", entry: null, intern: false, location: "Remote - USA", remote: true, sponsorship: null, url: "https://adobe.test/x", skills: [3], first_seen: "2026-10-01" });
-  assert.deepEqual(rows[2], { id: "m9", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "associate", entry: "pre_mba", intern: true, location: "New York, NY", remote: false, sponsorship: "no", url: "https://acme.test/jobs/", skills: [], first_seen: null });
+  assert.deepEqual(rows[0], { id: "m7", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "senior", entry: "mba", intern: false, location: "New York, NY", remote: false, sponsorship: "yes", url: "https://acme.test/jobs/123", skills: [0, 1], first_seen: null, yoe: 5, clearance: false });
+  assert.deepEqual(rows[1], { id: "p3", set: "product", role: "product.pm", title: "Director of Product", company: "Adobe", group: "fortune250", sector: null, level: "mid", entry: null, intern: false, location: "Remote - USA", remote: true, sponsorship: null, url: "https://adobe.test/x", skills: [3], first_seen: "2026-10-01", yoe: null, clearance: true });
+  assert.deepEqual(rows[2], { id: "m9", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "associate", entry: "pre_mba", intern: true, location: "New York, NY", remote: false, sponsorship: "no", url: "https://acme.test/jobs/", skills: [], first_seen: null, yoe: null, clearance: false });
   assert.deepEqual(J.rowsOf({}), []);
-  assert.deepEqual(Object.keys(J.FLAGS), ["mba", "intern", "remote", "entry_mba", "entry_pre_mba", "sponsor_yes", "sponsor_no"]);
+  assert.deepEqual(Object.keys(J.FLAGS), ["mba", "intern", "remote", "entry_mba", "entry_pre_mba", "sponsor_yes", "sponsor_no", "clearance"]);
 });
 
 // ---------- the real file ----------
@@ -209,10 +212,11 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
   assert.equal(new Set(D.companies.map(c => c.name)).size, D.companies.length, "companies are distinct");
   for (const c of D.companies) { assert.equal(typeof c.name, "string"); assert.equal(typeof c.group, "string"); assert.equal(typeof c.url_prefix, "string"); assert.ok(c.url_prefix === "" || /^https?:\/\/.+\/$/.test(c.url_prefix), `${c.name}: url_prefix ${c.url_prefix}`); }
   for (const r of D.rows) {
-    assert.equal(r.length, 10, "ten columns");
+    assert.equal(r.length, 11, "eleven columns");
+    assert.ok(r[10] === null || (typeof r[10] === "number" && r[10] > 0 && r[10] < 40), `yoe ${r[10]}`);
     assert.ok(Number.isInteger(r[0]) && r[0] >= 0, `num ${r[0]}`);
     assert.ok(D.companies[r[1]], `company index ${r[1]}`); assert.ok(D.roles[r[2]], `role index ${r[2]}`); assert.ok(D.titles[r[3]] != null, `title index ${r[3]}`); assert.ok(D.locations[r[5]] != null, `location index ${r[5]}`);
-    assert.ok(Number.isInteger(r[6]) && r[6] >= 0 && r[6] < 128, `flags ${r[6]}`);
+    assert.ok(Number.isInteger(r[6]) && r[6] >= 0 && r[6] < 256, `flags ${r[6]}`);
     assert.equal(typeof r[8], "string");
   }
   const jobs = J.rowsOf(D);
@@ -227,6 +231,9 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
   const levels = { product: new Set(G.levels), mba: new Set(M.levels) }, roles = new Set(Object.keys(M.roles)), seen = new Set();
   for (const set of ["product", "mba"]) for (const id of D.levels[set]) assert.ok(J.LEVEL_WORDS[set][id], `${set} level ${id} has a level word`);
   const byProduct = new Map(G.jobs.map(j => [j.id, j]));
+  const cluster = Object.fromEntries([...G.skills, ...M.skills].map(s => [s.id, s.cluster]));
+  const definingOf = role => new Set(((M.roles[role] || {}).defining || []).map(a => a.id));
+  const keeps = (set, role, id) => cluster[id] !== "credentials" && (cluster[id] !== "domain" || (set === "mba" && definingOf(role).has(id)));
   for (const j of jobs) {
     assert.ok(!seen.has(j.id), `duplicate id ${j.id}`); seen.add(j.id);
     assert.ok((j.set === "product" && j.id[0] === "p") || (j.set === "mba" && j.id[0] === "m"), `${j.id}: set ${j.set}`);
@@ -236,7 +243,8 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
     assert.ok(typeof j.title === "string" && j.title, `${j.id}: title`);
     assert.ok(/^https?:\/\//.test(j.url), `${j.id}: url ${j.url}`);
     for (const i of j.skills) assert.ok(Number.isInteger(i) && i >= 0 && i < D.skill_ids.length, `${j.id}: skill index ${i}`);
-    assert.ok(!("snippet" in j) && !("sub" in j) && !("yoe" in j) && !("country" in j), `${j.id} carries a field the file leaves out`);
+    assert.ok(!("snippet" in j) && !("sub" in j) && !("country" in j), `${j.id} carries a field the file leaves out`);
+    for (const i of j.skills) { const c = cluster[D.skill_ids[i]]; assert.ok(c !== "credentials", `${j.id}: a credential ${D.skill_ids[i]} is not a skill`); if (c === "domain") assert.ok(j.set === "mba" && definingOf(j.role).has(D.skill_ids[i]), `${j.id}: industry ${D.skill_ids[i]} kept though it does not define ${j.role}`); }
     assert.equal(typeof j.remote, "boolean"); assert.equal(typeof j.intern, "boolean");
     if (j.set === "product") assert.equal(j.entry, null);
   }
@@ -245,6 +253,21 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
     const g = byProduct.get(Number(j.id.slice(1)));
     assert.ok(g, `${j.id} is in graph.json`);
     assert.equal(j.title, g.title); assert.equal(j.company, g.company); assert.equal(j.url, g.url); assert.equal(j.level, g.level); assert.equal(j.location, g.location || ""); assert.equal(j.remote, !!g.remote);
-    assert.deepEqual(j.skills.map(i => D.skill_ids[i]).sort(), g.skills.map(i => G.skill_ids[i]).sort());
+    assert.deepEqual(j.skills.map(i => D.skill_ids[i]).sort(), g.skills.map(i => G.skill_ids[i]).filter(id => keeps("product", j.role, id)).sort());
+    assert.equal(j.yoe, g.yoe == null ? null : g.yoe); assert.equal(j.clearance, g.skills.some(i => G.skill_ids[i] === "security_clearance"));
   }
+});
+
+// ---------- the years, the industry and the clearance (skills audit, 2026-11-06) ----------
+test("years keeps postings that ask that many or fewer, or name none; industry is the employer's sector; noclear drops clearance asks", () => {
+  const R = [row("a", { yoe: 2 }), row("b", { yoe: 5, sector: "Health Care" }), row("c", { yoe: null, clearance: true }), row("d", { yoe: 8, sector: "Health Care" })];
+  const f = o => J.filterJobs(R, o, {}).map(r => r.id);
+  assert.deepEqual(f({ years: "2" }), ["a", "c"], "a posting that names no years counts");
+  assert.deepEqual(f({ years: "5" }), ["a", "b", "c"]);
+  assert.deepEqual(f({ years: "8" }), ["a", "b", "c", "d"]);
+  assert.deepEqual(f({ sector: "Health Care" }), ["b", "d"]);
+  assert.deepEqual(f({ noclear: true }), ["a", "b", "d"]);
+  assert.deepEqual(J.facetCounts(R, { sector: "Health Care" }, "years", J.YEARS.map(([v]) => v), {}), { 2: 0, 5: 1, 8: 2 });
+  assert.deepEqual(J.YEARS.map(([v]) => v), ["2", "5", "8"]);
+  assert.ok(J.isFiltered({ years: "5" }) && J.isFiltered({ noclear: true }) && J.isFiltered({ sector: "Retail" }));
 });
