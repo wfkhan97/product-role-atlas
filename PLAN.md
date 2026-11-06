@@ -2588,7 +2588,7 @@ shares alone. A tech role's pool uses the same rules over the tech index's skill
 - **Spot the real ask** reads passages that `pipeline/game_passages.py` cuts from postings; none are cut from tech
   postings yet.
 - **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
-  A tech edition is a design choice: which set a game deals, and how a player reaches it. That is the owner's.
+  The owner decided on 2026-11-06 that both stay business-only: no tech edition.
 
 ## Later
 
@@ -2610,7 +2610,7 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: a tech edition of Guess the role and Where's the demand, or the owner's word that they stay business-only ("The games for the tech set"); a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
 - The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
   gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
