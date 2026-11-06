@@ -377,16 +377,17 @@ test("sortCards 'gaps' orders by the share covered, then the score, then the fie
   assert.equal(C.NO_COVER_LINE, "No class names your gaps. These are the closest.");
 });
 
-test("inField: a card whose subject is in the list; fieldSubjects reads the campus map for the roles' fields", () => {
+test("inField: a card whose subject is in the list; fieldSubjects reads the campus map for the roles' fields, MBA and tech", () => {
   const [tech, bana] = C.collapse({ classes: [cls("TECH 1"), cls("BANA 2")] }).sort((a, b) => a.key < b.key ? 1 : -1);
   assert.equal(C.inField(tech, ["TECH", "NBAY"]), true); assert.equal(C.inField(bana, ["TECH", "NBAY"]), false); assert.equal(C.inField(tech, []), false); assert.equal(C.inField(tech, null), false);
   const fs = campus.field_subjects;
-  assert.deepEqual(Object.keys(fs).sort(), readJson("roles_mba.json").groups.map(g => g.id).sort(), "one entry per field of the MBA role set, shown or not yet");
-  for (const g of readJson("graph_mba.json").groups) assert.ok(Array.isArray(fs[g.id]) && fs[g.id].length, `field_subjects lacks ${g.id}`);
+  assert.deepEqual(Object.keys(fs).sort(), [...readJson("roles_mba.json").groups, ...readJson("roles_tech.json").groups].map(g => g.id).sort(), "one entry per field of the MBA and tech role sets, shown or not yet");
+  for (const g of [...readJson("graph_mba.json").groups, ...readJson("graph_tech.json").groups]) assert.ok(Array.isArray(fs[g.id]) && fs[g.id].length, `field_subjects lacks ${g.id}`);
   assert.deepEqual(C.fieldSubjects(campus, ["product"]), fs.product);
   assert.deepEqual(C.fieldSubjects(campus, ["finance", "analytics"]), [...new Set([...fs.finance, ...fs.analytics])]);
   assert.deepEqual(C.fieldSubjects(campus, ["nowhere"]), []); assert.deepEqual(C.fieldSubjects(null, ["product"]), []);
   assert.ok(fs.product.includes("TECH") && fs.finance.includes("NBAY") && fs.analytics.includes("BANA") && fs.risk.includes("LAW"));
+  assert.ok(fs.software.includes("CS") && fs.data_ai.includes("ORIE") && fs.design.includes("DESIGN") && fs.legal.includes("LAW"));
 });
 
 test("combineRoles: a gap when any role leaves it open, weight summed over the roles that do and divided by the count, tier core when core anywhere; rows the same way", () => {

@@ -165,7 +165,9 @@ and evals run the code the site runs.
   transfer vocabulary, skills presumed from a role held. A behaviour is credited through its carriers (`pickCarriers`),
   status `through`. `createMatcher({ behaviours })` is `"show"` or `"score"` as the bands files record. The model
   read's skills merge as status `inferred`, credit 0.75. `Matcher.bandOf(score, bands, group)` reads
-  `web/data/bands*.json` (written by `evals/calibrate.mjs`; cut points, never round numbers).
+  `web/data/bands*.json` (written by `evals/calibrate.mjs`; cut points, never round numbers). A résumé's job titles
+  are read with the role set's rules, plus a few only résumés need: a law-firm "Associate", a judicial internship, an
+  internship named by its field ("Embedded Software Intern"), and `RESUME_TITLE` for families the set holds.
 - `evidence_text.js` — every sentence a screen shows about a skill, built from the data: the example line, what the
   skill means in the field, the gap sentence by kind, the measures to add. Checked by `evals/adaptive.mjs`.
 - `app.js` — the screens (README table), the pure tables `Routes.parseRoute`, `Stage` (what each stage leads with),
