@@ -142,8 +142,9 @@ test("with no résumé, the professors sort by the role's core asks their classe
   assert.deepEqual(C.profs.map(p => [p.slug, p.asks.length]), [["zed", 2], ["pat", 1], ["sam", 0]], "most asks taught first, not by name");
   const f = N.who("faculty", C).profs;
   assert.deepEqual([f[0].asks.length, f[0].nAsks, f[0].read], [2, 5, false]);
-  assert.equal(N.fill(N.COPY.teachesOf, { n: 2, m: 5 }), "teaches 2 of 5 asks");
-  assert.equal(N.targetsOf("faculty", C)[0].hint, "teaches 2 of 5 asks");
+  // the count says what "asks" are in plain words (the usability pass, 2026-11-06: the Faculty tab's "asks")
+  assert.equal(N.fill(N.COPY.teachesOf, { n: 2, m: 5 }), "teaches 2 of the 5 skills this role's postings ask for most");
+  assert.equal(N.targetsOf("faculty", C)[0].hint, "teaches 2 of the 5 skills this role's postings ask for most");
   // with a résumé the gaps sort stays
   const Cr = N.ctx(IX, R, FIT, O({ flag: "cornell", roster: true, profs: rows }));
   assert.deepEqual(Cr.profs.map(p => [p.slug, p.covers.length]), [["pat", 1], ["zed", 1], ["sam", 0]], "gaps covered (Forecasting is shown, so Zed covers one), then name");

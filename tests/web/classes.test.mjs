@@ -42,7 +42,7 @@ test("a cross-list to a code outside the dataset is carried on the card but does
 test("meeting lines mark DIS and LAB components and leave LEC unmarked", () => {
   const pair = C.collapse(DATA).find(c => c.key === "TEST 1020");
   assert.deepEqual(C.meetingLines(pair.sections), ["MW · 10:10–11:25 · Room A", "DIS F · 9:05–9:55 · Room B"]);
-  assert.deepEqual(C.meetingLines([{ component: "LAB", meetings: [] }]), ["LAB time to be announced"]);
+  assert.deepEqual(C.meetingLines([{ component: "LAB", meetings: [] }]), ["LAB time not set yet"], "the words of Copy.classes.timeTBA, active voice");
 });
 
 // ---------- the grading line (owner feedback 2026-11-01) ----------
@@ -484,4 +484,58 @@ test("roster order: subject, then the number read as a number", () => {
   const cards = C.collapse({ classes: [cls("CS 5304"), cls("BANA 6010"), cls("CS 600"), cls("CS 5110")] });
   assert.deepEqual(C.sortCards(cards, "roster").map(c => c.key), ["BANA 6010", "CS 600", "CS 5110", "CS 5304"]);
   assert.deepEqual(C.sortCards(cards, undefined).map(c => c.key), ["BANA 6010", "CS 600", "CS 5110", "CS 5304"], "any other mode is the roster's order");
+});
+
+// ---------- the usability pass of 2026-11-06 (cluster "Find classes and the campus gate") ----------
+const Copy = require(path.join(web, "copy.js"));
+const fs = require("fs");
+
+test("a card says \"1 credit\" for one credit and \"N credits\" otherwise, in the panel's words too", () => {
+  assert.equal(C.creditsLine("1"), "1 credit");
+  assert.equal(C.creditsLine("1.0"), "1.0 credit", "the roster's number as written, singular because it is one");
+  assert.equal(C.creditsLine("3"), "3 credits");
+  assert.equal(C.creditsLine("1-5"), "1-5 credits");
+  assert.equal(C.creditsLine(null), Copy.classes.noCredits);
+  const one = C.collapse({ classes: [cls("TECH 5200", { credits: "1" })] })[0];
+  assert.match(C.cardHtml(one, { campus }), /<p class="facts">1 credit</);
+  assert.doesNotMatch(C.cardHtml(one, { campus }), /1 credits/);
+});
+
+test("the card's words come from Copy.classes, so the copy checks read them; none is left in catalog.js", () => {
+  const src = fs.readFileSync(path.join(web, "catalog.js"), "utf8");
+  for (const s of ["from the course description", "reading…", "Instructor to be announced", "credits not listed", "time to be announced", "None of the role's main asks named", "Read from the roster text", "No class names your gaps"]) assert.ok(!src.includes(s), `catalog.js still says "${s}"`);
+  const CL = Copy.classes;
+  const card = C.collapse({ classes: [cls("TEST 9")] })[0];
+  assert.match(C.cardHtml(card, { campus }), new RegExp(CL.noInstructor), "no instructor on the roster");
+  assert.match(C.cardHtml(card, { campus, roleId: "fpa" }), new RegExp(`${CL.fromDescription}[\\s\\S]*${CL.reading}`));
+  assert.match(C.cardHtml(card, { campus, roleId: "fpa", rel: { band: "low", matched: [] } }), new RegExp(CL.noneNamed.replace(/[.']/g, ".")));
+  assert.equal(C.NO_COVER_LINE, CL.noCoverLine);
+  assert.equal(C.coverLine([], 2), Copy.fill(CL.coverNone, { total: 2 }));
+});
+
+test("the pre-enrollment dates under the heading are read from the campus entry, never written in the code", () => {
+  const ct = FILE.campuses.find(c => c.id === "cornell_tech");
+  const line = C.datesLine(ct);
+  assert.ok(line.includes(ct.pre_enrollment.label), line);
+  assert.ok(line.includes(ct.roster_updates_until), line);
+  assert.equal(line, `${Copy.fill(Copy.classes.preEnrollment, { dates: ct.pre_enrollment.label })} ${Copy.fill(Copy.classes.rosterUpdates, { date: ct.roster_updates_until })}`);
+  assert.equal(C.datesLine({ ...ct, roster_updates_until: null }), Copy.fill(Copy.classes.preEnrollment, { dates: ct.pre_enrollment.label }), "no roster date: the window alone");
+  assert.equal(C.datesLine({ id: "x" }), "", "no dates in the entry: no line");
+  for (const f of ["catalog.js", "classes.js", "copy.js"]) assert.ok(!/Nov 1[0-6]/.test(fs.readFileSync(path.join(web, f), "utf8")), `${f} carries no date of its own`);
+});
+
+test("the gap names: the first few by name, then \"and N more\"", () => {
+  assert.equal(C.namesLine(["A"], 3), "A");
+  assert.equal(C.namesLine(["A", "B", "C"], 3), "A, B and C");
+  assert.equal(C.namesLine(["A", "B", "C", "D", "E"], 3), "A, B, C and 2 more");
+  assert.equal(C.namesLine([], 3), "");
+});
+
+test("an empty list names the filters that emptied it, in the order the screen draws them", () => {
+  const CL = Copy.classes;
+  assert.deepEqual(C.activeFilters({}), [], "nothing on: the bare no-match line and no Clear button");
+  assert.deepEqual(C.activeFilters({ q: "  zzzz ", subject: "TECH" }), [Copy.fill(CL.filterSearch, { q: "zzzz" }), Copy.fill(CL.filterSubject, { subject: "TECH" })]);
+  assert.deepEqual(C.activeFilters({ days: ["M"], instructor: "Pat" }), [Copy.fill(CL.filterNamed, { name: CL.facets.days }), Copy.fill(CL.filterNamed, { name: CL.facets.professor })], "a facet alone empties the list: the line names the facet, not the search");
+  assert.deepEqual(C.activeFilters({ coversGap: true, credits: ["3"], elig: ["x"] }).length, 3);
+  assert.ok(!CL.noMatch.includes("search"), "the bare line no longer tells the person to clear a search that may be empty");
 });

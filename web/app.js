@@ -131,6 +131,12 @@
       const names = [...new Set((campuses || []).filter(c => c && c.catalog && c.flag).map(c => Copy.network.schools[c.flag]).filter(Boolean))];
       return names.length ? Copy.fill(Copy.door.school, { schools: names.join(" or ") }) : "";
     },
+    // the line home shows after a roster screen sent the visitor there: the campuses whose address opens Find classes,
+    // from the same list as schoolLine; with none, that Find classes is not open
+    bounceLine: campuses => {
+      const names = [...new Set((campuses || []).filter(c => c && c.catalog && c.flag).map(c => Copy.network.schools[c.flag]).filter(Boolean))];
+      return names.length ? Copy.fill(Copy.home.classesOnly, { schools: names.join(" or ") }) : Copy.home.classesClosed;
+    },
     // a count in words, rounded down so the sentence stays true until the next refresh: 25,950 -> "25 thousand",
     // 1,502 -> "1,500", 54 -> "50"
     thousands: n => n >= 1000 ? `${Math.floor(n / 1000)} thousand` : Door.hundreds(n),
@@ -504,6 +510,7 @@
   const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   let screenNow = null;   // the screen route() drew last (the door's chrome reads it)
+  let bouncedFrom = null; // the roster screen route() just sent home (Door.reach): home says why, once
   function route() {
     if (!CAMPUSES) { campusesP.then(route); return; }   // the campus gate reads the campus list: once, before the first draw
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
@@ -520,7 +527,8 @@
     // the URL is rewritten too, so the address bar never says a screen the person cannot reach
     const name0 = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name;
     const name = Door.reach(name0, campusGate().open), { id, slug } = parsed.params;
-    if (name !== name0) { toHash("#/home"); return; }
+    // home then says why, once (bouncedFrom: home() reads it and clears it)
+    if (name !== name0) { bouncedFrom = name0; toHash("#/home"); return; }
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
@@ -643,8 +651,12 @@
       // the top bar drew before the return was kept: draw it again, so a campus address shows Find classes at once
       if (ret.email || ret.where) { keepDoor(ret.email, whereId(ret.where)); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); topBar("home"); }
     }
+    // after a bounce from Find classes or a professor (Door.reach), one line says who the screen is for and links to
+    // the door (#/), where the email can change; a visit to home without a bounce draws no line
+    const bounced = bouncedFrom; bouncedFrom = null;
     const [ix, n] = await Promise.all([Atlas.index(), openCounts()]);
     const C = Door.COPY;
+    const bounceLine = bounced ? Door.bounceLine(CAMPUSES || []) : "";
     let doneHere = false;   // finished or skipped the inline questions on this visit: the summary, even with nothing answered
     const drawYou = () => {
       const body = $("#home-you-body"); if (!body) return;
@@ -654,7 +666,7 @@
     const render = () => {
       const cards = Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).filter(v => v.open)
         .map(v => `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`);
-      page(`<h1>${esc(C.home)}</h1><div class="verbs n${cards.length}">${cards.join("")}</div>
+      page(`<h1>${esc(C.home)}</h1>${bounceLine ? `<p class="notice home-bounce" role="status">${esc(bounceLine)} <a href="#/">${esc(Copy.home.changeEmail)}</a></p>` : ""}<div class="verbs n${cards.length}">${cards.join("")}</div>
         <section class="home-you" aria-labelledby="home-you-h"><h2 id="home-you-h">${esc(YOU.inline.heading)}</h2><div id="home-you-body"></div></section>`);
       main.firstElementChild.classList.add("home-page");
       main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
@@ -2543,7 +2555,9 @@
     const RR = RL.rail;
     // the rail ends in one link into the class picker with this role chosen (classes.js reads ?role= and adds it to
     // the roles on file); it replaced "Do something with this" and "Then" (practice, a course, events) on 2026-11-01
-    const cta = window.ClassScreens ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
+    // only for a visitor whose address opens a roster (campusGate, as the top bar): for anyone else #/classes goes home
+    const classesOpen = !!window.ClassScreens && campusGate().open;
+    const cta = classesOpen ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
     const drop = `<div class="drop" id="drop"><p><b>${esc(RF.dropShort)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
       if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
@@ -2566,13 +2580,13 @@
     const infLine = coreInf ? `<p class="small muted">◈ ${esc(fill(RR.inferredLine, { n: coreInf }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.inferredSee)}</a></p>` : "";
     const slotWhy = x => x.slot === "__domain" ? esc(fill(RR.industry, { names: fit.r.industries.slice(0, 3).map(d => d.name).join(", ") })) : x.slot === "__ai" ? esc(fill(RR.ai, { names: fit.r.ai.map(k => R.skillById[k] ? R.skillById[k].name : k).join(", ") })) : "";
     const gc = gapClassesFor(fit, R, () => showAside(null));
-    const classLinks = id => { const cs = gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">${esc(RR.classesCover)} ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
+    const classLinks = id => { const cs = classesOpen && gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">${esc(RR.classesCover)} ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
     const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` ${esc(RR.lineShows)} <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : esc(RR.openSkillHow))); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${classLinks(x.id)}${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">${esc(RR.helpBuild)}</button> · <button type="button" class="linkish link" data-wait="positioning">${esc(RR.helpPosition)}</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">${esc(RR.openSkill)}</button>` : ""}</div>` : ""}</li>`; };
     // the classes that cover the most core gaps (step 3 of the pass): three links into the picker with the course open;
     // when the roster cannot be read here, one line from the campus file and the picker's link
     const termName = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
     const classesHead = `<h3 class="rh" style="margin-top:14px">${esc(RR.classesHeading)}</h3>`;
-    const classesBlock = !coreGaps.length ? "" : !gc ? `${classesHead}<p class="small muted">${esc(fill(RR.readingRoster, { term: termName }))}</p>`
+    const classesBlock = !coreGaps.length || !classesOpen ? "" : !gc ? `${classesHead}<p class="small muted">${esc(fill(RR.readingRoster, { term: termName }))}</p>`
       : gc.closed ? `${classesHead}<p class="small muted">${esc(gc.closed)} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.termClasses, { term: termName }))}</a></p>`
       : gc.top && gc.top.length ? `${classesHead}<ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">${esc(fill(RR.covers, { names: c.covered.map(g => g.name).join(", ") }))}</div></li>`).join("")}</ul><p class="small muted" style="margin-top:6px"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.allClasses, { term: termName }))}</a></p>`
       : gc.failed ? "" : `${classesHead}<p class="small muted">${esc(fill(RR.noClass, { term: termName }))} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.seeRoster)}</a></p>`;

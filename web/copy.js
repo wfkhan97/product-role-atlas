@@ -119,6 +119,11 @@
       classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
       network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with." },
     },
+    // one line over the cards after #/classes or #/professor sent a visitor home (app.js route(), Door.reach): {schools}
+    // are the campuses with a loaded roster (Door.schoolLine's list); the link goes to the door (#/)
+    classesOnly: "Find classes is for {schools} email addresses today.",
+    classesClosed: "Find classes is not open yet.",
+    changeEmail: "Change your email →",
   };
 
   // ---------- the intake box (v19 B5): the one call to action ----------
@@ -606,7 +611,7 @@
     noTitle: "Title not on the roster",
     sideAria: "Prep a chat",
     gapsOf: "{n} of {m} gaps", covers: " · covers {names}",
-    teachesOf: "teaches {n} of {m} asks", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
+    teachesOf: "teaches {n} of the {m} skills this role's postings ask for most", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
     moreProfs: "{n} more in the Professor list of the prep card.",
     rosterFailed: "The roster did not load. Reload the page to try again.",
     // the school's name in the alumni links, by the door's campus flag (app.js Door.campus)
@@ -726,6 +731,11 @@
     rosterFailed: "We could not read the roster: {message}.",
     rosterEmpty: "The roster is empty right now. Check back after the next refresh.",
     matchRoles: "Match to roles", addRole: "Add a role", pickRole: "Pick a role", addRoleAria: "Add a role", removeRole: "Remove {role}",
+    // the lead under the heading while no role is chosen, and the line in place of the résumé row once a résumé is read
+    pickRoleLead: "Pick a role first. Each class then shows how well it fits that role.",
+    resumeNoRole: "Résumé read. Pick a role above to see your gaps.",
+    // the pre-enrollment dates under the heading, from the campus entry (pre_enrollment.label, roster_updates_until)
+    preEnrollment: "Pre-enrollment: {dates}.", rosterUpdates: "The roster can change until {date}.",
     // the collapsible facets under the subject row (owner feedback 2026-11-01); a closed facet names how many it holds
     facets: { days: "Days", credits: "Credits", eligibility: "Who can take it", professor: "Professor" },
     facetOn: "{label} · {n}",
@@ -738,10 +748,21 @@
     readFit: "Read my fit →",
     gapLine: "Your fit for {roles} leaves {gaps}. Each card says which it covers, read from the course text by kind. A course can show craft, not how you work.",
     gap: "1 gap", gaps: "{n} gaps",
+    // the gaps by name under the gap line: the first few, then "and N more" (Catalog.namesLine)
+    gapNames: "Your gaps: {names}.", andMore: "{names} and {n} more",
     noGaps: "Your résumé shows every skill most {roles} postings ask for; nothing to cover.",
     searchPlaceholder: "Code, title or content", searchAria: "Search by code, title, description or outcomes",
     subject: "Subject", all: "All",
-    noMatch: "No class matches. Clear the search.",
+    noMatch: "No class matches.",
+    // an empty list names the filters that emptied it (Catalog.activeFilters), and a button clears them all
+    noMatchBy: "No class matches {filters}.", clearFilters: "Clear filters",
+    filterSearch: "the search “{q}”", filterSubject: "the subject {subject}", filterNamed: "the {name} filter",
+    // the class card (Catalog.cardHtml)
+    credit: "{n} credit", noInstructor: "Instructor not named yet", reading: "reading…", fromDescription: "from the course description",
+    why: "Why", whyNote: "Read from the roster text; a course can teach a skill without naming it.",
+    noneNamed: "The course text names none of the role's main skills.", matchIn: "in {field}",
+    coverSome: "Covers {n} of your {total} gaps: {names}", coverNone: "Covers none of your {total} gaps",
+    noCoverLine: "No class names your gaps. These are the closest.",
     // the detail panel
     description: "Description", outcomes: "Outcomes", prerequisites: "Prerequisites", limitedTo: "Enrollment limited to",
     sections: "Sections", noSection: "No section on the roster yet.",

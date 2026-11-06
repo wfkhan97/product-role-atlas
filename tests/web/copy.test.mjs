@@ -78,3 +78,19 @@ test("no screen string says utilize, leverage, facilitate, via or in order to, a
     if (/^(fit|skills|network)\./.test(p) && /\{n\}/.test(text)) assert.ok(!/%|\bscore\b/i.test(text), `${p} reads N of M, never a score: "${text}"`);
   }
 });
+
+// the usability pass of 2026-11-06 (cluster "Find classes and the campus gate")
+test("after a bounce from Find classes, home's line names the campuses whose address opens it, from the campus list", () => {
+  const { Door } = require(path.join(web, "app.js"));
+  const list = [{ flag: "cornell", catalog: true }, { flag: "ienyc", catalog: false }];
+  assert.equal(Door.bounceLine(list), "Find classes is for Cornell email addresses today.");
+  assert.equal(Door.bounceLine([...list, { flag: "ienyc", catalog: true }]), "Find classes is for Cornell or IE email addresses today.");
+  assert.equal(Door.bounceLine([]), Copy.home.classesClosed, "no campus with a roster: Find classes is not open");
+  assert.ok(Copy.home.changeEmail, "the line's link to the door has words");
+});
+
+test("the Faculty tab's count says what it counts in plain words, never a bare \"asks\"", () => {
+  const t = Copy.fill(Copy.network.teachesOf, { n: 3, m: 12 });
+  assert.equal(t, "teaches 3 of the 12 skills this role's postings ask for most");
+  assert.doesNotMatch(t, /\b\d+ asks\b/);
+});

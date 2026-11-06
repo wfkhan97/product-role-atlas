@@ -915,6 +915,9 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-rel { width: 220px; }
 @media (max-width: 640px) { .cls-card { grid-template-columns: minmax(0, 1fr); } .cls-rel { width: auto; } }
 .cls-rel .eyebrow { margin-bottom: 0; }
+/* the "high" band tag: the primary button's pairing (filled), 4.5:1 or more in both themes and on a selected card, where
+   the tint-on-tint of .tag.good read 3.93:1 */
+.cls-rel > .tag.good { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
 .cls-rel > .small.muted { margin: 0 0 6px; }
 .cls-why { margin-top: 6px; }
 .cls-why > summary { font-size: var(--text-sm); color: var(--muted-foreground); cursor: pointer; }

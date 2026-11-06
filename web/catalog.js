@@ -8,10 +8,13 @@
    are static, read with deps.load (fetch in the browser, the disk in node). */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/catalog.js")({ ...deps })
-  else root.Catalog = factory({ config: () => root.CONFIG || {}, load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }) });
+  else root.Catalog = factory({ copy: root.Copy, config: () => root.CONFIG || {}, load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }) });
 })(typeof self !== "undefined" ? self : this, function (deps) {
   "use strict";
   deps = deps || {};
+  // the card's words: Copy.classes (web/copy.js), the global in the browser, required in node
+  const CL = (deps.copy || (typeof Copy !== "undefined" ? Copy : null) || require("./copy.js")).classes;
+  const fill = (t, vars) => String(t).replace(/\{(\w+)\}/g, (m, k) => vars && vars[k] != null ? String(vars[k]) : m);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const BANDS = ["low", "medium", "high"];
   // the columns the picker reads from a class row of the public file (the shape the export writes; a syllabus digest
@@ -174,7 +177,7 @@
   // everything; within a facet a card matches when it has any chosen value (or), and the facets compose (and).
   // Days: the roster's meeting patterns spell the days in one letter each (M T W R F S, U or Su for Sunday; R is
   // Thursday). A card meets on a day when any meeting of any of its sections has that letter; a meeting with no
-  // pattern (time to be announced) meets on no day, so a day filter hides it.
+  // pattern (no time set yet) meets on no day, so a day filter hides it.
   const DAYS = ["M", "T", "W", "R", "F", "S", "U"];
   const dayCodes = pattern => { const p = String(pattern || "").replace(/Su/g, "U"); return DAYS.filter(d => p.includes(d)); };
   const cardDays = card => new Set((card.sections || []).flatMap(s => (s.meetings || []).flatMap(m => dayCodes(m.pattern))));
@@ -218,7 +221,7 @@
       const ms = (s.meetings || []).length ? s.meetings : [{}];
       for (const m of ms) {
         const bits = [m.pattern, timeOf(m.time_start, m.time_end), m.facility].filter(Boolean).join(" · ");
-        out.push((comp + (bits || "time to be announced")).trim());
+        out.push((comp + (bits || CL.timeTBA)).trim());
       }
     }
     return [...new Set(out)];
@@ -278,9 +281,38 @@
     const gen = generic || new Set();
     return gaps.filter(g => !gen.has(g.id) && teaches.has(g.id)).sort((a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1);
   }
-  const coverLine = (covered, total) => !total ? "" : covered.length ? `Covers ${covered.length} of your ${total} gaps: ${covered.map(g => g.name).join(", ")}` : `Covers none of your ${total} gaps`;
+  const coverLine = (covered, total) => !total ? "" : covered.length ? fill(CL.coverSome, { n: covered.length, total, names: covered.map(g => g.name).join(", ") }) : fill(CL.coverNone, { total });
   // the line over the list when no class covers any gap (noCover): said once, never per card
-  const NO_COVER_LINE = "No class names your gaps. These are the closest.";
+  const NO_COVER_LINE = CL.noCoverLine;
+  // names as one phrase, the first `max` of them and then "and N more": "A, B and C", "A, B, C and 4 more"
+  function namesLine(names, max) {
+    const l = (names || []).filter(Boolean), m = max > 0 ? max : 5;
+    if (l.length <= m) return joinLabels(l);
+    return fill(CL.andMore, { names: l.slice(0, m).join(", "), n: l.length - m });
+  }
+  // the credits a card says: "1 credit", "3 credits", "1-5 credits", or the words for none listed
+  const creditsLine = v => { const s = String(v ?? "").trim(); return !s ? CL.noCredits : fill(Number(s) === 1 ? CL.credit : CL.credits, { n: s }); };
+  // the pre-enrollment dates of a campus entry (data/sp27_campus.json: pre_enrollment.label, roster_updates_until) as
+  // the line under the picker's heading; "" when the entry has no dates
+  function datesLine(campus) {
+    const c = campus || {}, label = c.pre_enrollment && c.pre_enrollment.label;
+    return [label ? fill(CL.preEnrollment, { dates: label }) : "", c.roster_updates_until ? fill(CL.rosterUpdates, { date: c.roster_updates_until }) : ""].filter(Boolean).join(" ");
+  }
+  // the filters on in the picker, in the order the screen draws them, as the words for "No class matches {filters}":
+  // s = { q, subject, coversGap, days, credits, elig, instructor }; [] when nothing filters the list
+  function activeFilters(s) {
+    s = s || {};
+    const named = name => fill(CL.filterNamed, { name });
+    return [
+      String(s.q || "").trim() ? fill(CL.filterSearch, { q: String(s.q).trim() }) : null,
+      s.subject ? fill(CL.filterSubject, { subject: s.subject }) : null,
+      s.coversGap ? named(CL.coversGap) : null,
+      (s.days || []).length ? named(CL.facets.days) : null,
+      (s.credits || []).length ? named(CL.facets.credits) : null,
+      (s.elig || []).length ? named(CL.facets.eligibility) : null,
+      s.instructor ? named(CL.facets.professor) : null,
+    ].filter(Boolean);
+  }
   // true when none of the cards covers a gap (info[key].covered empty everywhere)
   const noCover = (cards, info) => !(cards || []).some(c => (((info || {})[c.key] || {}).covered || []).length);
   // the field tie-break: a card whose subject is one the chosen roles' fields teach in (campus field_subjects)
@@ -329,21 +361,21 @@
     o = o || {};
     const cm = o.campus || {};
     const codes = card.codes.concat(card.otherCodes || []).join(" / ");
-    const who = card.instructors.length ? card.instructors.map(i => i.slug ? `<a href="#/professor/${encodeURIComponent(i.slug)}" data-prof>${esc(i.name)}</a>` : esc(i.name)).join(", ") : "Instructor to be announced";
+    const who = card.instructors.length ? card.instructors.map(i => i.slug ? `<a href="#/professor/${encodeURIComponent(i.slug)}" data-prof>${esc(i.name)}</a>` : esc(i.name)).join(", ") : esc(CL.noInstructor);
     const elig = eligibilityLine(card, cm);
     const rel = o.rel;   // { band, matched: [{name, tier}] } | "pending" | null
-    const product = !o.roleId ? "" : rel === "pending" || !rel ? `<span class="small muted">reading…</span>` : bandTag(rel.band) +
-      (rel.matched.length ? `<details class="disc small cls-why" data-why="${esc(card.key)}"${o.whyOpen ? " open" : ""}><summary>Why</summary><div class="disc-body"><div class="tags">${rel.matched.map(m => `<span class="tag${m.tier === "core" ? " good" : ""}">${esc(m.name)}</span>`).join("")}</div><p class="small muted">Read from the roster text; a course can teach a skill without naming it.</p></div></details>` : `<p class="small muted">None of the role's main asks named.</p>`);
+    const product = !o.roleId ? "" : rel === "pending" || !rel ? `<span class="small muted">${esc(CL.reading)}</span>` : bandTag(rel.band) +
+      (rel.matched.length ? `<details class="disc small cls-why" data-why="${esc(card.key)}"${o.whyOpen ? " open" : ""}><summary>${esc(CL.why)}</summary><div class="disc-body"><div class="tags">${rel.matched.map(m => `<span class="tag${m.tier === "core" ? " good" : ""}">${esc(m.name)}</span>`).join("")}</div><p class="small muted">${esc(CL.whyNote)}</p></div></details>` : `<p class="small muted">${esc(CL.noneNamed)}</p>`);
     // the person's gaps this course covers (o.gaps: { covered: [{ name, tier }], total }), read by kind
     const gaps = o.gaps && o.gaps.total ? `<p class="small cls-gaps${o.gaps.covered.length ? "" : " muted"}">${esc(coverLine(o.gaps.covered, o.gaps.total))}</p>` : "";
     return `<article class="cls-card${o.selected ? " on" : ""}" data-card="${esc(card.key)}">
       <div class="cls-main">
-        <button type="button" class="cls-open linkish" data-open="${esc(card.key)}"><span class="cls-codes">${esc(codes)}</span> <span class="cls-title">${esc(card.title)}</span></button>${o.matched === "description" || o.matched === "outcomes" ? ` <span class="tag thin cls-match">in ${esc(o.matched)}</span>` : ""}
-        <p class="facts">${esc(card.credits ? card.credits + " credits" : "credits not listed")}${meetingLines(card.sections).map(l => " · " + esc(l)).join("")}</p>
+        <button type="button" class="cls-open linkish" data-open="${esc(card.key)}"><span class="cls-codes">${esc(codes)}</span> <span class="cls-title">${esc(card.title)}</span></button>${o.matched === "description" || o.matched === "outcomes" ? ` <span class="tag thin cls-match">${esc(fill(CL.matchIn, { field: o.matched }))}</span>` : ""}
+        <p class="facts">${esc(creditsLine(card.credits))}${meetingLines(card.sections).map(l => " · " + esc(l)).join("")}</p>
         <p class="small">${who}</p>
         ${elig ? `<p class="small"><span class="tag thin">${esc(elig)}</span></p>` : ""}
       </div>
-      ${o.roleId ? `<div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">from the course description</p>${product}${gaps}</div>` : ""}
+      ${o.roleId ? `<div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">${esc(CL.fromDescription)}</p>${product}${gaps}</div>` : ""}
     </article>`;
   }
 
@@ -375,5 +407,5 @@
     return blocks.join("");
   }
 
-  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingText, eligibilityLabel, restricted, eligibilityLine, openTo, filterCards, matchField, instructorList, DAYS, dayCodes, cardDays, dayList, meetsOn, cardCredits, creditList, hasCredits, eligibilityList, eligibleFor, rosterOrder, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingText, eligibilityLabel, restricted, eligibilityLine, openTo, filterCards, matchField, instructorList, DAYS, dayCodes, cardDays, dayList, meetsOn, cardCredits, creditList, hasCredits, eligibilityList, eligibleFor, rosterOrder, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, namesLine, creditsLine, datesLine, activeFilters, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });
