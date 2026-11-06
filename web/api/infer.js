@@ -8,7 +8,8 @@
    bundle holds them whatever the file tracer sees. The local python dev server has no /api: web/infer.js then gets a
    404 and the site reads the patterns alone.
 
-     request   { text, found: [skill ids the patterns already credited], set: "mba" | "product" | "both" }
+     request   { text, found: [skill ids the patterns already credited], set: "mba" | "product" | "both" | "all" }
+               ("all" adds the tech set's own skills; the site sends it only with CONFIG.TECH_ENABLED on)
      response  { inferred: [{ id, line, why }], model, ms }     503 without ANTHROPIC_API_KEY, 4xx on a bad request
      GET       { ok: true, key: <whether ANTHROPIC_API_KEY is set> }   a health line for curl after a deploy
 
@@ -24,7 +25,7 @@ const path = require("path");
 const MODEL = process.env.INFER_MODEL || "claude-haiku-5-5";
 // text: a long two-page resume is about 1,500 words (10,000 characters); four times that is not a resume
 const LIMITS = { body: 120000, text: 40000, minText: 80, found: 800, out: 12, line: 240, why: 200, timeoutMs: 22000, maxTokens: 6000 };
-const SETS = new Set(["mba", "product", "both"]);
+const SETS = new Set(["mba", "product", "both", "all"]);
 const DATA = path.join(__dirname, "..", "data");
 
 // The instructions, one constant so the eval sends exactly what the site sends. The skill list and the resume follow
@@ -59,19 +60,26 @@ const SCHEMA = {
 };
 
 // ---------- the skill list: id, name and the one-line definition of each skill a model may infer ----------
-// The MBA taxonomy is the whole list (its 278 skills include the 98 of the product set); "product" keeps the product
-// ids. The definitions are the `what` of each skill in graph_mba.json. A credential (read from structure: degrees,
-// years, licences) or a behaviour (credited only through its carriers) is never offered: the matcher skips both.
+// The MBA taxonomy is the list for "mba" and "both" (its 278 skills include the 98 of the product set); "product" keeps
+// the product ids; "all" adds the skills only the tech set has (taxonomy_tech.json; a skill the two share keeps its
+// MBA name, so the "both" list is unchanged by the tech set). The definitions are the `what` of each skill in
+// graph_mba.json, and in graph_tech.json for a tech-only one. A credential (read from structure: degrees, years,
+// licences) or a behaviour (credited only through its carriers) is never offered: the matcher skips both.
 let TAX = null;
 function loadTaxonomy(dir = DATA) {
   if (TAX && TAX.dir === dir) return TAX;
   const read = f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
   const mba = read("taxonomy_mba.json").skills, product = new Set(read("taxonomy.json").skills.map(s => s.id));
   let what = {}; try { for (const s of read("graph_mba.json").skills || []) if (s.what) what[s.id] = String(s.what); } catch { what = {}; }   // definitions are a help, not a need
-  const skills = mba.filter(s => s.cluster !== "credentials" && s.kind !== "behaviour").map(s => ({ id: s.id, name: s.name, cluster: s.cluster, what: what[s.id] || "", product: product.has(s.id) }));
+  const inMba = new Set(mba.map(s => s.id));
+  let tech = []; try { tech = read("taxonomy_tech.json").skills.filter(s => !inMba.has(s.id)); } catch { tech = []; }   // a bundle without the tech files offers no tech skills
+  if (tech.length) try { for (const s of read("graph_tech.json").skills || []) if (s.what && !what[s.id]) what[s.id] = String(s.what); } catch { }
+  const offered = s => s.cluster !== "credentials" && s.kind !== "behaviour";
+  const skills = [...mba.filter(offered).map(s => ({ id: s.id, name: s.name, cluster: s.cluster, what: what[s.id] || "", product: product.has(s.id), techOnly: false })),
+    ...tech.filter(offered).map(s => ({ id: s.id, name: s.name, cluster: s.cluster, what: what[s.id] || "", product: false, techOnly: true }))];
   return TAX = { dir, skills, byId: new Map(skills.map(s => [s.id, s])) };
 }
-const skillsFor = (set, tax = loadTaxonomy()) => tax.skills.filter(s => set !== "product" || s.product);
+const skillsFor = (set, tax = loadTaxonomy()) => tax.skills.filter(s => set === "all" || (!s.techOnly && (set !== "product" || s.product)));
 // one line per skill, grouped by cluster: stable for a set, so the prompt cache holds it across resumes
 function taxonomyBlock(set, tax = loadTaxonomy()) {
   const by = {}; for (const s of skillsFor(set, tax)) (by[s.cluster] ||= []).push(s);
