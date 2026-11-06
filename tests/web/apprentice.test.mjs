@@ -8,11 +8,13 @@ import assert from "node:assert/strict";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { root } from "./_load.mjs";
+import { root, web, require, Matcher, realAtlas } from "./_load.mjs";
 
 const lib = await import(path.join(root, "pipeline/apprentice/_lib.mjs"));
 const { checkMap } = await import(path.join(root, "pipeline/apprentice/check.mjs"));
 const { assembleMap, storyCards, storyPrompt, STORY_MAX } = await import(path.join(root, "pipeline/apprentice/assemble.mjs"));
+const Apprentice = require(path.join(web, "apprentice.js"));
+const EvidenceText = require(path.join(web, "evidence_text.js"));
 
 const EXAMPLE = path.join(root, "pipeline/apprentice/examples/pmm-nyc");
 const example = () => JSON.parse(fs.readFileSync(path.join(EXAMPLE, "map.json"), "utf8"));
@@ -117,6 +119,55 @@ test("storyPrompt names the slots it has and never a number", () => {
   assert.ok(!/gives a measure/.test(p), "an empty slot is left out");
   assert.match(p, /"named, not shown"/);
   assert.ok(!/\d/.test(p.replace(/30 words|three/g, "")), "no number but the length rule");
+});
+
+// ---------- the pure grounding (web/apprentice.js), the same code ground.mjs runs ----------
+test("ground: the class tree from the roles' core skills, the first role's read, the posting's names; a role of another field refused", async () => {
+  const profile = fs.readFileSync(path.join(EXAMPLE, "profile.md"), "utf8"), posting = fs.readFileSync(path.join(EXAMPLE, "posting.md"), "utf8");
+  const deps = { A: realAtlas(), Matcher, EvidenceText };
+  const g = await Apprentice.ground(deps, { profile, roles: ["pmm", "marketing_manager"], posting, today: "2026-11-05" });
+  assert.equal(g.generated, "2026-11-05");
+  assert.equal(g.role.id, "pmm"); assert.equal(g.role_class.field, "marketing");
+  assert.deepEqual(g.role_class.roles.map(r => [r.id, r.first]), [["pmm", true], ["marketing_manager", false]]);
+  const core = r => new Set(g.role_class.roles.find(x => x.id === r).core.map(s => s.id));
+  for (const n of g.tree.nodes) {
+    const asks = ["pmm", "marketing_manager"].filter(r => core(r).has(n.id));
+    assert.deepEqual(n.roles, asks, `${n.id} sits under the roles whose core asks for it`);
+    assert.equal(n.place, asks.length === 2 ? "trunk" : "own");
+    assert.ok(["shows", "shows in other words", "must evidence better", "must build"].includes(n.state));
+  }
+  assert.ok(g.tree.nodes.some(n => n.place === "trunk"), "two marketing roles share a trunk");
+  assert.ok(g.tree.behaviours.length && g.tree.behaviours.every(n => !g.tree.nodes.some(x => x.id === n.id)), "behaviours leave the nodes");
+  assert.ok(g.person.read.every(r => ["core", "common"].includes(r.tier)));
+  assert.ok(g.read.brings.every(b => ["shows", "shows in other words"].includes(b.state)));
+  assert.ok(g.posting.names.includes("positioning_messaging"), "the posting names positioning");
+  assert.ok(g.tree.nodes.find(n => n.id === "positioning_messaging").posting_names);
+  assert.ok(g.skills.every(s => s.shown_by && Array.isArray(s.shown_by.verbs)), "every skill carries its slots");
+  assert.ok(g.tracks.length >= 4 && g.tracks.length <= 6);
+  // no posting: nothing named, the tree the same
+  const g0 = await Apprentice.ground(deps, { profile, roles: ["pmm", "marketing_manager"] });
+  assert.deepEqual(g0.posting.names, []); assert.deepEqual(g0.tree.nodes.map(n => n.id), g.tree.nodes.map(n => n.id));
+  // the faults, by code
+  for (const [roles, code] of [[[], "no_roles"], [["pmm", "pmm"], "dup_role"], [["pmm", "a", "b", "c", "d"], "too_many_roles"], [["nope"], "unknown_role"], [["pmm", "bizops"], "mixed_fields"]]) {
+    await assert.rejects(Apprentice.ground(deps, { profile, roles }), e => e.code === code, code);
+  }
+});
+
+test("selfServeMap: the story cards alone, World 1 alone, no company, the grounding's tracks, marked self_serve; byHand tells it from the owner's", async () => {
+  const profile = fs.readFileSync(path.join(EXAMPLE, "profile.md"), "utf8");
+  const g = await Apprentice.ground({ A: realAtlas(), Matcher, EvidenceText }, { profile, roles: ["pmm"], today: "2026-11-05" });
+  const { map, stories } = Apprentice.selfServeMap(g, { campus: "Cornell Tech", date: "2026-11-05" });
+  assert.equal(map.version, 2); assert.equal(map.published, "2026-11-05");
+  assert.deepEqual(map.student, { slug: null, name_on_page: null, campus: "Cornell Tech", program: null, self_serve: true });
+  assert.equal(map.company, null); assert.equal(map.gap_sentence, null); assert.deepEqual(map.posting, { url: null, title: null, names: [] });
+  assert.ok(stories >= 1 && map.cards.length === stories && map.cards.every(c => c.kind === "story" && c.level === 1));
+  assert.deepEqual(map.worlds.map(w => w.n), [1], "a world with no mission is left out");
+  assert.equal(map.worlds[0].clear, Math.min(2, stories));
+  assert.deepEqual(map.tracks, g.tracks.map(t => ({ id: t.id, label: t.label, atlas_area: t.atlas_area })));
+  assert.ok(map.cards.every(c => map.tracks.some(t => t.id === c.track)));
+  assert.equal(Apprentice.byHand(map), false);
+  assert.equal(Apprentice.byHand(example()), true, "the example has build cards");
+  assert.equal(Apprentice.byHand(null), false);
 });
 
 // ---------- the check ----------

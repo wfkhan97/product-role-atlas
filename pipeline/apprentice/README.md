@@ -89,7 +89,12 @@ writes "no roster" for the classes, and `check` and `render` read the codes and 
 
 Everything comes from this repository, through the atlas's own modules loaded the way its tests load them (`web/atlas.js`, `web/match.js`, `web/catalog.js`, `web/evidence_text.js`); what
 is stable and what moves with each data refresh is in `docs/GRADBUDDY_CONTRACT.md`. Nothing is
-re-implemented and nothing calls a model.
+re-implemented and nothing calls a model. The pure part (everything but the classes and the student: `Apprentice.ground`)
+and the story cards, `assembleMap` and `selfServeMap` live in `web/apprentice.js`, a classic script that loads in node and
+in a Vercel function; `ground.mjs` and `assemble.mjs` call it, and so does the site's `web/api/tree.js`, which builds a
+signed-in person's map from their résumé and the roles they pick (the tree, the read, the story cards; no build cards,
+no company research). A map the site built carries `student.self_serve`; the function never overwrites a map with a
+build card, so a map written here stays the owner's.
 
 - **The class:** `roles:` in the intake, one to three atlas role ids of one field (`ground.mjs` refuses a role of
   another field and accepts four at most, so the example can hold its whole field). The first is the map's role. A

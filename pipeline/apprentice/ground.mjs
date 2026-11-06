@@ -3,10 +3,13 @@
 // It writes what the atlas knows about the role, how it reads the profile, and which classes cover the gaps.
 // Then the class of roles (the intake's `roles:`): each role's core and common skills and read, the class tree, the
 // posting's names and the read the map leads with. The atlas's own modules do the reading (web/atlas.js,
-// web/match.js, web/catalog.js, web/evidence_text.js), loaded from this repository. Nothing here calls a model.
+// web/match.js, web/catalog.js, web/evidence_text.js), loaded from this repository; the pure part is
+// web/apprentice.js (Apprentice.ground), which the site's function runs too. Nothing here calls a model.
 import fs from "fs";
 import path from "path";
-import { studentDir, readIntake, roleIds, read, isBlank, prose, list, writeJson, atlas, roster, rosterLabel, atlasRoot, config, today, rel, die } from "./_lib.mjs";
+import { studentDir, readIntake, roleIds, read, isBlank, prose, list, writeJson, atlas, apprentice, roster, rosterLabel, atlasRoot, config, rel, die } from "./_lib.mjs";
+
+const Apprentice = apprentice();
 
 const slug = process.argv[2];
 const dir = studentDir(slug);
@@ -28,135 +31,20 @@ const posting = read(postingFile), profile = read(profileFile);
 const { A, Matcher, Catalog, EvidenceText } = atlas();
 const pct = v => `${Math.round(100 * v)}%`;
 
-// ---------- the role ----------
-const ix = await A.index();
-let R;
-try { R = await A.role(roleList[0]); } catch (e) { die(`The atlas has no role "${roleList[0]}": ${e.message}`); }
-const keys = A.fieldKeys(R);
-const T = EvidenceText.create({ kinds: R.kinds });
-const employers = { startup: 0, large: 0, firm: 0, other: 0 };
-for (const j of R.jobs) employers[A.employerType(j)] = (employers[A.employerType(j)] || 0) + 1;
-const n = R.jobs.length || 1;
-const role = {
-  id: R.role.id, label: R.role.label, set: R.set, field: R.role.group, ladder: R.role.ladder || null,
-  postings_n: R.jobs.length, open_n: R.jobs.filter(j => j.open).length, companies_n: R.role.nCompanies,
-  employers: Object.fromEntries(Object.entries(employers).map(([k, v]) => [k, { n: v, share: v / n }])),
-  defining: [...R.role.defining],
-};
-
-// ---------- the skills: core (asked by most postings) and common (by many), with what each means in this field ----------
-const grid = A.grid(R, R.jobs);
-const kindLabel = k => ((R.kinds || {})[k] || {}).label || k;
-const shownBy = h => Object.fromEntries(["artefacts", "verbs", "measures", "counterparts"].map(k => [k, Array.isArray((h || {})[k]) ? (h || {})[k].slice(0, 4) : []]));
-const skillRow = (s, tier) => {
-  const sk = R.skillById[s.id] || {};
-  return { id: s.id, label: s.name, kind: s.kind, kind_label: kindLabel(s.kind), tier, share: s.share, grows: s.grows || false, defining: s.defining,
-    area: s.cluster, area_label: ((R.clusters || {})[s.cluster] || {}).label || s.cluster,
-    what: sk.what || T.summary(sk) || null, reads_as: T.reads(sk, keys), line: T.line(sk, keys).text, how_shown: (sk.how_shown || {}).form || null,
-    // the slots a line that shows it fills (pipeline/evidence.json); the story cards name them (assemble.mjs)
-    shown_by: shownBy(sk.how_shown) };
-};
-// the grid's right column is the atlas's "asked more at senior levels" mark
-const tierOf = row => [...row[0].map(s => ({ ...s, grows: false })), ...row[1].map(s => ({ ...s, grows: true }))].filter(s => s.kind !== "credential");
-const skills = [...tierOf(grid.rows[0]).map(s => skillRow(s, "core")), ...tierOf(grid.rows[1]).map(s => skillRow(s, "common"))];
+// ---------- the role, the skills, the tracks, the person's read, the posting, the class tree and the read ----------
+// The pure part lives in web/apprentice.js (the site's function runs the same code for a signed-in person).
+let g;
+try { g = await Apprentice.ground({ A, Matcher, EvidenceText }, { profile, roles: roleList, posting }); }
+catch (e) { die(e.code === "unknown_role" ? e.message : e.code ? `intake.md: ${e.message}` : e.stack || e.message); }
+const { role, tracks, skills, person, tree, read: readOut, role_class: roleClass } = g;
 const skillById = Object.fromEntries(skills.map(s => [s.id, s]));
-
-// ---------- the tracks: the skill areas that cover the role's core skills (four to six), in the atlas's own order ----------
-const areas = A.areas(R, R.jobs).areas;
-const trackOf = a => ({ id: a.cluster, label: a.label, atlas_area: a.cluster, behaviours: !!a.behaviours, core: a.skills.filter(s => s.tier === 0).map(s => s.id), skills: a.skills.map(s => s.id) });
-let tracks = areas.filter(a => a.core > 0 && !a.merged).map(trackOf);
-for (const a of areas) if (tracks.length < 4 && !tracks.some(t => t.id === a.cluster)) tracks.push(trackOf(a));
-if (tracks.length > 6) tracks = tracks.slice(0, 6);
-
-// ---------- the person's read: the atlas matcher on profile.md, the way the fit page runs it on a résumé ----------
-const { M, bands, group } = await A.matcher(R);
-const fit = M.match(profile, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
-const band = Matcher.bandOf(fit.overall, bands, group);
-const BAND_LABEL = { different: "New to the field", related: "Relevant foundation", in_range: "Qualified for the role", strong: "Strong match" };
-// the atlas's four states, in its words: shows (evidenced, or shown through a carrier) · said in other words
-// (transferable) · named, not shown or presumed from a role held (thin, presumed) · a gap (gap)
-const STATE = { evidenced: "shows", through: "shows", transferable: "shows in other words", thin: "must evidence better", presumed: "must evidence better", gap: "must build" };
-const WORDS = { evidenced: "evidenced: a line of work shows it", through: "shown through a way of working on the résumé", transferable: "said in other words: shown in another field's words", thin: "named, not shown", presumed: "presumed from a role held, not shown", gap: "a gap this role requires" };
-// a line of work: a bullet, the summary or the profile's prose (never a course, a degree, a skills list, a title or
-// a heading), at least six words, not shouted. The story cards (assemble.mjs) rewrite one of these.
-const WORK_KINDS = new Set(["bullet", "summary", "other"]);
-const isWorkLine = l => WORK_KINDS.has(l.kind) && l.text.split(/\s+/).length >= 6 && l.text.replace(/[^A-Za-z]/g, "").length > 0 && l.text !== l.text.toUpperCase();
-const readRows = fit.rows.filter(r => skillById[r.id] && (r.tier === "core" || r.tier === "common")).map(r => ({
-  id: r.id, label: skillById[r.id].label, tier: r.tier, share: skillById[r.id].share, status: r.status, atlas_words: WORDS[r.status] || r.status, state: STATE[r.status] || "must build",
-  through: r.throughName || null, lines: (r.lines || []).slice(0, 3).map(l => l.text), work_lines: (r.lines || []).filter(isWorkLine).slice(0, 3).map(l => l.text),
-}));
-const states = {};
-for (const r of readRows) (states[r.state] ||= []).push(r.id);
-const person = {
-  band, band_label: BAND_LABEL[band] || "no bands for this field", years: fit.profile.years, persona: fit.profile.persona,
-  roles_held: (fit.parsed.roles || []).filter(x => x.title).map(x => ({ title: x.title, years: x.years || 0, intern: !!x.isIntern })),
-  read: readRows, states,
-};
+const readRows = person.read;
+const treeNodes = tree.nodes, treeBehaviours = tree.behaviours, more = tree.more;
+const classRoles = roleClass.roles;
+const postingSkills = g.posting.skills_named, postingNames = new Set(g.posting.names);
 const gaps = readRows.filter(r => r.state !== "shows" && r.state !== "shows in other words").map(r => ({ id: r.id, name: r.label, tier: r.tier, w: r.share }));
-
-// ---------- the posting, read as the pipeline reads one ----------
-const postingRead = await A.readPosting(posting);
-const postingSkills = [...postingRead.found].filter(id => R.skillById[id]).map(id => ({ id, label: R.skillById[id].name, asked_by_role: !!skillById[id] }));
-const postingNames = new Set(postingSkills.map(s => s.id));
-
-// ---------- the class of roles: the class tree (R22 to R26) and the read the map leads with (R31) ----------
-// Per role: its core and common skills (credentials out) and the matcher's read of the same profile. The tree's nodes
-// are the union of the roles' core skills; behaviors leave the nodes for one "How you work" line; a node sits on the
-// trunk when every role asks for it, on a shared branch when two or more do, on a role's own branch when one does;
-// its state is the best state across the roles that ask for it. `more` is the first role's common tier, off the tree.
-const STATE_ORDER = ["shows", "shows in other words", "must evidence better", "must build"];
-const classRoles = [];
-for (const [i, rid] of roleList.entries()) {
-  let RR = R;
-  if (i > 0) { try { RR = await A.role(rid); } catch (e) { die(`The atlas has no role "${rid}": ${e.message}`); } }
-  if (RR.role.group !== R.role.group) die(`intake.md: ${rid} sits in the field "${RR.role.group}", not "${R.role.group}". A class holds one field.`);
-  const g = RR === R ? grid : A.grid(RR, RR.jobs);
-  let fitR = fit, bandR = band;
-  if (RR !== R) {
-    const mm = await A.matcher(RR);
-    fitR = mm.M.match(profile, { jobs: RR.jobs, familyJobs: RR.jobs, label: RR.role.label }, { ladder: RR.role.ladder });
-    bandR = Matcher.bandOf(fitR.overall, mm.bands, mm.group);
-  }
-  const reads = {};
-  for (const r of fitR.rows) reads[r.id] = { state: STATE[r.status] || "must build", status: r.status, line: (r.lines || [])[0] ? r.lines[0].text : null, through: r.throughName || null };
-  const row = s => ({ id: s.id, name: s.name, kind: s.kind, area: s.cluster, share: +s.share.toFixed(3), grows: s.grows });
-  classRoles.push({ id: RR.role.id, label: RR.role.label, first: RR === R, postings_n: RR.jobs.length, companies_n: RR.role.nCompanies, band: bandR, band_label: BAND_LABEL[bandR] || "no bands for this field",
-    core: tierOf(g.rows[0]).map(row), common: tierOf(g.rows[1]).map(row), reads });
-}
-const fieldLabel = (ix.groups.find(x => x.id === R.role.group) || {}).label || R.role.group;
-const roleClass = { id: R.role.group, label: `${fieldLabel} roles`, field: R.role.group, roles: classRoles.map(r => ({ id: r.id, label: r.label, first: r.first, postings_n: r.postings_n, companies_n: r.companies_n, band: r.band, band_label: r.band_label,
-  core: r.core, common: r.common, read: Object.entries(r.reads).filter(([id]) => r.core.some(s => s.id === id) || r.common.some(s => s.id === id)).map(([id, x]) => ({ id, ...x })) })) };
-const asking = id => classRoles.filter(r => r.core.some(s => s.id === id));
-const best = list_ => STATE_ORDER.find(st => list_.includes(st)) || "must build";
-const treeNodes = [], treeBehaviours = [];
-for (const id of [...new Set(classRoles.flatMap(r => r.core.map(s => s.id)))]) {
-  const rs = asking(id);
-  const s0 = rs[0].core.find(s => s.id === id);
-  const reads = rs.map(r => r.reads[id]).filter(Boolean);
-  const state = best(reads.map(x => x.state));
-  const pick = reads.find(x => x.state === state) || {};
-  const node = { id, name: s0.name, area: s0.area, area_label: ((R.clusters || {})[s0.area] || {}).label || s0.area,
-    place: rs.length === classRoles.length ? "trunk" : rs.length >= 2 ? "shared" : "own", roles: rs.map(r => r.id), state,
-    ...(pick.line ? { line: pick.line } : {}), ...(pick.through ? { through: pick.through } : {}),
-    grows: rs.some(r => r.core.find(s => s.id === id).grows), posting_names: postingNames.has(id),
-    share: Object.fromEntries(rs.map(r => [r.id, r.core.find(s => s.id === id).share])) };
-  (s0.kind === "behaviour" ? treeBehaviours : treeNodes).push(node);
-}
-const PLACE_RANK = { trunk: 0, shared: 1, own: 2 };
-treeNodes.sort((a, b) => PLACE_RANK[a.place] - PLACE_RANK[b.place] || b.roles.length - a.roles.length || a.name.localeCompare(b.name));
-const onTree = new Set([...treeNodes, ...treeBehaviours].map(n => n.id));
-const firstRole = classRoles[0];
-const more = firstRole.common.filter(s => s.kind !== "behaviour" && !onTree.has(s.id)).map(s => ({ id: s.id, name: s.name, state: (firstRole.reads[s.id] || {}).state || "must build" }));
-const tree = { nodes: treeNodes, behaviours: treeBehaviours, more };
-const shows = st => st === "shows" || st === "shows in other words";
-const readOut = {
-  band, band_label: person.band_label,
-  // every skill the first role's read found, core or common, with the line that showed it
-  brings: readRows.filter(r => shows(r.state)).map(r => ({ id: r.id, name: r.label, state: r.state, line: r.lines[0] || null })),
-  // the posting's gaps on the tree, in the tree's order, at most eight
-  marked_gaps: treeNodes.filter(n => n.posting_names && !shows(n.state)).map(n => n.id).slice(0, 8),
-  how_you_work: { shows: treeBehaviours.filter(n => shows(n.state)).map(n => n.id), rest: treeBehaviours.filter(n => !shows(n.state)).map(n => n.id) },
-};
+const R = await A.role(roleList[0]);
+const grid = A.grid(R, R.jobs);
 
 // ---------- the classes: the Spring 2027 roster through the atlas course reader, against the person's gaps ----------
 const campus = ans.campus || "Cornell Tech";
@@ -188,7 +76,7 @@ else {
 }
 
 // ---------- write ----------
-const grounding = { generated: today(), atlas: { path: ".", generated: ix.M.meta.generated, country: ix.M.meta.country }, student: { slug, campus, program: ans.program || null, name_on_page: ans.name_on_page || null },
+const grounding = { generated: g.generated, atlas: g.atlas, student: { slug, campus, program: ans.program || null, name_on_page: ans.name_on_page || null },
   company: { name: list(ans.companies)[0] || null, url: ans.company_url || null }, posting: { url: ans.posting_url || null, title: ans.posting_title || null, skills_named: postingSkills, names: [...postingNames] },
   role, tracks, skills, person, classes, role_class: roleClass, tree, read: readOut };
 writeJson(path.join(dir, "grounding.json"), grounding);

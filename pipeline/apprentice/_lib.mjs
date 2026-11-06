@@ -89,6 +89,9 @@ export function atlas() {
   return { A, Matcher, Catalog, EvidenceText };
 }
 
+// The generator's pure parts (web/apprentice.js): ground, the story cards, assemble, the self-serve map.
+export const apprentice = () => require(path.join(atlasWeb, "apprentice.js"));
+
 // The Spring 2027 roster as a list of classes; null when the file is missing.
 export function roster() {
   if (!fs.existsSync(rosterFile)) return null;

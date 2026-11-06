@@ -2115,6 +2115,40 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
 Not in this step: the function (step 4), the hearts' control and the other calls to action (step 5), the feedback
 box (step 6). The campus flag goes on the profile once #142 and this branch share a tree.
 
+Steps 1 to 3 merged to main on 2026-11-05 (#148, #149, #155); `JOURNEY_ENABLED` went on the same day (#158), the
+journey migration being applied. `ACCOUNTS_ENABLED` stays off until the owner has the SMTP sender and has applied the
+state tables: a merge deploys to production, so the sign-in ships dark.
+
+**Step 4, built (`feat/journey-tree`): the self-serve tree tier.** Decisions:
+
+- **The generator's pure part moves into the site.** `web/apprentice.js` (a classic script that loads in node, like
+  `map.js`) holds `Apprentice.ground`: the role, its skills with what each means in the field, the tracks, the person's
+  read, the posting's names, the class of roles, the class tree and the read the map leads with, exactly what
+  `ground.mjs` computed, less the roster classes and the student's own fields, which stay in the script. The story
+  cards, `assembleMap` and the new `selfServeMap` sit beside it; `ground.mjs` and `assemble.mjs` call them, so the
+  owner's maps and the site's come from one code. The refactor was checked on the example: the grounding and its
+  markdown byte-for-byte the same before and after.
+- **One function, `web/api/tree.js`**, beside `infer.js`: the résumé text, one to four role ids of one field, a
+  posting's text if the person has one, the door's campus. Who the person is comes from GoTrue (`/auth/v1/user` with
+  the session's token), never the body. The map goes to `maps/<uid>/map.json` with the service role, the caller's
+  own folder only; the function reads the object first and refuses (409) to overwrite a map with a build card, so a
+  map the owner wrote by hand stays. The text is grounded and dropped: the map keeps the lines the read found, as the
+  saved read does. `web/vercel.json` bundles the MBA role files the matcher reads (the 65 per-role files, about 42
+  MB, read lazily per role); the product and tech sets are not offered.
+- **The site's map is World 1 alone**: the story cards (two at most), the tree and the read; no company, no gap
+  sentence, no build cards; a world with no mission is left out of the file. `student.self_serve` marks it, and the
+  map screen draws "Built from your résumé on …" with "Build it again" (`#/map?build=1`), which draws the form over
+  the map.
+- **The form sits on `#/map`** where the waiting line was: the résumé on file (or the drop zone), the field, the
+  role the tree builds on, up to three more roles of the field, the optional posting. It sends `cta_shown`,
+  `cta_click`, `cta_done` for `tree`. Behind `CONFIG.TREE_ENABLED`, off: the function needs
+  `CATALOG_SERVICE_ROLE_KEY` in the Vercel project's environment (the owner adds it; a thread never types it), and
+  without the key it answers 503 and the form says the build did not go through.
+- **No spend cap**: nothing here calls a model (the owner, 2026-11-05). The judgment half of the self-serve map (the
+  build cards, the company research) stays under "Later".
+
+Not in this step: the hearts' control, Save and the other calls to action (step 5), the feedback box (step 6).
+
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
 The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,
@@ -2365,10 +2399,10 @@ as `refresh-product` does. The run's data PR (#156) opened as a draft.
   over data analyst?), unconfirmed.
 - ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
   row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
-- The map self-serve (proposed 2026-11-04, not built; the owner says yes first): a résumé plus a role on the site
-  produce a map the way the model read infers skills. The deterministic half is already here (`ground`, `assemble`,
-  `check` run in node on the atlas's files); the judgment half is the cards (R15 to R19) and the company research. The
-  proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
+- The map self-serve, the judgment half (proposed 2026-11-04; the deterministic half is built as the visitor journey's
+  step 4, `web/api/tree.js`, 2026-11-05): a résumé plus a role on the site produce a map the way the model read
+  infers skills. The deterministic half (`ground`, `assemble`, `check` run in node on the atlas's files) now runs in
+  the function; the judgment half is the cards (R15 to R19) and the company research. The proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
   company; `ground` runs in the function; the model (Haiku 5.5 for the cards, a Sonnet-class model for the four research
   reads over the company's public pages) writes `cards`, `gap_sentence` and `who_sees_it` under the skill's rules, with
   every quote checked word for word by `check` before the map is written to `maps/<uid>/map.json` with the service
