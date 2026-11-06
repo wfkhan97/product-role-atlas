@@ -15,6 +15,11 @@ window.CONFIG = {
   // opens the map first for a signed-in person who has one. Off, #/signin is the one line it was and #/map goes to
   // the launcher. The owner's steps are in pipeline/sql/2026-11-03_maps.sql.
   MAPS_ENABLED: true,
+  // The self-serve tree (the visitor journey, step 4, 2026-11-05): on, a signed-in person with no map builds one on
+  // #/map from their résumé and the roles they pick (POST /api/tree, web/api/tree.js: the class tree, the read and the
+  // story cards; no model). Off, #/map waits for the owner's map as before. The function needs
+  // CATALOG_SERVICE_ROLE_KEY in the Vercel project's environment and answers 503 without it.
+  TREE_ENABLED: false,
   // IE New York in the interface (2026-10-31): the second campus's entry in data/sp27_campus.json names this switch
   // (`enabled_by`), and Catalog.campuses() lists a campus only while its switch is on. Off, the site is Cornell Tech
   // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell

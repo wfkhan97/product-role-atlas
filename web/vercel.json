@@ -3,6 +3,10 @@
     "api/infer.js": {
       "includeFiles": "data/{taxonomy.json,taxonomy_mba.json,graph_mba.json}",
       "maxDuration": 30
+    },
+    "api/tree.js": {
+      "includeFiles": "{config.js,data/{taxonomy_mba.json,roles_mba.json,bands_mba.json,graph_mba.json,subskills_mba.json,role_blurbs.json,spelling_us.json},data/graph_mba/*.json}",
+      "maxDuration": 30
     }
   }
 }

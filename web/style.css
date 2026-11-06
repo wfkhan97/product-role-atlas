@@ -1051,6 +1051,14 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .pcard .acts-row { margin: 8px 0 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 @media (max-width: 900px) { .nw { grid-template-columns: minmax(0, 1fr); gap: 24px; } .nw-side { position: static; max-height: none; overflow: visible; } }
 /* the apprentice map's entry (the build plan's B2): the slot line on the launcher, the sign-in, the map as plain text */
+/* the self-serve tree form on #/map (step 4) */
+.tr-form { max-width: 560px; } .tr-form h2 { margin-top: 20px; }
+.tr-lab { display: block; margin: 14px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); }
+.tr-lab select, .tr-lab textarea { display: block; width: 100%; margin-top: 6px; font: inherit; color: var(--foreground); background: var(--background); border: 1px solid var(--input); border-radius: var(--radius-md); padding: 8px 10px; }
+.tr-lab textarea { min-height: 96px; resize: vertical; }
+.tr-also { border: 0; padding: 0; margin: 10px 0 0; } .tr-also legend { font-size: var(--text-sm); color: var(--muted-foreground); padding: 0; margin-bottom: 4px; }
+.tr-also label { display: block; padding: 2px 0; }
+.tr-out { min-height: 1.4em; } .map-self { margin-top: 4px; } .map-self a { color: var(--primary); }
 .lf-slot { margin: 16px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); } .lf-slot a { color: var(--primary); }
 .si { display: flex; gap: 8px; margin-top: 16px; }
 .si input { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 9px 12px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; }

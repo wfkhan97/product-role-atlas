@@ -197,4 +197,4 @@ async function handler(req, res) {
 }
 
 module.exports = handler;
-Object.assign(module.exports, { norm, PROMPT, SCHEMA, MODEL, LIMITS, PROVIDERS, loadTaxonomy, skillsFor, taxonomyBlock, userMessage, partsFor, anthropicBody, callAnthropic, groundLine, validate, checkInput, sameOrigin, infer, handler });
+Object.assign(module.exports, { norm, PROMPT, SCHEMA, MODEL, LIMITS, PROVIDERS, loadTaxonomy, skillsFor, taxonomyBlock, userMessage, partsFor, anthropicBody, callAnthropic, groundLine, validate, checkInput, sameOrigin, send, readBody, infer, handler });

@@ -721,15 +721,81 @@
     if (Routes.parseRoute(location.hash).name !== "map") return;
     if (g.gate === "signin") { toHash("#/signin"); return; }
     const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
-    if (g.gate === "map") {
+    const build = Routes.parseRoute(location.hash).query.build === "1";
+    if (g.gate === "map" && !(build && treeOn() && selfServe(g.map))) {
       const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
       if (Routes.parseRoute(location.hash).name !== "map") return;
       drawMap(g.map, ix, others, out);
+    } else if (treeOn() && (g.gate === "waiting" || g.gate === "map")) {
+      await treeForm(others, out);
+      if (Routes.parseRoute(location.hash).name !== "map") return;
     } else {
       page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
     }
     $("#map-out").onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
+  }
+  // ---------- the self-serve tree (the visitor journey, step 4, 2026-11-05) ----------
+  // A signed-in person with no map builds one here: the résumé on file (or the drop zone), a field, the role the tree
+  // builds on, up to three more roles of the field, a posting to paste if they have one. POST /api/tree grounds the
+  // class with the atlas's own modules and writes maps/<uid>/map.json; the map screen then reads it as any map. A map
+  // the owner wrote by hand is never overwritten (409): the form says so. The site's own map carries
+  // student.self_serve, and its screen gets the line "Built from your résumé on …" with the way back here (?build=1).
+  const treeOn = () => mapsOn() && !!(window.CONFIG || {}).TREE_ENABLED;
+  const selfServe = map => !!(map && map.student && map.student.self_serve);
+  const treeRoles = ix => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
+  async function treeForm(others, out) {
+    const T = Copy.map.tree, here = () => Routes.parseRoute(location.hash).name === "map";
+    const ix = await Atlas.index(); if (!here()) return;
+    const F = treeRoles(ix);
+    const s = { field: null, role: null, also: [], change: false };
+    const draw = () => {
+      const r = state.resume;
+      const f = F.find(x => x.id === s.field);
+      const resume = r && !s.change ? `<p class="small muted">${esc(fill(T.onFile, { name: r.name }))} <button type="button" class="linkish link" id="tr-change">${esc(T.change)}</button></p>`
+        : `${resumeForm()}<p><button type="button" class="btn" id="tr-read">${esc(T.read)}</button></p>`;
+      const roles = f ? `<label class="tr-lab">${esc(T.role)}<select id="tr-role"><option value="">${esc(T.pickRole)}</option>${f.roles.map(x => `<option value="${esc(x.id)}"${s.role === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
+        ${s.role ? `<fieldset class="tr-also"><legend>${esc(T.also)}</legend>${f.roles.filter(x => x.id !== s.role).map(x => `<label><input type="checkbox" value="${esc(x.id)}"${s.also.includes(x.id) ? " checked" : ""}${!s.also.includes(x.id) && s.also.length >= 3 ? " disabled" : ""}> ${esc(x.label)}</label>`).join("")}</fieldset>` : ""}` : "";
+      page(`<h1>${esc(T.heading)}</h1><p class="lead">${esc(T.lead)}</p>
+        <section class="tr-form">
+          <h2>${esc(T.resume)}</h2>${resume}
+          <label class="tr-lab">${esc(T.field)}<select id="tr-field"><option value="">${esc(T.pickField)}</option>${F.map(x => `<option value="${esc(x.id)}"${s.field === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
+          <div id="tr-roles">${roles}</div>
+          <label class="tr-lab">${esc(T.posting)}<textarea id="tr-posting" maxlength="20000" placeholder="${esc(T.postingHint)}"></textarea></label>
+          <p><button type="button" class="btn primary" id="tr-build"${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
+          <p class="small tr-out" id="tr-out" aria-live="polite"></p>
+        </section>
+        <p>${others}</p><p class="small muted">${out}</p>`, true);
+      main.firstElementChild.classList.add("roomy");
+      if ($("#drop")) { wireResumeForm(); $("#tr-read").onclick = async () => { if (await takeResume()) { s.change = false; draw(); } else $("#file-status").textContent = RF.nothing; }; }
+      const ch = $("#tr-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
+      $("#tr-field").onchange = e => { s.field = e.target.value || null; s.role = null; s.also = []; draw(); };
+      const role = $("#tr-role"); if (role) role.onchange = e => { s.role = e.target.value || null; s.also = s.also.filter(id => id !== s.role); draw(); };
+      main.querySelectorAll("#tr-roles input[type=checkbox]").forEach(b => b.onchange = () => { s.also = b.checked ? [...s.also, b.value].slice(0, 3) : s.also.filter(id => id !== b.value); draw(); });
+      $("#tr-build").onclick = buildTree;
+    };
+    const buildTree = async () => {
+      if (!state.resume) { $("#tr-out").textContent = T.noResume; return; }
+      const sess = await Auth.session(); if (!sess) { toHash(signinHref()); return; }
+      if (window.Capture) Capture.cta("tree", "click");
+      const btn = $("#tr-build"), outEl = $("#tr-out");
+      btn.disabled = true; outEl.textContent = T.building;
+      const body = { text: state.resume.text, roles: [s.role, ...s.also], posting: ($("#tr-posting") || {}).value || "", campus: (campusGate().campus || {}).label || undefined };
+      let r;
+      try { r = await fetch("api/tree", { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${sess.access_token}` }, body: JSON.stringify(body) }); }
+      catch (e) { console.error(e); r = null; }
+      if (!here()) return;
+      if (r && r.ok) {
+        if (window.Capture) Capture.cta("tree", "done");
+        mapHeld = null; outEl.textContent = T.built;
+        toHash("#/map"); if (location.hash === "#/map") route();
+        return;
+      }
+      outEl.textContent = r && r.status === 409 ? T.byHand : r && r.status === 401 ? T.signedOut : T.failed;
+      btn.disabled = false;
+    };
+    draw();
+    if (window.Capture) Capture.cta("tree", "shown");
   }
 
   // ---------- 1b''. The map screen (the build plan's B3; the pure parts are web/map.js) ----------
@@ -796,6 +862,7 @@
       <div class="map-tabs" role="tablist" aria-label="${esc(MC.tabsAria)}">${["quests", "tree"].map(t => `<button type="button" role="tab" class="map-tab" data-tab="${t}">${esc(MC.tabs[t])}</button>`).join("")}</div>
       <div id="map-body" role="tabpanel"></div>
       <p class="small muted map-only">${esc(MC.only)} ${out}</p>
+      ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
       ${printSheet()}`);
     main.firstElementChild.classList.add("wide", "map-page");
     main.querySelectorAll(".map-tab").forEach(b => b.onclick = () => { mapUi.tab = b.dataset.tab; const p = new URLSearchParams(Routes.parseRoute(location.hash).search); if (mapUi.tab === "tree") p.set("tab", "tree"); else p.delete("tab"); history.replaceState(null, "", location.pathname + location.search + "#/map" + (p.toString() ? "?" + p : "")); closePanel(); drawTab(); });
@@ -1511,7 +1578,7 @@
   const STEPS = ["file", "match", "infer"];
   function processing(step) {
     const drop = $("#drop"); if (!drop) return;
-    const btn = document.querySelector("#rail-read, #lf-read, #go, #cls-read, #next");
+    const btn = document.querySelector("#rail-read, #lf-read, #tr-read, #go, #cls-read, #next");
     let box = drop.querySelector(".proc");
     if (!step) { drop.classList.remove("busy"); if (box) box.remove(); if (btn && btn.dataset.label) { btn.textContent = btn.dataset.label; btn.disabled = false; delete btn.dataset.label; } return; }
     drop.classList.add("busy");
