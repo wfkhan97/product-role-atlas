@@ -2759,6 +2759,10 @@ the tie-break. Real estate (CRP) stays out of legal: its land-use classes would 
   bands do not move (`calibrate.mjs --roles tech`); the level read now agrees with the résumé in 66 of 72 samples, up
   from 65.
 
+**One role in a field.** Four tech fields hold a single role, a case no business field had. The field tiles and the
+field line on Explore careers now say "1 role" there (`tileOne`, `fieldLineOne` in `web/copy.js`), where they said
+"1 roles".
+
 **Sponsorship.** `evals/sponsorship.json` gains 40 tech postings (`set: "tech"`): 17 yes, 13 no and 10 silent.
 - They were drawn from the 2026-11-05 tech refresh with a fixed seed, one per company.
 - The draw covered postings that name sponsorship, ones that use the word otherwise (clearance sponsorship, sponsored
