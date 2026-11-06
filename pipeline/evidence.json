@@ -7596,5 +7596,278 @@
    "used"
   ],
   "shown_by": []
+ },
+ "esg_reporting": {
+  "form": "artefact",
+  "artefacts": [
+   "sustainability report",
+   "CSRD or ISSB disclosure",
+   "CDP response",
+   "ESG data controls"
+  ],
+  "counterparts": [
+   "finance and controllers",
+   "auditors",
+   "investors and raters"
+  ],
+  "measures": [
+   "disclosures filed",
+   "data points assured",
+   "rating moved"
+  ],
+  "verbs": [
+   "published",
+   "disclosed",
+   "assured",
+   "reported"
+  ],
+  "shown_by": []
+ },
+ "carbon_accounting": {
+  "form": "artefact",
+  "artefacts": [
+   "GHG inventory",
+   "scope 3 model",
+   "product carbon footprint",
+   "LCA"
+  ],
+  "counterparts": [
+   "operations",
+   "suppliers",
+   "auditors"
+  ],
+  "measures": [
+   "tonnes of CO2e measured",
+   "scope 3 categories covered",
+   "emissions cut"
+  ],
+  "verbs": [
+   "measured",
+   "calculated",
+   "built the inventory",
+   "cut"
+  ],
+  "shown_by": []
+ },
+ "decarbonization_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "net-zero roadmap",
+   "science-based target",
+   "abatement curve",
+   "renewable energy PPA"
+  ],
+  "counterparts": [
+   "executives",
+   "operations",
+   "energy suppliers"
+  ],
+  "measures": [
+   "emissions reduced",
+   "target validated",
+   "renewable share"
+  ],
+  "verbs": [
+   "set",
+   "built the roadmap",
+   "signed",
+   "reduced"
+  ],
+  "shown_by": []
+ },
+ "government_affairs": {
+  "form": "scope",
+  "artefacts": [
+   "policy position",
+   "advocacy campaign",
+   "coalition",
+   "legislative briefing"
+  ],
+  "counterparts": [
+   "legislators and their staff",
+   "regulators",
+   "trade associations"
+  ],
+  "measures": [
+   "bills shaped or passed",
+   "meetings with policymakers",
+   "coalition members"
+  ],
+  "verbs": [
+   "advocated",
+   "briefed",
+   "built the coalition",
+   "shaped"
+  ],
+  "shown_by": []
+ },
+ "fraud_prevention": {
+  "form": "artefact",
+  "artefacts": [
+   "fraud rule or model",
+   "fraud strategy",
+   "investigation",
+   "chargeback programme"
+  ],
+  "counterparts": [
+   "risk and data science",
+   "operations",
+   "product"
+  ],
+  "measures": [
+   "fraud losses cut",
+   "detection rate",
+   "false-positive rate"
+  ],
+  "verbs": [
+   "detected",
+   "prevented",
+   "investigated",
+   "cut losses"
+  ],
+  "shown_by": []
+ },
+ "ats_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "ran the process in",
+   "built reports in",
+   "administered"
+  ],
+  "shown_by": []
+ },
+ "technical_demos_poc": {
+  "form": "artefact",
+  "artefacts": [
+   "product demo",
+   "proof of concept",
+   "technical discovery",
+   "solution design"
+  ],
+  "counterparts": [
+   "account executives",
+   "prospects' technical teams",
+   "product"
+  ],
+  "measures": [
+   "technical wins",
+   "POCs converted",
+   "deal size supported"
+  ],
+  "verbs": [
+   "demoed",
+   "built the POC",
+   "won",
+   "scoped"
+  ],
+  "shown_by": []
+ },
+ "implementation_delivery": {
+  "form": "artefact",
+  "artefacts": [
+   "implementation plan",
+   "configuration",
+   "go-live",
+   "data migration"
+  ],
+  "counterparts": [
+   "customers",
+   "product and engineering",
+   "account teams"
+  ],
+  "measures": [
+   "implementations delivered",
+   "time to go-live",
+   "on-time launches"
+  ],
+  "verbs": [
+   "implemented",
+   "configured",
+   "launched",
+   "migrated"
+  ],
+  "shown_by": []
+ },
+ "crisis_issues_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "crisis plan",
+   "holding statement",
+   "issues brief",
+   "response playbook"
+  ],
+  "counterparts": [
+   "executives",
+   "legal",
+   "journalists"
+  ],
+  "measures": [
+   "issues handled",
+   "time to respond",
+   "coverage tone"
+  ],
+  "verbs": [
+   "managed",
+   "responded",
+   "contained",
+   "prepared"
+  ],
+  "shown_by": []
+ },
+ "editorial_writing": {
+  "form": "artefact",
+  "artefacts": [
+   "speech",
+   "op-ed",
+   "byline",
+   "talking points"
+  ],
+  "counterparts": [
+   "executives",
+   "editors",
+   "communications team"
+  ],
+  "measures": [
+   "pieces placed",
+   "speeches delivered",
+   "audience reached"
+  ],
+  "verbs": [
+   "wrote",
+   "ghostwrote",
+   "placed",
+   "edited"
+  ],
+  "shown_by": []
+ },
+ "research_design": {
+  "form": "artefact",
+  "artefacts": [
+   "research plan",
+   "survey or questionnaire",
+   "segmentation study",
+   "conjoint"
+  ],
+  "counterparts": [
+   "brand and marketing",
+   "research vendors",
+   "category teams"
+  ],
+  "measures": [
+   "studies run",
+   "respondents",
+   "decisions informed"
+  ],
+  "verbs": [
+   "designed",
+   "fielded",
+   "ran",
+   "segmented"
+  ],
+  "shown_by": []
  }
 }

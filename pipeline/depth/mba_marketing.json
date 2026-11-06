@@ -7672,5 +7672,14 @@
    },
    "build": {}
   }
+ },
+ "crisis_issues_mgmt": {
+  "what": "Preparing for and handling the moments that threaten a company's reputation: crisis plans, holding statements and rapid response."
+ },
+ "editorial_writing": {
+  "what": "Writing in an executive's voice for outside readers: speeches, op-eds, bylines and talking points."
+ },
+ "research_design": {
+  "what": "Designing the studies behind marketing decisions: surveys, focus groups, segmentation, conjoint and concept tests, and choosing the method that fits the question."
  }
 }

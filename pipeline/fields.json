@@ -73,9 +73,9 @@
   "analytics": {
    "reads_as": "Triaging requests against impact so the team answers the questions that matter.",
    "shown_by": [
-    "analytics_requirements",
+    "metrics_kpis",
     "reporting_adhoc_analysis",
-    "self_service_bi",
+    "synthesis_recommendations",
     "dashboards_dataviz"
    ],
    "line": "Introduced an intake and scoring process for 100 requests a quarter; 30% deflected to self-service."
@@ -134,6 +134,16 @@
     "risk_mgmt"
    ],
    "line": "Set up intake and a risk tier for 600 contract requests a year; cut median turnaround from 9 days to 3."
+  },
+  "impact": {
+   "reads_as": "Choosing which policy fights and sustainability programmes get the team's limited time and capital.",
+   "shown_by": [
+    "policy_management",
+    "government_affairs",
+    "program_mgmt",
+    "stakeholder_mgmt"
+   ],
+   "line": "Ranked 30 policy issues by exposure and odds; the team dropped 12 and won 4 of the top 6."
   }
  },
  "problem_solving": {
@@ -321,6 +331,16 @@
     "outside_counsel"
    ],
    "line": "Restructured a stalled data-sharing deal around 2 contract terms; it closed in 3 weeks at full value."
+  },
+  "impact": {
+   "reads_as": "Breaking a regulatory or climate question into parts that can be costed, argued and acted on.",
+   "shown_by": [
+    "policy_management",
+    "government_affairs",
+    "energy_industrial",
+    "program_mgmt"
+   ],
+   "line": "Broke a state emissions rule into 5 compliance paths; the chosen one saved $3M a year."
   }
  },
  "gtm": {
@@ -666,7 +686,7 @@
    "reads_as": "Key risk indicators and compliance metrics with thresholds and escalation.",
    "shown_by": [
     "erm_framework",
-    "compliance_monitoring",
+    "risk_mgmt",
     "controls_testing",
     "dashboards_dataviz"
    ],
@@ -677,7 +697,7 @@
    "shown_by": [
     "dashboards_dataviz",
     "data_modeling",
-    "self_service_bi",
+    "sql",
     "analytics_requirements"
    ],
    "line": "Defined 40 certified metrics in a semantic layer and built the 10 dashboards 300 people use weekly."
@@ -691,6 +711,16 @@
     "governance_design"
    ],
    "line": "Defined 12 integration KPIs and reported them monthly to the steering committee; $18M of synergies tracked to plan."
+  },
+  "impact": {
+   "reads_as": "Setting and tracking the emissions, ESG and programme targets the company reports on.",
+   "shown_by": [
+    "esg_reporting",
+    "carbon_accounting",
+    "energy_industrial",
+    "process_improvement"
+   ],
+   "line": "Set 8 sustainability KPIs with site leads; 6 hit target in the first reporting year."
   }
  },
  "data_driven": {
@@ -813,6 +843,16 @@
     "ma_execution"
    ],
    "line": "Built the valuation and diligence pack for 8 targets; the committee passed on 5 on the numbers and closed 2 at plan."
+  },
+  "impact": {
+   "reads_as": "Grounding sustainability and policy positions in emissions data, ratings and measured outcomes.",
+   "shown_by": [
+    "esg_reporting",
+    "carbon_accounting",
+    "energy_industrial",
+    "metrics_kpis"
+   ],
+   "line": "Rebuilt the emissions baseline from meter data; the reduction target moved from 20% to 35%."
   }
  },
  "financial_analysis": {
@@ -935,6 +975,16 @@
     "due_diligence"
    ],
    "line": "Built the synergy model for a $400M acquisition; tracked $25M of cost synergies against the deal case within 1%."
+  },
+  "impact": {
+   "reads_as": "Costing a bill, a regulation or a decarbonisation project so leaders see what is at stake.",
+   "shown_by": [
+    "government_affairs",
+    "public_sector",
+    "policy_management",
+    "energy_industrial"
+   ],
+   "line": "Modelled the cost of 3 proposed rules at $40M a year; the analysis anchored the comment letter."
   }
  },
  "ai_ml": {
@@ -1022,7 +1072,7 @@
    "reads_as": "Model risk, AI governance and AI in monitoring and surveillance.",
    "shown_by": [
     "ai_governance",
-    "compliance_monitoring",
+    "security_privacy",
     "it_risk",
     "controls_testing"
    ],
@@ -1057,6 +1107,16 @@
     "program_mgmt"
    ],
    "line": "Screened 300 targets with an ML scoring model and 2 analysts; the shortlist of 15 produced 2 acquisitions."
+  },
+  "impact": {
+   "reads_as": "Shaping AI policy and rules: what the technology does, what regulators fear and what the company can commit to.",
+   "shown_by": [
+    "policy_management",
+    "government_affairs",
+    "public_sector",
+    "risk_mgmt"
+   ],
+   "line": "Briefed 20 legislative offices on AI model safety; 2 bills took our proposed definitions."
   }
  },
  "fintech": {
@@ -1149,6 +1209,16 @@
     "valuation"
    ],
    "line": "Led diligence and valuation on 2 payments acquisitions worth $300M; both closed within 3% of the committee's price."
+  },
+  "impact": {
+   "reads_as": "Payments, banking and financial regulation as the policy ground the company works on.",
+   "shown_by": [
+    "government_affairs",
+    "policy_management",
+    "public_sector",
+    "risk_mgmt"
+   ],
+   "line": "Led the response to a payments rule across 4 regulators; the final rule dropped 2 costly provisions."
   }
  },
  "cross_functional": {
@@ -1216,7 +1286,7 @@
    "reads_as": "Bringing solutions engineering, customer success, product and partners into an account or deal.",
    "shown_by": [
     "key_account_mgmt",
-    "partner_gtm",
+    "gtm",
     "customer_success",
     "sales_enablement"
    ],
@@ -1326,6 +1396,16 @@
     "outside_counsel"
    ],
    "line": "Supported sales, product and finance on 40 enterprise deals a quarter with a 2-day legal turnaround."
+  },
+  "impact": {
+   "reads_as": "Bringing legal, operations and business teams behind one policy or sustainability position.",
+   "shown_by": [
+    "government_affairs",
+    "policy_management",
+    "program_mgmt",
+    "public_sector"
+   ],
+   "line": "Ran a working group of 9 functions on a new disclosure rule; filed on time with no restatement."
   }
  },
  "stakeholder_mgmt": {
@@ -1393,7 +1473,7 @@
    "reads_as": "Mapping and working a buying committee and the internal teams behind the deal.",
    "shown_by": [
     "key_account_mgmt",
-    "customer_health",
+    "territory_account_planning",
     "consultative_selling",
     "customer_success"
    ],
@@ -1503,6 +1583,16 @@
     "devops_sdlc"
    ],
    "line": "Agreed an API contract with 4 consuming teams before building; the migration landed with zero breaking changes."
+  },
+  "impact": {
+   "reads_as": "Managing regulators, legislators, NGOs and internal leaders who want different things from the same issue.",
+   "shown_by": [
+    "government_affairs",
+    "public_sector",
+    "policy_management",
+    "exec_communication"
+   ],
+   "line": "Kept 3 agencies, 2 NGOs and the board aligned through a 9-month rulemaking."
   }
  },
  "influence": {
@@ -1611,7 +1701,7 @@
    "shown_by": [
     "synthesis_recommendations",
     "dashboards_dataviz",
-    "analytics_requirements",
+    "statistics",
     "metrics_kpis"
    ],
    "line": "Recommended ending a $1M channel on attribution evidence; leadership reallocated the budget within the quarter."
@@ -1671,6 +1761,16 @@
     "outside_counsel"
    ],
    "line": "Convinced sales leadership to adopt a standard liability cap; 80% of new deals closed on it without escalation."
+  },
+  "impact": {
+   "reads_as": "Moving policymakers and executives to a position without authority over either.",
+   "shown_by": [
+    "government_affairs",
+    "public_sector",
+    "policy_management",
+    "exec_communication"
+   ],
+   "line": "Built a coalition of 15 companies; the agency adopted 3 of our 4 asks in the final rule."
   }
  },
  "communication": {
@@ -1779,7 +1879,7 @@
    "shown_by": [
     "dashboards_dataviz",
     "synthesis_recommendations",
-    "analytics_requirements",
+    "metrics_kpis",
     "reporting_adhoc_analysis"
    ],
    "line": "Presented monthly insight readouts to 3 VPs; 5 of 12 recommendations became funded initiatives within the quarter."
@@ -1858,6 +1958,16 @@
     "outside_counsel"
    ],
    "line": "Rewrote 6 contract playbooks into one-page guides; sales closed 30% more deals without legal review."
+  },
+  "impact": {
+   "reads_as": "Turning technical policy and climate detail into briefings that officials and executives act on.",
+   "shown_by": [
+    "government_affairs",
+    "public_sector",
+    "policy_management",
+    "stakeholder_mgmt"
+   ],
+   "line": "Wrote 40 one-page briefs for legislative meetings; 6 offices co-sponsored the bill."
   }
  },
  "exec_communication": {
@@ -1950,6 +2060,16 @@
     "business_case"
    ],
    "line": "Presented 6 deals to the investment committee; approvals in every session with a 3-page paper and a 10-minute summary."
+  },
+  "impact": {
+   "reads_as": "Briefing the C-suite and the board on policy risk and sustainability commitments.",
+   "shown_by": [
+    "government_affairs",
+    "public_sector",
+    "policy_management",
+    "stakeholder_mgmt"
+   ],
+   "line": "Briefed the board quarterly on 10 policy risks; 2 changed the capital plan."
   }
  },
  "people_management": {
@@ -2039,7 +2159,7 @@
     "analytics_requirements",
     "dashboards_dataviz",
     "sql",
-    "performance_mgmt"
+    "metrics_kpis"
    ],
    "line": "Managed 5 analysts; introduced analysis reviews and 2 analysts moved into senior roles within 18 months."
   },
@@ -2161,7 +2281,7 @@
     "dashboards_dataviz",
     "data_modeling",
     "metrics_kpis",
-    "analytics_requirements"
+    "sql"
    ],
    "line": "Owned the revenue reporting model used by 200 people; cut reconciliation errors to zero over 6 months."
   },
@@ -2249,6 +2369,16 @@
     "risk_mgmt"
    ],
    "line": "Built the commercial legal function as its first hire; handled 500 contracts a year with 1 outside firm."
+  },
+  "impact": {
+   "reads_as": "Owning an issue or a target end to end, from the first briefing to the reported result.",
+   "shown_by": [
+    "government_affairs",
+    "policy_management",
+    "program_mgmt",
+    "public_sector"
+   ],
+   "line": "Owned the company's position on 1 federal bill for 2 years, through passage and implementation."
   }
  },
  "adaptability": {
@@ -2436,6 +2566,16 @@
     "outside_counsel"
    ],
    "line": "Took on privacy and employment work beyond commercial law as the company grew from 80 to 400 people."
+  },
+  "impact": {
+   "reads_as": "Reworking positions and plans as legislation, elections and climate rules shift.",
+   "shown_by": [
+    "public_sector",
+    "government_affairs",
+    "policy_management",
+    "program_mgmt"
+   ],
+   "line": "Rebuilt the policy agenda in 6 weeks after a change of administration; kept 5 of 7 priorities alive."
   }
  },
  "collaboration": {
@@ -2474,7 +2614,7 @@
    "shown_by": [
     "program_mgmt",
     "process_improvement",
-    "lean_six_sigma",
+    "supply_chain",
     "safety_ehs"
    ],
    "line": "Worked with 3 shifts and the maintenance team on a changeover redesign; changeover time fell 35% across 4 lines."
@@ -2505,7 +2645,7 @@
     "key_account_mgmt",
     "sales_enablement",
     "customer_success",
-    "partner_gtm"
+    "territory_account_planning"
    ],
    "line": "Worked 20 accounts with 2 solutions engineers and a CSM on shared account plans; expansion revenue grew 40%."
   },
@@ -2542,7 +2682,7 @@
   "analytics": {
    "reads_as": "Working with data engineering and business stakeholders from the question to the dashboard.",
    "shown_by": [
-    "analytics_requirements",
+    "sql",
     "dashboards_dataviz",
     "data_modeling",
     "synthesis_recommendations"
@@ -2623,6 +2763,16 @@
     "risk_mgmt"
    ],
    "line": "Worked with sales and finance on a 3-year enterprise deal worth $4M; it closed 2 weeks ahead of plan."
+  },
+  "impact": {
+   "reads_as": "Working with trade associations, NGOs and internal teams toward shared policy and climate goals.",
+   "shown_by": [
+    "stakeholder_mgmt",
+    "government_affairs",
+    "public_sector",
+    "program_mgmt"
+   ],
+   "line": "Co-led a trade association task force of 12 members; produced the industry's joint comment letter."
   }
  },
  "program_mgmt": {
@@ -2692,7 +2842,7 @@
     "onboarding_adoption",
     "customer_success",
     "key_account_mgmt",
-    "partner_gtm"
+    "sales_enablement"
    ],
    "line": "Managed 15 enterprise onboardings in a year; median time to go-live fell from 90 to 55 days."
   },
@@ -2729,7 +2879,7 @@
   "analytics": {
    "reads_as": "Running analytics and data projects from requirements to adopted dashboards.",
    "shown_by": [
-    "analytics_requirements",
+    "metrics_kpis",
     "dashboards_dataviz",
     "data_modeling",
     "reporting_adhoc_analysis"
@@ -2791,6 +2941,16 @@
     "regulatory_change"
    ],
    "line": "Led a 1,200-contract repapering for a new privacy law across 3 firms; finished on time under budget by 15%."
+  },
+  "impact": {
+   "reads_as": "Running multi-year sustainability and public programmes with budgets, milestones and reporting.",
+   "shown_by": [
+    "public_sector",
+    "energy_industrial",
+    "risk_mgmt",
+    "financial_analysis"
+   ],
+   "line": "Ran a $25M energy-efficiency programme across 40 sites; finished on budget, 2 months early."
   }
  },
  "risk_mgmt": {
@@ -2913,6 +3073,16 @@
     "program_mgmt"
    ],
    "line": "Tracked 20 deal risks on a $300M acquisition; 6 priced into the offer and 3 covered by warranties before signing."
+  },
+  "impact": {
+   "reads_as": "Reading regulatory and climate risk early enough to change the plan.",
+   "shown_by": [
+    "policy_management",
+    "public_sector",
+    "energy_industrial",
+    "process_improvement"
+   ],
+   "line": "Built a climate-risk register for 60 sites; 8 high-risk sites got capital for resilience."
   }
  },
  "execution": {
@@ -3100,6 +3270,16 @@
     "risk_mgmt"
    ],
    "line": "Closed 150 commercial agreements in a year, 95% within the 5-day target."
+  },
+  "impact": {
+   "reads_as": "Delivering on commitments: filings, campaigns and reduction targets done on the date.",
+   "shown_by": [
+    "program_mgmt",
+    "public_sector",
+    "government_affairs",
+    "energy_industrial"
+   ],
+   "line": "Delivered 4 regulatory filings and a 12-state campaign in one session, every deadline met."
   }
  },
  "process_improvement": {
@@ -3197,7 +3377,7 @@
    "reads_as": "Automating reporting and building self-service so analysts stop pulling the same numbers.",
    "shown_by": [
     "reporting_adhoc_analysis",
-    "self_service_bi",
+    "metrics_kpis",
     "dashboards_dataviz",
     "data_modeling"
    ],
@@ -3258,6 +3438,16 @@
     "vendor_mgmt"
    ],
    "line": "Built 8 contract templates and a self-serve NDA flow; legal touched 60% fewer low-risk agreements."
+  },
+  "impact": {
+   "reads_as": "Cutting energy, waste and emissions by changing how sites and processes run.",
+   "shown_by": [
+    "energy_industrial",
+    "esg_reporting",
+    "program_mgmt",
+    "metrics_kpis"
+   ],
+   "line": "Redesigned 3 plant processes; energy use fell 18% and waste 25% in a year."
   }
  },
  "genai_llm": {
@@ -3305,6 +3495,46 @@
     "risk_mgmt"
    ],
    "line": "Wrote the AI terms for 120 enterprise contracts and a model-use policy adopted across 4 product teams."
+  },
+  "consulting_strategy": {
+   "reads_as": "Generative AI as the subject of the engagement: use cases, value and the plan to adopt it.",
+   "shown_by": [
+    "ai_ml",
+    "process_improvement",
+    "program_mgmt",
+    "exec_communication"
+   ],
+   "line": "Sized 20 generative AI use cases for a client; the top 3 went to pilot with $15M in value."
+  },
+  "product": {
+   "reads_as": "Building LLM features into the product: what to build, how to evaluate it and how to ship it.",
+   "shown_by": [
+    "ai_ml",
+    "roadmap",
+    "technical_fluency",
+    "ux_design_collab"
+   ],
+   "line": "Shipped an LLM assistant to 50,000 users; task completion rose 30% in a quarter."
+  },
+  "marketing": {
+   "reads_as": "Generative AI in the marketing work: content, personalisation and campaigns at scale.",
+   "shown_by": [
+    "ai_ml",
+    "positioning_messaging",
+    "campaign_management",
+    "growth_loops"
+   ],
+   "line": "Built a generative content workflow; campaign output tripled and cost per asset fell 60%."
+  },
+  "analytics": {
+   "reads_as": "LLMs as a tool and an object of analysis: building, prompting and evaluating them on data.",
+   "shown_by": [
+    "ai_ml",
+    "python_r",
+    "statistics",
+    "data_modeling"
+   ],
+   "line": "Built an LLM classifier for 1M support tickets; 92% agreement with human labels."
   }
  },
  "security_privacy": {
@@ -3343,6 +3573,132 @@
     "outside_counsel"
    ],
    "line": "Negotiated data protection terms in 90 customer contracts and led the response to 2 regulator inquiries."
+  }
+ },
+ "business_case": {
+  "consulting_strategy": {
+   "reads_as": "The quantified case for a recommendation: costs, benefits and payback the client can approve.",
+   "shown_by": [
+    "financial_analysis",
+    "synthesis_recommendations",
+    "exec_communication",
+    "process_improvement"
+   ],
+   "line": "Built the business case for a $30M operating-model change; the client approved it with a 2-year payback."
+  },
+  "finance": {
+   "reads_as": "Investment and ROI cases that decide where the budget goes.",
+   "shown_by": [
+    "financial_analysis",
+    "budgeting_forecasting",
+    "financial_reporting",
+    "metrics_kpis"
+   ],
+   "line": "Reviewed 25 capital requests a year; 6 were cut, saving $12M."
+  },
+  "banking_investing": {
+   "reads_as": "The returns case behind a deal or an investment, tested in the model.",
+   "shown_by": [
+    "valuation",
+    "ma_execution",
+    "due_diligence",
+    "capital_markets"
+   ],
+   "line": "Built the returns case for a $200M acquisition; the committee approved it at a 22% IRR."
+  },
+  "product": {
+   "reads_as": "The case for a product bet: the size of the prize, the cost and how it will be measured.",
+   "shown_by": [
+    "product_strategy",
+    "roadmap",
+    "prioritization",
+    "metrics_kpis"
+   ],
+   "line": "Wrote the business case for a new pricing tier; it was funded and added $4M ARR in a year."
+  }
+ },
+ "supply_chain": {
+  "operations": {
+   "reads_as": "The flow of materials and goods the operation depends on: inventory, logistics and suppliers.",
+   "shown_by": [
+    "process_improvement",
+    "program_mgmt",
+    "vendor_mgmt",
+    "metrics_kpis"
+   ],
+   "line": "Cut inventory 20% across 6 sites while keeping fill rate above 98%."
+  },
+  "supply_chain": {
+   "reads_as": "End-to-end supply chain knowledge: planning, sourcing, making and delivering.",
+   "shown_by": [
+    "vendor_mgmt",
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "process_improvement"
+   ],
+   "line": "Re-sourced 40% of spend to 3 regions; lead times fell 2 weeks and cost 8%."
+  },
+  "analytics": {
+   "reads_as": "Supply chain data as the analysis: demand, inventory, lead times and network models.",
+   "shown_by": [
+    "data_modeling",
+    "metrics_kpis",
+    "dashboards_dataviz",
+    "statistics"
+   ],
+   "line": "Built a demand forecast for 5,000 SKUs; error fell 15 points and stockouts by half."
+  },
+  "impact": {
+   "reads_as": "Emissions and sourcing risk in the supply chain: where scope 3 lives and where suppliers must change.",
+   "shown_by": [
+    "energy_industrial",
+    "esg_reporting",
+    "carbon_accounting",
+    "program_mgmt"
+   ],
+   "line": "Mapped scope 3 across 200 suppliers; the top 30 signed reduction targets within a year."
+  }
+ },
+ "synthesis_recommendations": {
+  "consulting_strategy": {
+   "reads_as": "Turning the analysis into the answer: a clear recommendation the client can act on.",
+   "shown_by": [
+    "exec_communication",
+    "financial_analysis",
+    "process_improvement",
+    "prioritization"
+   ],
+   "line": "Synthesised 40 interviews and a market model into 3 recommendations; the client adopted all 3."
+  },
+  "finance": {
+   "reads_as": "Turning the numbers into a recommendation leaders act on: invest, cut or wait.",
+   "shown_by": [
+    "business_case",
+    "financial_analysis",
+    "budgeting_forecasting",
+    "metrics_kpis"
+   ],
+   "line": "Turned a margin review into 4 recommendations; 3 were adopted and margin rose 2 points."
+  },
+  "marketing": {
+   "reads_as": "Turning customer and campaign data into what marketing should do next.",
+   "shown_by": [
+    "positioning_messaging",
+    "gtm",
+    "growth_loops",
+    "metrics_kpis"
+   ],
+   "line": "Turned a 3,000-person survey into a repositioning plan; conversion rose 18%."
+  },
+  "analytics": {
+   "reads_as": "Taking the analysis to a recommendation, not stopping at the chart.",
+   "shown_by": [
+    "statistics",
+    "sql",
+    "dashboards_dataviz",
+    "metrics_kpis"
+   ],
+   "line": "Turned a churn analysis into 3 recommendations; the 2 adopted cut churn 4 points."
   }
  }
 }

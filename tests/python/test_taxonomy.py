@@ -7,7 +7,7 @@ from pipeline import roles_mba, roles_tech, tax
 T = tax.load()
 E = tax.load_evidence()
 F = tax.load_fields()
-GROUPS = {"consulting_strategy", "finance", "banking_investing", "operations", "product", "marketing", "sales", "supply_chain", "people", "risk", "analytics"}
+GROUPS = {"consulting_strategy", "finance", "banking_investing", "operations", "product", "marketing", "sales", "supply_chain", "people", "risk", "analytics", "impact"}
 # the tech set's fields (PLAN.md, "A third role set"): field entries may name them too
 GROUPS |= set(roles_tech.GROUPS)
 

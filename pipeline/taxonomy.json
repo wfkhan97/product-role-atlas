@@ -95,6 +95,10 @@
   "legal": {
    "label": "Legal practice",
    "color": "#6B7F5B"
+  },
+  "sustainability_policy": {
+   "label": "Sustainability & public affairs",
+   "color": "#3FA37A"
   }
  },
  "skills": [
@@ -3230,6 +3234,52 @@
    ]
   },
   {
+   "id": "crisis_issues_mgmt",
+   "name": "Crisis & issues management",
+   "cluster": "marketing",
+   "kind": "method",
+   "patterns": [
+    "crisis (communications?|management|response|comms|preparedness)",
+    "issues management|reputation management|reputation (and|&) crisis|rapid response"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "editorial_writing",
+   "name": "Speeches, op-eds & executive writing",
+   "cluster": "marketing",
+   "kind": "method",
+   "patterns": [
+    "speech(es|writing|writer)\\b",
+    "op[- ]eds?\\b|bylines?\\b|talking points|ghostwrit",
+    "(executive|thought leadership) (content|pieces|articles|messaging|platforms?)",
+    "press materials|editorial (calendar|content|strategy|standards)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "research_design",
+   "name": "Market research design & methods",
+   "cluster": "marketing",
+   "kind": "method",
+   "patterns": [
+    "(market|consumer|marketing|shopper|customer) research (design|methodolog\\w+|methods|plans?|studies|programs?|techniques|projects|vendors|agencies)",
+    "research design|research methodologies",
+    "primary (and secondary )?(market |consumer )?research",
+    "qualitative research|quantitative (market|consumer|primary) research",
+    "conjoint|max[- ]?diff|discrete choice",
+    "segmentation (studies|research|study)|focus groups?|ethnograph",
+    "questionnaire design|survey design|usage (and|&) attitudes?|concept test(ing|s)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
    "id": "pipeline_forecasting",
    "name": "Pipeline management & sales forecasting",
    "cluster": "sales",
@@ -3519,6 +3569,39 @@
     "go/no-go|bid/no-bid",
     "win themes?",
     "price[- ]to[- ]win"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "technical_demos_poc",
+   "name": "Technical demos & proofs of concept",
+   "cluster": "sales",
+   "kind": "method",
+   "patterns": [
+    "(product|technical|solution|software|platform|custom|live|tailored|compelling) demo(s|nstrations?)?\\b",
+    "demo(nstrat\\w+)? (the |our )?(product|platform|solution|software)s?\\b",
+    "proofs?[- ]of[- ](concept|value)|\\bPOCs\\b|\\bPOC (projects?|environments?|demos?|engagements?)",
+    "technical (discovery|wins?|validation|evaluations?)",
+    "sales engineering|pre[- ]sales (engineering|support|activities|process)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "implementation_delivery",
+   "name": "Implementation & go-live delivery",
+   "cluster": "sales",
+   "kind": "method",
+   "patterns": [
+    "go[- ]lives?\\b",
+    "(customer|client|software|system|product|platform|saas|technical|erp) implementations?",
+    "implementation (plans?|projects?|methodolog\\w+|lifecycle|process\\w*|timelines?|activities|phases?|milestones|scope)",
+    "kick[- ]?off (calls?|meetings?)|hypercare|cutover",
+    "(system|product|platform|software|solution) configuration|configur(e|ing) (the )?(platform|system|product|software|solution|workflows)",
+    "user acceptance testing|\\bUAT\\b|data migrations?"
    ],
    "only": [
     "mba"
@@ -4566,6 +4649,22 @@
     "governance (frameworks?|structures?|forums?|models?|bodies|routines|councils?|boards?|cadence|mechanisms|operating model|charters?|committees?)",
     "(establish|design|build|defin|implement|stand up|strengthen|run|lead)\\w* (and \\w+ )?(the |a |an |our |new |clear |effective |robust |enterprise |program |portfolio |data |AI |\\w+ )?governance\\b",
     "steering committees?|decision[- ]making (forums?|bodies|frameworks?)|escalation (paths?|frameworks?|protocols|matrix|matrices)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "fraud_prevention",
+   "name": "Fraud prevention & detection",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "fraud (prevention|detection|strateg\\w+|risk|loss(es)?|trends|rules|models?|operations|investigations?|analytics|controls|schemes|typologies|management|monitoring|patterns|vectors|mitigation)(?! to cancer)",
+    "anti[- ]fraud",
+    "fraudulent (activity|activities|transactions|accounts|claims|behavio)",
+    "chargeback (disputes?|management|rates?|prevention|ratios?|operations)|disputes (and|&) chargebacks",
+    "account takeover|synthetic identit|first[- ]party fraud"
    ],
    "only": [
     "mba"
@@ -6046,6 +6145,90 @@
    ],
    "only": [
     "tech"
+   ]
+  },
+  {
+   "id": "ats_tools",
+   "name": "Applicant tracking & sourcing tools",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "(experience|proficien\\w*|familiar\\w*|knowledge|fluency|expertise|skilled|comfort\\w*) (with|in|of|using) [^.;\\n]{0,60}(applicant tracking|\\bATS\\b)",
+    "(maintain|manag|updat|track|enter|leverag|administer)\\w* [^.;\\n]{0,60}(applicant tracking|\\bATS\\b)",
+    "linkedin recruiter",
+    "(experience|proficien\\w*|familiar\\w*|knowledge|expertise|skilled|use of) (with|in|of|using)? ?[^.;\\n]{0,60}\\b(greenhouse|lever|ashby|icims|smartrecruiters|jobvite|avature|beamery|gem|seekout|hireez)\\b(?! gas)",
+    "\\biCIMS\\b|workday recruiting|successfactors recruiting"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "esg_reporting",
+   "name": "ESG & sustainability reporting",
+   "cluster": "sustainability_policy",
+   "kind": "method",
+   "patterns": [
+    "\\bESG (reporting|disclosures?|data|ratings?|metrics|reports?|frameworks?|scores?)\\b",
+    "sustainability (reports?|reporting|disclosures?|data|metrics|accounting)",
+    "\\bCSRD\\b|\\bESRS\\b|\\bSASB\\b|\\bTCFD\\b|\\bISSB\\b|\\bGRI (standards|framework|reporting)",
+    "\\bCDP (disclosure|questionnaire|reporting|response|scores?|climate)",
+    "non[- ]financial (reporting|disclosures?)|climate[- ]related (financial )?disclosures?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "carbon_accounting",
+   "name": "Carbon & emissions accounting",
+   "cluster": "sustainability_policy",
+   "kind": "method",
+   "patterns": [
+    "greenhouse gas|\\bGHG\\b",
+    "scope (1|2|3|one|two|three) (and \\w+ )?emissions|scope 1,? 2,? (and|&) 3",
+    "carbon (accounting|footprint\\w*|inventor(y|ies)|emissions|reduction|offsets?|credits?|removals?|intensity)",
+    "emissions (inventor(y|ies)|accounting|data|reductions?|reporting|calculations?|factors|baseline)",
+    "life[- ]cycle assessments?|\\bLCAs?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "decarbonization_strategy",
+   "name": "Decarbonization & climate strategy",
+   "cluster": "sustainability_policy",
+   "kind": "method",
+   "patterns": [
+    "decarboni[sz]ation (strateg\\w+|roadmaps?|plans?|projects?|pathways?|levers|initiatives|programs?|targets|efforts|solutions|investments?)",
+    "decarboni[sz]e (our|the|their|its|customers'?) (operations|portfolio|supply chains?|fleets?|buildings|business|value chain|products)",
+    "net[- ]zero (strateg\\w+|roadmaps?|targets?|plans?|transition|pathways?|programs?|goals|commitments?|ambitions?)",
+    "science[- ]based targets?|\\bSBTi\\b",
+    "renewable energy (procurement|strategy|credits|sourcing|projects)|power purchase agreements?|\\bvPPAs?\\b",
+    "climate (strategy|transition|targets?|action plans?|roadmap|risk (assessment|analysis|modell?ing|scenario))|transition plans? (for|to) (net|low)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "government_affairs",
+   "name": "Government affairs & policy advocacy",
+   "cluster": "sustainability_policy",
+   "kind": "practice",
+   "patterns": [
+    "(government|public) (affairs|relations) (strateg\\w+|experience|professionals?|efforts|programs?|campaigns?|activities|roles?|work|issues|background|priorities|plans?|and (advocacy|public policy|policy))",
+    "(experience|background|career|expertise|years) (in|with) [^.;\\n]{0,40}(government|public) (affairs|relations)",
+    "lobby(ing|ists?)\\b",
+    "legislat(ors?|ures?|ive (affairs|process|strategy|staff|agenda|engagement|priorities|and regulatory|developments))",
+    "policy ?makers?|elected officials|members of congress|congressional (offices|staff)",
+    "political action committee",
+    "advocacy (strateg\\w+|campaigns?|efforts|agenda|priorities)|coalition (building|partners)",
+    "public policy (positions|priorities|advocacy|issues|engagement|strateg\\w+|goals)|policy positions"
+   ],
+   "only": [
+    "mba"
    ]
   }
  ]
