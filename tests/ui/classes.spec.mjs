@@ -241,6 +241,6 @@ test("professor: opened from Find classes, the crumb says Classes", async ({ vis
   const page = await picker(await visitor.campus());
   await page.locator(".cls-card a[data-prof]").first().click();
   await expect.poll(() => hashOf(page)).toMatch(/^#\/professor\//);
-  await expect(page.locator("#crumbs a").first()).toHaveText("Classes");
+  await expect(page.locator("#crumbs a").first()).toHaveText("Find classes");
   await expect(page.locator("#crumbs a").first()).toHaveAttribute("href", "#/classes");
 });

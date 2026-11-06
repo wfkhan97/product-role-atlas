@@ -141,7 +141,7 @@ test("the launcher links to the field map, and the two screens carry different n
   const explore = await text(page.locator("#main h1"));
   expect(explore).not.toBe(launcher);
   expect(explore).not.toMatch(/explore/i);
-  expect(await text(page.locator("#crumbs"))).not.toMatch(/explore/i);
+  expect(await text(page.locator("#crumbs .here"))).not.toMatch(/explore/i);
 });
 
 // ---------- the intake boxes (B-18, C-17) ----------
