@@ -202,8 +202,9 @@ and evals run the code the site runs.
   `CONFIG.ACCOUNTS_ENABLED` and a session.
 - `map.js` — `MapModel`, the pure part of `#/map`: the class tree's places and layout, the worlds, the read's lines,
   the co-asked skills. `apprentice.js` — the generator's pure part (above).
-- `infer.js` — the browser side of the model read: `Infer.read(text)` calls `/api/infer`, keeps the answer per
-  résumé text, `Infer.forget()`.
+- `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
+  résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
+  adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
 - `api/infer.js`, `api/tree.js` — the two functions (README, "Hosting"). `tree.js` identifies the caller through
   GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
   overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`

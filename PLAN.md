@@ -2517,6 +2517,31 @@ management. The legal skills (contracts, litigation, IP, privacy) sit among the 
 scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
 the taxonomy, not to the bands.
 
+## The model read for the tech set (`feat/tech-infer`, 2026-11-06)
+
+**What changed.**
+- `/api/infer` offers a fourth set, `"all"`: the MBA list plus the 45 skills only the tech set has. They are offered by
+  name only, because tech skills have no definitions yet.
+- The site sends `"all"` only with `CONFIG.TECH_ENABLED` on. Its `found` then includes what the tech patterns found
+  (`Atlas.roughFit`'s new `shownT`).
+- The tech rough reader now applies the model's answer, as the MBA reader already did; before, the tech roles' rough
+  scores ignored it.
+- The `"both"` request stays byte-identical, so the site with the switch off asks exactly what it asked before.
+
+**The runs.** Both settings ran over the whole résumé set through this branch's preview route (the 8 samples plus 376
+published résumés, 344 files present). Answers were not in the store's caches, so every résumé was asked again, about
+$0.45 a run.
+- **`"both"`** (`infer_baseline.md`): 3.2 skills inferred per résumé; 40 bands up, none down. All four must-be-zero
+  counts are zero (credentials, behaviours, unknown ids, quotes not in the text).
+- **`"all"`** (`infer_baseline_tech.md`): 3.3 per résumé; 45 bands up, none down; the four counts are zero.
+  - On the 72 tech samples scored on their own tech role: 196 skills inferred, 56 of them tech-only (litigation,
+    databases, contracts, privacy law, visual design, backend services lead).
+  - Median score 38% → 41%, three bands up.
+- **One expectation lost in the `"both"` run.** `pivot_phd_hci` got `stakeholder_mgmt` from "coordinated timelines with
+  clinicians and IRB", and it is one of that sample's `real_gaps`. The request is unchanged, and the same résumé was not
+  tagged in the 2026-11-01 baseline or in the `"all"` run, so this is the model's variance. It is left as measured,
+  not tuned away.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2537,9 +2562,12 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: `/api/infer` reads the tech set; `catalog_tags.mjs` reads `taxonomy_tech.json`; class
+- Before the set is shown: `catalog_tags.mjs` reads `taxonomy_tech.json`; class
   cases and game evals over tech roles; a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
+- The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
+  `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
+  `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
 - Its checklist items C10 and C11: `skill_audit --roles tech`, then definitions and depth for the 48 tech-only skills.
 - A tech wording for the shared product skills that fire on company blurbs (launch, partnerships, growth loops,
   pricing; the golden ceiling is 27% against the MBA set's 16%). Whether `ux_researcher` folds into

@@ -4,7 +4,8 @@
    passed in: require("web/infer.js")({ fetch, config, storage }).
 
      Infer.read(text, found, set) -> Promise<[{ id, line, why }]>
-       found: the skill ids the patterns already credit (Atlas.roughFit's `shown`); set: "both" | "mba" | "product".
+       found: the skill ids the patterns already credit (Atlas.roughFit's `shown`, and `shownT` for "all");
+       set: "both" | "mba" | "product" | "all" (the tech set's skills too, when CONFIG.TECH_ENABLED is on).
        Off (CONFIG.INFER_ENABLED false), no route (the local python server has no /api), a 503 (no key on the host),
        a timeout or any error: [] and quiet, so the site reads the patterns alone and nothing breaks.
      Infer.forget()  drops the saved answers (the lines they quote are the person's)
@@ -21,7 +22,7 @@
   const ROUTE = "api/infer";            // relative, like every path of the site (README, "Hosting")
   const CACHE_KEY = "infer.answers";    // { key: { at, list } }, the newest KEEP kept
   const VERSION = 1;                    // bump with a change to the prompt (web/api/infer.js, PROMPT): old answers are re-asked
-  const KEEP = 5, MAX = 12, TIMEOUT_MS = 20000, SETS = new Set(["both", "mba", "product"]);
+  const KEEP = 5, MAX = 12, TIMEOUT_MS = 20000, SETS = new Set(["both", "mba", "product", "all"]);
   const cfg = () => { try { return (deps.config && deps.config()) || {}; } catch { return {}; } };
   const store = () => { try { return (deps.storage && deps.storage()) || null; } catch { return null; } };
   let absent = false;                   // the route answered 404/405/501/503 once: not asked again this page load

@@ -78,6 +78,18 @@ test("the skill list offers neither credentials nor behaviours; product is a sub
   assert.match(block, /^<skills>\n/); assert.ok(block.includes("prd | PRDs & requirements writing | "), "a definition rides with each skill");
   assert.equal(block, API.taxonomyBlock("both"), "stable, so the prompt cache holds it");
 });
+test("set all: the both list unchanged, plus the tech set's own skills; a tech-only id is valid only there", () => {
+  const both = API.skillsFor("both"), all = API.skillsFor("all"), mba = new Set(readJson("taxonomy_mba.json").skills.map(s => s.id));
+  assert.ok(both.every(s => mba.has(s.id)), "the tech set adds nothing to both, so its saved answers keep their keys");
+  const extra = all.filter(s => !mba.has(s.id)), tech = Object.fromEntries(readJson("taxonomy_tech.json").skills.map(s => [s.id, s]));
+  assert.ok(extra.length >= 40 && extra.every(s => tech[s.id] && tech[s.id].cluster !== "credentials" && tech[s.id].kind !== "behaviour"));
+  assert.equal(all.length, both.length + extra.length);
+  const line = "Built the payments service in Go behind a gRPC gateway", text = TEXT + "\n" + line;
+  const item = { id: "golang", line, why: "The service is written in Go." };
+  assert.deepEqual(API.validate({ inferred: [item] }, { text, set: "all" }), [item]);
+  assert.deepEqual(API.validate({ inferred: [item] }, { text, set: "both" }), []);
+  assert.equal(API.checkInput({ text, set: "all" }).set, "all");
+});
 test("validate: a known id of the set, not found already, once, with a line the resume holds and a reason; at most 12", () => {
   const ok = API.validate({ inferred: [
     ITEM, { ...ITEM }, { id: "made_up", line: ITEM.line, why: "x" }, { id: "sql", line: ITEM.line, why: "x" },

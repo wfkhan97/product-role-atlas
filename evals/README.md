@@ -497,6 +497,14 @@ the site sends and saves the answer with the route's host (check the deploy firs
 validation or the merge, and commit the baseline. `node evals/run.mjs --baseline` must not move when no list is
 passed: the patterns' read is the floor.
 
+`--set all` runs what the site sends with the tech set on (`CONFIG.TECH_ENABLED`): the skill list adds the 45
+skills only the tech set has (names only: tech skills have no definitions yet), `found` comes from `Atlas.roughFit`
+(its `shown` and the tech reader's `shownT`), and a sample filed under a tech role is scored and banded on that role
+(`bands_tech.json`). It writes [infer_baseline_tech.md](infer_baseline_tech.md). The `"both"` list does not change with
+the tech set, so its saved answers keep their keys. Both runs read the templates marked `only_years`, as the
+calibration does. A preview deploy behind Vercel Authentication takes `INFER_COOKIE` (the `_vercel_jwt` cookie its
+share link sets).
+
 ## Adding a role (the checklist)
 
 Every role, in either role set, goes through the same steps as the first 50 MBA roles did on 2026-10-11 (NOTES.md,

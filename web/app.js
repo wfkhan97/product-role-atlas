@@ -1720,7 +1720,9 @@
   async function inferResume() {
     const r = state.resume; if (!r || !window.Infer) return false;
     const rg = await rough().catch(() => null); if (!rg || state.resume !== r) return false;
-    const list = await Infer.read(r.text, [...rg.shown], "both");
+    // with the tech set on, the read may also name its own skills ("all"), and what its patterns found is found too
+    const all = !!(window.CONFIG || {}).TECH_ENABLED && !!rg.shownT;
+    const list = await Infer.read(r.text, all ? [...new Set([...rg.shown, ...rg.shownT])] : [...rg.shown], all ? "all" : "both");
     if (state.resume !== r) return false;
     r.inferred = list; store.set("resume", r); Atlas.useInferred(r.text, list);
     if (!list.length) return false;

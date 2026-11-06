@@ -306,10 +306,12 @@
     const shown = new Set(Object.entries(ev).filter(([, e]) => roughM.shownBy(e)).map(([id]) => id));
     const held = [...new Set(parsed.roles.map(r => r.roleFamily).filter(Boolean))];
     // the tech roles are read with the set's own taxonomy and title rules (its skills and wordings are not in the MBA one)
-    let evT = null;
+    let evT = null, shownT = null;
     if (ix.T) {
       if (!roughT) { const [TT, RT] = await Promise.all([fetchJson("data/taxonomy_tech.json"), fetchJson("data/roles_tech.json")]); roughT = Matcher.createMatcher({ taxonomy: TT, subskills: ix.TSUBS, graph: { ...ix.T, jobs: [] }, roles: RT }); }
-      const pT = roughT.readRoles(roughT.parseResume(text)); evT = roughT.infer(roughT.tag(pT), []);
+      // the model read applies here too: its tech-only ids exist only in this reader ("all", web/api/infer.js)
+      const pT = roughT.readRoles(roughT.parseResume(text)); evT = roughT.infer(roughT.tag(pT), opts.inferred || inferredOf(text));
+      shownT = new Set(Object.entries(evT).filter(([, e]) => roughT.shownBy(e)).map(([id]) => id));
       for (const f of new Set(pT.roles.filter(r => !r.isIntern).map(r => r.roleFamily).filter(Boolean))) held.push(techKey(f));
     }
     // the shape of the full score, from the index alone: core asks count twice, common asks once, each weighed by
@@ -330,7 +332,7 @@
     for (const [id, r] of Object.entries(ix.roles)) scores[id] = r.set === "tech" ? score([...r.definingList, ...r.asks], ix.techSkillById, evT || {}, ix.baselineTech || {}) : score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
     // the dated roles and the degrees, for the About you summary (title, first and last year, whether an internship)
     const roles = parsed.roles.filter(r => r.title).map(r => ({ title: r.title, start: r.span ? Math.floor(r.span[0]) : null, end: r.span ? Math.round(r.span[1]) : null, years: r.years || 0, intern: !!r.isIntern, family: r.roleFamily || null }));
-    return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
+    return { held, scores, shown, shownT, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
   }
   // The skills a text names, read as a student's course list: a mention counts (a syllabus describes topics), and the
   // kind says what a course can show (PLAN.md v14, decision 5): a method, technical, knowledge or tool skill it
