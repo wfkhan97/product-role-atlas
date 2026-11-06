@@ -46,7 +46,7 @@ lines, totals = [], collections.Counter()
 def fam_of(j):
     """The role the current rules give a posting (the two sets' rules take different arguments)."""
     if RS is roles_tech:
-        return roles_tech.family(j["title"], j.get("company"))
+        return roles_tech.family(j["title"], j.get("company"), j.get("industry"))
     return roles_mba.family(j["title"], j.get("category"), j["company"])
 
 
@@ -409,7 +409,7 @@ def js(jobs):
 def tech_titles():
     """The tech set's titles: role, then level and ladder where the role is right, then the entry mark and internship."""
     rows = load("titles_tech.json")["rows"]
-    fam = lambda r: roles_tech.family(r["title"], r["company"])
+    fam = lambda r: roles_tech.family(r["title"], r["company"], r.get("industry"))
     show = lambda r: f"{r['title']!r} at {r['company']}"
     out(f"\n== titles: role ({len(rows)} titles, {sum(1 for r in rows if r['role'] is None)} of them must get no role; by role: "
         f"{dict(sorted(collections.Counter(r['role'] or 'none' for r in rows).items()))})")
@@ -441,7 +441,7 @@ def tech_titles_fresh():
     if not os.path.exists(f):
         return
     rows = [r for r in load("titles_tech_fresh.json")["rows"] if r.get("sure", True)]
-    fam = lambda r: roles_tech.family(r["title"], r["company"])
+    fam = lambda r: roles_tech.family(r["title"], r["company"], r.get("industry"))
     pct = lambda a, b: f"{100 * a / b:.1f}% ({a} of {b})" if b else "–"
     for r in rows:
         r["_got"] = fam(r)
@@ -503,7 +503,7 @@ def tech_js():
         return
     bad = 0
     for r, got in zip(rows, json.loads(res.stdout)):
-        f = roles_tech.family(r["title"], r["company"])
+        f = roles_tech.family(r["title"], r["company"], r.get("industry"))
         want = (f, roles_tech.level(r["title"], r["company"], r["industry"], f), roles_tech.ladder(r["title"], r["company"], r["industry"], f),
                 *roles_tech.entry(r["title"], r["company"], r["industry"], f))
         if tuple(got) != want:

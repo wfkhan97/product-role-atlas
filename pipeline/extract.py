@@ -55,7 +55,7 @@ ROLE_SETS = {
     # engineering, design and legal (PLAN.md "A third role set"): a sampled backlog of its own, US only like the MBA set
     "tech": {"raw": ["jobs_tech"], "suffix": "_tech", "evidence_country": "United States", "split_long": True, "backlog": True,
              "geo": lambda j, title: _geo().country(j.get("location", ""), title, j.get("url"), j.get("ats")),
-             "family": lambda title, j: roles_tech.family(title, j.get("company")),
+             "family": lambda title, j: roles_tech.family(title, j.get("company"), j.get("industry")),
              "level": lambda title, company, j: roles_tech.level(title, company, j.get("industry"), j.get("family")),
              "ladder": lambda title, company, j: roles_tech.ladder(title, company, j.get("industry"), j.get("family")),
              "entry": lambda title, company, j, lvl, text, yoe: roles_tech.entry(title, company, j.get("industry"), j.get("family"), lvl, text),

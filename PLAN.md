@@ -2821,6 +2821,40 @@ boards, precision is 87.1%.
 
 Per the method, no rule was changed on this sample; the fix goes through new rows in `titles_tech.json` (Later).
 
+## Bare titles and the employer (`fix/tech-bare-titles`, 2026-11-06)
+
+The fresh sample of tech titles showed one shape behind most false roles: a bare "Engineer" or "Designer" title at an
+employer that does not make software. 888 stored postings were bare-only; at utilities, plants, hotels, stores and
+refineries they are field, facility and drafting jobs.
+
+**The labels first.** 90 bare-only postings were drawn across employer industries ("bare-border" in
+`titles_tech.json`, with each employer's industry). One reader labelled them from the spec, with the employer shown;
+64 are sure.
+
+**The rule** (`pipeline/roles_tech.py`, `BARE`):
+- A bare title ("Senior Engineer", "Engineer II", "Designer") is the role when the employer's industry is unknown (a
+  résumé, an employer with none on file), a software industry (`SOFTWARE_INDUSTRIES`), or startup portfolio tags.
+  Tags for defence hardware or biotech (`PORTFOLIO_NOT_SOFTWARE`) do not count.
+- At any other employer, a bare "Engineer" counts when the rest of the title names software work (`BARE_HINT`: cloud,
+  data, Java, identity, site reliability, trading and the like). A bare "Designer" counts when it names digital
+  product design. A bare "Developer" is software everywhere.
+- The designer exclusions add data halls, substations, eyewear and visualization.
+- The security pattern now reads a dash or a grade between the job and the security word ("Engineer - Cloud Security",
+  "Engineer II, Cybersecurity").
+- `family()` takes the industry. Extraction and the evals pass it.
+- The exported rules carry `bare` patterns and `bare_titles` for the JavaScript readers. The résumé reader has no
+  industry, so a résumé reads as before.
+
+**The result.**
+- All 736 sure labelled titles pass, and the JavaScript reader agrees with Python on all 838.
+- One known level miss is recorded: an internship at an exchange reads on the bank ladder at the same level.
+- On the fresh sample, overall precision rises from 91.7% to 96.4%, and from 87.1% to 98.2% on the Workday and other
+  boards' postings. Those numbers are no longer blind for the bare titles, since the misses were seen before the rule
+  was written; the border rows, not the fresh file, set it.
+- The stored data changes at the next refresh: 619 postings read differently (564 leave the set, 55 move to security).
+  A sample of 30 leavers read right in 27; the two clear software ones (a warehouse system, a trading engineer) were
+  added to the hints.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2859,10 +2893,9 @@ done). One line per item; the section that explains it is named where it helps.
 - The résumé-title gaps left by "The tech set's last pieces before the switch": an information systems security
   officer (the posting rules leave out every "officer") and a control-systems designer (the designer rule takes
   "system designer"); both are posting-rule changes, made with labelled rows in `titles_tech.json`.
-- Tech titles (the fresh sample, "A fresh sample of tech titles"): a bare "Engineer" or "Designer" title at an employer
-  that does not make software reads as software (precision 87% on the Workday and other boards' postings). Add such
-  titles to `titles_tech.json` with their labels and let the employer's industry decide, then rerun refresh-tech; the
-  fresh file stays as labelled and shows the change.
+- Tech titles: dispatch refresh-tech once "Bare titles and the employer" has merged, so the 619 stored postings the rule
+  now reads differently are re-extracted. The fresh sample's other misses (two security titles worded as "automation"
+  and "attack" engineers, an AI power engineer read as ML) wait for new labelled rows.
 - The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
   gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
   Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
