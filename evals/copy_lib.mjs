@@ -19,7 +19,7 @@ export const MAX_WORDS = 20;
 export const OWNER_WORDS = {
   "web/copy.js": {
     "door.intro[0]": "GradBuddy helps students with the things they care about most: finding jobs, taking advantage of networking opportunities, making classwork relevant, and more.",
-    "door.inside": "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with",
+    "door.inside": "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with.",
   },
 };
 export const STOPLIST = ["utilize", "leverage", "facilitate", "in order to", "via"];
