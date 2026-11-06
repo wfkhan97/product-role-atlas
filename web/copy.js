@@ -99,11 +99,12 @@
     // intro[0] and inside are the owner's words verbatim (2026-11-01), over the 20-word rule: evals/copy_lib.mjs
     // OWNER_WORDS lets exactly these texts through; any edit to them meets the rule again
     intro: ["GradBuddy helps students with the things they care about most: finding jobs, taking advantage of networking opportunities, making classwork relevant, and more.", "We spent the past few weeks on a few of those pieces & we want to share."],
-    inside: "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with",
+    inside: "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with.",
     email: "Your email", emailPlaceholder: "user@school.edu",
     where: "What are you studying?", pick: "Pick one",
-    // under the email (2026-11-04): a school address with a loaded roster opens Find classes and Faculty on campus
-    school: "Some parts are for students. A school address opens them.",
+    // under the email (2026-11-06): {schools} are the campuses with a loaded roster (app.js Door.schoolLine), the only
+    // addresses that open Find classes; no line when no campus has one
+    school: "A {schools} email also opens Find classes.",
     button: "Continue", skip: "Skip for now",
     privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
@@ -115,8 +116,8 @@
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
       skills: { title: "Explore careers", line: "Explore over {roles} roles and see how your experience and skills match up." },
-      classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want" },
-      network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with" },
+      classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
+      network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with." },
     },
   };
 
@@ -207,6 +208,9 @@
       lead: "Three quick questions and an optional résumé. The screens use your answers to pick what comes first.",
       done: "Done",
       skip: "Skip for now",
+      // over the bar (app.js You.steps): the bar has one step per question and one for the résumé, and so does the count
+      step: "Step {i} of {n}",
+      lastStep: "Step {n} of {n}: your résumé, optional",
       summaryAria: "What you told us",
       noWhere: "program not answered", noStage: "stage not answered", noFields: "no fields picked",
       resumeOn: "{name} on file", noResume: "no résumé on file",

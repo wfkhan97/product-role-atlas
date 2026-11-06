@@ -121,6 +121,16 @@
     next: target => { const t = String(target || ""); return t && parseRoute(t).name !== "door" ? t : "#/home"; },
     // a deep link goes to the door first, once: any route but the door while door.seen is not set
     bounce: (hash, seen) => !seen && parseRoute(hash).name !== "door",
+    // a link of the door's own chrome (the top bar's verbs, the brand, the footer's About) passes the door as "Skip for
+    // now" does (owner, 2026-11-06): the hash it lands on, the door itself read as home; null for a link off the site's
+    // hashes, which the browser follows as it is
+    pass: href => { const h = String(href || ""); return /^#\//.test(h) ? Door.next(h) : null; },
+    // the door's line under the email (2026-11-06: only a campus with a loaded roster opens anything, so the line names
+    // those campuses, from the same list Door.opens reads); "" when none has a roster, and the line is not drawn
+    schoolLine: campuses => {
+      const names = [...new Set((campuses || []).filter(c => c && c.catalog && c.flag).map(c => Copy.network.schools[c.flag]).filter(Boolean))];
+      return names.length ? Copy.fill(Copy.door.school, { schools: names.join(" or ") }) : "";
+    },
     // a count in words, rounded down so the sentence stays true until the next refresh: 25,950 -> "25 thousand",
     // 1,502 -> "1,500", 54 -> "50"
     thousands: n => n >= 1000 ? `${Math.floor(n / 1000)} thousand` : Door.hundreds(n),
@@ -164,6 +174,10 @@
     firstStep: (y, keys) => { const v = y || {}; const i = keys.findIndex(k => k === "fields" ? !(v.fields || []).length : !v[k]); return i < 0 ? keys.length : i; },
     // the door's program answer folded into About you: it lands only when About you has no program of its own (none,
     // or one the door filled earlier). The new answers object, or null when nothing changes.
+    // the inline wizard's bar and its label (2026-11-06): one bar per question and one for the résumé, and the label
+    // counts the same steps, so "Step 2 of 4" sits over four bars with two filled. `i` is the step (0-based), `n` the
+    // number of questions; the résumé step is i === n.
+    steps: (i, n) => { const total = n + 1, I = Copy.you.inline; return { bars: total, done: i + 1, label: Copy.fill(i < n ? I.step : I.lastStep, { i: i + 1, n: total }) }; },
     fromDoor: (y, where) => { const v = y || {}; if (!where || (v.where && v.whereFrom !== "door") || v.where === where) return null; return { fields: [], stage: null, ...v, where, whereFrom: "door" }; },
   };
   return { parseRoute, Stage, Intake, Door, RoleFilters, You };
@@ -489,6 +503,7 @@
   const nextHash = q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%-]*$/i.test(n) ? n : "#/home"; };
   const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
+  let screenNow = null;   // the screen route() drew last (the door's chrome reads it)
   function route() {
     if (!CAMPUSES) { campusesP.then(route); return; }   // the campus gate reads the campus list: once, before the first draw
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
@@ -509,7 +524,7 @@
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
-    SkillMap.leave(); leaveRail(); topBar(name);
+    screenNow = name; SkillMap.leave(); leaveRail(); topBar(name);
     // every route is a screen event (2026-11-05, web/capture.js SCREENS; the drop-off report counts them): the launcher
     // sends the same event Explore sends, since it is the screen that picks a role; the door sends `door` (v19 B7) and
     // `door_passed` itself when Continue or Skip goes through; the rest carry the id on screen
@@ -550,6 +565,19 @@
   }
   // the context the door's events and row carry: the session (capture.js adds it), the stage and the program group
   const doorCtx = where => ({ surface: "door", ...(where ? { program: where } : {}) });
+  // "Skip for now" with nothing typed (the Tally door's own Skip, and the door's chrome): what the door kept stays,
+  // the door counts as seen, and door_passed goes out as the native Skip sends it
+  function skipDoor() { const k = doorKept(); keepDoor(k.email, k.where); track("door_passed", doorCtx(k.where)); }
+  // On the door, the top bar's verbs, the brand and the footer's About pass the door as "Skip for now" does and land
+  // where they point (owner, 2026-11-06; before, the hash changed and the door drew again). A cold deep link still
+  // meets the door once (Door.bounce): only a click from the door's own chrome passes it.
+  document.addEventListener("click", e => {
+    if (screenNow !== "door" || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest("#verbs a[href], header a.brand[href], footer.foot a[href]");
+    const to = a && Door.pass(a.getAttribute("href")); if (!to) return;
+    e.preventDefault(); skipDoor();
+    if (location.hash === to) route(); else location.hash = to;
+  });
   // The door: what GradBuddy is, what is inside, then the form: Tally's when CONFIG.TALLY.door is set (web/doors.js
   // mounts it, with the native form as the fallback after three seconds), else the native one: an email and the program
   // question, Continue, Skip for now. Both buttons keep what was typed (keepDoor) and go where the person was headed
@@ -558,11 +586,11 @@
   async function door() {
     crumbs([]); showAside(null);
     const kept = doorKept();
-    const C = Door.COPY;
+    const C = Door.COPY, school = Door.schoolLine(CAMPUSES || []);
     const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
           <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
-          <p class="small muted" style="margin:0">${esc(C.school)}</p>
+          ${school ? `<p class="small muted" style="margin:0">${esc(school)}</p>` : ""}
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
     const tally = !accountsOn() && !!(window.Doors && Doors.formIdFor("door", null, formTheme()));   // with accounts, the door is its own form
@@ -570,11 +598,16 @@
         <h1>${esc(C.heading)}</h1>
         ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
         <p class="lead">${esc(C.inside)}</p>
-        <div class="door-slot" id="door-slot">${tally ? "" : nativeForm()}</div>${tally ? `<p class="small muted door-loading" id="door-loading">${esc(CM.loadingForm)}</p>` : ""}
+        <div class="door-slot" id="door-slot">${tally ? "" : nativeForm()}</div>${tally ? `<p class="small muted door-loading" id="door-loading">${esc(CM.loadingForm)}</p>
+        <p class="door-acts door-tally-acts" id="door-tally-acts"><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-tally-skip">${esc(C.skip)}</a></p>` : ""}
         ${tally ? "" : `<p class="small muted door-privacy">${esc(C.privacy)}</p>`}
       </section>`, true);
     const go = () => { const next = Door.next(location.hash); if (location.hash === next) route(); else location.hash = next; };
     const passed = where => track("door_passed", doorCtx(where));
+    // the site's own Skip under the Tally slot (2026-11-06): the native Skip with no form to read, so what the door kept
+    // stays and the door counts as seen; the native fallback brings its own Skip, and this one goes
+    const tallySkip = $("#door-tally-skip");
+    if (tallySkip) tallySkip.onclick = e => { e.preventDefault(); skipDoor(); go(); };
     const wireNative = () => {
       const form = $("#door-form"); if (!form) return;
       form.onsubmit = e => {
@@ -592,7 +625,7 @@
       hidden: { surface: "door", source: "door", email: kept.email },
       native: nativeForm,
       onLoaded: dropLoading,
-      onFallback: () => { dropLoading(); wireNative(); },
+      onFallback: () => { dropLoading(); const acts = $("#door-tally-acts"); if (acts) acts.remove(); wireNative(); },
       // Tally keeps the answers; the door counts as seen, and the return (#/home?email=…&where=…) fills the rest
       onSubmitted: () => { try { localStorage.setItem("door.seen", "1"); } catch { } passed(""); },
     });
@@ -607,7 +640,8 @@
     if (window.Doors) {
       const ret = Doors.returnQuery(location.hash);
       // Tally returns the option's label, not its id: map it back (whereId) before keeping it
-      if (ret.email || ret.where) { keepDoor(ret.email, whereId(ret.where)); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); }
+      // the top bar drew before the return was kept: draw it again, so a campus address shows Find classes at once
+      if (ret.email || ret.where) { keepDoor(ret.email, whereId(ret.where)); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); topBar("home"); }
     }
     const [ix, n] = await Promise.all([Atlas.index(), openCounts()]);
     const C = Door.COPY;
@@ -1521,11 +1555,12 @@
       const draw = () => {
         if (!el.isConnected) return;
         const q = Q[i], last = i === Q.length;
-        const steps = `<div class="steps">${Array.from({ length: Q.length + 1 }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
+        const S = Routes.You.steps(i, Q.length);
+        const steps = `<div class="steps">${Array.from({ length: S.bars }, (_, k) => `<i class="${k < S.done ? "done" : ""}"></i>`).join("")}</div>`;
         const nav = `<div class="row between yi-nav"><span>${i > 0 ? `<button type="button" class="btn quiet" data-yi="back">${esc(CM.back)}</button>` : ""}</span><span class="row"><button type="button" class="btn" data-yi="skip">${esc(YI.skip)}</button><button type="button" class="btn primary" data-yi="next">${esc(last ? YI.done : YOU.next)}</button></span></div>`;
         if (!last) {
           const on = id => q.multi ? a.fields.has(id) : a[q.key] === id;
-          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(fill(YOU.step, { i: i + 1, n: Q.length }))}</p><h3>${esc(q.title)}</h3>${q.hint ? `<p class="small muted">${esc(q.hint)}</p>` : ""}
+          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(S.label)}</p><h3>${esc(q.title)}</h3>${q.hint ? `<p class="small muted">${esc(q.hint)}</p>` : ""}
             <div class="opts${q.multi ? " two" : ""}">${questionOpts(ix, q).map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav}`;
           el.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => {
             const id = b.dataset.opt;
@@ -1533,7 +1568,7 @@
             a[q.key] = id; if (q.key === "where") seen = true; save(); i++; draw();
           });
         } else {
-          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(YOU.lastStep)}</p><h3>${esc(YOU.addResume)}</h3><p class="small muted">${esc(YOU.resumeLead)}</p>${resumeForm()}${nav}`;
+          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(S.label)}</p><h3>${esc(YOU.addResume)}</h3><p class="small muted">${esc(YOU.resumeLead)}</p>${resumeForm()}${nav}`;
           wireResumeForm();
         }
         const btn = k => el.querySelector(`[data-yi="${k}"]`);
