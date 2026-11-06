@@ -18,7 +18,6 @@
  "Avoca": "Series B",
  "Axion": "Series B",
  "Axle Health": "Series B",
- "Base Power": "Series D",
  "Basecamp Research": "Series C",
  "Baseten": "Series F",
  "Bedrock Robotics": "Series C",
@@ -81,8 +80,8 @@
  "Hadrian": "Series D",
  "Harvey": "Series B",
  "Headway": "Series D",
+ "HiddenLayer": "Series B",
  "hyperexponential": "Series B",
- "Ironclad": "Series B",
  "Juicebox": "Series B",
  "Kastle": "Series A",
  "Kira": "Series A",
@@ -136,6 +135,7 @@
  "Savvy": "Series D",
  "Scotch": "Series A",
  "Sent": "Series A",
+ "Serval": "Series C",
  "Shepherd": "Series B",
  "Sieve": "Series A",
  "Sigma Computing": "Series E",
@@ -170,6 +170,5 @@
  "Volta": "Series A",
  "Warp": "Series B",
  "Wonderschool": "Series B",
- "WorkOS": "Series C",
- "Workstream": "Series B"
+ "WorkOS": "Series C"
 }
