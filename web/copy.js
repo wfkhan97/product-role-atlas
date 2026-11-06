@@ -1204,9 +1204,6 @@
     close: "Close the tips",
     none: "This screen has no tips right now.",
     steps: {
-      door: {
-        skip: { title: "You can look first", body: "The email is optional. Skip for now opens the site without it." },
-      },
       home: {
         verbs: { title: "Pick where to start", body: "Each card opens one part of GradBuddy. The counts come from the latest open job postings." },
         you: { title: "Tell us about you", body: "Three short questions help each screen sort fields and pick a level. You can skip them." },
