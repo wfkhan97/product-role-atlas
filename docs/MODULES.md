@@ -105,8 +105,8 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   `tests/web/catalog_files.test.mjs` fails when a hash is stale.
 - `pipeline/funnel.py` — the funnel from the catalog project's tables for a date range: sessions and the share
   reaching each event, applications by source, the door funnel, drop-off by day and screen, calls to action
-  (shown, clicked, done), returns, visible time by screen, feedback counts (never the sentences; `--notes` prints an
-  applicant's note). Reads `CAPTURE_DB_URL`, else `SUPABASE_DB_URL`. Pure parts in `tests/python/test_funnel.py`.
+  (shown, clicked, done), the guide's tips by screen (`guide(rows)`: sessions shown, completed, skipped), returns,
+  visible time by screen, feedback counts (never the sentences; `--notes` prints an applicant's note). Reads `CAPTURE_DB_URL`, else `SUPABASE_DB_URL`. Pure parts in `tests/python/test_funnel.py`.
 - `pipeline/map_publish.py`, `map_feedback.py` — upload a student's checked map to `maps/<uid>/map.json`; list the
   feedback files. Read `CATALOG_URL` and `CATALOG_SERVICE_ROLE_KEY` from `.env`; exit 0 without the key.
 - `pipeline/build_artifact.py` — the single-file build of the site (`web/artifact.html`, gitignored).
@@ -145,14 +145,15 @@ a fictional person against a real posting.
 All of `web/` is static. Classic scripts load in the browser and in node (`require("web/<file>.js")`), so the tests
 and evals run the code the site runs.
 
-- `index.html` — the shell: the brand, breadcrumbs, the verbs, the theme switch, the Feedback link; the scripts in
-  load order (`config.js`, `copy.js`, … `app.js`, `gameshell.js`, the games). `tests/web/assets.test.mjs` checks every
+- `index.html` — the shell: the brand, breadcrumbs, the verbs, the theme switch, the Feedback link; the footer's
+  About GradBuddy, Feedback and Show me around; the scripts in load order (`config.js`, `copy.js`, … `feedback.js`,
+  `guide.js`, … `app.js`, `gameshell.js`, the games). `tests/web/assets.test.mjs` checks every
   named script exists and the remote ones pin a version.
 - `config.js` — the flags (README, "The switches"), the catalog project's URL and publishable key, `CAMPUS_DOMAINS`
   (flag → email domains), `CATALOG_TERM`, the Tally form ids.
 - `copy.js` — every string a screen owns, one table grouped by screen (`Copy.door`, `.home`, `.intake`, `.you`,
   `.explore`, `.role`, `.fit`, `.jobs`, `.skills`, `.network`, `.classes`, `.signin`, `.heart`, `.feedback`, `.map`,
-  `.about`, `.games`, `.common`). `Copy.fill(template, vars)` fills `{slots}`. Checked by `evals/copy.mjs` and
+  `.about`, `.games`, `.guide`, `.common`). `Copy.fill(template, vars)` fills `{slots}`. Checked by `evals/copy.mjs` and
   `tests/web/copy.test.mjs`: sentences of at most 20 words, active voice, no utilize, leverage, facilitate, via,
   in order to; never a percentage about a fit.
 - `atlas.js` — the data layer over both role sets: `Atlas.index()` (fields, roles), `Atlas.product()`, `Atlas.role(id)`
@@ -168,16 +169,25 @@ and evals run the code the site runs.
 - `evidence_text.js` — every sentence a screen shows about a skill, built from the data: the example line, what the
   skill means in the field, the gap sentence by kind, the measures to add. Checked by `evals/adaptive.mjs`.
 - `app.js` — the screens (README table), the pure tables `Routes.parseRoute`, `Stage` (what each stage leads with),
-  `Intake` (the one call to action), `Door` (the door's copy and rules: `campus`, `opens`, `reach`, `bounce`), `You`,
+  `Intake` (the one call to action), `Door` (the door's copy and rules: `campus`, `opens`, `reach`, `bounce`; `pass`,
+  so a click on the door's own chrome counts as Skip), `You` (`You.back`: a `next` is a hash of this site, never the
+  sign-in; the résumé step returns to it), `FitCounts` (the rail's "N of M" and the fit screen's lists from one fit),
+  `CourseCore`, `Crumbs` (one breadcrumb rule: the section as the top bar names it, then the screen), `Theme`,
   `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
-  screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form.
-- `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking,
-  Find jobs (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`,
-  `parseState`), the role picker, and the skill map (the fields on a ring, skills near the fields that ask for them,
-  `SkillMap.chart` for one field, the route planner).
+  screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
+  one drop zone with a real "choose a file" button. `route()` calls `Guide.after` once a screen draws (the feedback
+  prompt waits while a tip is due or open); `topBar` draws "Show me around" beside Feedback.
+- `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking
+  (`Network.sentenceCase`: skill names in lower case mid-sentence, acronyms and proper nouns kept), Find jobs
+  (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
+  `cardFacts`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win on its count alone),
+  the role picker (`Pick.distinct` names two roles with one title apart by field; `Pick.closest` offers the nearest
+  roles when nothing matches), and the skill map (the fields on a ring, skills near the fields that ask for them,
+  `SkillMap.chart` for one field, `thinNames` drops a label that would overlap, the route planner).
 - `catalog.js`, `classes.js`, `data/sp27_campus.json` — the class picker. `catalog.js` is the reads and the pure
   functions (cross-list collapsing, eligibility, the relevance score and band, the gaps a class covers,
-  `combineRoles`, the sorts); `classes.js` draws the screens. Every campus-specific string is data in
+  `combineRoles`, the sorts, `datesLine`: the pre-enrollment dates from the campus entry); `classes.js` draws the
+  screens. Every campus-specific string is data in
   `sp27_campus.json`, one entry per campus: a new campus is a new entry, never a code change. `enabled_by` names the
   flag that lists a campus; `catalog_file` and `tags_file` the two public files. No sign-in; the picker reads the
   person's gaps for the chosen roles and says which each class covers. `evals/run_classes.mjs` checks the matching.
@@ -192,12 +202,21 @@ and evals run the code the site runs.
   résumé, a posting, a skill id or a file name. `CONFIG.CAPTURE_ENABLED` off makes every call a no-op.
 - `feedback.js` — `Feedback.due(input)`, the prompt's rule (twelve actions or six minutes of visible time; never on
   the door or the sign-in, nor within a minute of signing in; again after thirty days with new actions; once at the
-  first self-serve tree); `Feedback.send(row)` into the insert-only `feedback` table; the marks in localStorage.
+  first self-serve tree); `emailOk` (empty, or one well-formed address); `offer` (the address on file, offered as one
+  press: the box opens empty); `Feedback.send(row)` into the insert-only `feedback` table; the marks in localStorage.
+- `guide.js` — the tips per screen: on a visitor's first visit to a screen, two to four spotlight steps on its
+  controls; the door has none. `Guide.STEPS` is the step table (screen, step id, the selectors tried in order, the state
+  a step needs); a step whose target is not in the page is skipped. The seen-state is `localStorage["guide.seen"]`
+  (screen → version). A run is due when the flag is on, nothing else is open and the screen is unseen or its version
+  is higher. Calls to action: `guide_<screen>` shown, click, done; `guide_skip` done; `guide_relaunch` click. On a
+  phone (640 px and under) the card is a bottom sheet and the target gets a ring. The card is a non-modal dialog:
+  focus moves in, Tab stays among its buttons, Esc skips. Off with `CONFIG.GUIDE_ENABLED`: nothing draws.
 - `auth.js` — the sign-in with no library: `Auth.sendLink(email)` (an invited address only, `create_user: false`),
   `Auth.sendCode` and `verifyCode` (the six-digit code for anyone; `create_user: true`, so the catalog project's
   "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
   `readMap`, `writeFeedback`, `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
-  the route table for `#/skills` and `#/map`.
+  the route table for `#/skills` and `#/map`; `MapGate.signinHash` and `landing` carry the map's own address through
+  the sign-in and back.
 - `state.js` — a signed-in person's saved state in `profiles`, `hearts` and `reads` (own rows under row-level
   security): `State.hash(text)` (a SHA-256 of the normalized résumé, never the text), `readRows(fit)`, `saveProfile`,
   `saveRead`, `heart`, `load`, `forget`, `merge` (the browser's answers win; hearts are a union). Runs only with
