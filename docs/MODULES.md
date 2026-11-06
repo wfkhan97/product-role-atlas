@@ -26,7 +26,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   are not changed by the mark. Copied into `web/data/roles_mba.json` under `entry`.
 - `pipeline/roles_tech.py`, `pipeline/entry_tech.json` — the tech set: seven roles in five fields (`software_engineer`;
   `ml_engineer`, `data_engineer`; `security_engineer`; `product_designer`, `ux_researcher`; `counsel`), US only. Each
-  set reads every title on its own (`product_gate` keeps product titles in the product set). Three ladders on one
+  set reads every title on its own (`product_gate` keeps product titles in the product set). A bare title ("Senior
+  Engineer", "Designer") is the role only at a software employer, unless the rest of the title names software work
+  (`BARE`, `software_employer(industry)`; an unknown employer, as on a résumé, counts as software). Three ladders on one
   level scale (`engineering`, `legal`, `bank` when a bank grade is in the title); entry mark `grad` or none, plus
   `intern`. `python -m pipeline.roles_tech` writes `web/data/roles_tech.json`. The scrape samples 30 open postings per
   employer and role (`--count-only` measures first). Shown only with `CONFIG.TECH_ENABLED`.

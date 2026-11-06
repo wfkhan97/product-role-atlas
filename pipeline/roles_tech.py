@@ -46,7 +46,7 @@ FAMILY_PATTERNS = [
     ("ux_researcher", r"\b(ux|user|design|product|experience|qualitative|mixed[- ]methods?|quantitative\s+(ux|user))\s+(experience\s+)?research(er|ers)?\b|"
                       r"\b(ux|user|design)\s+research\s+(operations|ops)\b|\bresearch\s*ops\b|\bresearch\s+operations\b|\b(head|director|manager|lead),?\s+(of\s+)?(ux|user|design)\s+research\b"),
     ("product_designer", r"\b(product|ux|ui|ux\s*/\s*ui|ui\s*/\s*ux|ux\s*-\s*ui|interaction|experience|user\s+experience|user\s+interface|visual|digital|web|mobile|app|"
-                         r"content|service|conversation(al)?|ai|systems?|platform|growth|design\s+systems)\s+designer\b|\bdesigner\b|"
+                         r"content|service|conversation(al)?|ai|systems?|platform|growth|design\s+systems)\s+designer\b|"
                          r"\bdesign\s+technologist\b|\bdesign\s+systems?\s+(lead|manager)\b|\b(product|ux|ui|interaction|experience)\s+design\s+(intern\w*|co-?op)\b|\bdesign\s+(manager|director|lead)\b|\b(product|ux|experience)\s+design\s+(manager|director|lead)\b|"
                          r"\b(head|director|vp|vice\s+president|svp),?\s+(of\s+)?(product\s+|ux\s+|user\s+experience\s+|experience\s+)?design\b|"
                          r"\bchief\s+design\s+officer\b"),
@@ -58,7 +58,7 @@ FAMILY_PATTERNS = [
                           r"\b(grc|governance,?\s+risk\s*(and|&)\s*compliance)\s+engineer\w*\b|(?=.*\b(security|cyber|it)\b).*\b(grc|governance,?\s+risk\s*(and|&)\s*compliance)\s+(analyst|specialist|lead)\b|"
                           r"\bsecurity\s+(grc|compliance|risk|assurance|governance)\s+(\w+\s+)?(analyst|engineer|specialist|manager|lead)\b|"
                           r"\bai\s+(governance|safety|assurance|security|red\s+team(ing)?|risk)\s+(engineer\w*|analyst|specialist)\b|"
-                          r"\b(engineer\w*|analyst|architect|researcher|developer),?\s+(\w+\s+){0,2}(security|cybersecurity|appsec|detection(\s+and\s+response)?|"
+                          r"\b(engineer\w*|analyst|architect|researcher|developer)(\s+(i|ii|iii|iv|v|\d))?\s*[,\-–]?\s+(\w+\s+){0,2}(security|cybersecurity|appsec|detection(\s+and\s+response)?|"
                           r"threat\s+(intelligence|detection)|incident\s+response|privacy|trust\s*(and|&)\s*safety\s+engineering)\b|"
                           r"\b(head|director|vp|vice\s+president|manager|senior\s+manager),?\s+(of\s+)?(information\s+|cyber\s*|product\s+|application\s+|cloud\s+|"
                           r"infrastructure\s+|enterprise\s+|corporate\s+|offensive\s+)?security\b|\bsecurity\s+(engineering|operations)\s+(manager|lead|director)\b|"
@@ -85,10 +85,55 @@ FAMILY_PATTERNS = [
                           r"\bengineering\s+manager\b|\b(engineering|software)\s+residen(t|cy)\b|\b(manager|director|senior\s+director|head|vp|vice\s+president|svp),?\s+(of\s+)?(software\s+|platform\s+|infrastructure\s+|"
                           r"product\s+|backend\s+|frontend\s+|mobile\s+|web\s+)?engineering\b|\bCTO\b|\bchief\s+technology\s+officer\b|"
                           r"\b(java|python|\.net|c#|react|react\s+native|node(\.js)?|golang|go|ruby|rails|php|c\+\+|rust|scala|kotlin|swift|typescript|javascript|"
-                          r"salesforce|unity|unreal)\s+(\w+\s+){0,1}(engineer|developer)\b|\bprogrammer\b|\bfounding\s+engineer\b|"
-                          r"^\W*((senior|sr\.?|staff|principal|lead|junior|jr\.?|distinguished|founding)\s*/?\s*)*(engineer|developer)(\s+(i|ii|iii|iv|v|\d))?\s*([,\-–(:|]|$)"),
+                          r"salesforce|unity|unreal)\s+(\w+\s+){0,1}(engineer|developer)\b|\bprogrammer\b|\bfounding\s+engineer\b"),
 ]
 FAMILY_RE = [(f, re.compile(p, FLAGS)) for f, p in FAMILY_PATTERNS]
+
+# ---- Bare titles -------------------------------------------------------------------------------------------------
+# A title that names the job and nothing more ("Senior Engineer", "Engineer II, Substations", "Designer") is the role at
+# an employer that makes software, and often not elsewhere: a utility's engineer builds substations, a hotel's keeps
+# the building, a retailer's designer dresses the store (the fresh sample of 2026-11-06, PLAN.md). The employer's
+# industry decides: unknown (a résumé, an employer with no industry on file), a software industry or a startup's
+# portfolio tags, and the bare title is the role; any other industry, and a bare "Engineer" counts only when the rest
+# of the title names software work, a bare "Designer" only when it names digital product design. A bare "Developer"
+# is software everywhere.
+BARE = {
+    "software_engineer": r"^\W*((senior|sr\.?|staff|principal|lead|junior|jr\.?|distinguished|founding)\s*/?\s*)*(engineer|developer)(\s+(i|ii|iii|iv|v|\d))?\s*([,\-–(:|]|$)",
+    "product_designer": r"\bdesigner\b",
+}
+BARE_RE = {f: re.compile(p, FLAGS) for f, p in BARE.items()}
+SOFTWARE_INDUSTRIES = {"Computer Software", "Internet Services and Retailing", "Information Technology Services", "Financial Data Services"}
+# the investor-portfolio tags the registry gives startups (several joined by ";"); a startup is a software employer
+# unless a tag names a sector that builds physical things or medicines (defence hardware, biotech)
+PORTFOLIO_TAGS = {"American Dynamism", "Bio + Health", "Consumer", "Crypto", "Cultural Leadership Fund", "Enterprise", "Fintech", "Growth",
+                  "Infra", "Seed"}
+PORTFOLIO_NOT_SOFTWARE = {"American Dynamism", "Bio + Health"}
+BARE_HINT = {
+    "software_engineer": r"\b(software|firmware|embedded|devops|dev\s*ops|devsecops|sre|cloud|platforms?|api|apis|web|mobile|"
+                         r"front[- ]?end|back[- ]?end|full[- ]?stack|java|python|\.net|c#|c\+\+|aws|azure|gcp|kubernetes|sap|erp|salesforce|servicenow|"
+                         r"oracle|data|database|identity|iam|access\s+management|cyber\s*security|digital|booking\s+engine|ai|ml|site\s+reliability|"
+                         r"test\s+automation|e-?trading|trading|management\s+systems?|tech|technology)\b",
+    "product_designer": r"\b(ux|ui|user\s+experience|product\s+design|digital|web|app|apps|interaction|design\s+systems?|software|cloud|platform)\b",
+}
+BARE_HINT_RE = {f: re.compile(p, FLAGS) for f, p in BARE_HINT.items()}
+
+
+def software_employer(industry):
+    """True when a bare title is the role at this employer: industry unknown, a software industry, or startup tags."""
+    if not industry:
+        return True
+    tags = [t.strip() for t in str(industry).split(";")]
+    return industry in SOFTWARE_INDUSTRIES or (all(t in PORTFOLIO_TAGS for t in tags) and not any(t in PORTFOLIO_NOT_SOFTWARE for t in tags))
+
+
+def bare_match(f, title, industry=None):
+    """The bare form of role f, with the employer's say: a bare Developer always; else a software employer, or a hint."""
+    rx = BARE_RE.get(f)
+    if not rx or not rx.search(title):
+        return False
+    if f == "software_engineer" and not re.search(r"\bengineer\b", title, FLAGS):
+        return True   # a bare Developer
+    return software_employer(industry) or bool(BARE_HINT_RE[f].search(title))
 
 EXCLUDE = {
     "counsel": r"\bparalegal\b|\blegal\s+(assistant|secretary|operations|ops|analyst|specialist|coordinator|administrator)\b|\bcounsel(l)?or\b|"
@@ -100,7 +145,7 @@ EXCLUDE = {
                         r"kitchen|floral|textile|jewelry|footwear|apparel|print|production|set|costume|curriculum|presentation|cad|mold|tool(ing)?|"
                         r"verification|brand|marketing|communications?|creative|illustrat\w*|motion|video|social|merchandis\w*|retail|store|"
                         r"exhibit|event|signage|environmental|construction|engineer\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal|"
-                        r"technical\s+designer|gear|(wo)?men'?s|kids|girls|boys)\b",
+                        r"technical\s+designer|gear|(wo)?men'?s|kids|girls|boys|data\s+hall|data\s+cent(er|re)|substation|eyewear|visualization)\b",
     "security_engineer": r"\b(physical|guard|officer|loss\s+prevention|protective|protection\s+agent|executive\s+protection|facilit\w*|patrol|armed|"
                          r"trust\s*(&|and)\s*safety\s+(analyst|specialist|associate|operations)|content\s+moderat\w*|fraud|aml|kyc|financial\s+crime|"
                          r"product\s+manag\w*|product\s+marketing|program\s+manag\w*|data\s+scien\w*|security\s+clearance|national\s+security|programs?\s+development|supply\s+chain\s+security\s+manager|project\s+manag\w*|"
@@ -131,13 +176,13 @@ def product_gate(title):
     return roles.family(t) == "product_engineer" or not ENG_WORD_RE.search(t)
 
 
-def family(title, company=None):
-    """The tech role of a title, or None."""
+def family(title, company=None, industry=None):
+    """The tech role of a title, or None. industry: the employer's (decides a bare title, see BARE); None for a résumé."""
     t = title or ""
     if NOT_THE_JOB_RE.search(t) or product_gate(t):
         return None
     for f, rx in FAMILY_RE:
-        if not rx.search(t):
+        if not rx.search(t) and not bare_match(f, t, industry):
             continue
         if f in EXCLUDE_RE and EXCLUDE_RE[f].search(t):
             continue
@@ -147,8 +192,8 @@ def family(title, company=None):
     return None
 
 
-def title_ok(title, company=None):
-    return family(title, company) is not None
+def title_ok(title, company=None, industry=None):
+    return family(title, company, industry) is not None
 
 
 FAMILY_LABELS = {
@@ -249,7 +294,7 @@ BANK_SETOFF_RE = re.compile(
 def ladder(title, company=None, industry=None, fam=None):
     """Which grade names the title uses: "legal" for counsel, "bank" at a bank when a bank grade is in the title,
     else "engineering"."""
-    fam = fam or family(title, company)
+    fam = fam or family(title, company, industry)
     if fam == "counsel":
         return "legal"
     if (industry in BANK_INDUSTRIES or (company or "").lower() in BANKS) and any(rx.search(title or "") for _, rx in BANK_RE):
@@ -307,7 +352,7 @@ def entry(title, company=None, industry=None, fam=None, lvl=None, text=None):
     "title" or "text". Order: the firm's row; a title that names students or new graduates (an internship is one);
     on an associate-level title, a line of the text that says who the posting is for."""
     t = title or ""
-    fam = fam or family(t, company)
+    fam = fam or family(t, company, industry)
     lvl = lvl or level(t, company, industry, fam)
     intern = bool(_ET["intern"].search(t))
     if _ET["not_for_them"].search(t):
@@ -333,8 +378,9 @@ def export():
         "how": [
             "1. No role when the title matches 'not_the_job', or when the product set holds it: product.title_ok(title) and (product.family(title) is "
             "'product_engineer' or the title does not match 'eng_word').",
-            "2. The role is the first entry of 'families' whose 'patterns' match and whose 'exclude' does not; an entry with 'engineering' true is also "
-            "skipped when the title matches 'customer_facing', or matches 'hardware' and not 'software_word'.",
+            "2. The role is the first entry of 'families' whose 'patterns' match, or whose 'bare' pattern matches with the employer's say (see "
+            "'bare_titles'), and whose 'exclude' does not; an entry with 'engineering' true is also skipped when the title matches 'customer_facing', "
+            "or matches 'hardware' and not 'software_word'.",
             "3. Ladder: 'legal' for counsel; 'bank' when the employer is in 'banks' or its industry in 'bank_industries' and a bank grade matches, or when the title "
             "matches 'bank_setoff' and not 'bank_setoff_not'; else 'engineering'.",
             "4. Level: the first grade of the ladder whose pattern matches; none: 'mid'.",
@@ -343,9 +389,14 @@ def export():
         ],
         "flags": "i",
         "groups": [{"id": g, "label": label, "families": fs} for g, (label, fs) in GROUPS.items()],
-        "families": [{"id": f, "label": FAMILY_LABELS[f], "group": GROUP_OF[f], "patterns": [p], "exclude": [EXCLUDE[f]] if f in EXCLUDE else [],
+        "families": [{"id": f, "label": FAMILY_LABELS[f], "group": GROUP_OF[f], "patterns": [p], "bare": [BARE[f]] if f in BARE else [], "exclude": [EXCLUDE[f]] if f in EXCLUDE else [],
                       "engineering": f in ENGINEERING, "covers": COVERS.get(f, []),
                       "covered_by": sorted(g for g, fs in COVERS.items() if f in fs)} for f, p in FAMILY_PATTERNS],
+        "bare_titles": {"about": "A 'bare' pattern counts when the employer's industry is unknown (a résumé), in 'software_industries', or made only of "
+                                 "'portfolio_tags' (joined by ';') with none in 'portfolio_not_software'; at any other employer, when the title matches the role's 'hint', or, for "
+                                 "software_engineer, when it does not match 'engineer_word' (a bare Developer).",
+                        "software_industries": sorted(SOFTWARE_INDUSTRIES), "portfolio_tags": sorted(PORTFOLIO_TAGS), "portfolio_not_software": sorted(PORTFOLIO_NOT_SOFTWARE), "hint": BARE_HINT,
+                        "engineer_word": r"\bengineer\b"},
         "not_the_job": NOT_THE_JOB, "customer_facing": CUSTOMER_FACING, "hardware": HARDWARE, "software_word": r"\b(software|firmware|embedded)\b",
         "eng_word": ENG_WORD_RE.pattern, "mts": MTS_RE.pattern, "bank_setoff": BANK_SETOFF_RE.pattern, "bank_setoff_not": r"\b(head|director|manager)\b",
         "product": {"families": [{"id": f, "pattern": p} for f, p in roles.FAMILY_PATTERNS], "exclude": roles.EXCLUDE_RE.pattern,
