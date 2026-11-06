@@ -10,7 +10,7 @@ Produced by `node evals/calibrate.mjs --roles tech` on 2026-11-06 from 376 publi
 | Adjacent role (against the other roles of its group) | 432 | 0% | 2% | 6% | 20% | 47% |
 | Other field (against the roles of other groups) | 2128 | 0% | 3% | 7% | 15% | 38% |
 
-The score ranks a same-role score above an other-field score 80% of the time, and above an adjacent-role score 78% of the time (50% would be chance). A resume's own role is its highest-scoring role of the 7 in 49 of 72; its highest-scoring role is in its own group in 55 of 72. The level read agrees with the seniority read from the resume in 65 of 72.
+The score ranks a same-role score above an other-field score 80% of the time, and above an adjacent-role score 78% of the time (50% would be chance). A resume's own role is its highest-scoring role of the 7 in 49 of 72; its highest-scoring role is in its own group in 55 of 72. The level read agrees with the seniority read from the resume in 66 of 72.
 
 ## Role held
 

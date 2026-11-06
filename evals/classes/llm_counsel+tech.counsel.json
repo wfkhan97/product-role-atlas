@@ -20,6 +20,7 @@
   ]
  },
  "known_failures": {
-  "must_top LAW 6324": "Counsel's gaps here are litigation and compliance-led (see the tech bands: counsel's asks read as compliance); AI x IP is tagged IP law, which is not one of them."
+  "must_top LAW 6324": "Counsel's gaps here are litigation and compliance-led (see the tech bands: counsel's asks read as compliance); AI x IP is tagged IP law, which is not one of them.",
+  "must_top LAW 6896": "The lawyer's \"Associate\" at a law firm now reads as in-house counsel held (evals/resume_titles_tech.json), which closes six of the seven gaps. The one left is named by no class, so the picker sorts by score, and the score ranks the tech-business classes above Technology Transactions II (rank 17)."
  }
 }

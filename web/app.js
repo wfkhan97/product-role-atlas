@@ -856,12 +856,12 @@
     const writeHash = () => { const p = new URLSearchParams(); if (all) p.set("all", "1"); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     // ---- the left two thirds: the search, the tiles, a field's roles ----
     const row = (r, withField) => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(Launcher.fill(C.open, { open: fmt(r.nOpen) }))}</span><span class="m">${withField && r.field ? esc(r.field.label) + " · " : ""}${r.asks.length ? esc(Launcher.fill(C.asks, { asks: r.asks.join(", ") })) : ""}</span></a>`;
-    const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
+    const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(f.roles.length === 1 ? C.tileOne : C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
     const left = () => {
       if (s.q.trim()) { const hits = Launcher.searchRoles(ix, s.q); return hits.length ? `<p class="lf-lab">${esc(Launcher.hitsLine(hits.length))}</p><div class="list">${hits.map(r => row(r, true)).join("")}</div>` : `<p class="lf-lab">${esc(C.noHit)}</p>${tiles(null)}`; }
       // a picked field's roles take the tiles' place (owner, 2026-11-01), with the way back to the tiles above them
       const f = F.find(x => x.id === s.field);
-      if (f) return `<p class="lf-lab"><button type="button" class="linkish link lf-back" id="lf-back">${esc(C.backToFields)}</button></p><section class="lf-field"><h2>${esc(f.label)}</h2><p class="small muted">${esc(Launcher.fill(C.fieldLine, { roles: f.roles.length, open: fmt(f.nOpen) }))}</p><div class="list">${f.roles.map(r => row(r, false)).join("")}</div></section>`;
+      if (f) return `<p class="lf-lab"><button type="button" class="linkish link lf-back" id="lf-back">${esc(C.backToFields)}</button></p><section class="lf-field"><h2>${esc(f.label)}</h2><p class="small muted">${esc(Launcher.fill(f.roles.length === 1 ? C.fieldLineOne : C.fieldLine, { roles: f.roles.length, open: fmt(f.nOpen) }))}</p><div class="list">${f.roles.map(r => row(r, false)).join("")}</div></section>`;
       return `<p class="lf-lab">${esc(C.pickField)}</p>${tiles(null)}`;
     };
     // ---- the right third: the résumé form, or the light match once it is read ----
