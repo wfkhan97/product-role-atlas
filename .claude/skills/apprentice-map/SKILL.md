@@ -106,7 +106,9 @@ card, each `{ title, url, read }`. `student.fictional: true` only on the tracked
 ## 5. Report
 
 The path of `map.html`; the card count per level and the Reach; the three cards you are least sure of and why.
-Nothing is sent anywhere; the owner opens the page and publishes the map with `pipeline.map_publish`.
+Nothing is sent anywhere; the owner opens the page and publishes the map with `pipeline.map_publish`. A student who
+signed in on the site may already hold a self-serve map there (`student.self_serve`, from `/api/tree`); publishing
+replaces it, and the site never overwrites a map with a build card.
 
 ## After the student's feedback
 

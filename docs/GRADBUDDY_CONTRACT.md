@@ -1,9 +1,9 @@
 # What GradBuddy reads from the atlas
 
-One page for another program (GradBuddy, its jobs back end, an agent) that reads the atlas's files and functions
-(PLAN.md v16, step 10). The frame: **the atlas states facts and matches; GradBuddy synthesizes and acts.** Everything
-below is a fact or a match. Nothing here runs a model at runtime, and nothing a person types or drops leaves their
-browser except what the privacy rule at the end names.
+One page for another program (GradBuddy, its jobs back end, an agent) that reads the atlas's files and functions.
+The frame: **the atlas states facts and matches; GradBuddy synthesizes and acts.** Everything below is a fact or a
+match. The files and functions here run no model; the site's two functions (`/api/infer`, `/api/tree`) and what a
+person's text or counts leave the browser for are in the privacy rule at the end.
 
 ## Stable and not
 
@@ -130,8 +130,8 @@ raw, 1.8 MB gzipped); home reads `jobs_meta.json`, the counts alone.
 
 **What is in it.** Every product posting is open: `graph.json` drops closed ones. A product posting is in when its
 country is `United States`. An MBA posting is in when its row in `graph_mba/<role id>.json` has `open` true and the
-country of the index's `meta`. At the Oct 25 graphs: 31,965 rows (6,015 product, 25,950 MBA), 1,508 companies, 56
-roles. No pay (no posting carries one), no posting date, no snippet, no sub-skills, no years of experience.
+country of the index's `meta`. `jobs_meta.json` holds the current counts (on 2026-11-06: 32,482 rows, 1,511
+companies, 58 roles). No pay (no posting carries one), no snippet, no sub-skills, no years of experience.
 
 **The shape.** Column-oriented. The tables are lists, and a row indexes into them:
 
@@ -154,9 +154,8 @@ roles. No pay (no posting carries one), no posting date, no snippet, no sub-skil
 first_seen }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
 `m<num>` for an MBA posting, where `num` is its row id in the role file. So a row joins back to the graphs. `set` is
 `product` or `mba`; `entry` is `mba` · `pre_mba` · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
-`skills` stay indexes into `file.skill_ids`. `first_seen` is null on every row today: `build_graph` carries it into
-the MBA role rows from v19 on, but the graphs on disk predate that. It fills once `build_graph` runs for both sets and
-`jobs_open` runs after them. There is no "newest" order until then.
+`skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA rows and null on the product rows until
+the product graph is rebuilt; there is no "newest" order until every row carries it.
 
 `jobs_meta.json`: `{ generated, n_open, n_companies, by_set: { product: { n_open, n_companies }, mba: { … } }, n_roles }`.
 
@@ -217,9 +216,9 @@ codes as keys, `found` and `teaches`, the two hash keys. **Not stable**: the row
 `medium`: the share of the chosen roles' core and common asks a class names; 0.270 and 0.083 for Cornell Tech),
 `field_subjects` (per field id, the roster subjects whose classes belong to that field: the sorts' tie-break, data not
 code), `catalog` (true once its files exist), `catalog_file` and `tags_file` (the two public files above). There is no
-`signin_domains` any more: the classes path has no sign-in, no Supabase and no row-level security. The picker reads the
-two files and nothing else; `CONFIG.CATALOG_SOURCE` is `"files"`, and the Supabase URL and key in `web/config.js` serve
-`capture.js` alone.
+`signin_domains`: the classes path has no sign-in and no database. The picker reads the two files and nothing else;
+`CONFIG.CATALOG_SOURCE` is `"files"`. The Supabase URL and publishable key in `web/config.js` serve capture, feedback,
+the sign-in and the saved state, never the catalog.
 
 The pure functions load in node with `require("web/catalog.js")({})`:
 
@@ -248,8 +247,8 @@ The first consumer was GradBuddy's apprentice map generator (PLAN.md v18; its br
 the generator lives in the atlas, at `pipeline/apprentice/`, and reads these files from its own repository. They are
 the files any outside reader of the role sets needs:
 
-- `web/data/roles_mba.json`: the 50 roles with their labels, groups, title rules and ladders, to name the role and
-  its grades.
+- `web/data/roles_mba.json`: the MBA roles (64 on 2026-11-06) with their labels, groups, title rules and ladders, to
+  name the role and its grades.
 - `web/data/taxonomy_mba.json`: the skills the postings are tagged with (id, name, area, kind, patterns), the
   vocabulary every level of the ladder is written in.
 - `web/data/graph_mba/<role>.json`: one role's postings with their skills, levels and employers, the evidence of what
@@ -269,7 +268,9 @@ The private part of the site (PLAN.md v20). The generator (`pipeline/apprentice/
 `.claude/skills/`) writes one `map.json` per student, by hand and offline, into `data/apprentice/students/<slug>/`,
 which is gitignored. The owner publishes it to the private bucket `maps` under the person's user id
 (`pipeline.map_publish`). The atlas reads it with the person's own session on `#/map` (`web/auth.js`, `web/map.js`)
-and draws it. The site never writes to it. A map is never in a repository: it quotes one person's résumé. The one
+and draws it. The site writes to it in one case: `/api/tree` builds a self-serve map (the tree, the read and the story
+cards, `student.self_serve: true`) for a signed-in person from their résumé and the roles they pick, and never
+overwrites a map that holds a build card. A map is never in a repository: it quotes one person's résumé. The one
 tracked map is the example, `pipeline/apprentice/examples/pmm-nyc/`, a fictional person against a real posting.
 
 **What GradBuddy still holds.** `../GradBuddy Project/gradbuddy/apprentice/students/` is the read-only source of the
@@ -317,33 +318,34 @@ project the site points at and never run without it.
 
 ## The privacy rule
 
-What never leaves a browser: the résumé, the syllabus, the pasted posting, every skill list and skill id, every file
-name, the person's ratings, the roles chosen, the networking list and its drafts. Nothing uploaded leaves the browser.
-No screen asks for a password, and the email is routing, never a credential.
+What never leaves a browser: a syllabus, a pasted posting, every skill list and skill id, every file name, the roles
+chosen, the networking list and its drafts. No screen asks for a password; the sign-in is an email and a six-digit
+code.
 
-What leaves it, and only this (`web/capture.js`; the tables in `pipeline/sql/2026-10-25_capture.sql`,
-`2026-10-26_cohort.sql` and `2026-10-31_doors.sql`):
+What leaves it, and only this:
 
-- **The door email and the intake email**, one `waitlist` row each: the email, the `source` (where the box was:
-  `door` for the door at `#/`; `intake_skills`, `intake_classes` and `intake_network` for the coming-soon box at a
-  verb's foot; the six sources of before, `show` · `build` · `ways` · `fit` · `start` · `classes`, for the box on the
-  rail, the fit screen and the picker), the `surface` (`door` · `jobs` · `skills` · `classes` · `network`), the role
-  on screen (`role_id`) and, when the screen knows them, the stage and the program group (the door's "What are you
-  studying?" answer rides as the program). The sentence box of v18 ("the role you want, in your words") is on no
-  screen any more; its `note` column stays for the old rows. A second click with the same email and source is not a
-  second row.
-- **Anonymous funnel events**, one `events` row each: a name from the closed list in `capture.js` (the nineteen of
-  before, then `door`, `door_passed`, `home_jobs`, `home_skills`, `home_classes`, `home_network`, `intake_skills`,
-  `intake_classes`, `intake_network`), a random id made once per browser session (`sessionStorage`, never written
-  elsewhere and never joined to an email), the stage, the program group, a role or field id and the surface. An event
-  is a count: it carries no text and no skill id.
-- **The Tally forms** (`web/doors.js`, the ids in `CONFIG.TALLY`): once the owner sets an id, the door and the intake
-  boxes are Tally embeds, and the answer posts to Tally, never through the atlas. The embed carries four hidden fields
-  and nothing more: `surface`, `source`, `role`, `email` (pre-filled from the door). The door's form returns to
-  `#/home?email=…&where=…`, which the screen reads once and removes from the URL. With no id, or when the embed has not
-  loaded in three seconds, the native form sends the same row through `Capture.waitlist`.
+- **A résumé's text**, twice at most and stored by neither: to `/api/infer` once per upload (the model read; the
+  function sends it to the model and keeps nothing) and to `/api/tree` once per build (grounded in the function and
+  dropped). The map that comes back holds the lines the read found, never the file.
+- **The door email and the intake email**, one `waitlist` row each: the email, the `source` (`door`, `intake_<surface>`,
+  the six older sources), the `surface`, the role on screen, and the stage and program group when the screen knows
+  them. A second click with the same email and source is not a second row.
+- **Events**, one `events` row each (`web/capture.js`, the closed list `EVENTS`): a name, a random id per browser
+  session, a random id per browser (`capture.visitor`, so a return visit reads as one), the signed-in person's id when
+  the browser holds a session, the screen, a call-to-action id, the heartbeat's milliseconds, the stage, the program
+  group, a role or field id and the surface. An event carries no text and no skill id.
+- **The feedback box** (`web/feedback.js`), one `feedback` row on Send: the sentence (at most 500 characters), an
+  email only if typed, the screen, whether the prompt opened the box, the two ids above and the person's id with a
+  session. Insert only; the owner reads it in the catalog project's SQL editor.
+- **The Tally forms** (`web/doors.js`, the ids in `CONFIG.TALLY`): the door and the intake boxes are Tally embeds
+  carrying four hidden fields (`surface`, `source`, `role`, `email`); the answer posts to Tally. With no id or no load
+  in three seconds, the native form sends the same `waitlist` row.
+- **With a sign-in** (`CONFIG.ACCOUNTS_ENABLED`; `web/state.js`, own rows under row-level security): `profiles` (the
+  About-you answers, the campus flag, a SHA-256 of the résumé's normalized text), `hearts` (role ids), `reads` (per
+  résumé hash and role: the band, the skill ids with their state and one résumé line each, the gaps, the model read's
+  ids). A button on About you deletes all three.
+- **The apprentice map**: read by its person alone with their session; written by the owner, or by `/api/tree` for
+  the person's own folder; a feedback file goes back.
 
-Neither path ever sends a résumé, a syllabus, posting text, a skill id or a file name. A program that reads the atlas
-inherits the rule: nothing it builds on these files may send a person's text anywhere the atlas does not. The one
-private thing on the site, the apprentice map, has its own rule above: read by its person alone, written by the owner,
-and only a feedback file goes back.
+A program that reads the atlas inherits the rule: nothing it builds on these files may send a person's text anywhere
+the atlas does not.
