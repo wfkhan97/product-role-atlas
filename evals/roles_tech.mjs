@@ -14,7 +14,12 @@ import { fileURLToPath } from "url";
 export function createRoles(rules) {
   const rx = p => new RegExp(p, rules.flags);
   const any = list => list.length ? rx(list.map(p => `(?:${p})`).join("|")) : null;
-  const fams = rules.families.map(f => ({ ...f, rx: any(f.patterns), ex: any(f.exclude) }));
+  const fams = rules.families.map(f => ({ ...f, rx: any(f.patterns), ex: any(f.exclude), bareRx: any(f.bare || []) }));
+  // a bare title ("Senior Engineer", "Designer") with the employer's say: rules.bare_titles
+  const B = rules.bare_titles, swInd = new Set(B.software_industries), tags = new Set(B.portfolio_tags), hint = Object.fromEntries(Object.entries(B.hint).map(([k, p]) => [k, rx(p)])), engWordOnly = rx(B.engineer_word);
+  const notSw = new Set(B.portfolio_not_software || []);
+  const softwareEmployer = ind => { if (!ind) return true; const ts = String(ind).split(";").map(t => t.trim()); return swInd.has(ind) || (ts.every(t => tags.has(t)) && !ts.some(t => notSw.has(t))); };
+  const bareMatch = (f, t, ind) => !!f.bareRx && f.bareRx.test(t) && ((f.id === "software_engineer" && !engWordOnly.test(t)) || softwareEmployer(ind) || (!!hint[f.id] && hint[f.id].test(t)));
   const P = rules.product, pFams = P.families.map(f => ({ id: f.id, rx: rx(f.pattern) }));
   const pRx = { exclude: rx(P.exclude), keep: rx(P.keep), nonproduct: rx(P.nonproduct), food: rx(P.food), manage: rx(P.product_manage), hardware: rx(P.hardware) };
   const pHardware = new Set(P.hardware_families);
@@ -29,11 +34,12 @@ export function createRoles(rules) {
   const tIntern = rx(E.title.intern), tNot = rx(E.title.not_for_them), tGrad = rx(E.title.grad), xStudent = rx(E.text.student), xNot = rx(E.text.not_student);
 
   const productGate = t => productOk(t) && (productFamily(t) === "product_engineer" || !engWord.test(t));
-  function family(title) {
+  // who: { company, industry } of the employer, both optional (none: a résumé, where a bare title counts)
+  function family(title, who = {}) {
     const t = title || "";
     if (notTheJob.test(t) || productGate(t)) return null;
     for (const f of fams) {
-      if (!f.rx.test(t) || (f.ex && f.ex.test(t))) continue;
+      if ((!f.rx.test(t) && !bareMatch(f, t, who.industry)) || (f.ex && f.ex.test(t))) continue;
       if (f.engineering && (customer.test(t) || (hardware.test(t) && !software.test(t)))) continue;
       return f.id;
     }
@@ -41,7 +47,7 @@ export function createRoles(rules) {
   }
   // who: { company, industry } of the employer, both optional
   function ladder(title, who = {}, fam) {
-    if ((fam === undefined ? family(title) : fam) === "counsel") return "legal";
+    if ((fam === undefined ? family(title, who) : fam) === "counsel") return "legal";
     if ((bankIndustries.has(who.industry) || banks.has((who.company || "").toLowerCase())) && ladders.bank.some(g => g.rx.test(title || ""))) return "bank";
     if (setoff.test(title || "") && !setoffNot.test(title || "")) return "bank";
     return "engineering";
@@ -55,7 +61,7 @@ export function createRoles(rules) {
   // Who enters at this title: { entry: "grad" | null, intern, source }. opts.text: the cleaned posting text, optional.
   function entry(title, who = {}, opts = {}) {
     const t = title || "";
-    const fam = family(t), lvl = level(t, who, fam);
+    const fam = family(t, who), lvl = level(t, who, fam);
     const intern = tIntern.test(t), out = (entry, i, source) => ({ entry, intern: i, source });
     if (tNot.test(t)) return out(null, intern, null);
     for (const row of own(firms, (who.company || "").toLowerCase()) || []) if (row.rx.test(t)) return out("grad", row.intern === undefined ? intern : row.intern, "firm");
@@ -71,5 +77,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const here = path.dirname(fileURLToPath(import.meta.url));
   const R = createRoles(JSON.parse(fs.readFileSync(path.join(here, "../web/data/roles_tech.json"))));
   const rows = JSON.parse(fs.readFileSync(0, "utf8"));
-  process.stdout.write(JSON.stringify(rows.map(r => { const f = R.family(r.title), e = R.entry(r.title, r, { text: r.text }); return [f, R.level(r.title, r, f), R.ladder(r.title, r, f), e.entry, e.intern, e.source]; })));
+  process.stdout.write(JSON.stringify(rows.map(r => { const f = R.family(r.title, r), e = R.entry(r.title, r, { text: r.text }); return [f, R.level(r.title, r, f), R.ladder(r.title, r, f), e.entry, e.intern, e.source]; })));
 }

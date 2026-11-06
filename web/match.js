@@ -500,7 +500,8 @@
   // reference reader; tests/web/match.test.mjs pins this copy against it.
   function compileTechRoles(R) {
     const fl = R.flags || "i", re = p => new RegExp(p, fl), any = l => l && l.length ? re(l.map(p => "(?:" + p + ")").join("|")) : null;
-    const fams = R.families.map(f => ({ id: f.id, label: f.label, rx: any(f.patterns), ex: any(f.exclude), engineering: f.engineering, covers: f.covers || [] }));
+    // a résumé's employer has no industry on file, so a bare title ("Senior Engineer") counts, as roles_tech.py reads it
+    const fams = R.families.map(f => ({ id: f.id, label: f.label, rx: any([...f.patterns, ...(f.bare || [])]), ex: any(f.exclude), engineering: f.engineering, covers: f.covers || [] }));
     const P = R.product, pFams = P.families.map(f => ({ id: f.id, rx: re(f.pattern) }));
     const pRx = { exclude: re(P.exclude), keep: re(P.keep), nonproduct: re(P.nonproduct), food: re(P.food), manage: re(P.product_manage), hardware: re(P.hardware) };
     const pHardware = new Set(P.hardware_families || []);
