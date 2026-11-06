@@ -158,7 +158,10 @@
   // the coachmark: one pointer on the first move of a game's first round (Coachmarks pattern), dismissed by any move
   const coach = text => `<div class="gm-coach" role="note" id="gm-coach">${esc(text)}<button type="button" class="linkish link" id="gm-coach-ok">${esc(W.gotIt)}</button></div>`;
 
-  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, knowLine, KEYS_NOTE, STORAGE_NOTE };
+  // the role page's way into the game before any record (2026-11-06; a new visitor found none): `first` is
+  // { href, text }; one line, or "" without both
+  const firstCard = first => first && first.href && first.text ? `<p class="gm-first"><a href="${esc(first.href)}">${esc(first.text)}</a></p>` : "";
+  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, knowLine, firstCard, KEYS_NOTE, STORAGE_NOTE };
 
   // ---------- the frame: header, body, live region ----------
   // frame(el, { game, role, round, rounds, marks, info, quit, cls }) -> { body, set(...), live(msg) }
@@ -256,9 +259,9 @@
   }
 
   // the Know-your-role card (G4): the ledger shown beside a role screen's action row and on About you
-  // knowCard({ roleId, label, asks, nameOf, practise }) -> html, or "" when nothing is known yet
+  // knowCard({ roleId, label, asks, nameOf, practise, first }) -> html, or with nothing known yet firstCard(first)
   function knowCard(o) {
-    const k = summary(storage.read(), o.roleId, o.asks); if (!k.any) return "";
+    const k = summary(storage.read(), o.roleId, o.asks); if (!k.any) return firstCard(o.first);
     const names = ids => ids.map(id => esc(o.nameOf(id))).join(", ");
     const missing = k.missing.slice(0, 3);
     return `<div class="gm-know"><p class="eyebrow">${esc(W.knowHeading)}</p>
@@ -270,5 +273,5 @@
       ${missing.length && o.practise ? `<p class="gm-know-p"><a href="${esc(o.practise(k.missing))}">${esc(W.practiceMissing)}</a> <span class="muted">${names(missing)}${k.missing.length > 3 ? ", …" : ""}</span></p>` : ""}</div>`;
   }
 
-  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, knowLine, knowCard, KEYS_NOTE, STORAGE_NOTE };
+  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, knowLine, knowCard, firstCard, KEYS_NOTE, STORAGE_NOTE };
 });

@@ -27,3 +27,9 @@ web/data/local/
 
 # real students' apprentice map folders (pipeline/apprentice/new.mjs); a map quotes one person's résumé, never in git
 data/apprentice/
+
+# the UI harness (tests/ui/): node packages, Playwright's output, the captured session (a live token)
+node_modules/
+test-results/
+playwright-report/
+tests/ui/.session.json

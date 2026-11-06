@@ -2590,6 +2590,137 @@ shares alone. A tech role's pool uses the same rules over the tech index's skill
 - **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
   The owner decided on 2026-11-06 that both stay business-only: no tech edition.
 
+## The usability audit of 2026-11-06: the harness, nine fix clusters, the site guide (`chore/ui-harness` … `feat/site-guide`, 2026-11-06)
+
+**The ask.** Cornell Tech's pre-enrollment runs Nov 10–12, and many students meet GradBuddy there first. The owner
+asked for an audit of every public surface, in every visitor state, before that week. Every broken or blocking
+finding was to be fixed, and a guide in context was to explain what each screen does.
+
+**The harness** (#172, `chore/ui-harness`). `tests/ui/serve.mjs` serves `web/` with its two functions mounted as
+Vercel mounts them. Playwright (a library that drives a real browser) runs the specs as a phone (390×844) and as a
+desktop (1280×800). The `visitor` fixture gives four states: fresh (the door not passed), campus (a Cornell address),
+general (any other address) and signed in. It stubs every write to Supabase, so no event, waitlist or feedback row
+leaves the machine. axe (an accessibility checker) reports the WCAG 2.1 A and AA violations and never fails a test.
+Three working facts:
+- The threads worked in shared clones under the session scratchpad, not in git worktrees: the app refuses writes
+  into a sibling worktree.
+- The tree key is live in this Mac's environment, and the local server reads it. A signed-in tree build on the
+  local server would write to the production `maps` bucket. Never submit the tree form locally.
+- The Tally door sends a local visitor on to production after the form (a Tally setting), so the fixture passes the
+  door by its return address.
+
+**The method.** Three auditors, read-only, each took one part of the site: A the door, home and Find classes; B Find
+jobs, Explore careers, About you, the field map and the games; C Networking, the sign-in and map gate, feedback, the
+top bar, the footer and About. Each made three passes in the three states and both viewports. Pass 1 held every screen
+against ten usability heuristics. Pass 2 ran three visitors as task scripts: a graduate student who wants any job, a
+person with a target role, a person who wants to understand a field. Pass 3 checked the copy rule, axe, a keyboard-only
+path and the contrast of the text tokens in both themes. Each finding has one plain title, the surface, the state, a
+severity, the evidence (steps and a screenshot or an axe rule) and a fix, or the flag "explain" when the control is
+right and only unlabelled. Severity: broken (a path fails), blocking (a first-time visitor cannot tell what to do
+next or what happened), cosmetic (the rest). The three files held 87 findings; the dedupe left 75: 5 broken, 16
+blocking, 54 cosmetic.
+
+**The owner's decisions at Pause 1.**
+- Scope: every broken and blocking finding, and the cosmetic ones that live in the same files. The rest goes to Later.
+- The door's own chrome (the top bar, the brand, the footer's About) passes the door as "Skip for now" does.
+- The Fit sort on Find jobs ranks by share with a floor: N / max(M, 15). The floor sits near the 7th percentile of
+  the skills a posting asks for, so a thin two-of-two posting does not top the list.
+- The feedback box opens with its email field empty. It offers the address on file as one press ("Use …").
+- The owner waived Pause 2 (the review of the guide's design) and gave full clearance to build it.
+
+**The nine clusters** (one pull request each, stacked; merge in this order: #172, #177, #178, #179, #180, #181, #183,
+#182, #184, #185, then the guide's pull request and this one). All 5 broken and all 16 blocking findings are fixed,
+with 49 of the 54 cosmetic ones and 12 more that the fixers and the checks found on the way. Of the other five
+cosmetic findings, the guide alone explains four, and one is Tally's (the dark door's purple Submit), deferred.
+1. The door (#177, `fix/door`): the door's top bar and footer About did nothing; the Tally door had no Skip; the
+   native door's student line was wrong; the top bar lacked Find classes after the Tally return; "Question 2 of 3"
+   sat over four bars.
+2. Find classes and the campus gate (#178, `fix/classes-gate`): "Find classes relevant for this role" showed to a
+   visitor with no campus address; a visitor sent home from Find classes got no word why; the Find classes screen's
+   "Read my fit" with no role showed nothing; the screen did not say "pick a role first"; focus fell to the page after
+   each redraw; the pre-enrollment dates, the gap names, the empty-list filters, the Faculty tab's "asks", the picker's
+   order and its two Product Marketing Managers, the band tag's contrast.
+3. Phone layout (#179, `fix/phone-layout`): the role page was 1,246 px wide on a phone, so the "Your fit" tab opened
+   off screen; the Networking prep card started 2,040 px down; Find jobs put the field list above the postings; the
+   panels were cut at the right edge; the top bar took four rows; the skill map's labels overlapped; the game board
+   broke words.
+4. Keyboard and contrast (#180, `fix/keyboard`): a keyboard could not reach "choose a file", so it could not give a
+   résumé; Find jobs, the launcher and Networking dropped focus after a choice; the Networking types ignored the arrow
+   keys; the feedback sheet let Tab leave it; links in a sentence had no underline; names that lacked their visible
+   words; the game's key hint at 4.09:1.
+5. The résumé return path (#181, `fix/resume-return`): "Add your résumé" on Find jobs and on Networking's prep card
+   ran the whole wizard and lost the search; the rail said two questions over a wizard of three; the résumé line
+   named the AI reader when it had not answered; "résumé" and "resume" both showed; "Start over" erased everything
+   without a question.
+6. The fit screen, the course screen, the games and Explore (#183, `fix/fit-course-games`): the course screen said
+   "0 of the 0 skills" at Entry; the rail said "7 of the 7" while the fit screen listed eleven skills to evidence; no
+   link led to the course screen or into the games; two screens were called Explore (`#/explore` is now "The fields
+   and their skills", crumb "All fields"); the intake boxes said their lines twice; one thing carried different counts
+   on different screens.
+7. Find jobs (#182, `fix/jobs-fit-sort`): the Fit sort put Staff and Principal postings first for a new graduate;
+   the MBA set's Product Manager cards had no field; a phone had no way to the filters below the postings.
+8. Networking (#184, `fix/network`): the Role box found nothing for "data" or "software" and did not say what it has;
+   "Who to look for" showed titles from the employers first in the alphabet; the recruiter's links were senior
+   postings; a Product Marketing Manager level row said "Product Manager"; skill names kept capitals mid-sentence;
+   the Faculty tab overflowed a phone.
+9. Feedback, the sign-in, About and the chrome (#185, `fix/feedback-signin-about`): the feedback box sent the door's
+   email unasked and took a non-email; the map's sign-in gave a visitor without an invite no way on, lost `next`, and
+   said "Check your connection" on a rate limit; About jumped to the top when its class count loaded, and said "About
+   the data" in the footer; one breadcrumb rule (`Routes.Crumbs`); the Feedback link looked like the current page; the
+   theme button had no visible name and one press in three changed nothing.
+
+The audit's fixes touched screens frozen with the fit flow (2026-10-26): repairs, not new work, by the owner's brief.
+No matcher, taxonomy, model-read or pipeline file changed, so no eval chain was due.
+
+**The guide** (`feat/site-guide`, `web/guide.js`, behind `GUIDE_ENABLED`, shipped off).
+- Shape: tips per screen, not a linear tour. On a first visit to a screen, two to four spotlight steps on its
+  controls, 41 rows over 11 screens; the door has none (the owner dropped its one tip on the morning after: the door's
+  own copy is the guide there). "Show me around" in the top bar and the footer replays them.
+- Build: hand-rolled, no library: a classic script like `feedback.js`, with a pure part node tests. Strings in
+  `Copy.guide`, checked by the copy rule; styles from the tokens. A step whose target is not in the page is skipped, so a
+  step never points at nothing.
+- Gating: the flag; a run waits until the screen is still (and for its ready element on the fit screen and
+  Networking); nothing else open; the screen unseen, or its version raised. The seen-state is `guide.seen` in
+  localStorage; a screen counts as seen at its first tip. The feedback prompt waits while a tip is due or open.
+- Phone: at 640 px and under, a bottom sheet (at most 45% of the height) and a ring on the target, no dim layer.
+- Accessibility: the card is a non-modal dialog. Focus moves into it, Tab stays among its buttons, Esc skips. The spec
+  had every end give focus back; as built, Done, a skip and a vanished target give it back, while a click on the
+  target (it goes through to the page) and a route change do not. The page is never inert, so a screen reader can leave the card.
+- Instrumentation: no migration. The tips send `cta` rows: `guide_<screen>` shown, click, done; `guide_skip` done;
+  `guide_relaunch` click (kept, so the funnel tells a replay from a first visit). `pipeline/funnel.py` prints shown,
+  completed and skipped per screen.
+- Versioning: one version per screen (all 1). Raising one shows that screen's tips once more to everyone.
+- Two behaviours the build added to the design: `.guide-room`, 50vh of padding below the page while the phone
+  sheet is open, so a target near the page end can scroll above the sheet; and Esc caught in the capture phase, so
+  the app's own Esc handler does not also fire.
+- Two phone fallbacks in the step table: the home relaunch tip and the About feedback tip point at the footer's link
+  when the top bar's link sits past the phone's edge.
+- Four copy changes from the plan: the field screen's heart tip says "All fields" (the cluster 6 rename); the home
+  relaunch tip says "on a screen with tips"; the Networking types tip says "a recruiter or a hiring manager" (a
+  gmail visitor has no alum tab); the role rail tip says "in the fit box" (the desktop rail is headed "How do you
+  fit?", the phone tab "Your fit").
+- The six "explain" findings it resolves. The guide alone explains four: the class cards' band and the label "from
+  the course description"; the subject codes (BANA, NBAY); the gap count that changes with the program answer; the
+  role page's closed areas. Two also got an interface change: the fit screen's two counts (a line under the lead)
+  and the Explore view buttons named only by a glyph (an aria-label).
+
+**Deferred** (each is a line under Later, below). The Tally-owned items: the dark Submit colour, the contrast inside
+the iframe, the redirect to production; they are the owner's form settings. The data strings (a role blurb's passive,
+team names repeated in titles): a data pass and a cleaner rule, with their own checks. Six token pairs under 4.5:1
+that no screen draws as text. The phone Tab order after the CSS reorders: a markup change on three screens. The
+Product field filter on Find jobs: the owner's call. The verifiers' small residuals.
+
+**Not audited: the signed-in state** (the map, the tree form, the hearts' sync, Forget, "Get your tree", the feedback
+email from a session, the top bar with Sign out). The owner's relayed code and magic link both answered
+`otp_expired`. Outlook's Safe Links opens a link in a mail before the reader does, and the six-digit code shares the
+link's token, so the scanner spent both. The risk for `ACCOUNTS_ENABLED`: Cornell mail is Outlook, so the code email
+template must carry `{{ .Token }}` and no link, or no student can sign in.
+
+**The tests at the top of the stack.** `npm test`: 478 web tests, 477 pass and 1 skip (it was there before).
+`npm run test:ui`: 364 tests, 300 pass and 64 skip (a viewport's own cases and the signed-in ones), none fail.
+`tests/python/test_funnel.py` passes. The evals are unchanged (`run.mjs` 515; `run_classes.mjs` 197 pass, 11 fail,
+3 known).
+
 ## Skills for the later MBA roles (`feat/skills-later-roles`, 2026-11-06)
 
 Part C of "Adding a role" for the 15 roles added after the first 50, run on the refresh that gave the 13 business roles
@@ -2639,7 +2770,22 @@ done). One line per item; the section that explains it is named where it helps.
 **The owner's items**
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
   the catalog project's Auth settings; then "Allow new users to sign up" back on there (off since 2026-11-06, so only
-  invited addresses get a session), the rate limits, and the flip ("The visitor journey", step 2).
+  invited addresses get a session), the rate limits, a code email template that carries `{{ .Token }}` and no link
+  (Outlook's Safe Links opens a link first and spends the code with it), and the flip ("The visitor journey", step 2).
+- One real sign-in, then the audit of the signed-in state the usability pass could not run (the map, the tree form,
+  the hearts' sync, Forget, "Get your tree", the feedback email from a session, Sign out), and
+  `tests/ui/.session.json` for the harness.
+- Merge the usability stack in order (#172, #177, #178, #179, #180, #181, #183, #182, #184, #185, the guide, the
+  docs), then flip `GUIDE_ENABLED` in a one-line pull request.
+- A think-aloud test at pre-enrollment on Nov 10: a few students use the site and say aloud what they think; what
+  stops them feeds the next pass.
+- The Tally forms' settings: the dark door's Submit is purple where the light one is black and the site's buttons
+  green, and the forms fail axe's contrast rule inside their iframe in dark theme.
+- The Tally door sends a local or preview visitor on to production after the form (a Tally setting); the harness
+  passes the door by its return address meanwhile.
+- Find jobs' Product field filter leaves out the MBA set's Product Manager and Product Strategy postings (3,716 open
+  rows; their cards say "Product"). List them under Product (then "Product Manager" shows twice, once per role set)
+  or keep them reachable by role alone.
 - A spend cap on the Anthropic key and a rate-limit rule on `/api/infer` (the function has a same-origin check and
   body limits, nothing per visitor).
 - `CATALOG_SERVICE_ROLE_KEY` in the local `.env` when a map is next published by hand (`map_publish`,
@@ -2675,7 +2821,8 @@ done). One line per item; the section that explains it is named where it helps.
   outside 5% to 50%): a `depth_publish` rerun on a `data/` branch with the baseline, and `run_depth` in the refresh checks.
 - `product_engineer` reads as engineering (system architecture 86%, APIs 79%): whether it moves to the tech set. The American-spelling rule in `depth_gen` and the
   taxonomy names (the display map `Atlas.us` covers the screens).
-- The editorial pass over the data strings `evals/copy_baseline.md` lists (abbreviations, long blurbs, passive lines).
+- The editorial pass over the data strings `evals/copy_baseline.md` lists (abbreviations, long blurbs, passive lines;
+  the Product Marketing Manager blurb in `web/data/role_blurbs.json` says "is described").
 - A carrier tie-break that prefers the carrier closer to the behaviour over the postings' order.
 
 **The site**
@@ -2692,6 +2839,38 @@ done). One line per item; the section that explains it is named where it helps.
   `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.
 - The class matching's next lever: six known failures in `evals/classes/` share one shape, one small gap carrying a
   class the role does not need; try a per-line score or a cap on small gaps (a relevance floor was tried and is not it).
+- `evals/run_classes.mjs`: two known failures now pass (`pivot_phd_hci+business_intelligence: must_not_top CS 6412`,
+  `pivot_phd_hci+all: must_not_top ECE 5748`); drop them from `known_failures` on a `data/` branch.
+- The phone Tab order on Find jobs, the launcher and Networking: the CSS shows the postings, the résumé box and the
+  prep card first, but Tab still crosses the facets, the tiles or the list before them. Reorder the markup on those
+  three screens and keep the desktop layout with CSS.
+- A focus trap for Find jobs' posting panel on a phone: it covers the screen, but Tab can leave it for the footer.
+- The skill map on a phone drops the names of its biggest fields (Operations & general management, Marketing, Sales)
+  to keep labels apart; the circles keep an aria-label. A denser phone layout, or a list of the map on a phone.
+- Tap-to-light on the field page and the map: hover lights a role's skills, a tap navigates. On a touch screen, a
+  first tap that lights, or a tap and hold.
+- The phone top bar's verb strip scrolls sideways with no sign but a cut word ("Networki"): a fade or a chevron at
+  its edge.
+- Six token pairs fall under 4.5:1 (the lowest: light `--primary` on `--primary-tint` over `--card`, 4.00). No screen
+  draws one as text today; fix them in `web/tokens/` before one does.
+- One h1 per screen: `#/role/<id>/fit` has none once a résumé is stored (the lead takes its place).
+- The role page's "How you work" summary still runs past its column on a desktop.
+- Home says "Explore over 50 roles" where the launcher, Explore and the skill card say 56: take the count from the data.
+- Know the role's round-end lines still say "decoy" (`web/games/know-the-role.js`); its help line no longer does.
+- The role rail after a read: "change" goes to `#/you?step=3` with no way back, and "Nothing important missing" sits
+  right after "11 skills in all still need evidence".
+- Networking's Company box keeps "· N open" in its value after a pick: show the name alone.
+- Two small rules in `network.js`: "Analytics tools" keeps its capital mid-sentence (`Network.sentenceCase` reads the
+  long taxonomy name as a proper noun), and on the VP row a listed employer's one posting abroad wins over a US one.
+- The feedback box's email field gets `aria-invalid` when a bad address stops Send.
+- The theme button: a third state that goes back to "follow the device".
+- Guide steps for the screens the guide leaves out: the course screen and the games (their links landed with the
+  usability fixes), the professor and the event screen, and the map once a real sign-in lets its targets be checked.
+  The sign-in gets none: its own copy now says what a tip would.
+- The role picker (`web/pick.js`) opens its list on focus, and the open list has three axe violations
+  (`aria-input-field-name`, `scrollable-region-focusable`, `aria-required-attr`). It also ends every guide run on
+  Find classes with the list open.
+- `guide.seen` accepts a digit string as a version (`"1"` for 1); read only whole numbers.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 
 **The pipeline**
@@ -2704,6 +2883,8 @@ done). One line per item; the section that explains it is named where it helps.
 - The runner trial's results (`evals/runner_trial_2026-10-26.md`) were never written; the refreshes run and merge on
   the hosted runners, so the note and its tooling can go unless a family is ever blocked.
 - The first live run of `evals/lines_judged.mjs` (the report file is a placeholder).
+- Postings whose title repeats the team name ("…, Amazon Supply Chain Services, Amazon Supply Chain Services"): a
+  cleaner rule in `pipeline/extract.py`, with the extraction eval chain of `CLAUDE.md`.
 
 **Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
 work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the
