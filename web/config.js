@@ -26,6 +26,10 @@ window.CONFIG = {
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */
   FEEDBACK_ENABLED: true,
+  // The guide (the usability pass of 2026-11-06; web/guide.js): on, a screen's first visit shows two to four tips on its
+  // controls (the door: one), and "Show me around" in the top bar and the footer replays them. Off, nothing draws and
+  // no relaunch link shows. Needs no migration: its rows are the journey's cta rows (2026-11-05_journey.sql).
+  GUIDE_ENABLED: false,
   // IE New York in the interface (2026-10-31): the second campus's entry in data/sp27_campus.json names this switch
   // (`enabled_by`), and Catalog.campuses() lists a campus only while its switch is on. Off, the site is Cornell Tech
   // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell

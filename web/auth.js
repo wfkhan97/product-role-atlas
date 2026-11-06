@@ -21,7 +21,7 @@
      Auth.writeFeedback(session, cardId, obj) writes it (x-upsert); resolves true, rejects on an error
      Auth.signOut()                           forgets the session here and tells GoTrue, best effort
    The pure parts load in node (tests/web/map_gate.test.mjs): sessionFromHash, errorFromHash, redirectTo, feedbackPath,
-   feedbackObject, refusedMessage and MapGate.next. Nothing a person types leaves the browser but the email on #/signin
+   feedbackObject, refusedMessage, codeMessage, MapGate.next, MapGate.signinHash and MapGate.landing. Nothing a person types leaves the browser but the email on #/signin
    and a feedback file: the card id, the choice, the note, the date. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = deps => factory(Object.assign({ copy: () => require("./copy.js") }, deps || {}));   // node: require("web/auth.js")({ fetch, config, storage, now })
@@ -90,31 +90,44 @@
     const d = date instanceof Date ? date.toISOString().slice(0, 10) : /^\d{4}-\d{2}-\d{2}$/.test(String(date || "")) ? String(date) : new Date(now()).toISOString().slice(0, 10);
     return { card: cardId, choice, note: String(note == null ? "" : note).trim().slice(0, NOTE_MAX), date: d };
   }
-  // what #/signin says when GoTrue refuses the link: an address with no invite ("Signups not allowed for otp", or
-  // "User not found" in older versions) reads as the refused copy; anything else as the plain failure
-  function refusedMessage(errorBody) {
-    const S = copy().signin || {};
-    let text = "";
-    try { text = typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody || ""); } catch { }
-    return /signups not allowed|user not found/i.test(text) ? S.refused : S.failed;
+  // What #/signin says when GoTrue answers no (2026-11-06: the connection line is for a network failure alone, which
+  // sendLink and sendCode catch themselves). The answer's text, any shape, read three ways:
+  //   too many emails (429, error_code over_email_send_rate_limit, "rate limit", "only request this after N seconds"):
+  //     the wait, in seconds when GoTrue names them, else the hour the email limit counts
+  //   an address with no invite ("Signups not allowed for otp", error_code otp_disabled, "User not found"): the refused copy
+  //   anything else GoTrue says: the service line
+  const answerText = b => { try { return typeof b === "string" ? b : JSON.stringify(b == null ? "" : b); } catch { return ""; } };
+  function limitLine(text) {
+    const S = copy().signin || {}, fill = copy().fill || ((t, v) => t.replace(/\{(\w+)\}/g, (m, k) => (k in v ? v[k] : m)));
+    if (!/over_email_send_rate_limit|over_request_rate_limit|rate limit|only request this after/i.test(text)) return null;
+    const m = /after (\d+) seconds?/i.exec(text);
+    return m ? fill(S.rateWait, { n: m[1] }) : S.rateLimited;
   }
-  // what #/signin says when GoTrue refuses a code: sign-ups off reads as the refused copy for codes; a wrong or
-  // expired code as its own line; anything else as the plain failure
+  function refusedMessage(errorBody) {
+    const S = copy().signin || {}, text = answerText(errorBody);
+    return limitLine(text) || (/signups not allowed|otp_disabled|user not found/i.test(text) ? S.refused : S.serviceFailed);
+  }
+  // what #/signin says when GoTrue refuses a code: the same wait for too many emails; sign-ups off reads as the refused
+  // copy for codes; a wrong or expired code as its own line; anything else as the service line
   function codeMessage(errorBody, verifying) {
-    const S = copy().signin || {};
-    let text = "";
-    try { text = typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody || ""); } catch { }
-    if (verifying) return /invalid|expired|not found|otp/i.test(text) ? S.codeWrong : S.failed;
-    return /signups not allowed|not allowed|rate limit|over_email_send_rate_limit/i.test(text) ? S.codeRefused : S.failed;
+    const S = copy().signin || {}, text = answerText(errorBody);
+    const limit = limitLine(text); if (limit) return limit;
+    if (verifying) return /invalid|expired|not found|otp/i.test(text) ? S.codeWrong : S.serviceFailed;
+    return /signups not allowed|not allowed|otp_disabled/i.test(text) ? S.codeRefused : S.serviceFailed;
   }
   // E1: where Build skills and #/map lead. Off: the launcher as before. No session: the sign-in. A session and a map:
   // the map. A session and no map file yet: the waiting line.
+  // signinHash(from) and landing(next) (2026-11-06): the map's own address goes to the sign-in as `next` and comes back
+  // after it, so #/map?build=1&role=<id> keeps its form and its role; anything but a #/map hash is dropped
+  const MAP_HASH = /^#\/map(\?[a-z0-9_=&.%+-]*)?$/i;
   const MapGate = {
     next({ enabled, session, hasMap } = {}) {
       if (!enabled) return "launcher";
       if (!session) return "signin";
       return hasMap ? "map" : "waiting";
     },
+    signinHash: from => MAP_HASH.test(String(from || "")) && String(from) !== "#/map" ? "#/signin?next=" + encodeURIComponent(String(from)) : "#/signin",
+    landing: next => MAP_HASH.test(String(next || "")) ? String(next) : "#/map",
   };
 
   // ---------- the session, kept in localStorage ----------

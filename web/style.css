@@ -25,11 +25,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
 
 /* ---------- top bar: brand · breadcrumbs · the four verbs (v19 B2) · theme ---------- */
-.top { height: var(--topbar-height); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--card); font-size: var(--text-sm); color: var(--subtle-foreground); }
+header.top { height: var(--topbar-height); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--card); font-size: var(--text-sm); color: var(--subtle-foreground); }
 .verbs-nav { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
-.toplink.on { color: var(--heading-foreground); font-weight: var(--weight-medium); }
-/* a phone: the bar wraps, the crumbs take their own line */
-@media (max-width: 640px) { .top { height: auto; min-height: var(--topbar-height); flex-wrap: wrap; padding: 8px 16px; row-gap: 4px; } .crumbs { order: 3; flex-basis: 100%; } .top-actions { margin-left: auto; flex-wrap: wrap; gap: 8px 12px; } .verbs-nav { flex-wrap: wrap; white-space: normal; gap: 6px 12px; } }
+/* a phone: two rows (usability pass 2026-11-06; it was four). The brand and the crumbs share the first; the verbs,
+   Feedback and Sign in take the second as one strip that scrolls sideways (no verb is hidden), the theme button at
+   its end. header.top: the skill map's key has an i.sw.top */
+@media (max-width: 640px) {
+  header.top { height: auto; min-height: var(--topbar-height); flex-wrap: wrap; padding: var(--space-2) var(--space-4); gap: var(--space-1) var(--space-3); }
+  .top-actions { order: 3; flex: 0 0 100%; min-width: 0; gap: var(--space-3); }
+  .verbs-nav { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; gap: var(--space-3); padding: var(--space-1) 0; }
+  .verbs-nav::-webkit-scrollbar { display: none; }
+}
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; }
 .brand .mark { width: 22px; height: 22px; border-radius: 6px; background: var(--primary); }
 .brand .wordmark { font-weight: var(--weight-semibold); color: var(--heading-foreground); letter-spacing: var(--tracking-tight); font-size: var(--text-base); }
@@ -38,7 +44,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .crumbs .here { color: var(--foreground); overflow: hidden; text-overflow: ellipsis; }
 .crumbs .sep { color: var(--subtle-foreground); }
 .top-actions { display: flex; align-items: center; gap: 16px; }
-.toplink { color: var(--muted-foreground); } .toplink:hover { color: var(--foreground); }
+/* the chrome's links, one style (2026-11-06): the verbs, Feedback (a button) and Sign in alike; the current mark only on
+   the current verb (markVerb). The footer's two links alike, underlined as links. */
+.top-actions .toplink { color: var(--muted-foreground); font: inherit; text-decoration: none; } .top-actions .toplink:hover { color: var(--foreground); text-decoration: none; }
+.top-actions .toplink.on { color: var(--heading-foreground); font-weight: var(--weight-medium); }
 .icon { width: 30px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: transparent; color: var(--muted-foreground); display: grid; place-items: center; }
 
 /* ---------- shell: main column, optional side panel (owner's choice 8B) ---------- */
@@ -104,7 +113,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .aside .empty { color: var(--muted-foreground); font-size: var(--text-base); margin-top: 8px; }
 .aside .close { float: right; border: 0; background: transparent; color: var(--muted-foreground); font-size: 20px; line-height: 1; padding: 0 2px; }
 .foot { border-top: 1px solid var(--border); padding: 12px 32px; font-size: var(--text-sm); color: var(--subtle-foreground); }
-.foot a { color: var(--primary); }
+.foot .footlink { color: var(--primary); font: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- buttons, chips, choices ---------- */
 .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius-md); padding: 9px 14px; font-size: var(--text-base); border: 1px solid var(--input); background: transparent; color: var(--foreground); text-decoration: none; }
@@ -207,7 +216,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble.you { border-color: var(--primary); background: var(--primary-tint); }
 
 /* the fields as cards (owner's choice E2): one size, sorted by open postings, example roles, one number, a bar */
-.fcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.fcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .fcard { display: grid; gap: 4px; align-content: start; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px 12px; background: var(--card); color: inherit; }
 .fcard:hover { border-color: var(--input); }
 .fcard.you { border-color: var(--primary); }
@@ -293,6 +302,10 @@ button.tag:hover { border-color: var(--input); }
 .link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 .linkish { background: transparent; border: 0; padding: 0; color: var(--foreground); text-align: left; }
 .linkish:hover { text-decoration: underline; text-underline-offset: 3px; }
+.linkish.link { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }   /* a button that reads as a link in a sentence ("choose a file") */
+/* A link inside a sentence is told apart by more than colour (usability pass 2026-11-06; axe link-in-text-block):
+   an underline. :where() keeps it weak, so a row, a card or a button styled as a link keeps its own look. */
+:where(p, li, dd, label, figcaption) a:where(:not(.btn)) { text-decoration: underline; text-underline-offset: 3px; }
 .aside .list .r { padding: 8px 0; } .aside .list .r .t { font-size: var(--text-base); }
 .about-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 8px; }
 .about-facts .fact { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; display: grid; gap: 2px; }
@@ -309,6 +322,9 @@ button.tag:hover { border-color: var(--input); }
 .steps i.done { background: var(--primary); }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .two h2 { margin-top: 20px; }
+/* About you's summary on a phone (2026-11-06): one column, and a long file name wraps instead of widening the page */
+.two > * { min-width: 0; } .list .r .t { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 640px) { .two { grid-template-columns: minmax(0, 1fr); gap: 0; } }
 .list .r a.n { color: var(--primary); font-family: var(--font-sans); }
 /* the profile strip on Explore: what we know, and why each field is there */
 .strip { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 12px; background: var(--card); font-size: var(--text-sm); color: var(--muted-foreground); margin: 14px 0 0; }
@@ -401,6 +417,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .chart-x { margin-top: 8px; flex-wrap: wrap; } .chart-x .mark { cursor: help; }
 @media (max-width: 1180px) { .field-split { grid-template-columns: 1fr; } .chart-stage { height: 520px; } }
 .sm-field { position: absolute; z-index: 1; padding: 8px; }
+.sm-stage .sm-field.unnamed { font-size: 0; }   /* a name that would cross another (thinNames, web/skillmap.js): the circle stays, its aria-label keeps the name */
 .sm-field.lit { border-color: var(--secondary); }
 .sm-field.you.lit { border-color: var(--primary); }
 .sm-field.dim { opacity: 0.45; }
@@ -474,7 +491,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .gm-tools .tip { margin: 0; }
 .gm-quit { color: var(--muted-foreground); white-space: nowrap; } .gm-quit:hover { color: var(--foreground); }
 .gm kbd { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted-foreground); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--muted); line-height: 1.5; font-weight: var(--weight-regular); }
-.gm .btn.primary kbd { background: transparent; color: inherit; border-color: currentColor; opacity: 0.8; }
+.gm .btn.primary kbd { background: transparent; color: var(--primary-foreground); border-color: currentColor; }   /* the button's own pairing: 4.5:1 or more (it was 4.09:1 at opacity 0.8) */
 .gm-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .gm-foot { display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
 .gm-foot .btn.quiet { padding-left: 8px; }
@@ -520,6 +537,8 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 /* the Know-your-role card (G4): a small ledger beside the role screen's action row and on About you */
 .gm-know { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; margin: 14px 0 4px; max-width: 420px; font-size: var(--text-sm); }
 .gm-know .eyebrow { margin-bottom: 6px; }
+.gm-first { margin: 10px 0 4px; font-size: var(--text-sm); }   /* the way into the game before any record (2026-11-06) */
+.course-level { margin: 4px 0 12px; }
 .gm-know-r { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; color: var(--muted-foreground); }
 .gm-know-r b { color: var(--foreground); font-weight: var(--weight-medium); text-align: right; }
 .gm-know-bar { height: 4px; border-radius: 2px; background: var(--muted); overflow: hidden; margin: 4px 0 6px; }
@@ -915,6 +934,9 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-rel { width: 220px; }
 @media (max-width: 640px) { .cls-card { grid-template-columns: minmax(0, 1fr); } .cls-rel { width: auto; } }
 .cls-rel .eyebrow { margin-bottom: 0; }
+/* the "high" band tag: the primary button's pairing (filled), 4.5:1 or more in both themes and on a selected card, where
+   the tint-on-tint of .tag.good read 3.93:1 */
+.cls-rel > .tag.good { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
 .cls-rel > .small.muted { margin: 0 0 6px; }
 .cls-why { margin-top: 6px; }
 .cls-why > summary { font-size: var(--text-sm); color: var(--muted-foreground); cursor: pointer; }
@@ -956,6 +978,8 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .frow.on .n { color: var(--primary); }
 .frow.dead { color: var(--subtle-foreground); cursor: default; } .frow.dead:hover { background: transparent; }
 .frow.more { color: var(--muted-foreground); }
+/* the link to the filters: on a phone only, where the filters come after the postings */
+.jfilters-link { display: none; }
 .jhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; }
 .jhead .jcount { margin: 0; font-size: var(--text-sm); color: var(--muted-foreground); }
 .jsort { display: inline-flex; gap: 8px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); white-space: nowrap; }
@@ -1034,6 +1058,11 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .nw ul.plain.nw-lv { margin-top: 2px; } .nw ul.plain.nw-lv li { margin-bottom: 2px; }
 .nw .list.nw-emps .r { padding: 6px 0; } .nw .list.nw-emps .r .t { font-size: var(--text-base); }
 .nw .list.nw-emps a.r .t { color: var(--primary); }   /* a professor's name: the link to the card */
+/* a professor's row: the count line ("teaches 5 of the 12 skills…") goes under the name and wraps, so the row never
+   runs wider than a phone (usability pass 2026-11-06; .list .r .n keeps nowrap elsewhere) */
+.nw .list.nw-emps a.r { grid-template-columns: minmax(0, 1fr); }
+.nw .list.nw-emps a.r .n { grid-column: 1; grid-row: 2; white-space: normal; align-self: start; }
+.nw .list.nw-emps a.r .m { grid-row: 3; }
 .pcard .nw-prof { margin: 8px 0 0; } .pcard .nw-prof a { color: var(--primary); }
 .nw-outs { list-style: none; margin: 4px 0 0; padding: 0; }
 .nw-outs li { padding: 6px 0; border-top: 1px solid var(--border); }
@@ -1083,6 +1112,27 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .fb-box .fb-f { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .fb-box .fb-out { min-height: 1.3em; margin: 0; }
 .foot #foot-feedback { margin-left: 14px; }
+/* the guide (the usability pass of 2026-11-06; web/guide.js): a dim with a hole over the target and the card beside it;
+   on a phone (640 px and under) no dim, a bottom sheet and an outline on the target. Tokens only: the dim is the canvas
+   at 62%, so it darkens in dark mode and fades in light mode. Over the pick lists (30) and the tooltip (20). */
+.foot #foot-guide { margin-left: 14px; }
+.guide-hole { position: fixed; z-index: 40; pointer-events: none; border-radius: var(--radius-md); box-shadow: 0 0 0 9999px color-mix(in oklch, var(--canvas) 62%, transparent); outline: 2px solid var(--ring); outline-offset: 2px; transition: left .18s ease, top .18s ease, width .18s ease, height .18s ease; }
+.guide-card { position: fixed; z-index: 41; width: min(340px, calc(100vw - 32px)); display: grid; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-4); background: var(--popover); color: var(--popover-foreground); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: 0 12px 40px color-mix(in oklch, var(--neutral-950) 30%, transparent); }
+.guide-card:focus { outline: none; } .guide-card:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.guide-card .guide-h { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.guide-card .eyebrow { margin: 0; }
+.guide-card h2 { margin: 0; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--heading-foreground); }
+.guide-card p.guide-b { margin: 0; font-size: var(--text-base); line-height: var(--leading-normal); color: var(--foreground); }
+.guide-card .close { border: 0; background: transparent; color: var(--muted-foreground); font-size: var(--text-lg); line-height: 1; padding: 0 var(--space-1); }
+.guide-f { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
+.guide-f .guide-nav { display: flex; gap: var(--space-2); align-items: center; }
+.guide-f .linkish { color: var(--muted-foreground); font-size: var(--text-sm); }
+.guide-f .btn { padding: var(--space-1-5) var(--space-3-5); }
+.guide-none { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.guide-sheet { left: 0; right: 0; top: auto; bottom: 0; width: auto; max-height: 45vh; overflow-y: auto; transform: none; border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0; padding: var(--space-4) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px color-mix(in oklch, var(--neutral-950) 22%, transparent); }
+body.guide-room { padding-bottom: 50vh; }
+.guide-ring { outline: 2px solid var(--ring) !important; outline-offset: 3px; border-radius: var(--radius-md); }
+@media (prefers-reduced-motion: reduce) { .guide-hole { transition: none; } }
 .lf-slot { margin: 16px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); } .lf-slot a { color: var(--primary); }
 .si { display: flex; gap: 8px; margin-top: 16px; }
 .si input { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 9px 12px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; }
@@ -1340,7 +1390,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .map-print.light { --background: var(--neutral-900); --foreground: var(--neutral-100); --heading-foreground: var(--neutral-50); --card: var(--neutral-900); --muted: var(--neutral-800); --muted-foreground: var(--neutral-300); --subtle-foreground: var(--neutral-500); --border: var(--neutral-700); --input: var(--neutral-500); --primary: var(--green-400); --primary-foreground: var(--green-950); --secondary: var(--blue-400); --warning: var(--amber-400); }
 @media print {
   @page { size: landscape; margin: 10mm; }
-  body:has(.map-print) .top, body:has(.map-print) .foot, body:has(.map-print) .aside, body:has(.map-print) .rail-tab, body:has(.map-print) .tipbox { display: none !important; }
+  body:has(.map-print) header.top, body:has(.map-print) .foot, body:has(.map-print) .aside, body:has(.map-print) .rail-tab, body:has(.map-print) .tipbox { display: none !important; }
   body:has(.map-print) { min-height: 0; display: block; }
   body:has(.map-print) .main { padding: 0; }
   body:has(.map-print) .shell.with-aside .main > .page.wide { padding-right: 0; }
@@ -1381,4 +1431,42 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .pick-list li.active, .pick-list li:hover { background: var(--primary-tint); }
 .pick-list li.picked { font-weight: 600; }
 .pick-list li.pick-none { color: var(--muted-foreground); cursor: default; }
+.pick-list li.pick-note { color: var(--muted-foreground); cursor: default; font-size: 0.85em; }
+.pick-list li.pick-note:hover { background: transparent; }
 .pick-hint { color: var(--muted-foreground); font-size: 0.85em; margin-left: 0.3rem; }
+
+/* ---------- a phone (640 px and under): the usability pass of 2026-11-06, cluster "phone layout". Tokens only ---------- */
+/* what a screen is for comes first in one column: the prep card before Who to look for, the postings before the
+   filters, the résumé box before the field tiles (visual order; the markup keeps its order) */
+@media (max-width: 900px) {
+  .nw-side { order: -1; }
+  .jobs-grid .jmain { order: -1; }
+  .jobs-grid .jfilters-link { display: inline-block; margin-bottom: var(--space-2); }
+  .lf-side { order: -1; }
+}
+@media (max-width: 640px) {
+  /* the role page: the "How you work" row's summary wraps under its name (it was one line, 1,147 px wide) */
+  .areabox > summary { flex-wrap: wrap; }
+  .areabox > summary .t { min-width: 0; }
+  .areabox > summary .n { white-space: normal; min-width: 0; flex-basis: 100%; padding-left: var(--space-6); }
+  .fcards { grid-template-columns: minmax(0, 1fr); }
+  /* the side panel (a posting, a skill card) and the Filters drawer: the full width of the screen, over the top bar */
+  .aside, .drawer { top: 0; left: 0; width: 100%; }
+  .shell.with-aside .main > .page { max-width: none; }
+  .shell.with-aside .main > .page.wide, .shell.with-aside .main > .page.jobs-page { padding-right: 0; }
+  /* the role rail leaves a strip at the left for the tab that closes it */
+  .shell.with-rail .aside.rail { top: 0; left: var(--space-10); width: auto; }
+  .shell.with-rail.rail-open .rail-tab { right: calc(100% - var(--space-10)); white-space: nowrap; }
+  /* the skill map: the field names in the small size without their counts, and draw() keeps only the names that fit */
+  .sm-field.bubble { font-size: var(--text-sm); padding: 0; line-height: var(--leading-tight); }
+  .sm-field .n { display: none; }
+  /* the game: two tiles a row, words wrap whole, the header wraps under the game's name */
+  .ktr-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ktr-tile { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+  .gm-head { flex-wrap: wrap; row-gap: var(--space-2); }
+  .gm-title { flex-basis: 100%; }
+}
+/* About you's Start over asks once (2026-11-06): the question and its two buttons on one row, wrapping on a phone */
+.confirm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+.confirm-row[hidden] { display: none; }
+.confirm-row p { margin: 0; flex: 1 1 260px; }

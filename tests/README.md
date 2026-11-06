@@ -1,7 +1,7 @@
 # Tests
 
 Fast checks of single functions: stated inputs, stated outputs. No server, no network, no new dependencies. Both
-suites run in about a second and in CI on every pull request (`.github/workflows/ci.yml`, with the eval runners after
+suites run in a few seconds and in CI on every pull request (`.github/workflows/ci.yml`, with the eval runners after
 them).
 
 ```sh
@@ -44,7 +44,7 @@ directory. `tests/web/_load.mjs` holds the paths and a node `Atlas` over `web/da
 | `test_depth_gen.py` | The model call with `requests.post` replaced; the key never reaches a log line. |
 | `test_log.py`, `test_runs.py` | Masking; the run recorder's row. |
 | `test_backlog.py`, `test_store.py` | The round trip of a raw file; the `atlas-store` rules on a dict bucket. |
-| `test_funnel.py` | The funnel's pure parts: drop-off, calls to action, returns, visible time, feedback counts. |
+| `test_funnel.py` | The funnel's pure parts: drop-off, calls to action, the guide's tips by screen, returns, visible time, feedback counts. |
 | `test_map_publish.py` | The map publish against a fake client. |
 
 ## The web tests
@@ -56,6 +56,8 @@ Browser scripts load in node the way the evals load them: each exports itself wh
 |---|---|
 | `routes.test.mjs`, `door.test.mjs`, `doors.test.mjs`, `intake.test.mjs`, `launcher.test.mjs`, `pick.test.mjs`, `role_filters.test.mjs`, `network.test.mjs`, `jobs.test.mjs`, `field_chart.test.mjs`, `skillmap.test.mjs` | The pure parts of the screens. |
 | `atlas.test.mjs`, `match.test.mjs`, `evidence_text.test.mjs`, `infer.test.mjs` | The data layer, the matcher, the sentences, the model read's merge and the function's validation. |
+| `keyboard.test.mjs`, `resume_return.test.mjs`, `fit_course.test.mjs` | The pure parts of the usability fixes: the drop zone's, the heart's and the view buttons' names; the résumé step's way back (`You.back`, `resumeHref`, `after`); the rail's and the fit screen's counts (`FitCounts`), the course screen's count (`CourseCore`), the first game card, the skill card's role count. |
+| `guide.test.mjs` | The guide: the step table against the copy and the routes, the steps a state gets, the due rule, the seen-state with bad values, the cta ids, the run, the card's place; the script order, the flag shipped off, the one hook in `app.js`. |
 | `copy.test.mjs`, `assets.test.mjs` | Every string against the writing rule; every script `index.html` names exists. |
 | `catalog_files.test.mjs`, `classes.test.mjs` | The two public catalog files and their hashes; the class picker's functions. |
 | `capture.test.mjs`, `feedback.test.mjs`, `state.test.mjs`, `journey_ctas.test.mjs` | Capture's rows and the heartbeat; the feedback rule and row; the saved state's requests; the hearts and "Get your tree". |
@@ -84,6 +86,16 @@ build did not go through. `npm run test:ui` starts the server itself, or uses on
 | `playwright.config.mjs` | The server, the two viewports, the output in `test-results/` (gitignored). |
 | `fixtures.mjs` | `test` with the `visitor` fixture; `gotoHash`, `waitForScreen`, `axe`. |
 | `smoke.spec.mjs` | Every state reaches home (a fresh visitor: the door), with no unexpected console error; the two health lines. |
+| `door.spec.mjs` | The door's chrome passes the door as Skip does; the Tally door's own Skip; Find classes in the top bar right after the return; the step count. |
+| `classes.spec.mjs` | Find classes and the campus gate: the rail's classes link, the line on home after a bounce, the lead and the dates, a résumé read with no role, focus across redraws, the detail panel, the gap names, the role list, the band tag's contrast, a professor from the Faculty tab. |
+| `phone.spec.mjs` | At 390×844 only: no route scrolls sideways; the rail and the Filters drawer inside the screen; the prep card and the first posting within one screen; the top bar in two rows; the skill map's labels; the game board; About you's summary fits. |
+| `keyboard.spec.mjs` | Real key presses: "choose a file" on every drop zone, the posting panel's focus and Esc, the launcher's tiles, Networking's tabs, the feedback sheet's Tab; axe's link, name and contrast rules in both themes. |
+| `resume.spec.mjs` | "Add your résumé" on Find jobs and Networking comes back to the same address; the question counts; the AI reader's line; Start over asks first. |
+| `fit.spec.mjs` | The course screen's level and count; class links only for a campus address; the rail's count against the fit screen's; the links to the course screen and the game; the intake boxes; one count per thing across screens. |
+| `jobs.spec.mjs` | Every card's facts line names a field; the Filters link shows on a phone only. |
+| `network.spec.mjs` | The Role box with no match; "Who to look for" from the listed employers; entry-level links for a recruiter; the level rows' names; skill names mid-sentence. |
+| `chrome.spec.mjs` | The feedback box's email (empty, one press to use the address on file, checked on Send); the sign-in's invite line, rate-limit line and `next`; About's counts and one draw; the top bar's links, the theme button, the breadcrumbs. |
+| `guide.spec.mjs` | The guide with the flag forced on in the page (never in `config.js`): every screen's tips in the state the step table names, the phone sheet, Esc and focus, the cta rows caught. |
 
 The `visitor` fixture gives a page in one state:
 
@@ -97,6 +109,12 @@ answer in `door.email`, `door.where` and `door.seen` (localStorage). The fixture
 API, so no funnel row, waitlist row or feedback row leaves the machine. Reads, sign-in and the third-party scripts
 (Tally, cdnjs) go through. `axe(page, name)` runs the WCAG 2.1 A and AA rules and returns the violations; it never
 fails a test. The count goes in the test's annotations.
+
+No `.session.json` has been captured yet, so the signed-in tests skip. The one try (2026-11-06) ended in
+`otp_expired`: Outlook's Safe Links opened the magic link first, and the code shares the link's token.
+
+`serve.mjs` reads the shell's environment and `.env`. Where either holds `CATALOG_SERVICE_ROLE_KEY`, a signed-in tree
+build on the local server writes to the production `maps` bucket: never submit the tree form locally.
 
 To capture `.session.json` once (it holds a live token: the file is gitignored, never commit or paste it):
 

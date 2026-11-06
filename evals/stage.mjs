@@ -50,14 +50,16 @@ for (const stage of Stage.STAGES) {
   console.log(`${stage.padEnd(10)} About you leads with ${you.padEnd(12)} rail leads with ${rail.padEnd(10)} with a resume ${railR}`);
 }
 // the first call to action on the rail and the fit screen is the intake box, for every stage (one box everywhere
-// since v18 step 1; the intake since v19 B5): its heading is "GradBuddy is coming soon.", and the screens draw the
-// box from the same table
-for (const stage of Stage.STAGES) for (const screen of ["rail", "fit"]) check(Stage.cta(stage, screen) === "GradBuddy is coming soon.", `${stage}: the first call to action on the ${screen} is the intake box (got "${Stage.cta(stage, screen)}")`);
-check(Intake && Intake.heading === "GradBuddy is coming soon." && Intake.button === "Notify me" && /^Got it\./.test(Intake.done), "the intake box's copy is the owner's: heading, button, done line");
+// since v18 step 1; the intake since v19 B5): its heading is Copy.intake.heading, and the screens draw the box from
+// the same table. Since 2026-11-06 (the usability pass: "GradBuddy is coming soon" read odd on GradBuddy) the heading
+// names what comes next, one per surface (Intake.headingOf), and none says "coming soon"
+const HEADING = Copy.intake.heading;
+for (const stage of Stage.STAGES) for (const screen of ["rail", "fit"]) check(Stage.cta(stage, screen) === HEADING && !/coming soon/i.test(HEADING), `${stage}: the first call to action on the ${screen} is the intake box (got "${Stage.cta(stage, screen)}")`);
+check(Intake && Intake.heading === HEADING && Object.values(Intake.headings).every(h => h && !/coming soon/i.test(h)) && Intake.button === "Notify me" && /^Got it\./.test(Intake.done), "the intake box's copy is the owner's: heading, button, done line");
 check(!/[Cc]ohort|\bpaid\b|Nov 14|\bApply\b/.test(JSON.stringify([Intake.heading, Intake.line, Intake.button, Intake.done, Intake.privacy, Intake.gapsLine("x")])), "no intake string names a cohort, a price, a date or applying");
 check(/\$\{waitHtml\("show"\)\}\$\{waitHtml\("positioning"\)\}/.test(src) && !/waitHtml\("(build|ways)"\)/.test(src), "the rail draws the intake box at the gap rows' two placeholders, sources show and positioning");
 check(/applyBox\("fit", \{ always: true \}\)/.test(src), "the fit screen draws the intake box, source fit");
-check(/esc\(Intake\.heading\)/.test(src) && !/Join the GradBuddy waitlist/.test(src) && !/esc\(Apply\./.test(src), "the box is drawn from Intake; the waitlist and application wordings are gone");
+check(/esc\(Intake\.headingOf\(what\)\)/.test(src) && !/Join the GradBuddy waitlist/.test(src) && !/esc\(Apply\./.test(src), "the box is drawn from Intake; the waitlist and application wordings are gone");
 // the stage is asked in About you, step 2 (Q[1]), and nowhere else: the door and home never mention it
 check(Copy.you.questions[1].key === "stage" && Copy.you.questions[1].title === "Where are you in your search?" && /Q = YOU\.questions/.test(src), "About you asks the stage as its second question (Copy.you.questions, read by app.js)");
 const doorHome = src.slice(src.indexOf("async function door()"), src.indexOf("async function skillsScreen()"));   // the door and home sit before the launcher (B5)

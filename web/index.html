@@ -14,14 +14,14 @@
   <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <div class="top-actions">
     <nav class="verbs-nav" id="verbs" aria-label="Sections"></nav>
-    <button id="theme" class="icon" type="button" title="Theme follows your device. Click to change.">◐</button>
+    <button id="theme" class="icon" type="button" title="Theme: device" aria-label="Theme: device">◐</button>
   </div>
 </header>
 <div class="shell" id="shell">
   <main id="main" class="main"></main>
   <aside id="aside" class="aside" aria-label="Details" hidden></aside>
 </div>
-<footer class="foot"><a href="#/about">About the data</a><button type="button" class="linkish link" id="foot-feedback" hidden>Feedback</button></footer>
+<footer class="foot"><a class="footlink" href="#/about">About GradBuddy</a><button type="button" class="linkish footlink" id="foot-feedback" hidden>Feedback</button><button type="button" class="linkish footlink" id="foot-guide" hidden>Show me around</button></footer>
 <script src="config.js"></script>
 <script src="copy.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -31,6 +31,7 @@
 <script src="auth.js"></script>
 <script src="state.js"></script>
 <script src="feedback.js"></script>
+<script src="guide.js"></script>
 <script src="map.js"></script>
 <script src="doors.js"></script>
 <script src="match.js"></script>

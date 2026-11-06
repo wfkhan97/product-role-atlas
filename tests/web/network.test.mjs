@@ -142,8 +142,9 @@ test("with no résumé, the professors sort by the role's core asks their classe
   assert.deepEqual(C.profs.map(p => [p.slug, p.asks.length]), [["zed", 2], ["pat", 1], ["sam", 0]], "most asks taught first, not by name");
   const f = N.who("faculty", C).profs;
   assert.deepEqual([f[0].asks.length, f[0].nAsks, f[0].read], [2, 5, false]);
-  assert.equal(N.fill(N.COPY.teachesOf, { n: 2, m: 5 }), "teaches 2 of 5 asks");
-  assert.equal(N.targetsOf("faculty", C)[0].hint, "teaches 2 of 5 asks");
+  // the count says what "asks" are in plain words (the usability pass, 2026-11-06: the Faculty tab's "asks")
+  assert.equal(N.fill(N.COPY.teachesOf, { n: 2, m: 5 }), "teaches 2 of the 5 skills this role's postings ask for most");
+  assert.equal(N.targetsOf("faculty", C)[0].hint, "teaches 2 of the 5 skills this role's postings ask for most");
   // with a résumé the gaps sort stays
   const Cr = N.ctx(IX, R, FIT, O({ flag: "cornell", roster: true, profs: rows }));
   assert.deepEqual(Cr.profs.map(p => [p.slug, p.covers.length]), [["pat", 1], ["zed", 1], ["sam", 0]], "gaps covered (Forecasting is shown, so Zed covers one), then name");
@@ -292,5 +293,76 @@ test("on the real Product Manager, with the sample PM résumé and with none: th
   for (const t of N.types("ienyc", false)) for (const target of [null, ...CM.employers.slice(0, 3).map(e => ({ company: e.company }))]) {
     const S = N.say(t.id, CM, target);
     assertRules(S, t.id, `MBA ${t.id}`); assertNoBanned(S.questions, names, `MBA ${t.id}`);
+  }
+});
+
+// ---------- the usability pass of 2026-11-06 (cluster 8, Networking) ----------
+// a role whose employers by open postings are not in alphabetical order: Zeta has the most, then Yotta; Acme and Beta,
+// first in the alphabet, have one posting each. The set's ladder names its mid level after another role.
+const IX2 = {
+  M: { level_labels: { associate: "Analyst / associate", mid: "Manager", senior: "Senior manager", staff: "Lead / principal" } },
+  skillById: Object.fromEntries([sk("a", "Process design & operational rigor", "method"), sk("k", "Metrics & KPIs", "method"), sk("ai", "AI / machine learning", "technical"), sk("x", "Excel modeling", "tool"), sk("py", "Python / R / scripting", "technical")]),
+  groups: [{ id: "product", label: "Product", roles: ["product.pm", "product.pmm"] }],
+  roles: { "product.pm": { id: "product.pm", label: "Product Manager", group: "product", definingList: [], asks: [{ id: "a", share: 0.8 }, { id: "k", share: 0.7 }, { id: "ai", share: 0.6 }] }, "product.pmm": { id: "product.pmm", label: "Product Marketing Manager", group: "product", definingList: [], asks: [{ id: "a", share: 0.8 }, { id: "k", share: 0.7 }, { id: "ai", share: 0.6 }] } },
+};
+const LADDER = { associate: "Associate / APM", mid: "Product Manager", senior: "Senior", staff: "Staff / Principal / Lead" };
+const pj = (id, company, title, level, country) => ({ id, company, title, level, family: "pmm", open: true, url: `https://example.com/${id}`, country: country || "United States", skills: [], sub: [] });
+const R2 = {
+  role: IX2.roles["product.pmm"], levelLabels: LADDER,
+  jobs: [pj(1, "Acme", "Acme Senior PMM", "senior"), pj(2, "Beta", "Beta PMM", "mid"), pj(3, "Yotta", "Principal PMM", "staff"), pj(4, "Yotta", "PMM, Ads", "mid"), pj(5, "Yotta", "Senior PMM, Ads", "senior"),
+    pj(6, "Zeta", "Senior PMM, Cloud", "senior", "India"), pj(7, "Zeta", "Senior PMM, Devices", "senior"), pj(8, "Zeta", "PMM Intern", "associate"), pj(9, "Zeta", "PMM, Search", "mid"), pj(10, "Zeta", "Lead PMM", "staff")],
+};
+
+test("who: the level rows' titles come from the employers the list shows, most open postings first, a US posting first (C-15, titles from the alphabet's first companies)", () => {
+  const C = N.ctx(IX2, R2, null, {});
+  assert.deepEqual(C.employers.map(e => e.company), ["Zeta", "Yotta", "Acme", "Beta"]);
+  const W = N.who("inrole", C), senior = W.levels.find(l => l.level === "senior");
+  assert.deepEqual(senior.titles.map(t => t.company), ["Zeta", "Yotta", "Acme"], "one title per employer first, in the list's order");
+  assert.equal(senior.titles[0].title, "Senior PMM, Devices", "Zeta's US posting before its posting in India");
+  assert.equal(W.levels.find(l => l.level === "mid").titles[0].company, "Zeta", "not Beta, first in the alphabet");
+  for (const l of N.who("hm", C).levels) assert.equal(l.titles[0].company, "Zeta", `${l.label}: the top employer's title leads`);
+});
+
+test("where: the recruiter's posting links are at the person's level, the entry level when none is given; no link twice (C-16, senior postings for a new grad)", () => {
+  const C = N.ctx(IX2, R2, null, {});
+  const links = o => N.where("recruiter", C, null, o).filter(r => r.href.startsWith("https://example.com/")).map(r => r.label);
+  assert.deepEqual(links(), ["Zeta · PMM Intern", "Zeta · PMM, Search", "Yotta · PMM, Ads"], "entry level first, then the nearest level up, the top employers first");
+  assert.deepEqual(links({ level: "staff" }), ["Zeta · Lead PMM", "Yotta · Principal PMM", "Zeta · Senior PMM, Devices"], "a person aiming at staff sees staff postings first");
+  assert.deepEqual(N.where("recruiter", C, { company: "Yotta" }).filter(r => r.href.startsWith("https://example.com/")).map(r => r.label), ["Yotta · PMM, Ads", "Yotta · Senior PMM, Ads", "Yotta · Principal PMM"], "one company: its lowest level first");
+  const twice = { ...R2, jobs: [...R2.jobs, { ...R2.jobs[7], id: 11 }] };
+  const L = N.where("recruiter", N.ctx(IX2, twice, null, {}), null).map(r => r.label);
+  assert.equal(new Set(L).size, L.length, "the same company and title are linked once");
+});
+
+test("a level row is never labelled with another role's name: the product ladder's \"Product Manager\" reads \"Manager\" on a PMM row (C-18)", () => {
+  const C = N.ctx(IX2, R2, null, {});
+  assert.deepEqual(C.levels.map(l => l.label), ["Associate / APM", "Manager", "Senior", "Staff / Principal / Lead"]);
+  assert.equal(N.levelLabel(IX2, { ...R2, role: IX2.roles["product.pm"] }, { level: "mid" }), "Product Manager", "on the Product Manager's own rows the word is its own");
+  assert.equal(C.levelLabels.mid, "Manager", "the hiring manager's \"one level up\" reads the same word");
+  const noSet = { ...IX2, M: {} };
+  assert.equal(N.levelLabel(noSet, R2, { level: "mid" }), "mid", "no set word: the level id, never the other role's name");
+});
+
+test("a professor's row names the skills as the middle of a sentence says them; an acronym keeps its capitals (C-19)", () => {
+  assert.deepEqual(N.sentenceCase(["Process design & operational rigor", "Metrics & KPIs", "AI / machine learning", "Python / R / scripting", "Prioritization & trade-offs"]), ["process design & operational rigor", "metrics & KPIs", "AI / machine learning", "Python / R / scripting", "prioritization & trade-offs"]);
+  assert.deepEqual(N.sentenceCase(["Excel modeling"], "tool"), ["Excel modeling"], "a tool keeps its capital");
+  const profs = [{ slug: "p", name: "Pat", title: "Lecturer", codes: ["T 1"], gaps: [{ id: "a", name: "Process design & operational rigor" }, { id: "k", name: "Metrics & KPIs" }, { id: "ai", name: "AI / machine learning" }, { id: "zz", name: "Unknown Skill" }] }];
+  const C = N.ctx(IX2, R2, null, { roster: true, profs, shown: [] });
+  const P = N.who("faculty", C).profs[0];
+  assert.deepEqual(P.names, ["process design & operational rigor", "metrics & KPIs", "AI / machine learning"]);
+  for (const n of P.names) assert.ok(!/^[A-Z][a-z]/.test(n), `"${n}" starts with a capital mid-sentence`);
+});
+
+test("on the real Product Marketing Manager no level row says \"Product Manager\", and the titles come from the listed employers (C-15, C-18)", async () => {
+  const Atlas = realAtlas();
+  const ix = await Atlas.index(); await Atlas.product();
+  const R = await Atlas.role("product.pmm"), C = N.ctx(ix, R, null, {});
+  for (const t of ["hm", "inrole", "alum"]) for (const l of N.who(t, C).levels) assert.notEqual(l.label, "Product Manager", `${t}: ${l.level}`);
+  const pm = N.ctx(ix, await Atlas.role("product.pm"), null, {});
+  assert.ok(pm.levels.some(l => l.label === "Product Manager"), "the Product Manager keeps its own word");
+  const W = N.who("hm", pm), listed = new Set(W.employers.map(e => e.company));
+  for (const l of W.levels) {
+    const any = pm.postings.some(j => j.level === l.level && listed.has(j.company));
+    if (any) assert.ok(listed.has(l.titles[0].company), `${l.label}: "${l.titles[0].company}" is not a listed employer`);
   }
 });
