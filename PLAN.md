@@ -2207,6 +2207,15 @@ project (then `TREE_ENABLED`); a domain of theirs verified at the mail provider 
 the catalog project's Auth settings, plus the state tables applied (then `ACCOUNTS_ENABLED`). Each flip is a
 one-line PR the owner approves.
 
+**The key is a new-style secret key (2026-11-06, `fix/tree-secret-key`).** The owner put `CATALOG_SERVICE_ROLE_KEY` into
+the Vercel project (Production) as one of Supabase's new secret keys (`sb_secret_…`), since the legacy `service_role`
+JWT is on its way out. A secret key is no JWT, so it cannot ride in `Authorization: Bearer`; it goes in `apikey` alone
+and the Authorization header stays empty (Supabase, "Migrating to publishable and secret API keys"). `web/api/tree.js`
+now sends the key that way when it starts with `sb_`, and the legacy JWT in both headers as before. The health line
+(`GET /api/tree`) gained `storage`: a probe of the bucket's record with the key, so production can say the key works
+before anyone signs in. The pipeline scripts (`map_publish.py`, `map_feedback.py`) read the same name from `.env`
+through the Python client and were not run against a secret key; check them when the owner next publishes a map.
+
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
 The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,

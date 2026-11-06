@@ -18,6 +18,7 @@ function project({ objects = {}, user = { id: UID, email: "a@b.c" } } = {}) {
   const fetchImpl = async (url, init = {}) => {
     calls.push({ url, method: init.method || "GET", headers: init.headers || {}, body: init.body });
     if (url.endsWith("/auth/v1/user")) return init.headers.authorization === "Bearer good" ? { ok: true, status: 200, json: async () => user } : { ok: false, status: 401 };
+    if (url.endsWith("/storage/v1/bucket/maps")) return init.headers.apikey ? { ok: true, status: 200 } : { ok: false, status: 401 };   // the probe
     const m = /\/storage\/v1\/object\/maps\/(.+)$/.exec(url);
     if (m && !init.method) return objects[m[1]] ? { ok: true, status: 200, json: async () => objects[m[1]] } : { ok: false, status: 404 };
     if (m && init.method === "POST") { objects[m[1]] = JSON.parse(init.body); return { ok: true, status: 200 }; }
@@ -56,7 +57,9 @@ test("siteConfig reads the project url and the publishable key from web/config.j
 
 test("the handler: GET says whether the key is set; no key 503; no token or a token GoTrue refuses 401; a cross-site request 403", async () => {
   const p = project();
-  let r = res(); await T.handler({ method: "GET", headers: {} }, r, { fetchImpl: p.fetchImpl, cfg, key: "" }); assert.deepEqual(r.body, { ok: true, key: false });
+  let r = res(); await T.handler({ method: "GET", headers: {} }, r, { fetchImpl: p.fetchImpl, cfg, key: "" }); assert.deepEqual(r.body, { ok: true, key: false, storage: null });
+  r = res(); await T.handler({ method: "GET", headers: {} }, r, { fetchImpl: p.fetchImpl, cfg, key: "svc" }); assert.deepEqual(r.body, { ok: true, key: true, storage: true }, "the probe reads the bucket's record with the key");
+  assert.ok(p.calls.some(c => c.url === `${cfg.url}/storage/v1/bucket/maps` && c.method !== "POST"), "the bucket, not an object");
   r = res(); await T.handler(post({ text: profile, roles: ["pmm"] }), r, { fetchImpl: p.fetchImpl, cfg, key: "" }); assert.equal(r.statusCode, 503);
   r = res(); await T.handler(post({ text: profile, roles: ["pmm"] }, null), r, { fetchImpl: p.fetchImpl, cfg, key: "svc" }); assert.deepEqual([r.statusCode, r.body.error], [401, "no_session"]);
   r = res(); await T.handler(post({ text: profile, roles: ["pmm"] }, "bad"), r, { fetchImpl: p.fetchImpl, cfg, key: "svc" }); assert.deepEqual([r.statusCode, r.body.error], [401, "no_session"]);
@@ -94,4 +97,16 @@ test("a map the owner wrote by hand is never overwritten (409); the site's own m
   const p2 = project({ objects: { [`${UID}/map.json`]: own } });
   r = res(); await T.handler(post({ text: profile, roles: ["brand_manager"] }), r, { fetchImpl: p2.fetchImpl, cfg, key: "svc" });
   assert.equal(r.statusCode, 200); assert.equal(p2.objects[`${UID}/map.json`].role.id, "brand_manager");
+});
+
+test("a new-style secret key (sb_secret_…) goes in apikey alone, never as a bearer; the legacy service_role JWT goes in both", async () => {
+  assert.deepEqual(T.serviceHeaders("sb_secret_abc"), { apikey: "sb_secret_abc" });
+  assert.deepEqual(T.serviceHeaders("eyJ.legacy.jwt"), { apikey: "eyJ.legacy.jwt", authorization: "Bearer eyJ.legacy.jwt" });
+  const p = project();
+  const r = res();
+  await T.handler(post({ text: profile, roles: ["pmm"] }), r, { fetchImpl: p.fetchImpl, cfg, key: "sb_secret_abc" });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  for (const c of p.calls.filter(c => c.url.includes("/storage/v1/"))) { assert.equal(c.headers.apikey, "sb_secret_abc"); assert.equal(c.headers.authorization, undefined, c.url); }
+  const auth = p.calls.find(c => c.url.includes("/auth/v1/user"));
+  assert.equal(auth.headers.authorization, "Bearer good", "the person's own token still identifies them");
 });
