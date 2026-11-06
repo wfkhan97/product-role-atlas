@@ -72,6 +72,16 @@ test("overflow: #/role/product.pm/fit with a résumé is no wider than the phone
   await page.waitForTimeout(800);
   expect(await scrollWidth(page)).toBe(W);
 });
+// About you's summary (the guide's verifier, 2026-11-06): with every question answered and a résumé, the answers and the
+// résumé sat side by side and the résumé's row ran to x=402 (the page 404 px wide)
+test("overflow: #/you as the summary, every question answered and a résumé, is no wider than the phone", async ({ visitor }) => {
+  const you = JSON.stringify({ where: "business", stage: "looking", fields: ["marketing"] });
+  const page = await visitor.open({ storage: { "door.email": GENERAL_EMAIL, "door.where": "", "door.seen": "1", resume: RESUME, you } });
+  await page.goto("/#/you");
+  await page.locator('#main a[href="#/you?step=3"]').first().waitFor();
+  await page.waitForTimeout(400);
+  expect(await scrollWidth(page)).toBe(W);
+});
 // the Faculty tab (cluster 3's verifier, 2026-11-06): each professor row's count line did not wrap, 600 px wide
 test("overflow: #/network's Faculty on campus tab as a Cornell visitor is no wider than the phone", async ({ visitor }) => {
   const page = await visitor.campus();
