@@ -1,0 +1,235 @@
+# Modules
+
+What each part of the repository does: inputs, outputs, the rules it holds. The entry point is `README.md`; the
+decisions behind each module and their dates are in `PLAN.md`.
+
+## Pipeline
+
+### Role sets
+
+Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
+
+- `pipeline/roles.py` — the product set: which titles are product roles, seven families (`pm`, `pmm`, `tpm`, … and
+  `product_engineer`: Product Engineer, Forward Deployed Engineer), level and specialisation. A product engineer title
+  that names a hardware discipline is dropped (`HARDWARE_RE`); a bare one is settled by its posting text at
+  extraction (`software_build`). The scrape's searches are `SEARCH_QUERIES` in `pipeline/adapters/common.py`.
+- `pipeline/roles_mba.py` — the MBA set: the 50 roles of mbapreferred.com's "50 MBA Career Options", `ai_transformation`,
+  and 13 business roles Cornell Tech and IE graduates take (`ADDED` records the day each joined). An employer's category
+  selects its title rules, searches and ladder (corporate, bank or consulting grades; `FORTUNE_CATEGORIES` for banks
+  and investors of the Fortune list). Campus and programme titles and the analyst and associate grades count; three
+  roles have no entry level (`NO_ENTRY_LEVEL`). Extra employers outside the Fortune list and the fund portfolios come
+  from `data/raw/mba_employers.json` (`pipeline.discover --list … --roles mba` → `data/raw/discovery_mba/`; verified
+  configs in `data/raw/registry_mba_employers_*.json`, group `mba_employer`, not in `data/registry.json`).
+- `pipeline/entry_mba.json`, `roles_mba.entry()` — the entry mark as data: which title each firm gives MBA hires and
+  bachelor's hires (nine firms with sources), two category defaults, the words read in titles and texts. Every MBA
+  posting gets `entry` (`mba`, `pre_mba`, null), `intern` and `entry_src` (`title`, `text`, `firm`, `category`). Levels
+  are not changed by the mark. Copied into `web/data/roles_mba.json` under `entry`.
+- `pipeline/roles_tech.py`, `pipeline/entry_tech.json` — the tech set: seven roles in five fields (`software_engineer`;
+  `ml_engineer`, `data_engineer`; `security_engineer`; `product_designer`, `ux_researcher`; `counsel`), US only. Each
+  set reads every title on its own (`product_gate` keeps product titles in the product set). Three ladders on one
+  level scale (`engineering`, `legal`, `bank` when a bank grade is in the title); entry mark `grad` or none, plus
+  `intern`. `python -m pipeline.roles_tech` writes `web/data/roles_tech.json`. The scrape samples 30 open postings per
+  employer and role (`--count-only` measures first). Shown only with `CONFIG.TECH_ENABLED`.
+- `web/data/roles_mba.json`, `roles_tech.json` — the title rules as data for the browser (labels, groups, patterns,
+  employer rules, ladders), written by the graph build; `evals/roles_mba.mjs` and `roles_tech.mjs` are reference readers.
+
+### Taxonomy
+
+- `pipeline/taxonomy.json` — the skills: clusters, regex patterns, one vocabulary for every set. `"only": ["mba"]`
+  or `["tech"]` restricts a skill to a set; `"patterns_for": {"mba": [...]}` gives a shared skill stricter wording
+  for one set. Every skill has a `kind` (`pipeline/tax.py`, `KINDS`): `method`, `practice`, `behaviour`, `technical`,
+  `knowledge`, `tool`, `credential`. The kind decides how a résumé shows the skill and how the interface treats it,
+  never how a posting is tagged. `tax.py` hands each set its part; `build_graph` writes `web/data/taxonomy*.json`.
+  Patterns are tuned for precision against model judgment (`evals/extraction_baseline*.md`); avoid bare everyday words.
+- `pipeline/evidence.json` — how a résumé shows each skill: `form` (`through`, `scope`, `artefact`, `outcome`, `built`,
+  `context`, `named`), the `artefacts`, `counterparts`, `measures` and `verbs` a line carries, and `shown_by`, the
+  concrete skills whose evidence counts for a behaviour or a practice.
+- `pipeline/fields.json` — what the skills four or more fields ask for mean in each field: `reads_as`, `shown_by`
+  (carriers that co-occur with the skill in at least 15% of the field's postings that ask for it) and `line` (one
+  résumé line in the field's words, with a number). `role:<id>` keys are role overrides of the same shape.
+  `tax.validate` checks both files; `evals/run_taxonomy.py` checks them against the postings. The graph publishes
+  `kind`, `how_shown` and `fields` on every skill node.
+- `pipeline/depth/*.json` — editorial depth per skill: definition, sub-skills (patterns, examples), a level ladder,
+  how to build it, résumé lines that show it. Product files are hand-written. MBA files (`mba_*.json`) are written by
+  `pipeline.depth_publish` from posting evidence: `ladder` keyed by industry ladder, `build` by ladder, `provenance`
+  (posting ids, employers, quoted phrases) under every statement; a rung the postings do not support is absent.
+  `mba_roles.json` holds per role and ladder the licences, exams and degrees five employers name at entry level.
+- `pipeline/depth_gen.py`, `build_steps.py`, `build_sources.py`, `depth_publish.py` — the depth from postings.
+  `depth_gen` drafts sub-skills and rungs with one model and keeps what code checks and a second model support
+  (every statement asked by two employers, quoting its evidence). `build_steps` writes "how to build it" steps on a
+  target postings name and a source on the allow-list (`data/raw/build_sources.json`: government, regulators,
+  certification bodies; course vendors never). `build_sources verify` hashes every source and marks each passage
+  found or not. Needs `OPENROUTER_API_KEY`; answers cache in `data/experiments/depth/`; `--dry-run` states the cost.
+- `pipeline/sponsorship.py`, `sponsorship.json` — visa sponsorship as a posting fact: `yes`, `no` or null per posting,
+  patterns anchored on visa and work-authorization words; a no wins over a yes. Counted per role in the MBA index.
+- `pipeline/experiments/` — taxonomy tooling. Drafting: `role_corpus.py` (cleaned postings of a set), `role_terms.py`
+  (phrases that set a role apart), `skill_probe.py` (try draft skills on postings). Checking: `role_coverage.py`
+  (writes `evals/extraction_baseline_<roles>.md`), `skill_audit.py` (model judgment per skill), `decisions_audit.py`,
+  `decisions_report.py`, `decisions_compare.py` (the product audit). `OPENAI_API_KEY` for a live run; `--reuse`
+  recomputes against saved answers. Output in `data/experiments/`.
+
+### Stages and stores
+
+- `pipeline/scrape.py`, `extract.py`, `build_graph.py` — the three stages. Scrape and extract share one path: title
+  filter, cleaning, repost and repeated-URL dedupe, tagging in worker processes, evidence sentences per skill and
+  level. Build_graph computes shares (company-balanced for the MBA set: `pipeline/balance.py`, one employer at most
+  5% of a role), levels per ladder, the axis positions, and writes the index plus one file per role.
+- `data/raw/jobs*/` — the backlog, one file per employer, not in git. A refresh never drops a posting: one still shown
+  gets `last_seen`, a new one `first_seen`, one no longer shown `closed`. A posting is its requisition id (its URL on a
+  board that gives none). An incomplete fetch (a listing page unread, a search at its page cap, under 30% returned)
+  closes nothing by absence: each missing open posting is asked about one by one (`still_open`); the file says
+  `partial`. `--recheck-closed DATE` reopens postings closed since DATE that the board still shows. MBA closed postings
+  stay in the statistics for 12 months (`KEEP_CLOSED_DAYS`) with `open: false`; the product set drops them.
+- `pipeline/backlog.py` — the backlog's store: the `backlog_files` and `postings` tables (GradBuddy project).
+  `push` (the scrape pushes each file as it writes it), `pull`, `verify`, `status`; a full scrape keeps the newest four
+  dated snapshots in the `backlog` bucket. Push never deletes; pull never overwrites a local posting the database lacks.
+- `pipeline/store.py` — the `atlas-store` bucket, one manifest per store (`evals`, `caches`, `logs`). `push` uploads
+  changed files and never deletes; `pull` writes differing files and keeps a newer local one; `status`; `bootstrap`.
+  `pipeline/env.py` is the one reader of `.env`.
+- `pipeline/processed.py` — reads and writes `data/processed/`; a file over 50 MB of JSON is kept gzipped.
+- `pipeline/geo.py` — the country reader for the MBA and tech sets ("US - Remote", country codes, SuccessFactors URLs).
+- `pipeline/log.py`, `pipeline/runs.py` — every stage logs INFO per stage with counts and seconds, WARNING for a
+  skipped record, ERROR with the traceback; `.env` values are masked. With `SUPABASE_DB_URL` set each run inserts one
+  row into `runs` (`pipeline/sql/002_runs.sql`); `pipeline.runs` prints them. `PIPELINE_LOG` names a log file,
+  `PIPELINE_LOG_LEVEL=DEBUG` shows more, `PIPELINE_RUNS=off` skips the row.
+- `pipeline/jobs_open.py` — every open US posting of both sets → `web/data/jobs_open.json` (column-oriented: companies,
+  locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx,
+  flags, skills, url, firstSeen]`; `flags` is a bit field the file names) and `jobs_meta.json` (the counts). No
+  snippet, no sub-skills. Runs after `build_graph`, no network.
+- `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
+  the course catalog's loader dry and writes `web/data/catalog/cornell_tech.json` (committed) and
+  `web/data/local/catalog_full.json` (this machine; the only copy with the syllabus digest). `catalog_tags` reads the
+  local file, runs `Atlas.readCourse` per class and writes `cornell_tech_tags.json` with the taxonomy files' hashes;
+  `tests/web/catalog_files.test.mjs` fails when a hash is stale.
+- `pipeline/funnel.py` — the funnel from the catalog project's tables for a date range: sessions and the share
+  reaching each event, applications by source, the door funnel, drop-off by day and screen, calls to action
+  (shown, clicked, done), returns, visible time by screen, feedback counts (never the sentences; `--notes` prints an
+  applicant's note). Reads `CAPTURE_DB_URL`, else `SUPABASE_DB_URL`. Pure parts in `tests/python/test_funnel.py`.
+- `pipeline/map_publish.py`, `map_feedback.py` — upload a student's checked map to `maps/<uid>/map.json`; list the
+  feedback files. Read `CATALOG_URL` and `CATALOG_SERVICE_ROLE_KEY` from `.env`; exit 0 without the key.
+- `pipeline/build_artifact.py` — the single-file build of the site (`web/artifact.html`, gitignored).
+- `pipeline/game_passages.py` — `web/data/game_passages.json` for Spot the real ask.
+
+### Employers and discovery
+
+- `data/raw/fortune500_2026.json` — the 2026 Fortune 500 with industry labels; `pipeline/sectors.json` groups the 66
+  industries into 11 sectors.
+- `pipeline/discover.py` — careers-site discovery for Fortune companies (domain, careers-link crawl, ATS signature,
+  Workday tenant guessing, adapter verification) → `data/raw/discovery/`; unresolved companies go to research agents
+  (`data/raw/registry_fortune_agents_*.json`). `pipeline/verify_one.py` verifies one ATS config.
+- `data/raw/funds.json`, `portfolio_<fund>.json`, `pipeline/probe_startups.py` — 52 venture funds and their portfolios;
+  the probe finds each active company's Greenhouse, Lever or Ashby board and writes `data/raw/registry_startups.json`.
+- `data/raw/registry_*.json`, `pipeline/merge_registry.py` → `data/registry.json` — per-company ATS configs merged
+  (hand-verified over agents over auto) with tier, industry and sector. One job board is one employer.
+- `pipeline/adapters/` — one module per ATS (27: Greenhouse, Lever, Ashby, Workday, Eightfold, Phenom, Oracle HCM,
+  SmartRecruiters, SuccessFactors, iCIMS, Avature, Jibe, Radancy, Paradox, Amazon, Apple, Google, Meta, McKinsey,
+  KPMG, Goldman Sachs, Bank of America, a JSON-LD reader, and others); `common.py` holds the session, the retry loop
+  and `strip_html`. `talnet.py` reads tal.net (Oleeo) boards from
+  the public Atom feed (`…/candidate/jobboard/vacancy/<n>/feed/structured`); a firm names its boards in the config
+  (`{"host": "lek.tal.net", "boards": [{"name", "path", "vacancy"}]}`); a board behind a captcha returns nothing and
+  says so. `yello.py` reads Yello (recsolu.com) boards: the search URL from the board page, 25 cards a page, then each
+  job page; `posted` is approximate. Configs in `data/raw/registry_mba_employers_talnet_yello.json`.
+
+### The apprentice map
+
+`pipeline/apprentice/` (its own README), `.claude/skills/apprentice-map/SKILL.md`, `data/apprentice/` (gitignored).
+Node scripts run from the root: `new.mjs <slug> [--import]`, `ground.mjs`, `assemble.mjs`, `check.mjs`, `render.mjs`.
+The pure part is `web/apprentice.js` (`Apprentice.ground`, `storyCards`, `assembleMap`, `selfServeMap`, `byHand`),
+which the site's `/api/tree` runs for a signed-in person. The tracked example is `pipeline/apprentice/examples/pmm-nyc`,
+a fictional person against a real posting.
+
+## Site
+
+All of `web/` is static. Classic scripts load in the browser and in node (`require("web/<file>.js")`), so the tests
+and evals run the code the site runs.
+
+- `index.html` — the shell: the brand, breadcrumbs, the verbs, the theme switch, the Feedback link; the scripts in
+  load order (`config.js`, `copy.js`, … `app.js`, `gameshell.js`, the games). `tests/web/assets.test.mjs` checks every
+  named script exists and the remote ones pin a version.
+- `config.js` — the flags (README, "The switches"), the catalog project's URL and publishable key, `CAMPUS_DOMAINS`
+  (flag → email domains), `CATALOG_TERM`, the Tally form ids.
+- `copy.js` — every string a screen owns, one table grouped by screen (`Copy.door`, `.home`, `.intake`, `.you`,
+  `.explore`, `.role`, `.fit`, `.jobs`, `.skills`, `.network`, `.classes`, `.signin`, `.heart`, `.feedback`, `.map`,
+  `.about`, `.games`, `.common`). `Copy.fill(template, vars)` fills `{slots}`. Checked by `evals/copy.mjs` and
+  `tests/web/copy.test.mjs`: sentences of at most 20 words, active voice, no utilize, leverage, facilitate, via,
+  in order to; never a percentage about a fit.
+- `atlas.js` — the data layer over both role sets: `Atlas.index()` (fields, roles), `Atlas.product()`, `Atlas.role(id)`
+  (one role's postings, skills, sub-skills, evidence), `Atlas.grid()`, `Atlas.matcher(R)` (the matcher with the bands
+  it was calibrated with), `Atlas.roughFit`, `Atlas.readPosting`, `Atlas.readCourse`, `Atlas.fieldChart`,
+  `Atlas.carriers`, `Atlas.genericSkills`, `Atlas.us(text)` (American spelling at load, `web/data/spelling_us.json`,
+  never on a quoted sentence or a pattern), `Atlas.useInferred` (binds the model read to one résumé text).
+- `match.js` — the résumé matcher, pure: per-line evidence with strength, tiered requirements, persona and level,
+  transfer vocabulary, skills presumed from a role held. A behaviour is credited through its carriers (`pickCarriers`),
+  status `through`. `createMatcher({ behaviours })` is `"show"` or `"score"` as the bands files record. The model
+  read's skills merge as status `inferred`, credit 0.75. `Matcher.bandOf(score, bands, group)` reads
+  `web/data/bands*.json` (written by `evals/calibrate.mjs`; cut points, never round numbers).
+- `evidence_text.js` — every sentence a screen shows about a skill, built from the data: the example line, what the
+  skill means in the field, the gap sentence by kind, the measures to add. Checked by `evals/adaptive.mjs`.
+- `app.js` — the screens (README table), the pure tables `Routes.parseRoute`, `Stage` (what each stage leads with),
+  `Intake` (the one call to action), `Door` (the door's copy and rules: `campus`, `opens`, `reach`, `bounce`), `You`,
+  `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
+  screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form.
+- `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking,
+  Find jobs (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`,
+  `parseState`), the role picker, and the skill map (the fields on a ring, skills near the fields that ask for them,
+  `SkillMap.chart` for one field, the route planner).
+- `catalog.js`, `classes.js`, `data/sp27_campus.json` — the class picker. `catalog.js` is the reads and the pure
+  functions (cross-list collapsing, eligibility, the relevance score and band, the gaps a class covers,
+  `combineRoles`, the sorts); `classes.js` draws the screens. Every campus-specific string is data in
+  `sp27_campus.json`, one entry per campus: a new campus is a new entry, never a code change. `enabled_by` names the
+  flag that lists a campus; `catalog_file` and `tags_file` the two public files. No sign-in; the picker reads the
+  person's gaps for the chosen roles and says which each class covers. `evals/run_classes.mjs` checks the matching.
+- `doors.js` — the door and the intake boxes as Tally forms with the native form as the fallback: `Doors.mount(el,
+  kind, opts)` (a light and a dark form per kind in `CONFIG.TALLY`, swapped on a theme change), `returnQuery`,
+  `nativeSubmit` (through `Capture.waitlist`).
+- `capture.js` — `Capture.event(name, ctx)` posts one event (name from the closed list `EVENTS`; the session and
+  visitor ids; stage, program, role or field id, screen, cta, ms; the signed-in id when there is one) to `events` with
+  the publishable key; `Capture.waitlist(email, source, ctx)` one application row; `screen(name)`, `cta(id, step)`
+  (`cta_shown`, `cta_click`, `cta_done`), `action()` (a count in localStorage), `visible()` (visible milliseconds,
+  summed from the heartbeats), `watch()` (the heartbeat every thirty seconds of visible, active time). Never a
+  résumé, a posting, a skill id or a file name. `CONFIG.CAPTURE_ENABLED` off makes every call a no-op.
+- `feedback.js` — `Feedback.due(input)`, the prompt's rule (twelve actions or six minutes of visible time; never on
+  the door or the sign-in, nor within a minute of signing in; again after thirty days with new actions; once at the
+  first self-serve tree); `Feedback.send(row)` into the insert-only `feedback` table; the marks in localStorage.
+- `auth.js` — the sign-in with no library: `Auth.sendLink(email)` (an invited address only, `create_user: false`),
+  `Auth.sendCode` and `verifyCode` (the six-digit code for anyone; `create_user: true`, so the catalog project's
+  "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
+  `readMap`, `writeFeedback`, `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
+  the route table for `#/skills` and `#/map`.
+- `state.js` — a signed-in person's saved state in `profiles`, `hearts` and `reads` (own rows under row-level
+  security): `State.hash(text)` (a SHA-256 of the normalized résumé, never the text), `readRows(fit)`, `saveProfile`,
+  `saveRead`, `heart`, `load`, `forget`, `merge` (the browser's answers win; hearts are a union). Runs only with
+  `CONFIG.ACCOUNTS_ENABLED` and a session.
+- `map.js` — `MapModel`, the pure part of `#/map`: the class tree's places and layout, the worlds, the read's lines,
+  the co-asked skills. `apprentice.js` — the generator's pure part (above).
+- `infer.js` — the browser side of the model read: `Infer.read(text)` calls `/api/infer`, keeps the answer per
+  résumé text, `Infer.forget()`.
+- `api/infer.js`, `api/tree.js` — the two functions (README, "Hosting"). `tree.js` identifies the caller through
+  GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
+  overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`
+  alone. Limits: 40,000 characters of text, four roles, 8 s upstream.
+- `gameshell.js`, `games/` — the shell every game draws inside (`frame`, `foot`, `results`, `keys`, `start`,
+  `picker`, the one `localStorage` record under `games`) and the built games. `games/README.md` is the design index.
+- `tokens/`, `style.css` — the GradBuddy design tokens (oklch, dark and light) and the one stylesheet written on
+  them; look changes go through tokens only.
+- `data/` — the published files: `graph.json` (product), `graph_mba.json` + `graph_mba/<role>.json` (the MBA index and
+  one file per role, loaded on demand; `_evidence.json` the example sentences), `graph_tech*` (the tech set),
+  `taxonomy*.json`, `subskills*.json`, `bands*.json`, `roles_mba.json`, `roles_tech.json`, `role_blurbs.json` (one
+  sentence per role), `jobs_open.json`, `jobs_meta.json`, `catalog/`, `games.json`, `game_passages.json`,
+  `sp27_campus.json`, `spelling_us.json`. `local/` is this machine only.
+
+## Database
+
+`pipeline/sql/` holds every migration of the catalog project, dated, each safe to run twice:
+
+| File | Creates |
+|---|---|
+| `002_runs.sql` | `runs` (GradBuddy project): one row per stage run, service role only. |
+| `2026-10-25_capture.sql`, `2026-10-26_cohort.sql`, `2026-10-31_doors.sql`, `2026-11-01_positioning.sql` | `events` and `waitlist`: anonymous insert only, a unique index on email and source, the `note` and `surface` columns, the door and intake sources. |
+| `2026-11-03_maps.sql` | The private `maps` bucket and the policies on a person's own folder. |
+| `2026-11-05_journey.sql` | `visitor`, `user_id`, `screen`, `cta`, `ms` on `events`; the event name's shape only. |
+| `2026-11-05_state.sql` | `profiles`, `hearts`, `reads`: own rows for every verb, nothing for anon. |
+| `2026-11-05_feedback.sql` | `feedback`: anon and authenticated insert, never select. |
+
+All are applied. The Vercel project's environment holds `ANTHROPIC_API_KEY` and `CATALOG_SERVICE_ROLE_KEY`
+(Production).

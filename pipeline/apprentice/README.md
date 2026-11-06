@@ -16,31 +16,23 @@ fundamentals; three one-day demos; one project with real users; a product-sized 
 is tied to the role, the company and the person, with its evidence one click away. The owner runs it by hand for each
 student of the first paid cohort. This folder writes the map; the atlas's `#/map` shows it to the signed-in student.
 
-**Where it lives (2026-11-04).** The generator moved here from GradBuddy (`gradbuddy/apprentice/`), so a map is made
-and published from this repository alone. GradBuddy's folder stays as a read-only source: `new.mjs <slug> --import`
-copies an existing student's folder from it once.
-
-**The frame.** On 2026-10-25 the fellowship's mentors said the résumé-and-fit flow GradBuddy led with was
-undifferentiated and pointed at Michael Raspuzzi's "Shadow Apprentice" method
-([michaelsmemos.substack.com/p/the-shadow-apprentice-stop-applying](https://michaelsmemos.substack.com/p/the-shadow-apprentice-stop-applying),
-2026-10-23): instead of applying, do a small public version of the job before anyone hires you. Inputs: a job
-description, the person, the company; deep research on the company first; one page, every card relevant to all three
-or cut. GradBuddy adopts the method as the engine of its Portfolio proxy (concept v3: the outcome is landing the pivot
-role; the proxies are conversations with people who can hire you, and proof you can point to) and adds three things
-the raw method does not have:
+**The method** is the "Shadow Apprentice" ([michaelsmemos.substack.com/p/the-shadow-apprentice-stop-applying](https://michaelsmemos.substack.com/p/the-shadow-apprentice-stop-applying)):
+instead of applying, do a small public version of the job before anyone hires you. Inputs: a job description, the
+person, the company; deep research on the company first; one page, every card relevant to all three or cut. The atlas
+adds three things (PLAN.md v20 has the reasoning):
 
 1. **Grounding in the atlas.** The role's skills, how often postings ask for each, what each means in this field and
-   which Spring 2027 classes teach it come from the job atlas (this repository's `web/data/`), not from the
-   model's memory. Level 1 is built from the role's skills; the tracks are the role's skill areas.
+   which Spring 2027 classes teach it come from `web/data/`, not from the model's memory. Level 1 is built from the
+   role's skills; the tracks are the role's skill areas.
 2. **Coursework as raw material.** The student's current and Spring classes are inputs; cards say which class a project
    grows out of or which class covers a fundamental.
 3. **Guided first, then on your own.** World 1 opens with two story cards that walk the student through one line of
    their own résumé each, with a live read and a practice prompt; the build cards follow; World 2 is built with help
-   beside them; World 3 and the Reach are theirs, for real users. The old "I do / we do / you do" labels are gone from
-   the page (2026-11-05); the framing stays in each world's `who` line.
+   beside them; World 3 and the Reach are theirs, for real users; each world's `who` line says so.
 
-This is deliberately thin: no rail, no accounts, no server, no model call in any script. The deterministic parts are
-scripts; the judgment is the skill, run in Claude Code.
+The scripts call no model and run no server; the judgment is the skill, run in Claude Code. The pure part also runs
+in the site's `/api/tree` for a signed-in person (below). GradBuddy's older `apprentice/` folder is a read-only
+source: `new.mjs <slug> --import` copies a student's folder from it once.
 
 ## Layout
 
@@ -96,9 +88,8 @@ signed-in person's map from their résumé and the roles they pick (the tree, th
 no company research). A map the site built carries `student.self_serve`; the function never overwrites a map with a
 build card, so a map written here stays the owner's.
 
-- **The class:** `roles:` in the intake, one to three atlas role ids of one field (`ground.mjs` refuses a role of
-  another field and accepts four at most, so the example can hold its whole field). The first is the map's role. A
-  lone `role:` from an older intake is a class of one.
+- **The class:** `roles:` in the intake, one to four atlas role ids of one field (`ground.mjs` refuses a role of
+  another field). The first is the map's role. A lone `role:` from an older intake is a class of one.
 - **The first role:** id, label, number of postings and employers, the share at startups, large companies and firms,
   and the skills that set it apart.
 - **The skills:** every core skill (asked by half or more of the postings) and common skill (a quarter or more): id,
@@ -218,6 +209,11 @@ for <role label> · product-role-atlas · <date>".
 `data/apprentice/students/<slug>/`, else `pipeline/apprentice/examples/<slug>/`. After the student's feedback, the
 owner sets `shipped`, `changed`, `declined`, `reply` or a world's `clear` in `map.json` by hand, runs `assemble`,
 `check` and `render`, and publishes again.
+
+**Two sources of a map.** The site's `/api/tree` writes a self-serve map (`student.self_serve: true`, story cards and
+the tree only) for a signed-in person who builds one, and refuses (409) to overwrite a map that holds a build card.
+So a map published from here always wins: publishing over a self-serve map replaces it, and the person's "Build it
+again" then fails until the owner's map is taken down. The reverse never happens.
 
 ## Rules
 
