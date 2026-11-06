@@ -18,13 +18,18 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
 const require = createRequire(import.meta.url);
 const { createMatcher } = require(path.join(root, "web/match.js"));
+const { techBaseline } = await import("./lib.mjs");
 const read = f => JSON.parse(fs.readFileSync(path.join(root, "web/data", f)));
 const TAX = read("taxonomy_tech.json"), SUBS = read("subskills_tech.json");
 const hasGraph = fs.existsSync(path.join(root, "web/data/graph_tech.json"));
 let G = { jobs: [], skills: [] };
 if (hasGraph) { const { loadGraph } = await import("./graph_mba.mjs"); G = loadGraph(null, { set: "tech" }); }
-// the set's title rules, so a resume's jobs are read as tech roles (years in the role, the level they reached)
-const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G, roles: read("roles_tech.json") });
+// the set's title rules, so a resume's jobs are read as tech roles (years in the role, the level they reached), and
+// the scoring the site uses (web/atlas.js): asks weighed by how distinctive they are against the MBA and tech roles,
+// with the setting web/data/bands_tech.json was calibrated with
+const BANDS = fs.existsSync(path.join(root, "web/data/bands_tech.json")) ? read("bands_tech.json") : {};
+const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G, roles: read("roles_tech.json"),
+  distinct: hasGraph ? { ...((BANDS.scoring || {}).distinct || {}), baseline: techBaseline() } : undefined, behaviours: (BANDS.scoring || {}).behaviours || "show" });
 const LEVEL_OF = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
 
 const args = process.argv.slice(2);

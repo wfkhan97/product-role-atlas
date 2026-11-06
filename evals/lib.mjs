@@ -19,6 +19,16 @@ export function rolesData() { return J(path.join(root, "web/data/roles_mba.json"
 // shared skill where it has one): the file the graph build writes for the interface.
 export function mbaTaxonomy() { return J(path.join(root, "web/data/taxonomy_mba.json")); }
 
+// What "distinctive" is measured against for the tech role set, as web/atlas.js computes it for the site's matcher:
+// the mean share of each tech skill over the MBA roles and the tech roles that have postings. Against business roles
+// alone, "python" would define every engineering role.
+export function techBaseline() {
+  const M = J(path.join(root, "web/data/graph_mba.json")), T = J(path.join(root, "web/data/graph_tech.json"));
+  const mf = Object.keys(M.families).filter(f => M.roles[f] && M.roles[f].n), tf = Object.keys(T.families).filter(f => T.roles[f] && T.roles[f].n);
+  const mShare = Object.fromEntries(M.skills.map(s => [s.id, s.by_family || {}]));
+  return Object.fromEntries(T.skills.map(s => [s.id, (mf.reduce((a, f) => a + ((mShare[s.id] || {})[f] || 0), 0) + tf.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0)) / ((mf.length + tf.length) || 1)]));
+}
+
 // One resume cut out of a packet: lines first..last (1-based) of the packet's text. `starts` guards the cut: if the
 // text of the file comes out differently one day, the part fails loudly rather than reading the wrong lines.
 export function cutPart(text, part) {

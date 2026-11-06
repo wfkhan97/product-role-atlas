@@ -3,15 +3,17 @@
 //
 //   node evals/fetch_external.mjs            # fetch what is missing
 //   node evals/fetch_external.mjs --list     # show what would be fetched
+//   node evals/fetch_external.mjs --roles software_engineer,counsel   # only the samples filed under these roles
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dir = path.join(here, "resumes", "external");
-const list = JSON.parse(fs.readFileSync(path.join(here, "external_sources.json"))).filter(e => e.fetch === "script");
+const roles = process.argv.includes("--roles") ? process.argv[process.argv.indexOf("--roles") + 1].split(",") : null;
+const list = JSON.parse(fs.readFileSync(path.join(here, "external_sources.json"))).filter(e => e.fetch === "script" && (!roles || roles.includes(e.role)));
 const MAGIC = { pdf: b => b.subarray(0, 5).toString() === "%PDF-", docx: b => b[0] === 0x50 && b[1] === 0x4b };
-const MAX = 5 * 1024 * 1024;
+const MAX = (Number(process.env.MAX_MB) || 5) * 1024 * 1024; // MAX_MB=15 for a long career guide
 fs.mkdirSync(dir, { recursive: true });
 for (const e of list) {
   const file = path.join(dir, `${e.id}.${e.file_type}`);

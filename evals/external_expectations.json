@@ -8497,5 +8497,818 @@
    "variance_analysis",
    "ctp"
   ]
+ },
+ "software_engineer_calpolyslo_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Mascot name (Mae Mustang). Every date is 'Summer 20xx'. Filed by the publisher as the 'career' sample, but the person is a student with internships (Intuit, Tapestry Solutions)."
+ },
+ "software_engineer_calpolyslo_3": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Student sample; every date is '20xx'. Software development internships, coursework, skills by category."
+ },
+ "software_engineer_calpolyslo_5": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Student sample; every date is '20xx'. Skills summary first; Google and Broadcom internships."
+ },
+ "software_engineer_calpolyslo_6": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Student sample; every date is '20xx'. Programming projects (iOS app) before experience."
+ },
+ "software_engineer_suffolkuni_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name ('Preferred Full Name') and contact line; real dates (2019–2023). CS student seeking a software internship; STEP intern building a web app."
+ },
+ "software_engineer_duke_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name John Doe, 'xxx' phone. MS Computer Science 2019; full-stack and Hadoop/MapReduce projects, a research summer as software engineer. Filed under software engineering: a general CS master's résumé."
+ },
+ "software_engineer_tamucc_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Placeholder name (HACK A. THON); every date is '20xx'. MS Computer Science; projects (deep learning, Hadoop/Spark, distributed systems), a software engineering internship and a software test analyst job at Infosys."
+ },
+ "ml_engineer_duke_1": {
+  "kind": "single",
+  "seniority": "mid",
+  "note": "Named sample (Ryan J. Wilson, 555 phone) on a 'Math PhD to Industry Resume Example'. Graduate researcher 2012–present aiming at data science and analytics; filed under ML engineering, the nearest tech role."
+ },
+ "product_designer_drexel_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Placeholder name 'First Last'; dates '20xx'. BS User Experience and Interaction Design; UX design intern at Lockheed Martin (user flows, wireframes, heuristic evaluation)."
+ },
+ "product_designer_ufl_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Mascot name (Alberta Gator); real dates 2024–2027 with tabs and long space runs. Digital Arts & Sciences student aiming at product design; UX coursework and research skills, a marketing assistant job."
+ },
+ "security_engineer_collin_1": {
+  "kind": "template",
+  "seniority": "early",
+  "note": "Mascot name (Collin Cougar) and fill-in blanks ('including__________'); thin text, a template more than a résumé."
+ },
+ "security_engineer_georgemaso_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Name Jamie Young, 555 phone, 'LINKEDIN ID HERE'; dates 'May 20XX' with bracketed instructions in the headings. IT graduate, information security concentration; forensics and network projects."
+ },
+ "security_engineer_harpercoll_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "'Sample Student'; dates 'June 20xx'. AAS Cybersecurity, entry-level information security analyst target, certifications expected."
+ },
+ "security_engineer_scranton_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name and 555 phone; real dates 2021–2025; 'GPA: _' blanks. MS Cybercrime Investigation and Cybersecurity; certifications, an IT internship."
+ },
+ "security_engineer_utk_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Invented name (Sam Cybersecurity); dates '20XX'. Student computer support and a security analyst internship."
+ },
+ "security_engineer_webster_1": {
+  "kind": "single",
+  "seniority": "mid",
+  "note": "Labelled 'RESUME SAMPLE', 555 phone, email@email.com. MS Cybersecurity 2023; corporate information systems security officer since 2023 after security roles from 2018; dates M/YYYY."
+ },
+ "counsel_stanfordla_1": {
+  "kind": "template",
+  "seniority": "early",
+  "only_years": true,
+  "note": "Labelled sample (Angie Alum, 555 phone); dates '20 **'. Junior lateral corporate associate; JD, law review."
+ },
+ "counsel_stanfordla_2": {
+  "kind": "template",
+  "seniority": "mid",
+  "note": "Labelled sample (Angie Alum, 555 phone); dates '20 **'. Mid-to-senior corporate associate: years in the role are the point, and none can be read, so it stays out of calibration."
+ },
+ "counsel_stanfordla_3": {
+  "kind": "template",
+  "seniority": "senior",
+  "note": "Labelled sample with 'Name / Address' placeholders; dates '20 **'. Director of litigation in-house at a medical device company: years cannot be read, so it stays out."
+ },
+ "counsel_ugalaw_2": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "'SAMPLE RESUME', name 'Seeking A. Lawjob'; real dates 2019–2025. JD expected 2025; law review, moot court, judicial and firm internships."
+ },
+ "counsel_berkeleyla_1": {
+  "kind": "packet",
+  "note": "Alumni résumé guide with two sample résumés and margin comments, cut by line range.",
+  "parts": [
+   {
+    "id": "counsel_berkeleyla_1_p1",
+    "lines": [
+     19,
+     119
+    ],
+    "starts": "BOALT ALUMNU",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 1 in the alumni guide; one column, centred header, dates 'September 2009 – present'; margin comment text interleaved at lines 28-59 and 86-108; placeholder name and firms (XXX); JD 2008, federal judicial clerk, litigation associate at a large firm."
+   },
+   {
+    "id": "counsel_berkeleyla_1_p2",
+    "lines": [
+     120,
+     211
+    ],
+    "starts": "APPLICANT",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "senior",
+    "note": "Two-page alumni sample, header 'APPLICANT' with XXX address; dates '2005 – 2010'; comment text interleaved at lines 133-138; JD 1995, VP and general counsel at a public software company, sole practitioner, technology associate, publications."
+   }
+  ]
+ },
+ "counsel_bostonuni_1": {
+  "kind": "packet",
+  "note": "Six sample 3L résumés in one file, cut by line range.",
+  "parts": [
+   {
+    "id": "counsel_bostonuni_1_p1",
+    "lines": [
+     3,
+     46
+    ],
+    "starts": "M ARISA   T",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L (public interest); small-caps headings split by spaces, dates 'Sept. 2015 to present'; 555 phone; ACLU chapter president, summer associate at an advocacy centre."
+   },
+   {
+    "id": "counsel_bostonuni_1_p2",
+    "lines": [
+     49,
+     91
+    ],
+    "starts": "Jean-Pierre",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L with legal and non-legal experience; dates 'Aug. 2011 – July 2013'; 555 phone; IP concentration, law review, summer associate, former healthcare-software project manager."
+   },
+   {
+    "id": "counsel_bostonuni_1_p3",
+    "lines": [
+     94,
+     127
+    ],
+    "starts": "Richard Robe",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L (e-commerce and sports law); dates 'May 2013 – September 2013'; fake phone; summer associate, paralegal."
+   },
+   {
+    "id": "counsel_bostonuni_1_p4",
+    "lines": [
+     130,
+     170
+    ],
+    "starts": "KATHLEEN MCG",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L; paragraph entries, dates 'June 2015-August 2015'; 555 phone; moot court, research assistant, summer associate."
+   },
+   {
+    "id": "counsel_bostonuni_1_p5",
+    "lines": [
+     173,
+     214
+    ],
+    "starts": "JULIEANNE T.",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L (JD/MA); dates 'September 2014 - January 2015'; 555 phone; legislative extern, litigation support intern."
+   },
+   {
+    "id": "counsel_bostonuni_1_p6",
+    "lines": [
+     217,
+     263
+    ],
+    "starts": "ELLEN STAHL",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample 3L at graduation; paragraph entries, dates 'Summer 2015'; 555 phone; appellate extern, DOJ honors intern."
+   }
+  ]
+ },
+ "counsel_chicagoke_1": {
+  "kind": "packet",
+  "note": "Résumé and cover-letter guide with eight sample résumés, cut by line range.",
+  "parts": [
+   {
+    "id": "counsel_chicagoke_1_p1",
+    "lines": [
+     156,
+     197
+    ],
+    "starts": "RUSTY SABICH",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Fictional-character name, 555 phone; dates 'May 2015 – August 2015'; 3L, law review editor-in-chief, summer associate, state's attorney clerk."
+   },
+   {
+    "id": "counsel_chicagoke_1_p2",
+    "lines": [
+     199,
+     236
+    ],
+    "starts": "ELEANOR   FR",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "555 phone; JD/MBA candidate, judicial extern, eight years as a corporate transfer-pricing associate before law school."
+   },
+   {
+    "id": "counsel_chicagoke_1_p3",
+    "lines": [
+     240,
+     279
+    ],
+    "starts": "Perry Mason",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Fictional-character name; patent student with legal and engineering sections: mechanical engineer at GM, patent law clerk."
+   },
+   {
+    "id": "counsel_chicagoke_1_p4",
+    "lines": [
+     281,
+     318
+    ],
+    "starts": "ROBERT CLAYT",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "555 phone; evening student and career changer, dates '2005 to Present'; former IT manager and controller."
+   },
+   {
+    "id": "counsel_chicagoke_1_p5",
+    "lines": [
+     320,
+     362
+    ],
+    "starts": "GRACE VAN OW",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Two addresses side by side, 555 phones; labor and employment certificate, litigation clinic, law clerk, former retail buyer."
+   },
+   {
+    "id": "counsel_chicagoke_1_p6",
+    "lines": [
+     364,
+     409
+    ],
+    "starts": "JIMMY MCGILL",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Fictional-character name; 2L, law review, moot court, law clerk, former logistics account manager."
+   },
+   {
+    "id": "counsel_chicagoke_1_p7",
+    "lines": [
+     411,
+     452
+    ],
+    "starts": "A TTICUS   F",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Fictional-character name; business law certificate, law clerk at a plaintiff firm, investment compliance jobs."
+   },
+   {
+    "id": "counsel_chicagoke_1_p8",
+    "lines": [
+     454,
+     486
+    ],
+    "starts": "ALLY McBEAL",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Fictional-character name, 555 phone; 1L with no legal experience: server, camp supervisor, volunteer."
+   }
+  ]
+ },
+ "counsel_marquette_1": {
+  "kind": "packet",
+  "note": "Résumé guide with nine sample résumés, cut by line range.",
+  "parts": [
+   {
+    "id": "counsel_marquette_1_p1",
+    "lines": [
+     529,
+     568
+    ],
+    "starts": "Ruba Ahmed",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #1, 555 phone; 1L, IP society, clinic volunteer, software intern."
+   },
+   {
+    "id": "counsel_marquette_1_p2",
+    "lines": [
+     571,
+     610
+    ],
+    "starts": "Sofia Hernan",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #2, 555 phone; law review editor, DA trial intern, congressional intern."
+   },
+   {
+    "id": "counsel_marquette_1_p3",
+    "lines": [
+     613,
+     658
+    ],
+    "starts": "CHARLES J. A",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #3 of the guide; moot court, clinic volunteer, law clerk, federal agency internships."
+   },
+   {
+    "id": "counsel_marquette_1_p4",
+    "lines": [
+     661,
+     701
+    ],
+    "starts": "NIKO YU",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #4 of the guide, fake LinkedIn URL; public interest: clinic practitioner, ACLU intern."
+   },
+   {
+    "id": "counsel_marquette_1_p5",
+    "lines": [
+     704,
+     748
+    ],
+    "starts": "JEREMY M. LA",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #5 of the guide; sports law certificate, athletic department compliance intern."
+   },
+   {
+    "id": "counsel_marquette_1_p6",
+    "lines": [
+     751,
+     793
+    ],
+    "starts": "JESSICA R. D",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #6, 555 phone; summer associate, judicial intern, research assistant."
+   },
+   {
+    "id": "counsel_marquette_1_p7",
+    "lines": [
+     796,
+     852
+    ],
+    "starts": "Tyrone Johns",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #7, two pages; patent bar, IP moot court, patent law clerk, former USPTO examiner."
+   },
+   {
+    "id": "counsel_marquette_1_p8",
+    "lines": [
+     855,
+     900
+    ],
+    "starts": "BARBARA H. D",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #8, fake phone; criminal law: DA student practitioner, US Attorney intern."
+   },
+   {
+    "id": "counsel_marquette_1_p9",
+    "lines": [
+     903,
+     943
+    ],
+    "starts": "ROGER C. KIN",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Sample #9, 555 phone; graduating 3L, IP law review editor, patent law clerk, former mechanical engineer at Ford."
+   }
+  ]
+ },
+ "counsel_ugalaw_1": {
+  "kind": "packet",
+  "note": "Three sample résumés with common-entry examples, cut by line range.",
+  "parts": [
+   {
+    "id": "counsel_ugalaw_1_p1",
+    "lines": [
+     46,
+     87
+    ],
+    "starts": "SEEKING   A.",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "2L/3L sample, placeholder name 'Seeking A. Lawjob'; dates 'August 2014 - Present'; journal editor, summer associate, judicial intern, former financial analyst."
+   },
+   {
+    "id": "counsel_ugalaw_1_p2",
+    "lines": [
+     91,
+     127
+    ],
+    "starts": "SEEKING A. L",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "1L sample, same placeholder name; IP society, patent-bar eligible, chemical engineering background."
+   },
+   {
+    "id": "counsel_ugalaw_1_p3",
+    "lines": [
+     131,
+     198
+    ],
+    "starts": "SEEKING A. L",
+    "kind": "single",
+    "role": "counsel",
+    "seniority": "early",
+    "note": "Public-interest sample, same placeholder name; page-break header at lines 169-170; defense clinic, public defender and legal-aid externships."
+   }
+  ]
+ },
+ "software_engineer_smithcoll_1": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "software_engineer_smithcoll_1_p7",
+    "lines": [
+     250,
+     283
+    ],
+    "starts": "Monica Smith",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Sample name, 413.555-1212 phone; CS major, TA, Django web development intern, research GUI (PHP), robotics TA. The packet's other science samples are not listed; three of them carry real-looking personal contact details and are left out."
+   }
+  ]
+ },
+ "software_engineer_ucforlando_1": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "software_engineer_ucforlando_1_p2",
+    "lines": [
+     58,
+     101
+    ],
+    "starts": "NAME",
+    "kind": "template",
+    "only_years": true,
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Placeholder name and contact, '20XX' dates; objective: software development internship; CS student, Java and C projects (PL/0 compiler, Android app), guest services job."
+   },
+   {
+    "id": "software_engineer_ucforlando_1_p8",
+    "lines": [
+     297,
+     339
+    ],
+    "starts": "NAME",
+    "kind": "template",
+    "only_years": true,
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Placeholder name and contact, '20XX' dates; CS student, course projects (C++, Java, Android, MySQL web app), hackathon."
+   }
+  ]
+ },
+ "software_engineer_umdclarks_1": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "software_engineer_umdclarks_1_p10",
+    "lines": [
+     946,
+     986
+    ],
+    "starts": "Robert   Hwa",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Double-major ME/CS sample, 123-456-7890; NASA Goddard software development intern, Sikorsky intern, robotic arm project."
+   },
+   {
+    "id": "software_engineer_umdclarks_1_p11",
+    "lines": [
+     989,
+     1028
+    ],
+    "starts": "1234 Main",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Entry-level software engineering sample; address first, the name (Caitlyn Barmaji) comes out at the end of the text; Google and NASA internships, hackathons."
+   },
+   {
+    "id": "software_engineer_umdclarks_1_p19",
+    "lines": [
+     1373,
+     1414
+    ],
+    "starts": "Aarav Kumbha",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Second-year master's sample, 123.456.7910; MS HCI, Android developer at IBM, web developer, personal apps."
+   }
+  ]
+ },
+ "ml_engineer_bu_1": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "ml_engineer_bu_1_p4",
+    "lines": [
+     133,
+     173
+    ],
+    "starts": "Margherita Y",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Computer engineering junior sample (617-555-5555); backend Java intern at a fictional company (Initech), desktop support, projects."
+   },
+   {
+    "id": "ml_engineer_bu_1_p12",
+    "lines": [
+     512,
+     550
+    ],
+    "starts": "HOWARD W. TH",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Master's sample (617-555-5555); MS systems engineering, software developer at the university, data science intern (Spark, TensorFlow), AR robotic arm capstone."
+   }
+  ]
+ },
+ "ml_engineer_gwu_3": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "ml_engineer_gwu_3_p1",
+    "lines": [
+     38,
+     69
+    ],
+    "starts": "First Name L",
+    "kind": "single",
+    "role": "ml_engineer",
+    "seniority": "early",
+    "note": "Placeholder name and 'XXX' contact, real dates; MS data science student, ML projects, data research intern, ML teaching assistant."
+   },
+   {
+    "id": "ml_engineer_gwu_3_p3",
+    "lines": [
+     111,
+     157
+    ],
+    "starts": "FirstName La",
+    "kind": "single",
+    "role": "ml_engineer",
+    "seniority": "early",
+    "note": "Placeholder header; MS data science after two years as a data scientist (2020–2022); deep learning, LLM and explainability projects; long skills list."
+   }
+  ]
+ },
+ "product_designer_cmu_2": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "product_designer_cmu_2_p24",
+    "lines": [
+     1295,
+     1340
+    ],
+    "starts": "Casey Smith",
+    "kind": "template",
+    "only_years": true,
+    "role": "product_designer",
+    "seniority": "early",
+    "note": "Generated example (the guide says so), placeholder name, '##/20##' dates; B.Des with HCI minor, Figma prototype, user research and A/B testing."
+   },
+   {
+    "id": "product_designer_cmu_2_p28",
+    "lines": [
+     1482,
+     1526
+    ],
+    "starts": "Casey Smith",
+    "kind": "template",
+    "only_years": true,
+    "role": "product_designer",
+    "seniority": "early",
+    "note": "Generated example, '##/20##' dates; MA Design, UX/UI designer and design researcher, app redesign and checkout study."
+   },
+   {
+    "id": "product_designer_cmu_2_p30",
+    "lines": [
+     1576,
+     1622
+    ],
+    "starts": "Casey Smith",
+    "kind": "template",
+    "only_years": true,
+    "role": "ux_researcher",
+    "seniority": "early",
+    "note": "Generated example, '##/20##' dates; MDes Design for Interaction, UX researcher at an ed-tech company (surveys, usability tests), TA."
+   },
+   {
+    "id": "product_designer_cmu_2_p31",
+    "lines": [
+     1624,
+     1668
+    ],
+    "starts": "Casey Smith",
+    "kind": "template",
+    "only_years": true,
+    "role": "product_designer",
+    "seniority": "early",
+    "note": "Generated example, '##/20##' dates; MDes Design for Interaction, interaction designer, design research intern, museum touchpoints."
+   }
+  ]
+ },
+ "product_designer_ucdavis_1": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "product_designer_ucdavis_1_p11",
+    "lines": [
+     415,
+     455
+    ],
+    "starts": "Jiaming Chen",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "CS student sample, fake phone (345) 678-9101; two Oracle Cloud software engineering internships (React, Node, Java)."
+   },
+   {
+    "id": "product_designer_ucdavis_1_p18",
+    "lines": [
+     698,
+     752
+    ],
+    "starts": "MIGUEL DÍAZ",
+    "kind": "single",
+    "role": "product_designer",
+    "seniority": "early",
+    "note": "Cognitive Science and Design student, fake phone (012) 345-6789; company and title on separate lines, dates on their own line; UX design intern, Figma library redesign."
+   }
+  ]
+ },
+ "product_designer_ufl_2": {
+  "kind": "packet",
+  "note": "Sample résumés of many fields in one file; only the tech ones are cut here, by line range. Parts that read like a real person's résumé are left out.",
+  "parts": [
+   {
+    "id": "product_designer_ufl_2_p2",
+    "lines": [
+     60,
+     98
+    ],
+    "starts": "AL E. GATOR",
+    "kind": "single",
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Mascot name, 555 phone; CS student, software engineering intern at Google, product/tech intern, hospital app developer."
+   }
+  ]
+ },
+ "product_designer_risd_1": {
+  "kind": "packet",
+  "note": "Career guide (RISD) with sample résumés and letters of many design fields; only the digital-design one is cut here, by line range.",
+  "parts": [
+   {
+    "id": "product_designer_risd_1_p1",
+    "lines": [
+     653,
+     693
+    ],
+    "starts": "jadams3333@r",
+    "kind": "single",
+    "role": "product_designer",
+    "seniority": "early",
+    "note": "Contact line first with the name (Jalessa Adams) at its end; the cover letter before it is left out. Sections 'I studied at / I am skilled with / I worked at / I led'; BFA 2018, front-end course, experience design intern (2017), user-research intern (2016). A guide sample: fictional portfolio domain and a letter to a fictional studio."
+   }
+  ]
+ },
+ "product_designer_umbc_1": {
+  "kind": "packet",
+  "note": "Career guide (UMBC) with sample résumés of many fields; only the technology one is cut here, by line range.",
+  "parts": [
+   {
+    "id": "product_designer_umbc_1_p1",
+    "lines": [
+     2000,
+     2054
+    ],
+    "starts": "Tanya Techy",
+    "kind": "template",
+    "only_years": true,
+    "role": "software_engineer",
+    "seniority": "early",
+    "note": "Labelled 'Technology sample résumé', pun name, the career centre's phone; '20xx' dates; BS Information Systems, web and Android projects, hackathon, part-time jobs. Bracketed skill tags in the projects are the guide's annotations."
+   }
+  ]
+ },
+ "ml_engineer_uhd_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name (Illiana Count), 111 phone; junior data science major, SQL/R/Python/SAS, data analyst intern 2018, statistics summer institute. Analytics-leaning; filed under ML engineering, the nearest tech role."
+ },
+ "ml_engineer_cmuheinz_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Header 'BIDA Resume', 555 phone, generic address; MS Information Systems (BI and data analytics) 2019 after a CS degree; ML project tags, data roles at an e-commerce platform and a research lab."
+ },
+ "security_engineer_byu_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name ('A. Cybersecurity'), 'your.url' LinkedIn; BS Cybersecurity 2019; risk analyst intern, information assurance and security specialist; dates wrap onto the next line."
+ },
+ "security_engineer_byu_2": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Placeholder name ('B. Cybersecurity'); BS Cybersecurity 2020; computer technician and specialist jobs, NSA Codebreaker challenge."
+ },
+ "security_engineer_cmuheinz_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Header 'ISPM Resume', sample@ email, 555 phone; MS Information Security Policy and Management 2020; penetration-testing tools, Salesforce internship 2019, earlier government and data jobs."
+ },
+ "security_engineer_jmu_1": {
+  "kind": "template",
+  "only_years": true,
+  "seniority": "early",
+  "note": "'YOUR FIRST AND LAST NAME' header; dates 'May 20XX'; MS Computer Science, cybersecurity concentration; coursework, projects, assistantships."
+ },
+ "security_engineer_nwtc_1": {
+  "kind": "single",
+  "seniority": "early",
+  "note": "Pun name (Xai Ber Bandit), 000 phone; years split by spaces in the text ('20 2 4'); associate degree in cybersecurity, cybersecurity operations and manager internships, shift leader."
+ },
+ "security_engineer_stevenson_1": {
+  "kind": "template",
+  "only_years": true,
+  "seniority": "early",
+  "note": "Placeholder name (Chris Security), 'xxx' phone; dates 'May 20xx'; BS Cybersecurity and Digital Forensics, vulnerability scanning internship."
  }
 }
