@@ -412,7 +412,9 @@ node evals/run_classes.mjs --only pivot  # the cases whose id contains the text
 A case is one test résumé from `evals/resumes/*.txt` and one role, or a résumé and all its roles together
 (`+all`, through `Catalog.combineRoles`). The roles per résumé are a fixed table at the top of the runner: Product
 Manager for every résumé, then the two MBA roles the rough fit ranked highest when the cases were written. Eight résumés give 32
-cases. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
+cases. The seven tech samples (`evals/resumes_tech/`) add 21: each against its own tech role and one neighbour (the
+lawyer's is the MBA compliance role), and both together; a case with a tech role reads the MBA and tech tags joined
+(`Catalog.tagsFor`), as the picker does. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
 (`web/data/catalog/cornell_tech_tags.json`) through `Catalog.relevanceScore`, `relevanceBand` and `gapsCovered`,
 and orders the cards with `sortCards("gaps")` and the campus field tie-break. It records the top 10 with score,
 band, the gaps covered and their share sum.

@@ -1,0 +1,25 @@
+{
+ "resume": "llm_counsel",
+ "roles": [
+  "tech.counsel"
+ ],
+ "note": "A technology transactions lawyer: Technology Transactions II and AI x IP are in-house tech counsel's subjects; algorithms, applied probability and 3D design are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "LAW 6896",
+   "LAW 6324"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6820",
+   "ORIE 7590",
+   "DESIGN 5358"
+  ]
+ },
+ "known_failures": {
+  "must_top LAW 6324": "Counsel's gaps here are litigation and compliance-led (see the tech bands: counsel's asks read as compliance); AI x IP is tagged IP law, which is not one of them."
+ }
+}

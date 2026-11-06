@@ -13,7 +13,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const { web, readJson, realAtlas, Matcher, require } = await import(path.join(here, "..", "tests", "web", "_load.mjs"));
+const { web, readJson, atlasFactory, Matcher, require } = await import(path.join(here, "..", "tests", "web", "_load.mjs"));
 // the pure parts plus the reads, with web/data read from disk as the tests read it
 const Catalog = require(path.join(web, "catalog.js"))({ load: url => JSON.parse(fs.readFileSync(path.join(web, url), "utf8")) });
 
@@ -38,6 +38,19 @@ const CASES = {
   staff_pm_terse: ["product.pm", "general_manager", "tech_strategy"],
   template_placeholder_years: ["product.pm", "corporate_banking", "fpa"],
 };
+// The tech samples (evals/resumes_tech/, 2026-11-06): each with the tech role its file targets and the nearest other
+// role, tech or (for the lawyer) the MBA compliance role, so a mixed set reads the two tag readings joined.
+const CASES_TECH = {
+  meng_cs_new_grad: ["tech.software_engineer", "tech.ml_engineer"],
+  ml_masters_paper: ["tech.ml_engineer", "tech.data_engineer"],
+  analyst_to_data_engineer: ["tech.data_engineer", "tech.ml_engineer"],
+  ece_embedded: ["tech.software_engineer", "tech.security_engineer"],
+  security_career_changer: ["tech.security_engineer", "tech.software_engineer"],
+  connective_media_designer: ["tech.product_designer", "tech.ux_researcher"],
+  llm_counsel: ["tech.counsel", "compliance"],
+};
+Object.assign(CASES, CASES_TECH);
+const resumeDir = name => name in CASES_TECH ? "resumes_tech" : "resumes";
 // the level the fit is read at: "all" is what the role screen opens on with no About you answers (app.js defaultLevel)
 const LEVEL = "all";
 const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
@@ -45,7 +58,8 @@ const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lea
 const SHARE_HIGH = 79 / 3392, SHARE_MID = (79 + 1747) / 3392;
 
 const t0 = Date.now();
-const Atlas = realAtlas();
+// the tech index on, so the tech roles exist (the switch hides them from visitors; the MBA and product cases read the same)
+const Atlas = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(web, url), "utf8")), Matcher, config: () => ({ TECH_ENABLED: true }) });
 const ix = await Atlas.index(); await Atlas.product();
 const GENERIC = await Atlas.genericSkills();
 const campus = readJson("sp27_campus.json").campuses.find(c => c.id === CAMPUS);
@@ -53,8 +67,10 @@ const TH = campus.relevance || {};
 const data = await Catalog.loadCatalog(campus);
 const tagsFile = JSON.parse(fs.readFileSync(path.join(web, campus.tags_file), "utf8"));
 const cards = Catalog.collapse(data);
-// one read per card, as the picker keeps one per page (classes.js readAll)
-const readsByKey = Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)]));
+// one read per card, as the picker keeps one per page (classes.js readAll): the MBA reading, and joined with the tech
+// reading for a case with a tech role (Catalog.tagsFor)
+const readsOf = withTech => Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, Catalog.tagsFor(data, withTech))]));
+const READS = { false: readsOf(false), true: readsOf(true) };
 const round = v => Math.round(v * 1000) / 1000;
 
 // ---------- one role: its rows for the relevance score, and the résumé's fit and gaps (app.js gapsFor) ----------
@@ -81,6 +97,7 @@ async function fitFor(roleId, text) {
 
 // ---------- one case: the roles read together, every card scored, the picker's order ----------
 function scoreCase(fits) {
+  const readsByKey = READS[fits.some(f => ix.roles[f.roleId] && ix.roles[f.roleId].set === "tech")];
   const c = Catalog.combineRoles(fits);
   const gaps = c.gaps || [], rows = c.rows;
   const subjects = Catalog.fieldSubjects(campus, [...new Set(fits.map(f => f.group).filter(Boolean))]);
@@ -142,7 +159,7 @@ const specDir = path.join(here, "classes");
 const readSpec = id => { const f = path.join(specDir, id + ".json"); return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : null; };
 const results = [];
 for (const name of Object.keys(CASES)) {
-  const text = fs.readFileSync(path.join(here, "resumes", name + ".txt"), "utf8");
+  const text = fs.readFileSync(path.join(here, resumeDir(name), name + ".txt"), "utf8");
   const fits = [];
   for (const roleId of CASES[name]) fits.push(await fitFor(roleId, text));
   const all = [...fits.map(f => ({ id: `${name}+${f.roleId}`, fits: [f] })), { id: `${name}+all`, fits }];

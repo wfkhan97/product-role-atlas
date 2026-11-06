@@ -1,0 +1,20 @@
+{
+ "resume": "llm_counsel",
+ "roles": [
+  "compliance"
+ ],
+ "note": "The same lawyer against compliance (an MBA role): privacy and cybersecurity law is the compliance subject; algorithms and 3D design are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "LAW 6273"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6820",
+   "DESIGN 5358"
+  ]
+ }
+}

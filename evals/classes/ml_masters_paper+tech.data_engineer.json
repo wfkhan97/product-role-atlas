@@ -1,0 +1,20 @@
+{
+ "resume": "ml_masters_paper",
+ "roles": [
+  "tech.data_engineer"
+ ],
+ "note": "An ML student looking at data engineering: Data Science in the Wild works with real data pipelines; law courses do not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 5304"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "LAW 6332",
+   "REAL 5590"
+  ]
+ }
+}

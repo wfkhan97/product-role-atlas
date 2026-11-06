@@ -344,12 +344,17 @@
     for (const id of found) { const k = (skillById[id] || {}).kind; (COURSE_KINDS.has(k) ? teaches : k === "behaviour" || k === "practice" ? named : other).add(id); }
     return { teaches, named, other };
   }
-  async function readCourse(text) {
-    const ix = await index(); await roughFit("");   // builds the reader
-    const parsed = roughM.parseResume(text); const ev = roughM.tag(parsed);
+  // opts.set "tech": read with the tech set's taxonomy and wordings (its own skills, kinds from the tech index); needs
+  // the tech index (CONFIG.TECH_ENABLED), else it reads nothing
+  async function readCourse(text, opts = {}) {
+    const ix = await index(); await roughFit("");   // builds the readers
+    const tech = opts.set === "tech";
+    if (tech && !roughT) return { found: new Set(), teaches: new Set(), named: new Set(), other: new Set(), ev: {}, lines: 0 };
+    const R = tech ? roughT : roughM;
+    const parsed = R.parseResume(text); const ev = R.tag(parsed);
     // a skill named in the text, or one of its sub-skills named (the matcher keeps a sub-skill-only hit as a hint)
     const found = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 1 || e.hintOnly || e.subs.size).map(([id]) => id));
-    return { found, ...courseSplit(found, ix.skillById), ev, lines: parsed.lines.length };
+    return { found, ...courseSplit(found, tech ? ix.techSkillById : ix.skillById), ev, lines: parsed.lines.length };
   }
   // A pasted posting (PLAN.md v16, step 9), read as the pipeline reads one (Matcher.tagPosting: the taxonomy's patterns
   // only, over the text with the boilerplate cut), split by kind like a syllabus (courseSplit), with the sub-skills it

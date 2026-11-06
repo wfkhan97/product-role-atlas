@@ -1,0 +1,25 @@
+{
+ "resume": "connective_media_designer",
+ "roles": [
+  "tech.ux_researcher"
+ ],
+ "note": "A designer looking at UX research: the advanced UX and user research course and Research is a Team Sport; a cryptography seminar, applied probability and M&A law are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "INFO 5305",
+   "TECH 5261"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6816",
+   "ORIE 7590",
+   "LAW 7591"
+  ]
+ },
+ "known_failures": {
+  "must_top INFO 5305": "The product management course names six of the gaps (A/B testing, positioning, roadmapping: product asks in UX research postings); the UX research course names user research and surveys, which the résumé already shows."
+ }
+}
