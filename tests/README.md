@@ -110,9 +110,8 @@ API, so no funnel row, waitlist row or feedback row leaves the machine. Reads, s
 (Tally, cdnjs) go through. `axe(page, name)` runs the WCAG 2.1 A and AA rules and returns the violations; it never
 fails a test. The count goes in the test's annotations.
 
-No `.session.json` has been captured yet, so the signed-in tests skip. Today the web tests count 478 and the UI
-specs 300 passed, 64 skipped. The one try (2026-11-06) ended in `otp_expired`:
-Outlook's Safe Links opened the magic link first, and the code shares the link's token.
+No `.session.json` has been captured yet, so the signed-in tests skip. The one try (2026-11-06) ended in
+`otp_expired`: Outlook's Safe Links opened the magic link first, and the code shares the link's token.
 
 `serve.mjs` reads the shell's environment and `.env`. Where either holds `CATALOG_SERVICE_ROLE_KEY`, a signed-in tree
 build on the local server writes to the production `maps` bucket: never submit the tree form locally.
