@@ -556,7 +556,9 @@
     locPlaceholder: "City, state or remote", locAria: "Location",
     search: "Search",
     postingsAria: "Postings",
-    noteResume: "Each posting counts the skills it asks for that your résumé shows. Fit sorts by that count. Change your résumé in", noteResumeLink: "About you",
+    // on a phone the filters come after the postings; this link over the list goes to them
+    filtersLink: "Filters ↓", filtersAria: "Filters",
+    noteResume: "Each posting counts the skills it asks for that your résumé shows. Fit puts the postings where you show the largest part of those skills first. Change your résumé in", noteResumeLink: "About you",
     noteNoResume: "Add your résumé", noteNoResumeAfter: "and each posting says how many of its skills you show.",
     sort: "Sort",
     sorts: { fit: "Fit", best: "Best match", company: "Company A–Z" },
@@ -567,6 +569,8 @@
     groupStartup: "Startup", groupMBA: "MBA employer", groupFortune: "Fortune {n}",
     who: { intern: "An internship", mba: "A job for MBA graduates", grads: "A job for new graduates" },
     fitLine: "{n} of the {m} skills this posting asks for are on your résumé.",
+    // the card's facts line names a field on every card; a role the data puts in no field gets this word
+    noField: "Other field",
     moreSkills: "+{n} more",
     remote: "remote", sponsorsVisa: "says it sponsors a visa",
     addResume: "Add your résumé", addResumeAfter: "and this line counts the skills you show.",

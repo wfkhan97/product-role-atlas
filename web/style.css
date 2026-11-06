@@ -973,6 +973,8 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .frow.on .n { color: var(--primary); }
 .frow.dead { color: var(--subtle-foreground); cursor: default; } .frow.dead:hover { background: transparent; }
 .frow.more { color: var(--muted-foreground); }
+/* the link to the filters: on a phone only, where the filters come after the postings */
+.jfilters-link { display: none; }
 .jhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; }
 .jhead .jcount { margin: 0; font-size: var(--text-sm); color: var(--muted-foreground); }
 .jsort { display: inline-flex; gap: 8px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); white-space: nowrap; }
@@ -1406,6 +1408,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 @media (max-width: 900px) {
   .nw-side { order: -1; }
   .jobs-grid .jmain { order: -1; }
+  .jobs-grid .jfilters-link { display: inline-block; margin-bottom: var(--space-2); }
   .lf-side { order: -1; }
 }
 @media (max-width: 640px) {

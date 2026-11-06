@@ -1915,8 +1915,13 @@
     const roleLabel = id => Atlas.us((D.role_labels || {})[id] || (ix.roles[id] || {}).label || id);
     const fieldOf = id => (ix.roles[id] || {}).group || Jobs.fieldOfRole(id);
     const skillName = i => { const sk = ix.skillById[D.skill_ids[i]]; return sk ? sk.name : D.skill_ids[i]; };
-    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf };
     const fields = ix.groups.map(g => [g.id, Atlas.us(g.label)]);
+    // the card's field (B-32, 2026-11-06): the index's field, else the field the MBA graph puts the role in. The index
+    // leaves out the MBA set's own Product field (its product_manager and product_strategy postings), since the
+    // product set stands for that field, so those cards had no field. The filters keep fieldOf as it is.
+    const mbaGroup = new Map(); for (const g of ix.M.groups || []) for (const f of g.families || []) mbaGroup.set(f, g.id);
+    const fieldName = r => { const f = fieldOf(r.role) || mbaGroup.get(r.role) || ""; return f ? labelIn(fields, f) : ""; };
+    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName };
     return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields };
   }).catch(e => { jobsP = null; throw e; });
   const JB = Copy.jobs;
@@ -1961,8 +1966,8 @@
       <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(D.companies.length) }))}</p>
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
       <div class="jobs-grid">
-        <div class="jrail"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
-        <section class="jmain" aria-label="${esc(JB.postingsAria)}"><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
+        <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
+        <section class="jmain" aria-label="${esc(JB.postingsAria)}"><button type="button" class="linkish link jfilters-link" data-to-filters="1">${esc(JB.filtersLink)}</button><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
       </div>`);
     const pageEl = main.querySelector(".page"); pageEl.classList.add("jobs-page");
     const form = $("#jsearch"), railEl = $("#jrail");
@@ -1980,7 +1985,7 @@
       const w = jobWho(r), fit = fits && fits.get(r.id);
       return `<article class="jcard${s.open === r.id ? " on" : ""}" data-id="${esc(r.id)}">
         <div class="jtop"><div><p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}</p><h3 class="jt"><button type="button" class="linkish" data-open="${esc(r.id)}">${esc(r.title)}</button></h3></div><span class="tag thin lvl">${esc(Jobs.levelLabel(r))}</span></div>
-        <p class="facts">${[fieldLabel(fieldOf(r.role)), roleLabel(r.role), shortLoc(r.location)].filter(Boolean).map(esc).join(" · ")}</p>
+        <p class="facts">${Jobs.cardFacts(r, ctx, shortLoc(r.location)).map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
         ${fit ? `<p class="small jfit">${esc(Jobs.fitLine(fit))}</p>` : ""}
         ${chips(r)}
@@ -2109,6 +2114,8 @@
     $("#jsort").onchange = e => { s.sort = e.target.value; change(); };
     pageEl.addEventListener("click", e => {
       const t = e.target;
+      // on a phone the filters sit after the postings (CSS order): this link, shown only there, scrolls to them and moves focus there (usability pass 2026-11-06)
+      if (t.closest("[data-to-filters]")) { const r = $("#jfilters"); r.scrollIntoView({ block: "start" }); r.focus({ preventScroll: true }); return; }
       if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; Object.assign(opened, openedFor()); moreCompanies = false; syncInputs(); draw(); return; }
       const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }
       if (t.closest("[data-more-companies]")) { const want = focusKeyOf(document.activeElement); moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); refocus(want); return; }

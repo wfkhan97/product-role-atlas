@@ -3,6 +3,7 @@
 //   - no route scrolls sideways (the role page's "How you work" row was 1,246 px wide; the field cards 421 px)
 //   - the role page's rail tab and its Filters drawer open inside the screen and close again
 //   - the Networking prep card and the first posting on Find jobs start within one screen of the top
+//   - Find jobs has a Filters link over the postings that goes to the filters
 //   - the launcher's résumé box comes before the field tiles
 //   - the top bar takes two rows at most, with every verb on it
 //   - the skill map's labels do not overlap, and no screen tells a phone to hover
@@ -119,6 +120,20 @@ test("jobs: the first posting starts within one screen of the top, before the fi
   const card = await box(page, ".jcard"), rail = await box(page, ".jrail");
   expect(card.y, "the first posting's top").toBeLessThan(H);
   expect(card.y, "the postings come before the filters").toBeLessThan(rail.y);
+});
+// cluster 3's verifier, 2026-11-06: nothing over the postings pointed to the filters, which sit after the 50 cards
+test("jobs: a Filters link over the postings scrolls to the filters and moves focus there", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/jobs");
+  await page.locator(".jcard").first().waitFor();
+  const link = page.locator(".jfilters-link"), first = await box(page, ".jcard");
+  await expect(link).toBeVisible();
+  expect((await box(page, ".jfilters-link")).y, "the link comes before the first posting").toBeLessThan(first.y);
+  await link.click();
+  await expect.poll(() => page.evaluate(() => document.activeElement && document.activeElement.id)).toBe("jfilters");
+  const rail = await page.evaluate(() => document.querySelector("#jfilters").getBoundingClientRect().top);
+  expect(rail, "the filters' top is on the screen").toBeGreaterThanOrEqual(-1);
+  expect(rail).toBeLessThan(H);
 });
 test("launcher: the résumé box comes before the field tiles", async ({ visitor }) => {
   const page = await general(visitor);
