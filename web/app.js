@@ -295,6 +295,40 @@
   const stateOn = () => accountsOn() && !!window.State && !!Auth.stored();
   const hearts = () => { const h = store.get("hearts"); return Array.isArray(h) ? h : []; };
   const keepHearts = list => store.set("hearts", [...new Set(list)]);
+  // The hearts' control (step 5, 2026-11-05): one list, the card's heart and the open role's the same. A press keeps
+  // the role in this browser at once and, with a session, in the person's own row (State.heart; a failed call is
+  // mended by the next restore's merge). With accounts on and no session, the open role says to sign in to keep it,
+  // without leaving the page: the first personal act of decision 1. Capture.cta("heart"): shown once per screen that
+  // draws a heart, click on a press, done when it turned on. Off accounts, the heart still works, in this browser.
+  const hearted = id => hearts().includes(id);
+  const HT = Copy.heart;
+  function heartHtml(id, opts) {
+    const o = opts || {}, on = hearted(id), aria = fill(on ? HT.unsaveAria : HT.saveAria, { role: o.label || id });
+    const icon = `<span class="hi" aria-hidden="true">${on ? "♥" : "♡"}</span>`;
+    return `<button type="button" class="heart${on ? " on" : ""}${o.save ? " heart-save" : ""}" data-heart="${esc(id)}" data-label="${esc(o.label || id)}" aria-pressed="${on}" aria-label="${esc(aria)}" title="${esc(aria)}">${icon}${o.save ? ` ${esc(on ? HT.saved : HT.save)}` : ""}</button>`;
+  }
+  // the line under the open role's Save: kept here, sign in to keep it on your account (accounts on, no session)
+  const heartNote = id => hearted(id) && accountsOn() && !Auth.stored() ? `${esc(HT.kept)} <a href="${esc(signinHref())}" data-heart-signin>${esc(HT.signIn)}</a>` : "";
+  function toggleHeart(id) {
+    const on = !hearted(id);
+    if (window.Capture) Capture.cta("heart", "click", { role_id: id });
+    keepHearts(on ? [...hearts(), id] : hearts().filter(x => x !== id));
+    if (on && window.Capture) Capture.cta("heart", "done", { role_id: id });
+    if (stateOn()) State.heart(Auth.stored(), id, on);
+    paintHearts(document);
+  }
+  // every heart of that id on the page follows the list; the note under the open role too
+  function paintHearts(root) {
+    root.querySelectorAll("[data-heart]").forEach(b => { const fresh = document.createElement("span"); fresh.innerHTML = heartHtml(b.dataset.heart, { label: b.dataset.label, save: b.classList.contains("heart-save") }); b.replaceWith(fresh.firstElementChild); });
+    root.querySelectorAll("[data-heart-note]").forEach(p => { p.innerHTML = heartNote(p.dataset.heartNote); p.hidden = !p.innerHTML; });
+    wireHearts(root, true);
+  }
+  function wireHearts(root, repaint) {
+    root.querySelectorAll("[data-heart]").forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); toggleHeart(b.dataset.heart); });
+    if (!repaint && root.querySelector("[data-heart]") && window.Capture) Capture.cta("heart", "shown", { role_id: state.roleId });
+  }
+  // a role row with its heart beside it (the heart is no part of the row's link)
+  const heartRow = (id, label, rowHtml) => `<div class="rw">${rowHtml}${heartHtml(id, { label })}</div>`;
   const hashOf = r => r.hash ? Promise.resolve(r.hash) : State.hash(r.text).then(h => { if (h && state.resume === r) { r.hash = h; store.set("resume", r); } return h; });
   const syncProfile = () => { if (!stateOn()) return; State.saveProfile(Auth.stored(), state.you, { resume_hash: (state.resume || {}).hash || null }); };
   async function saveReadFor(m, r) {
@@ -344,8 +378,10 @@
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const on = VERB_OF[name] || null;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + whoHtml(name);
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + whoHtml(name);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
+    const fb = el.querySelector("[data-feedback]"); if (fb) fb.onclick = () => openFeedback({ prompted: false });
+    const ff = $("#foot-feedback"); if (ff) ff.hidden = !feedbackOn() || name === "door";
   }
   // the signed-in address and Sign out at the bar's end, or Sign in; nothing when accounts are off (the map's own
   // sign-in stays on its screens)
@@ -387,6 +423,68 @@
   // the visitor journey's sign-in for everyone (step 2, 2026-11-05): email plus a six-digit code, asked at the first
   // personal act (the résumé read), the door's own form instead of Tally's
   const accountsOn = () => !!((window.CONFIG || {}).ACCOUNTS_ENABLED && window.Auth);
+  // ---------- feedback (the visitor journey, step 6, 2026-11-05; web/feedback.js, pipeline/sql/2026-11-05_feedback.sql) ----------
+  // A persistent Feedback link in the top bar and the footer opens a small sheet: the sentence (at most 500
+  // characters), an email only if wanted (prefilled from the session or the door), Send. The prompt opens the same
+  // sheet once per browser after twelve meaningful actions or six minutes of visible time, never on the door or the
+  // sign-in nor within a minute of signing in; shown counts as asked; again after thirty days with new actions; and
+  // once more at the first tree opened (Feedback.due is the rule, pure and tested). The funnel reads the link as the
+  // call to action `feedback` and the prompt as `feedback_prompt`. Nothing draws with CONFIG.FEEDBACK_ENABLED off.
+  const feedbackOn = () => !!((window.CONFIG || {}).FEEDBACK_ENABLED && window.Feedback);
+  const FB = Copy.feedback;
+  const feedbackLink = name => feedbackOn() && name !== "door" ? `<button type="button" class="toplink linkish" data-feedback>${esc(FB.link)}</button>` : "";
+  let fbOpen = false;
+  function openFeedback(opts) {
+    if (!feedbackOn() || fbOpen) return;
+    const o = opts || {}, prompted = !!o.prompted, id = prompted ? "feedback_prompt" : "feedback";
+    const screen = Routes.parseRoute(location.hash).name, sess = window.Auth ? Auth.stored() : null;
+    const email = (sess && sess.email) || doorKept().email || "";
+    const lead = o.why === "tree" ? FB.treeLead : prompted ? FB.promptLead : FB.lead;
+    fbOpen = true;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `<div class="fb-back" id="fb-back"></div><div class="fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-h" id="fb-box">
+      <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2><button type="button" class="close" id="fb-close" aria-label="${esc(FB.close)}">×</button></div>
+      <p class="small muted" style="margin:0">${esc(lead)}</p>
+      <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
+      <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="${esc(email)}" autocomplete="email"></label>
+      <p class="small muted" style="margin:0">${esc(FB.privacy)}</p>
+      <div class="fb-f"><button type="button" class="btn quiet" id="fb-later">${esc(FB.notNow)}</button><button type="button" class="btn primary" id="fb-send">${esc(FB.send)}</button></div>
+      <p class="small fb-out" id="fb-out" aria-live="polite"></p>
+    </div>`;
+    document.body.appendChild(wrap);
+    const close = () => { fbOpen = false; wrap.remove(); document.removeEventListener("keydown", onKey); };
+    const onKey = e => { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", onKey);
+    for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
+    const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send");
+    ta.oninput = () => { wrap.querySelector("#fb-count").textContent = fill(FB.count, { n: ta.value.length, max: Feedback.LIMITS.text }); };
+    btn.onclick = async () => {
+      const text = ta.value.trim();
+      if (!text) { out.textContent = FB.empty; ta.focus(); return; }
+      if (window.Capture) Capture.cta(id, "click", { role_id: state.roleId });
+      btn.disabled = true; out.textContent = FB.sending;
+      const ok = await Feedback.send({ text, email: wrap.querySelector("#fb-email").value, screen, prompted, session: window.Capture ? Capture.session() : null, visitor: window.Capture ? Capture.visitor() : null, user_id: sess ? sess.uid : null });
+      if (!ok) { out.textContent = FB.failed; btn.disabled = false; return; }
+      if (window.Capture) Capture.cta(id, "done", { role_id: state.roleId });
+      out.textContent = FB.thanks; ta.value = ""; ta.disabled = true; btn.hidden = true; wrap.querySelector("#fb-later").textContent = FB.close;
+      setTimeout(() => { if (fbOpen) close(); }, 2500);
+    };
+    ta.focus();
+    if (window.Capture) Capture.cta(id, "shown", { role_id: state.roleId });
+  }
+  // the prompt: checked when a screen draws and every thirty seconds while the page is visible; the tree's own at the
+  // first self-serve map drawn (treeOpened)
+  function maybePrompt(name, opts) {
+    if (!feedbackOn() || fbOpen || !window.Capture) return false;
+    const o = opts || {}, now = Date.now();
+    const d = Feedback.due({ now, screen: name, actions: Capture.actions(), visibleMs: Capture.visible(), signedInAt: Feedback.signedInAt(), asked: Feedback.asked(), treeOpened: !!o.treeOpened, treeAsked: Feedback.treeAsked() });
+    if (!d.due) return false;
+    if (d.why === "tree") Feedback.markTreeAsked(); else Feedback.markAsked(now, Capture.actions());
+    openFeedback({ prompted: true, why: d.why });
+    return true;
+  }
+  setInterval(() => { if (document.visibilityState === "visible") maybePrompt(Routes.parseRoute(location.hash).name); }, 30000);
+  const noteSignedIn = () => { if (window.Feedback) Feedback.signedIn(Date.now()); };
   // where the sign-in returns to: a hash of this site, never the sign-in itself
   const nextHash = q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%-]*$/i.test(n) ? n : "#/home"; };
   const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
@@ -396,7 +494,7 @@
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
     // session and the hash becomes #/map before anything parses it; a spent or expired link lands on the sign-in
     const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
-    if (landed) history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1"));
+    if (landed) { history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1")); if (landed === "session") noteSignedIn(); }
     const parsed = Routes.parseRoute(location.hash);
     if (!restoredOnce) { restoredOnce = true; if (stateOn()) restoreState(Auth.stored()); }   // step 3: the server's copy, once per page
     unmount(true);
@@ -418,9 +516,10 @@
     const ctx = { door: { surface: "door" }, field: { field_id: id }, event: { field_id: id }, role: { role_id: id }, play: { role_id: slug } }[name] || {};
     const ev = window.Capture ? Capture.screen(name) : null;
     if (ev) track(ev, ctx);
-    go().catch(fail);
+    go().then(() => { if (Routes.parseRoute(location.hash).name === name) maybePrompt(name); }).catch(fail);
   }
   window.addEventListener("hashchange", route);
+  { const ff = $("#foot-feedback"); if (ff) { ff.textContent = FB.link; ff.hidden = !feedbackOn(); ff.onclick = () => openFeedback({ prompted: false }); } }
 
   // ---------- 1. the door and home (v19 B2) ----------
   // the games list, for a game's own screen (web/data/games.json)
@@ -699,6 +798,7 @@
           if (!r.ok) { draw("code", r.message || S.codeWrong); return; }
           try { localStorage.setItem("door.email", r.session.email || email); localStorage.setItem("door.seen", "1"); } catch { }
           if (window.Capture) Capture.cta("signin", "done");
+          noteSignedIn();
           await restoreState(r.session);   // the server's copy fills this browser; this browser's answers go up
           out.innerHTML = `<p class="small">${esc(fill(S.done, { email: r.session.email || email }))}</p>`;
           toHash(next); if (location.hash === next) route();
@@ -726,6 +826,7 @@
       const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
       if (Routes.parseRoute(location.hash).name !== "map") return;
       drawMap(g.map, ix, others, out);
+      if (selfServe(g.map)) setTimeout(() => { if (Routes.parseRoute(location.hash).name === "map") maybePrompt("map", { treeOpened: true }); }, 1500);
     } else if (treeOn() && (g.gate === "waiting" || g.gate === "map")) {
       await treeForm(others, out);
       if (Routes.parseRoute(location.hash).name !== "map") return;
@@ -748,7 +849,8 @@
     const T = Copy.map.tree, here = () => Routes.parseRoute(location.hash).name === "map";
     const ix = await Atlas.index(); if (!here()) return;
     const F = treeRoles(ix);
-    const s = { field: null, role: null, also: [], change: false };
+    const picked = Routes.parseRoute(location.hash).query.role, pre = picked ? F.find(f => f.roles.some(r => r.id === picked)) : null;   // the fit screen's link names the role
+    const s = { field: pre ? pre.id : null, role: pre ? picked : null, also: [], change: false };
     const draw = () => {
       const r = state.resume;
       const f = F.find(x => x.id === s.field);
@@ -1507,12 +1609,16 @@
     const GS = window.GameShell, roles = GS ? Object.entries(GS.record.read().roles) : [];
     let P = null; if (roles.some(([id]) => (ix.roles[id] || {}).set === "product" || id.startsWith("product."))) P = await Atlas.product().catch(() => null);
     const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? fill(YOU.asksKnown, { n: k.known.length, m: k.total }) : null, k.ladders.length ? fill(k.ladders.length === 1 ? YOU.ladderSorted : YOU.laddersSorted, { n: k.ladders.length }) : null, k.postings ? fill(k.postings === 1 ? YOU.postingRead : YOU.postingsRead, { n: k.postings }) : null, k.demand ? fill(k.demand === 1 ? YOU.pairSeen : YOU.pairsSeen, { n: k.demand }) : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || YOU.played, updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), [esc(CM.openLower), "#/role/" + x.id]));
+    // the roles the person hearted (step 5), each with its heart so one can go from here
+    const savedRows = hearts().filter(id => ix.roles[id]).map(id => heartRow(id, ix.roles[id].label, row(esc(ix.roles[id].label), esc((ix.groups.find(g => g.id === ix.roles[id].group) || {}).label || ""), [esc(CM.openLower), "#/role/" + id])));
     page(`<h1>${esc(YOU.heading)}</h1><p class="lead">${esc(YOU.lead)}</p>${roleSearch}
       <div class="two"><div><h2>${esc(YOU.answers)}</h2>${answers}</div><div><h2>${esc(YOU.resume)}</h2>${resume}</div></div>
+      <h2>${esc(YOU.savedRoles)}</h2>${savedRows.length ? `<div class="list">${savedRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noSaved)}</p>`}
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
+    wireHearts(main);
     // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
     const fg = $("#you-forget"); if (fg) fg.onclick = async () => { const out = $("#you-forget-out"); fg.disabled = true; out.textContent = YOU.forgetting; const done = await State.forget(Auth.stored()); out.textContent = done ? YOU.forgotten : YOU.forgetFailed; fg.disabled = !done; if (done) keepHearts([]); };
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
@@ -1889,8 +1995,10 @@
         $("#v-map").onclick = () => { };
         return;
       }
+      const saved = hearts().filter(id => ix.roles[id]);   // the hearts (step 5): where to find them again
+      const savedStrip = saved.length ? `<p class="small saved-strip"><span class="hi" aria-hidden="true">♥</span> ${esc(EX.saved)} ${saved.map(id => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`).join(" · ")}</p>` : "";
       page(`<h1>${esc(EX.heading)}</h1>
-        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${view}
+        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${savedStrip}${view}
         <div class="fcards">${groups.map(card).join("")}</div>`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };
@@ -1925,13 +2033,14 @@
     page(`<div class="field-split"><div>
       <h1>${esc(g.label)}</h1>
       <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""}${charted ? ` <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a>` : ""}</p>
-      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
+      <div class="list">${roles.map(r => heartRow(r.id, r.label, `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`)).join("")}</div>
       ${charted ? `<p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>` : ""}
       </div><div${charted ? "" : " hidden"}>
       <div class="chart-stage" id="chart"></div>
       <p class="small muted chart-x">${esc(fill(FD.axis, { field: g.label }))} <span class="mark" data-measure="${esc(fill(FD.axisMeasure, { postings: closed, field: g.label }))}">ⓘ</span>${rg ? ` · <span class="sw have"></span> ${esc(FD.have)} · <span class="sw todo"></span> ${esc(FD.todo)}` : ""}</p>
       </div></div>`);
     main.firstElementChild.classList.add("wide");
+    wireHearts(main);
     if (!charted) return;
     SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
     main.querySelectorAll("[data-role]").forEach(a => { a.onmouseenter = () => SkillMap.chartLight(a.dataset.role); a.onmouseleave = () => SkillMap.chartLight(null); });
@@ -2101,9 +2210,11 @@
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
     // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts (open postings and employers
     // alone since 2026-11-01: the country and the entry grade went), the data's lead sentence
-    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts}</p>
+    page(`<div class="role-head"><h1>${esc(role.label)}</h1>${heartHtml(role.id, { label: role.label, save: true })}</div><p class="facts">${facts}</p>
+      <p class="small muted heart-note" data-heart-note="${esc(role.id)}"${heartNote(role.id) ? "" : " hidden"}>${heartNote(role.id)}</p>
       <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>${know}
       ${filters}${tabs}${body}`);
+    wireHearts(main);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
     main.querySelectorAll("details.empbox").forEach(d => d.ontoggle = () => { d.open ? state.empOpen.add(d.dataset.empOpen) : state.empOpen.delete(d.dataset.empOpen); });
     main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = PAGE; keepScroll(renderRole); });
@@ -2444,6 +2555,7 @@
     aside.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
   }
   // the persona lines are templates (Copy.fit.persona); the bold part is marked after escaping
+  const treeShown = new Set();   // the roles whose fit screen showed "Get your tree" this visit
   const FT = Copy.fit, bold = s => s.replace(/\[\[/g, "<b>").replace(/\]\]/g, "</b>");
   const PERSONA = {
     experienced_in_role: (p, field) => bold(esc(fill(FT.persona.experienced, { level: `[[${Matcher.LADDER_LABEL[p.level]}]]`, field, roleYears: fmtYears(p.pmYears), years: fmtYears(p.years) }))),
@@ -2518,12 +2630,20 @@
     // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
     const pSum = asks ? postingSummary(asks, f) : null;
     const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
+    // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered where the read is; it needs a
+    // session, so with none the link goes through the sign-in and back to the form with this role picked. Only with
+    // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
+    // visit, click on the press; its done is the tree form's own.
+    const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
+    const treeCta = treeOn() && (accountsOn() || Auth.stored()) ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${standing}${postingBox}
       ${fitTabs}${fitBody}
+      ${treeCta}
       <div class="fit-wait">${applyBox("fit", { always: true })}</div>
       <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a>${esc(FT.backAfter)}</p>`);
     wireWait(main, () => keepScroll(() => fitScreen(id)));
+    const gt = $("#get-tree"); if (gt) { gt.onclick = () => { if (window.Capture) Capture.cta("get_tree", "click", { role_id: role.id }); }; if (!treeShown.has(role.id)) { treeShown.add(role.id); if (window.Capture) Capture.cta("get_tree", "shown", { role_id: role.id }); } }
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
     main.querySelectorAll("[data-fitmore]").forEach(b => b.onclick = () => { toggle(state.fitMore, b.dataset.fitmore); keepScroll(() => fitScreen(id)); });
     const si = $("#say-it"); if (si) si.onclick = () => { state.fitTab = "details"; state.open.add("sayit"); fitScreen(id); };
@@ -2699,7 +2819,7 @@
       <p class="small">${esc(AB.editorial)}</p>
       <h3>${esc(AB.privacy)}</h3>
       <p class="small">${esc(AB.privacyEvents)}</p>
-      <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}
+      <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}${feedbackOn() ? `<p class="small">${esc(AB.privacyFeedback)}</p>` : ""}
       <h3>${esc(AB.product)}</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);

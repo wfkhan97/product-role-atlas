@@ -175,6 +175,9 @@
     forgetting: "Forgetting…",
     forgotten: "Forgotten. Nothing of yours is on our side now.",
     forgetFailed: "That did not go through. Try again in a moment.",
+    // the hearts (step 5, 2026-11-05): the roles the person saved, listed here with their hearts
+    savedRoles: "Roles you saved",
+    noSaved: "None yet. The heart on a role keeps it here.",
     resumeLine: "{words} words, read in your browser and once by our AI reader",
     replace: "replace",
     closest: "Your closest matches",
@@ -212,6 +215,7 @@
 
   // ---------- Explore (#/explore) and a field (#/field/<id>) ----------
   const explore = {
+    saved: "Saved:",   // the strip of hearted roles above the fields (step 5, 2026-11-05)
     crumb: "Explore",
     heading: "Explore the roles",
     counts: "{fields} fields, {roles} roles.",
@@ -371,6 +375,8 @@
     addLead: "We read it in your browser against what {role} postings ask for. Its text goes once to our AI reader, and we do not store it. Nothing else leaves your browser.",
     backRole: "← Back to the role",
     backTo: "← Back to {role}", backAfter: ", with your fit marked on every skill.",
+    // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered under the read when the tree is on
+    tree: { heading: "Get your tree", lead: "Every skill {role} asks for as a node: what your résumé shows, what to evidence better, what to build. Yours to keep.", button: "Get your tree →" },
     // how the résumé reads, by persona
     persona: {
       experienced: "Your resume reads as a {level} {field} profile: {roleYears} in the role, {years} of work overall.",
@@ -802,6 +808,36 @@
     gateButton: "Sign in →",
   };
 
+  // ---------- feedback (step 6, 2026-11-05): the link, the box, the prompt's two leads ----------
+  const feedback = {
+    link: "Feedback",
+    heading: "Tell us one thing",
+    lead: "What worked, what did not, what you came for and did not find. One sentence is enough.",
+    promptLead: "You have looked around for a while. What should we change?",
+    treeLead: "Your tree is up. What do you make of it?",
+    placeholder: "One thing you would change…",
+    emailLabel: "Your email, if you want a reply (optional)",
+    count: "{n} of {max}",
+    send: "Send",
+    sending: "Sending…",
+    notNow: "Not now",
+    close: "Close",
+    empty: "Write something first.",
+    thanks: "Thanks. We read every one.",
+    failed: "That did not go through. Try again in a moment.",
+    privacy: "We keep what you type here, the screen it came from and your email only if you typed it.",
+  };
+
+  // ---------- the heart (step 5, 2026-11-05): one list, on a role's row and on the open role ----------
+  const heart = {
+    save: "Save role",
+    saved: "Saved",
+    saveAria: "Save {role}",
+    unsaveAria: "Remove {role} from your saved roles",
+    kept: "Kept in this browser.",
+    signIn: "Sign in to keep it on your account.",
+  };
+
   // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
   // B2 draws the map as plain text: the title, the role at the company, the band, the worlds and their missions.
   const map = {
@@ -1029,6 +1065,7 @@
     privacyEvents: "We count which screens a visit reaches and how long each stays open while you use it. Each count carries a random id for the visit and one for this browser. So a return visit reads as one. It also carries your program and stage answers and the role or field on screen. With a sign-in it carries your account id. It never carries text, a skill or a file name.",
     privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Your résumé text goes once to our AI reader, a Claude model from Anthropic. It finds the skills your résumé shows without naming them. We do not store the text, and no syllabus or pasted posting leaves your browser.",
     privacySaved: "With a sign-in we keep your answers, the roles you heart, and your read of each role. A read is which skills show, the one résumé line that showed each, and the gaps. Never the file. A button on About you forgets it all.",
+    privacyFeedback: "We keep what you type into the Feedback box, with the screen it came from. Your email too, only if you typed it.",
     product: "Product roles",
     productLoading: "Loading the product set…",
     productLine: "{n} open postings worldwide, {us} in the US (the count Explore shows). {families} product role families at {companies} companies, refreshed {date}.",
@@ -1061,5 +1098,5 @@
     knowLine: "You know {n} things {role} postings ask for{change}.", knowCount: "{n} of the {m}", upFrom: " · up from {was}", downFrom: " · down from {was}",
   };
 
-  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, map, about, games };
+  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, heart, feedback, map, about, games };
 });

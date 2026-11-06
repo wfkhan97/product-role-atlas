@@ -1,0 +1,32 @@
+{
+ "about": "Bands of fit for the tech role set, written by node evals/calibrate.mjs --roles tech (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }) (behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only). The tech matcher also takes distinct.baseline: the mean share of each skill over the MBA and tech roles (web/atlas.js, evals/lib.mjs techBaseline).",
+ "scoring": {
+  "distinct": {
+   "floor": 0.2,
+   "full": 2
+  },
+  "behaviours": "show"
+ },
+ "generated": "2026-11-06",
+ "resumes": 376,
+ "in_range": 0.29,
+ "strong": 0.54,
+ "related": {
+  "software": 0.13,
+  "security": 0.11
+ },
+ "no_bands": {
+  "data_ai": "fewer than 10 same-role resumes",
+  "design": "fewer than 10 same-role resumes",
+  "legal": "half of its same-role resumes score below its own bottom line"
+ },
+ "group_of": {
+  "software_engineer": "software",
+  "ml_engineer": "data_ai",
+  "data_engineer": "data_ai",
+  "security_engineer": "security",
+  "product_designer": "design",
+  "ux_researcher": "design",
+  "counsel": "legal"
+ }
+}

@@ -2089,8 +2089,10 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
 
 **Step 3, built (`feat/journey-state`, stacked on step 2): the saved state.** Decisions:
 
-- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`, applied 2026-11-05 on the owner's
-  blanket permission): `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
+- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`; NOT applied as of 2026-11-05: the
+  auto-mode classifier refuses a thread's migrations, so the owner pastes the file into the SQL editor or allows
+  the Supabase `apply_migration` tool; an earlier line here said it was applied, which `list_tables` disproved):
+  `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
   résumé on file), `hearts` (one list of role ids: the card's heart and the open role's are the same), `reads` (one
   row per résumé hash per role: the band, the core and common skills with their state and the one line that showed
   each, the gaps, the model read's inferred ids). Row-level security for every verb on `user_id = auth.uid()`,
@@ -2119,7 +2121,7 @@ Steps 1 to 3 merged to main on 2026-11-05 (#148, #149, #155); `JOURNEY_ENABLED` 
 journey migration being applied. `ACCOUNTS_ENABLED` stays off until the owner has the SMTP sender and has applied the
 state tables: a merge deploys to production, so the sign-in ships dark.
 
-**Step 4, built (`feat/journey-tree`): the self-serve tree tier.** Decisions:
+**Step 4, merged (`feat/journey-tree`, #159, 2026-11-05): the self-serve tree tier.** Decisions:
 
 - **The generator's pure part moves into the site.** `web/apprentice.js` (a classic script that loads in node, like
   `map.js`) holds `Apprentice.ground`: the role, its skills with what each means in the field, the tracks, the person's
@@ -2148,6 +2150,78 @@ state tables: a merge deploys to production, so the sign-in ships dark.
   build cards, the company research) stays under "Later".
 
 Not in this step: the hearts' control, Save and the other calls to action (step 5), the feedback box (step 6).
+
+**Step 5, built (`feat/journey-ctas`, off main after #159): the hearts, Save and "Get your tree".** Decisions:
+
+- **One heart, drawn in two places, kept in one list.** The field screen's role rows and About you's saved list get a
+  heart beside the row, outside its link (a press never opens the role); the open role gets the same heart with a word
+  beside its title: "Save role", "Saved" once on. The list is the browser's `hearts` (step 3's store), so a heart
+  works for anyone today, accounts on or off; with a session the press also goes to the person's `hearts` row
+  (`State.heart`), and a call that failed is mended by the next restore's merge. Explore shows the saved roles as a
+  strip above the fields and About you lists them with their hearts, so a heart leads somewhere.
+- **The sign-in is asked without leaving the page.** With accounts on and no session, a heart on the open role draws
+  the line "Kept in this browser. Sign in to keep it on your account." under the facts, with the sign-in's link and
+  the way back; the role is kept in the browser either way and carries up at sign-in (decision 4). Nothing of this
+  draws with accounts off, so production today only gains the heart itself.
+- **"Get your tree" sits under the read**, on the fit screen, as a box with one button, drawn only with the tree flag on
+  and a sign-in anyone can use (accounts on, or a session already held): the tree needs a session, and the invited
+  magic link is no door for a visitor. With a session the button opens `#/map?build=1&role=<id>`; without, the sign-in
+  with that hash as `next`. The tree form picks the field and the role the hash names, so the person lands on a form
+  with one choice made.
+- **The funnel reads them as `heart` and `get_tree`.** `cta_shown` once per screen that draws a heart (a list of
+  rows counts once, not per row) and once per role per visit for the tree box; `cta_click` on the press; `cta_done`
+  when the heart turned on. The tree box has no done of its own: the tree form's `tree` done is it. Every row carries
+  `role_id`, never a label.
+
+Not in this step: the feedback box (step 6). Still the owner's before the flags flip: `CATALOG_SERVICE_ROLE_KEY` in the
+Vercel project (the tree), the SMTP sender and the state tables (the sign-in).
+
+**Step 6, built (`feat/journey-feedback`, off main after #162): the feedback box and its prompt.** Decisions:
+
+- **One table, insert only** (`pipeline/sql/2026-11-05_feedback.sql`, the owner applies it): the sentence (at most 500
+  characters, the check is in the table), the email only when typed, the screen the box opened on, whether the prompt
+  opened it, capture's session and visitor ids, the person's id when the browser holds a session. Anon and
+  authenticated may insert one row and never select; the owner reads the sentences in the SQL editor and
+  `pipeline.funnel` prints the counts (rows, prompted, with an email, by screen; `feedback_counts` is the pure part).
+- **The box is one sheet** (`openFeedback`), from a persistent Feedback link at the bar's end and in the footer, or from
+  the prompt: the lead, a textarea with its count, the email prefilled from the session or the door and left blank
+  when neither is known, the privacy line, Not now, Send. Sent, it thanks and closes on its own. The link draws on
+  every screen but the door.
+- **The prompt is a pure rule** (`Feedback.due`, `web/feedback.js`), checked when a screen draws and every thirty
+  seconds while the page is visible: the first time after twelve meaningful actions (`Capture.actions`) or six
+  minutes of visible, active time (`Capture.visible`, the heartbeats' sum kept in this browser; nothing more is sent),
+  whichever first; never on the door or the sign-in, nor within a minute of signing in (`Feedback.signedIn` at the
+  code's verify and the magic link's landing); shown counts as asked, dismissed or sent; again only after thirty days
+  and only with new actions since; and once more, its own lead, when a self-serve tree first draws (`treeOpened`).
+  The marks live in localStorage (`feedback.asked`, `feedback.tree`, `feedback.signin`).
+- **The funnel tells the two apart**: the link is the call to action `feedback`, the prompt `feedback_prompt`, each
+  with shown, click and done. A row carries the role on screen, never the sentence.
+- **Everything behind `CONFIG.FEEDBACK_ENABLED`, off** until the migration is applied: a row for a table the project
+  lacks is refused, and the link would promise a box that cannot send. The About page's privacy section gains the
+  sentence on what the box keeps, drawn with the flag.
+
+With this, every step of the plan of record is built. The feedback flag flips with `chore/feedback-on` once the
+owner has applied `2026-11-05_feedback.sql` (the box needs neither the sign-in nor the tree, so it goes first). Still
+the owner's, because each holds a secret a thread must never see or type: `CATALOG_SERVICE_ROLE_KEY` in the Vercel
+project (then `TREE_ENABLED`); a domain of theirs verified at the mail provider and that provider's SMTP password in
+the catalog project's Auth settings, plus the state tables applied (then `ACCOUNTS_ENABLED`). Each flip is a
+one-line PR the owner approves.
+
+**The key is a new-style secret key (2026-11-06, `fix/tree-secret-key`).** The owner put `CATALOG_SERVICE_ROLE_KEY` into
+the Vercel project (Production) as one of Supabase's new secret keys (`sb_secret_…`), since the legacy `service_role`
+JWT is on its way out. A secret key is no JWT, so it cannot ride in `Authorization: Bearer`; it goes in `apikey` alone
+and the Authorization header stays empty (Supabase, "Migrating to publishable and secret API keys"). `web/api/tree.js`
+now sends the key that way when it starts with `sb_`, and the legacy JWT in both headers as before. The health line
+(`GET /api/tree`) gained `storage`: a probe of the bucket's record with the key, so production can say the key works
+before anyone signs in. The pipeline scripts (`map_publish.py`, `map_feedback.py`) read the same name from `.env`
+through the Python client and were not run against a secret key; check them when the owner next publishes a map.
+
+**The flips, 2026-11-06.** The owner allowed the Supabase `apply_migration` tool in the worktree's local settings and
+both migrations went in (`feedback`; `profiles`, `hearts`, `reads`). `FEEDBACK_ENABLED` flipped with #166; production's
+insert was smoke-tested with the publishable key (one marked row, anon select refused). #167 merged and production's
+`GET /api/tree` answered `storage: true`, so `TREE_ENABLED` flips with `chore/tree-on`: with accounts off, only a
+session (the invited map users) reaches the form, so the public sees no change until `ACCOUNTS_ENABLED`, which still
+waits on a domain of the owner's and the SMTP password.
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
@@ -2339,7 +2413,8 @@ code or the patterns:
   (46%) sits under its band because of the first. All three belong to PR 5, where the matcher learns the set.
 
 **Still owed before the set is shown** (PR 5 and after): bands from published résumés (`calibrate.mjs --roles tech`,
-ten or more samples per field in `external_sources.json`); the model read over the whole résumé set once the tech
+ten or more samples per field in `external_sources.json`; done 2026-11-06 for software and security, see "Bands of fit
+for the tech set"); the model read over the whole résumé set once the tech
 skills reach `/api/infer`'s list; the class picker's counterpart (Cornell Tech's technical courses tagged with
 `catalog_tags.mjs` reading `taxonomy_tech.json`, and labelled cases in `evals/classes/`); the games' evals over the
 tech roles; a fresh labelled sample of titles; sponsorship rows from tech postings.
@@ -2401,8 +2476,55 @@ as `refresh-product` does. The run's data PR (#156) opened as a draft.
   floors don't mean anything. Its place is the checks step of `refresh-mba.yml`, which has the key, after
   `pull evals` and `npm ci` in `evals/` (listed under Later).
 
+## Bands of fit for the tech set (`feat/tech-bands`, 2026-11-06)
+
+The 304-résumé calibration set had no résumé written for a tech role, so the bands needed new samples first.
+
+**The samples.** Five searches (one per field) listed 64 published samples from universities, engineering and law
+schools and community colleges, never résumé sites and never a real person's résumé. They are in
+`external_sources.json`, read from listing pages and search results with no file opened. `fetch_external.mjs --roles`
+fetched 45 of the 55 marked for it; ten links were dead or refused, and `MAX_MB=15` let two long design guides through.
+Each file was then read before it got an entry in `external_expectations.json`, and 15 packets were cut into résumés by
+line range. Only the tech résumés of mixed packets were cut. A part that carried a real-looking personal email and
+phone was left out, and so were two whole files (Penn State IST: no guide text, contact details matching the names; a WCSU handout
+with no résumé in it).
+Two "data" samples read as general CS master's résumés and are filed under software engineering. Usable now:
+software 18, legal 30, security 11, design 8, data and AI 5.
+
+**Years as placeholders.** Many school samples date everything "20XX". The rule stays that a template is left out of
+calibration, with one exception: `only_years: true` marks a template whose only placeholders are the years. Its words
+are a whole résumé of a student or new graduate, so the years read (near zero) are the years such a person has.
+Fifteen tech entries carry it; no MBA entry does, so the MBA and product calibrations do not change.
+
+**Adjacent, for this set.** Three of the five groups hold one role, so "the other roles of the group" left almost no
+adjacent scores. The first run put the middle line (57%) above the top one (52%). For the tech set, adjacent is a
+tech résumé against a tech role it was not written for, and another field is a résumé written for an MBA or product
+role (`adjOf` in `calibrate.mjs`). The MBA set keeps its groups.
+
+**The scoring is the site's.** The site weighs tech asks by how distinctive they are against the MBA and tech roles
+together (`web/atlas.js`); `run_tech.mjs` did not, so its scores were not the site's. Both evals now take the baseline
+from `evals/lib.mjs` (`techBaseline`), and a test holds the site's to it on the real data. All 147 sample checks still
+pass with the site's scoring.
+
+**The result** (`evals/calibration_tech.md`, `web/data/bands_tech.json`, 376 résumés). In range from 29%, reads
+like people in the role from 54%. Related background from 13% for software and 11% for security. A same-role score
+ranks above an adjacent one 78% of the time and above another field's 80%. No bands, so no verdict:
+- **Data and AI**: 5 samples.
+- **Design**: 8 samples.
+- **Legal**: half of the 30 law résumés score below the group's own bottom line.
+
+Legal is a finding, not only a count. Counsel's core asks come out as "regulated industries and compliance" and risk
+management. The legal skills (contracts, litigation, IP, privacy) sit among the common asks. So a law student's résumé
+scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
+the taxonomy, not to the bands.
+
 ## Later
 
+- Tech bands (2026-11-06): ten or more samples for data and AI (5) and design (8), from résumé-site samples the
+  owner downloads by hand or from more school guides (URI's data-science sample is a Google Doc, not fetched); counsel's
+  asks, so that legal practice, not compliance, is what counsel asks for (a taxonomy change: the whole chain in
+  CLAUDE.md), then `calibrate.mjs --roles tech` again. The product and MBA bands were not rerun: the 64 new files
+  join their "other field" when they are.
 - After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
   storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
   submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).
