@@ -30,7 +30,7 @@
       "catalog": true,
       "catalog_file": "data/catalog/cornell_tech.json",
       "tags_file": "data/catalog/cornell_tech_tags.json",
-      "field_subjects_note": "The tie-break of the picker's sorts (Catalog.inField). For each role field id of web/data/graph_mba.json `groups` (the product field included), the roster subjects whose classes belong to that field. Two cards equal on gap weight and score sort the one in the chosen roles' fields first. A first read of the 121 Spring 2027 classes' subjects; a subject missing here only loses the tie-break.",
+      "field_subjects_note": "The tie-break of the picker's sorts (Catalog.inField). For each role field id, the roster subjects whose classes belong to that field. The ids are the `groups` of web/data/graph_mba.json (the product field included) and of web/data/graph_tech.json. Two cards equal on gap weight and score sort the one in the chosen roles' fields first. A first read of the 121 Spring 2027 classes' subjects; a subject missing here only loses the tie-break.",
       "field_subjects": {
         "consulting_strategy": ["TECH", "NBAY", "NBA"],
         "finance": ["NBAY", "BANA", "NBA"],
@@ -42,7 +42,13 @@
         "supply_chain": ["ORIE", "NBAY"],
         "people": ["NBAY", "NBA"],
         "risk": ["LAW", "NBAY"],
-        "analytics": ["BANA", "ORIE", "CS", "INFO"], "impact": ["TECH", "LAW", "CRP", "NBAY"]
+        "analytics": ["BANA", "ORIE", "CS", "INFO"],
+        "impact": ["TECH", "LAW", "CRP", "NBAY"],
+        "software": ["CS", "ECE", "TECHIE", "INFO"],
+        "data_ai": ["CS", "ORIE", "ECE", "BANA", "INFO"],
+        "security": ["CS", "ECE", "LAW", "INFO"],
+        "design": ["DESIGN", "INFO"],
+        "legal": ["LAW"]
       }
     },
     {

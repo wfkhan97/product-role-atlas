@@ -6,11 +6,11 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 | file | strings | long | passive | stoplist |
 |---|---:|---:|---:|---:|
-| web/copy.js (gated) | 1208 | 0 | 0 | 0 |
-| web/data/sp27_campus.json (gated) | 182 | 0 | 0 | 0 |
+| web/copy.js (gated) | 1378 | 0 | 0 | 0 |
+| web/data/sp27_campus.json (gated) | 199 | 0 | 0 | 0 |
 | web/data/games.json (gated) | 54 | 0 | 0 | 0 |
 | web/data/graph_mba.json | 13160 | 65 | 46 | 17 |
-| web/data/role_blurbs.json | 72 | 2 | 5 | 0 |
+| web/data/role_blurbs.json | 79 | 2 | 5 | 0 |
 | web/data/graph_mba/_evidence.json | 4351 | 1862 | 135 | 142 |
 | web/data/subskills_mba.json | 1590 | 0 | 0 | 3 |
 | web/data/subskills.json | 325 | 0 | 0 | 1 |
@@ -19,11 +19,11 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/copy.js (gated)
 
-1208 strings · 0 long · 0 passive · 0 stoplist
+1378 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/sp27_campus.json (gated)
 
-182 strings · 0 long · 0 passive · 0 stoplist
+199 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/games.json (gated)
 
@@ -103,7 +103,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/role_blurbs.json
 
-72 strings · 2 long · 5 passive · 0 stoplist
+79 strings · 2 long · 5 passive · 0 stoplist
 
 **sentences over 20 words** (2)
 
