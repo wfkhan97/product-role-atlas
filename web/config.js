@@ -18,8 +18,10 @@ window.CONFIG = {
   // The self-serve tree (the visitor journey, step 4, 2026-11-05): on, a signed-in person with no map builds one on
   // #/map from their résumé and the roles they pick (POST /api/tree, web/api/tree.js: the class tree, the read and the
   // story cards; no model). Off, #/map waits for the owner's map as before. The function needs
-  // CATALOG_SERVICE_ROLE_KEY in the Vercel project's environment and answers 503 without it.
-  TREE_ENABLED: false,
+  // CATALOG_SERVICE_ROLE_KEY in the Vercel project's environment and answers 503 without it. On since 2026-11-06:
+  // the key is set (a new-style secret key) and production's GET /api/tree says it opens the bucket. With accounts
+  // off, only a person with a session (the invited map users) reaches the form or the fit screen's "Get your tree".
+  TREE_ENABLED: true,
   /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). On since the
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */
