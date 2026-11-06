@@ -1109,6 +1109,27 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .fb-box .fb-f { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .fb-box .fb-out { min-height: 1.3em; margin: 0; }
 .foot #foot-feedback { margin-left: 14px; }
+/* the guide (the usability pass of 2026-11-06; web/guide.js): a dim with a hole over the target and the card beside it;
+   on a phone (640 px and under) no dim, a bottom sheet and an outline on the target. Tokens only: the dim is the canvas
+   at 62%, so it darkens in dark mode and fades in light mode. Over the pick lists (30) and the tooltip (20). */
+.foot #foot-guide { margin-left: 14px; }
+.guide-hole { position: fixed; z-index: 40; pointer-events: none; border-radius: var(--radius-md); box-shadow: 0 0 0 9999px color-mix(in oklch, var(--canvas) 62%, transparent); outline: 2px solid var(--ring); outline-offset: 2px; transition: left .18s ease, top .18s ease, width .18s ease, height .18s ease; }
+.guide-card { position: fixed; z-index: 41; width: min(340px, calc(100vw - 32px)); display: grid; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-4); background: var(--popover); color: var(--popover-foreground); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: 0 12px 40px color-mix(in oklch, var(--neutral-950) 30%, transparent); }
+.guide-card:focus { outline: none; } .guide-card:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.guide-card .guide-h { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.guide-card .eyebrow { margin: 0; }
+.guide-card h2 { margin: 0; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--heading-foreground); }
+.guide-card p.guide-b { margin: 0; font-size: var(--text-base); line-height: var(--leading-normal); color: var(--foreground); }
+.guide-card .close { border: 0; background: transparent; color: var(--muted-foreground); font-size: var(--text-lg); line-height: 1; padding: 0 var(--space-1); }
+.guide-f { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
+.guide-f .guide-nav { display: flex; gap: var(--space-2); align-items: center; }
+.guide-f .linkish { color: var(--muted-foreground); font-size: var(--text-sm); }
+.guide-f .btn { padding: var(--space-1-5) var(--space-3-5); }
+.guide-none { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.guide-sheet { left: 0; right: 0; top: auto; bottom: 0; width: auto; max-height: 45vh; overflow-y: auto; transform: none; border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0; padding: var(--space-4) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px color-mix(in oklch, var(--neutral-950) 22%, transparent); }
+body.guide-room { padding-bottom: 50vh; }
+.guide-ring { outline: 2px solid var(--ring) !important; outline-offset: 3px; border-radius: var(--radius-md); }
+@media (prefers-reduced-motion: reduce) { .guide-hole { transition: none; } }
 .lf-slot { margin: 16px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); } .lf-slot a { color: var(--primary); }
 .si { display: flex; gap: 8px; margin-top: 16px; }
 .si input { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 9px 12px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; }

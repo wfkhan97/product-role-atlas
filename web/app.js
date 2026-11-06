@@ -476,11 +476,13 @@
   // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + whoHtml(name);
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
     markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
     const fb = el.querySelector("[data-feedback]"); if (fb) fb.onclick = () => openFeedback({ prompted: false });
     const ff = $("#foot-feedback"); if (ff) ff.hidden = !feedbackOn() || name === "door";
+    const gl = el.querySelector("[data-guide]"); if (gl) gl.onclick = () => Guide.relaunch(name, guideCtx());
+    const fg = $("#foot-guide"); if (fg) fg.hidden = !guideShown(name);
   }
   function markVerb(on) {
     for (const a of document.querySelectorAll("#verbs a.toplink[data-verb]")) { const is = a.dataset.verb === on; a.classList.toggle("on", is); if (is) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }
@@ -602,6 +604,7 @@
   // first self-serve map drawn (treeOpened)
   function maybePrompt(name, opts) {
     if (!feedbackOn() || fbOpen || !window.Capture) return false;
+    if (window.Guide && Guide.isOpen()) return false;   // the prompt never lands on a tip
     const o = opts || {}, now = Date.now();
     const d = Feedback.due({ now, screen: name, actions: Capture.actions(), visibleMs: Capture.visible(), signedInAt: Feedback.signedInAt(), asked: Feedback.asked(), treeOpened: !!o.treeOpened, treeAsked: Feedback.treeAsked() });
     if (!d.due) return false;
@@ -610,6 +613,14 @@
     return true;
   }
   setInterval(() => { if (document.visibilityState === "visible") maybePrompt(Routes.parseRoute(location.hash).name); }, 30000);
+  // ---------- the guide (the usability pass of 2026-11-06; web/guide.js) ----------
+  // A screen's tips on its first visit (route() calls Guide.after once the screen has drawn; while a run is due or open
+  // the feedback prompt waits), and "Show me around" beside Feedback in the top bar and in the footer, which replays the
+  // screen's tips. Shown only with CONFIG.GUIDE_ENABLED and on a screen with tips (never the door).
+  const guideOn = () => !!((window.CONFIG || {}).GUIDE_ENABLED && window.Guide);
+  const guideShown = name => guideOn() && name !== "door" && Guide.has(name);
+  const guideCtx = () => ({ campus: campusGate().open, resume: !!state.resume, signedIn: !!(window.Auth && Auth.stored()), config: window.CONFIG, busy: fbOpen || !!document.querySelector("#drawer") });
+  const guideLink = name => guideShown(name) ? `<button type="button" class="toplink linkish" data-guide title="${esc(Copy.guide.relaunchAria)}">${esc(Copy.guide.relaunch)}</button>` : "";
   const noteSignedIn = () => { if (window.Feedback) Feedback.signedIn(Date.now()); };
   // where the sign-in returns to: a hash of this site, never the sign-in itself
   const nextHash = q => Routes.You.back(q) || "#/home";   // the same rule as the résumé step's `next` (Routes.You.back)
@@ -646,10 +657,11 @@
     const ctx = { door: { surface: "door" }, field: { field_id: id }, event: { field_id: id }, role: { role_id: id }, play: { role_id: slug } }[name] || {};
     const ev = window.Capture ? Capture.screen(name) : null;
     if (ev) track(ev, ctx);
-    go().then(() => { if (Routes.parseRoute(location.hash).name === name) maybePrompt(name); }).catch(fail);
+    go().then(() => { if (Routes.parseRoute(location.hash).name !== name) return; if (!(guideOn() && Guide.after(name, guideCtx()))) maybePrompt(name); }).catch(fail);
   }
   window.addEventListener("hashchange", route);
   { const ff = $("#foot-feedback"); if (ff) { ff.textContent = FB.link; ff.hidden = !feedbackOn(); ff.onclick = () => openFeedback({ prompted: false }); } }
+  { const fg = $("#foot-guide"); if (fg) { fg.textContent = Copy.guide.relaunch; fg.title = Copy.guide.relaunchAria; fg.onclick = () => Guide.relaunch(screenNow, guideCtx()); } }
   { const fa = document.querySelector("footer.foot a[href='#/about']"); if (fa) fa.textContent = Copy.about.heading; }   // the page's own name
 
   // ---------- 1. the door and home (v19 B2) ----------

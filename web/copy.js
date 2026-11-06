@@ -1190,5 +1190,88 @@
     knowLine: "You know {n} things {role} postings ask for{change}.", knowCount: "{n} of the {m}", upFrom: " · up from {was}", downFrom: " · down from {was}",
   };
 
-  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, heart, feedback, map, about, games };
+  // ---------- the guide: the tips per screen (web/guide.js; the usability pass of 2026-11-06) ----------
+  // The chrome of the card, then one title and one body per step, by screen and step id (Guide.STEPS).
+  const guide = {
+    relaunch: "Show me around",
+    relaunchAria: "Show the tips for this screen again",
+    dialog: "Tips for this screen",
+    count: "Tip {i} of {n}",
+    next: "Next",
+    back: "Back",
+    done: "Done",
+    skip: "Skip tips",
+    close: "Close the tips",
+    none: "This screen has no tips right now.",
+    steps: {
+      door: {
+        skip: { title: "You can look first", body: "The email is optional. Skip for now opens the site without it." },
+      },
+      home: {
+        verbs: { title: "Pick where to start", body: "Each card opens one part of GradBuddy. The counts come from the latest open job postings." },
+        you: { title: "Tell us about you", body: "Three short questions help each screen sort fields and pick a level. You can skip them." },
+        relaunch: { title: "Tips come back here", body: "Press Show me around on any screen to see its tips again." },
+      },
+      classes: {
+        role: { title: "Start with a role", body: "Pick a role here. Each class then shows how well it fits that role." },
+        band: { title: "What high, medium and low mean", body: "The band shows how many of the role's main skills the course description names. A class can teach more than its description names." },
+        resume: { title: "Add your résumé for gaps", body: "Choose your résumé, then press Read my fit. Each card then says which of your gaps it covers." },
+        gaps: { title: "How we count your gaps", body: "A gap is a skill the role asks for that your résumé does not show yet. Your study answer sets the level, so it can change this count." },
+        subjects: { title: "Subject codes", body: "Each chip is a subject code, the first part of a class number. CS 5304 is a CS class." },
+      },
+      jobs: {
+        search: { title: "Search every open job", body: "Type a title, a skill or a company. Add a city to narrow the list." },
+        fields: { title: "Narrow by field", body: "Pick a field to see only its postings. The count above the list changes with it." },
+        card: { title: "See your skills on each card", body: "Add your résumé, and each card counts the skills you show for that posting." },
+        cardFit: { title: "Your skills on each card", body: "This line counts the posting's skills that your résumé shows. The skills you show turn green." },
+      },
+      skills: {
+        fields: { title: "Pick a field", body: "Each tile is a field of jobs. Open one to see its roles and the top three skills each asks for." },
+        search: { title: "Or search for a role", body: "Type a job title to jump straight to its role." },
+        resume: { title: "Find roles that fit you", body: "Add your résumé here. We then list the roles closest to it." },
+        resumeFit: { title: "Roles close to your résumé", body: "These roles ask for the skills your résumé shows most. Open one to see your fit." },
+      },
+      role: {
+        level: { title: "Pick your level", body: "Each level shows what its postings ask for. Entry covers postings for new graduates." },
+        areas: { title: "Skills sit in groups", body: "Each row is a group of skills. Open a row to see them, or press Expand all." },
+        rail: { title: "See your fit", body: "Add your résumé under Your fit and press Read my fit. You then see which top skills you show." },
+        railFit: { title: "Your fit at a glance", body: "This line counts the top skills your résumé shows. The See all link opens every skill in two lists." },
+      },
+      fit: {
+        level: { title: "Pick the level you want", body: "The level decides which postings count. Pick the level you aim for." },
+        counts: { title: "Why two different counts", body: "The line above counts only the skills most postings ask for. These lists hold every skill postings ask for, so their numbers are larger." },
+        links: { title: "Postings that ask for it", body: "Under a gap, these links open postings that ask for that skill. Read one to see how employers say it." },
+        posting: { title: "Check one posting", body: "Paste a posting you like. The lists then mark the skills it asks for." },
+      },
+      explore: {
+        views: { title: "Two ways to see fields", body: "▦ shows each field as a card. ⊞ shows a skill map of the fields and the skills they ask for." },
+        cards: { title: "Pick a field", body: "Each card shows a field, some of its roles and its open jobs. Open one to see every role." },
+        find: { title: "Find a skill", body: "Type a skill to open its card. The card names the roles that ask for it most." },
+      },
+      field: {
+        roles: { title: "Roles in this field", body: "The biggest roles come first. Open one to see what its postings ask for." },
+        chart: { title: "Skills these roles ask for", body: "Each dot is a skill. Press a dot to read what it means and which roles ask for it." },
+        heart: { title: "Save a role", body: "Press the heart to keep a role. Your saved roles then show at the top of All fields." },
+      },
+      network: {
+        role: { title: "Pick the role", body: "Choose the role you want to ask about. The advice on this page follows it." },
+        types: { title: "Pick who to meet", body: "Each tab is one kind of person, like a recruiter or an alum. The advice changes with your pick." },
+        prep: { title: "Your prep card", body: "This card says where to find them and what to ask. It uses the role and the person you picked." },
+        copy: { title: "Copy the approach", body: "Copy puts the ask and the questions on your clipboard. Paste them into a note or a message." },
+      },
+      you: {
+        opts: { title: "Pick the closest answer", body: "Your answers sort the fields and set your level. You can change them on this page later." },
+        steps: { title: "Three questions, then your résumé", body: "The bar shows how far you are. The résumé step comes last, and you can skip it." },
+        answers: { title: "Your answers", body: "Press edit to change an answer. Every screen uses the new answer at once." },
+        resume: { title: "Your résumé", body: "This link adds or replaces your résumé. Your fit on every role then uses the new one." },
+      },
+      about: {
+        facts: { title: "What we count", body: "These numbers come from the latest data refresh. Home and Find jobs use the same counts." },
+        employers: { title: "Who hires most", body: "Open this list to see the employers with the most open postings." },
+        feedback: { title: "Tell us what is wrong", body: "Feedback opens a short box. Write one sentence, and we read every message." },
+      },
+    },
+  };
+
+  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, heart, feedback, map, about, games, guide };
 });

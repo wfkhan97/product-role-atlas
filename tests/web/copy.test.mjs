@@ -11,7 +11,7 @@ import { strings, checkAll, sentences, wordCount, passives, stoplisted, OWNER_WO
 const Copy = require(path.join(web, "copy.js"));
 
 test("the table has every group the screens read, and fill() fills {slots}", () => {
-  for (const k of ["common", "door", "home", "intake", "you", "explore", "role", "fit", "jobs", "skills", "network", "classes", "signin", "map", "about", "games"]) assert.ok(Copy[k] && typeof Copy[k] === "object", k);
+  for (const k of ["common", "door", "home", "intake", "you", "explore", "role", "fit", "jobs", "skills", "network", "classes", "signin", "map", "about", "games", "guide"]) assert.ok(Copy[k] && typeof Copy[k] === "object", k);
   assert.equal(Copy.fill("{n} of {m}", { n: 2, m: 5 }), "2 of 5");
   assert.equal(Copy.fill("{n} of {m}", { n: 0 }), "0 of {m}", "an unfilled slot stays as it is, never undefined");
   assert.equal(Copy.fill("no slots", {}), "no slots");
