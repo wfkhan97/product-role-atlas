@@ -218,6 +218,18 @@
   }
 
   // ---------- the short card for a skill: who asks for it, as links ----------
+  // the card's share line (2026-11-06; it said "across the 50 MBA roles" while Explore said 56 roles): the mean share
+  // over the roles the map shows, counted from the data as Explore counts them (a product role once the product set
+  // is loaded; never a tech role). Pure: ix the index, P the product set or null.
+  function roleShare(ix, P, id) {
+    const s = ix.skillById[id] || {}; let sum = 0, n = 0;
+    for (const r of Object.values(ix.roles)) {
+      if (r.set === "tech" || (r.set === "product" && !P)) continue;
+      sum += r.set === "product" ? (((P.skillById[id] || {}).by_family || {})[r.family] || 0) : ((s.by_family || {})[r.family] || 0); n++;
+    }
+    return { share: n ? sum / n : 0, n };
+  }
+  const cardShare = (ix, P, id) => { const r = roleShare(ix, P, id); return Copy.fill(Copy.explore.card.share, { share: pct(r.share), n: r.n }); };
   function card(id) {
     const nd = data.byId[id]; if (!nd) return "";
     const s = data.ix.skillById[id] || {}, ix = data.ix, rows = [];
@@ -231,7 +243,7 @@
     const together = (data.adj[id] || []).slice(0, 6), area = (data.M.clusters[nd.cluster] || {}).label || nd.cluster;
     return `<button type="button" class="close" data-sk-clear aria-label="Close">×</button><div class="sm-card"><p class="eyebrow">${esc(area)}</p><h3 class="sm-title">${esc(nd.name)}</h3>
       ${s.what ? `<p class="small">${esc(s.what)}</p>` : ""}
-      <p class="facts">${pct(nd.share)} of postings across the 50 MBA roles ask for it</p>
+      <p class="facts">${esc(cardShare(ix, P, id))}</p>
       ${rows.length ? `<p class="sm-h">Asked for most by</p><div class="list">${rows.slice(0, 5).map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${pct(r.share)}</span><span class="m">${esc(groupLabel(r.group))}</span></a>`).join("")}</div>` : ""}
       ${topFields.length ? `<p class="sm-h">Fields that ask for it most</p><div class="tags">${topFields.map(([g]) => `<a class="tag" href="#/field/${esc(g)}">${esc(groupLabel(g))}</a>`).join("")}</div>` : ""}
       ${together.length ? `<p class="sm-h">Often asked for together</p><div class="tags">${together.map(([t]) => `<button type="button" class="tag" data-sk="${esc(t)}">${esc(data.byId[t].name)}</button>`).join("")}</div>` : ""}</div>`;
@@ -412,5 +424,5 @@
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner, thinNames };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner, thinNames, roleShare, cardShare };
 })();

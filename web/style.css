@@ -532,6 +532,8 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 /* the Know-your-role card (G4): a small ledger beside the role screen's action row and on About you */
 .gm-know { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; margin: 14px 0 4px; max-width: 420px; font-size: var(--text-sm); }
 .gm-know .eyebrow { margin-bottom: 6px; }
+.gm-first { margin: 10px 0 4px; font-size: var(--text-sm); }   /* the way into the game before any record (2026-11-06) */
+.course-level { margin: 4px 0 12px; }
 .gm-know-r { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; color: var(--muted-foreground); }
 .gm-know-r b { color: var(--foreground); font-weight: var(--weight-medium); text-align: right; }
 .gm-know-bar { height: 4px; border-radius: 2px; background: var(--muted); overflow: hidden; margin: 4px 0 6px; }

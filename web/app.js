@@ -65,6 +65,7 @@
   // every string: none says a cohort, a price, a date or "apply", and no sentence runs over 20 words.
   const Intake = {
     heading: Copy.intake.heading,
+    headings: Copy.intake.headings,
     line: Copy.intake.line,
     email: Copy.intake.email,
     button: Copy.intake.button,
@@ -78,6 +79,8 @@
     surfaceOf: what => what === "classes" || what === "network" || what === "positioning" ? what : "skills",
     // the form a box is (v19 B7): `intake_<surface>`, the kind web/doors.js mounts and the source its row carries
     kindOf: what => "intake_" + Intake.surfaceOf(what),
+    // the box's heading: what comes next for its surface (2026-11-06), never "GradBuddy is coming soon" on GradBuddy
+    headingOf: what => Copy.intake.headings[Intake.surfaceOf(what)] || Copy.intake.heading,
     // the sources the database accepts (the same list as web/capture.js SOURCES): the six of v18 (the rail's three
     // placeholders, the fit screen's foot, the start screen's box, gone with v19 B2, the class picker's foot) and the
     // four of v19 B7, which every box sends from now: `door` and `intake_<surface>`; `intake_positioning` since
@@ -199,7 +202,33 @@
     aiRead: r => !!r && (r.aiRead === true || (r.aiRead == null && Array.isArray(r.inferred) && r.inferred.length > 0)),
     fromDoor: (y, where) => { const v = y || {}; if (!where || (v.where && v.whereFrom !== "door") || v.where === where) return null; return { fields: [], stage: null, ...v, where, whereFrom: "door" }; },
   };
-  return { parseRoute, Stage, Intake, Door, RoleFilters, You };
+  // The fit's counts as the rail and the fit screen say them (2026-11-06): the rail's "N of M" counts the skills most
+  // postings ask for (tier core) alone, the fit screen's two lists count every skill. `f` is computeFit's result.
+  // core: M; coreHave: N; have: the "Already on your résumé" list; still: the "Needs more evidence" list (gaps of every
+  // tier but the differentiators, and the skills named without the work that shows them).
+  const FitCounts = {
+    of: f => ({ core: f.core.length, coreHave: f.coreHave.length, have: f.evid.length + f.trans.length + (f.through || []).length + (f.inferred || []).length + f.presumed.length, still: f.gaps.length + f.thin.length }),
+    // the rail's two sentences under "N of M": what the count takes (`level` the step label, or null at all levels) and
+    // how many skills in all still need evidence
+    railLines: (c, level) => {
+      const RR = Copy.role.rail, fill = Copy.fill;
+      return {
+        what: fill(RR.whatCounts, { m: c.core, where: level ? fill(RR.atLevel, { level }) : RR.atAll }),
+        still: c.still === 0 ? RR.stillNone : c.still === 1 ? RR.stillOne : fill(RR.stillMany, { n: c.still }),
+      };
+    },
+  };
+  // The course screen's count (2026-11-06): the skills most postings ask for at the level on screen that a course can
+  // show; when no such skill leads at that level (Product Manager at Entry: every leading skill is a way of working),
+  // the count takes all levels and says so. `atLevel` and `atAll` are the core rows ({ id }) of the two slices,
+  // `showable(x)` says a course can show it. Returns { core, all: true when the count took all levels }.
+  const CourseCore = {
+    pick: (atLevel, atAll, showable, level) => {
+      const here = atLevel.filter(showable);
+      return here.length || level === "all" ? { core: here, all: level === "all" } : { core: atAll.filter(showable), all: true, fellBack: true };
+    },
+  };
+  return { parseRoute, Stage, Intake, Door, RoleFilters, You, FitCounts, CourseCore };
 });
 (function () {
   "use strict";
@@ -587,7 +616,11 @@
   // the role count both screens say: the roles the index shows, the product set's six among them once its file is
   // loaded; until then the index's own families table (which counts the two product-group families the product set
   // stands in for) is the floor, so the number never dips while the file loads
-  const roleCount = ix => Math.max(Object.keys(ix.roles).length, Object.keys(ix.M.families || {}).length);
+  // the role count every screen says (2026-11-06): the roles the index lists, the product set's among them once its
+  // file is loaded (the launcher, Explore and the skill card count the same). Home draws the business roles first and
+  // its line again when the product file arrives; it rounds down, so it is true at both moments. (Before, the index's
+  // families table set a floor of 64, and home said "over 60" while the launcher said 56.)
+  const roleCount = ix => Object.keys(ix.roles).length;
   // The one count of open postings every screen says (owner's feedback 2026-11-01: home said "over 31 thousand" while
   // the footer said 25,950, the MBA set alone): the open US postings of both role sets that Find jobs searches, and
   // the employers behind them. data/jobs_meta.json carries the two numbers beside the Find jobs file (224 bytes, B4;
@@ -709,6 +742,12 @@
       drawYou();
     };
     render();
+    // the role count with the product set's roles: only the card's line changes, so the questions below stay as they are
+    Atlas.product().then(() => {
+      if (Routes.parseRoute(location.hash).name !== "home") return;
+      const v = Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).find(x => x.key === "skills"), d = main.querySelector('a.verb[data-verb="skills"] .d');
+      if (v && d) d.textContent = v.line;
+    }).catch(() => { });
   }
   // ---------- 1b. Explore careers (v19 B5, owner's pick S5; "Explore roles & build skills" until 2026-11-01): the launcher ----------
   // Every role by field on the left two thirds (a prefix search over all of them, the field tiles, a field's roles
@@ -801,7 +840,7 @@
       $("#lf-side").innerHTML = right(); wireRight();
       if (state.resume && !s.change && (!light || light.text !== state.resume.text)) { const text = state.resume.text; closestFits(ix).then(res => { if (!here() || !state.resume || state.resume.text !== text) return; light = res; drawRight(); }).catch(e => { console.error(e); if (here()) { light = { text, failed: true, chosen: null, rows: [] }; $("#lf-side").innerHTML = right(); wireRight(); } }); }
     };
-    page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))}</p>
+    page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))} <a href="#/explore?view=map" class="lf-map">${esc(C.mapLink)}</a></p>
       <div class="lf"><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off">${slot}<div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
     main.firstElementChild.classList.add("wide", "lf-page");
     let timer = null;
@@ -1578,6 +1617,9 @@
   // after the read. The href is set again at the click, since those screens rewrite their hash as the person types.
   const resumeHref = () => Routes.You.resumeHref(Q.length, location.hash);
   document.addEventListener("click", e => { const a = e.target && e.target.closest ? e.target.closest("a[data-resume-link]") : null; if (a) a.setAttribute("href", resumeHref()); }, true);
+  // the role rail's "Or answer {n} questions" (2026-11-06): the questions from the first, and back to the role after
+  // them (Routes.You.resumeHref with step 0); set at the click, like the résumé links, so it carries the page's own hash
+  document.addEventListener("click", e => { const a = e.target && e.target.closest ? e.target.closest("a[data-answer-link]") : null; if (a) a.setAttribute("href", Routes.You.resumeHref(0, location.hash)); }, true);
   // a door answer kept before About you read it (a visit from before 2026-11-01, or a door left by a reload) lands now,
   // under the same rule as keepDoor
   { const w = doorKept().where, next = WHERE[w] ? Routes.You.fromDoor(state.you, w) : null; if (next) { state.you = next; store.set("you", next); } }
@@ -2044,7 +2086,8 @@
       fits = have ? new Map(d.rows.map(r => [r.id, fitOf(r)])) : null;
       const list = Jobs.sortJobs(d.rows, s.sort, fits), pg = Jobs.pageOf(list, s.page); s.page = pg.page;
       const active = !!(s.q.trim() || s.loc.trim() || Jobs.isFiltered(f));
-      $("#jcount").innerHTML = esc(pg.total > Jobs.PAGE ? fill(JB.showing, { from: fmt(pg.from), to: fmt(pg.to), total: fmt(pg.total) }) : pg.total === 1 ? JB.posting : fill(JB.postings, { n: fmt(pg.total) })) + (active ? ` · <button type="button" class="linkish link" data-clear="1">${esc(JB.clearFilters)}</button>` : "");
+      const nFolded = Object.values(dupes).reduce((a, k) => a + k, 0);   // the lead counts these too (2026-11-06)
+      $("#jcount").innerHTML = esc(pg.total > Jobs.PAGE ? fill(JB.showing, { from: fmt(pg.from), to: fmt(pg.to), total: fmt(pg.total) }) : pg.total === 1 ? JB.posting : fill(JB.postings, { n: fmt(pg.total) })) + (nFolded ? " · " + esc(nFolded === 1 ? JB.foldedOne : fill(JB.folded, { n: fmt(nFolded) })) : "") + (active ? ` · <button type="button" class="linkish link" data-clear="1">${esc(JB.clearFilters)}</button>` : "");
       const on = pg.rows.length ? activeChips().filter(([k]) => k !== "q" && k !== "loc") : [];
       $("#jactive").innerHTML = on.map(chipHtml).join(""); $("#jactive").hidden = !on.length;
       $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
@@ -2085,8 +2128,8 @@
   async function explore() {
     const ix = await Atlas.index(), EX = Copy.explore;
     crumbs([[EX.crumb, null]]); showAside(null);
-    const focus = new URLSearchParams(location.hash.split("?")[1] || "").get("field");
-    if (focus) SkillMap.setMode("map");
+    const hq = new URLSearchParams(location.hash.split("?")[1] || ""), focus = hq.get("field");
+    if (focus || hq.get("view") === "map") SkillMap.setMode("map");   // the launcher's "See all fields on a skill map"
     const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
     // the map's colours (owner's decision 2026-10-24): the skills the roles of the fields that fit ask for, green when
     // the rough read of the resume shows them, blue when not; nothing without a resume
@@ -2199,10 +2242,12 @@
     if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; RoleFilters.reset(state, defaultLevel()); state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.more = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; state.postingOpen = false; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
+  let gamesList = null;
   // a student looks at the entry grade first; everyone else at every level
   const defaultLevel = () => (state.you && WHERE[state.you.where]) ? "entry" : "all";
   async function roleScreen(id) {
     const g = await loadRole(id); const R = state.R;
+    if (!gamesList) gamesList = await games();   // the game's title and minutes for the way in (cached, small)
     const { query } = Routes.parseRoute(location.hash);   // "#/role/fpa?tab=skills": the fit screen's link lands on the painted list
     if (["skills", "postings", "also"].includes(query.tab)) state.tab = query.tab;
     crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [R.role.label, null]]);
@@ -2277,9 +2322,12 @@
     const more = state.areaMore.has(a.cluster);
     const rowsOf = (list, labelled) => { let last = -1, h = ""; for (const s of list) { if (labelled && s.tier !== last) { h += `<span class="tierlab">${TIER_LABEL[s.tier]}</span>`; last = s.tier; } h += skillRow(R, s, n, m); } return h; };
     const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">${esc(RL.showFewer)}</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">${esc(fill(RL.showMoreFewer, { n: folded.length }))}</button>`) : "";
-    const n2 = a.behaviours ? `<span class="n">${esc(a.summary)}</span>` : `<span class="n">${esc(fill(a.skills.length === 1 ? RL.skill : RL.skills, { n: fmt(a.skills.length) }))}</span>`;
+    const n2 = a.behaviours ? `<span class="n">${esc(waysLine(a.skills))}</span>` : `<span class="n">${esc(fill(a.skills.length === 1 ? RL.skill : RL.skills, { n: fmt(a.skills.length) }))}</span>`;
     return `<details class="areabox${a.behaviours ? " behaviours" : ""}" data-area="${esc(a.cluster)}"${flat || state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span>${n2}</summary><div class="srows">${rowsOf(first, flat || !core.length)}${fold}</div></details>`;
   }
+  // the "How you work" row's summary (2026-11-06: two short sentences, from Copy.role.ways): the three ways of working
+  // most postings in this view ask for, with their shares
+  const waysLine = list => fill(RL.ways, { list: list.slice(0, 3).map(s => `${s.name.toLowerCase()} ${pct(s.share)}`).join(", ") + (list.length > 3 ? ", …" : "") });
   // the whole list laid out, painted: the course screen shows what a syllabus covers on it
   function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : `<p class="notice">${esc(RL.noMatch)}</p>`; }
   // the game a role's "Practise" opens (PLAN.md v12, entry points): Know the role
@@ -2309,7 +2357,10 @@
     // and as a card beside the action row
     const GS = window.GameShell, asks = GS ? GS.record.asksOf({ roles: { [role.id]: role }, M: { skills: R.skills } }, { G: { skills: R.skills } }, role.id) : [];
     state.known = new Set(GS ? GS.record.knowledge(role.id, asks).known : []);
-    const know = GS ? GS.knowCard({ roleId: role.id, label: role.label, asks, nameOf: id => (R.skillById[id] || { name: id }).name, practise: ids => `#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(ids.slice(0, 8).join(","))}` }) : "";
+    // with no game record yet, the card is one line into the game (2026-11-06: a new visitor found no way in)
+    const game = (gamesList || []).find(x => x.slug === PRACTISE);
+    const know = GS ? GS.knowCard({ roleId: role.id, label: role.label, asks, nameOf: id => (R.skillById[id] || { name: id }).name, practise: ids => `#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(ids.slice(0, 8).join(","))}`,
+      first: game ? { href: `#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}`, text: fill(RL.tryGame, { title: game.title, minutes: game.minutes }) } : null }) : "";
     // the fit paints the list whenever one is read for this view (no toggle: owner's decision 2026-10-24)
     const fit = fitFor(), m = fit ? state.match : null;
     const nAct = activeCount();
@@ -2320,7 +2371,10 @@
     const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="${esc(fill(RL.sponsorsMeasure, { n: fmt(nSponsor), m: fmt(jobsExcept("sponsor").length), no: R.jobs.some(j => j.sponsorship === "no") ? fill(RL.sponsorsNo, { n: fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length) }) : "" }))}">${esc(RL.sponsors)}<span class="n">${fmt(nSponsor)}</span></button>` : "";
     const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
-    const listHead = `<div class="listhead"><h2>${esc(RL.listHeading)} ${tip(RL.listTip)}</h2><span class="small muted">${esc(stats.n === 1 ? RL.oneInView : fill(RL.inView, { n: fmt(stats.n) }))}</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${esc(expanded ? RL.collapseAll : RL.expandAll)}</button>` : ""}</div>`;
+    // the list's number beside the facts' open US count says what it counts (2026-11-06): the product set's open
+    // postings worldwide (unless a country is picked), the business set's postings of the year, open and closed
+    const inView = stats.n === 1 ? RL.oneInView : fill(R.set === "product" ? (state.country.size ? RL.inView : RL.inViewWorld) : nClosed ? RL.inViewYear : RL.inView, { n: fmt(stats.n) });
+    const listHead = `<div class="listhead"><h2>${esc(RL.listHeading)} ${tip(RL.listTip)}</h2><span class="small muted">${esc(inView)}</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${esc(expanded ? RL.collapseAll : RL.expandAll)}</button>` : ""}</div>`;
     const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>` : `<p class="notice">${esc(RL.noMatch)}</p>`;
 
     const creds = R.skills.filter(s => s.cluster === "credentials" && stats.share(s.id) >= 0.1).map(s => ({ s, v: stats.share(s.id) })).sort((a, b) => b.v - a.v).slice(0, 6);
@@ -2357,7 +2411,7 @@
     wireHearts(main);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
     main.querySelectorAll("details.empbox").forEach(d => d.ontoggle = () => { d.open ? state.empOpen.add(d.dataset.empOpen) : state.empOpen.delete(d.dataset.empOpen); });
-    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = PAGE; keepScroll(renderRole); });
+    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.fitLevel = null; state.shown = PAGE; keepScroll(renderRole); });
     main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = PAGE; keepScroll(renderRole); });
     $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
     const closeDrawer = () => { state.more = false; keepScroll(renderRole); };
@@ -2593,6 +2647,8 @@
   const joined = () => store.get("waitlist") || {};
   const intakeDone = what => !!joined()[what];
   const markDone = what => store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) });
+  // the native box: the line, the form, the privacy line (and "Not now" where the box can close)
+  const intakeNative = (what, roleId, notNow) => `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${intakeForm(what, roleId)}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${notNow ? " " + notNow : ""}</p>`;
   const intakeForm = (what, roleId) => `<form class="apply-form" data-wait-form="${esc(what)}"${roleId ? ` data-wait-role="${esc(roleId)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(doorKept().email)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
   // opts.always: drawn whether or not state.wait names it (the fit screen, the launcher, the networking screen, the
   // picker); opts.role_id: the role to record instead of the role screen's (the picker's chosen role)
@@ -2602,10 +2658,13 @@
     const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what), null, formTheme()));
     if (!done && window.Capture) Capture.cta(Intake.kindOf(what), "shown", intakeCtx(what, opts.role_id));   // its "done" is the intake_<surface> event
     // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
-    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
-      : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`
-      : intakeForm(what, opts.role_id);
-    return `<div class="wait apply"><b>${esc(Intake.heading)}</b><p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${opts.always || done ? "" : ` <a href="#/" data-wait-close>${esc(CM.notNow)}</a>`}</p></div>`;
+    // Tally's form says the line and the privacy line itself (2026-11-06: the box said both twice), so the box draws
+    // them only around the native form, which is also what the slot falls back to
+    const notNow = opts.always || done ? "" : `<a href="#/" data-wait-close>${esc(CM.notNow)}</a>`;
+    const body = done ? `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p><p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>${notNow ? `<p class="small muted" style="margin:6px 0 0">${notNow}</p>` : ""}`
+      : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>${notNow ? `<p class="small muted" style="margin:6px 0 0">${notNow}</p>` : ""}`
+      : intakeNative(what, opts.role_id, notNow);
+    return `<div class="wait apply"><b>${esc(Intake.headingOf(what))}</b>${body}</div>`;
   }
   const waitHtml = what => applyBox(what);
   // the context an intake box sends: the role on screen (or the box's own), the stage, the program group, the fields
@@ -2629,7 +2688,7 @@
       const dropLoading = () => { const p = slot.nextElementSibling; if (p && p.classList.contains("apply-loading")) p.remove(); };
       mountForm(slot, kind, {
         hidden: { surface: ctx.surface, source: kind, role: ctx.role_id, email: doorKept().email },
-        native: () => intakeForm(what, roleId),
+        native: () => intakeNative(what, roleId),
         onLoaded: dropLoading,
         onFallback: () => { dropLoading(); wireForms(slot); },
         onSubmitted: () => { markDone(what); track(kind, ctx); redraw(); },
@@ -2650,10 +2709,11 @@
     // the roles on file); it replaced "Do something with this" and "Then" (practice, a course, events) on 2026-11-01
     // only for a visitor whose address opens a roster (campusGate, as the top bar): for anyone else #/classes goes home
     const classesOpen = !!window.ClassScreens && campusGate().open;
-    const cta = classesOpen ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
+    // and a link to the course screen for everyone (2026-11-06: no link led there)
+    const cta = `<section class="rs"><div class="acts">${classesOpen ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a>` : ""}<a href="#/role/${esc(role.id)}/course">${esc(RR.checkCourse)}</a></div></section>`;
     const drop = `${dropZone(RF.dropShort)}<p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
-      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
+      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you" data-answer-link>${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
       // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
       // sentences went on 2026-11-01)
       const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
@@ -2668,6 +2728,9 @@
     const P = postingFor(role.id), pAsks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null, pSum = pAsks ? postingSummary(pAsks, fit) : null;
     const postingLine = pSum ? `<p class="lead-rail posting"><b class="g">${pSum.n}</b> ${esc(fill(RR.postingLine, { m: pSum.m }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.thisPosting)}</a> ${esc(RR.postingLineAfter)}</p>` : "";
     const line = (core.length ? `<p class="lead-rail">${esc(RR.youShow)} <b class="g">${coreHave.length}</b> ${esc(fill(RR.ofMost, { m: core.length }))}${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${esc(coreGaps.length === 1 ? RR.isGap : RR.areGaps)}` : ""}.</p>` : `<p class="small muted">${esc(RR.fewMatch)}</p>`);
+    // what that count takes, and every skill that still needs evidence, the number the fit screen's list carries
+    const RC = Routes.FitCounts.railLines(Routes.FitCounts.of(fit), fit.level === "all" ? null : R.stepLabels[fit.level]);
+    const counts = core.length ? `<p class="small muted" data-rail-counts>${esc(RC.what)} ${esc(RC.still)} <a href="#/role/${esc(role.id)}/fit">${esc(RR.stillSee)}</a></p>` : "";
     // the model read's part of that count (web/infer.js), marked as the legend marks it; the lines are on the fit screen
     const coreInf = coreHave.filter(x => x.status === "inferred").length;
     const infLine = coreInf ? `<p class="small muted">◈ ${esc(fill(RR.inferredLine, { n: coreInf }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.inferredSee)}</a></p>` : "";
@@ -2685,7 +2748,7 @@
       : gc.failed ? "" : `${classesHead}<p class="small muted">${esc(fill(RR.noClass, { term: termName }))} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.seeRoster)}</a></p>`;
     const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${waitHtml("positioning")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">${esc(RR.nothingMissing)}</p>`;
     const n = fit.evid.length + fit.trans.length + (fit.inferred || []).length;
-    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="#/you?step=3">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${infLine}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
+    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="#/you?step=3">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${counts}${infLine}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
     return legend + you + cta;
   }
   function wireRail() {
@@ -2723,7 +2786,10 @@
     const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], inferred = f.inferred || [], coreHave = f.coreHave.length;
     const field = g.label.toLowerCase();
     const p = r.profile;
-    const gcF = gapClassesFor(f, R, () => { if (location.hash.endsWith("/fit")) keepScroll(() => fitScreen(id)); });
+    // class links only for a visitor whose address opens a roster (campusGate, as the rail and the top bar): for anyone
+    // else #/classes goes home (2026-11-06)
+    const classesOpen = !!window.ClassScreens && campusGate().open;
+    const gcF = classesOpen ? gapClassesFor(f, R, () => { if (location.hash.endsWith("/fit")) keepScroll(() => fitScreen(id)); }) : null;
     const verdict = band ? `<p class="small">${esc(bandName(band))} ${tip(FT.bandsTip)}</p>` : "";
     const st = r.standing;
     const standing = st ? `<p class="small">${esc(st.above ? fill(FT.standingAbove, { level: Matcher.LADDER_LABEL[st.level], years: fmtYears(st.years) }) : fill(FT.standingAt, { years: fmtYears(st.years) }))}${st.employers.length ? esc(fill(FT.standingEmployer, { employer: st.employers[0] })) : ""}. ${st.presumed ? bold(esc(st.presumed === 1 ? FT.presumedOne : fill(FT.presumedMany, { n: `[[${st.presumed}]]` }))) : ""}</p>` : "";
@@ -2763,7 +2829,8 @@
     const byPosting = (a, b) => (asks ? (asks.has(b.id) - asks.has(a.id)) : 0) || b.w - a.w;
     const showItems = [...evid, ...trans, ...through, ...inferred].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
     const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">${esc(fill(FT.sayItButton, { field }))}</button></p>` : "";
-    const showTab = `<div class="fitcols">${col("show", FT.already, showItems, FT.nothingYet, sayLink)}${col("gaps", FT.needsEvidence, stillItems, FT.nothingAmong)}</div>`;
+    const courseLink = `<p class="small" style="margin-top:8px"><a href="#/role/${esc(role.id)}/course">${esc(FT.checkCourse)}</a></p>`;
+    const showTab = `<div class="fitcols">${col("show", FT.already, showItems, FT.nothingYet, sayLink)}${col("gaps", FT.needsEvidence, stillItems, FT.nothingAmong, courseLink)}</div>`;
     const detailTab = `${infDisc}${sayIt}${thinDisc}<h3>${esc(FT.credentials)}</h3>${credLine + indLine || `<p class="small muted">${esc(FT.noneAsked)}</p>`}${unmapped}`;
     const FTABS = [["show", FT.tabs.show, null], ["details", FT.tabs.details, null]];
     const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
@@ -2779,7 +2846,7 @@
     const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
     const treeCta = treeOn() && (accountsOn() || Auth.stored()) ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
-      <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${standing}${postingBox}
+      <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${core.length ? `<p class="small muted" data-fit-note>${esc(fill(FT.colsNote, { m: core.length }))}</p>` : ""}${standing}${postingBox}
       ${fitTabs}${fitBody}
       ${treeCta}
       <div class="fit-wait">${applyBox("fit", { always: true })}</div>
@@ -2833,27 +2900,32 @@
     const form = `${dropZone(CO.drop, c ? esc(fill(CO.read, { name: c.name })) : "")}
       <p class="small muted">${esc(CO.paste)}</p><textarea id="paste" rows="6" aria-label="${esc(CO.aria)}" placeholder="${esc(CO.placeholder)}">${c ? esc(c.text) : ""}</textarea>
       <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
+    // the level the count reads (2026-11-06: the role page's level carried over unseen), with a control to change it
+    const seg = `<div class="seg course-level" role="group" aria-label="${esc(CO.level)}">${["all", ...Atlas.STEPS].map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-course-level="${s}">${esc(s === "all" ? RL.allLevels : R.stepLabels[s])}</button>`).join("")}</div>`;
     let result = "";
     if (c) {
       const slice = sliceOf(); const { rows } = Atlas.grid(R, slice);
       const inGrid = rows.flat(2); const showable = x => Atlas.COURSE_KINDS.has((R.skillById[x.id] || {}).kind);
+      // the skills most postings ask for that a course can show, at this level; with none there, at all levels, said so
+      const pick = Routes.CourseCore.pick(rows[0].flat(), state.level === "all" ? rows[0].flat() : Atlas.grid(R, sliceOf("all")).rows[0].flat(), showable, state.level);
       // taught: skills of the four kinds a course can show; named: behaviours and practices the text mentions, listed apart,
       // not painted, not counted; "does not cover" is the craft among the most-asked skills that the text does not name
-      const taught = inGrid.filter(x => split.teaches.has(x.id)), named = inGrid.filter(x => split.named.has(x.id)), core = rows[0].flat(), coreTaught = core.filter(x => split.teaches.has(x.id)), notTaught = core.filter(x => showable(x) && !split.teaches.has(x.id));
+      const taught = inGrid.filter(x => split.teaches.has(x.id)), named = inGrid.filter(x => split.named.has(x.id)), core = pick.core, coreTaught = core.filter(x => split.teaches.has(x.id)), notTaught = core.filter(x => !split.teaches.has(x.id));
       const m = state.match && state.match.roleId === role.id ? state.match : null;
       const gapsCovered = m ? taught.filter(x => m.required.has(x.id) && !m.matched.has(x.id)) : [];
-      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.filter(showable).map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
+      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
       const tagOf = x => `<button type="button" class="tag good" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""} <span class="subtle">${pct(x.share)}</span></button>`;
       const T5 = textOf(R.kinds);
       const namedHtml = named.length ? `<h2>${esc(CO.named)}</h2><div class="tags">${named.map(x => `<button type="button" class="tag" data-skill="${esc(x.id)}">${esc(x.name)} <span class="subtle">${pct(x.share)}</span></button>`).join("")}</div><p class="small muted">${esc(T5.how("behaviour"))} ${esc(CO.namedNote)} <a href="#/role/${esc(role.id)}/fit">${esc(CO.yourFit)}</a>.</p>` : "";
       result = taught.length || named.length ? `${taught.length ? `<h2>${esc(CO.teaches)}</h2><div class="tags">${taught.map(tagOf).join("")}</div>
-        <p class="small muted">${esc(fill(CO.coreLine, { n: coreTaught.length, m: core.filter(showable).length, role: role.label }))}${gapsCovered.length ? " " + esc(fill(gapsCovered.length === 1 ? CO.coversOne : CO.coversMany, { n: gapsCovered.length, names: gapsCovered.map(x => x.name).join(", ") })) : m ? " " + esc(CO.coversNone) : ` <a href="#/role/${esc(role.id)}/fit">${esc(CO.checkFit)}</a> ${esc(CO.checkFitAfter)}`} ${esc(CO.shareNote)}</p>` : `<p class="notice">${esc(CO.noSkill)}</p>`}${namedHtml}
+        <p class="small muted">${pick.fellBack ? esc(fill(CO.coreNone, { level: R.stepLabels[state.level] })) + " " : ""}${esc(fill(CO.coreLine, { n: coreTaught.length, m: core.length, role: role.label }))}${gapsCovered.length ? " " + esc(fill(gapsCovered.length === 1 ? CO.coversOne : CO.coversMany, { n: gapsCovered.length, names: gapsCovered.map(x => x.name).join(", ") })) : m ? " " + esc(CO.coversNone) : ` <a href="#/role/${esc(role.id)}/fit">${esc(CO.checkFit)}</a> ${esc(CO.checkFitAfter)}`} ${esc(CO.shareNote)}</p>` : `<p class="notice">${esc(CO.noSkill)}</p>`}${namedHtml}
         ${notTaught.length ? `<h2>${esc(CO.notCover)}</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">${esc(CO.notCoverNote)}</p>` : ""}
         <h2>${esc(CO.onList)}</h2><p class="small muted">${esc(CO.onListNote)}</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>${esc(CO.noneFound)}</b> ${esc(c.lines < 3 ? CO.tooShort : CO.checkText)}</div>`;
     }
-    page(`<p class="eyebrow">${esc(fill(CO.eyebrow, { role: role.label }))}</p><h1>${esc(CO.heading)}</h1><p class="lead">${esc(fill(CO.lead, { role: role.label }))}</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a></p>`);
+    page(`<p class="eyebrow">${esc(fill(CO.eyebrow, { role: role.label }))}</p><h1>${esc(CO.heading)}</h1><p class="lead">${esc(fill(CO.lead, { role: role.label }))}</p><div class="filters">${seg}</div>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a></p>`);
     wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); track("course_read", { role_id: role.id }); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
+    main.querySelectorAll("[data-course-level]").forEach(b => b.onclick = () => { state.level = b.dataset.courseLevel; state.fitLevel = null; state.fit = null; keepScroll(() => courseScreen(id)); });
     renderAside();
   }
   // a drop zone plus a paste box, for any text; `onText({ text, name })` runs when the person clicks the button
@@ -2888,18 +2960,18 @@
     if (kind === "networking") {
       body = `<h2>${esc(EV.inRoom)}</h2><p class="small muted">${esc(fill(EV.inRoomLead, { field: g.label.toLowerCase() }))}</p>
         <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${esc(fill(EV.askAbout, { names: marks(r).map(id => nameOf(id).toLowerCase()).join(", ") || EV.askWeek }))}</span></a>`).join("")}</div>
-        <h2>${esc(EV.sayAbout)}</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) : `<p class="small muted"><a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.addResumeSay)}</p>`}
+        <h2>${esc(EV.sayAbout)}</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) : `<p class="small muted"><a href="${esc(resumeHref())}" data-resume-link>${esc(EV.addResume)}</a> ${esc(EV.addResumeSay)}</p>`}
         <h2>${esc(EV.employers)}</h2><div id="employers"><p class="small muted">${esc(EV.loadingPostings)}</p></div>`;
     } else if (kind === "roundtable") {
       // owner's choice E5: the resume lines once at the top, then one card per role, the first open
       body = `${rg ? `<h2>${esc(EV.yourLines)}</h2><div id="yourlines"><p class="small muted">${esc(EV.readingRoles)}</p></div>` : ""}
-        <h2>${esc(EV.roleByRole)}</h2><p class="small muted">${rg ? esc(EV.roleByRoleLead) : `<a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.roleByRoleNoResume)}`}</p>
+        <h2>${esc(EV.roleByRole)}</h2><p class="small muted">${rg ? esc(EV.roleByRoleLead) : `<a href="${esc(resumeHref())}" data-resume-link>${esc(EV.addResume)}</a> ${esc(EV.roleByRoleNoResume)}`}</p>
         <div id="roundtable">${roles.map((r, i) => rg ? '' : `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${esc(fill(EV.mostAsk, { names: join(coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 3).map(id => nameOf(id))) }))}</span></summary><div class="box-body"><p class="small muted">${esc(fill(EV.mostAskList, { names: coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 6).map(id => nameOf(id)).join(", ") }))} <a href="#/role/${esc(r.id)}">${esc(EV.openRole)}</a></p></div></details>`).join("")}${rg ? `<p class="small muted">${esc(EV.readingRoles)}</p>` : ""}</div>`;
     } else {
       // what to build: the skills most roles of the field ask for that the resume does not show, with the build step where one is written
       const count = {}; for (const r of roles) for (const id of coreOf(r)) count[id] = (count[id] || 0) + 1;
       const cands = Object.entries(count).filter(([id]) => !GENERIC.has(id) && (!rg || !rg.shown.has(id))).sort((a, b) => b[1] - a[1]).slice(0, 5);
-      body = `<h2>${esc(EV.build)}</h2><p class="small muted">${rg ? esc(EV.buildLead) : `${esc(EV.buildNoResume)} <a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.buildNoResumeAfter)}`}</p>
+      body = `<h2>${esc(EV.build)}</h2><p class="small muted">${rg ? esc(EV.buildLead) : `${esc(EV.buildNoResume)} <a href="${esc(resumeHref())}" data-resume-link>${esc(EV.addResume)}</a> ${esc(EV.buildNoResumeAfter)}`}</p>
         <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; const steps = roles.filter(r => coreOf(r).includes(id)).map(r => buildSteps(sk, r.ladder).steps).find(x => x.length) || []; return `<li><b>${esc(nameOf(id))}</b><span class="why">${esc(n === 1 ? EV.askedByOne : fill(EV.askedByMany, { n }))}${steps.length ? ` ${stepHtml(practise(steps))}` : " " + esc(EV.noStep)}</span></li>`; }).join("") || `<li>${esc(EV.nothingLeft)}</li>`}</ol>`;
     }
     page(`<h1>${esc(EV.heading)}</h1><p class="lead">${esc(fill(EV.lead, { field: g.label }))}</p>${chips}${body}`);
@@ -2953,7 +3025,7 @@
       <h3>${esc(AB.network)}</h3>
       <p class="small">${esc(AB.networkLine)}</p>
       <h3>${esc(AB.count)}</h3>
-      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(n.nRoles), AB.facts.roles)}${fact(nClasses == null ? "—" : fmt(nClasses), fill(AB.facts.classes, { term }))}</div>
+      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(roleCount(ix)), AB.facts.roles)}${fact(nClasses == null ? "—" : fmt(nClasses), fill(AB.facts.classes, { term }))}</div>
       <p class="small">${esc(fill(AB.countLine, { date: niceDate(M.meta.generated), fortune: fmt(o.fortune), startups: fmt(o.startup), mba: fmt(o.mba) }))}</p>
       ${disc("about-top", esc(AB.topEmployers), `<p>${top(M.meta.companies, 15)}</p>`)}
       <h3>${esc(AB.howRead)}</h3>

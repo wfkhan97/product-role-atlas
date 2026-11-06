@@ -127,7 +127,15 @@
 
   // ---------- the intake box (v19 B5): the one call to action ----------
   const intake = {
-    heading: "GradBuddy is coming soon.",
+    // the heading names what comes next, per surface (2026-11-06: "GradBuddy is coming soon" read odd on GradBuddy);
+    // `heading` is the one Stage.cta reads
+    heading: "Next: more help with your search.",
+    headings: {
+      skills: "Next: projects that build your gaps.",
+      network: "Next: events near you.",
+      classes: "Next: classes as proof of your skills.",
+      positioning: "Next: advice on your résumé.",
+    },
     line: {
       skills: "GradBuddy will give you personalized projects. Each one builds a skill you need. Each one aims at the roles, industries and companies you want.",
       network: "GradBuddy will find events near you that fit your role. It will show you who to meet and what to say.",
@@ -229,8 +237,9 @@
   // ---------- Explore (#/explore) and a field (#/field/<id>) ----------
   const explore = {
     saved: "Saved:",   // the strip of hearted roles above the fields (step 5, 2026-11-05)
-    crumb: "Explore",
-    heading: "Explore the roles",
+    // "Explore careers" is the launcher (#/skills); this screen has its own name (2026-11-06)
+    crumb: "All fields",
+    heading: "The fields and their skills",
     counts: "{fields} fields, {roles} roles.",
     pickField: "Pick a field.",
     fitFirst: "The ones that fit you come first.",
@@ -243,6 +252,8 @@
     fieldsAlone: "Show the fields alone", allSkills: "Show all skills",
     example: "e.g. {names}", moreRole: ", +{n} more role", moreRoles: ", +{n} more roles",
     loading: "loading…",
+    // the skill map's card (web/skillmap.js): the mean share over the roles the map shows, the count Explore says
+    card: { share: "{share} of a role's postings ask for it, on average over the {n} roles." },
     // a field
     field: {
       roles: "{n} roles", role: "1 role",
@@ -252,8 +263,8 @@
       map: "See {field} on the skill map →",
       hover: "Select a skill in the chart to see what it means. With a mouse, point to a role to light its skills in the chart.",
       axis: "% of {field} postings that ask for the skill",
-      axisMeasure: "The share of {postings} in {field} that ask for the skill, averaged over the field's roles.",
-      recent: "recent postings, open and closed over the last year", open: "open postings",
+      axisMeasure: "The share of {field} postings that ask for the skill, averaged over the field's roles. {postings}",
+      recent: "The count takes recent postings, open and closed over the last year.", open: "The count takes open postings.",
       have: "already on your résumé", todo: "gaps these roles require",
       held: "you held this role", close: "your résumé reads close to it",
       standsOut: "Stands out for {names}", asksMost: "Asks most for {names}",
@@ -288,7 +299,14 @@
     listHeading: "What the postings ask for",
     listTip: "Skills sit by area, ranked by how many postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.",
     inView: "{n} postings in this view", oneInView: "1 posting in this view",
+    // what the list's number counts beside the facts' open US count (2026-11-06): the product set reads the world,
+    // the business set a year of postings, open and closed
+    inViewWorld: "{n} open postings in this view, worldwide", inViewYear: "{n} postings in this view, open and closed this year",
     expandAll: "Expand all", collapseAll: "Collapse all",
+    // the "How you work" row's summary: its three most-asked ways of working
+    ways: "Shown through the work above. Most asked: {list}",
+    // the way into the game for a visitor with no game record yet (2026-11-06)
+    tryGame: "Test yourself: {title} ({minutes} min) →",
     noMatch: "No postings match these filters.",
     tiers: ["Most postings ask for these", "A quarter to a half of postings ask for these", "One in ten to one in four postings ask for these"],
     showFewer: "Show fewer", showMoreFewer: "Show {n} more that fewer postings ask for",
@@ -348,6 +366,7 @@
     // the rail
     rail: {
       findClasses: "Find classes relevant for this role →",   // the rail's one closing link (2026-11-01)
+      checkCourse: "Check a course against these skills →",
       howFit: "How do you fit?",
       inferredLine: "{n} of them inferred from your experience, from lines that do not name them.", inferredSee: "See the lines",
       dropLead: "Drop your résumé and this panel reads it against these postings. Its text goes once to our AI reader, and we do not store it. Nothing else leaves your browser.",
@@ -359,6 +378,10 @@
       noBands: "This group of roles has no band of fit yet.",
       postingLine: "of the {m} skills", postingLineAfter: "asks for are on your résumé.", thisPosting: "this posting",
       youShow: "You show", ofMost: "of the {m} skills most postings ask for", isGap: "is a gap", areGaps: "are gaps",
+      // under that line (2026-11-06): what the count takes and how many skills in all still need evidence
+      whatCounts: "That count takes the {m} skills most asked for {where}.", atLevel: "at {level} level", atAll: "at all levels",
+      stillMany: "{n} skills in all still need evidence.", stillOne: "1 skill in all still needs evidence.", stillNone: "No skill in all still needs evidence.",
+      stillSee: "See them on your fit →",
       fewMatch: "Few postings match this view; widen the filters.",
       industry: "Name an industry you have worked in; these postings are in {names}.",
       ai: "Show one line of AI work: {names}.",
@@ -433,6 +456,9 @@
     showFewer: "Show fewer", more: "+{n} more",
     already: "Already on your résumé", nothingYet: "Nothing yet.",
     needsEvidence: "Needs more evidence", nothingAmong: "Nothing among the skills most postings ask for.",
+    // the line under the lead (2026-11-06): the lead counts the most-asked skills, the two lists every skill
+    colsNote: "The count above takes only the {m} skills most postings ask for. The two lists hold every skill these postings ask for.",
+    checkCourse: "Check a course against these skills →",
     credentials: "Credentials and industries", noneAsked: "None asked for in this view.",
     tabs: { show: "Skills", details: "Details" },
     allLevels: "All levels",
@@ -459,6 +485,9 @@
       button: "Read the course →",
       teaches: "This course teaches",
       coreLine: "{n} of the {m} skills that most {role} postings ask for and a course can show.",
+      // the level the count reads, with a control; with no such skill at that level the count takes all levels
+      level: "Level",
+      coreNone: "At {level} level, a course can show none of the skills most postings ask for. So this count takes all levels.",
       coversOne: "It covers one of your gaps: {names}.", coversMany: "It covers {n} of your gaps: {names}.", coversNone: "It covers none of your gaps for this role.",
       checkFit: "Check your fit", checkFitAfter: "to see which of your gaps it covers.",
       shareNote: "The share is how many postings ask for the skill.",
@@ -553,6 +582,8 @@
     quoted: "“{q}”", inLoc: "in {loc}",
     empty: "No posting matches all of this.", removeOne: "Remove one:", remove: "Remove {label}",
     showing: "Showing {from}–{to} of {total} postings", posting: "1 posting", postings: "{n} postings",
+    // beside the count (2026-11-06): the lead counts every posting, the list shows a repeated title at one employer once
+    folded: "{n} repeats shown once", foldedOne: "1 repeat shown once",
     clearFilters: "Clear filters",
     previous: "Previous {n}", pageOf: "Page {p} of {n}", next: "Next {n}",
   };
@@ -570,6 +601,7 @@
     tile: "{roles} roles · {open} open",
     fieldLine: "{roles} roles · {open} open postings. Pick one to see what its postings ask for.",
     backToFields: "← Back to fields",
+    mapLink: "See all fields on a skill map →",
     asks: "Most postings ask for: {asks}.",
     open: "{open} open",
     rolesAria: "Roles",
