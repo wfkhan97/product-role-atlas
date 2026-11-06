@@ -534,8 +534,18 @@
     }
     // On a resume only: a lawyer in private practice writes "Associate, Technology Transactions" or "Attorney"; that is
     // the practice an in-house counsel role asks for (postings of law firms are not in the set, so this is not a posting rule)
-    const PRACTICE = /\b(attorney|lawyer|solicitor|law clerk)\b|\bassociate\b.*\b(technology transactions|transactions|corporate|litigation|m&a|capital markets|privacy|intellectual property|employment|regulatory)\b/i;
-    const resumeFamily = t => PRACTICE.test(t || "") ? "counsel" : null;
+    const PRACTICE = /\b(attorney|lawyer|solicitor|law clerk)\b|\bjudicial\s+(intern|extern|clerk)\w*|\bassociate\b.*\b(technology transactions|transactions|corporate|litigation|m&a|capital markets|privacy|intellectual property|employment|regulatory)\b/i;
+    // a bare "Associate" whose employer line is a law firm; an internship a resume names by its field alone ("Embedded
+    // Software Intern", "Cyber Security Intern"), where a posting writes the job word ("Software Engineer Intern")
+    const LAW_FIRM = /\bLLP\b|\blaw\s+(firm|group|offices?)\b/i;
+    const FIELD_INTERN = [["software_engineer", /\b(software|embedded\s+software|firmware|android|ios|mobile\s+app|web|back[- ]?end|front[- ]?end|full[- ]?stack)\s+(development\s+|engineering\s+)?(intern|internship|co-?op)\b/i],
+      ["security_engineer", /\b(cyber\s*security|cyber|information\s+security|infosec)\s+(intern|internship|co-?op)\b/i]];
+    const resumeFamily = (t, line) => {
+      t = t || "";
+      if (PRACTICE.test(t) || (/^associate$/i.test(t.trim()) && LAW_FIRM.test(line || ""))) return "counsel";
+      if (notTheJob.test(t)) return null;
+      return (FIELD_INTERN.find(([, rx]) => rx.test(t)) || [null])[0];
+    };
     return { fams, general: t => family(t), family: t => family(t), resumeFamily, ladderOf, level, known: [], full: false };
   }
 
@@ -618,8 +628,9 @@
       let family = RR.family(t, who);
       // a bare grade whose employer line names the role itself ("Associate | Harlow Reed Investment Banking")
       if (!family && BARE_RANK.test(t) && line) family = RR.general(line.replace(DATE, " "), t);
-      if (!family && RR.resumeFamily) family = RR.resumeFamily(t);
-      if (!family) family = (RESUME_TITLE.find(([, re]) => re.test(t)) || [null])[0];
+      if (!family && RR.resumeFamily) family = RR.resumeFamily(t, beside);
+      // titles only a resume writes, for a family of this matcher's role set
+      if (!family) family = (RESUME_TITLE.find(([f, re]) => FAMS.some(x => x.id === f) && re.test(t)) || [null])[0];
       const which = RR.ladderOf ? RR.ladderOf(t, who, family) : RR.full ? RR.ladder(who, family) : "corporate";
       return { family, who, ladder: which, level: family && which !== "corporate" ? LEVEL_GROUP[RR.level(t, who, family)] || null : null };
     }

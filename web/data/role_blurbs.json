@@ -1,5 +1,5 @@
 {
-  "_note": "One sentence per role on what the person does, shown under the title on the role page and under each role on a field page. Hand-written 2026-10-24; keep each under 15 words, present tense, no adjectives. Product families are keyed product.<family>.",
+  "_note": "One sentence per role on what the person does, shown under the title on the role page and under each role on a field page. Hand-written 2026-10-24; keep each under 15 words, present tense, no adjectives. Product families are keyed product.<family>, tech families tech.<family>.",
   "management_consultant": "Solves a client's business problem in weeks: frames it, runs the analysis, presents the answer.",
   "strategy_manager": "Sets where the company plays and how it wins, then turns that into plans and targets.",
   "corp_strategy_analyst": "Builds the analysis behind the company's strategic choices: markets, competitors, business cases.",
@@ -70,5 +70,12 @@
   "market_research": "Finds out what customers and markets want: surveys, interviews, data, and what follows.",
   "sustainability": "Sets and tracks the company's environmental and social goals: emissions, reporting, programs.",
   "public_policy": "Represents the company to governments: tracks laws, makes the case, works with officials.",
-  "fraud_risk": "Spots and stops fraud and bad credit: reviews cases, sets rules and limits, watches losses."
+  "fraud_risk": "Spots and stops fraud and bad credit: reviews cases, sets rules and limits, watches losses.",
+  "tech.software_engineer": "Designs, writes and runs the code behind a service: APIs, cloud systems, releases.",
+  "tech.ml_engineer": "Builds and ships models and LLM features into products, from data to deployment.",
+  "tech.data_engineer": "Builds the pipelines and tables that move a company's data to its users.",
+  "tech.security_engineer": "Protects systems and data: finds weak points, fixes them, detects and answers attacks.",
+  "tech.product_designer": "Decides how a product looks and works for its users, from flows to prototypes.",
+  "tech.ux_researcher": "Studies how people use a product, through interviews, tests and surveys.",
+  "tech.counsel": "Advises the company on legal risk and contracts, and keeps it within the law."
 }

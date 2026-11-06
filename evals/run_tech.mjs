@@ -83,6 +83,21 @@ for (const name of names) {
   const extra = [...shown.covered].filter(k => !covered.has(k)).sort();
   out(`  not covered by an expectation: ${extra.join(", ") || "none"}`);
 }
+// Role families read from resume job titles (evals/resume_titles_tech.json), the tech twin of the resume title check in
+// evals/run.mjs: each title (with the employer line beside it, when the sample had one) through the matcher's roleOf
+// with the set's rules. Run with the full sample set only.
+if (!only) {
+  const T = JSON.parse(fs.readFileSync(path.join(here, "resume_titles_tech.json"))).titles; const wrong = [], gaps = [], closed = [];
+  for (const t of T) {
+    const x = M.roleOf(t.title, t.line || ""); const lvOk = !t.level || x.level === t.level; const ok = x.family === t.family && lvOk;
+    const got = x.family ? x.family + (lvOk ? "" : ` at level ${x.level || "none"} (want ${t.level})`) : "none";
+    if (t.known_gap) (ok ? closed : gaps).push(`${t.title} (${t.known_gap})`);
+    else ok ? pass++ : (fail++, wrong.push(`"${t.title}${t.line ? " | " + t.line : ""}" read as ${got}, want ${t.family || "none"}`));
+  }
+  const counted = T.length - gaps.length - closed.length;
+  out(`\n=== resume titles → tech role family (web/data/roles_tech.json): ${counted - wrong.length}/${counted}${wrong.length ? "\n  WRONG: " + wrong.join("\n  WRONG: ") : ""}`);
+  out(`  known gaps (not counted): ${gaps.length}${gaps.length ? "\n    " + gaps.join("\n    ") : ""}${closed.length ? "\n  no longer a gap, remove the mark: " + closed.join("; ") : ""}`);
+}
 out(`\nTOTAL: ${pass} pass, ${fail} fail${hasGraph ? "" : " (scores waiting for the set's graph)"}`);
 if (args.includes("--baseline")) {
   if (only || fail) { console.error("the baseline is written from a full run with no failures"); process.exit(1); }
