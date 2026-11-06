@@ -1506,7 +1506,12 @@
     if (!roleOk(s.role)) s.role = roleOk(chosen) ? chosen : await defaultRole(ix);
     if (!types.some(t => t.id === s.type)) s.type = types[0].id;
     // the Role choices: every role, field by field, the biggest roles first; the field is the hint the search reads too
-    const roleOptions = ix.groups.flatMap(g => g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen).map(r => ({ value: r.id, label: r.label, hint: g.label })));
+    // about and lean: what Pick.closest reads when nothing matches (the usability pass of 2026-11-06: "data" and
+    // "software" found nothing): the role's blurb and the craft skills its postings ask for at the core share; lean, how
+    // much of its core asks is technical, for a word no role holds ("software")
+    const coreSkills = r => [...(r.definingList || []), ...(r.asks || [])].filter(a => a.share >= Atlas.TIER.core).map(a => ix.skillById[a.id]).filter(Boolean);
+    const roleOptions = ix.groups.flatMap(g => g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen).map(r => { const cs = coreSkills(r); return { value: r.id, label: r.label, hint: g.label, about: [r.blurb || "", ...cs.filter(x => !["behaviour", "credential", "tool"].includes(x.kind) && x.cluster !== "credentials").map(x => x.name)], lean: cs.filter(x => x.kind === "technical").length }; }));
+    const roleHelp = { closest: 3, lead: C.roleClosest, notes: [fill(C.roleFields, { fields: ix.groups.map(g => g.label).join(", ") }), C.roleLater] };
     const writeHash = () => { const p = new URLSearchParams({ role: s.role, type: s.type }); if (s.key) p.set("target", s.key); const next = "#/network?" + p; if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     let token = 0;
     // the context for the role on: the role file, the field's postings, the fit, the professors, the skills generic
@@ -1543,7 +1548,8 @@
       const lv = W.levels.length ? `<ul class="plain nw-lv">${W.levels.map(l => `<li><b>${esc(l.label)}</b> · ${l.titles.map(x => `${esc(x.title)} <span class="muted">(${esc(x.company)})</span>`).join(" · ")}</li>`).join("")}</ul>` : "";
       const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.nOpen) }))}</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div><p class="nw-more"><a href="${esc(Network.jobsHref(K))}">${esc(C.moreJobs)}</a></p>` : "";
       // with a résumé, the gaps a professor's classes cover; without one, the role's core asks they teach
-      const profRow = p => { const xs = p.read ? p.covers : p.asks, n = xs.length ? esc(fill(p.read ? C.gapsOf : C.teachesOf, { n: xs.length, m: p.read ? p.nGaps : p.nAsks })) : esc(p.codes.slice(0, 2).join(", ")); return `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${n}</span><span class="m">${esc(p.line)}${xs.length ? esc(fill(p.read ? C.covers : C.teachesNames, { names: xs.map(g => g.name).join(", ") })) : ""}</span></a>`; };
+      // the skill names as the middle of a sentence says them (W.profs names: Network.inText, the usability pass of 2026-11-06)
+      const profRow = p => { const xs = p.read ? p.covers : p.asks, n = xs.length ? esc(fill(p.read ? C.gapsOf : C.teachesOf, { n: xs.length, m: p.read ? p.nGaps : p.nAsks })) : esc(p.codes.slice(0, 2).join(", ")); return `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${n}</span><span class="m">${esc(p.line)}${xs.length ? esc(fill(p.read ? C.covers : C.teachesNames, { names: p.names.join(", ") })) : ""}</span></a>`; };
       const profs = !W.profs ? "" : W.profs.length ? `<div class="list nw-emps">${W.profs.slice(0, 8).map(profRow).join("")}</div>${W.profs.length > 8 ? `<p class="small muted">${esc(fill(C.moreProfs, { n: fmt(W.profs.length - 8) }))}</p>` : ""}` : rosterFailed ? `<p class="small muted">${esc(C.rosterFailed)}</p>` : "";
       const who = `<section class="nw-sec"><h2>${esc(C.who)}</h2>${W.lead ? `<p>${esc(W.lead)}</p>` : ""}${lv}${emps}${profs}</section>`;
       // the prep card: the company or the professor, where to find them, the suggested approach and its Copy button
@@ -1563,7 +1569,7 @@
       main.firstElementChild.classList.add("wide", "nw-page");
       // ---- the wiring ----
       wireWait(main, redraw);
-      const rolePick = Pick.mount($("#nw-role"), { options: roleOptions, value: role.id, placeholder: C.rolePlaceholder, label: C.role, onChange: v => { if (roleOk(v)) { s.role = v; s.key = null; s.focusNext = "role"; reload(); } } });
+      const rolePick = Pick.mount($("#nw-role"), { options: roleOptions, value: role.id, placeholder: C.rolePlaceholder, label: C.role, noMatch: C.roleNoMatch, help: roleHelp, onChange: v => { if (roleOk(v)) { s.role = v; s.key = null; s.focusNext = "role"; reload(); } } });
       picks.push(rolePick);
       const targetPick = targets.length ? Pick.mount($("#nw-target"), { options: targets.map(t => ({ value: t.key, label: t.label, hint: t.hint })), value: s.key, placeholder: s.type === "faculty" ? C.professorPlaceholder : C.companyPlaceholder, label: s.type === "faculty" ? C.professor : C.company, onChange: v => { if (v) { s.key = v; s.focusNext = "target"; setTimeout(redraw, 0); } } }) : null;
       if (targetPick) picks.push(targetPick);

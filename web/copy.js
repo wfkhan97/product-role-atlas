@@ -638,6 +638,10 @@
     gateLead: "Answer a few questions first. They pick the role to plan your chats for.",
     role: "Role",
     rolePlaceholder: "Type a role",
+    // the Role box when nothing matches (usability pass 2026-11-06): the closest roles, the fields, what comes later
+    roleNoMatch: "No role has that name.", roleClosest: "These roles come closest:",
+    roleFields: "The list has business and product roles in these fields: {fields}.",
+    roleLater: "Engineering, design and legal roles come later.",
     who: "Who to look for",
     moreJobs: "See more companies in Find jobs →",
     where: "Where to find them",

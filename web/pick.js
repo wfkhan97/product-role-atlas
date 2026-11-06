@@ -7,6 +7,7 @@
    onChange(value, option) }) draws into el and returns { get(), set(value), focus(), destroy() }; focus() puts the
    caret in the box without opening the list (a screen hands focus back after a redraw). Two options with the same
    label are told apart in the label itself by their hint ("Product Marketing Manager (Marketing)"; `distinct`).
+   opts.help (optional) fills the empty list when nothing matches: the closest options (`closest`) and a few notes.
    Styles: `.pick` in style.css. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
@@ -33,6 +34,25 @@
     for (const o of options) { const k = norm(o.label); n[k] = (n[k] || 0) + 1; }
     return options.map(o => n[norm(o.label)] > 1 && o.hint ? { ...o, label: `${o.label} (${o.hint})`, hint: "" } : o);
   }
+  // When nothing matches: the options closest to what was typed (the usability pass of 2026-11-06: "data" and "software"
+  // found no role and said nothing more). A typed word of three letters or more hits a text when a word of the text
+  // starts with it ("data" hits "data-driven"); the label counts 3, the hint (the field) 2, each `about` line (a blurb,
+  // a skill the option asks for) 1 divided by the number of options whose about lists that line, so a line every
+  // option has ("Data-driven decision making") counts next to nothing. The best n with a score, ties in list order;
+  // with none, the n options with the highest `lean` (a number the screen gives, e.g. how technical a role's asks
+  // are), else [].
+  function closest(options, q, n) {
+    n = n || 3;
+    const words = norm(q).split(" ").filter(w => w.length >= 3);
+    const hits = (text, w) => norm(text).split(" ").some(t => t.startsWith(w));
+    const lines = o => (o.about || []).map(norm).filter(Boolean);
+    const count = {};
+    for (const o of options) for (const l of new Set(lines(o))) count[l] = (count[l] || 0) + 1;
+    const score = o => words.reduce((sum, w) => sum + (hits(o.label, w) ? 3 : 0) + (hits(o.hint, w) ? 2 : 0) + [...new Set(lines(o))].filter(l => hits(l, w)).reduce((a, l) => a + 1 / count[l], 0), 0);
+    const scored = options.map((o, i) => [o, words.length ? score(o) : 0, i]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1] || a[2] - b[2]);
+    if (scored.length) return scored.slice(0, n).map(x => x[0]);
+    return options.map((o, i) => [o, Number(o.lean) || 0, i]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1] || a[2] - b[2]).slice(0, n).map(x => x[0]);
+  }
   const MAX = 60;
   function mount(el, opts) {
     opts = opts || {};
@@ -43,12 +63,21 @@
     el.innerHTML = `<input type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="${esc(opts.placeholder || "")}"${opts.label ? ` aria-label="${esc(opts.label)}"` : ""}><button type="button" class="pick-toggle" aria-label="Show the list" tabindex="-1">▾</button><ul class="pick-list" role="listbox" hidden></ul>`;
     const input = el.querySelector("input"), list = el.querySelector("ul"), toggle = el.querySelector(".pick-toggle");
     const labelOf = v => { const o = byValue(v); return o ? o.label : ""; };
+    // help: { closest: n, lead, notes: [strings] } turns "No match." into a way on: the lead, the n closest options
+    // (Pick.closest; they pick like any option) and the notes (what the list covers, what comes later)
+    let suggesting = false;
+    const row = (o, i) => `<li role="option" data-i="${i}" aria-selected="${o.value === value}" class="${i === active ? "active" : ""}${o.value === value ? " picked" : ""}">${esc(o.label)}${o.hint ? ` <span class="pick-hint">${esc(o.hint)}</span>` : ""}</li>`;
     const draw = () => {
       shown = filter(options, open ? input.value : "").slice(0, MAX);
       if (opts.allowEmpty && !input.value) shown = [{ value: "", label: opts.emptyLabel || "—" }, ...shown];
-      list.innerHTML = shown.length ? shown.map((o, i) => `<li role="option" data-i="${i}" aria-selected="${o.value === value}" class="${i === active ? "active" : ""}${o.value === value ? " picked" : ""}">${esc(o.label)}${o.hint ? ` <span class="pick-hint">${esc(o.hint)}</span>` : ""}</li>`).join("") : `<li class="pick-none">${esc(opts.noMatch || "No match.")}</li>`;
+      const H = opts.help;
+      suggesting = !shown.length && !!H;
+      if (suggesting) shown = closest(options, input.value, H.closest || 3);
+      list.innerHTML = suggesting
+        ? `<li class="pick-none">${esc(opts.noMatch || "No match.")}${shown.length && H.lead ? " " + esc(H.lead) : ""}</li>${shown.map(row).join("")}${(H.notes || []).map(t => `<li class="pick-note">${esc(t)}</li>`).join("")}`
+        : shown.length ? shown.map(row).join("") : `<li class="pick-none">${esc(opts.noMatch || "No match.")}</li>`;
       list.hidden = !open; input.setAttribute("aria-expanded", String(open));
-      if (active >= 0 && list.children[active]) list.children[active].scrollIntoView({ block: "nearest" });
+      const li = active >= 0 ? list.querySelector(`li[data-i="${active}"]`) : null; if (li) li.scrollIntoView({ block: "nearest" });
     };
     const show = () => { if (open) return; open = true; active = -1; draw(); };
     const hide = () => { if (!open) return; open = false; active = -1; input.value = labelOf(value); draw(); };
@@ -58,7 +87,7 @@
     input.addEventListener("keydown", e => {
       if (e.key === "ArrowDown") { e.preventDefault(); if (!open) show(); active = Math.min(active + 1, shown.length - 1); draw(); }
       else if (e.key === "ArrowUp") { e.preventDefault(); active = Math.max(active - 1, 0); draw(); }
-      else if (e.key === "Enter") { e.preventDefault(); const o = active >= 0 ? shown[active] : shown.length === 1 ? shown[0] : shown.find(x => norm(x.label) === norm(input.value)); if (o) pick(o.value); else hide(); }
+      else if (e.key === "Enter") { e.preventDefault(); const o = active >= 0 ? shown[active] : suggesting ? null : shown.length === 1 ? shown[0] : shown.find(x => norm(x.label) === norm(input.value)); if (o) pick(o.value); else if (!suggesting) hide(); }
       else if (e.key === "Escape") { hide(); input.blur(); }
     });
     input.addEventListener("blur", () => setTimeout(() => { if (!el.contains(document.activeElement)) { const o = shown.find(x => norm(x.label) === norm(input.value)); if (o && o.value !== value) pick(o.value); else if (opts.allowEmpty && !input.value.trim() && value) pick(""); else hide(); } }, 120));
@@ -69,5 +98,5 @@
     input.value = labelOf(value); draw();
     return { get: () => value, set(v) { value = byValue(v) ? v : ""; input.value = labelOf(value); draw(); }, focus() { quiet = true; try { input.focus({ preventScroll: true }); } finally { quiet = false; } }, destroy() { document.removeEventListener("mousedown", onDoc); el.innerHTML = ""; el.classList.remove("pick"); } };
   }
-  return { filter, distinct, mount, norm };
+  return { filter, distinct, closest, mount, norm };
 });

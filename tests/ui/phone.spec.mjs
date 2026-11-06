@@ -72,6 +72,14 @@ test("overflow: #/role/product.pm/fit with a résumé is no wider than the phone
   await page.waitForTimeout(800);
   expect(await scrollWidth(page)).toBe(W);
 });
+// the Faculty tab (cluster 3's verifier, 2026-11-06): each professor row's count line did not wrap, 600 px wide
+test("overflow: #/network's Faculty on campus tab as a Cornell visitor is no wider than the phone", async ({ visitor }) => {
+  const page = await visitor.campus();
+  await gotoHash(page, "#/network?role=product.pm&type=faculty");
+  await page.locator("#main .nw-emps a.r").first().waitFor();
+  await page.waitForTimeout(400);
+  expect(await scrollWidth(page)).toBe(W);
+});
 test("overflow: #/classes as a Cornell visitor is no wider than the phone", async ({ visitor }) => {
   const page = await visitor.campus();
   await gotoHash(page, "#/classes");

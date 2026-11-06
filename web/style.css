@@ -1053,6 +1053,11 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .nw ul.plain.nw-lv { margin-top: 2px; } .nw ul.plain.nw-lv li { margin-bottom: 2px; }
 .nw .list.nw-emps .r { padding: 6px 0; } .nw .list.nw-emps .r .t { font-size: var(--text-base); }
 .nw .list.nw-emps a.r .t { color: var(--primary); }   /* a professor's name: the link to the card */
+/* a professor's row: the count line ("teaches 5 of the 12 skills…") goes under the name and wraps, so the row never
+   runs wider than a phone (usability pass 2026-11-06; .list .r .n keeps nowrap elsewhere) */
+.nw .list.nw-emps a.r { grid-template-columns: minmax(0, 1fr); }
+.nw .list.nw-emps a.r .n { grid-column: 1; grid-row: 2; white-space: normal; align-self: start; }
+.nw .list.nw-emps a.r .m { grid-row: 3; }
 .pcard .nw-prof { margin: 8px 0 0; } .pcard .nw-prof a { color: var(--primary); }
 .nw-outs { list-style: none; margin: 4px 0 0; padding: 0; }
 .nw-outs li { padding: 6px 0; border-top: 1px solid var(--border); }
@@ -1400,6 +1405,8 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .pick-list li.active, .pick-list li:hover { background: var(--primary-tint); }
 .pick-list li.picked { font-weight: 600; }
 .pick-list li.pick-none { color: var(--muted-foreground); cursor: default; }
+.pick-list li.pick-note { color: var(--muted-foreground); cursor: default; font-size: 0.85em; }
+.pick-list li.pick-note:hover { background: transparent; }
 .pick-hint { color: var(--muted-foreground); font-size: 0.85em; margin-left: 0.3rem; }
 
 /* ---------- a phone (640 px and under): the usability pass of 2026-11-06, cluster "phone layout". Tokens only ---------- */

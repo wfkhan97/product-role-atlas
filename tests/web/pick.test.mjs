@@ -36,3 +36,25 @@ test("two options with one label say their hint in the label; a label used once 
   assert.deepEqual(Pick.filter(d, "product manager").map(o => o.value), ["pm", "pmm", "product.pmm", "tpm"]);
   assert.deepEqual(Pick.distinct([{ value: "a", label: "Same" }, { value: "b", label: "Same" }]).map(o => o.label), ["Same", "Same"], "no hint to tell them apart: left as they are");
 });
+
+// the usability pass of 2026-11-06 (C-07, the Role box found nothing for "data" or "software"): when nothing matches,
+// the closest options by what they are about, a line every option has counting next to nothing
+const live = [
+  { value: "fpa", label: "FP&A Manager", hint: "Finance", about: ["Owns the budget and the forecast.", "Data-driven decision making"], lean: 0 },
+  { value: "ba", label: "Business Analytics Manager", hint: "Analytics", about: ["Turns business data into decisions.", "Data-driven decision making", "Data modeling & pipelines", "Dashboards & data visualization"], lean: 2 },
+  { value: "pa", label: "Product Analyst", hint: "Product", about: ["Measures how a product is used.", "Data-driven decision making", "Data modeling & pipelines", "SQL"], lean: 3 },
+  { value: "pe", label: "Product Engineer", hint: "Product", about: ["Builds the feature end to end.", "Systems & architecture"], lean: 5 },
+  { value: "hr", label: "HR Manager", hint: "People", about: ["Partners with managers on their people.", "Data-driven decision making"], lean: 0 },
+];
+test("closest: no label holds the word, so the options whose blurb and asks hold it come first; a line all options share counts little", () => {
+  assert.deepEqual(Pick.filter(live, "data"), [], "the filter finds nothing");
+  assert.deepEqual(Pick.closest(live, "data", 2).map(o => o.value), ["ba", "pa"]);
+  assert.deepEqual(Pick.closest(live, "Data Scientist", 2).map(o => o.value), ["ba", "pa"], "a word no option holds adds nothing");
+  assert.deepEqual(Pick.closest(live, "analytics", 3).map(o => o.value)[0], "ba", "the hint (the field) counts");
+});
+test("closest: a word no option holds gives the options with the highest lean; none with a lean gives []", () => {
+  assert.deepEqual(Pick.closest(live, "software", 2).map(o => o.value), ["pe", "pa"]);
+  assert.deepEqual(Pick.closest(opts, "software", 2), [], "no about, no lean: nothing to offer");
+  assert.deepEqual(Pick.closest(live, "", 2).map(o => o.value), ["pe", "pa"], "nothing typed: the lean");
+  assert.deepEqual(Pick.distinct(live).map(o => o.about.length), live.map(o => o.about.length), "distinct keeps about and lean");
+});
