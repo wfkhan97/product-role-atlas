@@ -2590,6 +2590,44 @@ shares alone. A tech role's pool uses the same rules over the tech index's skill
 - **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
   The owner decided on 2026-11-06 that both stay business-only: no tech edition.
 
+## A fresh sample of tech titles (`evals/tech-titles-fresh`, 2026-11-06)
+
+The 748 labelled titles of `titles_tech.json` all pass, but the rules were written against them. This sample gives
+the honest rate ("Evals to build", item 4, for the tech set).
+
+**The sample** (`evals/titles_tech_fresh.json`). 420 titles drawn after the rules, none already labelled:
+- 240 by plain keyword and 60 at random from the census of the Greenhouse, Lever and Ashby boards, with a new seed.
+- 120 from postings the refresh kept on the other boards (Workday, Oracle, SuccessFactors and others). The first sample
+  never saw these boards. They passed the rules, so they measure precision only.
+
+**The labels.** Two model readers labelled every title from the first labelling's spec, never the rules.
+- They agreed on the role for 403 of 420 titles, and on role, level, ladder and entry mark for 394.
+- A row counts only where both were sure and agreed: 302 rows.
+
+**The rates** (`run_pipeline.py --roles tech` reports them and never fails on this file):
+
+| Measure | Rate |
+|---|---|
+| Role right | 95.4% |
+| Recall | 97.8% |
+| Precision | 91.7% |
+| Level and ladder, where the role is right | 99.2% |
+| Entry mark | 100% |
+
+On the census draws the role is right for 96.7% (keyword) and 100% (random). On the kept postings from the other
+boards, precision is 87.1%.
+
+**The misses.**
+- Eight of the twelve false roles share one shape: a bare "Engineer" or "Designer" title at a company that does not
+  make software. Examples: "Engineer I - Sr Lead" at Entergy, "Senior Engineer, Occupational Safety" at Ford, "Designer,
+  Toys" at Paramount, "Associate Project Designer" at Dominion Energy.
+- The rule reads a bare engineer title as software unless the title names hardware; the employer's industry is not
+  consulted.
+- Three titles were missed: two security titles worded as "automation" and "attack" engineers, and a search
+  infrastructure engineer read as ML.
+
+Per the method, no rule was changed on this sample; the fix goes through new rows in `titles_tech.json` (Later).
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2610,8 +2648,12 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+- Before the set is shown: tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
+- Tech titles (the fresh sample, "A fresh sample of tech titles"): a bare "Engineer" or "Designer" title at an employer
+  that does not make software reads as software (precision 87% on the Workday and other boards' postings). Add such
+  titles to `titles_tech.json` with their labels and let the employer's industry decide, then rerun refresh-tech; the
+  fresh file stays as labelled and shows the change.
 - The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
   gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
   Algorithms read as A/B testing); the same lever as the MBA cases' known failures.

@@ -433,6 +433,35 @@ def tech_titles():
         r.pop("_lv", None), r.pop("_en", None)
 
 
+def tech_titles_fresh():
+    """The fresh sample (evals/titles_tech_fresh.json): drawn with a new seed and labelled after the rules were written,
+    and never used to fix them. Reported, not checked: the rates are the honest ones, and a miss here is fixed only
+    through a new labelled row in titles_tech.json (PLAN.md, "A fresh sample of tech titles")."""
+    f = os.path.join(HERE, "titles_tech_fresh.json")
+    if not os.path.exists(f):
+        return
+    rows = [r for r in load("titles_tech_fresh.json")["rows"] if r.get("sure", True)]
+    fam = lambda r: roles_tech.family(r["title"], r["company"])
+    pct = lambda a, b: f"{100 * a / b:.1f}% ({a} of {b})" if b else "–"
+    for r in rows:
+        r["_got"] = fam(r)
+    out(f"\n== titles, fresh sample ({len(rows)} sure rows; reported, never checked: the rules were not fixed on it)")
+    for drawn in sorted({r["drawn"] for r in rows}) + [None]:
+        rs = [r for r in rows if drawn is None or r["drawn"] == drawn]
+        pos, got = [r for r in rs if r["role"]], [r for r in rs if r["_got"]]
+        out(f"  {drawn or 'all'}: role right {pct(sum(r['_got'] == r['role'] for r in rs), len(rs))}; "
+            f"recall {pct(sum(r['_got'] == r['role'] for r in pos), len(pos))}; precision {pct(sum(r['_got'] == r['role'] for r in got), len(got))}")
+    lv = [r for r in rows if r["role"] and r.get("level") and r["_got"] == r["role"]]
+    lv_ok = sum((roles_tech.level(r["title"], r["company"], r.get("industry"), r["role"]), roles_tech.ladder(r["title"], r["company"], r.get("industry"), r["role"])) == (r["level"], r["ladder"]) for r in lv)
+    en = [r for r in rows if r["role"] and r["_got"] == r["role"]]
+    en_ok = sum(tuple(roles_tech.entry(r["title"], r["company"], r.get("industry"), r["role"])[:2]) == (r["entry"], r["intern"]) for r in en)
+    out(f"  level and ladder right {pct(lv_ok, len(lv))}; entry mark and internship right {pct(en_ok, len(en))}")
+    for r in rows:
+        if r["_got"] != r["role"]:
+            out(f"  miss: {r['title']!r} at {r['company']} ({r['drawn']}): want {r['role']}, got {r['_got']}")
+        r.pop("_got", None)
+
+
 def tech_entry():
     """The tech set's entry mark on labelled postings (evals/entry_tech.json), read with their text as extraction reads it."""
     rows = load("entry_tech.json")["rows"]
@@ -491,6 +520,7 @@ def main_tech(args):
     want = lambda p: not args.only or args.only == p
     if want("titles"):
         tech_titles()
+        tech_titles_fresh()
     if want("entry"):
         tech_entry()
     if want("golden"):
