@@ -9,8 +9,9 @@ waitlist rows whose source is `door` or `intake_<surface>`). The `surface` colum
 
 Then the journey reports (2026-11-05_journey.sql, read only once its columns exist): drop-off, the sessions that reached
 each screen by day; the calls to action, each one shown, clicked and done; returns, the visitors and signed-in people
-seen on two or more days, with the days between. The pure parts (dropoff, ctas, returns) take plain rows and are tested
-in tests/python/test_funnel.py without a database.
+seen on two or more days, with the days between; the guide's tips per screen (web/guide.js, 2026-11-06): the sessions
+shown a screen's tips, those that pressed Done and those that skipped them. The pure parts (dropoff, ctas, returns,
+guide) take plain rows and are tested in tests/python/test_funnel.py without a database.
 
 usage: python -m pipeline.funnel [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--by stage|program|both|none] [--notes]
        (default: the last 30 days, by both)
@@ -178,6 +179,25 @@ def ctas(rows):
     return sorted(out, key=lambda t: (-t[1], t[0]))
 
 
+def guide(rows):
+    """[(screen, shown, completed, skipped)] by sessions, from the guide's cta rows (web/guide.js): cta_shown and cta_done
+    for guide_<screen>, and cta_done for guide_skip with the screen it was on. guide_relaunch is a click, not a screen.
+    Sorted by shown, then screen. Abandoned (a route change, the targets gone) is shown less completed less skipped."""
+    out = {}
+    for r in rows:
+        key = r.get("cta") or ""
+        if r["name"] == "cta_done" and key == "guide_skip":
+            screen, step = r.get("screen"), "skipped"
+        elif r["name"] in ("cta_shown", "cta_done") and key.startswith("guide_") and key not in ("guide_skip", "guide_relaunch"):
+            screen, step = key[len("guide_"):], "shown" if r["name"] == "cta_shown" else "completed"
+        else:
+            continue
+        if screen:
+            out.setdefault(screen, {"shown": set(), "completed": set(), "skipped": set()})[step].add(r["session"])
+    rows_out = [(s, len(v["shown"]), len(v["completed"]), len(v["skipped"])) for s, v in out.items()]
+    return sorted(rows_out, key=lambda t: (-t[1], t[0]))
+
+
 def returns(rows):
     """{"visitors": n, "returning": n, "people": n, "people_returning": n, "gaps": [days between consecutive visits]} where a
     visit is one distinct day of a visitor (the browser id) or a signed-in person; a row without either counts nowhere."""
@@ -270,6 +290,12 @@ def main():
         print("  none in the range")
     for key, shown, click, done in ct:
         print(f"  {key:<20}{shown:>6}{click:>8}{done:>6}" + (f"  ({100 * done / shown:3.0f}%)" if shown else ""))
+    print("\n== the guide's tips by screen (sessions shown, completed, skipped; the rest left the screen)")
+    gd = guide(jr)
+    if not gd:
+        print("  none in the range")
+    for screen, shown, completed, skipped in gd:
+        print(f"  {screen:<20}{shown:>6}{completed:>8}{skipped:>6}")
     rt = returns(jr)
     print("\n== returns (a visit is one day of a browser or a signed-in person)")
     print(f"  visitors {rt['visitors']}, returning {rt['returning']}; signed in {rt['people']}, returning {rt['people_returning']}"
