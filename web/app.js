@@ -1617,9 +1617,6 @@
   // after the read. The href is set again at the click, since those screens rewrite their hash as the person types.
   const resumeHref = () => Routes.You.resumeHref(Q.length, location.hash);
   document.addEventListener("click", e => { const a = e.target && e.target.closest ? e.target.closest("a[data-resume-link]") : null; if (a) a.setAttribute("href", resumeHref()); }, true);
-  // the role rail's "Or answer {n} questions" (2026-11-06): the questions from the first, and back to the role after
-  // them (Routes.You.resumeHref with step 0); set at the click, like the résumé links, so it carries the page's own hash
-  document.addEventListener("click", e => { const a = e.target && e.target.closest ? e.target.closest("a[data-answer-link]") : null; if (a) a.setAttribute("href", Routes.You.resumeHref(0, location.hash)); }, true);
   // a door answer kept before About you read it (a visit from before 2026-11-01, or a door left by a reload) lands now,
   // under the same rule as keepDoor
   { const w = doorKept().where, next = WHERE[w] ? Routes.You.fromDoor(state.you, w) : null; if (next) { state.you = next; store.set("you", next); } }
@@ -2713,7 +2710,7 @@
     const cta = `<section class="rs"><div class="acts">${classesOpen ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a>` : ""}<a href="#/role/${esc(role.id)}/course">${esc(RR.checkCourse)}</a></div></section>`;
     const drop = `${dropZone(RF.dropShort)}<p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
-      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you" data-answer-link>${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
+      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="${esc(Routes.You.resumeHref(0, location.hash))}" data-answer-link>${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
       // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
       // sentences went on 2026-11-01)
       const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;

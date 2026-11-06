@@ -95,7 +95,7 @@ test("the role rail counts the wizard's questions", async ({ visitor }) => {
   const page = await visit(visitor, { hash: "#/you?step=0" });
   const bars = await page.locator("#main .steps i").count();
   await gotoHash(page, "#/role/pm");
-  const link = page.locator('a[href="#/you"]', { hasText: /^Or answer/ });
+  const link = page.locator("a[data-answer-link]", { hasText: /^Or answer/ });
   await link.waitFor({ state: "attached" });
   expect((await link.textContent()).trim()).toBe(`Or answer ${bars - 1} questions`);
 });

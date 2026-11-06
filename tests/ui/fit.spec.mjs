@@ -90,6 +90,7 @@ test("the rail's \"Or answer\" link opens the questions and comes back to the ro
   const page = await visit(visitor, { hash: `#/role/${ROLE}` });
   const link = page.locator("#aside a", { hasText: /^Or answer \d+ questions$/ });
   await link.waitFor({ state: "attached" });
+  expect(decodeURIComponent((await link.getAttribute("href")).split("next=")[1])).toBe(`#/role/${ROLE}`);   // drawn with its return, no click-time rewrite
   await link.dispatchEvent("click");   // on a phone the rail sits off-screen; the click itself is what counts
   await expect.poll(() => page.evaluate(() => location.hash)).toMatch(/^#\/you\?step=0&next=/);
   for (let k = 0; k < 2; k++) await page.locator("#main .opt").first().click();
@@ -136,7 +137,7 @@ test("the launcher links to the field map, and the two screens carry different n
   const launcher = await text(page.locator("#main h1"));
   await link.first().click();
   await expect.poll(() => page.evaluate(() => location.hash)).toMatch(/^#\/explore/);
-  await page.locator("#main .page h1").waitFor();
+  await expect(page.locator("#main .page h1")).not.toHaveText(launcher);   // the new screen drawn, not the old one still there
   const explore = await text(page.locator("#main h1"));
   expect(explore).not.toBe(launcher);
   expect(explore).not.toMatch(/explore/i);
