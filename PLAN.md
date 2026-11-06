@@ -2385,6 +2385,22 @@ the taxonomy eval failed coverage, because with the Fortune boards three more sk
 dated snapshot ran as a job of its own, which has no `data/raw/jobs_tech/`; it now runs in the build job after the pull,
 as `refresh-product` does. The run's data PR (#156) opened as a draft.
 
+## `rough_fit` skips the roles with no postings yet (`fix/rough-fit-empty-roles`, 2026-11-05)
+
+- **What broke it.** The thirteen business roles of 2026-11-05 (`feat/mba-roles-13`) went into `graph_mba.json`'s
+  families before any refresh gave them postings. `evals/rough_fit.mjs` took its role list from `G.families` and passed
+  each role's postings to `M.match`, so for those thirteen the target's `jobs` was `undefined` and `match.js` threw
+  (`jobs is not iterable`). `evals/graph_mba.mjs` already skipped them; `rough_fit` did not.
+- **The fix.** The eval scores over the roles with postings (51 today) and names the ones left out in `rough_fit.md`.
+  When `refresh-mba` gives the thirteen postings they join on their own. No matcher change.
+- **Rerun on the whole sampled set** (59 resumes, 45 published, as on 2026-10-14): median Spearman 0.79 (was 0.80 over
+  50 roles), the full top role in the rough top 5 78% (80%). It passes its floors. Reading the PDF and DOCX samples
+  needs `npm install` in `evals/`; without it, or without `pipeline.store pull evals`, the run sees about 21 resumes
+  and fails the top-5 floor (62%).
+- **Not in CI.** `ci.yml` has neither the store key nor the published samples, and on the in-repo samples alone the
+  floors don't mean anything. Its place is the checks step of `refresh-mba.yml`, which has the key, after
+  `pull evals` and `npm ci` in `evals/` (listed under Later).
+
 ## Later
 
 - After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
@@ -2394,6 +2410,8 @@ as `refresh-product` does. The run's data PR (#156) opened as a draft.
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
   `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then
   part D: sample resumes and bands for the `impact` group, game passages, `mba_roles.json` credentials.
+- `node evals/rough_fit.mjs` in the checks step of `refresh-mba.yml` (after `pipeline.store pull evals` and `npm ci` in
+  `evals/`), so a refresh that moves the MBA roles also checks the interface's rough read. Not in `ci.yml`: no store key.
 - `role_coverage` reports only existing skills; a column of a role's top `role_terms` phrases that no skill pattern
   matches would make the taxonomy gap visible on every refresh. Also `COVERS` for the new roles (business analytics
   over data analyst?), unconfirmed.
