@@ -68,6 +68,8 @@ cd web && python3 -m http.server 8000        # the site at http://localhost:8000
 node --test 'tests/web/*.test.mjs'           # the browser code (quote the glob: node reads a bare directory as a file)
 .venv/bin/python -m pytest tests/python      # the pipeline (pip install -r requirements-dev.txt once)
 node evals/run.mjs                           # the matcher against the sample résumés; evals/README.md lists every runner
+node tests/ui/serve.mjs                      # the site and its two functions at http://localhost:8787 (reads .env; npm install once)
+npm run test:ui                              # the UI harness: Playwright on a phone and a desktop (tests/README.md, "The UI harness")
 ```
 
 CI (`.github/workflows/ci.yml`) runs both suites and the eval runners it lists on every pull request and on `main`.

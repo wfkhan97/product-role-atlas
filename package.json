@@ -1,0 +1,13 @@
+{
+  "name": "product-role-atlas",
+  "private": true,
+  "description": "Dev tools only. The site is web/ with no build step; the Vercel project's root directory is web, so this file is not deployed.",
+  "scripts": {
+    "test": "node --test 'tests/web/*.test.mjs'",
+    "test:ui": "playwright test -c tests/ui/playwright.config.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0"
+  }
+}

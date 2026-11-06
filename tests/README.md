@@ -61,3 +61,51 @@ Browser scripts load in node the way the evals load them: each exports itself wh
 | `capture.test.mjs`, `feedback.test.mjs`, `state.test.mjs`, `journey_ctas.test.mjs` | Capture's rows and the heartbeat; the feedback rule and row; the saved state's requests; the hearts and "Get your tree". |
 | `map_gate.test.mjs`, `map.test.mjs`, `tree.test.mjs`, `apprentice.test.mjs` | The sign-in and the route table; `MapModel`; the tree function; the generator's pure part on the tracked example and six broken copies (no test spawns a script). |
 | `gameshell.test.mjs`, `know-the-role.test.mjs`, `guess-the-role.test.mjs`, `spot-the-real-ask.test.mjs`, `skill-path.test.mjs`, `wheres-the-demand.test.mjs` | The shell and each game's logic. |
+
+## The UI harness
+
+Playwright (a library that drives a real browser) checks the site as a visitor sees it. It lives in `tests/ui/` and
+is not in CI: it needs a browser.
+
+```sh
+npm install && npx playwright install chromium   # once
+npm test                                         # the web tests above, the same command CI runs
+npm run test:ui                                  # the UI specs, as a phone (390×844) and as a desktop (1280×800)
+node tests/ui/serve.mjs                          # the server alone: http://localhost:8787, PORT overrides
+```
+
+`serve.mjs` serves `web/` as Vercel does: the static files, `web/api/tree.js` at `/api/tree` and `web/api/infer.js`
+at `/api/infer`. It reads `.env` first. Without `ANTHROPIC_API_KEY`, `POST /api/infer` answers 503 and the site reads
+the patterns alone. Without `CATALOG_SERVICE_ROLE_KEY`, `GET /api/tree` says `key: false` and the tree form says the
+build did not go through. `npm run test:ui` starts the server itself, or uses one already on the port.
+
+| File | What it holds |
+|---|---|
+| `playwright.config.mjs` | The server, the two viewports, the output in `test-results/` (gitignored). |
+| `fixtures.mjs` | `test` with the `visitor` fixture; `gotoHash`, `waitForScreen`, `axe`. |
+| `smoke.spec.mjs` | Every state reaches home (a fresh visitor: the door), with no unexpected console error; the two health lines. |
+
+The `visitor` fixture gives a page in one state:
+
+- `fresh()`: nothing stored. The page is on the door.
+- `campus()`: the door passed with a `@cornell.edu` address. Find classes opens.
+- `general()`: the door passed with a `@gmail.com` address. Three verbs.
+- `signedIn()`: the session from `tests/ui/.session.json`. Without the file, the test skips.
+
+The door is passed as the site passes it after the Tally form: the return `#/home?email=…&where=`. Home keeps the
+answer in `door.email`, `door.where` and `door.seen` (localStorage). The fixture stubs every POST to the Supabase REST
+API, so no funnel row, waitlist row or feedback row leaves the machine. Reads, sign-in and the third-party scripts
+(Tally, cdnjs) go through. `axe(page, name)` runs the WCAG 2.1 A and AA rules and returns the violations; it never
+fails a test. The count goes in the test's annotations.
+
+To capture `.session.json` once (it holds a live token: the file is gitignored, never commit or paste it):
+
+1. Run `node tests/ui/serve.mjs` and open `http://localhost:8787/#/signin` in a real browser.
+2. Type the invited address and send the link. Open the link in the same browser.
+3. The link lands on the site that Supabase allows as a redirect. When that is the live site and not localhost,
+   copy the session from there: it is the same project.
+4. In the browser console, run `copy(localStorage["maps.session"])`. Paste it into `tests/ui/.session.json`.
+
+The session ends after about an hour. The site refreshes it while it runs, but the file keeps the old token: capture
+it again when the signed-in tests fail at sign-in.
+
