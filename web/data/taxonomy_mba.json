@@ -4066,7 +4066,8 @@
     "(unemployment|EEOC) (claims|charges|hearings)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4180,7 +4181,8 @@
     "security questionnaires?|vendor questionnaires?|(customer|client) security (questionnaires|audits)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4251,7 +4253,8 @@
     "translate\\w* (complex )?(regulatory|legal) (requirements|obligations|guidance)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4279,7 +4282,8 @@
     "(policies|procedures|standards) (are|remain) (current|up[- ]to[- ]date|aligned)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4347,7 +4351,8 @@
     "control mapping|continuous controls? monitoring|trust center|evidence (collection|gathering|requests)|audit evidence|compliance (automation|as code)|security (attestations?|frameworks)|common controls? framework"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4360,7 +4365,8 @@
     "\\bmetadata\\b|business glossary|data dictionar(y|ies)|master data|\\bMDM\\b|\\bDAMA\\b|\\bDCAM\\b|\\bCDMP\\b|\\bBCBS ?239\\b|\\bcollibra\\b|\\balation\\b|microsoft purview|\\binformatica\\b"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4373,7 +4379,8 @@
     "EU AI Act|ISO ?42001|NIST AI|AI RMF|algorithmic (bias|fairness|accountability|impact)|model (fairness|bias|explainability)|AI (use[- ]case|model) (reviews?|inventory|intake|approvals?)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4386,7 +4393,8 @@
     "(security|cyber|information security|infosec|cybersecurity) (governance|GRC|compliance|risk (management|assessments?)|assurance|audits?)|\\bGRC\\b|governance,? risk,? (and|&) compliance|risk exceptions?|risk acceptances?"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4400,7 +4408,8 @@
     "corporate (secretary|secretarial|governance)|\\bentity management|subsidiary (governance|management)|meeting minutes|proxy statements?|governance (matters|documents|best practices)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4440,7 +4449,8 @@
     "data visuali[sz]ations?|visuali[sz]ations?\\b|visuali[sz]e data|visual analytics"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4670,7 +4680,8 @@
     "\\bGRC (platforms?|tools?|tooling|systems?|solutions?|software|technology|technologies|automation|applications?)"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4840,7 +4851,8 @@
     "qlik\\w*|microstrategy|cognos|\\bSSRS\\b|\\bSSIS\\b|\\bSSAS\\b|business ?objects|\\bOBIEE\\b|thoughtspot|\\bdomo\\b|sisense|spotfire|oracle analytics|sap analytics cloud|\\bSAP BW\\b"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
@@ -4949,7 +4961,8 @@
     "\\bJ\\.?D\\.?\\b(?! ?(edwards|power|sports|vance|\\.com))|juris doctor|law degree|degree in law|\\bLL\\.[MB]\\b|\\bLLB\\b|\\bLLM (degree|in)\\b|(licensed|practicing|admitted) (attorney|to practice)|bar (admission|membership|license)|member of the .{0,30}\\bbar\\b|state bar|law firm experience|experience at a (top |major |leading )?law firm|paralegal certificate"
    ],
    "only": [
-    "mba"
+    "mba",
+    "tech"
    ]
   },
   {
