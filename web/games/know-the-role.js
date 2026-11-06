@@ -139,12 +139,18 @@
     if (m) return `${m.name}: ${pct(m.share)} of ${pool.label} postings ask for it, and you left it.`;
     return `All ${sc.reals} real asks, no decoys. ${pool.asks[0] ? `${pool.asks[0].name} leads: ${pct(pool.asks[0].share)} of ${pool.label} postings ask for it.` : ""}`;
   }
-  const logic = { RULE, BOARD, PICK, CALLS, HALF, CALL_MIN, ROUNDS, STAGES, pools, playable, dealBoard, scoreBoard, dealCalls, scoreCalls, dealHop, boardTakeaway, mulberry32, shuffle };
+  // the help line and the first coach line (2026-11-06, the usability pass: short sentences, active voice, no inside
+  // words such as "decoys"); tests/web/know-the-role.test.mjs runs the copy rule over them
+  const HELP = {
+    rules: () => `Which skills do the role's postings ask for? Round one shows twelve skills. Pick the ${PICK} that most of the role's postings ask for. The other skills come from other roles. Then make ${CALLS} calls against the role's top ask. Do more or fewer than half of its postings ask for each skill? A real ask shows up in at least 40% of the role's postings. There are three rounds. As you go, the calls get closer and the wrong answers come from nearer roles.`,
+    coach: (n, label) => `Pick the ${n} skills that most ${label} postings ask for. The other skills come from other roles. Then hand in.`,
+  };
+  const logic = { RULE, HELP, BOARD, PICK, CALLS, HALF, CALL_MIN, ROUNDS, STAGES, pools, playable, dealBoard, scoreBoard, dealCalls, scoreCalls, dealHop, boardTakeaway, mulberry32, shuffle };
 
   // ---------- the screens ----------
   async function mount(el, ctx) {
     const { Atlas } = ctx, GS = window.GameShell;
-    const INFO = GS.info({ rules: `Which skills do the role's postings ask for? A board of twelve skills: pick the ${PICK} that most of the role's postings ask for; the others are decoys other roles prize. Then ${CALLS} calls against the role's top ask: do more or fewer than half of its postings ask for the skill? A real ask is named by at least 40% of the role's postings. Three rounds; the calls get closer and the decoys nearer as you go.`, keys: "Keys: click a tile to pick it (arrows move, Space picks); 1 says more than half, 2 says fewer; Enter hands in or goes on; Esc quits.", source: "Every share is the fraction of the role's postings that name a skill, read every week." });
+    const INFO = GS.info({ rules: HELP.rules(), keys: "Keys: click a tile to pick it (arrows move, Space picks); 1 says more than half, 2 says fewer; Enter hands in or goes on; Esc quits.", source: "Every share is the fraction of the role's postings that name a skill, read every week." });
     const F = GS.frame(el, { game: TITLE, cls: "ktr", info: INFO });
     const $ = s => el.querySelector(s);
     let alive = true, timer = null;
@@ -210,7 +216,7 @@
       S.board.tiles.forEach(t => { if (t.real) S.seen.add(t.id); });
       S.picked = new Set(); S.focus = 0;
       drawBoard();
-      if (S.round === 0) GS.coachOnce(SLUG, $(".ktr-board"), `Pick the ${S.board.reals} skills that most ${S.pool.label} postings ask for; the others are decoys other roles prize. Then hand in.`, "beforebegin");
+      if (S.round === 0) GS.coachOnce(SLUG, $(".ktr-board"), HELP.coach(S.board.reals, S.pool.label), "beforebegin");
       if (S.timed) startClock(SPEED.board, handIn);
     }
     function drawBoard() {

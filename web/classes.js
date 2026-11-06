@@ -72,11 +72,23 @@
     return `<a class="choice" href="#/classes"><div class="t">${esc(Catalog.neutralCardTitle(list))}</div><div class="d">${esc(CL.neutralDetail)}</div><span class="tag">${esc(CL.neutralTag)}</span></a>`;
   }
 
+  // the hash the person came from, for the professor card's crumb: this script loads before app.js, so its listener
+  // runs before route() draws the next screen (a reload has no previous hash, and the crumb says Classes)
+  let fromHash = "";
+  window.addEventListener("hashchange", e => { try { fromHash = new URL(e.oldURL).hash; } catch { fromHash = ""; } });
+  // the open detail panel's close, while one is open: Esc calls it (a key inside a drop-down is the drop-down's own)
+  let closeAside = null;
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && closeAside && !(e.target.closest && e.target.closest(".pick"))) { e.preventDefault(); closeAside(); } });
+
   // ---------- 1. the class picker ----------
-  async function classes(ctx) {
+  // opts.again: a redraw the screen asked for itself (a role added or dropped, a résumé read); a route (a link, Back)
+  // draws without it and starts with no card open, so Back from a professor never brings the panel back over the list
+  async function classes(ctx, opts) {
     const { crumbs, page, showAside } = ctx;
     S.flag = ctx.flag ? ctx.flag() : null;   // the door's campus flag (app.js): its campus comes first
     const token = ++S.token;
+    const again0 = !!(opts && opts.again);
+    if (!again0) { S.selected = null; closeAside = null; }
     crumbs([[CL.crumb, null]]); showAside(null);
     const { list, cm } = await campusCtx();
     // no campus known and more than one to choose from: ask once, as two cards, and keep the answer in this browser
@@ -89,7 +101,9 @@
     const termLabel = cm.term_label || CFG().CATALOG_TERM || "";
     // the door's flag settles the campus (Catalog.campusFor), so a flagged visitor has nothing to change
     const change = list.length > 1 && !(S.flag && cm.flag === S.flag) ? ` · <button type="button" class="linkish link" id="cls-campus">${esc(CL.changeCampus)}</button>` : "";
-    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>${esc(CL.heading)}</h1>`;
+    // the pre-enrollment dates under the heading, read from the campus entry (never written here)
+    const dates = Catalog.datesLine(cm);
+    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>${esc(CL.heading)}</h1>${dates ? `<p class="small cls-dates">${esc(dates)}</p>` : ""}`;
     const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
     const wireCampus = () => { const b = $("#cls-campus"); if (b) b.onclick = () => { setCampus(null); classes(ctx); }; };
     // a campus with no roster loaded says so and stops
@@ -134,7 +148,33 @@
     const keep = (list, opts) => list.filter(v => opts.some(o => o.value === v));
     S.days = keep(S.days, dayOpts); S.credits = keep(S.credits, creditOpts); S.elig = keep(S.elig, eligOpts);
     const roleLink = id => `<a href="#/role/${esc(id)}/fit">${esc(ix.roles[id].label)}</a>`;
+    // Focus after a draw (the page is drawn anew each time): the control the person used, found again by the same key,
+    // else the role box when the screen asked for it (S.focusNext: a role added or dropped, a résumé read, no role on
+    // the first draw); nothing when focus was outside the list's controls, so a draw never pulls focus from elsewhere
+    let rolePick = null, profPick = null;
+    const keyOf = el => {
+      const main = $("#main");
+      if (!el || !main || !main.contains(el)) return null;
+      if (el.closest("#cls-add")) return "role";
+      if (el.closest("#cls-prof")) return "prof";
+      if (el.id) return "#" + CSS.escape(el.id);
+      const ds = el.dataset || {};
+      if (ds.facetKey) return `[data-facet-key="${CSS.escape(ds.facetKey)}"][data-val="${CSS.escape(ds.val)}"]`;
+      for (const a of ["subject", "open", "dropRole"]) if (a in ds) return `[data-${a.replace(/[A-Z]/g, c => "-" + c.toLowerCase())}="${CSS.escape(ds[a])}"]`;
+      if (el.tagName === "SUMMARY" && el.parentElement && el.parentElement.dataset.facet) return `[data-facet="${CSS.escape(el.parentElement.dataset.facet)}"] > summary`;
+      return null;
+    };
+    const focusKey = k => {
+      if (k === "role") { if (rolePick) rolePick.focus(); return; }
+      if (k === "prof") { if (profPick) profPick.focus(); else if (rolePick) rolePick.focus(); return; }
+      const el = k && $(k);
+      if (el) el.focus({ preventScroll: true });
+      else if (k && k.startsWith("[data-drop-role") && rolePick) rolePick.focus();
+    };
+    // no role chosen on the screen's first draw: the role box, since nothing on the cards means much before a role
+    if (!roles.length && !again0 && !S.selected) S.focusNext = "role";
     const render = () => {
+      const want = S.focusNext || keyOf(document.activeElement); S.focusNext = null;
       // The order: with nothing to compare against (no role chosen) there is no sort control and the list is the
       // roster's (subject, number); with roles, Relevance, or Gaps covered when a résumé leaves gaps. Never by code.
       if (S.sort === "gaps" && !withGaps) S.sort = "relevance";
@@ -156,13 +196,20 @@
       const gapChip = withGaps && !none ? `<button type="button" class="chip${S.coversGap ? " on" : ""}" id="cls-gap">${esc(CL.coversGap)}<span class="n">${cards.filter(c => (covered[c.key] || []).length).length}</span></button>` : "";
       const sortCtl = roles.length ? `<label class="small muted">${esc(CL.sort)} <select id="cls-sort" class="cls-select"><option value="relevance"${mode === "relevance" ? " selected" : ""}>${esc(CL.sorts.relevance)}</option>${withGaps ? `<option value="gaps"${mode === "gaps" ? " selected" : ""}>${esc(CL.sorts.gaps)}</option>` : ""}</select></label>` : "";
       // the résumé row (C1): with none on file, the shell's form under the filters; a read draws the picker again
-      const resumeRow = ctx.hasResume && !ctx.hasResume() && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">${esc(CL.addResume)}</p>${ctx.resumeForm()}<div class="row"><button type="button" class="btn primary" id="cls-read">${esc(CL.readFit)}</button></div></div>` : "";
+      // With a résumé on file and no role, one line stands in the row's place, so a read never ends on nothing
+      const hasResume = !!(ctx.hasResume && ctx.hasResume());
+      const resumeRow = !hasResume && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">${esc(CL.addResume)}</p>${ctx.resumeForm()}<div class="row"><button type="button" class="btn primary" id="cls-read">${esc(CL.readFit)}</button></div></div>`
+        : hasResume && !roles.length ? `<p class="small cls-norole" id="cls-norole" role="status">${esc(CL.resumeNoRole)}</p>` : "";
       // the application box at the foot (v18, step 1), from app.js, with the first role recorded as the role on screen;
       // over it, when the fit leaves gaps, the one data-built line naming them
       const applyFoot = ctx.applyBox ? `<div class="fit-wait">${withGaps && ctx.applyLine ? `<p class="small">${esc(ctx.applyLine(G.label))}</p>` : ""}${ctx.applyBox("classes", { always: true, role_id: roles[0] || null })}</div>` : "";
-      const gapLine = G ? (G.gaps.length ? `<p class="small">${fill(esc(CL.gapLine), { roles: Catalog.joinLabels(G.roleIds.map(roleLink)), gaps: esc(G.gaps.length === 1 ? CL.gap : fill(CL.gaps, { n: G.gaps.length })) })}</p>` : `<p class="small muted">${esc(fill(CL.noGaps, { roles: G.label }))}</p>`) : "";
+      const gapLine = G ? (G.gaps.length ? `<p class="small">${fill(esc(CL.gapLine), { roles: Catalog.joinLabels(G.roleIds.map(roleLink)), gaps: esc(G.gaps.length === 1 ? CL.gap : fill(CL.gaps, { n: G.gaps.length })) })}</p><p class="small cls-gapnames">${esc(fill(CL.gapNames, { names: Catalog.namesLine(G.gaps.map(g => g.name), 6) }))}</p>` : `<p class="small muted">${esc(fill(CL.noGaps, { roles: G.label }))}</p>`) : "";
       const noneLine = none ? `<p class="small muted">${esc(Catalog.NO_COVER_LINE)}</p>` : "";
-      const html = `${head}
+      // the empty list names the filters that emptied it and offers to clear them all (the roles stay)
+      const on = Catalog.activeFilters({ q: S.q, subject: S.subject, coversGap: S.coversGap, days: S.days, credits: S.credits, elig: S.elig, instructor: S.instructor });
+      const empty = `<p class="small muted cls-empty">${esc(on.length ? fill(CL.noMatchBy, { filters: Catalog.joinLabels(on) }) : CL.noMatch)}${on.length ? ` <button type="button" class="linkish link" id="cls-clear">${esc(CL.clearFilters)}</button>` : ""}</p>`;
+      const leadLine = !roles.length ? `<p class="lead cls-lead">${esc(CL.pickRoleLead)}</p>` : "";
+      const html = `${head}${leadLine}
         ${rolesCtl}
         <div class="row cls-filters">
           <input type="search" id="cls-q" placeholder="${esc(CL.searchPlaceholder)}" aria-label="${esc(CL.searchAria)}" value="${esc(S.q)}">
@@ -170,15 +217,17 @@
         </div>${resumeRow}${gapLine}
         <div class="chips">${gapChip ? gapChip + '<span class="lbl">·</span>' : ""}<span class="lbl">${esc(CL.subject)}</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">${esc(CL.all)}</button>${subjectsAll.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
         ${facets}${noneLine}
-        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: roles.length ? rolesKey : null, rel: rel[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c), matched: matchedOf(c) })).join("") || `<p class="small muted">${esc(CL.noMatch)}</p>`}</div>
+        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: roles.length ? rolesKey : null, rel: rel[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c), matched: matchedOf(c) })).join("") || empty}</div>
         ${applyFoot}
         ${privacy}`;
-      picks.forEach(p => p.destroy()); picks = [];
+      picks.forEach(p => p.destroy()); picks = []; rolePick = profPick = null;
       page(html); $("#main").firstElementChild.classList.add("wide");
       wire();
       renderAside();
+      if (want) focusKey(want);
     };
-    const again = () => { const y = window.scrollY; classes(ctx).then(() => window.scrollTo(0, y)); };
+    // the screen's own redraw with the roles read again; focus goes back to the role box
+    const again = () => { const y = window.scrollY; S.focusNext = "role"; classes(ctx, { again: true }).then(() => window.scrollTo(0, y)); };
     const wire = () => {
       wireCampus();
       if (ctx.wireApply) ctx.wireApply($("#main"), () => { const y = window.scrollY; render(); window.scrollTo(0, y); });
@@ -188,10 +237,10 @@
       // Pick calls onChange before it finishes its own update, so the draw waits a tick.
       const roleOptions = ix.groups.flatMap(g => g.roles.map(id => ix.roles[id]).filter(r => r && !roles.includes(r.id)).map(r => ({ value: r.id, label: r.label, hint: g.label })));
       const addEl = $("#cls-add");
-      if (addEl && window.Pick) picks.push(Pick.mount(addEl, { options: roleOptions, value: "", placeholder: roles.length ? CL.addRole : CL.pickRole, label: CL.addRoleAria, onChange: id => { if (id) setTimeout(() => { setRoles([...S.roles, id]); again(); }, 0); } }));
+      if (addEl && window.Pick) picks.push(rolePick = Pick.mount(addEl, { options: roleOptions, value: "", placeholder: roles.length ? CL.addRole : CL.pickRole, label: CL.addRoleAria, onChange: id => { if (id) setTimeout(() => { setRoles([...S.roles, id]); again(); }, 0); } }));
       // the professor facet: a searchable drop-down over every instructor this term, empty for anyone
       const profEl = $("#cls-prof");
-      if (profEl && window.Pick) picks.push(Pick.mount(profEl, { options: instructors.map(i => ({ value: i.name, label: i.name })), value: S.instructor || "", placeholder: CL.anyProfessor, label: CL.facets.professor, allowEmpty: true, emptyLabel: CL.anyProfessor, onChange: v => setTimeout(() => { S.instructor = v || null; redraw(); }, 0) }));
+      if (profEl && window.Pick) picks.push(profPick = Pick.mount(profEl, { options: instructors.map(i => ({ value: i.name, label: i.name })), value: S.instructor || "", placeholder: CL.anyProfessor, label: CL.facets.professor, allowEmpty: true, emptyLabel: CL.anyProfessor, onChange: v => setTimeout(() => { S.instructor = v || null; S.focusNext = "prof"; redraw(); }, 0) }));
       document.querySelectorAll("[data-facet]").forEach(d => d.ontoggle = () => { d.open ? S.open.add(d.dataset.facet) : S.open.delete(d.dataset.facet); });
       document.querySelectorAll("[data-facet-key]").forEach(b => b.onclick = () => { const k = b.dataset.facetKey, v = b.dataset.val; S[k] = S[k].includes(v) ? S[k].filter(x => x !== v) : [...S[k], v]; redraw(); });
       document.querySelectorAll("[data-drop-role]").forEach(b => b.onclick = () => { setRoles(S.roles.filter(id => id !== b.dataset.dropRole)); again(); });
@@ -200,17 +249,27 @@
       const gc = $("#cls-gap"); if (gc) gc.onclick = () => { S.coversGap = !S.coversGap; render(); };
       const q = $("#cls-q"); let t = null; q.oninput = () => { S.q = q.value; clearTimeout(t); t = setTimeout(() => { const y = window.scrollY; render(); window.scrollTo(0, y); const q2 = $("#cls-q"); q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); }, 160); };
       document.querySelectorAll("[data-subject]").forEach(b => b.onclick = () => { S.subject = b.dataset.subject || null; render(); });
+      const clr = $("#cls-clear"); if (clr) clr.onclick = () => { Object.assign(S, { q: "", subject: null, coversGap: false, days: [], credits: [], elig: [], instructor: null }); S.focusNext = "#cls-q"; redraw(); };
       document.querySelectorAll(".cls-card").forEach(wireCard);
     };
     const wireCard = el => {
-      el.querySelector("[data-open]").onclick = () => { S.selected = S.selected === el.dataset.card ? null : el.dataset.card; document.querySelectorAll(".cls-card").forEach(x => x.classList.toggle("on", x.dataset.card === S.selected)); renderAside(); };
+      el.querySelector("[data-open]").onclick = () => { S.selected = S.selected === el.dataset.card ? null : el.dataset.card; document.querySelectorAll(".cls-card").forEach(x => x.classList.toggle("on", x.dataset.card === S.selected)); renderAside(); const h = S.selected && document.querySelector("#aside #cls-detail-h"); if (h) h.focus(); };
       const w = el.querySelector("[data-why]"); if (w) w.ontoggle = () => { w.open ? S.why.add(w.dataset.why) : S.why.delete(w.dataset.why); };
     };
+    // the detail panel: opened from a card's title, it takes focus on its heading (wireCard); × or Esc closes it and
+    // focus goes back to the title that opened it
     const renderAside = () => {
       const card = S.selected && cards.find(c => c.key === S.selected);
-      if (!card) { showAside(null); return; }
+      if (!card) { closeAside = null; showAside(null); return; }
       showAside(detailHtml(card, cm));
-      const x = document.querySelector("#aside .close"); if (x) x.onclick = () => { S.selected = null; document.querySelectorAll(".cls-card").forEach(el => el.classList.remove("on")); showAside(null); };
+      const close = () => {
+        const key = S.selected; S.selected = null; closeAside = null;
+        document.querySelectorAll(".cls-card").forEach(el => el.classList.remove("on"));
+        showAside(null);
+        const back = key && document.querySelector(`.cls-card [data-open="${CSS.escape(key)}"]`); if (back) back.focus();
+      };
+      closeAside = close;
+      const x = document.querySelector("#aside .close"); if (x) x.onclick = close;
     };
     render();
   }
@@ -227,8 +286,8 @@
     const limited = c => [...new Set(String(c.enrollment_limited_to || "").split(/\s*\|\s*/).map(x => x.trim()).filter(Boolean))].join("; ");
     const elig = Catalog.eligibilityLine(card, cm);
     return `<button type="button" class="close" aria-label="${esc(Copy.common.close)}">×</button><div class="card">
-      <p class="eyebrow">${esc(card.codes.concat(card.otherCodes || []).join(" / "))}</p><h2>${esc(card.title)}</h2>
-      <p class="facts">${esc(p.credits ? fill(CL.credits, { n: p.credits }) : CL.noCredits)}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
+      <p class="eyebrow">${esc(card.codes.concat(card.otherCodes || []).join(" / "))}</p><h2 id="cls-detail-h" tabindex="-1">${esc(card.title)}</h2>
+      <p class="facts">${esc(Catalog.creditsLine(p.credits))}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
       ${per(esc(CL.description), c => c.description)}${outcomes(card)}${per(esc(CL.prerequisites), c => c.prereq)}
       ${open ? "" : per(esc(CL.limitedTo), limited)}
       ${elig ? `<p class="small"><span class="tag thin">${esc(elig)}</span></p>` : ""}
@@ -244,7 +303,11 @@
     const { crumbs, page, showAside } = ctx;
     S.flag = ctx.flag ? ctx.flag() : null;
     const back = `<a href="#/classes">${esc(CL.backClasses)}</a>`;
-    crumbs([[CL.crumb, "#/classes"], [CL.professor, null]]); showAside(null);
+    // the first crumb is where the person came from: Networking (the Faculty tab) when that was the last screen, with
+    // its own hash so the tab and the role come back; else Classes
+    const fromNet = Routes.parseRoute(fromHash).name === "network" && /^#\/network\b/.test(fromHash);
+    const first = fromNet ? [Copy.common.bar.network, fromHash] : [CL.crumb, "#/classes"];
+    crumbs([first, [CL.professor, null]]); showAside(null);
     if (!slug) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc(CL.noProfessor)} ${back}</p>`, true); return; }
     const at = readCampus(await campusCtx());
     if (!at || !at.catalog_file) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc((at && at.closed_notice) || CL.rosterClosedHere)} ${back}</p>`, true); return; }
@@ -253,7 +316,7 @@
     catch (e) { console.error(e); page(`<h1>${esc(CL.professor)}</h1><div class="notice">${esc(fill(CL.profileFailed, { message: e.message }))}</div>`, true); return; }
     if (!r.professor) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc(CL.noProfileNamed)} ${back}</p>`, true); return; }
     const P = r.professor;
-    crumbs([[CL.crumb, "#/classes"], [P.name, null]]);
+    crumbs([first, [P.name, null]]);
     // the person's gaps this instructor's classes cover (v18, step 2): the picker's roles and their fit, the same
     // per-card tags the picker reads, joined over this instructor's cards; public facts stay as they are, and nothing
     // here is a rating or a review

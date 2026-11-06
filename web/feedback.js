@@ -3,6 +3,10 @@
    tests/web/feedback.test.mjs with its dependencies passed in. Nothing here runs when CONFIG.FEEDBACK_ENABLED is off
    (the table lands with pipeline/sql/2026-11-05_feedback.sql, applied by the owner).
      Feedback.due(input)              pure: whether the prompt fires now, and why ("actions" · "time" · "again" · "tree")
+     Feedback.emailOk(value)          pure: the email box may go as it is: empty, or one well-formed address of at most
+                                      320 characters (the box says so before Send, 2026-11-06; send drops any other)
+     Feedback.offer(typed, onFile)    pure: the address the box offers as one press ("Use …"): the session's or the
+                                      door's, when the box does not hold it already; "" when there is none
      Feedback.send(row)               one row into `feedback` with the publishable key: { text, email, screen, prompted,
                                       session, visitor, user_id }; resolves true or false, never rejects
      Feedback.asked() / markAsked(now, actions)       the first prompt's mark in this browser (localStorage)
@@ -12,7 +16,8 @@
    (Capture.visible), whichever first; never on the door or the sign-in, nor within a minute of signing in; shown counts
    as asked, dismissed or sent; it may ask again after thirty days, only when new actions happened since; a second
    prompt, its own, at the first tree opened. What leaves the browser is the row above and only on Send: the sentence
-   typed into the box, the email only when typed. */
+   typed into the box, the email only when typed: the box opens empty and offers the address on file as one press
+   (owner, decision 4a, 2026-11-06). */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/feedback.js")({ fetch, config, local })
   else root.Feedback = factory({ fetch: (...a) => root.fetch(...a), config: () => root.CONFIG || {}, local: () => root.localStorage });
@@ -55,13 +60,17 @@
   const signedIn = now => set(SIGNIN_KEY, String(Number(now) || 0));
   function signedInAt() { const n = parseInt(get(SIGNIN_KEY), 10); return Number.isFinite(n) && n > 0 ? n : null; }
 
+  // ---------- the email box ----------
+  const emailOk = value => { const e = String(value == null ? "" : value).trim(); return !e || (e.length <= LIMITS.email && EMAIL_RE.test(e)); };
+  const offer = (typed, onFile) => { const f = String(onFile || "").trim(); return f && emailOk(f) && String(typed || "").trim().toLowerCase() !== f.toLowerCase() ? f : ""; };
+
   // ---------- the one request ----------
   function send(row) {
     const r = row || {}, text = String(r.text || "").trim().slice(0, LIMITS.text);
     if (!enabled() || !text) return Promise.resolve(false);
     const out = { text, prompted: !!r.prompted };
     const email = String(r.email || "").trim();
-    if (email && email.length <= LIMITS.email && EMAIL_RE.test(email)) out.email = email;
+    if (email && emailOk(email)) out.email = email;
     if (SCREEN_RE.test(String(r.screen || ""))) out.screen = String(r.screen);
     if (ID_RE.test(String(r.session || ""))) out.session = String(r.session);
     if (ID_RE.test(String(r.visitor || ""))) out.visitor = String(r.visitor);
@@ -70,5 +79,5 @@
     return Promise.resolve().then(() => deps.fetch(url, { method: "POST", headers: { "Content-Type": "application/json", apikey: c.SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + c.SUPABASE_PUBLISHABLE_KEY, Prefer: "return=minimal" }, body: JSON.stringify(out) }))
       .then(r => !!(r && r.ok)).catch(() => false);
   }
-  return { LIMITS, NEVER_ON, due, send, asked, markAsked, treeAsked, markTreeAsked, signedIn, signedInAt, enabled };
+  return { LIMITS, NEVER_ON, due, emailOk, offer, send, asked, markAsked, treeAsked, markTreeAsked, signedIn, signedInAt, enabled };
 });

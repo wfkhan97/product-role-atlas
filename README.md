@@ -19,18 +19,19 @@ Four verbs behind a door, on a hash router. Every route is in `web/app.js` unles
 | `#/home` | The four verbs as cards, About you inline. | `app.js` |
 | `#/jobs` | Find jobs: one search over every open US posting of both role sets, counted facets, the posting in a side panel. | `web/jobs.js` |
 | `#/skills` | Explore careers: the launcher by field or search, the résumé's match beside it. | `web/launcher.js` |
-| `#/explore`, `#/field/<id>` | The fields as cards or a skill map; one field's roles with its skills on lanes. | `web/skillmap.js` |
+| `#/explore`, `#/field/<id>` | The fields and their skills (crumb "All fields"): the fields as cards or a skill map; one field's roles with its skills on lanes. | `web/skillmap.js` |
 | `#/role/<id>` | A role: its skills by area, filters, the fit rail, the heart. | `app.js` |
 | `#/role/<id>/fit` | The fit screen: what the résumé shows and what needs evidence, a pasted posting, "Get your tree". | `web/match.js`, `web/evidence_text.js` |
 | `#/role/<id>/course` | Drop a syllabus: what it teaches against what postings ask. | `web/atlas.js` |
 | `#/classes`, `#/professor/<slug>` | Find classes: the Spring 2027 picker on public files, matched to the roles chosen. | `web/classes.js`, `web/catalog.js` |
-| `#/network` | Networking: who to meet for a role, where, what to say, a prep card per chat. | `web/network.js` |
+| `#/network`, `#/field/<id>/event` | Networking: who to meet for a role, where, what to say, a prep card per chat; Prepare for an event (a networking event, a roundtable, a hackathon) for one field. | `web/network.js`; the events in `app.js` |
 | `#/you` | About you: three questions, the résumé, the saved roles. | `app.js` |
 | `#/play/<slug>` | The games, from the role pages. | `web/games/`, `web/gameshell.js` |
 | `#/signin`, `#/map` | The sign-in and the apprentice map (the skill tree, the read, the quests). | `web/auth.js`, `web/map.js`, `web/state.js` |
-| `#/about` | About the data, privacy. | `app.js` |
+| `#/about` | About GradBuddy (the footer's link): the counts, the data, privacy. | `app.js` |
 
-Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.mjs`.
+Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.mjs`. The tips per screen are
+`web/guide.js`; their strings are `Copy.guide`.
 
 ### What leaves the browser
 
@@ -38,6 +39,7 @@ Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.m
   build (grounded and dropped). A syllabus or a pasted posting never leaves.
 - **Counts**, never text: `web/capture.js` posts screens, calls to action and a heartbeat to `events` with a random
   session id and a random per-browser id; a stage, a program, a role or field id; the signed-in id when there is one.
+  The guide's tips send `cta` events like the other calls to action, with the screen and never any text.
 - **What a person typed on purpose**: an email into the door or an intake box (`waitlist`); the feedback sentence
   and, if typed, an email (`feedback`). The owner reads the sentences in the catalog project's SQL editor.
 - **With a sign-in** (`ACCOUNTS_ENABLED`): the About-you answers, the hearts, and each read as the band, the skill
@@ -56,7 +58,8 @@ flips in a one-line pull request once what it needs is in place.
 | `MAPS_ENABLED` | on | `#/map`, the invited magic-link sign-in, the private `maps` bucket. | The maps migration (applied). |
 | `TREE_ENABLED` | on | The self-serve tree form on `#/map` and "Get your tree" on the fit screen (`/api/tree`). | `CATALOG_SERVICE_ROLE_KEY` in the Vercel project (set); `GET /api/tree` must answer `storage: true`. |
 | `FEEDBACK_ENABLED` | on | The feedback link, box and prompt. | The feedback migration (applied). |
-| `ACCOUNTS_ENABLED` | off | The six-digit-code sign-in for anyone, saved state, the heart's sign-in nudge. | A sender domain and its SMTP password in the catalog project's Auth settings (Supabase's own mailer sends a few an hour); "Allow new users to sign up" back on there (off today, so only invited addresses get a session); the state migration (applied). |
+| `GUIDE_ENABLED` | off | The tips per screen on a first visit, and the "Show me around" link in the top bar and the footer. | Nothing but the owner's call once the usability fixes are merged; no migration (its rows are the journey's `cta` rows). |
+| `ACCOUNTS_ENABLED` | off | The six-digit-code sign-in for anyone, saved state, the heart's sign-in nudge. | A sender domain and its SMTP password in the catalog project's Auth settings (Supabase's own mailer sends a few an hour); "Allow new users to sign up" back on there (off today, so only invited addresses get a session); a code email template that carries `{{ .Token }}` and no link (a mail scanner such as Outlook's Safe Links opens a link first and spends the code with it); the state migration (applied). |
 | `TECH_ENABLED` | off | The engineering, design and legal role set in the interface (its data is on `main`). | Bands for its data, design and legal groups; the owner's call. |
 | `IENYC_ENABLED` | off | The IE New York campus in Find classes. | Its course catalog file. |
 | `AUTH_ENABLED` | off | Unused: nothing behind the picker is private. | |
@@ -68,10 +71,12 @@ cd web && python3 -m http.server 8000        # the site at http://localhost:8000
 node --test 'tests/web/*.test.mjs'           # the browser code (quote the glob: node reads a bare directory as a file)
 .venv/bin/python -m pytest tests/python      # the pipeline (pip install -r requirements-dev.txt once)
 node evals/run.mjs                           # the matcher against the sample résumés; evals/README.md lists every runner
+node tests/ui/serve.mjs                      # the site and its two functions at http://localhost:8787 (reads .env; npm install once)
+npm run test:ui                              # the UI harness: Playwright on a phone and a desktop (tests/README.md, "The UI harness")
 ```
 
 CI (`.github/workflows/ci.yml`) runs both suites and the eval runners it lists on every pull request and on `main`.
-Both suites finish in about a second and never touch the network.
+Both suites finish in a few seconds and never touch the network.
 
 A fresh machine:
 
@@ -174,7 +179,7 @@ overwrites a newer local one.
 | `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the two functions; `tokens/` the design tokens. |
 | `data/` | `registry.json` (every employer's ATS config, merged from `raw/registry_*.json`), `raw/` (the Fortune list, funds, portfolios, employer lists; the postings backlog is not in git), `processed/` (the tagged postings). |
 | `evals/` | Every eval runner, the expectation files and the committed baselines (`evals/README.md`). |
-| `tests/` | Unit tests, web and python (`tests/README.md`). |
+| `tests/` | Unit tests, web and python, and the UI harness in `tests/ui/` (`tests/README.md`). |
 | `games/` | The design packages of the games (`games/README.md`). |
 | `docs/` | The module reference, the GradBuddy contract, the self-hosted runner. |
 | `.github/workflows/` | CI and the three refresh jobs. |

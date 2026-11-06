@@ -97,3 +97,12 @@ test("pools on the real data: every role has real asks at 40% or more, decoys an
     assert.ok(L.playable(p), p.id);
   }
 });
+
+// the usability pass of 2026-11-06: the help line and the first coach line follow the copy rule (no sentence over 20
+// words, no passive, no stoplist word) and drop the inside word "decoys"
+test("the game's help line and its first coach line follow the copy rule", async () => {
+  const { checkAll } = await import("../../evals/copy_lib.mjs");
+  const list = [{ path: "know-the-role.rules", text: L.HELP.rules() }, { path: "know-the-role.coach", text: L.HELP.coach(5, "Product Manager") }];
+  assert.deepEqual(checkAll(list).map(o => `${o.path} [${o.rule}] ${o.hit}`), []);
+  for (const { text } of list) assert.doesNotMatch(text, /decoy|prize/i);
+});
