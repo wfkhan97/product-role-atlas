@@ -2569,6 +2569,27 @@ expectations were written from the catalog before the picker ran on them.
 well. The data refreshes since the 2026-10-31 baseline moved them, and the class eval is not in CI. The baseline
 committed here records them as they are.
 
+## The games for the tech set (`feat/tech-games`, 2026-11-06)
+
+**Know the role deals the tech roles.** It is the game a role page's "Practise" link opens, and it works from posting
+shares alone. A tech role's pool uses the same rules over the tech index's skills.
+- A decoy's other role is another tech role, or an MBA role that prizes a skill the two sets share.
+- The lift is measured against the tech set's baseline (`ix.baselineTech`), as the site's matcher does.
+- The shell offers a tech role only to a game that says it deals the set (`defaultRole(..., { tech: true })`,
+  `picker({ tech: true })`), so the other games never open on one.
+- `evals/game_know_the_role.mjs` runs with the tech index on: 63 roles, all playable, every rule holds.
+- On the tech roles: 14 to 22 real asks a role, 28 to 39 decoys; a first board's decoys come from business roles
+  (vendor management, partnerships, positioning).
+
+**The other five stay with the product and MBA roles,** each for a reason in the data or the design:
+- **Climb the ladder** sorts a skill's statements by level, from the depth files. The tech skills have none (checklist
+  C10 and C11 in "Adding a role").
+- **Skill path** plays on the skill map, which does not cover the tech set.
+- **Spot the real ask** reads passages that `pipeline/game_passages.py` cuts from postings; none are cut from tech
+  postings yet.
+- **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
+  The owner decided on 2026-11-06 that both stay business-only: no tech edition.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2589,7 +2610,7 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: game evals over tech roles; a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
 - The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
   gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of

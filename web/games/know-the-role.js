@@ -42,16 +42,21 @@
     const M = ix.M, G = P ? P.G : null;
     const skip = s => s.cluster === "credentials" || String(s.id).startsWith("yoe_");
     const mbaElsewhere = (sid, self) => Object.entries((ix.skillById[sid] || {}).by_family || {}).filter(([f]) => f !== self && ix.roles[f] && ix.roles[f].set === "mba" && !ix.roles[f].small);
+    // the tech set (CONFIG.TECH_ENABLED): its skills are in its own index, its role ids are tech.<family>
+    const techElsewhere = (sid, self) => Object.entries(((ix.techSkillById || {})[sid] || {}).by_family || {}).map(([f, v]) => ["tech." + f, v]).filter(([f]) => f !== self && ix.roles[f] && !ix.roles[f].small);
     const out = {};
     for (const r of Object.values(ix.roles)) {
-      if (r.set === "tech") continue;   // the games deal the product and MBA roles until their evals cover the tech set
       if (r.set === "product" && !G) continue;
-      const skills = (r.set === "mba" ? M.skills : G.skills).filter(s => !skip(s));
+      if (r.set === "tech" && !ix.T) continue;
+      const skills = (r.set === "mba" ? M.skills : r.set === "tech" ? ix.T.skills : G.skills).filter(s => !skip(s));
       const share = s => (s.by_family || {})[r.family] || 0;
-      const elsewhere = s => r.set === "mba" ? mbaElsewhere(s.id, r.id) : [...Object.entries(s.by_family || {}).filter(([f]) => f !== r.family).map(([f, v]) => ["product." + f, v]).filter(([f]) => ix.roles[f]), ...mbaElsewhere(s.id, r.id)];
+      // a decoy's other role: the role set's own roles, then the MBA roles (a tech skill shared with the MBA set is
+      // prized by business roles too: financial modeling for a software engineer)
+      const elsewhere = s => r.set === "mba" ? mbaElsewhere(s.id, r.id) : r.set === "tech" ? [...techElsewhere(s.id, r.id), ...mbaElsewhere(s.id, r.id)] : [...Object.entries(s.by_family || {}).filter(([f]) => f !== r.family).map(([f, v]) => ["product." + f, v]).filter(([f]) => ix.roles[f]), ...mbaElsewhere(s.id, r.id)];
+      const baseline = r.set === "tech" ? (ix.baselineTech || {}) : ix.baseline;
       const asks = skills.filter(s => share(s) >= RULE.ask).map(s => ({ id: s.id, name: s.name, share: share(s), generic: !!(generic && generic.has(s.id)) })).sort((a, b) => b.share - a.share);
       const decoysAt = max => skills.filter(s => share(s) <= max).map(s => {
-        const [top] = elsewhere(s).sort((a, b) => b[1] - a[1]); const base = ix.baseline[s.id] || 0;
+        const [top] = elsewhere(s).sort((a, b) => b[1] - a[1]); const base = baseline[s.id] || 0;
         if (!top || top[1] < RULE.elsewhere || (base && top[1] / base < RULE.lift)) return null;
         const sameField = ix.roles[top[0]].group === r.group, lift = base ? top[1] / base : null;
         return { id: s.id, name: s.name, share: share(s), where: top[0], whereLabel: ix.roles[top[0]].label, whereShare: top[1], lift, sameField, diff: sameField ? 2 : lift != null && lift < 5 ? 1 : 0 };
@@ -162,7 +167,7 @@
     const first = (params.get("skills") || "").split(",").filter(Boolean);
     const saved = () => Object.assign({ best: {}, clean: false, speed: false }, GS.record.game(SLUG));
     const S = { phase: "start", role: null, pool: null, rnd: mulberry32(Math.floor(Math.random() * 2 ** 31)), round: 0, rounds: [], picked: new Set(), board: null, calls: null, answers: [], timed: false, marks: [] };
-    S.role = await GS.defaultRole(Atlas, ok); if (!alive) return;
+    S.role = await GS.defaultRole(Atlas, ok, { tech: true }); if (!alive) return;   // deals the tech set too (its eval covers it)
     if (!S.role) { F.body.innerHTML = `<p class="lead">No role can be played yet.</p>`; return; }
     S.pool = ALL[S.role];
     renderStart();
@@ -180,7 +185,7 @@
     }
     function renderPick() {
       S.phase = "pick"; stopTimer();
-      GS.picker(F, { Atlas, roles: ok, field: S.pool.group, secondary: id => { const k = GS.record.knowledge(id, GS.record.asksOf(ix, P, id)); return k.any ? `${k.known.length} of ${k.total} asks known` : "Not played yet"; }, back: true, onBack: renderStart, onRole: id => { S.role = id; S.pool = ALL[id]; begin(); } });
+      GS.picker(F, { Atlas, roles: ok, tech: true, field: S.pool.group, secondary: id => { const k = GS.record.knowledge(id, GS.record.asksOf(ix, P, id)); return k.any ? `${k.known.length} of ${k.total} asks known` : "Not played yet"; }, back: true, onBack: renderStart, onRole: id => { S.role = id; S.pool = ALL[id]; begin(); } });
     }
 
     // ----- a game: three rounds -----
@@ -342,8 +347,8 @@
       const sv = saved(), prev = sv.best[pool.id], total = S.rounds.reduce((a, r) => a + (r.kind === "board" ? r.sc.got : r.sc.right), 0), of = S.rounds.reduce((a, r) => a + (r.kind === "board" ? r.sc.reals : r.sc.n), 0);
       const cleanNow = !S.timed && total * 2 >= of && !sv.clean, best = { ...sv.best, [pool.id]: prev && prev.total >= total ? prev : { total, of } };
       GS.record.saveGame(SLUG, { played: true, best, clean: sv.clean || cleanNow });
-      const missing = after.missing.slice(0, 3).map(id => ((pool.set === "product" && P ? P.skillById[id] : ix.skillById[id]) || ix.skillById[id] || { name: id }).name);
-      const byId = pool.set === "product" && P ? P.skillById : ix.skillById;
+      const byId = pool.set === "product" && P ? P.skillById : pool.set === "tech" ? ix.techSkillById : ix.skillById;
+      const missing = after.missing.slice(0, 3).map(id => (byId[id] || ix.skillById[id] || { name: id }).name);
       const rows = asks.map(id => { const s = byId[id] || ix.skillById[id] || { name: id }, share = (s.by_family || {})[ix.roles[pool.id].family] || 0, k = after.known.includes(id); return { name: s.name, share, cls: k ? "you" : after.met.includes(id) ? "miss" : "", note: k ? "" : after.met.includes(id) ? "met, not yet right" : "not met yet" }; });
       F.set({ round: ROUNDS, rounds: ROUNDS, marks: S.marks });
       F.body.innerHTML = GS.results({
