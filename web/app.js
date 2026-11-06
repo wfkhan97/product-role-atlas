@@ -184,6 +184,19 @@
     // counts the same steps, so "Step 2 of 4" sits over four bars with two filled. `i` is the step (0-based), `n` the
     // number of questions; the résumé step is i === n.
     steps: (i, n) => { const total = n + 1, I = Copy.you.inline; return { bars: total, done: i + 1, label: Copy.fill(i < n ? I.step : I.lastStep, { i: i + 1, n: total }) }; },
+    // where a link that carries `next` goes back to (the sign-in, and the résumé step since 2026-11-06): a hash of this
+    // site, never the sign-in; null for anything else (another origin, a script, an empty value)
+    back: q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%+-]*$/i.test(n) ? n : null; },
+    // the "Add your résumé" link of a screen that should get its place back (Find jobs, Networking): the résumé step
+    // alone (index n, after the n questions) with the screen's own hash as `next`; About you itself carries none
+    resumeHref: (n, hash) => { const h = You.returnTo(hash); return `#/you?step=${n}` + (h ? `&next=${encodeURIComponent(h)}` : ""); },
+    // the wizard's way out: the `next` it was opened with when it is a safe hash (and not About you again), else the
+    // old ending (the summary after an edit, Explore after the whole wizard)
+    returnTo: next => { const n = You.back(next); return n && !/^#\/you\b/.test(n) ? n : null; },
+    after: (next, editing) => You.returnTo(next) || (editing ? "#/you" : "#/explore"),
+    // the model read answered for this résumé (2026-11-06): only then does its line name the AI reader. `aiRead` is
+    // set by inferResume; a résumé kept from before it counts as read when the read found something
+    aiRead: r => !!r && (r.aiRead === true || (r.aiRead == null && Array.isArray(r.inferred) && r.inferred.length > 0)),
     fromDoor: (y, where) => { const v = y || {}; if (!where || (v.where && v.whereFrom !== "door") || v.where === where) return null; return { fields: [], stage: null, ...v, where, whereFrom: "door" }; },
   };
   return { parseRoute, Stage, Intake, Door, RoleFilters, You };
@@ -529,7 +542,7 @@
   setInterval(() => { if (document.visibilityState === "visible") maybePrompt(Routes.parseRoute(location.hash).name); }, 30000);
   const noteSignedIn = () => { if (window.Feedback) Feedback.signedIn(Date.now()); };
   // where the sign-in returns to: a hash of this site, never the sign-in itself
-  const nextHash = q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%-]*$/i.test(n) ? n : "#/home"; };
+  const nextHash = q => Routes.You.back(q) || "#/home";   // the same rule as the résumé step's `next` (Routes.You.back)
   const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   let screenNow = null;   // the screen route() drew last (the door's chrome reads it)
@@ -762,7 +775,7 @@
     const you = `<p class="small muted lf-you"><a href="#/you">${esc(C.you)}</a></p>`;
     const right = () => {
       if (!state.resume || s.change) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2><p class="small muted">${esc(C.resume.privacy)}</p>${resumeForm()}<p><button type="button" class="btn primary" id="lf-read">${esc(C.resume.read)}</button></p>${you}</section>`;
-      const onFile = `<p class="small muted">${esc(state.resume.name)} · ${esc(C.resume.onFile)} · <button type="button" class="linkish link" id="lf-change">${esc(C.resume.change)}</button></p>`;
+      const onFile = `<p class="small muted">${esc(state.resume.name)} · ${esc(Routes.You.aiRead(state.resume) ? C.resume.onFile : C.resume.onFileLocal)} · <button type="button" class="linkish link" id="lf-change">${esc(C.resume.change)}</button></p>`;
       if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(light && light.failed ? C.resume.failed : C.resume.reading)}</p>${you}</section>`;
       const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(C.resume.noClose)}</p>${you}</section>`;
       const L = Launcher.matchLines(top);
@@ -1500,7 +1513,7 @@
       // under the Pick links to the card
       const where = s.type === "faculty" ? (target ? `<p class="nw-prof"><a href="#/professor/${encodeURIComponent(target.slug)}">${esc(target.name)} →</a></p>` : "")
         : `<h3>${esc(C.where)}</h3>${outs.length ? `<ul class="nw-outs">${outs.map(o => `<li><a href="${esc(o.href)}" target="_blank" rel="noopener">${esc(o.label)} ↗</a></li>`).join("")}</ul>` : `<p class="small muted">${esc(C.noWhere)}</p>`}`;
-      const addResume = state.resume ? "" : ` <a href="#/you">${esc(AP.addResume)}</a> ${esc(AP.addResumeAfter)}`;
+      const addResume = state.resume ? "" : ` <a href="${esc(resumeHref())}" data-resume-link>${esc(AP.addResume)}</a> ${esc(AP.addResumeAfter)}`;
       const approach = `<h3>${esc(AP.heading)}</h3><p class="small muted">${esc(AP.note)}</p>
         <div class="nw-ap"><p class="nw-k">${esc(AP.leadWith)}</p><p>${esc(S.leadWith)}${addResume}</p><p class="nw-k">${esc(AP.ask)}</p><p>${esc(S.ask)}</p><p class="nw-k">${esc(AP.questions)}</p><ol class="qs">${S.questions.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
         <p class="acts-row"><button type="button" class="btn primary" id="nw-copy">${esc(AP.copy)}</button><span class="small muted" id="nw-copied" aria-live="polite"></span></p>`;
@@ -1561,6 +1574,10 @@
   const whereId = v => { const t = String(v || "").trim(); if (WHERE[t]) return t; const hit = Q[0].options.find(o => o[1].toLowerCase() === t.toLowerCase()); return hit ? hit[0] : ""; };
   const STAGE = Object.fromEntries(Q[1].options.map(o => [o[0], o[1]])), STAGE_SHORT = YOU.stageShort;
   let wiz = null;
+  // "Add your résumé" on Find jobs and Networking (2026-11-06): the résumé step alone, and back to the same address
+  // after the read. The href is set again at the click, since those screens rewrite their hash as the person types.
+  const resumeHref = () => Routes.You.resumeHref(Q.length, location.hash);
+  document.addEventListener("click", e => { const a = e.target && e.target.closest ? e.target.closest("a[data-resume-link]") : null; if (a) a.setAttribute("href", resumeHref()); }, true);
   // a door answer kept before About you read it (a visit from before 2026-11-01, or a door left by a reload) lands now,
   // under the same rule as keepDoor
   { const w = doorKept().where, next = WHERE[w] ? Routes.You.fromDoor(state.you, w) : null; if (next) { state.you = next; store.set("you", next); } }
@@ -1641,33 +1658,37 @@
     const editing = query.step != null;
     if (!editing && !wiz && (state.you || state.resume)) return youSummary(ix);
     // from the start screen's stage card (?from=start) the stage is answered already, so the wizard skips that question
-    if (!wiz) wiz = { step: editing ? Math.max(0, Math.min(Q.length, Number(query.step) || 0)) : 0, back: editing, skipStage: query.from === "start" && !!(state.you || {}).stage, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
+    if (wiz && wiz.hash !== location.hash && editing) wiz = null;   // a new link into the wizard starts it again
+    if (!wiz) wiz = { hash: location.hash, step: editing ? Math.max(0, Math.min(Q.length, Number(query.step) || 0)) : 0, back: editing, after: Routes.You.after(query.next, editing), next: Routes.You.returnTo(query.next), skipStage: query.from === "start" && !!(state.you || {}).stage, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
+    if (wiz.first == null) wiz.first = wiz.step;
     const forward = () => { wiz.step++; if (wiz.step === 1 && wiz.skipStage) wiz.step++; }, backward = () => { wiz.step--; if (wiz.step === 1 && wiz.skipStage) wiz.step--; };
     const render = () => {
-      const n = Q.length + 1, i = wiz.step;
-      const steps = `<div class="steps">${Array.from({ length: n }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
-      const after = wiz.back ? "#/you" : "#/explore";
+      const i = wiz.step, S = Routes.You.steps(i, Q.length);   // the bar and its label count the same steps (You.steps)
+      const steps = `<div class="steps">${Array.from({ length: S.bars }, (_, k) => `<i class="${k < S.done ? "done" : ""}"></i>`).join("")}</div>`;
+      const after = wiz.after;
+      // Back from the step a return link opened goes back to that screen
+      const leave = () => { if (wiz.next && i === wiz.first) { const n = wiz.next; wiz = null; location.hash = n; return true; } return false; };
       const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next">${esc(nextLabel)}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
         // the options with their examples (questionOpts); all eleven fields sit above the fold in two columns
         const opts = questionOpts(ix, q);
         const on = id => q.multi ? wiz.answers.fields.has(id) : wiz.answers[q.key] === id;
-        page(`${steps}<p class="eyebrow">${esc(fill(YOU.step, { i: i + 1, n: Q.length }))}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
+        page(`${steps}<p class="eyebrow">${esc(S.label)}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
           <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav(YOU.next)}`, true);
         if (q.multi) main.firstElementChild.classList.add("roomy");   // two columns of cards need more than the narrow column
         main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; forward(); render(); } });
         $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; forward(); render(); };
-        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/home"; } else { backward(); render(); } };
+        $("#back").onclick = () => { if (leave()) return; if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/home"; } else { backward(); render(); } };
         return;
       }
-      page(`${steps}<p class="eyebrow">${esc(YOU.lastStep)}</p><h1>${esc(YOU.addResume)}</h1>
+      page(`${steps}<p class="eyebrow">${esc(S.label)}</p><h1>${esc(YOU.addResume)}</h1>
         <p class="lead">${esc(YOU.resumeLead)}</p>
-        ${resumeForm()}${nav(YOU.showRoles)}`, true);
+        ${resumeForm()}${nav(wiz.next ? YOU.readBack : YOU.showRoles)}`, true);
       wireResumeForm();
-      $("#back").onclick = () => { backward(); render(); };
+      $("#back").onclick = () => { if (leave()) return; backward(); render(); };
       $("#skip").onclick = () => saveYou();
-      $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
+      $("#next").onclick = async () => { if (!(await takeResume()) && location.hash.startsWith("#/signin")) return; saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
     const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); syncProfile(); };
     render();
@@ -1682,7 +1703,7 @@
     const chosen = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
     const answers = `<div class="list">${row(esc(YOU.study), y.where ? esc(WHERE[y.where]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=0"])}${row(esc(YOU.stage), y.stage ? esc(STAGE[y.stage]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=1"])}${row(esc(YOU.fields), chosen.length ? esc(chosen.join(", ")) : esc(YOU.noFields), [esc(CM.editLower), "#/you?step=2"])}</div>`;
     const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
-    const resume = r ? `<div class="list">${row(esc(r.name), esc(fill(YOU.resumeLine, { words: fmt(r.words) })), [esc(YOU.replace), "#/you?step=3"])}${row(esc(YOU.closest), closest.length ? closest.join(" · ") : esc(YOU.noRole), null)}</div>` : `<p class="small muted" style="margin-top:8px">${esc(YOU.noResume)} <a class="link" href="#/you?step=3">${esc(YOU.addOne)}</a> ${esc(YOU.addOneAfter)}</p>`;
+    const resume = r ? `<div class="list">${row(esc(r.name), esc(fill(Routes.You.aiRead(r) ? YOU.resumeLine : YOU.resumeLineLocal, { words: fmt(r.words) })), [esc(YOU.replace), "#/you?step=3"])}${row(esc(YOU.closest), closest.length ? closest.join(" · ") : esc(YOU.noRole), null)}</div>` : `<p class="small muted" style="margin-top:8px">${esc(YOU.noResume)} <a class="link" href="#/you?step=3">${esc(YOU.addOne)}</a> ${esc(YOU.addOneAfter)}</p>`;
     const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), [esc(CM.openArrow), "#/field/" + g.id]));
     // a person who knows the role (stage targeting) gets the role first (v16 step 2): a search over every role's label,
     // and the three roles closest to the resume once one is read
@@ -1703,11 +1724,16 @@
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
-      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
+      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over" aria-expanded="false" aria-controls="so-ask">${esc(YOU.startOver)}</button></div>
+      <div class="confirm-row" id="so-ask" role="group" aria-labelledby="so-q" hidden><p id="so-q">${esc(YOU.startOverAsk)}</p><button type="button" class="btn primary" id="so-yes">${esc(YOU.startOverYes)}</button><button type="button" class="btn quiet" id="so-keep">${esc(YOU.startOverKeep)}</button></div>`);
     wireHearts(main);
     // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
     const fg = $("#you-forget"); if (fg) fg.onclick = async () => { const out = $("#you-forget-out"); fg.disabled = true; out.textContent = YOU.forgetting; const done = await State.forget(Auth.stored()); out.textContent = done ? YOU.forgotten : YOU.forgetFailed; fg.disabled = !done; if (done) keepHearts([]); };
-    $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
+    // Start over asks once (2026-11-06): Keep changes nothing and gives focus back to the button
+    const so = $("#start-over"), ask = $("#so-ask");
+    so.onclick = () => { ask.hidden = false; so.setAttribute("aria-expanded", "true"); $("#so-keep").focus(); };
+    $("#so-keep").onclick = () => { ask.hidden = true; so.setAttribute("aria-expanded", "false"); so.focus(); };
+    $("#so-yes").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
     const rq = $("#role-q");
     if (rq) {
       const find = v => { const t = v.trim().toLowerCase(); if (!t) return null; return roleOpts.find(r => r.name.toLowerCase() === t) || roleOpts.find(r => r.label.toLowerCase() === t) || roleOpts.filter(r => r.name.toLowerCase().includes(t)).sort((a, b) => a.name.length - b.name.length)[0] || null; };
@@ -1814,7 +1840,8 @@
     const rg = await rough().catch(() => null); if (!rg || state.resume !== r) return false;
     const list = await Infer.read(r.text, [...rg.shown], "both");
     if (state.resume !== r) return false;
-    r.inferred = list; store.set("resume", r); Atlas.useInferred(r.text, list);
+    r.inferred = list; r.aiRead = list.length > 0 || !!Infer.cached(r.text, "both");   // Infer keeps an answer only when the route gave one
+    store.set("resume", r); Atlas.useInferred(r.text, list);
     if (!list.length) return false;
     state.rough = null; state.match = null; state.fit = null; matchCache.clear(); for (const k of Object.keys(gapsCache)) delete gapsCache[k];
     await rough();
@@ -1888,8 +1915,8 @@
       if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next);
     };
     const note = have
-      ? `${esc(JB.noteResume)} <a href="#/you">${esc(JB.noteResumeLink)}</a>.`
-      : `<a href="#/you">${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
+      ? `${esc(JB.noteResume)} <a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteResumeLink)}</a>.`
+      : `<a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
     const sortOptions = () => [...(have ? ["fit"] : []), "best", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
     page(`<h1>${esc(JB.heading)}</h1>
       <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(D.companies.length) }))}</p>
@@ -1929,7 +1956,7 @@
         <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2 id="jdetail-h" tabindex="-1">${esc(r.title)}</h2>
         <p class="facts">${facts.map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
-        ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="#/you">${esc(JB.addResume)}</a> ${esc(JB.addResumeAfter)}</p>`}
+        ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="${esc(resumeHref())}" data-resume-link>${esc(JB.addResume)}</a> ${esc(JB.addResumeAfter)}</p>`}
         <p class="jacts"><a class="btn primary" href="${esc(r.url)}" target="_blank" rel="noopener" data-posting="${esc(r.role)}">${esc(fill(JB.openAt, { company: r.company }))}</a></p>
         <h3>${esc(r.skills.length === 1 ? JB.skillAsks : fill(JB.skillsAsk, { n: fmt(r.skills.length) }))}</h3>${kinds}
         ${n ? `<p class="small muted">${esc(n === 1 ? JB.dupeOne : fill(JB.dupes, { n: fmt(n) }))} ${esc(fill(JB.dupeAfter, { company: r.company, where: r.location ? fill(JB.dupeWhere, { location: r.location }) : "" }))}</p>` : ""}
@@ -2626,7 +2653,7 @@
     const cta = classesOpen ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
     const drop = `${dropZone(RF.dropShort)}<p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
-      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
+      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
       // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
       // sentences went on 2026-11-01)
       const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;

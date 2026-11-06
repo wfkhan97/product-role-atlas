@@ -1428,3 +1428,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
   .gm-head { flex-wrap: wrap; row-gap: var(--space-2); }
   .gm-title { flex-basis: 100%; }
 }
+/* About you's Start over asks once (2026-11-06): the question and its two buttons on one row, wrapping on a phone */
+.confirm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+.confirm-row[hidden] { display: none; }
+.confirm-row p { margin: 0; flex: 1 1 260px; }
