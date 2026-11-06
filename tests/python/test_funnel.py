@@ -49,3 +49,13 @@ def test_time_on_sums_heartbeats_per_screen_in_seconds():
     secs, sessions = funnel.time_on(rows)
     assert secs == {"role": 75, "fit": 30, "(none)": 1}
     assert sessions == 3
+
+
+def test_feedback_counts_rows_prompted_emails_and_by_screen_without_the_text():
+    rows = [{"created_at": D(5), "screen": "role", "prompted": True, "has_email": False},
+            {"created_at": D(5), "screen": "fit", "prompted": False, "has_email": True},
+            {"created_at": D(6), "screen": "role", "prompted": False, "has_email": True},
+            {"created_at": D(6), "screen": None, "prompted": True, "has_email": False}]
+    fb = funnel.feedback_counts(rows)
+    assert fb == {"rows": 4, "prompted": 2, "with_email": 2, "by_screen": [("role", 2), ("(none)", 1), ("fit", 1)]}
+    assert funnel.feedback_counts([]) == {"rows": 0, "prompted": 0, "with_email": 0, "by_screen": []}
