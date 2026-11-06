@@ -2,9 +2,9 @@
  "_note": "Skill tags per class code for the picker (pipeline/catalog_tags.mjs over the local catalog with the syllabus digest). Rerun after a taxonomy change.",
  "campus": "cornell_tech",
  "term": "SP27",
- "generated": "2026-10-31",
+ "generated": "2026-11-06",
  "rule": "A skill is tagged when the class text names it (strength >= 1); a sub-skill hint alone does not count.",
- "taxonomy_sha256": "96af7556b079b656f7a90a649050dfa77b18604ea65b060a491f290db2dbf0f9",
+ "taxonomy_sha256": "17e841c5fdfad2bec5911805f58f1e2ecd7514b5f414a7b73d88dd9a06bd2468",
  "taxonomy_product_sha256": "d4b2e73d213b38280042115d729e3f6db9a201be86b7a8fe5f9ed51e73c2af06",
  "tags": {
   "BANA 5065": {
@@ -800,6 +800,7 @@
    "found": [
     "ai_ml",
     "ai_tools",
+    "consumer_insights",
     "data_driven",
     "discovery",
     "genai_llm",
@@ -814,11 +815,22 @@
    "teaches": [
     "ai_ml",
     "ai_tools",
+    "consumer_insights",
     "discovery",
     "genai_llm",
     "market_data_terminals",
     "surveys_feedback",
     "user_research"
+   ]
+  },
+  "INFO 5315": {
+   "found": [
+    "devops_sdlc",
+    "genai_llm"
+   ],
+   "teaches": [
+    "devops_sdlc",
+    "genai_llm"
    ]
   },
   "INFO 5330": {
@@ -1255,6 +1267,14 @@
     "security_privacy"
    ]
   },
+  "LAW 6492": {
+   "found": [
+    "capital_markets"
+   ],
+   "teaches": [
+    "capital_markets"
+   ]
+  },
   "LAW 6654": {
    "found": [
     "ai_ml",
@@ -1396,6 +1416,7 @@
     "ai_tools",
     "change_management",
     "collaboration",
+    "consumer_insights",
     "customer_obsession",
     "customer_proof",
     "genai_llm",
@@ -1412,6 +1433,7 @@
     "ab_testing",
     "ai_ml",
     "ai_tools",
+    "consumer_insights",
     "customer_proof",
     "genai_llm",
     "market_data_terminals",
