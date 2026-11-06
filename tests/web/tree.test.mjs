@@ -50,7 +50,7 @@ test("siteConfig reads the project url and the publishable key from web/config.j
   const v = JSON.parse(fs.readFileSync(path.join(web, "vercel.json"), "utf8"));
   const inc = v.functions["api/tree.js"].includeFiles;
   for (const f of ["config.js", "graph_mba.json", "taxonomy_mba.json", "roles_mba.json", "bands_mba.json", "subskills_mba.json", "graph_mba/*.json"]) assert.ok(inc.includes(f), f);
-  assert.match(fs.readFileSync(path.join(web, "config.js"), "utf8"), /\bTREE_ENABLED: false\b/);
+  assert.match(fs.readFileSync(path.join(web, "config.js"), "utf8"), /\bTREE_ENABLED: (true|false),/, "the switch exists; on since chore/tree-on (2026-11-06)");
   assert.ok(!fs.readFileSync(path.join(web, "index.html"), "utf8").includes("apprentice.js"), "the browser does not load the generator");
   for (const k of ["heading", "lead", "resume", "onFile", "field", "role", "also", "posting", "build", "building", "built", "byHand", "signedOut", "failed", "self", "again"]) assert.ok(require(path.join(web, "copy.js")).map.tree[k], `map.tree.${k}`);
 });

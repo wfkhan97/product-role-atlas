@@ -2216,6 +2216,13 @@ now sends the key that way when it starts with `sb_`, and the legacy JWT in both
 before anyone signs in. The pipeline scripts (`map_publish.py`, `map_feedback.py`) read the same name from `.env`
 through the Python client and were not run against a secret key; check them when the owner next publishes a map.
 
+**The flips, 2026-11-06.** The owner allowed the Supabase `apply_migration` tool in the worktree's local settings and
+both migrations went in (`feedback`; `profiles`, `hearts`, `reads`). `FEEDBACK_ENABLED` flipped with #166; production's
+insert was smoke-tested with the publishable key (one marked row, anon select refused). #167 merged and production's
+`GET /api/tree` answered `storage: true`, so `TREE_ENABLED` flips with `chore/tree-on`: with accounts off, only a
+session (the invited map users) reaches the form, so the public sees no change until `ACCOUNTS_ENABLED`, which still
+waits on a domain of the owner's and the SMTP password.
+
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
 The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,
