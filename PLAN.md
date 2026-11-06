@@ -2364,7 +2364,8 @@ code or the patterns:
   (46%) sits under its band because of the first. All three belong to PR 5, where the matcher learns the set.
 
 **Still owed before the set is shown** (PR 5 and after): bands from published résumés (`calibrate.mjs --roles tech`,
-ten or more samples per field in `external_sources.json`); the model read over the whole résumé set once the tech
+ten or more samples per field in `external_sources.json`; done 2026-11-06 for software and security, see "Bands of fit
+for the tech set"); the model read over the whole résumé set once the tech
 skills reach `/api/infer`'s list; the class picker's counterpart (Cornell Tech's technical courses tagged with
 `catalog_tags.mjs` reading `taxonomy_tech.json`, and labelled cases in `evals/classes/`); the games' evals over the
 tech roles; a fresh labelled sample of titles; sponsorship rows from tech postings.
@@ -2426,8 +2427,55 @@ as `refresh-product` does. The run's data PR (#156) opened as a draft.
   floors don't mean anything. Its place is the checks step of `refresh-mba.yml`, which has the key, after
   `pull evals` and `npm ci` in `evals/` (listed under Later).
 
+## Bands of fit for the tech set (`feat/tech-bands`, 2026-11-06)
+
+The 304-résumé calibration set had no résumé written for a tech role, so the bands needed new samples first.
+
+**The samples.** Five searches (one per field) listed 64 published samples from universities, engineering and law
+schools and community colleges, never résumé sites and never a real person's résumé. They are in
+`external_sources.json`, read from listing pages and search results with no file opened. `fetch_external.mjs --roles`
+fetched 45 of the 55 marked for it; ten links were dead or refused, and `MAX_MB=15` let two long design guides through.
+Each file was then read before it got an entry in `external_expectations.json`, and 15 packets were cut into résumés by
+line range. Only the tech résumés of mixed packets were cut. A part that carried a real-looking personal email and
+phone was left out, and so were two whole files (Penn State IST: no guide text, contact details matching the names; a WCSU handout
+with no résumé in it).
+Two "data" samples read as general CS master's résumés and are filed under software engineering. Usable now:
+software 18, legal 30, security 11, design 8, data and AI 5.
+
+**Years as placeholders.** Many school samples date everything "20XX". The rule stays that a template is left out of
+calibration, with one exception: `only_years: true` marks a template whose only placeholders are the years. Its words
+are a whole résumé of a student or new graduate, so the years read (near zero) are the years such a person has.
+Fifteen tech entries carry it; no MBA entry does, so the MBA and product calibrations do not change.
+
+**Adjacent, for this set.** Three of the five groups hold one role, so "the other roles of the group" left almost no
+adjacent scores. The first run put the middle line (57%) above the top one (52%). For the tech set, adjacent is a
+tech résumé against a tech role it was not written for, and another field is a résumé written for an MBA or product
+role (`adjOf` in `calibrate.mjs`). The MBA set keeps its groups.
+
+**The scoring is the site's.** The site weighs tech asks by how distinctive they are against the MBA and tech roles
+together (`web/atlas.js`); `run_tech.mjs` did not, so its scores were not the site's. Both evals now take the baseline
+from `evals/lib.mjs` (`techBaseline`), and a test holds the site's to it on the real data. All 147 sample checks still
+pass with the site's scoring.
+
+**The result** (`evals/calibration_tech.md`, `web/data/bands_tech.json`, 376 résumés). In range from 29%, reads
+like people in the role from 54%. Related background from 13% for software and 11% for security. A same-role score
+ranks above an adjacent one 78% of the time and above another field's 80%. No bands, so no verdict:
+- **Data and AI**: 5 samples.
+- **Design**: 8 samples.
+- **Legal**: half of the 30 law résumés score below the group's own bottom line.
+
+Legal is a finding, not only a count. Counsel's core asks come out as "regulated industries and compliance" and risk
+management. The legal skills (contracts, litigation, IP, privacy) sit among the common asks. So a law student's résumé
+scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
+the taxonomy, not to the bands.
+
 ## Later
 
+- Tech bands (2026-11-06): ten or more samples for data and AI (5) and design (8), from résumé-site samples the
+  owner downloads by hand or from more school guides (URI's data-science sample is a Google Doc, not fetched); counsel's
+  asks, so that legal practice, not compliance, is what counsel asks for (a taxonomy change: the whole chain in
+  CLAUDE.md), then `calibrate.mjs --roles tech` again. The product and MBA bands were not rerun: the 64 new files
+  join their "other field" when they are.
 - After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
   storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
   submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).

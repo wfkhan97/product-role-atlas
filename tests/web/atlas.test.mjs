@@ -332,3 +332,17 @@ test("with TECH_ENABLED on and no tech index yet, the site loads as before", asy
   const ix = await A.index();
   assert.ok(!ix.groups.some(g => g.set === "tech") && ix.roles.fpa);
 });
+
+// The tech bands (web/data/bands_tech.json) hold only for the scoring they were calibrated with: calibrate.mjs and
+// run_tech.mjs take the baseline from evals/lib.mjs, the site from index(). The two must agree on the real data.
+test("the tech baseline of the site is the one the tech bands were calibrated with", async () => {
+  const fs = await import("node:fs"), path = await import("node:path");
+  const web = path.join(import.meta.dirname, "../../web");
+  if (!fs.existsSync(path.join(web, "data/graph_tech.json"))) return; // a checkout without the tech graph
+  const { techBaseline } = await import("../../evals/lib.mjs");
+  const load = url => fs.existsSync(path.join(web, url)) ? Promise.resolve(JSON.parse(fs.readFileSync(path.join(web, url)))) : Promise.reject(new Error(`${url}: 404`));
+  const A = atlasFactory({ load, Matcher, config: () => ({ TECH_ENABLED: true }) });
+  const ix = await A.index(), want = techBaseline();
+  assert.deepEqual(Object.keys(ix.baselineTech).sort(), Object.keys(want).sort());
+  for (const [id, v] of Object.entries(want)) near(ix.baselineTech[id], v, id);
+});

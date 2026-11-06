@@ -32,11 +32,14 @@ professional body: `node evals/fetch_external.mjs` fetches it), `manual` (a resu
 personal or internal use but not automated retrieval, or whose terms could not be read: download it by hand and
 save it under its id), `page` (a web page: paste its text into a `.txt`), `no` (left out, with the reason; real
 people's resumes are never used), `ask` (a university sample that is not confirmed as an invented person: the
-owner decides before any fetch). `evals/build_external_sources.py` rebuilds the list from search results.
+owner decides before any fetch). `evals/build_external_sources.py` rebuilds the list from search results; the 64 tech
+entries (2026-11-06) were added by hand from research notes, so a rebuild must keep them. `--roles a,b` fetches only the
+samples filed under those roles; `MAX_MB=15` raises the 5 MB cap for a long career guide.
 
 `evals/external_expectations.json` says what the reader must find in each file. Write an entry by reading the
 file first (`node evals/extract.mjs <file>` prints its text as the app reads it), never from the reader's output.
-Fields: `kind` (`single`; `template`, placeholder text or dates; `packet`, several resumes in one file), `parse`
+Fields: `kind` (`single`; `template`, placeholder text or dates; `packet`, several resumes in one file), `only_years`
+(a template whose only placeholders are the years, "May 20XX": calibration reads it, see below), `parse`
 (as above), `seniority` (early, mid or senior, as read from the resume), `must_evidence` and `must_not_tag`
 (skill ids of the MBA taxonomy; checked with a matcher built on `pipeline/taxonomy.json` as the MBA role set sees
 it), `held` (role families the person held as jobs), `note` (the layout). A packet has `parts`: each is one resume,
@@ -63,8 +66,13 @@ the other setting and writes nothing.
 resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
 that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
 the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
-(about five minutes). Each run also writes the bands as data for the interface: `web/data/bands.json` (product) and
-`web/data/bands_mba.json`, the cut points the interface uses: two upper lines shared
+(about five minutes). `node evals/calibrate.mjs --roles tech` does it for the seven tech roles and writes
+[calibration_tech.md](calibration_tech.md) and `web/data/bands_tech.json` (about two minutes). There, three groups hold one
+role each, so "adjacent" is a tech résumé against a tech role it was not written for, and another field is a résumé
+written for an MBA or product role; the matcher weighs asks against the MBA and tech roles together, as the site does
+(`techBaseline` in `evals/lib.mjs`, held to `web/atlas.js` by a test). Calibration reads single résumés and the
+templates marked `only_years`. Each run also writes the bands as data for the interface: `web/data/bands.json` (product),
+`web/data/bands_mba.json` and `web/data/bands_tech.json`, the cut points the interface uses: two upper lines shared
 by every role, a bottom line per role group, and the groups that get no bands yet. `Matcher.bandOf(score, bands,
 group)` in `web/match.js` reads it. The file also states the scoring the cut points were made with
 (`scoring.distinct`); create the MBA matcher with that setting or the bands do not hold.
@@ -139,11 +147,12 @@ The runner requires `web/match.js` directly, so it always runs the code the app 
 
 ## The tech role set's samples
 
-`node evals/run_tech.mjs` runs `evals/resumes_tech/` (a `.txt` and its `.json` per sample, the fields of the table
+`node evals/run_tech.mjs` runs `evals/resumes_tech/`, scored as the site scores the set (the setting in
+`web/data/bands_tech.json` and `techBaseline`), (a `.txt` and its `.json` per sample, the fields of the table
 above plus `known_miss`: `{skill id, "level" or target: reason}`, a wrong answer accepted for now that fails when it starts
 to pass) through `web/match.js` with `web/data/taxonomy_tech.json`. What a résumé shows is checked everywhere; a score
-needs the set's graph and waits where it is absent. `--baseline` writes `baseline_tech.md`. The bands are judgment calls
-until `calibrate.mjs` gives the set bands.
+needs the set's graph and waits where it is absent. `--baseline` writes `baseline_tech.md`. A sample's band is a judgment
+call; the calibrated bands are in `bands_tech.json` (software and security so far).
 
 ## Extraction baselines
 
