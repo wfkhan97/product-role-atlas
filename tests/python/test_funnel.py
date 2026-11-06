@@ -59,3 +59,17 @@ def test_feedback_counts_rows_prompted_emails_and_by_screen_without_the_text():
     fb = funnel.feedback_counts(rows)
     assert fb == {"rows": 4, "prompted": 2, "with_email": 2, "by_screen": [("role", 2), ("(none)", 1), ("fit", 1)]}
     assert funnel.feedback_counts([]) == {"rows": 0, "prompted": 0, "with_email": 0, "by_screen": []}
+
+
+def test_guide_counts_sessions_shown_completed_and_skipped_per_screen():
+    rows = [row(5, "s1", "cta_shown", cta="guide_home", screen="home"), row(5, "s1", "cta_click", cta="guide_home", screen="home"),
+            row(5, "s1", "cta_done", cta="guide_home", screen="home"),
+            row(5, "s2", "cta_shown", cta="guide_home", screen="home"), row(5, "s2", "cta_done", cta="guide_skip", screen="home"),
+            row(5, "s3", "cta_shown", cta="guide_home", screen="home"),                       # left the screen: abandoned
+            row(5, "s3", "cta_shown", cta="guide_home", screen="home"),                       # a relaunch in the same session counts once
+            row(5, "s3", "cta_click", cta="guide_relaunch", screen="home"),                   # the link is not a screen
+            row(5, "s4", "cta_shown", cta="guide_classes", screen="classes"), row(5, "s4", "cta_done", cta="guide_skip", screen="classes"),
+            row(5, "s5", "cta_done", cta="guide_skip"),                                       # a skip without a screen counts nowhere
+            row(5, "s6", "cta_shown", cta="heart")]                                           # another call to action
+    assert funnel.guide(rows) == [("home", 3, 1, 1), ("classes", 1, 0, 1)]
+    assert funnel.guide([]) == []

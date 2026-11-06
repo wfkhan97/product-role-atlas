@@ -120,6 +120,37 @@
       placed.push(t.box); return { x: t.x, dy: 0, anchor: t.anchor };
     };
   }
+  // which labels to keep: boxes [left, top, right, bottom] in order of importance; a label stays when its box lies
+  // inside `bounds` (the stage; a name past its edge is cut), crosses none of the `blocked` boxes but its own (own[i]:
+  // the index of the blocked box label i may cross, a field's own circle) and none kept before it. A null box is never
+  // kept. On a narrow stage the field names ran over each other (usability pass 2026-11-06): the bigger fields keep
+  // their names, then the skill names, then the area words.
+  function thinNames(boxes, { bounds = null, blocked = [], own = [] } = {}) {
+    const cross = (b, q) => b[0] < q[2] && q[0] < b[2] && b[1] < q[3] && q[1] < b[3];
+    const kept = [];
+    return boxes.map((b, i) => {
+      if (!b) return false;
+      if (bounds && (b[0] < bounds[0] || b[1] < bounds[1] || b[2] > bounds[2] || b[3] > bounds[3])) return false;
+      if (blocked.some((q, j) => j !== own[i] && cross(b, q))) return false;
+      if (kept.some(q => cross(b, q))) return false;
+      kept.push(b); return true;
+    });
+  }
+  // the drawn labels, measured: a field's name is the text inside its circle (it can run past the circle), a skill's
+  // or an area's is its SVG text; what thinNames drops leaves the screen (a field keeps its circle and an aria-label)
+  function thinDrawn(stage) {
+    const fields = [...stage.querySelectorAll(".sm-field")].sort((a, b) => b.offsetWidth - a.offsetWidth);
+    const texts = [...stage.querySelectorAll("svg text.sm-name, svg text.sm-area")];
+    const box = b => [b.left, b.top, b.right, b.bottom];
+    const rect = el => { let b; if (el.tagName.toLowerCase() === "a") { const r = document.createRange(); r.selectNodeContents(el); b = r.getBoundingClientRect(); } else b = el.getBoundingClientRect(); return b.width && b.height ? box(b) : null; };
+    const els = [...fields, ...texts];
+    const keep = thinNames(els.map(rect), { bounds: box(stage.getBoundingClientRect()), blocked: fields.map(a => box(a.getBoundingClientRect())), own: els.map((el, i) => i < fields.length ? i : -1) });
+    els.forEach((el, i) => {
+      if (keep[i]) return;
+      if (el.tagName.toLowerCase() === "a") { el.setAttribute("aria-label", [...el.childNodes].map(n => n.textContent.trim()).filter(Boolean).join(", ")); el.classList.add("unnamed"); }
+      else { if (el.dataset.id) ui.labelled.delete(el.dataset.id); el.remove(); }
+    });
+  }
   const AREA_MIN = 5;   // an area label needs this many dots to have a centre worth naming
   function draw() {
     if (!data || !ui.el || !document.body.contains(ui.el)) return;
@@ -164,7 +195,7 @@
     if (ov) { ov.have.forEach(id => want(id, "have")); ov.todo.forEach(id => want(id, "todo")); }
     else data.named.forEach(id => want(id, "quiet"));
     ui.labelled = new Set();
-    svg += named.map(([id, cls]) => { const [a, b] = at(id), nd = data.byId[id], pos = place(a, b, nd.name, 11); if (!pos) return ""; ui.labelled.add(id); return `<text class="sm-name${cls ? " " + cls : ""}" x="${pos.x.toFixed(1)}" y="${(b + 4).toFixed(1)}" text-anchor="${pos.anchor}">${cls === "route" && rt.ticks && rt.ticks.has(id) ? "✓ " : ""}${esc(nd.name)}</text>`; }).join("");
+    svg += named.map(([id, cls]) => { const [a, b] = at(id), nd = data.byId[id], pos = place(a, b, nd.name, 11); if (!pos) return ""; ui.labelled.add(id); return `<text class="sm-name${cls ? " " + cls : ""}" data-id="${esc(id)}" x="${pos.x.toFixed(1)}" y="${(b + 4).toFixed(1)}" text-anchor="${pos.anchor}">${cls === "route" && rt.ticks && rt.ticks.has(id) ? "✓ " : ""}${esc(nd.name)}</text>`; }).join("");
     // the skill areas as faint words at the centre of their dots, instead of colours (owner's choice, v9)
     if (ui.all) {
       const byArea = {}; for (const nd of data.nodes) (byArea[nd.cluster] ||= []).push(at(nd.id));
@@ -177,6 +208,7 @@
       return `<a class="bubble sm-field ${g.cls}${g.you ? " you" : ""}${dim ? " dim" : ""}${g.id === lit ? " lit" : ""}" href="#/field/${esc(g.id)}" data-g="${esc(g.id)}" style="left:${(cx - d / 2).toFixed(0)}px;top:${(cy - d / 2).toFixed(0)}px;width:${d}px;height:${d}px">${g.inner}</a>`;
     }).join("");
     stage.innerHTML = svg + bubbles;
+    thinDrawn(stage);
   }
   // the lens: every dot within LENS px of the pointer gets its name, drawn in its own group so nothing else moves
   function lens(mx, my) {
@@ -191,6 +223,18 @@
   }
 
   // ---------- the short card for a skill: who asks for it, as links ----------
+  // the card's share line (2026-11-06; it said "across the 50 MBA roles" while Explore said 56 roles): the mean share
+  // over the roles the map shows, counted from the data as Explore counts them (a product role once the product set
+  // is loaded; never a tech role). Pure: ix the index, P the product set or null.
+  function roleShare(ix, P, id) {
+    const s = ix.skillById[id] || {}; let sum = 0, n = 0;
+    for (const r of Object.values(ix.roles)) {
+      if (r.set === "tech" || (r.set === "product" && !P)) continue;
+      sum += r.set === "product" ? (((P.skillById[id] || {}).by_family || {})[r.family] || 0) : ((s.by_family || {})[r.family] || 0); n++;
+    }
+    return { share: n ? sum / n : 0, n };
+  }
+  const cardShare = (ix, P, id) => { const r = roleShare(ix, P, id); return Copy.fill(Copy.explore.card.share, { share: pct(r.share), n: r.n }); };
   function card(id) {
     const nd = data.byId[id]; if (!nd) return "";
     const s = data.ix.skillById[id] || {}, ix = data.ix, rows = [];
@@ -204,7 +248,7 @@
     const together = (data.adj[id] || []).slice(0, 6), area = (data.M.clusters[nd.cluster] || {}).label || nd.cluster;
     return `<button type="button" class="close" data-sk-clear aria-label="Close">×</button><div class="sm-card"><p class="eyebrow">${esc(area)}</p><h3 class="sm-title">${esc(nd.name)}</h3>
       ${s.what ? `<p class="small">${esc(s.what)}</p>` : ""}
-      <p class="facts">${pct(nd.share)} of postings across the 50 MBA roles ask for it</p>
+      <p class="facts">${esc(cardShare(ix, P, id))}</p>
       ${rows.length ? `<p class="sm-h">Asked for most by</p><div class="list">${rows.slice(0, 5).map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${pct(r.share)}</span><span class="m">${esc(groupLabel(r.group))}</span></a>`).join("")}</div>` : ""}
       ${topFields.length ? `<p class="sm-h">Fields that ask for it most</p><div class="tags">${topFields.map(([g]) => `<a class="tag" href="#/field/${esc(g)}">${esc(groupLabel(g))}</a>`).join("")}</div>` : ""}
       ${together.length ? `<p class="sm-h">Often asked for together</p><div class="tags">${together.map(([t]) => `<button type="button" class="tag" data-sk="${esc(t)}">${esc(data.byId[t].name)}</button>`).join("")}</div>` : ""}</div>`;
@@ -245,6 +289,7 @@
       opts.aside.dataset.smWired = "1";
     }
     wireStage(el); draw();
+    if (document.fonts && document.fonts.status !== "loaded") document.fonts.ready.then(() => draw());   // the names are measured: again in the web font
     if (ui.selected && ui.showAside) ui.showAside(card(ui.selected));
   }
   async function find(name) {
@@ -384,5 +429,5 @@
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner, thinNames, roleShare, cardShare };
 })();

@@ -146,16 +146,36 @@
   }
   const fitLine = fit => fill(W.fitLine, { n: fit.n, m: fit.m });
 
+  // ---------- the card's facts line: field · role · location ----------
+  // The field is always there (usability pass 2026-11-06, B-32): ctx.fieldName(row) gives the field's name, and a row
+  // whose role has none in the data gets the stand-in W.noField, so every card has the same three parts. `loc` is the
+  // location as the card shows it (the screen cuts a long one); without it, the row's own.
+  function cardFacts(row, ctx, loc) {
+    const field = (ctx && ctx.fieldName ? ctx.fieldName(row) : "") || W.noField;
+    return [field, roleName(row, ctx), loc == null ? row.location : loc].filter(Boolean);
+  }
+
   // ---------- the order ----------
   const cmp = (a, b) => String(a || "").localeCompare(String(b || ""), "en", { sensitivity: "base" });
   const tie = (a, b) => cmp(a.company, b.company) || cmp(a.title, b.title);
   const byStrength = (a, b) => (b.strength || 0) - (a.strength || 0);
   const fitLookup = fits => !fits ? null : typeof fits === "function" ? fits : fits instanceof Map ? r => fits.get(r.id) : r => fits[r.id];
-  // "best": strength, then fit (N high, then M low) when fits are given, then company A–Z, title A–Z;
-  // "fit": fit first, then strength (without fits, the same as best); "company": company A–Z, title A–Z
+  // The fit order (usability pass 2026-11-06, B-03; owner's decision 3a): the share N/M, not the count N. By the count,
+  // a long Staff posting (21 of its 52 skills) beat an entry posting (9 of its 12), so a new graduate saw Staff and
+  // Principal jobs first. The share has a floor on M: a posting that asks for fewer than FIT_FLOOR skills counts as if
+  // it asked for FIT_FLOOR, so the share is N / max(M, FIT_FLOOR). We chose this form, not "short postings after the
+  // rest", because a short posting with a good match still ranks by how much of it you show. Without the floor, a thin
+  // posting (2 of its 2 skills) tops every list. 15 sits near the 7th percentile of M over the open postings
+  // (2026-11-06: p5 13, p10 17, median 27), so it touches only the thin ones; the auditor's case holds up to a floor of 22.
+  // The card keeps "N of the M skills" (fitLine): the share orders the list and is never shown.
+  const FIT_FLOOR = 15;
+  const fitShare = fit => fit && fit.n ? fit.n / Math.max(fit.m || 0, FIT_FLOOR) : 0;
+  // "best": strength, then the fit share when fits are given, then company A–Z, title A–Z;
+  // "fit": the fit share first, then strength (without fits, the same as best); "company": company A–Z, title A–Z
   function sortJobs(rows, mode, fits) {
     const fit = fitLookup(fits);
-    const byFit = (a, b) => { if (!fit) return 0; const x = fit(a) || { n: 0, m: 0 }, y = fit(b) || { n: 0, m: 0 }; return (y.n - x.n) || (x.m - y.m); };
+    // compared as N_y * max(M_x, floor) against N_x * max(M_y, floor): whole numbers, so equal shares tie exactly
+    const byFit = (a, b) => { if (!fit) return 0; const x = fit(a) || { n: 0, m: 0 }, y = fit(b) || { n: 0, m: 0 }; return (y.n || 0) * Math.max(x.m || 0, FIT_FLOOR) - (x.n || 0) * Math.max(y.m || 0, FIT_FLOOR); };
     const out = rows.slice();
     if (mode === "company") out.sort(tie);
     else if (mode === "fit") out.sort((a, b) => byFit(a, b) || byStrength(a, b) || tie(a, b));
@@ -221,5 +241,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: !!s.sponsor, noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

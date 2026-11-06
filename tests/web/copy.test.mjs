@@ -11,7 +11,7 @@ import { strings, checkAll, sentences, wordCount, passives, stoplisted, OWNER_WO
 const Copy = require(path.join(web, "copy.js"));
 
 test("the table has every group the screens read, and fill() fills {slots}", () => {
-  for (const k of ["common", "door", "home", "intake", "you", "explore", "role", "fit", "jobs", "skills", "network", "classes", "signin", "map", "about", "games"]) assert.ok(Copy[k] && typeof Copy[k] === "object", k);
+  for (const k of ["common", "door", "home", "intake", "you", "explore", "role", "fit", "jobs", "skills", "network", "classes", "signin", "map", "about", "games", "guide"]) assert.ok(Copy[k] && typeof Copy[k] === "object", k);
   assert.equal(Copy.fill("{n} of {m}", { n: 2, m: 5 }), "2 of 5");
   assert.equal(Copy.fill("{n} of {m}", { n: 0 }), "0 of {m}", "an unfilled slot stays as it is, never undefined");
   assert.equal(Copy.fill("no slots", {}), "no slots");
@@ -77,4 +77,35 @@ test("no screen string says utilize, leverage, facilitate, via or in order to, a
     assert.ok(!/\butili[sz]|\bleverag|\bfacilitat|\bvia\b|\bin order to\b/i.test(text), `${p}: "${text}"`);
     if (/^(fit|skills|network)\./.test(p) && /\{n\}/.test(text)) assert.ok(!/%|\bscore\b/i.test(text), `${p} reads N of M, never a score: "${text}"`);
   }
+});
+
+// the usability pass of 2026-11-06 (cluster "Find classes and the campus gate")
+test("after a bounce from Find classes, home's line names the campuses whose address opens it, from the campus list", () => {
+  const { Door } = require(path.join(web, "app.js"));
+  const list = [{ flag: "cornell", catalog: true }, { flag: "ienyc", catalog: false }];
+  assert.equal(Door.bounceLine(list), "Find classes is for Cornell email addresses today.");
+  assert.equal(Door.bounceLine([...list, { flag: "ienyc", catalog: true }]), "Find classes is for Cornell or IE email addresses today.");
+  assert.equal(Door.bounceLine([]), Copy.home.classesClosed, "no campus with a roster: Find classes is not open");
+  assert.ok(Copy.home.changeEmail, "the line's link to the door has words");
+});
+
+test("the Faculty tab's count says what it counts in plain words, never a bare \"asks\"", () => {
+  const t = Copy.fill(Copy.network.teachesOf, { n: 3, m: 12 });
+  assert.equal(t, "teaches 3 of the 12 skills this role's postings ask for most");
+  assert.doesNotMatch(t, /\b\d+ asks\b/);
+});
+
+// the usability pass of 2026-11-06, cluster "feedback, the sign-in, About and the chrome"
+test("C-24, About's count line ran to 22 words once the date filled in: no sentence over the limit with the longest date", () => {
+  const filled = Copy.fill(Copy.about.countLine, { date: "30 Sep 2026", fortune: "468", startups: "1,204", mba: "97" });
+  assert.deepEqual(checkAll([{ path: "about.countLine (filled)", text: filled }]).map(o => `${o.rule} ${o.hit}`), []);
+  assert.doesNotMatch(Copy.about.jobsLine, /role sets/, "no unexplained term");
+  assert.doesNotMatch(Copy.about.editorial, /editorial|sub-skills|ladders/i, "no unexplained term");
+});
+
+test("C-25, About said \"Four things\" to every visitor: one count per number of verbs, and the alumni line apart", () => {
+  for (const n of [3, 4]) assert.match(Copy.about.counts[n], new RegExp(`^${["", "One", "Two", "Three", "Four"][n]} things`));
+  assert.doesNotMatch(Copy.about.lead, /Four|things/);
+  assert.doesNotMatch(Copy.about.networkLine, /alumni/);
+  assert.match(Copy.about.networkAlumni, /alumni/);
 });

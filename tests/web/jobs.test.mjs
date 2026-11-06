@@ -108,7 +108,7 @@ test("the fit is N of M, never a percentage", () => {
 });
 
 // ---------- the order ----------
-test("best: strength, then fit (N high, M low), then company, then title", () => {
+test("best: strength, then the fit share, then company, then title", () => {
   const rows = [
     { id: "a", strength: 2, company: "Zed", title: "B" },
     { id: "b", strength: 4, company: "Acme", title: "A" },
@@ -117,12 +117,52 @@ test("best: strength, then fit (N high, M low), then company, then title", () =>
   ];
   assert.deepEqual(ids(J.sortJobs(rows, "best")), ["b", "d", "c", "a"]);
   const fits = { a: { n: 2, m: 2 }, b: { n: 0, m: 5 }, c: { n: 2, m: 4 }, d: { n: 1, m: 1 } };
-  assert.deepEqual(ids(J.sortJobs(rows, "best", fits)), ["b", "a", "c", "d"], "within a strength tie: n 2 before n 1, and m 2 before m 4");
-  assert.deepEqual(ids(J.sortJobs(rows, "fit", fits)), ["a", "c", "d", "b"], "fit first, then strength");
+  // every m here is under the floor, so a and c share 2 of 15 and tie; the tie goes to company A–Z (c, Acme)
+  assert.deepEqual(ids(J.sortJobs(rows, "best", fits)), ["b", "c", "a", "d"], "within a strength tie: the larger share first, an equal share by company");
+  assert.deepEqual(ids(J.sortJobs(rows, "fit", fits)), ["c", "a", "d", "b"], "fit first, then strength");
   assert.deepEqual(ids(J.sortJobs(rows, "fit")), ["b", "d", "c", "a"], "fit without fits is best");
   assert.deepEqual(ids(J.sortJobs(rows, "company")), ["b", "d", "c", "a"]);
   assert.deepEqual(ids(rows), ["a", "b", "c", "d"], "the input is not reordered");
-  assert.deepEqual(ids(J.sortJobs(rows, "best", new Map(Object.entries(fits)))), ["b", "a", "c", "d"], "a Map of fits works too");
+  assert.deepEqual(ids(J.sortJobs(rows, "best", new Map(Object.entries(fits)))), ["b", "c", "a", "d"], "a Map of fits works too");
+});
+
+// B-03 (usability pass 2026-11-06), the Fit sort put Staff and Principal postings first for a new graduate: it ranked by
+// the count N, so a long posting won. The owner's decision 3a: the share N / max(M, floor).
+test("fit sorts by the share of the posting's skills, so a long senior posting does not beat a short entry one", () => {
+  const rows = [
+    { id: "staff", strength: 1, company: "Acme", title: "Staff Product Manager" },
+    { id: "entry", strength: 1, company: "Zed", title: "Associate Product Manager" },
+  ];
+  // the auditor's case: 21 of the 52 skills (a share of 0.40) against 9 of the 12 (9 of the floor's 15, 0.60)
+  const fits = { staff: { n: 21, m: 52 }, entry: { n: 9, m: 12 } };
+  assert.deepEqual(ids(J.sortJobs(rows, "fit", fits)), ["entry", "staff"]);
+  assert.deepEqual(ids(J.sortJobs(rows, "best", fits)), ["entry", "staff"], "Best match uses the same share inside a strength tie");
+  assert.equal(J.fitLine(fits.staff), "21 of the 52 skills this posting asks for are on your résumé.", "the card still says N of M");
+});
+
+test("the floor: a posting that asks for fewer skills than the floor counts as if it asked for the floor", () => {
+  assert.equal(J.FIT_FLOOR, 15);
+  const row = (id, company) => ({ id, strength: 1, company, title: "PM" });
+  const rows = [row("thin", "Acme"), row("full", "Bcd"), row("floor", "Cde"), row("none", "Def")];
+  // thin: 2 of 2 is 2 of 15 (0.13); full: 12 of 20 (0.60); floor: 9 of 15 (0.60), equal to full, so company A–Z
+  const fits = { thin: { n: 2, m: 2 }, full: { n: 12, m: 20 }, floor: { n: 9, m: 15 }, none: { n: 0, m: 4 } };
+  assert.deepEqual(ids(J.sortJobs(rows, "fit", fits)), ["full", "floor", "thin", "none"], "a 2-of-2 posting does not top the list");
+  assert.equal(J.fitShare({ n: 2, m: 2 }), 2 / 15, "under the floor: N over the floor");
+  assert.equal(J.fitShare({ n: 12, m: 20 }), 12 / 20, "over the floor: N over M");
+  assert.equal(J.fitShare({ n: 0, m: 0 }), 0, "a posting with no skills shares nothing");
+  // an equal share then goes to the strength, then the stable order
+  const strong = [{ id: "a", strength: 1, company: "Acme", title: "A" }, { id: "b", strength: 3, company: "Zed", title: "B" }];
+  assert.deepEqual(ids(J.sortJobs(strong, "fit", { a: { n: 3, m: 10 }, b: { n: 3, m: 15 } })), ["b", "a"], "3 of 10 and 3 of 15 tie; strength decides");
+});
+
+// B-32 (usability pass 2026-11-06), some job cards left the field out of the facts line: the MBA set's
+// product_manager and product_strategy have no field in the index. The facts line now names one on every card.
+test("the card's facts line always names a field: the data's, or a plain stand-in", () => {
+  const withField = { roleName: r => "Product Manager", fieldName: r => r.role === "product_manager" ? "" : "Product" };
+  assert.deepEqual(J.cardFacts(ROWS[0], withField), ["Product", "Product Manager", "San Jose, CA"]);
+  assert.deepEqual(J.cardFacts({ ...ROWS[0], role: "product_manager" }, withField), ["Other field", "Product Manager", "San Jose, CA"], "no field in the data: the stand-in");
+  assert.deepEqual(J.cardFacts(ROWS[0], withField, "San Jose…"), ["Product", "Product Manager", "San Jose…"], "the card's cut location");
+  assert.equal(J.cardFacts(ROWS[0], {})[0], "Other field", "a ctx with no fieldName still gives a field");
 });
 
 // ---------- the dedupe ----------
