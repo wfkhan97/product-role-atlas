@@ -2119,7 +2119,7 @@ Steps 1 to 3 merged to main on 2026-11-05 (#148, #149, #155); `JOURNEY_ENABLED` 
 journey migration being applied. `ACCOUNTS_ENABLED` stays off until the owner has the SMTP sender and has applied the
 state tables: a merge deploys to production, so the sign-in ships dark.
 
-**Step 4, built (`feat/journey-tree`): the self-serve tree tier.** Decisions:
+**Step 4, merged (`feat/journey-tree`, #159, 2026-11-05): the self-serve tree tier.** Decisions:
 
 - **The generator's pure part moves into the site.** `web/apprentice.js` (a classic script that loads in node, like
   `map.js`) holds `Apprentice.ground`: the role, its skills with what each means in the field, the tracks, the person's
@@ -2148,6 +2148,31 @@ state tables: a merge deploys to production, so the sign-in ships dark.
   build cards, the company research) stays under "Later".
 
 Not in this step: the hearts' control, Save and the other calls to action (step 5), the feedback box (step 6).
+
+**Step 5, built (`feat/journey-ctas`, off main after #159): the hearts, Save and "Get your tree".** Decisions:
+
+- **One heart, drawn in two places, kept in one list.** The field screen's role rows and About you's saved list get a
+  heart beside the row, outside its link (a press never opens the role); the open role gets the same heart with a word
+  beside its title: "Save role", "Saved" once on. The list is the browser's `hearts` (step 3's store), so a heart
+  works for anyone today, accounts on or off; with a session the press also goes to the person's `hearts` row
+  (`State.heart`), and a call that failed is mended by the next restore's merge. Explore shows the saved roles as a
+  strip above the fields and About you lists them with their hearts, so a heart leads somewhere.
+- **The sign-in is asked without leaving the page.** With accounts on and no session, a heart on the open role draws
+  the line "Kept in this browser. Sign in to keep it on your account." under the facts, with the sign-in's link and
+  the way back; the role is kept in the browser either way and carries up at sign-in (decision 4). Nothing of this
+  draws with accounts off, so production today only gains the heart itself.
+- **"Get your tree" sits under the read**, on the fit screen, as a box with one button, drawn only with the tree flag on
+  and a sign-in anyone can use (accounts on, or a session already held): the tree needs a session, and the invited
+  magic link is no door for a visitor. With a session the button opens `#/map?build=1&role=<id>`; without, the sign-in
+  with that hash as `next`. The tree form picks the field and the role the hash names, so the person lands on a form
+  with one choice made.
+- **The funnel reads them as `heart` and `get_tree`.** `cta_shown` once per screen that draws a heart (a list of
+  rows counts once, not per row) and once per role per visit for the tree box; `cta_click` on the press; `cta_done`
+  when the heart turned on. The tree box has no done of its own: the tree form's `tree` done is it. Every row carries
+  `role_id`, never a label.
+
+Not in this step: the feedback box (step 6). Still the owner's before the flags flip: `CATALOG_SERVICE_ROLE_KEY` in the
+Vercel project (the tree), the SMTP sender and the state tables (the sign-in).
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 

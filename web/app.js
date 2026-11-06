@@ -295,6 +295,40 @@
   const stateOn = () => accountsOn() && !!window.State && !!Auth.stored();
   const hearts = () => { const h = store.get("hearts"); return Array.isArray(h) ? h : []; };
   const keepHearts = list => store.set("hearts", [...new Set(list)]);
+  // The hearts' control (step 5, 2026-11-05): one list, the card's heart and the open role's the same. A press keeps
+  // the role in this browser at once and, with a session, in the person's own row (State.heart; a failed call is
+  // mended by the next restore's merge). With accounts on and no session, the open role says to sign in to keep it,
+  // without leaving the page: the first personal act of decision 1. Capture.cta("heart"): shown once per screen that
+  // draws a heart, click on a press, done when it turned on. Off accounts, the heart still works, in this browser.
+  const hearted = id => hearts().includes(id);
+  const HT = Copy.heart;
+  function heartHtml(id, opts) {
+    const o = opts || {}, on = hearted(id), aria = fill(on ? HT.unsaveAria : HT.saveAria, { role: o.label || id });
+    const icon = `<span class="hi" aria-hidden="true">${on ? "♥" : "♡"}</span>`;
+    return `<button type="button" class="heart${on ? " on" : ""}${o.save ? " heart-save" : ""}" data-heart="${esc(id)}" data-label="${esc(o.label || id)}" aria-pressed="${on}" aria-label="${esc(aria)}" title="${esc(aria)}">${icon}${o.save ? ` ${esc(on ? HT.saved : HT.save)}` : ""}</button>`;
+  }
+  // the line under the open role's Save: kept here, sign in to keep it on your account (accounts on, no session)
+  const heartNote = id => hearted(id) && accountsOn() && !Auth.stored() ? `${esc(HT.kept)} <a href="${esc(signinHref())}" data-heart-signin>${esc(HT.signIn)}</a>` : "";
+  function toggleHeart(id) {
+    const on = !hearted(id);
+    if (window.Capture) Capture.cta("heart", "click", { role_id: id });
+    keepHearts(on ? [...hearts(), id] : hearts().filter(x => x !== id));
+    if (on && window.Capture) Capture.cta("heart", "done", { role_id: id });
+    if (stateOn()) State.heart(Auth.stored(), id, on);
+    paintHearts(document);
+  }
+  // every heart of that id on the page follows the list; the note under the open role too
+  function paintHearts(root) {
+    root.querySelectorAll("[data-heart]").forEach(b => { const fresh = document.createElement("span"); fresh.innerHTML = heartHtml(b.dataset.heart, { label: b.dataset.label, save: b.classList.contains("heart-save") }); b.replaceWith(fresh.firstElementChild); });
+    root.querySelectorAll("[data-heart-note]").forEach(p => { p.innerHTML = heartNote(p.dataset.heartNote); p.hidden = !p.innerHTML; });
+    wireHearts(root, true);
+  }
+  function wireHearts(root, repaint) {
+    root.querySelectorAll("[data-heart]").forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); toggleHeart(b.dataset.heart); });
+    if (!repaint && root.querySelector("[data-heart]") && window.Capture) Capture.cta("heart", "shown", { role_id: state.roleId });
+  }
+  // a role row with its heart beside it (the heart is no part of the row's link)
+  const heartRow = (id, label, rowHtml) => `<div class="rw">${rowHtml}${heartHtml(id, { label })}</div>`;
   const hashOf = r => r.hash ? Promise.resolve(r.hash) : State.hash(r.text).then(h => { if (h && state.resume === r) { r.hash = h; store.set("resume", r); } return h; });
   const syncProfile = () => { if (!stateOn()) return; State.saveProfile(Auth.stored(), state.you, { resume_hash: (state.resume || {}).hash || null }); };
   async function saveReadFor(m, r) {
@@ -748,7 +782,8 @@
     const T = Copy.map.tree, here = () => Routes.parseRoute(location.hash).name === "map";
     const ix = await Atlas.index(); if (!here()) return;
     const F = treeRoles(ix);
-    const s = { field: null, role: null, also: [], change: false };
+    const picked = Routes.parseRoute(location.hash).query.role, pre = picked ? F.find(f => f.roles.some(r => r.id === picked)) : null;   // the fit screen's link names the role
+    const s = { field: pre ? pre.id : null, role: pre ? picked : null, also: [], change: false };
     const draw = () => {
       const r = state.resume;
       const f = F.find(x => x.id === s.field);
@@ -1507,12 +1542,16 @@
     const GS = window.GameShell, roles = GS ? Object.entries(GS.record.read().roles) : [];
     let P = null; if (roles.some(([id]) => (ix.roles[id] || {}).set === "product" || id.startsWith("product."))) P = await Atlas.product().catch(() => null);
     const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? fill(YOU.asksKnown, { n: k.known.length, m: k.total }) : null, k.ladders.length ? fill(k.ladders.length === 1 ? YOU.ladderSorted : YOU.laddersSorted, { n: k.ladders.length }) : null, k.postings ? fill(k.postings === 1 ? YOU.postingRead : YOU.postingsRead, { n: k.postings }) : null, k.demand ? fill(k.demand === 1 ? YOU.pairSeen : YOU.pairsSeen, { n: k.demand }) : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || YOU.played, updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), [esc(CM.openLower), "#/role/" + x.id]));
+    // the roles the person hearted (step 5), each with its heart so one can go from here
+    const savedRows = hearts().filter(id => ix.roles[id]).map(id => heartRow(id, ix.roles[id].label, row(esc(ix.roles[id].label), esc((ix.groups.find(g => g.id === ix.roles[id].group) || {}).label || ""), [esc(CM.openLower), "#/role/" + id])));
     page(`<h1>${esc(YOU.heading)}</h1><p class="lead">${esc(YOU.lead)}</p>${roleSearch}
       <div class="two"><div><h2>${esc(YOU.answers)}</h2>${answers}</div><div><h2>${esc(YOU.resume)}</h2>${resume}</div></div>
+      <h2>${esc(YOU.savedRoles)}</h2>${savedRows.length ? `<div class="list">${savedRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noSaved)}</p>`}
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
+    wireHearts(main);
     // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
     const fg = $("#you-forget"); if (fg) fg.onclick = async () => { const out = $("#you-forget-out"); fg.disabled = true; out.textContent = YOU.forgetting; const done = await State.forget(Auth.stored()); out.textContent = done ? YOU.forgotten : YOU.forgetFailed; fg.disabled = !done; if (done) keepHearts([]); };
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
@@ -1889,8 +1928,10 @@
         $("#v-map").onclick = () => { };
         return;
       }
+      const saved = hearts().filter(id => ix.roles[id]);   // the hearts (step 5): where to find them again
+      const savedStrip = saved.length ? `<p class="small saved-strip"><span class="hi" aria-hidden="true">♥</span> ${esc(EX.saved)} ${saved.map(id => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`).join(" · ")}</p>` : "";
       page(`<h1>${esc(EX.heading)}</h1>
-        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${view}
+        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${savedStrip}${view}
         <div class="fcards">${groups.map(card).join("")}</div>`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };
@@ -1925,13 +1966,14 @@
     page(`<div class="field-split"><div>
       <h1>${esc(g.label)}</h1>
       <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""}${charted ? ` <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a>` : ""}</p>
-      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
+      <div class="list">${roles.map(r => heartRow(r.id, r.label, `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`)).join("")}</div>
       ${charted ? `<p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>` : ""}
       </div><div${charted ? "" : " hidden"}>
       <div class="chart-stage" id="chart"></div>
       <p class="small muted chart-x">${esc(fill(FD.axis, { field: g.label }))} <span class="mark" data-measure="${esc(fill(FD.axisMeasure, { postings: closed, field: g.label }))}">ⓘ</span>${rg ? ` · <span class="sw have"></span> ${esc(FD.have)} · <span class="sw todo"></span> ${esc(FD.todo)}` : ""}</p>
       </div></div>`);
     main.firstElementChild.classList.add("wide");
+    wireHearts(main);
     if (!charted) return;
     SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
     main.querySelectorAll("[data-role]").forEach(a => { a.onmouseenter = () => SkillMap.chartLight(a.dataset.role); a.onmouseleave = () => SkillMap.chartLight(null); });
@@ -2101,9 +2143,11 @@
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
     // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts (open postings and employers
     // alone since 2026-11-01: the country and the entry grade went), the data's lead sentence
-    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts}</p>
+    page(`<div class="role-head"><h1>${esc(role.label)}</h1>${heartHtml(role.id, { label: role.label, save: true })}</div><p class="facts">${facts}</p>
+      <p class="small muted heart-note" data-heart-note="${esc(role.id)}"${heartNote(role.id) ? "" : " hidden"}>${heartNote(role.id)}</p>
       <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>${know}
       ${filters}${tabs}${body}`);
+    wireHearts(main);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
     main.querySelectorAll("details.empbox").forEach(d => d.ontoggle = () => { d.open ? state.empOpen.add(d.dataset.empOpen) : state.empOpen.delete(d.dataset.empOpen); });
     main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = PAGE; keepScroll(renderRole); });
@@ -2444,6 +2488,7 @@
     aside.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
   }
   // the persona lines are templates (Copy.fit.persona); the bold part is marked after escaping
+  const treeShown = new Set();   // the roles whose fit screen showed "Get your tree" this visit
   const FT = Copy.fit, bold = s => s.replace(/\[\[/g, "<b>").replace(/\]\]/g, "</b>");
   const PERSONA = {
     experienced_in_role: (p, field) => bold(esc(fill(FT.persona.experienced, { level: `[[${Matcher.LADDER_LABEL[p.level]}]]`, field, roleYears: fmtYears(p.pmYears), years: fmtYears(p.years) }))),
@@ -2518,12 +2563,20 @@
     // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
     const pSum = asks ? postingSummary(asks, f) : null;
     const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
+    // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered where the read is; it needs a
+    // session, so with none the link goes through the sign-in and back to the form with this role picked. Only with
+    // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
+    // visit, click on the press; its done is the tree form's own.
+    const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
+    const treeCta = treeOn() && (accountsOn() || Auth.stored()) ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${standing}${postingBox}
       ${fitTabs}${fitBody}
+      ${treeCta}
       <div class="fit-wait">${applyBox("fit", { always: true })}</div>
       <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a>${esc(FT.backAfter)}</p>`);
     wireWait(main, () => keepScroll(() => fitScreen(id)));
+    const gt = $("#get-tree"); if (gt) { gt.onclick = () => { if (window.Capture) Capture.cta("get_tree", "click", { role_id: role.id }); }; if (!treeShown.has(role.id)) { treeShown.add(role.id); if (window.Capture) Capture.cta("get_tree", "shown", { role_id: role.id }); } }
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
     main.querySelectorAll("[data-fitmore]").forEach(b => b.onclick = () => { toggle(state.fitMore, b.dataset.fitmore); keepScroll(() => fitScreen(id)); });
     const si = $("#say-it"); if (si) si.onclick = () => { state.fitTab = "details"; state.open.add("sayit"); fitScreen(id); };
