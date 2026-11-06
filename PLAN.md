@@ -2721,6 +2721,68 @@ template must carry `{{ .Token }}` and no link, or no student can sign in.
 `tests/python/test_funnel.py` passes. The evals are unchanged (`run.mjs` 515; `run_classes.mjs` 197 pass, 11 fail,
 3 known).
 
+## The tech set's last pieces before the switch (`feat/tech-go-live`, 2026-11-06)
+
+The four items "A third role set" left for the interface pull request, done before `TECH_ENABLED` flips.
+
+**Role blurbs.** One sentence for each of the seven tech roles in `web/data/role_blurbs.json`, keyed `tech.<family>`,
+written from each role's top asks. Each is under 15 words, as the file's rule asks.
+
+**Campus subjects.** `field_subjects` in `web/data/sp27_campus.json` gains the five tech fields: software (CS, ECE,
+TECHIE, INFO), data and AI (CS, ORIE, ECE, BANA, INFO), security (CS, ECE, LAW, INFO), design (DESIGN, INFO) and
+legal (LAW). These subjects come from the class titles of the Spring 2027 roster. A subject left out only loses
+the tie-break. Real estate (CRP) stays out of legal: its land-use classes would win counsel's ties. The classes test now asks for one entry per field of both role sets.
+
+**The résumé-title twin.** `evals/resume_titles_tech.json` has 156 titles as résumés write them, checked by
+`node evals/run_tech.mjs`.
+- 65 rows come from the published tech samples, with the employer line beside them. I drew them from 739 job lines
+  in the 64 tech files and the seven samples.
+- The rest are edges written from the posting spec: hardware, customer-facing and IT-support jobs; graphic and
+  interior design; data analysts and scientists (an MBA role); paralegals and counsellors.
+- I labelled every row before running the reader. The first run passed 145 of 156, with every level right.
+- The fixes are rules only a résumé needs, in `web/match.js`. The posting rules are unchanged.
+  - A judicial intern, extern or clerk reads as counsel.
+  - A bare "Associate" whose employer line is a law firm (LLP, "law firm") reads as counsel.
+  - An internship named by its field alone reads as the role ("Embedded Software Intern", "Android Development
+    Intern", "Cyber Security Intern"). A posting writes the job word instead.
+  - `RESUME_TITLE` ("Growth Marketer", "Change Manager") answers only with a family the matcher's role set holds. The
+    tech matcher had been reading those titles as MBA roles.
+- Result: 153 of 153. Three known gaps keep their reasons:
+  - Google's "Engineering Practicum Intern": the title names no field, and a résumé carries no industry.
+  - An information systems security officer.
+  - A control-systems designer.
+  The last two need posting-rule changes (Later).
+- The MBA résumé titles stay at 173 of 173.
+- One effect reaches the class picker. The counsel sample's "Associate" at a law firm now reads as counsel held. That
+  closes six of its seven gaps against In-house Counsel, so the picker sorts by score. Technology Transactions II falls
+  to rank 17, recorded as a known failure with that reason; the other 10 failures are the ones main shows. The tech
+  bands do not move (`calibrate.mjs --roles tech`); the level read now agrees with the résumé in 66 of 72 samples, up
+  from 65.
+
+**One role in a field.** Four tech fields hold a single role, a case no business field had. The field tiles and the
+field line on Explore careers now say "1 role" there (`tileOne`, `fieldLineOne` in `web/copy.js`), where they said
+"1 roles".
+
+**Sponsorship.** `evals/sponsorship.json` gains 40 tech postings (`set: "tech"`): 17 yes, 13 no and 10 silent.
+- They were drawn from the 2026-11-05 tech refresh with a fixed seed, one per company.
+- The draw covered postings that name sponsorship, ones that use the word otherwise (clearance sponsorship, sponsored
+  open-source projects, mentoring) and ones that say nothing.
+- Each was labelled from its own sentence before the reader ran. The reader got 28 of 40 right.
+- The patterns in `pipeline/sponsorship.json` now read these:
+  - "We do sponsor visas", "can sponsor your visa", "happy to support visa sponsorship" and "happy to sponsor
+    international candidates";
+  - "eligible for visa sponsorship", visa sponsorship in a benefits list, and a bare "Sponsorship available" (but
+    not after "clearance" or "security");
+  - "support H-1B transfers";
+  - "not sponsoring" and "permanent work authorization is a condition";
+  - a no that names two qualifiers ("unable to offer new H-1B visa sponsorship"). Before, it read as yes.
+- All 62 rows pass.
+- I ran the old and new readers over the 7,618 tech postings at hand: 147 move from silent to yes, 13 from silent to
+  no, one from yes to silent (the clearance) and one from yes to no (the H-1B case above). I read samples of each
+  group and every one was right. Nine of the twelve sampled yes moves are one employer's standing line.
+- The new reads reach the processed files at the next extract of each set. The MBA raw files were not on this
+  machine, so their change is unmeasured.
+
 ## Skills for the later MBA roles (`feat/skills-later-roles`, 2026-11-06)
 
 Part C of "Adding a role" for the 15 roles added after the first 50, run on the refresh that gave the 13 business roles
@@ -2832,8 +2894,9 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
-  résumé-title twin, role blurbs and campus subjects for the five fields.
+- The résumé-title gaps left by "The tech set's last pieces before the switch": an information systems security
+  officer (the posting rules leave out every "officer") and a control-systems designer (the designer rule takes
+  "system designer"); both are posting-rule changes, made with labelled rows in `titles_tech.json`.
 - The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
   gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
   Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
