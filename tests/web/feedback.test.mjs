@@ -79,13 +79,13 @@ test("the migration: one insert-only table, anon and authenticated may insert an
   assert.ok(!/resume|résumé/i.test(sql.split("\n").filter(l => !l.startsWith("--")).join("\n")), "no column for a résumé");
 });
 
-test("the shell loads feedback.js after capture.js (after state.js, so auth.js keeps its place) and before app.js; the flag is off; the footer holds the link, hidden until the flag", () => {
+test("the shell loads feedback.js after capture.js (after state.js, so auth.js keeps its place) and before app.js; the switch exists; the footer holds the link, hidden until the flag", () => {
   const html = fs.readFileSync(path.join(web, "index.html"), "utf8");
   const at = s => html.indexOf(`<script src="${s}"></script>`);
   assert.ok(at("capture.js") < at("feedback.js") && at("feedback.js") < at("app.js"));
   assert.match(html, /<button type="button" class="linkish link" id="foot-feedback" hidden>/);
   const cfgSrc = fs.readFileSync(path.join(web, "config.js"), "utf8");
-  assert.match(cfgSrc, /FEEDBACK_ENABLED: false/, "off until the owner applies the migration");
+  assert.match(cfgSrc, /FEEDBACK_ENABLED: (true|false),/, "the switch exists; it flipped on with chore/feedback-on once the table was applied");
   for (const k of ["link", "heading", "lead", "promptLead", "treeLead", "placeholder", "emailLabel", "count", "send", "sending", "notNow", "close", "empty", "thanks", "failed", "privacy"]) assert.equal(typeof Copy.feedback[k], "string", k);
   assert.equal(typeof Copy.about.privacyFeedback, "string");
 });

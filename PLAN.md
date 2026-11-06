@@ -2089,8 +2089,10 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
 
 **Step 3, built (`feat/journey-state`, stacked on step 2): the saved state.** Decisions:
 
-- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`, applied 2026-11-05 on the owner's
-  blanket permission): `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
+- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`; NOT applied as of 2026-11-05: the
+  auto-mode classifier refuses a thread's migrations, so the owner pastes the file into the SQL editor or allows
+  the Supabase `apply_migration` tool; an earlier line here said it was applied, which `list_tables` disproved):
+  `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
   résumé on file), `hearts` (one list of role ids: the card's heart and the open role's are the same), `reads` (one
   row per résumé hash per role: the band, the core and common skills with their state and the one line that showed
   each, the gaps, the model read's inferred ids). Row-level security for every verb on `user_id = auth.uid()`,
@@ -2198,9 +2200,12 @@ Vercel project (the tree), the SMTP sender and the state tables (the sign-in).
   lacks is refused, and the link would promise a box that cannot send. The About page's privacy section gains the
   sentence on what the box keeps, drawn with the flag.
 
-With this, every step of the plan of record is built. Still the owner's: apply `2026-11-05_feedback.sql` and flip
-`FEEDBACK_ENABLED`; `CATALOG_SERVICE_ROLE_KEY` in the Vercel project and `TREE_ENABLED`; the SMTP sender, the state
-tables and `ACCOUNTS_ENABLED`. Each flip is a one-line PR the owner approves.
+With this, every step of the plan of record is built. The feedback flag flips with `chore/feedback-on` once the
+owner has applied `2026-11-05_feedback.sql` (the box needs neither the sign-in nor the tree, so it goes first). Still
+the owner's, because each holds a secret a thread must never see or type: `CATALOG_SERVICE_ROLE_KEY` in the Vercel
+project (then `TREE_ENABLED`); a domain of theirs verified at the mail provider and that provider's SMTP password in
+the catalog project's Auth settings, plus the state tables applied (then `ACCOUNTS_ENABLED`). Each flip is a
+one-line PR the owner approves.
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
