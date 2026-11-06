@@ -11,6 +11,8 @@
      Capture.cta(id, step, ctx)           cta_shown · cta_click · cta_done for one call to action (the conversion report)
      Capture.action()                     one meaningful action more in this browser (localStorage); returns the count.
                                           The feedback prompt (step 6) reads Capture.actions(); nothing is sent.
+     Capture.visible()                    the visible, active milliseconds this browser has spent on the site, summed from
+                                          the heartbeats (localStorage; the feedback prompt's six minutes); nothing is sent
      Capture.watch(opts)                  the heartbeat: every thirty seconds of visible, active time, one `heartbeat`
                                           event with the milliseconds since the last (at most a minute); a tab left
                                           open counts nothing. Capture.tick(now) is the pure step, for the tests.
@@ -57,7 +59,7 @@
   // box (the row and the event share the name); none for the door, whose screen fires door_passed itself
   const afterEvent = source => source === "door" ? null : source.startsWith("intake_") ? source : "waitlist_" + source;
   const STAGES = new Set(["looking", "targeting", "curious"]);
-  const SESSION_KEY = "capture.session", VISITOR_KEY = "capture.visitor", ACTIONS_KEY = "journey.actions";
+  const SESSION_KEY = "capture.session", VISITOR_KEY = "capture.visitor", ACTIONS_KEY = "journey.actions", VISIBLE_KEY = "journey.visible";
   const ID_RE = /^[0-9a-f]{24}$/, SCREEN_RE = /^[a-z][a-z_]{1,23}$/, CTA_RE = /^[a-z][a-z0-9_]{1,31}$/, UID_RE = /^[0-9a-f-]{36}$/i;
   const BEAT_MS = 30000, BEAT_CAP = 60000, IDLE_MS = 60000;
   let memSession = null, memVisitor = null, curScreen = null;
@@ -133,6 +135,9 @@
   // the count of meaningful actions in this browser (a role, a fit, a class, a quest or a prep opened); nothing is sent
   function actions() { try { const s = deps.local && deps.local(); const n = s ? parseInt(s.getItem(ACTIONS_KEY), 10) : NaN; return Number.isFinite(n) && n >= 0 ? n : 0; } catch { return 0; } }
   function action() { const n = actions() + 1; try { const s = deps.local && deps.local(); if (s) s.setItem(ACTIONS_KEY, String(n)); } catch { } return n; }
+  // the visible, active time this browser has spent, in milliseconds: every heartbeat's share is added, sent or not
+  function visible() { try { const s = deps.local && deps.local(); const n = s ? parseInt(s.getItem(VISIBLE_KEY), 10) : NaN; return Number.isFinite(n) && n >= 0 ? n : 0; } catch { return 0; } }
+  function addVisible(ms) { try { const s = deps.local && deps.local(); if (s) s.setItem(VISIBLE_KEY, String(visible() + ms)); } catch { } }
 
   // ---------- the heartbeat ----------
   // `tick(now, visible, lastActive)` is the pure step: with the page visible and an input within the last minute, the
@@ -145,6 +150,7 @@
     if (visible && lastActive != null && now - lastActive <= IDLE_MS) beat.acc += dt;
     if (beat.acc < BEAT_MS) return null;
     const ms = Math.min(BEAT_CAP, beat.acc); beat.acc = 0;
+    addVisible(ms);
     event("heartbeat", { ms });
     return ms;
   }
@@ -162,5 +168,5 @@
     doc.addEventListener("visibilitychange", () => { if (doc.visibilityState === "visible") active(); beat.last = now(); });
     every(() => tick(now(), doc.visibilityState === "visible", lastActive), opts.interval || 5000);
   }
-  return { event, waitlist, session, visitor, screen, cta, action, actions, tick, watch, EVENTS, OLD_EVENTS, JOURNEY_EVENTS, SOURCES, SCREENS, SURFACES: [...SURFACE_VALUES], afterEvent, BEAT_MS, BEAT_CAP, IDLE_MS };
+  return { event, waitlist, session, visitor, screen, cta, action, actions, visible, tick, watch, EVENTS, OLD_EVENTS, JOURNEY_EVENTS, SOURCES, SCREENS, SURFACES: [...SURFACE_VALUES], afterEvent, BEAT_MS, BEAT_CAP, IDLE_MS };
 });

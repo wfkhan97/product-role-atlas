@@ -2174,6 +2174,34 @@ Not in this step: the hearts' control, Save and the other calls to action (step 
 Not in this step: the feedback box (step 6). Still the owner's before the flags flip: `CATALOG_SERVICE_ROLE_KEY` in the
 Vercel project (the tree), the SMTP sender and the state tables (the sign-in).
 
+**Step 6, built (`feat/journey-feedback`, off main after #162): the feedback box and its prompt.** Decisions:
+
+- **One table, insert only** (`pipeline/sql/2026-11-05_feedback.sql`, the owner applies it): the sentence (at most 500
+  characters, the check is in the table), the email only when typed, the screen the box opened on, whether the prompt
+  opened it, capture's session and visitor ids, the person's id when the browser holds a session. Anon and
+  authenticated may insert one row and never select; the owner reads the sentences in the SQL editor and
+  `pipeline.funnel` prints the counts (rows, prompted, with an email, by screen; `feedback_counts` is the pure part).
+- **The box is one sheet** (`openFeedback`), from a persistent Feedback link at the bar's end and in the footer, or from
+  the prompt: the lead, a textarea with its count, the email prefilled from the session or the door and left blank
+  when neither is known, the privacy line, Not now, Send. Sent, it thanks and closes on its own. The link draws on
+  every screen but the door.
+- **The prompt is a pure rule** (`Feedback.due`, `web/feedback.js`), checked when a screen draws and every thirty
+  seconds while the page is visible: the first time after twelve meaningful actions (`Capture.actions`) or six
+  minutes of visible, active time (`Capture.visible`, the heartbeats' sum kept in this browser; nothing more is sent),
+  whichever first; never on the door or the sign-in, nor within a minute of signing in (`Feedback.signedIn` at the
+  code's verify and the magic link's landing); shown counts as asked, dismissed or sent; again only after thirty days
+  and only with new actions since; and once more, its own lead, when a self-serve tree first draws (`treeOpened`).
+  The marks live in localStorage (`feedback.asked`, `feedback.tree`, `feedback.signin`).
+- **The funnel tells the two apart**: the link is the call to action `feedback`, the prompt `feedback_prompt`, each
+  with shown, click and done. A row carries the role on screen, never the sentence.
+- **Everything behind `CONFIG.FEEDBACK_ENABLED`, off** until the migration is applied: a row for a table the project
+  lacks is refused, and the link would promise a box that cannot send. The About page's privacy section gains the
+  sentence on what the box keeps, drawn with the flag.
+
+With this, every step of the plan of record is built. Still the owner's: apply `2026-11-05_feedback.sql` and flip
+`FEEDBACK_ENABLED`; `CATALOG_SERVICE_ROLE_KEY` in the Vercel project and `TREE_ENABLED`; the SMTP sender, the state
+tables and `ACCOUNTS_ENABLED`. Each flip is a one-line PR the owner approves.
+
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
 The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,

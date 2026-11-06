@@ -20,6 +20,10 @@ window.CONFIG = {
   // story cards; no model). Off, #/map waits for the owner's map as before. The function needs
   // CATALOG_SERVICE_ROLE_KEY in the Vercel project's environment and answers 503 without it.
   TREE_ENABLED: false,
+  /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). Off until the owner
+     applies pipeline/sql/2026-11-05_feedback.sql: PostgREST refuses a row for a table it lacks, and the link would
+     promise a box that cannot send. */
+  FEEDBACK_ENABLED: false,
   // IE New York in the interface (2026-10-31): the second campus's entry in data/sp27_campus.json names this switch
   // (`enabled_by`), and Catalog.campuses() lists a campus only while its switch is on. Off, the site is Cornell Tech
   // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell
