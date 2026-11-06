@@ -2351,6 +2351,24 @@ the taxonomy eval failed coverage, because with the Fortune boards three more sk
 dated snapshot ran as a job of its own, which has no `data/raw/jobs_tech/`; it now runs in the build job after the pull,
 as `refresh-product` does. The run's data PR (#156) opened as a draft.
 
+## The refresh build job gets 340 minutes (`fix/refresh-build-timeout`, 2026-11-05)
+
+The refresh-mba run of 2026-11-05 (run 42075399850) was the first after the thirteen business roles. It scraped every
+family, then was cancelled in its build job at the 180-minute limit, 20,000 postings into the extract.
+
+The cause was a cold text cache. Its fingerprint covers the taxonomy, `pipeline/tax.py`, `pipeline/extract.py` and the
+depth files. The tech role set had changed the taxonomy since the cache was last written, so the two-core runner tagged
+every posting, at about 0.45 s each.
+
+Decisions:
+
+- The build job of all three refresh workflows gets 340 minutes. The scrape jobs already had that.
+- Step 10 of the add-a-role checklist ends with `pipeline.store push caches` after a re-extract, so a taxonomy change
+  leaves the cache warm for the next refresh.
+
+That run's data was finished another way: a local extract on nine workers read the dated storage snapshot, the warm
+cache was pushed, and the build was rerun.
+
 ## Later
 
 - After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one

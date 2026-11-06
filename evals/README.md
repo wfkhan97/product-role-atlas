@@ -514,6 +514,8 @@ ticked; until then PLAN.md carries it under Later with the boxes left.
    `evals/run_taxonomy.py --baseline`.
 10. Re-extract both role sets when a shared skill changed (CLAUDE.md), `role_coverage --roles mba` for
     `extraction_baseline_mba.md`, `skill_audit --roles mba` for the new skills (`extraction_audit_mba.md`).
+    Then `pipeline.store push caches` for each re-extracted set: a taxonomy change empties the text cache the refresh
+    workflows read, and a cold cache on a two-core runner outlasts the build job (2026-11-05).
 11. Context: a definition per new skill and the depth through `pipeline.depth_gen` and `pipeline.depth_publish`
     (`evals/run_depth.py --baseline`); the role's credentials (`pipeline.build_steps`, `pipeline/depth/mba_roles.json`).
 12. A new group: its field readings in `pipeline/fields.json` once it has postings to ground them.
