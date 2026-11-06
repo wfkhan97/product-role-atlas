@@ -65,7 +65,7 @@
   // P = Atlas.product() or null (needed for a product role)
   function asksOf(ix, P, roleId, cut = ASK_CUT) {
     const r = ix.roles[roleId]; if (!r) return [];
-    const skills = r.set === "product" ? (P ? P.G.skills : []) : ix.M.skills;
+    const skills = r.set === "product" ? (P ? P.G.skills : []) : r.set === "tech" ? ((ix.T || {}).skills || []) : ix.M.skills;
     return skills.filter(s => s.cluster !== "credentials" && !String(s.id).startsWith("yoe_")).map(s => ({ id: s.id, share: (s.by_family || {})[r.family] || 0 })).filter(x => x.share >= cut).sort((a, b) => b.share - a.share).map(x => x.id);
   }
   // what the player knows about a role: the asks known of the role's asks, what is missing, the rest of the ledger
@@ -141,8 +141,9 @@
   // ---------- the default role (PLAN.md v12, "Play first"): the role the player came from (?role= in the hash), else
   // the profile's first field's largest role (store "you", fields[]), else Product Manager. Pure: ix is Atlas.index()
   // with the product set loaded; roles = the ids a game can play (a Set or a predicate), or null for any.
-  function pickDefault(ix, you, roleParam, roles) {
-    const ok = id => !!ix.roles[id] && ix.roles[id].set !== "tech" && (!roles || (typeof roles === "function" ? roles(id) : roles.has(id)));
+  // A tech role is offered only by a game that deals the tech set (opts.tech; its eval covers it).
+  function pickDefault(ix, you, roleParam, roles, opts = {}) {
+    const ok = id => !!ix.roles[id] && (ix.roles[id].set !== "tech" || !!opts.tech) && (!roles || (typeof roles === "function" ? roles(id) : roles.has(id)));
     if (roleParam && ok(roleParam)) return roleParam;
     if (roleParam && ok("product." + roleParam)) return "product." + roleParam;
     const fields = you && Array.isArray(you.fields) ? you.fields : [];
@@ -202,11 +203,11 @@
   }
 
   // the default role for a game, from the atlas and the profile; `roles` limits it to the roles a game can play
-  async function defaultRole(Atlas, roles) {
+  async function defaultRole(Atlas, roles, opts = {}) {
     const ix = await Atlas.index(); await Atlas.product().catch(() => { });
     let you = null; try { you = JSON.parse(localStorage.getItem("you")); } catch { }
     const q = new URLSearchParams((location.hash.split("?")[1] || "")).get("role");
-    return pickDefault(ix, you, q, roles);
+    return pickDefault(ix, you, q, roles, opts);
   }
   // the one start screen (G1): the title, one sentence, Play on the default role, "Change role" and ⓘ after that
   function start(F, { title, lead, role, play, change, extra, playLabel }) {
@@ -222,7 +223,7 @@
   // line. picker(F, { Atlas, roles, field, secondary, onRole, back, title }) draws into the frame's body.
   async function picker(F, o) {
     const Atlas = o.Atlas, ix = await Atlas.index(); await Atlas.product().catch(() => { });
-    const ok = id => !!ix.roles[id] && ix.roles[id].set !== "tech" && (!o.roles || (typeof o.roles === "function" ? o.roles(id) : o.roles.has(id)));
+    const ok = id => !!ix.roles[id] && (ix.roles[id].set !== "tech" || !!o.tech) && (!o.roles || (typeof o.roles === "function" ? o.roles(id) : o.roles.has(id)));
     const fmt = n => Number(n).toLocaleString("en-US");
     const groups = ix.groups.map(g => ({ g, roles: (g.roles || []).filter(ok).map(id => ix.roles[id]).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)) })).filter(x => x.roles.length);
     let field = o.field && groups.some(x => x.g.id === o.field) ? o.field : groups[0].g.id;
