@@ -2286,14 +2286,6 @@
   "verbs": [],
   "shown_by": []
  },
- "domain_expertise": {
-  "form": "named",
-  "artefacts": [],
-  "counterparts": [],
-  "measures": [],
-  "verbs": [],
-  "shown_by": []
- },
  "strategic_planning": {
   "form": "artefact",
   "artefacts": [

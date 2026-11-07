@@ -2,11 +2,11 @@
  "_note": "Skill tags per class code for the picker (pipeline/catalog_tags.mjs over the local catalog with the syllabus digest). Rerun after a taxonomy change.",
  "campus": "cornell_tech",
  "term": "SP27",
- "generated": "2026-11-06",
+ "generated": "2026-11-07",
  "rule": "A skill is tagged when the class text names it (strength >= 1); a sub-skill hint alone does not count.",
- "taxonomy_sha256": "ab481ac43afa7fdbb5794c5d55ad84a36f9ab1928ff7b4b4d1141d0cf9ddc70c",
- "taxonomy_product_sha256": "d4b2e73d213b38280042115d729e3f6db9a201be86b7a8fe5f9ed51e73c2af06",
- "taxonomy_tech_sha256": "33615b1bfbd11d8f57209fbb53f7f7c569a16e121d4c44217a99ba421bd16b28",
+ "taxonomy_sha256": "f0f032f50842657b4da21e208c84b8d716ab4a26a1c4f0a123a1aa6b03a408a2",
+ "taxonomy_product_sha256": "d4c81997b8fdecd10bc3622deeb0fafaff7ed6f1cc23adde6dd7276b2350acd2",
+ "taxonomy_tech_sha256": "e4f87e15331c4d92878b306b8944a3d35ea4f3771e16a84eaedfe5a386ddac39",
  "tags": {
   "BANA 5065": {
    "found": [
@@ -699,7 +699,6 @@
   },
   "ECE 5765": {
    "found": [
-    "adaptability",
     "ai_ml",
     "customer_proof",
     "data_driven",
@@ -899,7 +898,6 @@
     "business_case",
     "discovery",
     "genai_llm",
-    "hardware",
     "healthcare",
     "labor_shift_mgmt",
     "market_data_terminals",
@@ -915,7 +913,6 @@
     "business_case",
     "discovery",
     "genai_llm",
-    "hardware",
     "healthcare",
     "market_data_terminals",
     "python_r",
@@ -980,7 +977,6 @@
     "genai_llm",
     "influence",
     "labor_shift_mgmt",
-    "positioning_messaging",
     "program_mgmt",
     "python_r",
     "technical_fluency"
@@ -991,7 +987,6 @@
     "business_case",
     "customer_proof",
     "genai_llm",
-    "positioning_messaging",
     "python_r",
     "technical_fluency"
    ]
@@ -1075,11 +1070,9 @@
     "communication",
     "cross_functional",
     "customer_obsession",
-    "execution",
     "genai_llm",
     "labor_shift_mgmt",
     "ownership",
-    "positioning_messaging",
     "program_mgmt",
     "safety_ehs",
     "stakeholder_mgmt",
@@ -1091,14 +1084,12 @@
     "ai_tools",
     "business_case",
     "genai_llm",
-    "positioning_messaging",
     "safety_ehs",
     "surveys_feedback"
    ]
   },
   "LAW 6114": {
    "found": [
-    "adaptability",
     "deal_sourcing",
     "discovery",
     "due_diligence",
@@ -1233,7 +1224,6 @@
   },
   "LAW 6324": {
    "found": [
-    "adaptability",
     "ai_governance",
     "ai_ml",
     "ai_tools",
@@ -1311,7 +1301,6 @@
     "ai_ml",
     "communication",
     "deal_structuring",
-    "financial_analysis",
     "genai_llm",
     "labor_shift_mgmt",
     "litigation_consulting",
@@ -1325,7 +1314,6 @@
     "accounting_close_controls",
     "ai_ml",
     "deal_structuring",
-    "financial_analysis",
     "genai_llm",
     "litigation_consulting",
     "ma_execution",
@@ -1336,7 +1324,6 @@
   },
   "NBA 5075": {
    "found": [
-    "adaptability",
     "deal_sourcing",
     "discovery",
     "due_diligence",
@@ -1359,7 +1346,6 @@
     "ai_ml",
     "ai_tools",
     "exec_decks",
-    "execution",
     "genai_llm",
     "influence",
     "labor_shift_mgmt",
@@ -1429,7 +1415,6 @@
     "labor_shift_mgmt",
     "market_data_terminals",
     "ownership",
-    "positioning_messaging",
     "problem_solving",
     "python_r",
     "research_design",
@@ -1444,7 +1429,6 @@
     "customer_proof",
     "genai_llm",
     "market_data_terminals",
-    "positioning_messaging",
     "python_r",
     "research_design",
     "user_research"
@@ -1458,7 +1442,6 @@
     "customer_facing_exec",
     "customer_proof",
     "ecommerce_retail",
-    "financial_analysis",
     "financial_statements",
     "genai_llm",
     "influence",
@@ -1474,7 +1457,6 @@
     "business_case",
     "customer_proof",
     "ecommerce_retail",
-    "financial_analysis",
     "financial_statements",
     "genai_llm",
     "launch",
@@ -1539,7 +1521,6 @@
     "ab_testing",
     "ai_ml",
     "ai_tools",
-    "financial_analysis",
     "fintech",
     "genai_llm",
     "labor_shift_mgmt",
@@ -1550,7 +1531,6 @@
     "ab_testing",
     "ai_ml",
     "ai_tools",
-    "financial_analysis",
     "fintech",
     "genai_llm",
     "security_privacy",
@@ -1559,7 +1539,6 @@
   },
   "NBAY 6031": {
    "found": [
-    "adaptability",
     "ai_ml",
     "ai_tools",
     "business_case",
@@ -1614,7 +1593,6 @@
   },
   "NBAY 6320": {
    "found": [
-    "adaptability",
     "ai_ml",
     "communication",
     "financial_analysis",
@@ -2028,7 +2006,6 @@
     "labor_shift_mgmt",
     "office_tools",
     "ownership",
-    "positioning_messaging",
     "pricing_packaging",
     "program_mgmt",
     "re_underwriting"
@@ -2040,7 +2017,6 @@
     "feature_definition",
     "gtm",
     "office_tools",
-    "positioning_messaging",
     "pricing_packaging",
     "re_underwriting"
    ]
@@ -2067,7 +2043,6 @@
   },
   "TECH 5141": {
    "found": [
-    "adaptability",
     "ai_ml",
     "cloud",
     "cpg_innovation",
@@ -2106,7 +2081,6 @@
     "cross_functional",
     "customer_interviews",
     "customer_obsession",
-    "execution",
     "genai_llm",
     "gtm",
     "influence",
@@ -2116,7 +2090,6 @@
     "metrics_kpis",
     "okrs",
     "personas_jtbd",
-    "positioning_messaging",
     "pr_communications",
     "prd",
     "prioritization",
@@ -2140,7 +2113,6 @@
     "metrics_kpis",
     "okrs",
     "personas_jtbd",
-    "positioning_messaging",
     "pr_communications",
     "prd",
     "prioritization",
@@ -2204,7 +2176,6 @@
     "genai_llm",
     "labor_shift_mgmt",
     "prd",
-    "process_improvement",
     "product_lifecycle",
     "program_mgmt",
     "security_privacy",
@@ -2218,7 +2189,6 @@
     "ai_tools",
     "genai_llm",
     "prd",
-    "process_improvement",
     "product_lifecycle",
     "security_privacy",
     "surveys_feedback",
@@ -2242,7 +2212,6 @@
     "operational_risk",
     "ownership",
     "problem_solving",
-    "process_improvement",
     "product_sense",
     "risk_mgmt",
     "root_cause_corrective_action",
@@ -2259,7 +2228,6 @@
     "genai_llm",
     "market_data_terminals",
     "operational_risk",
-    "process_improvement",
     "root_cause_corrective_action",
     "security_privacy",
     "surveys_feedback"
@@ -2318,14 +2286,12 @@
     "ab_testing",
     "ai_ml",
     "metrics_kpis",
-    "problem_solving",
-    "system_architecture"
+    "problem_solving"
    ],
    "teaches": [
     "ab_testing",
     "ai_ml",
-    "metrics_kpis",
-    "system_architecture"
+    "metrics_kpis"
    ]
   },
   "TECHIE 5320": {
@@ -3065,7 +3031,6 @@
   },
   "ECE 5765": {
    "found": [
-    "adaptability",
     "ai_ml",
     "data_driven",
     "devops_sdlc",
@@ -3272,7 +3237,6 @@
     "business_case",
     "discovery",
     "genai_llm",
-    "hardware",
     "healthcare",
     "ownership",
     "python_r",
@@ -3287,7 +3251,6 @@
     "business_case",
     "discovery",
     "genai_llm",
-    "hardware",
     "healthcare",
     "python_r",
     "statistics",
@@ -3342,7 +3305,6 @@
     "business_case",
     "genai_llm",
     "influence",
-    "positioning_messaging",
     "program_mgmt",
     "python_r",
     "technical_fluency"
@@ -3353,7 +3315,6 @@
     "backend_services",
     "business_case",
     "genai_llm",
-    "positioning_messaging",
     "python_r",
     "technical_fluency"
    ]
@@ -3441,11 +3402,9 @@
     "communication",
     "cross_functional",
     "customer_obsession",
-    "execution",
     "figma",
     "genai_llm",
     "ownership",
-    "positioning_messaging",
     "program_mgmt",
     "prototyping",
     "stakeholder_mgmt",
@@ -3458,14 +3417,12 @@
     "business_case",
     "figma",
     "genai_llm",
-    "positioning_messaging",
     "prototyping",
     "surveys_feedback"
    ]
   },
   "LAW 6114": {
    "found": [
-    "adaptability",
     "backend_services",
     "discovery"
    ],
@@ -3591,7 +3548,6 @@
   },
   "LAW 6324": {
    "found": [
-    "adaptability",
     "ai_governance",
     "ai_ml",
     "ai_tools",
@@ -3664,20 +3620,17 @@
     "ai_ml",
     "communication",
     "corporate_law",
-    "financial_analysis",
     "genai_llm",
     "program_mgmt"
    ],
    "teaches": [
     "ai_ml",
     "corporate_law",
-    "financial_analysis",
     "genai_llm"
    ]
   },
   "NBA 5075": {
    "found": [
-    "adaptability",
     "backend_services",
     "discovery"
    ],
@@ -3690,7 +3643,6 @@
    "found": [
     "ai_ml",
     "ai_tools",
-    "execution",
     "genai_llm",
     "influence",
     "office_tools",
@@ -3743,7 +3695,6 @@
     "customer_obsession",
     "genai_llm",
     "ownership",
-    "positioning_messaging",
     "problem_solving",
     "prototyping",
     "python_r",
@@ -3755,7 +3706,6 @@
     "ai_ml",
     "ai_tools",
     "genai_llm",
-    "positioning_messaging",
     "prototyping",
     "python_r",
     "user_research"
@@ -3769,7 +3719,6 @@
     "business_case",
     "customer_facing_exec",
     "ecommerce_retail",
-    "financial_analysis",
     "genai_llm",
     "influence",
     "launch",
@@ -3783,7 +3732,6 @@
     "backend_services",
     "business_case",
     "ecommerce_retail",
-    "financial_analysis",
     "genai_llm",
     "launch",
     "office_tools",
@@ -3847,7 +3795,6 @@
     "ai_tools",
     "backend_services",
     "cryptography",
-    "financial_analysis",
     "fintech",
     "genai_llm",
     "security_privacy",
@@ -3860,7 +3807,6 @@
     "ai_tools",
     "backend_services",
     "cryptography",
-    "financial_analysis",
     "fintech",
     "genai_llm",
     "security_privacy",
@@ -3870,7 +3816,6 @@
   },
   "NBAY 6031": {
    "found": [
-    "adaptability",
     "ai_ml",
     "ai_tools",
     "business_case",
@@ -3910,7 +3855,6 @@
   },
   "NBAY 6320": {
    "found": [
-    "adaptability",
     "ai_ml",
     "communication",
     "financial_analysis",
@@ -4282,7 +4226,6 @@
     "gtm",
     "office_tools",
     "ownership",
-    "positioning_messaging",
     "pricing_packaging",
     "program_mgmt"
    ],
@@ -4292,7 +4235,6 @@
     "feature_definition",
     "gtm",
     "office_tools",
-    "positioning_messaging",
     "pricing_packaging"
    ]
   },
@@ -4318,7 +4260,6 @@
   },
   "TECH 5141": {
    "found": [
-    "adaptability",
     "ai_ml",
     "cloud",
     "customer_obsession",
@@ -4355,7 +4296,6 @@
     "customer_interviews",
     "customer_obsession",
     "design_critique",
-    "execution",
     "genai_llm",
     "gtm",
     "influence",
@@ -4363,7 +4303,6 @@
     "metrics_kpis",
     "okrs",
     "personas_jtbd",
-    "positioning_messaging",
     "prd",
     "prioritization",
     "process_improvement",
@@ -4386,7 +4325,6 @@
     "metrics_kpis",
     "okrs",
     "personas_jtbd",
-    "positioning_messaging",
     "prd",
     "prioritization",
     "process_improvement",
@@ -4447,7 +4385,6 @@
     "genai_llm",
     "model_training",
     "prd",
-    "process_improvement",
     "product_lifecycle",
     "program_mgmt",
     "security_privacy",
@@ -4463,7 +4400,6 @@
     "genai_llm",
     "model_training",
     "prd",
-    "process_improvement",
     "product_lifecycle",
     "security_privacy",
     "surveys_feedback",
@@ -4481,7 +4417,6 @@
     "genai_llm",
     "ownership",
     "problem_solving",
-    "process_improvement",
     "product_sense",
     "risk_mgmt",
     "security_privacy",
@@ -4492,7 +4427,6 @@
     "ai_tools",
     "devops_sdlc",
     "genai_llm",
-    "process_improvement",
     "security_privacy",
     "surveys_feedback"
    ]

@@ -517,16 +517,6 @@
     "deal_negotiation"
    ],
    "line": "Rewrote the pitch narrative for 3 verticals; win rate rose from 20% to 28% over 2 quarters."
-  },
-  "analytics": {
-   "reads_as": "Telling the story in the data: the narrative that carries an insight to a decision.",
-   "shown_by": [
-    "synthesis_recommendations",
-    "dashboards_dataviz",
-    "reporting_adhoc_analysis",
-    "metrics_kpis"
-   ],
-   "line": "Turned a 30-page analysis into a 3-slide narrative; leadership approved the pricing change in one meeting."
   }
  },
  "partnerships": {
@@ -886,46 +876,6 @@
    ],
    "line": "Built the three-statement and LBO models for 6 transactions, including a $1B take-private."
   },
-  "operations": {
-   "reads_as": "Budgets, cost per unit and the business case for a site or programme change.",
-   "shown_by": [
-    "ops_performance_mgmt",
-    "cost_schedule_control",
-    "program_mgmt",
-    "process_improvement"
-   ],
-   "line": "Managed a $40M site budget and built the business case for a $5M automation project with an 18-month payback."
-  },
-  "product": {
-   "reads_as": "Unit economics, pricing and the business case for a product bet.",
-   "shown_by": [
-    "business_case",
-    "pricing_packaging",
-    "pnl",
-    "metrics_kpis"
-   ],
-   "line": "Built the unit-economics model for a new tier; informed pricing that raised ARPU 12% without a churn increase."
-  },
-  "marketing": {
-   "reads_as": "Budgets, ROI and marketing mix: what each dollar returns.",
-   "shown_by": [
-    "marketing_analytics",
-    "performance_marketing",
-    "campaign_management",
-    "business_case"
-   ],
-   "line": "Managed a $5M marketing budget with a channel ROI model; reallocated 20% of spend and lifted pipeline 15%."
-  },
-  "sales": {
-   "reads_as": "Deal economics, pricing and the ROI case a buyer's CFO signs.",
-   "shown_by": [
-    "consultative_selling",
-    "deal_negotiation",
-    "pipeline_forecasting",
-    "business_case"
-   ],
-   "line": "Built ROI cases for 10 enterprise deals, each with a payback under 12 months; 7 closed."
-  },
   "supply_chain": {
    "reads_as": "Should-cost, TCO and savings models that drive sourcing decisions.",
    "shown_by": [
@@ -936,36 +886,6 @@
    ],
    "line": "Built TCO models for a $20M category; identified and delivered $2.5M of savings."
   },
-  "people": {
-   "reads_as": "Headcount, compensation and benefits modelling and the budget behind people programmes.",
-   "shown_by": [
-    "comp_design",
-    "succession_workforce_planning",
-    "benefits_admin",
-    "people_analytics"
-   ],
-   "line": "Modelled the $60M merit and bonus budget across 2,000 employees; landed within 1% of plan."
-  },
-  "risk": {
-   "reads_as": "Quantifying exposure, loss and the cost of controls.",
-   "shown_by": [
-    "financial_risk",
-    "erm_framework",
-    "internal_audit_sox",
-    "regulatory_change"
-   ],
-   "line": "Quantified operational loss exposure across 8 business units with a scenario model used in the capital plan."
-  },
-  "analytics": {
-   "reads_as": "Revenue, cost and margin analyses that finance and the business both trust.",
-   "shown_by": [
-    "dashboards_dataviz",
-    "statistics",
-    "synthesis_recommendations",
-    "sql"
-   ],
-   "line": "Built the margin analysis by product and customer used in the annual plan for a $200M business."
-  },
   "role:ma_integration": {
    "reads_as": "Synergy models and integration budgets: what the deal case promised and what the integration delivers.",
    "shown_by": [
@@ -975,16 +895,6 @@
     "due_diligence"
    ],
    "line": "Built the synergy model for a $400M acquisition; tracked $25M of cost synergies against the deal case within 1%."
-  },
-  "impact": {
-   "reads_as": "Costing a bill, a regulation or a decarbonisation project so leaders see what is at stake.",
-   "shown_by": [
-    "government_affairs",
-    "public_sector",
-    "policy_management",
-    "energy_industrial"
-   ],
-   "line": "Modelled the cost of 3 proposed rules at $40M a year; the analysis anchored the comment letter."
   }
  },
  "ai_ml": {
@@ -2948,7 +2858,7 @@
     "public_sector",
     "energy_industrial",
     "risk_mgmt",
-    "financial_analysis"
+    "metrics_kpis"
    ],
    "line": "Ran a $25M energy-efficiency programme across 40 sites; finished on budget, 2 months early."
   }

@@ -239,7 +239,7 @@
   // patterns alone. These only run on role / summary / education lines.
   // read from a line of schooling only
   const EDU_CREDENTIAL = new Set(["finance_degree", "law_degree"]);
-  const STRUCTURAL = new Set(["pm_experience", "startup_experience", "big_tech_experience", "consulting_banking", "bachelors", "masters_mba", "phd", "cs_engineering_degree", "security_clearance", "domain_expertise", "yoe_2", "yoe_3", "yoe_5", "yoe_8", "yoe_10"]);
+  const STRUCTURAL = new Set(["pm_experience", "startup_experience", "big_tech_experience", "consulting_banking", "bachelors", "masters_mba", "phd", "cs_engineering_degree", "security_clearance", "yoe_2", "yoe_3", "yoe_5", "yoe_8", "yoe_10"]);
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework", sales: "sales / business development", community: "community building and editorial work" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;

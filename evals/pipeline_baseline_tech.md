@@ -27,8 +27,8 @@ The parts the set has so far: titles, levels, entry marks and the JavaScript rea
 == entry mark on postings (130: 53 grad, 39 of them internships, 130 read with their text)
   128 pass, 0 fail; 0 known misses; 3 unsure rows not counted (1 of them differ from their label)
   sure rows by the evidence the rule used (right / all): firm 0/0, title 51/51, text 2/2, none 74/74
-== golden postings (14 postings, 225 must, 144 must-not)
-  must found: 87.6% (floor 87%)   must-not tagged: 26.4% (ceiling 27%)
+== golden postings (14 postings, 223 must, 144 must-not)
+  must found: 87.4% (floor 87%)   must-not tagged: 26.4% (ceiling 27%)
   missed most (* = shared with the product map): databases 2, mlops_serving 2, regulatory_change 2, adaptability* 1, backend_services 1, networking* 1, cross_functional* 1, influence* 1, stakeholder_mgmt* 1, yoe_3* 1, public_sector* 1, process_improvement* 1, security_clearance* 1, visual_design 1, design_critique 1
   wrongly tagged most: genai_llm* 3, partnerships* 3, launch* 3, cloud* 2, growth_loops* 2, gtm* 2, pricing_packaging* 2, accessibility 1, figma* 1, product_vision* 1, supply_chain* 1, dashboards_dataviz 1, roadmap* 1, financial_analysis* 1, agile_scrum* 1
 == integrity: registry and processed file
@@ -37,7 +37,7 @@ The parts the set has so far: titles, levels, entry marks and the JavaScript rea
   14 pass, 0 fail
 == graph files
   entry marks (n, of which the posting says so): engineering: grad 94 (94), grad_intern 391 (391); legal: grad 3 (3), grad_intern 8 (8); bank: grad 0 (0), grad_intern 10 (10)
-  14,165 postings in 7 role files (15.3 MB; largest software_engineer 7.79 MB, smallest ux_researcher 58 KB); index 0.83 MB; heaviest employer in a role: 3.5% (product_designer)
+  14,165 postings in 7 role files (15.2 MB; largest software_engineer 7.74 MB, smallest ux_researcher 58 KB); index 0.82 MB; heaviest employer in a role: 3.5% (product_designer)
   153 pass, 0 fail
 == web/match.js reads the graph unchanged
   matcher reads the tech graph: 7 roles pass, 0 fail
