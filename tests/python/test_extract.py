@@ -3,6 +3,8 @@
 The tagging tests load the real pipeline/taxonomy.json (through extract.skills_for), because the rule under test is
 a pattern of that file: the four context fixes of PR #49, one regression test each.
 """
+import re
+
 import pytest
 
 from pipeline import extract as E
@@ -189,4 +191,14 @@ def test_the_text_cache_survives_a_change_made_for_another_role_set(tmp_path, mo
     monkeypatch.setattr(E, "TAX", {**E.TAX, "skills": worded + [tech_only]})
     assert E.TextCache("mba", path=path).fingerprint == before
     monkeypatch.setattr(E, "TAX", {**E.TAX, "skills": worded + [dict(tech_only, only=["mba"])]})
+    assert E.TextCache("mba", path=path).fingerprint != before
+
+
+def test_the_text_cache_survives_a_change_to_depth_that_tagging_does_not_read(tmp_path, monkeypatch):
+    """Of the depth files the fingerprint reads the sub-skills only: a new definition keeps the cache, a sub-skill does not."""
+    path = str(tmp_path / "c.json.gz")
+    before = E.TextCache("mba", path=path).fingerprint
+    monkeypatch.setattr(E, "DEPTH", {**E.DEPTH, "zz_new": {"what": "A definition."}})
+    assert E.TextCache("mba", path=path).fingerprint == before
+    monkeypatch.setattr(E, "SUB_RE", {**E.SUB_RE, "zz_sub": ("sql", re.compile("zzz", re.I))})
     assert E.TextCache("mba", path=path).fingerprint != before

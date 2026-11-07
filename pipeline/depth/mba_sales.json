@@ -8552,5 +8552,11 @@
    },
    "build": {}
   }
+ },
+ "technical_demos_poc": {
+  "what": "Showing a technical buyer that the product works for them: discovery, tailored demos and proofs of concept that win the technical decision."
+ },
+ "implementation_delivery": {
+  "what": "Taking a customer from signed contract to live use: the implementation plan, configuration, data migration, testing and go-live."
  }
 }

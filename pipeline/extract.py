@@ -343,11 +343,12 @@ class TextCache:
         # wording of a shared skill, does not throw away this set's cache ("only" names the sets, not the patterns)
         view = [{k: v for k, v in sk.items() if k != "only"} for sk in tax.for_roles(roleset, TAX)["skills"]]
         h.update(json.dumps(view, sort_keys=True).encode())
-        files = [__file__, tax.__file__] + sorted(glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")))
-        for f in files:
+        for f in (__file__, tax.__file__):
             h.update(os.path.basename(f).encode())
             with open(f, "rb") as fh:
                 h.update(fh.read())
+        # of the depth files only the sub-skills are read here: a definition, a ladder rung or a build step leaves the cache valid
+        h.update(json.dumps({k: SUB_RE[k][0] + "\0" + SUB_RE[k][1].pattern for k in sorted(SUB_RE)}).encode())
         self.fingerprint = h.hexdigest()
         self.entries, self.hits, self.misses = {}, 0, 0
         try:

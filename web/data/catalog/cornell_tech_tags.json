@@ -4,7 +4,7 @@
  "term": "SP27",
  "generated": "2026-11-06",
  "rule": "A skill is tagged when the class text names it (strength >= 1); a sub-skill hint alone does not count.",
- "taxonomy_sha256": "96af7556b079b656f7a90a649050dfa77b18604ea65b060a491f290db2dbf0f9",
+ "taxonomy_sha256": "ab481ac43afa7fdbb5794c5d55ad84a36f9ab1928ff7b4b4d1141d0cf9ddc70c",
  "taxonomy_product_sha256": "d4b2e73d213b38280042115d729e3f6db9a201be86b7a8fe5f9ed51e73c2af06",
  "taxonomy_tech_sha256": "33615b1bfbd11d8f57209fbb53f7f7c569a16e121d4c44217a99ba421bd16b28",
  "tags": {
@@ -144,11 +144,13 @@
   "BANA 6390": {
    "found": [
     "marketing_analytics",
-    "pricing_packaging"
+    "pricing_packaging",
+    "research_design"
    ],
    "teaches": [
     "marketing_analytics",
-    "pricing_packaging"
+    "pricing_packaging",
+    "research_design"
    ]
   },
   "BANA 6420": {
@@ -809,6 +811,7 @@
     "market_data_terminals",
     "ownership",
     "program_mgmt",
+    "research_design",
     "surveys_feedback",
     "user_research",
     "ux_design_collab"
@@ -820,6 +823,7 @@
     "discovery",
     "genai_llm",
     "market_data_terminals",
+    "research_design",
     "surveys_feedback",
     "user_research"
    ]
@@ -1117,6 +1121,7 @@
     "ai_ml",
     "ai_tools",
     "genai_llm",
+    "government_affairs",
     "hardware",
     "healthcare",
     "labor_shift_mgmt",
@@ -1427,6 +1432,7 @@
     "positioning_messaging",
     "problem_solving",
     "python_r",
+    "research_design",
     "user_research",
     "ux_design_collab"
    ],
@@ -1440,6 +1446,7 @@
     "market_data_terminals",
     "positioning_messaging",
     "python_r",
+    "research_design",
     "user_research"
    ]
   },
@@ -1870,6 +1877,7 @@
     "genai_llm",
     "lean_six_sigma",
     "process_improvement",
+    "research_design",
     "user_research"
    ],
    "teaches": [
@@ -1878,6 +1886,7 @@
     "genai_llm",
     "lean_six_sigma",
     "process_improvement",
+    "research_design",
     "user_research"
    ]
   },
@@ -2171,12 +2180,14 @@
     "influence",
     "ownership",
     "positioning_messaging",
+    "research_design",
     "surveys_feedback"
    ],
    "teaches": [
     "ai_ml",
     "customer_interviews",
     "positioning_messaging",
+    "research_design",
     "surveys_feedback"
    ]
   },
@@ -2220,6 +2231,7 @@
     "ai_ml",
     "ai_tools",
     "communication",
+    "crisis_issues_mgmt",
     "cross_functional",
     "customer_proof",
     "devops_sdlc",
@@ -2240,6 +2252,7 @@
    "teaches": [
     "ai_ml",
     "ai_tools",
+    "crisis_issues_mgmt",
     "customer_proof",
     "devops_sdlc",
     "erm_framework",

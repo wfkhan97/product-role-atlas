@@ -1,0 +1,14 @@
+{
+ "esg_reporting": {
+  "what": "Preparing the sustainability disclosures investors and regulators read: the data, the frameworks such as CSRD, ISSB and CDP, and the controls behind them."
+ },
+ "carbon_accounting": {
+  "what": "Measuring a company's greenhouse gas emissions across scopes 1, 2 and 3, from the inventory to product footprints and life-cycle assessments."
+ },
+ "decarbonization_strategy": {
+  "what": "Setting emission targets and the plan to reach them: net-zero roadmaps, science-based targets, renewable energy deals and climate-risk scenarios."
+ },
+ "government_affairs": {
+  "what": "Representing the company to legislators and regulators: policy positions, lobbying, coalitions and advocacy campaigns that shape the rules it works under."
+ }
+}

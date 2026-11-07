@@ -46,5 +46,8 @@
  },
  "stats_analytics_packages": {
   "what": "Using statistical or data-prep packages such as SAS, SPSS, Alteryx, Minitab or JMP for analysis."
+ },
+ "ats_tools": {
+  "what": "Running hiring in an applicant tracking system and sourcing tools such as Greenhouse, Workday Recruiting or LinkedIn Recruiter."
  }
 }
