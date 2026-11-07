@@ -2666,6 +2666,48 @@ order still reads the first ten columns.
 - `skill_path.mjs` fails on its pinned example round. The 2026-11-06 refresh data already broke it (#189's code gives
   the same failures). Its invariants hold: no player is stranded, and a perfect player always arrives. Retune under Later.
 
+## Tighter patterns, and three skills retired or moved (`feat/tighter-patterns`, 2026-11-07)
+
+The owner's decisions on rows 4 and 6 of the skills audit of 2026-11-06. Every pattern change was read against both
+corpora first: share before and after, by role, with sampled sentences the change drops and keeps. A tightening that
+dropped real asks was reverted (stakeholder management stays as it was).
+
+**Row 4: the over-broad patterns.** A skill's pattern now needs the ask, not the word. US shares, before and after
+(product / MBA):
+- financial_analysis 21% to 4% / 41% to 13%: "analysis" or "budget" in any sentence no longer counts; a model, a
+  forecast, unit economics or financial analysis does.
+- adaptability 55% to 37% / 46% to 28%: a line about the environment ("a fast-paced environment", "multiple
+  priorities") is not adaptability; a disposition line (thrive in, comfortable working in, navigate ambiguity) is.
+- system_architecture 55% to 37% / 11% to 6%: "infrastructure" or "architecture" alone no longer counts.
+- consulting_banking 11% to 6% / 23% to 13%: the word "consulting" no longer counts; a consulting or banking
+  background does.
+- execution 68% to 60% / 62% to 55%; ai_ml 65% to 58% / 41% to 35%; positioning_messaging 30% to 23% / 22% to 14%
+  ("narrative" needs a qualifier; "value prop" counts); process_improvement, risk_mgmt and people_management (mentoring
+  junior or other staff alone no longer counts) move a few points each; hardware stays within a point.
+- The recruiter's sourcing reading (`patterns_for.mba` of sourcing_category_strategy) needs procurement words, not
+  candidate sourcing: 31% to 16% of recruiter postings.
+
+**Row 6: three skills.**
+- `domain_expertise` is retired: it never said which domain, and the industry tags do. It leaves the taxonomy, the
+  evidence file, the product depth file and the matcher's structural list, and the `must` of 7 golden rows (each note
+  says why).
+- `consulting_banking` is tightened (above).
+- `rotational_program` moves to the credentials cluster: a programme is an entry route, not a skill, so the
+  surfaces of rows 1 to 3 treat it like a degree.
+
+**Labels.** Adaptability left `must` in 9 MBA and 2 tech golden rows whose only evidence is an environment line, each
+note giving the reason. With that, must found is 85.2% (floor 85%) and 87.4% (floor 87%); must-not tagged fell.
+
+**Field entries.** Nine entries asked for in under the coverage floor after the tightening left `pipeline/fields.json`
+(financial_analysis for eight fields, positioning_messaging for analytics); program_mgmt's impact entry carries
+metrics_kpis instead of financial_analysis.
+
+**Bands.** Recalibrated on the new tags: product moves a point; MBA in range from 49% (was 54%).
+
+**Not regenerated.** `evals/extraction_baseline.md` (product) and `skill_audit --reuse` need model answers
+(`decisions_results.jsonl`, the audit answers) that are in neither this checkout nor the store. `run_depth.py` keeps its
+64 failures, all already on main; its baseline is written only from a clean run.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as

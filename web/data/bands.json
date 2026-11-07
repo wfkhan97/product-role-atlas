@@ -1,12 +1,12 @@
 {
  "about": "Bands of fit for the product roles, written by node evals/calibrate.mjs (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above 'related' it is a related background; below that, a different field so far. The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }) (distinct null: every ask counts by its share; behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only); web/app.js creates its matcher that way.",
- "generated": "2026-11-02",
+ "generated": "2026-11-07",
  "resumes": 304,
  "scoring": {
   "distinct": null,
   "behaviours": "show"
  },
- "related": 0.32,
+ "related": 0.33,
  "in_range": 0.49,
- "strong": 0.69
+ "strong": 0.7
 }

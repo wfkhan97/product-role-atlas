@@ -1,18 +1,18 @@
 # Extraction baseline: the TECH role set
 
-Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/processed/jobs_tech.json` (13,945 postings, United States; 159 skills, 61 of them specific to this role set). Shares are the fraction of a role's postings whose title or cleaned description matches a skill's patterns, with each employer held to 5% of a role. "Defines the role" lists skills on at least 80% of the role's postings and at least 2.5 times as common as in other roles: the role's own field. Roles marked * have fewer than 60 postings. Regenerate after any taxonomy change.
+Produced by `pipeline/experiments/role_coverage.py` on 2026-11-07 from `data/processed/jobs_tech.json` (13,945 postings, United States; 158 skills, 61 of them specific to this role set). Shares are the fraction of a role's postings whose title or cleaned description matches a skill's patterns, with each employer held to 5% of a role. "Defines the role" lists skills on at least 80% of the role's postings and at least 2.5 times as common as in other roles: the role's own field. Roles marked * have fewer than 60 postings. Regenerate after any taxonomy change.
 
 ## Per role
 
 | # | role | postings | employers | skills per posting (median) | role-set skills per posting (median) | defines the role | most asked beyond that |
 |---|---|---|---|---|---|---|---|
-| 1 | Software Engineer | 7,155 | 967 | 23 | 4 | – | Ownership & bias for action 74%, Collaboration & teamwork 74%, CS / engineering degree or background 66%, APIs & integrations 64%, Written & verbal communication 63%, Cloud platforms 59%, SDLC, DevOps & CI/CD 58%, Technical fluency 56%, Bachelor's degree 54%, Systems & architecture 51%, Adaptability & fast-paced environments 49%, Cross-functional leadership 46% |
-| 2 | ML / AI Engineer | 2,365 | 548 | 25 | 5 | – | Generative AI / LLMs & agents 84%, AI / machine learning 77%, Ownership & bias for action 75%, Collaboration & teamwork 70%, CS / engineering degree or background 69%, Python / R / scripting 68%, Technical fluency 63%, Written & verbal communication 57%, Cloud platforms 55%, APIs & integrations 52%, SDLC, DevOps & CI/CD 48%, Adaptability & fast-paced environments 48% |
+| 1 | Software Engineer | 7,155 | 967 | 22 | 4 | – | Ownership & bias for action 74%, Collaboration & teamwork 74%, CS / engineering degree or background 66%, APIs & integrations 64%, Written & verbal communication 63%, Cloud platforms 59%, SDLC, DevOps & CI/CD 58%, Technical fluency 56%, Bachelor's degree 54%, Systems & architecture 51%, Cross-functional leadership 46%, Python / R / scripting 45% |
+| 2 | ML / AI Engineer | 2,365 | 548 | 24 | 5 | – | Generative AI / LLMs & agents 84%, AI / machine learning 77%, Ownership & bias for action 75%, Collaboration & teamwork 70%, CS / engineering degree or background 69%, Python / R / scripting 68%, Technical fluency 63%, Written & verbal communication 57%, Cloud platforms 55%, APIs & integrations 52%, SDLC, DevOps & CI/CD 48%, Bachelor's degree 48% |
 | 3 | Data Engineer | 883 | 350 | 26 | 5 | Data modeling & pipelines 98% | Ownership & bias for action 77%, Cloud platforms 75%, SQL 72%, Python / R / scripting 70%, Collaboration & teamwork 69%, Written & verbal communication 69%, CS / engineering degree or background 63%, Bachelor's degree 59%, Technical fluency 58%, SDLC, DevOps & CI/CD 57%, Stakeholder management 55%, APIs & integrations 51% |
-| 4 | Security Engineer | 1,601 | 479 | 24 | 5 | Security & privacy 96% | Ownership & bias for action 75%, Cloud platforms 72%, Written & verbal communication 71%, Collaboration & teamwork 68%, SDLC, DevOps & CI/CD 64%, Risk & dependency management 60%, Bachelor's degree 57%, Technical fluency 55%, CS / engineering degree or background 53%, Python / R / scripting 52%, Detection and incident response 51%, Adaptability & fast-paced environments 46% |
-| 5 | Product / UX Designer | 861 | 348 | 21 | 4 | – | Written & verbal communication 78%, Collaboration & teamwork 76%, Ownership & bias for action 72%, Prototyping 64%, Cross-functional leadership 61%, Product sense & judgment 59%, Execution & delivery 57%, Interaction design 55%, Adaptability & fast-paced environments 54%, Design systems 49%, Stakeholder management 49%, Visual design 47% |
-| 6 | UX Researcher* | 51 | 34 | 23 | 2 | User research 93%, Data-driven decision making 90% | Written & verbal communication 81%, Cross-functional leadership 81%, Surveys & feedback loops 75%, Collaboration & teamwork 72%, Stakeholder management 61%, Adaptability & fast-paced environments 60%, Ownership & bias for action 56%, AI tooling in daily work 56%, A/B testing & experimentation 55%, Influence without authority 54%, Customer obsession / user empathy 51%, Positioning & messaging 51% |
-| 7 | In-house Counsel | 1,029 | 392 | 18 | 4 | JD / law degree 92% | Written & verbal communication 84%, Collaboration & teamwork 83%, Influence without authority 77%, Ownership & bias for action 66%, Stakeholder management 59%, Adaptability & fast-paced environments 59%, Regulated industries & compliance 55%, Risk & dependency management 53%, Cross-functional leadership 48%, Execution & delivery 44%, Litigation and disputes 44%, Commercial contracts 43% |
+| 4 | Security Engineer | 1,601 | 479 | 23 | 5 | Security & privacy 96% | Ownership & bias for action 75%, Cloud platforms 72%, Written & verbal communication 71%, Collaboration & teamwork 68%, SDLC, DevOps & CI/CD 64%, Bachelor's degree 57%, Technical fluency 55%, CS / engineering degree or background 53%, Python / R / scripting 52%, Risk & dependency management 52%, Detection and incident response 51%, APIs & integrations 46% |
+| 5 | Product / UX Designer | 861 | 348 | 21 | 4 | – | Written & verbal communication 78%, Collaboration & teamwork 76%, Ownership & bias for action 72%, Prototyping 64%, Cross-functional leadership 61%, Product sense & judgment 59%, Interaction design 55%, Design systems 49%, Stakeholder management 49%, Visual design 47%, Execution & delivery 45%, AI tooling in daily work 43% |
+| 6 | UX Researcher* | 51 | 34 | 22 | 2 | User research 93%, Data-driven decision making 90% | Written & verbal communication 81%, Cross-functional leadership 81%, Surveys & feedback loops 75%, Collaboration & teamwork 72%, Stakeholder management 61%, Ownership & bias for action 56%, AI tooling in daily work 56%, A/B testing & experimentation 55%, Influence without authority 54%, Customer obsession / user empathy 51%, Product sense & judgment 50%, Generative AI / LLMs & agents 49% |
+| 7 | In-house Counsel | 1,029 | 392 | 17 | 4 | JD / law degree 92% | Written & verbal communication 84%, Collaboration & teamwork 83%, Influence without authority 77%, Ownership & bias for action 66%, Stakeholder management 59%, Regulated industries & compliance 55%, Cross-functional leadership 48%, Risk & dependency management 46%, Litigation and disputes 44%, Commercial contracts 43%, Managing outside counsel 41%, Structured problem solving 39% |
 
 ## Per skill
 
@@ -34,7 +34,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/pro
 | Pricing & packaging (shared) | gtm | 4.9% | UX Researcher 7%, In-house Counsel 6%, Software Engineer 6%, Product / UX Designer 5% |
 | Go-to-market strategy (shared) | gtm | 3.7% | In-house Counsel 10%, UX Researcher 7%, Data Engineer 6%, Product / UX Designer 5% |
 | Market & competitive analysis (shared) | gtm | 3.9% | UX Researcher 12%, Product / UX Designer 11%, In-house Counsel 4%, Data Engineer 4% |
-| Positioning & messaging (shared) | gtm | 7.7% | UX Researcher 51%, Product / UX Designer 23%, Software Engineer 8%, Data Engineer 6% |
+| Positioning & messaging (shared) | gtm | 1.6% | UX Researcher 17%, Product / UX Designer 7%, In-house Counsel 2%, ML / AI Engineer 1% |
 | Sales enablement & field partnership (shared) | gtm | 2.3% | In-house Counsel 9%, UX Researcher 5%, Product / UX Designer 3%, ML / AI Engineer 2% |
 | Customer success & support partnership (shared) | gtm | 4.4% | Software Engineer 5%, UX Researcher 5%, Data Engineer 4%, Product / UX Designer 4% |
 | Partnerships & ecosystem (shared) | gtm | 9.9% | In-house Counsel 29%, Product / UX Designer 11%, Security Engineer 10%, UX Researcher 10% |
@@ -53,7 +53,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/pro
 | Python / R / scripting (shared) | technical | 45.6% | Data Engineer 70%, ML / AI Engineer 68%, Security Engineer 52%, Software Engineer 45% |
 | Data modeling & pipelines (shared) | technical | 31.4% | Data Engineer 98%, ML / AI Engineer 41%, Software Engineer 29%, Security Engineer 17% |
 | Statistics & forecasting (shared) | analytics | 13.1% | UX Researcher 44%, ML / AI Engineer 28%, Data Engineer 24%, Software Engineer 11% |
-| Financial modeling & analysis (shared) | analytics | 12.0% | UX Researcher 17%, In-house Counsel 15%, Product / UX Designer 13%, Software Engineer 13% |
+| Financial modeling & analysis (shared) | analytics | 1.8% | Data Engineer 5%, ML / AI Engineer 2%, Software Engineer 2%, In-house Counsel 1% |
 | Technical fluency (shared) | technical | 51.4% | ML / AI Engineer 63%, Data Engineer 58%, Software Engineer 56%, Security Engineer 55% |
 | APIs & integrations (shared) | technical | 52.2% | Software Engineer 64%, ML / AI Engineer 52%, Data Engineer 51%, Security Engineer 46% |
 | Systems & architecture (shared) | technical | 38.8% | Software Engineer 51%, ML / AI Engineer 42%, Data Engineer 38%, Security Engineer 20% |
@@ -63,7 +63,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/pro
 | Mobile platforms (shared) | technical | 12.5% | Product / UX Designer 25%, Software Engineer 14%, UX Researcher 13%, Security Engineer 12% |
 | Security & privacy (shared) | technical | 36.4% | Security Engineer 96%, Data Engineer 43%, Software Engineer 31%, ML / AI Engineer 26% |
 | SDLC, DevOps & CI/CD (shared) | technical | 49.6% | Security Engineer 64%, Software Engineer 58%, Data Engineer 57%, ML / AI Engineer 48% |
-| Hardware, devices & embedded (shared) | technical | 30.9% | Security Engineer 42%, ML / AI Engineer 39%, Software Engineer 33%, Product / UX Designer 15% |
+| Hardware, devices & embedded (shared) | technical | 30.5% | Security Engineer 41%, ML / AI Engineer 39%, Software Engineer 32%, Product / UX Designer 15% |
 | Networking & connectivity (shared) | technical | 11.7% | Security Engineer 27%, Software Engineer 13%, Data Engineer 6%, ML / AI Engineer 6% |
 | Automotive, autonomy & robotics (shared) | domain | 13.2% | ML / AI Engineer 18%, Security Engineer 15%, Software Engineer 14%, Data Engineer 8% |
 | Payments, fintech & banking (shared) | domain | 23.6% | In-house Counsel 36%, Security Engineer 27%, Software Engineer 23%, Product / UX Designer 22% |
@@ -82,16 +82,16 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/pro
 | Influence without authority (shared) | leadership | 30.8% | In-house Counsel 77%, UX Researcher 54%, Product / UX Designer 42%, Security Engineer 30% |
 | Written & verbal communication (shared) | leadership | 66.0% | In-house Counsel 84%, UX Researcher 81%, Product / UX Designer 78%, Security Engineer 71% |
 | Executive communication & reviews (shared) | leadership | 7.2% | In-house Counsel 16%, UX Researcher 15%, Security Engineer 12%, Product / UX Designer 10% |
-| People management & coaching (shared) | leadership | 26.9% | Software Engineer 30%, Data Engineer 29%, UX Researcher 28%, Product / UX Designer 26% |
+| People management & coaching (shared) | leadership | 21.1% | Software Engineer 23%, Data Engineer 21%, Security Engineer 20%, Product / UX Designer 20% |
 | Ownership & bias for action (shared) | leadership | 74.0% | Data Engineer 77%, ML / AI Engineer 75%, Security Engineer 75%, Software Engineer 74% |
-| Adaptability & fast-paced environments (shared) | leadership | 49.6% | UX Researcher 60%, In-house Counsel 59%, Product / UX Designer 54%, Software Engineer 49% |
+| Adaptability & fast-paced environments (shared) | leadership | 33.1% | UX Researcher 48%, Product / UX Designer 36%, Software Engineer 34%, Data Engineer 33% |
 | Collaboration & teamwork (shared) | leadership | 72.9% | In-house Counsel 83%, Product / UX Designer 76%, Software Engineer 74%, UX Researcher 72% |
 | Customer & executive-facing engagement (shared) | leadership | 12.5% | UX Researcher 18%, ML / AI Engineer 17%, Security Engineer 13%, In-house Counsel 12% |
 | Agile / Scrum (shared) | delivery | 18.6% | Data Engineer 28%, Software Engineer 24%, ML / AI Engineer 13%, Security Engineer 12% |
 | Program & project management (shared) | delivery | 25.8% | Product / UX Designer 34%, UX Researcher 31%, Security Engineer 28%, Software Engineer 27% |
-| Risk & dependency management (shared) | delivery | 29.3% | Security Engineer 60%, In-house Counsel 53%, Software Engineer 25%, Data Engineer 23% |
-| Execution & delivery (shared) | delivery | 41.6% | Product / UX Designer 57%, UX Researcher 49%, In-house Counsel 44%, Software Engineer 42% |
-| Process design & operational rigor (shared) | delivery | 34.5% | Security Engineer 41%, In-house Counsel 40%, Data Engineer 40%, Software Engineer 35% |
+| Risk & dependency management (shared) | delivery | 25.2% | Security Engineer 52%, In-house Counsel 46%, Software Engineer 22%, Data Engineer 21% |
+| Execution & delivery (shared) | delivery | 33.8% | Product / UX Designer 45%, In-house Counsel 38%, UX Researcher 37%, Software Engineer 35% |
+| Process design & operational rigor (shared) | delivery | 29.8% | Data Engineer 37%, Software Engineer 32%, Security Engineer 30%, In-house Counsel 26% |
 | Quality, testing & acceptance (shared) | delivery | 16.4% | Software Engineer 24%, Data Engineer 16%, ML / AI Engineer 12%, Security Engineer 6% |
 | Vendor, budget & contract management (shared) | delivery | 8.5% | In-house Counsel 24%, Data Engineer 11%, Security Engineer 10%, UX Researcher 10% |
 | Jira / Confluence / Asana / Linear (shared) | tools | 7.4% | Software Engineer 9%, Data Engineer 9%, Security Engineer 7%, ML / AI Engineer 6% |
@@ -108,9 +108,8 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-06 from `data/pro
 | CS / engineering degree or background (shared) | credentials | 57.0% | ML / AI Engineer 69%, Software Engineer 66%, Data Engineer 63%, Security Engineer 53% |
 | Startup / scale-up experience (shared) | credentials | 15.0% | Product / UX Designer 18%, Software Engineer 17%, ML / AI Engineer 14%, In-house Counsel 13% |
 | Large-scale / big-tech experience (shared) | credentials | 19.2% | ML / AI Engineer 23%, Data Engineer 19%, Software Engineer 19%, Security Engineer 18% |
-| Consulting / banking / finance background (shared) | credentials | 6.5% | In-house Counsel 12%, UX Researcher 8%, Data Engineer 8%, Security Engineer 7% |
+| Consulting / banking / finance background (shared) | credentials | 1.2% | UX Researcher 5%, ML / AI Engineer 2%, Product / UX Designer 2%, In-house Counsel 1% |
 | Security clearance / citizenship (shared) | credentials | 7.6% | Security Engineer 13%, Software Engineer 8%, Data Engineer 8%, ML / AI Engineer 6% |
-| Deep domain expertise required (shared) | credentials | 16.0% | ML / AI Engineer 19%, In-house Counsel 17%, Security Engineer 17%, UX Researcher 17% |
 | Employment law & HR compliance | people | 2.4% | In-house Counsel 9%, Security Engineer 3%, ML / AI Engineer 2%, Data Engineer 2% |
 | Third-party & vendor risk | risk | 1.0% | Security Engineer 6%, In-house Counsel 3%, Software Engineer 0%, ML / AI Engineer 0% |
 | Regulatory analysis & change management | risk | 3.0% | In-house Counsel 25%, Security Engineer 4%, Data Engineer 1%, Software Engineer 1% |

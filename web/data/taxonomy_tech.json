@@ -320,10 +320,11 @@
    "kind": "method",
    "patterns": [
     "positioning",
-    "messaging",
-    "value proposition",
-    "narrative",
-    "storytelling"
+    "messaging (framework|strategy|architecture|hierarch\\w*|pillars|guide|and positioning|& positioning|development|platform for the brand)|(product|brand|marketing|key|core|value|customer|go-to-market|GTM|solution|campaign) messaging",
+    "(define|defining|develop|developing|craft|crafting|create|creating|own|owning|write|writing|refine|refining|test|testing)\\w* (the |product |key |core |our |clear )?messaging|messaging (for|that|to) ",
+    "value prop(osition)?s?\\b",
+    "narrative (development|design|strategy|arc)|(product|brand|company|market|customer|compelling|corporate|strategic) narratives?|(craft|crafting|build|building|develop|developing|shape|shaping|own|owning|write|writing)\\w* (the |a |compelling |clear )?narratives?",
+    "(brand|product|marketing|customer|visual) storytelling|storytelling (for|around|about) (the )?(brand|product|company)"
    ]
   },
   {
@@ -622,11 +623,14 @@
    "patterns": [
     "financial model",
     "financial analysis",
-    "budget",
+    "financial (projections|forecasts?|forecasting|planning (and|&) analysis)",
     "cost (analysis|model|optimization)",
-    "spreadsheet",
-    "\\bexcel\\b",
-    "forecasting revenue"
+    "budget(ing)? (analysis|models?|modell?ing|variance|vs\\.? actuals?)|variance analysis",
+    "forecasting revenue|revenue (models?|forecasts?|forecasting)",
+    "unit economics",
+    "cash flow (models?|modell?ing|analysis|projections|forecasts?)",
+    "pro[- ]?forma",
+    "\\bDCF\\b|discounted cash flow"
    ]
   },
   {
@@ -842,11 +846,11 @@
     "firmware",
     "embedded (systems|software|firmware|devices|linux|products)",
     "silicon (design|teams?|products|vendors|roadmap)",
-    "\\bchips?\\b",
+    "chip (design|architecture|development|teams?|products?|roadmap)|(AI|custom|silicon) chips",
     "\\bGPUs?\\b",
     "\\bSoC\\b",
     "semiconductor",
-    "sensors?\\b",
+    "sensor (fusion|data|hardware|design|systems|integration|technolog\\w+)|sensors (and|&) (actuators|devices)",
     "(connected|wearable|edge|IoT|smart|medical) devices?",
     "device (management|platform|firmware|software|ecosystem)",
     "\\bIoT\\b",
@@ -1238,7 +1242,7 @@
     "hiring (and|&) (developing|managing|growing)",
     "recruit(ing)? (and|&|,) (develop|manag|retain|coach|hir)",
     "recruit(ing)? (top |world[- ]class )?(talent|PMs|product managers)",
-    "(mentor|coach)(ing|es)? (junior|other|the|a |PMs|product managers|team|and)",
+    "(mentor|coach)(ing|es)? (the |a |PMs|product managers|team|and )",
     "build(ing)? (and lead(ing)? )?(a |high[- ]performing |world[- ]class |strong )?team",
     "grow(ing)? (the|a|your) team",
     "develop(ing)? talent",
@@ -1249,7 +1253,8 @@
     "manager of (product )?managers",
     "player[- ]coach",
     "team lead(er)?\\b",
-    "lead(ing)? (and|&) (manag|develop|grow|coach)"
+    "lead(ing)? (and|&) (manag|develop|grow|coach)",
+    "staff development"
    ]
   },
   {
@@ -1282,21 +1287,15 @@
    "cluster": "leadership",
    "kind": "behaviour",
    "patterns": [
-    "fast[- ]paced",
-    "fast[- ]moving",
-    "rapidly (changing|evolving|growing)",
-    "dynamic environment",
-    "start-?up (environment|experience|mentality|mindset|pace)",
+    "(thrive|thrives|thriving|succeed|succeeds|excel|excels|comfort|work well|flourish|perform well)\\w*( working| operating)? in (a |an )?(complex,? |dynamic,? )?(fast[- ]paced|fast[- ]moving|dynamic|rapidly (changing|evolving)|ambiguous|high[- ]growth|startup|changing|evolving|unstructured)",
+    "start-?up (mentality|mindset)",
     "thrive in",
     "comfortable (with|in) (ambiguity|change|uncertainty|a fast)",
     "adapt(able|ability|ive)\\b",
     "resilien",
     "wear(ing)? (many|multiple) hats",
-    "high[- ]growth",
-    "hyper-?growth",
-    "scale-?up",
     "navigate ambiguity",
-    "ambiguous"
+    "ambiguous ([\\w-]+ ){0,2}(problems|situations|environments?|spaces?|requirements|goals|challenges|areas|questions|topics|initiatives|projects)|(deal|dealing|operate|operating|work|working|lead|leading|navigate|navigating|thrive|thriving) (with|in|through) ambiguity"
    ]
   },
   {
@@ -1398,7 +1397,7 @@
     "dependenc(y|ies)",
     "blockers?\\b",
     "unblock",
-    "escalat",
+    "escalat\\w* (risks?|blockers|dependencies|issues (to|and risks))|risks?,? (issues )?(and|&) escalations|escalation (paths?|process(es)?) for (risks|programs?|projects?)",
     "contingency",
     "issue (tracking|resolution)",
     "manag(e|ing) risks?",
@@ -1411,7 +1410,12 @@
    "cluster": "delivery",
    "kind": "behaviour",
    "patterns": [
-    "execution",
+    "(strong|flawless|excellent|operational|disciplined|rigorous|crisp|strategic|hands-on|high[- ]quality|relentless|tactical|project|program|go-to-market|day-to-day) execution",
+    "(bias|focus) (for|toward|towards|on) (action and )?execution",
+    "execution (skills|excellence|focus|mindset|oriented|discipline|abilities|capabilities|track record)",
+    "(strategy|strategic planning|planning|vision|roadmap|ideation|design)( and|,| &) (tactical )?execution",
+    "(drive|drives|driving|ensure|ensures|ensuring|own|owns|owning|lead|leading|oversee|overseeing|manage|managing|responsib\\w+ for) (the )?([\\w\\u2011-]+ ){0,2}execution",
+    "(,|\\band|&) execution\\b",
     "execut(e|ing) (on|against)",
     "deliver(y|ing)? (results|outcomes|value|on time|high[- ]quality|against)",
     "drive(s)? (results|delivery|execution|outcomes)",
@@ -1435,7 +1439,7 @@
    "patterns": [
     "process (improvement|design|optimization|definition|documentation|standardi[sz]ation|excellence|re-?engineering)",
     "operating (model|cadence|rhythm|mechanisms)",
-    "\\bmechanisms\\b",
+    "(build|building|create|creating|develop|developing|establish|establishing|design|designing|define|defining|implement|implementing|improve|improving|standardi[sz]e|standardi[sz]ing)\\w* (scalable |new |the |repeatable |operational |durable |reporting |review )*(mechanisms|playbooks|rituals)|scalable mechanisms",
     "\\bSOPs?\\b",
     "standard operating",
     "continuous improvement",
@@ -1445,9 +1449,8 @@
     "streamlin",
     "operational (efficiency|rigor|excellence)",
     "scal(e|ing) (processes|operations|the team|our|the business)",
-    "playbooks?\\b",
-    "\\brituals\\b",
-    "automat(e|ing) (manual|repetitive|internal)"
+    "automat(e|ing) (manual|repetitive|internal)",
+    "continual improvement"
    ]
   },
   {
@@ -1793,18 +1796,13 @@
    "cluster": "credentials",
    "kind": "credential",
    "patterns": [
-    "consulting",
+    "consulting (firm|background|experience|industry|company|companies|firms|practice|career)|(management|strategy|top[- ]tier|big ?(4|four)|top) consult(ing|ancy)",
+    "(experience|background|career|years|tenure|alumni?|former)[^.;\\n]{0,120}\\b(consulting|investment bank\\w*|private equity|venture capital|MBB|mckinsey|bain|BCG)\\b",
     "\\bMBB\\b",
-    "mckinsey",
-    "\\bbain\\b",
-    "\\bBCG\\b",
-    "investment bank",
-    "private equity",
-    "venture capital",
+    "(investment bank\\w*|private equity|venture capital) (experience|background|firm experience|training)",
     "strategy (background|experience|role)",
-    "corporate strategy",
-    "\\bbizops\\b",
-    "business operations"
+    "corporate strategy (experience|background)",
+    "\\bbizops\\b (experience|background)|business operations (experience|background|role)"
    ]
   },
   {
@@ -1819,19 +1817,6 @@
     "top secret",
     "\\bTS/SCI\\b",
     "export control"
-   ]
-  },
-  {
-   "id": "domain_expertise",
-   "name": "Deep domain expertise required",
-   "cluster": "credentials",
-   "kind": "credential",
-   "patterns": [
-    "domain (expertise|knowledge|experience|expert)",
-    "subject[- ]matter expert",
-    "\\bSME\\b",
-    "industry (expertise|experience|knowledge|background)",
-    "deep (understanding|knowledge|expertise) of the"
    ]
   },
   {
