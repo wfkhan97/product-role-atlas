@@ -154,7 +154,8 @@ def main():
     # co-occurrence edges (jaccard), keep top-6 per node
     cnt, single = collections.Counter(), collections.Counter()
     for j in jobs:
-        ks = sorted(k for k in j["skills"] if not k.startswith("yoe_"))
+        # a credential (years, degrees, licences, clearance) is a requirement, not a skill: no edges (skills audit, 2026-11-06)
+        ks = sorted(k for k in j["skills"] if KIND.get(k) != "credential" and not k.startswith("yoe_"))
         single.update(ks)
         cnt.update(itertools.combinations(ks, 2))
     edges = {}
@@ -369,7 +370,7 @@ def build_roleset(roleset):
 
     cnt, single = collections.Counter(), collections.Counter()
     for j in jobs:
-        ks = sorted(k for k in j["skills"] if not k.startswith("yoe_") and k in known)
+        ks = sorted(k for k in j["skills"] if KIND.get(k) != "credential" and not k.startswith("yoe_") and k in known)
         single.update(ks)
         cnt.update(itertools.combinations(ks, 2))
     edges, per_node = {}, collections.defaultdict(list)

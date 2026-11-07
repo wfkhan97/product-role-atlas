@@ -96,8 +96,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   `PIPELINE_LOG_LEVEL=DEBUG` shows more, `PIPELINE_RUNS=off` skips the row.
 - `pipeline/jobs_open.py` — every open US posting of both sets → `web/data/jobs_open.json` (column-oriented: companies,
   locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx,
-  flags, skills, url, firstSeen]`; `flags` is a bit field the file names) and `jobs_meta.json` (the counts). No
-  snippet, no sub-skills. Runs after `build_graph`, no network.
+  flags, skills, url, firstSeen, yoe]`; `flags` is a bit field the file names, `yoe` the years asked) and
+  `jobs_meta.json` (the counts). A row's skills leave out credentials and the industries that do not define its MBA
+  role. No snippet, no sub-skills. Runs after `build_graph`, no network.
 - `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
   the course catalog's loader dry and writes `web/data/catalog/cornell_tech.json` (committed) and
   `web/data/local/catalog_full.json` (this machine; the only copy with the syllabus digest). `catalog_tags` reads the

@@ -40,9 +40,12 @@
   // no dead end, where a player can only step back. The generic skills are measured (Atlas.genericSkills), so a refresh
   // can free a skill whose other links all went to generic ones (healthcare, 2026-11-01). adj[id] = [[neighbour,
   // jaccard]], strongest link first.
+  // An industry (cluster domain) is on the board only where it defines an MBA role, as on the skill map (skillmap.js
+  // onMap; skills audit, 2026-11-06): the others are the employer's sector, not a skill to walk through.
   function buildBoard(M, generic, minLinks = MIN_LINKS) {
     const skill = byId(M.skills), gen = new Set(generic || []);
-    const keep = id => skill[id] && !isCred(skill[id]) && !gen.has(id);
+    const defines = new Set(Object.values(M.roles || {}).flatMap(r => (r.defining || []).map(a => a.id)));
+    const keep = id => skill[id] && !isCred(skill[id]) && skill[id].kind !== "credential" && (!isDomain(skill[id]) || defines.has(id)) && !gen.has(id);
     const adj = {}, seen = new Set(); let links = 0;
     for (const e of M.edges) {
       if (!keep(e.source) || !keep(e.target) || e.source === e.target) continue;

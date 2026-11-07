@@ -78,7 +78,12 @@
     const sig = M.skills.length + ":" + M.groups.length + ":" + (M.meta.generated || "");
     let L = null; try { const c = JSON.parse(sessionStorage.getItem(LAYOUT_KEY)); if (c && c.sig === sig) L = c.L; } catch { }
     if (!L) { L = computeLayout(M, FS); try { sessionStorage.setItem(LAYOUT_KEY, JSON.stringify({ sig, L })); } catch { } }
-    const nodes = M.skills.map(s => ({ id: s.id, name: s.name, cluster: s.cluster, share: s.share || 0, x: L.skill[s.id][0], y: L.skill[s.id][1] }));
+    // the map draws skills a person can learn: no credential (years, degrees, licences), and an industry (cluster
+    // domain) only where it defines a role (fintech for treasury); the others are the employer's sector, which the role
+    // pages show apart (skills audit, 2026-11-06)
+    const definesARole = new Set(Object.values(M.roles || {}).flatMap(r => (r.defining || []).map(a => a.id)));   // the same rule as the skill path board (games/skill-path.js buildBoard)
+    const onMap = s => s.cluster !== "credentials" && s.kind !== "credential" && (s.cluster !== "domain" || definesARole.has(s.id));
+    const nodes = M.skills.filter(onMap).map(s => ({ id: s.id, name: s.name, cluster: s.cluster, share: s.share || 0, x: L.skill[s.id][0], y: L.skill[s.id][1] }));
     const byId = Object.fromEntries(nodes.map(nd => [nd.id, nd])), adj = {};
     const edges = M.edges.filter(e => byId[e.source] && byId[e.target]);
     for (const e of edges) { (adj[e.source] ||= []).push([e.target, e.jaccard]); (adj[e.target] ||= []).push([e.source, e.jaccard]); }

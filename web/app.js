@@ -2066,7 +2066,7 @@
     };
     const panel = r => {
       const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
-      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null].filter(Boolean);
+      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
       return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
@@ -2100,14 +2100,14 @@
     // other facet only when the person opens it (owner's feedback 2026-11-01, second pass: neither a picked field nor a
     // role page's preset role opens one; the chips over the list show what is on). A person's own open and close are
     // kept until "Clear filters", which sets these defaults again.
-    const openedFor = () => ({ field: true, role: false, level: false, entry: false, group: false, company: false, work: false });
+    const openedFor = () => ({ field: true, role: false, level: false, entry: false, years: false, sector: false, group: false, company: false, work: false });
     const opened = openedFor();
     railEl.addEventListener("toggle", e => { const d = e.target; if (d.dataset && d.dataset.group) opened[d.dataset.group] = d.open; }, true);
     const facetRow = (key, val, label, n, on) => {
       const dead = !on && !n;
       return `<button type="button" class="frow${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ` title="${esc(JB.dead)}" aria-disabled="true"` : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
     };
-    const group = (key, label, pairs, counts, extra) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" || key === "sponsor" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
+    const group = (key, label, pairs, counts, extra, lead) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${lead || ""}${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" || key === "sponsor" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
     const rail = (searched, f) => {
       const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
       const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
@@ -2119,9 +2119,13 @@
       const top = all.slice(0, 20); if (s.company && cm[s.company] && !top.some(([n]) => n === s.company)) top.push([s.company, cm[s.company]]);
       const shown = moreCompanies ? all : top;
       const more = all.length > shown.length ? `<button type="button" class="frow more" data-more-companies="1">${esc(JB.more)}<span class="n">${fmt(all.length)}</span></button>` : "";
-      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>${esc(JB.facets.work)}</summary>${facetRow("remote", true, JB.remoteFacet, count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, JB.sponsorFacet, count("sponsor", [[true]])[true], s.sponsor)}</details>`;
+      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>${esc(JB.facets.work)}</summary>${facetRow("remote", true, JB.remoteFacet, count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, JB.sponsorFacet, count("sponsor", [[true]])[true], s.sponsor)}${facetRow("noclear", true, JB.noclearFacet, count("noclear", [[true]])[true], s.noclear)}</details>`;
+      // the employer's industry (companies[].sector), most postings first, over the rows the other filters keep
+      const sm = {}; for (const r of Jobs.filterJobs(searched, Object.assign({}, f, { sector: "" }), ctx)) if (r.sector) sm[r.sector] = (sm[r.sector] || 0) + 1;
+      const sectors = Object.keys(sm).sort((a, b) => sm[b] - sm[a] || a.localeCompare(b)); if (s.sector && !sm[s.sector]) sectors.push(s.sector);
       return group("field", JB.facets.field, fields, count("field", fields)) + group("role", JB.facets.role, roles, count("role", roles)) + group("level", JB.facets.level, levels, count("level", levels))
-        + group("entry", JB.facets.entry, Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("group", JB.facets.group, Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
+        + group("entry", JB.facets.entry, Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("years", JB.facets.years, Jobs.YEARS, count("years", Jobs.YEARS), "", `<p class="small muted">${esc(JB.yearsNote)}</p>`)
+        + group("sector", JB.facets.sector, sectors.map(v => [v, v]), sm) + group("group", JB.facets.group, Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
         + group("company", JB.facets.company, shown.map(([n]) => [n, n]), cm, more) + work;
     };
     // ---- each filter that is on, as a chip an × removes: over the list (the facets but the search, which its box
@@ -2131,8 +2135,9 @@
       if (s.q.trim()) out.push(["q", fill(JB.quoted, { q: s.q.trim() })]); if (s.loc.trim()) out.push(["loc", fill(JB.inLoc, { loc: s.loc.trim() })]);
       if (s.field) out.push(["field", fieldLabel(s.field)]); if (s.role) out.push(["role", roleLabel(s.role)]);
       if (s.level) out.push(["level", labelIn(levelsOf(), s.level)]); if (s.entry) out.push(["entry", labelIn(Jobs.ENTRIES, s.entry)]);
+      if (s.years) out.push(["years", labelIn(Jobs.YEARS, s.years)]); if (s.sector) out.push(["sector", s.sector]);
       if (s.group) out.push(["group", labelIn(Jobs.EMPLOYERS, s.group)]); if (s.company) out.push(["company", s.company]);
-      if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]);
+      if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]); if (s.noclear) out.push(["noclear", JB.noclearFacet]);
       return out;
     };
     const levelsOf = () => Jobs.LEVEL_WORDS.labels;
@@ -2173,7 +2178,7 @@
     const syncInputs = () => { form.q.value = s.q; form.loc.value = s.loc; $("#jsort").value = s.sort; };
     const change = () => { s.page = 1; draw(); };
     const toggleFacet = (key, val) => {
-      if (key === "remote" || key === "sponsor") s[key] = !s[key];
+      if (key === "remote" || key === "sponsor" || key === "noclear") s[key] = !s[key];
       else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; }
       else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role) s.field = fieldOf(s.role); }
       else s[key] = s[key] === val ? "" : val;

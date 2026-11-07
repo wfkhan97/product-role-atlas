@@ -2896,6 +2896,41 @@ definition change keeps the cache.
 experience, credentials, industry tags, broad patterns and behaviours across all three sets; nothing was pruned. The
 owner decides row by row. The rows that land get their own dated sections.
 
+## Requirements and industries leave the skill surfaces (`feat/skill-surfaces`, 2026-11-06)
+
+The owner's decisions on rows 1, 2 and 3 of the skills audit of 2026-11-06 (artifact "Skill Graph Pruning Audit").
+A tag stays in the data. What changes is where each kind is shown: a **skill** is something a person can learn or
+show; a **requirement** is a gate the employer sets; a **filter** narrows a search.
+
+**Years of experience is a Find jobs filter.**
+- `jobs_open.json` carries each posting's `yoe` as an eleventh column.
+- Find jobs gets "Years of experience" (up to 2, 5 or 8). A posting that names no number of years always counts.
+- The posting panel says "asks for N+ years".
+- The `yoe_*` buckets stay in the graphs: they are the requirement the fit tab compares with the résumé's years.
+
+**Credentials are requirements, not skills.**
+- A posting's skills in `jobs_open.json` hold no credential, so "N of the M skills" counts skills only.
+- The graphs' edges skip every credential, so "often asked for together" no longer pairs a skill with a degree.
+- The skill map and the skill path board drop them.
+- A security clearance ask is flag 128, with a "No security clearance" filter.
+- The role page's Credentials block is unchanged.
+
+**An industry is the employer's sector, except where it is the work.**
+- An industry (cluster `domain`) is one of a role's skills only when it is in the role's `defining` list: measured, on
+  most of the role's postings and rare elsewhere (fintech for treasury and the banks). No hand list is kept.
+- Elsewhere it leaves the role screen's skill areas (it stays in the role's Industries block), the posting's skills in
+  Find jobs, the skill map and the skill path board.
+- Find jobs gets an Industry filter on the employer's sector (`companies[].sector`, 89% of open postings).
+- The matcher's "Industry fit" is unchanged.
+
+**Interface.** `docs/GRADBUDDY_CONTRACT.md` records the new column and flag, both appended, so a reader of the old
+order still reads the first ten columns.
+
+**Checks.**
+- Web tests 391; `run.mjs` 515; `graph_mba.mjs` 64 roles; `rough_fit` pass; `run_tech` 147; both game evals hold.
+- `skill_path.mjs` fails on its pinned example round. The 2026-11-06 refresh data already broke it (#189's code gives
+  the same failures). Its invariants hold: no player is stranded, and a perfect player always arrives. Retune under Later.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -2955,6 +2990,8 @@ done). One line per item; the section that explains it is named where it helps.
   Engineer" postings kept as `pmm`.
 - `node evals/rough_fit.mjs` in the checks step of `refresh-mba.yml` (after `store pull evals` and `npm ci`).
 - `role_coverage`: a column of each role's top `role_terms` phrases that no pattern matches; `COVERS` for the new roles.
+- `evals/skill_path.mjs` and `games/skill-path/README.md`: the example round (Marketing to Product Manager), the board,
+  the pool and the role count moved with the 2026-11-06 refresh; retune both together (the mocks too).
 - `evals/run_depth.py` has 64 failures on `main` since the 2026-11-05 refresh (20 stale citations, 44 sub-skill shares
   outside 5% to 50%): a `depth_publish` rerun on a `data/` branch with the baseline, and `run_depth` in the refresh checks.
 - `product_engineer` reads as engineering (system architecture 86%, APIs 79%): whether it moves to the tech set. The American-spelling rule in `depth_gen` and the

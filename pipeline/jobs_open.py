@@ -5,11 +5,14 @@ the build writes and nothing else: no network, no .env. Idempotent: the same inp
                             the US slice is country == "United States") and of the MBA set (web/data/graph_mba/<role>.json:
                             open true and country equal to the index meta's). Column-oriented so the screen loads it
                             fast: the companies, locations, roles and titles are lists, and a row is
-                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen]
+                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen, yoe]
                             num is the posting's own number (the id is p<num> or m<num>); levelIdx indexes
                             levels[<set>]; flags is a bit field (FLAGS); skills index this file's own skill_ids, the
-                            union of both sets'; url is the posting's URL minus its company's url_prefix. No snippet,
-                            no sub-skills, no yoe. web/jobs.js rowsOf(file) expands it to row objects.
+                            union of both sets'; url is the posting's URL minus its company's url_prefix; yoe is the
+                            years of experience the posting asks for, or null. A row's skills are the ones a person
+                            can learn or show: no credential (years, degrees, licences, clearance: years is its own
+                            column and clearance a flag) and no industry (cluster domain) unless it defines the
+                            posting's MBA role. No snippet, no sub-skills. web/jobs.js rowsOf(file) expands it.
   web/data/jobs_meta.json   the counts alone (home reads this, never the big file).
 
   .venv/bin/python -m pipeline.jobs_open
@@ -23,14 +26,15 @@ META = os.path.join(DATA, "jobs_meta.json")
 PRODUCT_NS = "product."   # web/atlas.js productKey: the product set's family ids live under their own namespace
 US = "United States"
 # the bits of a row's flags (web/jobs.js FLAGS reads the same)
-FLAGS = {"mba": 1, "intern": 2, "remote": 4, "entry_mba": 8, "entry_pre_mba": 16, "sponsor_yes": 32, "sponsor_no": 64}
+FLAGS = {"mba": 1, "intern": 2, "remote": 4, "entry_mba": 8, "entry_pre_mba": 16, "sponsor_yes": 32, "sponsor_no": 64, "clearance": 128}
+CLEARANCE = "security_clearance"   # the credential the clearance flag reads
 
 NOTE = ("Every open posting of the site's US slice, both role sets, for Find jobs. Column-oriented: companies, "
         "locations, roles and titles are lists; a row is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, "
-        "flags, skills, url, firstSeen]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs) or m<num> (MBA, "
+        "flags, skills, url, firstSeen, yoe]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs) or m<num> (MBA, "
         "the row id in graph_mba/<role>.json); flags: 1 MBA set, 2 internship, 4 remote, 8 MBA entry, 16 bachelor's "
-        "entry, 32 says it sponsors, 64 says it does not; levelIdx indexes levels[set]; skills index skill_ids; url "
-        "is the posting's URL after its company's url_prefix. Written by pipeline.jobs_open; rows are sorted by set, "
+        "entry, 32 says it sponsors, 64 says it does not, 128 asks for a security clearance; levelIdx indexes levels[set]; skills index skill_ids; url "
+        "is the posting's URL after its company's url_prefix; yoe is the years asked, or null. Skills leave out credentials and the industries that do not define the posting's role. Written by pipeline.jobs_open; rows are sorted by set, "
         "then by number. web/jobs.js rowsOf expands it.")
 
 
@@ -52,8 +56,10 @@ class Column:
         return self.index[key]
 
 
-def flags_of(set_, j):
+def flags_of(set_, j, clearance=False):
     f = FLAGS["mba"] if set_ == "mba" else 0
+    if clearance:
+        f |= FLAGS["clearance"]
     if j.get("intern"):
         f |= FLAGS["intern"]
     if j.get("remote"):
@@ -93,6 +99,14 @@ def build():
     skill_ids = sorted(set(product["skill_ids"]) | set(mba["skill_ids"]))
     remap = {k: i for i, k in enumerate(skill_ids)}
     levels = {"product": product["levels"], "mba": mba["levels"]}
+    # which of a posting's skills it keeps: credentials never (years and clearance have their own column and flag);
+    # an industry (cluster domain) only when it defines the posting's MBA role (graph_mba roles.<id>.defining, the
+    # field doing the work: fintech for treasury). The product roles have no defining list, so none of theirs.
+    cluster = {"product": {s["id"]: s["cluster"] for s in product["skills"]}, "mba": {s["id"]: s["cluster"] for s in mba["skills"]}}
+    defining = {f: {a["id"] for a in r.get("defining", [])} for f, r in mba["roles"].items()}
+    def keeps(set_, role, sid):
+        c = cluster[set_].get(sid)
+        return c != "credentials" and (c != "domain" or (set_ == "mba" and sid in defining.get(role, ())))
     # (set, num, job, role) for every open US posting, in the file's order: product by index, then MBA by row id
     found = []
     for j in product["jobs"]:
@@ -119,11 +133,12 @@ def build():
         c = companies.idx(j["company"], {"name": j["company"], "group": j["group"], "sector": j.get("sector"), "url_prefix": ""})
         prefix = companies.values[c]["url_prefix"] = common_prefix(urls_by_company[j["company"]])
         url = j.get("url") or ""
+        ids = [(product if set_ == "product" else mba)["skill_ids"][i] for i in j.get("skills", [])]
         rows.append([
             num, c, roles.idx(role), titles.idx(j["title"]), levels[set_].index(j["level"]),
-            locations.idx(j.get("location") or ""), flags_of(set_, j),
-            sorted(remap[(product if set_ == "product" else mba)["skill_ids"][i]] for i in j.get("skills", [])),
-            url[len(prefix):] if url.startswith(prefix) else url, j.get("first_seen"),
+            locations.idx(j.get("location") or ""), flags_of(set_, j, CLEARANCE in ids),
+            sorted(remap[k] for k in ids if keeps(set_, role, k)),
+            url[len(prefix):] if url.startswith(prefix) else url, j.get("first_seen"), j.get("yoe"),
         ])
     generated = time.strftime("%Y-%m-%d")
     out = {
