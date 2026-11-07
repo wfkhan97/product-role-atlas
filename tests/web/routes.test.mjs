@@ -106,3 +106,48 @@ test("a query on a screen's hash comes through: the wizard's step and the role s
   const you = parseRoute("#/you?step=2"); assert.equal(you.name, "you"); assert.deepEqual(you.query, { step: "2" });
   const role = parseRoute("#/role/fpa?tab=skills"); assert.equal(role.name, "role"); assert.deepEqual(role.query, { tab: "skills" });
 });
+
+// ---------- the usability pass of 2026-11-06, cluster "feedback, the sign-in, About and the chrome" ----------
+const { Crumbs, Theme } = require(path.join(web, "app.js"));
+const Copy = require(path.join(web, "copy.js"));
+const BAR = Copy.common.bar;
+
+test("C-22, the crumbs changed shape and names: one rule on the route table, the section as the top bar names it, then the screen", () => {
+  const H = [Copy.common.home, "#/home"];
+  const cases = [
+    ["door", [], null, []],
+    ["home", [], null, []],
+    ["jobs", [H, ["Find jobs", null]], "jobs", [[BAR.jobs, null]]],
+    ["skills", [H, ["Explore careers", null]], "skills", [[BAR.skills, null]]],
+    ["network", [H, ["Networking", null]], "network", [[BAR.network, null]]],
+    ["classes", [["Classes", null]], "classes", [[BAR.classes, null]]],
+    ["explore", [["All fields", null]], "skills", [[BAR.skills, "#/skills"], ["All fields", null]]],
+    ["role", [["All fields", "#/explore"], ["Finance", "#/field/finance"], ["Analyst", null]], "skills", [[BAR.skills, "#/skills"], ["All fields", "#/explore"], ["Finance", "#/field/finance"], ["Analyst", null]]],
+    ["play", [H, ["A game", null]], "skills", [[BAR.skills, "#/skills"], ["A game", null]]],
+    ["map", [["Your map", null]], "skills", [[BAR.skills, "#/skills"], ["Your map", null]]],
+    ["professor", [["Classes", "#/classes"], ["Ada Lovelace", null]], "classes", [[BAR.classes, "#/classes"], ["Ada Lovelace", null]]],
+    ["about", [["About GradBuddy", null]], null, [["About GradBuddy", null]]],
+    ["you", [["About you", null]], null, [["About you", null]]],
+    ["signin", [H, ["Sign in", null]], null, [["Sign in", null]]],
+  ];
+  for (const [name, items, section, want] of cases) assert.deepEqual(Crumbs.trail(name, items), { section, items: want }, name);
+  // every route the table names starts at a section the top bar draws
+  for (const [name, s] of Object.entries(Crumbs.SECTION_OF)) assert.ok(BAR[s], `${name} -> ${s}`);
+});
+
+test("the current mark follows the crumb's origin: a professor opened from Networking sits under Networking, with its own hash", () => {
+  const from = "#/network?role=product.pm&type=faculty";
+  assert.deepEqual(Crumbs.trail("professor", [["Networking", from], ["Ada Lovelace", null]]), { section: "network", items: [[BAR.network, from], ["Ada Lovelace", null]] });
+});
+
+test("C-21, one press in three changed nothing: from the device's theme a press goes to the other, then light and dark take turns; the name says the state", () => {
+  assert.equal(Theme.next("system", false), "dark", "a light device: the first press shows dark");
+  assert.equal(Theme.next("system", true), "light", "a dark device: the first press shows light");
+  assert.equal(Theme.next("dark", true), "light");
+  assert.equal(Theme.next("light", true), "dark");
+  for (const dark of [true, false]) {
+    let t = "system", shown = dark ? "dark" : "light";
+    for (let i = 0; i < 5; i++) { t = Theme.next(t, dark); assert.notEqual(t, shown, `press ${i + 1} changes the screen`); shown = t; }
+  }
+  assert.deepEqual(Theme.STATES.map(Theme.label), ["Theme: device", "Theme: light", "Theme: dark"]);
+});

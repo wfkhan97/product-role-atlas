@@ -1,0 +1,765 @@
+{
+ "_about": "Job titles as résumés write them, with the tech role family each must be read as (null: none of the tech roles). The résumé-side twin of evals/titles_tech.json and the tech counterpart of evals/resume_titles.json. Rows marked from_sample are titles (and the employer line beside them) as the published tech résumé samples write them; the rest are the edges the rules must hold, written from the posting spec, not from the reader's output. A résumé has no employer industry, so a bare 'Engineer' or 'Designer' reads as the role. 'known_gap' marks a case the title rules cannot read yet, with its reason: it is reported and not counted, and it stops being a gap the day it passes. 'level' (associate, mid, senior or lead) is the level the title's grade must be read as. Checked by node evals/run_tech.mjs with the role families of web/data/roles_tech.json.",
+ "titles": [
+  {
+   "title": "Software Engineer Intern",
+   "line": "Google",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Software Engineering Intern",
+   "line": "Intuit",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Software Development Engineer Intern",
+   "line": "Amazon Web Services | AWS | Remote",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Software Developer Intern",
+   "line": "GOOGLE | Mountain View, CA",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Junior Software Developer",
+   "line": "Tapestry Solutions",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Software Developer",
+   "line": "Tapestry Solutions | A Boeing Company",
+   "family": "software_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Software Engineer & Research Scholar",
+   "family": "software_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Web Developer",
+   "line": "BITS Pilani | Hyderabad | India",
+   "family": "software_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Programmer",
+   "family": "software_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Firmware Engineering Intern",
+   "line": "Consumer electronics startup | Atlanta | GA",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Embedded Software Intern",
+   "line": "Medical device company | Boston | MA",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Android Development Intern",
+   "line": "Hullo Inc. | Mumbai | India",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Senior Software Engineer",
+   "family": "software_engineer",
+   "level": "senior"
+  },
+  {
+   "title": "Staff Software Engineer",
+   "family": "software_engineer",
+   "level": "lead"
+  },
+  {
+   "title": "Principal Engineer, Platform",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Backend Engineer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Full Stack Developer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Front-End Developer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "iOS Developer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Site Reliability Engineer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "DevOps Engineer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Member of Technical Staff",
+   "family": "software_engineer"
+  },
+  {
+   "title": "SDE II",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Engineering Manager, Payments",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Platform Engineer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Embedded Software Engineer",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Software Engineer in Test",
+   "family": "software_engineer"
+  },
+  {
+   "title": "Engineering Practicum Intern",
+   "line": "Google",
+   "family": "software_engineer",
+   "level": "associate",
+   "from_sample": true,
+   "known_gap": "the title names no field; only the employer (Google) says software, and a resume carries no employer industry"
+  },
+  {
+   "title": "QA Analyst",
+   "family": null
+  },
+  {
+   "title": "Manual QA Tester",
+   "family": null
+  },
+  {
+   "title": "IT Help Desk Assistant",
+   "line": "IT Department | TAMUCC | Corpus Christi | TX",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "IT Support Intern",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Computer Technician",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Network Engineer",
+   "family": null
+  },
+  {
+   "title": "Systems Engineer",
+   "family": null
+  },
+  {
+   "title": "Hardware Engineer Intern",
+   "line": "ABC Computers Inc. | Sanford | FL",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Mechanical Engineer",
+   "family": null
+  },
+  {
+   "title": "Civil Engineer Intern",
+   "line": "Bricksburg Construction",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Electrical Engineering Intern",
+   "family": null
+  },
+  {
+   "title": "Industrial Engineering Professional Intern",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Sales Engineer",
+   "family": null
+  },
+  {
+   "title": "Solutions Engineer",
+   "family": null
+  },
+  {
+   "title": "Customer Engineer",
+   "family": null
+  },
+  {
+   "title": "Technical Account Manager",
+   "family": null
+  },
+  {
+   "title": "Engineering Intern",
+   "line": "Clark Construction | CA",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Graduate Teaching Assistant",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Teaching Assistant, Data Structures",
+   "family": null
+  },
+  {
+   "title": "Graduate Research Assistant",
+   "line": "ECE Department | College Park | MD",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Technical Writer",
+   "family": null
+  },
+  {
+   "title": "Coding Bootcamp Instructor",
+   "family": null
+  },
+  {
+   "title": "Technical Recruiter",
+   "family": null
+  },
+  {
+   "title": "Product Manager",
+   "family": null
+  },
+  {
+   "title": "Technical Program Manager",
+   "family": null
+  },
+  {
+   "title": "Product Engineer",
+   "family": null
+  },
+  {
+   "title": "Data Analyst",
+   "line": "SHOPEE Singapore",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Data Scientist",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Data Science Intern",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Business Intelligence Analyst",
+   "family": null
+  },
+  {
+   "title": "Data Engineer",
+   "family": "data_engineer"
+  },
+  {
+   "title": "Analytics Engineer",
+   "line": "Consumer subscription company | New York | NY",
+   "family": "data_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "ETL Developer",
+   "family": "data_engineer"
+  },
+  {
+   "title": "Big Data Engineer",
+   "family": "data_engineer"
+  },
+  {
+   "title": "Senior Data Engineer",
+   "family": "data_engineer",
+   "level": "senior"
+  },
+  {
+   "title": "Data Engineering Intern",
+   "family": "data_engineer",
+   "level": "associate"
+  },
+  {
+   "title": "BI Developer",
+   "family": "data_engineer"
+  },
+  {
+   "title": "Data Platform Engineer",
+   "family": "data_engineer"
+  },
+  {
+   "title": "Data Center Technician",
+   "family": null
+  },
+  {
+   "title": "Data Entry Clerk",
+   "family": null
+  },
+  {
+   "title": "Machine Learning Engineering Intern",
+   "line": "AI startup | San Francisco | CA",
+   "family": "ml_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Research Engineer",
+   "line": "DATA ANALYTICS RESEARCH CENTRE | Cambridge, MA",
+   "family": "ml_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Machine Learning Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "ML Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "AI Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "Applied Scientist",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "Computer Vision Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "NLP Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "Senior Machine Learning Engineer",
+   "family": "ml_engineer",
+   "level": "senior"
+  },
+  {
+   "title": "Research Scientist, NLP",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "MLOps Engineer",
+   "family": "ml_engineer"
+  },
+  {
+   "title": "Cybersecurity Analyst Intern",
+   "family": "security_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Cyber Security Analyst Intern",
+   "line": "Cyberdyne Industries | Arlington | Virginia",
+   "family": "security_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Security Analyst Intern",
+   "family": "security_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Cybersecurity Manager Intern",
+   "family": "security_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Cyber Security Intern",
+   "family": "security_engineer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Enterprise Security Engineer",
+   "line": "Salesforce | San Francisco | CA",
+   "family": "security_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "SOC Analyst",
+   "line": "Regional bank | Jersey City | NJ",
+   "family": "security_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Information Assurance & Security Specialist",
+   "family": "security_engineer",
+   "from_sample": true
+  },
+  {
+   "title": "Corporate Information Systems Security Officer",
+   "family": "security_engineer",
+   "from_sample": true,
+   "known_gap": "the posting rules leave out every 'officer' (guards, loss prevention); an information systems security officer belongs in pipeline/roles_tech.py with labelled posting rows"
+  },
+  {
+   "title": "Penetration Tester",
+   "family": "security_engineer"
+  },
+  {
+   "title": "Application Security Engineer",
+   "family": "security_engineer"
+  },
+  {
+   "title": "Information Security Analyst",
+   "family": "security_engineer"
+  },
+  {
+   "title": "Threat Intelligence Analyst",
+   "family": "security_engineer"
+  },
+  {
+   "title": "Security Engineer",
+   "family": "security_engineer"
+  },
+  {
+   "title": "Security Guard",
+   "family": null
+  },
+  {
+   "title": "Loss Prevention Officer",
+   "family": null
+  },
+  {
+   "title": "Fraud Analyst",
+   "family": null
+  },
+  {
+   "title": "UX Designer",
+   "family": "product_designer",
+   "from_sample": true
+  },
+  {
+   "title": "UX Design Intern",
+   "family": "product_designer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Product Design Intern",
+   "line": "Health tech startup | New York | NY",
+   "family": "product_designer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Experience Design Intern",
+   "family": "product_designer",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Product Designer",
+   "family": "product_designer"
+  },
+  {
+   "title": "Senior Product Designer",
+   "family": "product_designer",
+   "level": "senior"
+  },
+  {
+   "title": "UI/UX Designer",
+   "family": "product_designer"
+  },
+  {
+   "title": "Interaction Designer",
+   "family": "product_designer"
+  },
+  {
+   "title": "Visual Designer",
+   "line": "Brand studio | Providence | RI",
+   "family": "product_designer",
+   "from_sample": true
+  },
+  {
+   "title": "Web Designer",
+   "family": "product_designer",
+   "from_sample": true
+  },
+  {
+   "title": "Designer",
+   "line": "ATLANTA, GA",
+   "family": "product_designer",
+   "from_sample": true
+  },
+  {
+   "title": "Design Technologist",
+   "family": "product_designer"
+  },
+  {
+   "title": "Graphic Designer",
+   "family": null
+  },
+  {
+   "title": "Graphic Design Intern and Freelance Illustrator",
+   "line": "Impact Agency",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Interior Designer",
+   "family": null
+  },
+  {
+   "title": "Fashion Designer",
+   "family": null
+  },
+  {
+   "title": "Industrial Designer",
+   "family": null
+  },
+  {
+   "title": "Instructional Designer",
+   "family": null
+  },
+  {
+   "title": "Game Designer",
+   "family": null
+  },
+  {
+   "title": "Control System Designer",
+   "line": "MKK Control Systems | founder | Tehran | Iran",
+   "family": null,
+   "from_sample": true,
+   "known_gap": "the designer rule takes 'system designer'; a control-systems exclusion belongs in pipeline/roles_tech.py with labelled posting rows"
+  },
+  {
+   "title": "Architectural Intern",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "UX Researcher",
+   "family": "ux_researcher"
+  },
+  {
+   "title": "User Researcher",
+   "family": "ux_researcher"
+  },
+  {
+   "title": "UX Research Intern",
+   "family": "ux_researcher",
+   "level": "associate"
+  },
+  {
+   "title": "Design Researcher",
+   "family": "ux_researcher"
+  },
+  {
+   "title": "Senior UX Researcher",
+   "family": "ux_researcher",
+   "level": "senior"
+  },
+  {
+   "title": "Mixed Methods Researcher",
+   "family": "ux_researcher"
+  },
+  {
+   "title": "Research Assistant",
+   "family": null
+  },
+  {
+   "title": "Market Research Analyst",
+   "family": null
+  },
+  {
+   "title": "Clinical Research Assistant/Work-Study Intern",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Doctoral Researcher",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Legal Intern",
+   "line": "MEDICAL AND LEGAL PARTNERSHIP FOR CHILDREN | Boston",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Affordable Housing Summer Legal Intern",
+   "line": "COMMUNITY DEVELOPMENT AGENCY | Marin County, CA",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Law Clerk",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Judicial Law Clerk",
+   "line": "U.S. DISTRICT COURT",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Legal Fellow",
+   "line": "Cornell Tech LawTech clinic",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Vice President and General Counsel",
+   "family": "counsel",
+   "level": "lead",
+   "from_sample": true
+  },
+  {
+   "title": "Associate General Counsel",
+   "family": "counsel"
+  },
+  {
+   "title": "Corporate Counsel",
+   "family": "counsel"
+  },
+  {
+   "title": "Product Counsel",
+   "family": "counsel"
+  },
+  {
+   "title": "Privacy Counsel",
+   "family": "counsel"
+  },
+  {
+   "title": "Attorney",
+   "family": "counsel"
+  },
+  {
+   "title": "Associate, Technology Transactions",
+   "family": "counsel"
+  },
+  {
+   "title": "Associate",
+   "line": "XXXXXX & XXXXXX LLP | CA | Business & Technology Transactions",
+   "family": "counsel",
+   "from_sample": true
+  },
+  {
+   "title": "Judicial Intern",
+   "family": "counsel",
+   "level": "associate",
+   "from_sample": true
+  },
+  {
+   "title": "Judicial Extern",
+   "line": "UNITED STATES COURT OF APPEALS FOR THE FIRST CIRCUIT",
+   "family": "counsel",
+   "from_sample": true
+  },
+  {
+   "title": "Paralegal",
+   "family": null
+  },
+  {
+   "title": "Legal Assistant",
+   "family": null
+  },
+  {
+   "title": "Compliance Analyst",
+   "family": null
+  },
+  {
+   "title": "Contracts Manager",
+   "family": null
+  },
+  {
+   "title": "Camp Counselor",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "LSAT Instructor",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Patent Agent",
+   "family": null
+  },
+  {
+   "title": "3L Peer Advisor",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Growth Marketer",
+   "family": null
+  },
+  {
+   "title": "Change Manager",
+   "family": null
+  },
+  {
+   "title": "Account Manager",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Customer Service Representative",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Associate Consultant",
+   "family": null,
+   "from_sample": true
+  },
+  {
+   "title": "Driver",
+   "line": "UBER | San Francisco Bay Area",
+   "family": null,
+   "from_sample": true
+  }
+ ]
+}

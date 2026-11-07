@@ -26,6 +26,10 @@ window.CONFIG = {
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */
   FEEDBACK_ENABLED: true,
+  // The guide (the usability pass of 2026-11-06; web/guide.js): on, a screen's first visit shows two to four tips on its
+  // controls (the door: one), and "Show me around" in the top bar and the footer replays them. Off, nothing draws and
+  // no relaunch link shows. Needs no migration: its rows are the journey's cta rows (2026-11-05_journey.sql).
+  GUIDE_ENABLED: true,
   // IE New York in the interface (2026-10-31): the second campus's entry in data/sp27_campus.json names this switch
   // (`enabled_by`), and Catalog.campuses() lists a campus only while its switch is on. Off, the site is Cornell Tech
   // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell
@@ -44,10 +48,9 @@ window.CONFIG = {
     ienyc: ["student.ie.edu", "ie.edu"],
   },
   // The tech role set (engineering, design, legal; PLAN.md "A third role set", 2026-11-05): on, Atlas.index() also loads
-  // data/graph_tech.json and its fields join the field list, its roles open as "tech.<id>" with their own matcher. Off
-  // until every product eval has its tech counterpart (PLAN.md lists what is still owed) and the owner says so; with
-  // the switch on and no graph_tech.json (before the first refresh-tech lands), the site shows no tech field.
-  TECH_ENABLED: false,
+  // data/graph_tech.json and its fields join the field list, its roles open as "tech.<id>" with their own matcher. On
+  // since every product eval has its tech counterpart (2026-11-06); with no graph_tech.json the site shows no tech field.
+  TECH_ENABLED: true,
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, no funnel row or event leaves the browser
   CAPTURE_ENABLED: true,

@@ -1360,3 +1360,13 @@ checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now pas
   0.31, perfect 0.50. The biggest number is now the goal, so following it is a fair strategy, not a trap.
 - Marketing → Product Manager: the shortest route (Consumer products & B2C → Product discovery & validation →
   Roadmapping) has 2 good hops of 3; the README's played route arrives in 4 with 2 good.
+
+## A fresh sample of tech titles (2026-11-06)
+
+`evals/titles_tech_fresh.json`: 420 titles drawn after the rules, labelled by two readers from the spec. 302 rows are
+counted (both sure and in agreement); the readers agreed on the role for 403 of 420. The rules were run once:
+- Role right: 95.4% (288 of 302); recall 97.8% (132 of 135); precision 91.7% (132 of 144).
+- Census keyword draws: 96.7% right. Census random draws: 100%. Kept postings from Workday and the other boards:
+  precision 87.1% (54 of 62).
+- Level and ladder 99.2% (131 of 132); entry mark and internship 100% (132 of 132).
+- Of the twelve false roles, eight are a bare "Engineer" or "Designer" title at an employer that does not make software.

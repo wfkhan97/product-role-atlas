@@ -16,12 +16,12 @@ function strings(x, out = []) {
   else if (x && typeof x === "object") Object.values(x).forEach(v => strings(v, out));
   return out;
 }
-const all = () => [...strings({ heading: Intake.heading, line: Intake.line, email: Intake.email, button: Intake.button, done: Intake.done, privacy: Intake.privacy }), Intake.gapsLine("Product Manager")];
+const all = () => [...strings({ heading: Intake.heading, headings: Intake.headings, line: Intake.line, email: Intake.email, button: Intake.button, done: Intake.done, privacy: Intake.privacy }), Intake.gapsLine("Product Manager")];
 
 test("the table holds every string the box draws, with one line per surface", () => {
   for (const k of ["heading", "email", "button", "done", "privacy"]) assert.ok(Intake[k] && typeof Intake[k] === "string", k);
   assert.deepEqual(Object.keys(Intake.line), ["skills", "network", "classes", "positioning"]);
-  assert.equal(Intake.heading, "GradBuddy is coming soon.");
+  assert.ok(!/coming soon/i.test(Intake.heading) && !/^GradBuddy is/.test(Intake.heading), "the site is GradBuddy: no heading says GradBuddy is coming");
   assert.equal(Intake.button, "Notify me");
   assert.ok(/^Got it\./.test(Intake.done));
   assert.ok(!/\{/.test(Intake.gapsLine("FP&A Manager")) && Intake.gapsLine("FP&A Manager").includes("FP&A Manager"));
@@ -56,4 +56,16 @@ test("SOURCES is capture.js's list, so a click goes out only from a source the d
   assert.equal(Intake.kindOf("network"), "intake_network");
   assert.equal(Intake.kindOf("positioning"), "intake_positioning");
   for (const w of ["show", "build", "ways", "fit", "classes", "network", "positioning"]) assert.ok(Intake.SOURCES.includes(Intake.kindOf(w)), `the kind of ${w} is a source`);
+});
+
+// the usability pass of 2026-11-06 (cluster "the fit screen, the course screen, the games and Explore"): the box on
+// GradBuddy said "GradBuddy is coming soon"; each surface's heading now names what comes next for it
+test("each surface has its own heading, and none says coming soon or names GradBuddy as the thing to come", () => {
+  assert.deepEqual(Object.keys(Intake.headings), Object.keys(Intake.line), "one heading per line");
+  for (const w of ["show", "build", "ways", "fit", "start", "classes", "network", "positioning"]) {
+    const h = Intake.headingOf(w);
+    assert.equal(h, Intake.headings[Intake.surfaceOf(w)], w);
+    assert.ok(h && !/coming soon/i.test(h) && !/GradBuddy/.test(h), `${w}: "${h}"`);
+  }
+  assert.equal(new Set(Object.values(Intake.headings)).size, Object.keys(Intake.headings).length, "no two surfaces share a heading");
 });

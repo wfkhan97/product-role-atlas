@@ -100,3 +100,33 @@ def test_export_is_plain_data_the_browser_can_compile():
 ])
 def test_workday_titles(title, role):
     assert R.family(title) == role
+
+
+# A bare title ("Senior Engineer", "Designer") is the role at a software employer and often not elsewhere: the
+# employer's industry decides, unknown (a résumé) counts as software (PLAN.md, "Bare titles and the employer").
+@pytest.mark.parametrize("title,industry,role", [
+    ("Senior Engineer", None, "software_engineer"),
+    ("Senior Engineer", "Computer Software", "software_engineer"),
+    ("Staff Engineer", "Enterprise;Growth", "software_engineer"),
+    ("Senior Engineer", "Utilities: Gas and Electric", None),
+    ("Engineer II (Overnight)", "Hotels, Casinos, Resorts", None),
+    ("Staff Engineer, Aircraft Configuration Design", "American Dynamism;Enterprise", None),
+    ("Senior Engineer - Java / AWS", "Commercial Banks", "software_engineer"),
+    ("Engineer - Warehouse Management System", "Wholesalers: Diversified", "software_engineer"),
+    ("Senior Software Engineer", "Utilities: Gas and Electric", "software_engineer"),
+    ("Developer, Machine Platform", "Construction and Farm Machinery", "software_engineer"),
+    ("Designer", None, "product_designer"),
+    ("Designer, Toys", "Entertainment", None),
+    ("Designer (Substation)", "Utilities: Gas and Electric", None),
+    ("Principal Designer - Cisco Cloud Control", "Network and Other Communications Equipment", "product_designer"),
+    ("Senior Data Hall Designer", "Computer Software", None),
+])
+def test_bare_titles_and_the_employer(title, industry, role):
+    assert R.family(title, None, industry) == role
+
+
+def test_bare_rule_is_exported_for_the_javascript_readers():
+    E = R.export()
+    assert E["bare_titles"]["software_industries"] == sorted(R.SOFTWARE_INDUSTRIES)
+    assert {f["id"] for f in E["families"] if f["bare"]} == set(R.BARE)
+    assert R.software_employer(None) and not R.software_employer("Bio + Health") and R.software_employer("Fintech;Growth")

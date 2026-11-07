@@ -35,6 +35,9 @@
   // its capital (Salesforce, Tableau), and so do an acronym (SQL, APIs) and the few proper nouns a name starts with
   const PROPER = /^(Python|Excel|Salesforce|Google|Microsoft|Amazon|Adobe|Oracle|Apple|Medicare|Medicaid|Agile)\b/;
   const inText = (name, kind) => { const n = short(name); return kind !== "tool" && /^[A-Z][a-z]/.test(n) && !PROPER.test(n) ? n[0].toLowerCase() + n.slice(1) : n; };
+  // a list of skill names as the middle of a sentence says it ("teaches process design & operational rigor, metrics &
+  // KPIs"): each name through inText, so an acronym (AI, KPIs) and a proper noun keep their capitals (2026-11-06)
+  const sentenceCase = (names, kind) => (names || []).map(x => inText(x, kind));
   const uniq = xs => xs.filter((x, i, a) => a.indexOf(x) === i);
 
   // ---------- the people types ----------
@@ -71,8 +74,19 @@
   // the skills most of the role's postings ask for, from the index: defining first, then the asks at the core share
   const coreAsks = (ix, role, core) => [...(role.definingList || []), ...(role.asks || [])].filter(a => a.share >= core && !credential(ix, a.id)).map(a => ({ id: a.id, name: skill(ix, a.id).name, share: a.share }));
   // the level label of a posting, as the role page shows it (its ladder's word, else the set's)
-  const levelLabel = (ix, R, j) => { const lad = R.ladders && R.ladders[j.ladder]; return (lad && lad.levels[j.level]) || (R.levelLabels || {})[j.level] || ((ix.M || {}).level_labels || {})[j.level] || j.level; };
+  // A ladder word that is the name of another role is not this role's level: the product set has one ladder for its
+  // seven roles, and its mid level reads "Product Manager", so a Product Marketing Manager row said "Product Manager"
+  // (2026-11-06). Such a word falls back to the set's own level word ("Manager"), else the level id.
+  const NAMES = new WeakMap();   // ix.roles → { n, set }: the role names, read again when the product set joins the index
+  const roleNames = ix => { const rs = ix.roles || {}, n = Object.keys(rs).length; let c = NAMES.get(rs); if (!c || c.n !== n) NAMES.set(rs, c = { n, set: new Set(Object.values(rs).map(r => String(r.label).toLowerCase())) }); return c.set; };
+  const levelLabel = (ix, R, j) => {
+    const lad = R.ladders && R.ladders[j.ladder], set = ((ix.M || {}).level_labels || {})[j.level];
+    const l = (lad && lad.levels[j.level]) || (R.levelLabels || {})[j.level] || set || j.level;
+    const other = x => roleNames(ix).has(String(x).toLowerCase()) && String(x).toLowerCase() !== String((R.role || {}).label).toLowerCase();
+    return other(l) ? (set && !other(set) ? set : j.level) : l;
+  };
   const lv = l => { const i = LEVELS.indexOf(l); return i < 0 ? LEVELS.length : i; };
+  const usFirst = j => /^(united states|us|usa)$/i.test(String(j.country || "")) ? 0 : 1;   // a US posting sorts first
   // o: { flag: the door's campus flag or null (the alumni searches' school), roster: whether its roster is loaded (the
   // professors are read only then), shown: Set of skill ids (a rough read, when no fit), profs: campus roster rows, fieldJobs: the
   // field's postings (Atlas.fieldJobs) for the other roles each employer posts, core: the core share (0.5),
@@ -111,10 +125,16 @@
     const postings = (R.jobs || []).filter(j => j.open !== false);
     const employers = employersOf(ix, role, postings, o.fieldJobs);
     const byLevel = {};
-    for (const j of postings) {
-      const l = byLevel[j.level] ||= { level: j.level, label: levelLabel(ix, R, j), n: 0, titles: [] };
-      l.n++;
-      if (l.titles.length < 5 && !l.titles.some(t => t.title === j.title)) l.titles.push({ title: j.title, company: j.company });
+    for (const j of postings) (byLevel[j.level] ||= { level: j.level, label: levelLabel(ix, R, j), n: 0, titles: [] }).n++;
+    // the sample titles of a level come from the employers the list shows (2026-11-06: they came from the companies
+    // first in the alphabet): the employers by open postings, one title per company first, a US posting before
+    // another; then more titles of the same employers, in the same order
+    const rank = Object.fromEntries(employers.map((e, i) => [e.company, i])), us = usFirst;
+    const ordered = postings.map((j, i) => [j, i]).sort((a, b) => (rank[a[0].company] ?? 1e9) - (rank[b[0].company] ?? 1e9) || us(a[0]) - us(b[0]) || a[1] - b[1]).map(x => x[0]);
+    for (const l of Object.values(byLevel)) {
+      const at = ordered.filter(j => j.level === l.level), add = j => { if (l.titles.length < 5 && !l.titles.some(t => t.title === j.title)) l.titles.push({ title: j.title, company: j.company }); };
+      at.filter((j, i) => at.findIndex(x => x.company === j.company) === i).forEach(add);
+      at.forEach(add);
     }
     const levels = Object.values(byLevel).sort((a, b) => lv(a.level) - lv(b.level));
     const senior = levels.filter(l => SENIOR.has(l.level)), junior = levels.filter(l => !SENIOR.has(l.level));
@@ -124,7 +144,9 @@
     // résumé, the most asks taught first without one, then by name
     const gapIds = new Set(F.gaps.map(g => g.id)), askIds = new Set(asks.map(a => a.id));
     const read0 = !!F.real || o.shown != null;
-    const profs = (o.roster ? o.profs || [] : []).map(p => { const covers = (p.gaps || []).filter(g => gapIds.has(g.id)); return { ...p, codes: p.codes || [], gaps: p.gaps || [], covers, asks: (p.gaps || []).filter(g => askIds.has(g.id)), teach: covers.filter(g => ok(g.id)).map(g => ({ ...g, said: said(g.id) })) }; })
+    // each skill a professor's row names carries `said`, its name as the middle of a sentence says it (C-19)
+    const saidOf = g => { const s = skill(ix, g.id); return { ...g, said: inText(s ? s.name : g.name, s && s.kind) }; };
+    const profs = (o.roster ? o.profs || [] : []).map(p => { const covers = (p.gaps || []).filter(g => gapIds.has(g.id)).map(saidOf); return { ...p, codes: p.codes || [], gaps: p.gaps || [], covers, asks: (p.gaps || []).filter(g => askIds.has(g.id)).map(saidOf), teach: covers.filter(g => ok(g.id)) }; })
       .sort((a, b) => (read0 ? b.covers.length - a.covers.length : b.asks.length - a.asks.length) || String(a.name).localeCompare(String(b.name)));
     // the word for each level on this role's ladder, for "one level up"
     const levelLabels = Object.fromEntries(LEVELS.map(l => [l, levelLabel(ix, R, { level: l, ladder: role.ladder })]));
@@ -165,7 +187,7 @@
     if (type === "inrole") return { lead: "", levels: rows(C.junior), employers: top };
     if (type === "recruiter") return { lead: "", levels: [], employers: top };
     if (type === "alum") return { lead: "", levels: rows(C.levels), employers: top };
-    if (type === "faculty") return { lead: "", levels: [], employers: [], profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length, asks: p.asks, nAsks: C.asks.length, read: C.read })) };
+    if (type === "faculty") return { lead: "", levels: [], employers: [], profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length, asks: p.asks, nAsks: C.asks.length, read: C.read, names: (C.read ? p.covers : p.asks).map(g => g.said || inText(g.name)) })) };
     return { lead: "", levels: [], employers: [] };
   }
   // Find jobs with the role and its field already set ("See more companies"), in the order jobs.js stateQuery writes
@@ -184,9 +206,15 @@
   const levelWords = C => [...new Set(C.senior.slice(0, 2).flatMap(l => l.label.split(" / ")))].slice(0, 4);
   const seniorQuery = (C, company) => { const w = levelWords(C); return `${company} ${w.length ? "(" + w.map(x => `"${x}"`).join(" OR ") + ") " : ""}"${C.role.label}"`; };
   const out = (label, href) => ({ label, href });
+  // postings by how far their level is from `level`, the lower one first at the same distance; then the employers in
+  // the order the list shows them (most open postings first), a US posting before another, the list's order
+  const postingsAt = (C, ps, level) => { const t = lv(level), rank = Object.fromEntries(C.employers.map((e, i) => [e.company, i])), r = j => rank[j.company] ?? 1e9; return ps.map((j, i) => [j, i]).sort((a, b) => Math.abs(lv(a[0].level) - t) - Math.abs(lv(b[0].level) - t) || lv(a[0].level) - lv(b[0].level) || r(a[0]) - r(b[0]) || usFirst(a[0]) - usFirst(b[0]) || a[1] - b[1]).map(x => x[0]); };
   // target: { company } narrows the employer types to that company; with none, the three employers with the most open
   // postings. Faculty have no "where" (owner's feedback 2026-11-01): the professor card is the link, on the name.
-  function where(type, C, target) {
+  // o: { level: the level the person aims at (a LEVELS id); with none, the entry level }. The recruiter's posting
+  // links are the postings nearest that level, the lowest first (2026-11-06: they were the first three in the list,
+  // senior ones for a new grad's chat)
+  function where(type, C, target, o) {
     const R = C.role.label, one = !!(target && target.company), cos = one ? [target.company] : C.employers.slice(0, 3).map(e => e.company);
     const rows = [];
     const v = c => ({ role: R, company: c });
@@ -194,7 +222,7 @@
     if (type === "inrole") cos.forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`))));
     if (type === "recruiter") {
       cos.forEach(c => rows.push(out(fill(WHERE.recruiters, v(c)), liPeople(`${c} recruiter "${C.field ? C.field.label.split(" & ")[0] : R}"`))));
-      C.postings.filter(p => p.url && (!one || p.company === target.company)).slice(0, 3).forEach(p => rows.push(out(`${p.company} · ${p.title}`, p.url)));
+      postingsAt(C, C.postings.filter(p => p.url && (!one || p.company === target.company)), (o && o.level) || LEVELS[0]).map(p => ({ label: `${p.company} · ${p.title}`, href: p.url })).filter((x, i, all) => all.findIndex(y => y.label === x.label) === i).slice(0, 3).forEach(x => rows.push(out(x.label, x.href)));
       rows.push(out(WHERE.handshake, "https://app.joinhandshake.com/"));
     }
     if (type === "alum") {
@@ -322,5 +350,5 @@
     ? C.profs.map(p => ({ key: p.slug, label: p.name, hint: C.read ? (p.covers.length ? fill(COPY.coversHint, { n: p.covers.length }) : p.codes.slice(0, 2).join(", ")) : p.asks.length ? fill(COPY.teachesOf, { n: p.asks.length, m: C.asks.length }) : p.codes.slice(0, 2).join(", "), row: p }))
     : C.employers.map(e => ({ key: e.company, label: fill(COPY.openLabel, { company: e.company, n: fmt(e.nOpen) }), row: { company: e.company } }));
 
-  return { TYPES, COPY, SCHOOLS, CORNELL_SCHOOLS, schoolsOf, schoolOf, types, typeOf, ctx, askRows, who, where, say, approach: say, companyOf, targetsOf, jobsHref, askable, liPeople, liAlumni, fill, an, join, short };
+  return { TYPES, COPY, SCHOOLS, CORNELL_SCHOOLS, LEVELS, schoolsOf, schoolOf, types, typeOf, ctx, askRows, who, where, say, approach: say, companyOf, targetsOf, jobsHref, askable, liPeople, liAlumni, fill, an, join, short, inText, sentenceCase, levelLabel };
 });

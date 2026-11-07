@@ -175,3 +175,43 @@ test("You: About you answered, the step it opens on, and the door's program answ
   assert.equal(You.fromDoor({ where: "cs", whereFrom: "door" }, "cs"), null, "the same answer changes nothing");
   assert.equal(You.fromDoor({}, ""), null, "no program picked at the door: nothing lands");
 });
+
+// The door's fixes of 2026-11-06 (usability pass, cluster "the door")
+test("Door.pass: a click on the door's chrome (top bar, brand, footer About) passes the door and lands where it points", () => {
+  assert.equal(Door.pass("#/jobs"), "#/jobs", "the top bar's Find jobs lands on Find jobs");
+  assert.equal(Door.pass("#/skills"), "#/skills");
+  assert.equal(Door.pass("#/network"), "#/network");
+  assert.equal(Door.pass("#/home"), "#/home", "the brand lands home");
+  assert.equal(Door.pass("#/about"), "#/about", "the footer's About lands on About");
+  assert.equal(Door.pass("#/"), "#/home", "a link to the door itself lands home");
+  for (const h of ["https://example.com", "mailto:x@y.edu", "", null, undefined, "#top"]) assert.equal(Door.pass(h), null, JSON.stringify(h));
+  // the cold deep link still meets the door once: pass changes nothing in the bounce
+  assert.equal(Door.bounce("#/jobs", false), true);
+});
+
+test("Door.schoolLine: the door's student line names the campuses whose address opens Find classes, and only those", () => {
+  assert.equal(Door.schoolLine(CAMPUSES), "A Cornell email also opens Find classes.", "Cornell Tech's roster loaded, IE's not");
+  assert.equal(Door.schoolLine(IE_LOADED), "A Cornell or IE email also opens Find classes.");
+  assert.equal(Door.schoolLine([]), "", "no campus with a roster: no line");
+  assert.equal(Door.schoolLine([{ id: "cornell_tech", flag: "cornell", catalog: false }]), "");
+  // the line is true against Door.opens: every campus it names opens for an address of that campus
+  for (const c of CAMPUSES.filter(c => c.catalog)) assert.equal(Door.opens(`a@${DOMAINS[c.flag][0]}`, DOMAINS, CAMPUSES), true, c.id);
+  assert.ok(!/A school address opens them/.test(Door.COPY.school), "the old line promised any school address");
+});
+
+test("the door's and home's lines end with a full stop", () => {
+  assert.ok(/[.!?]$/.test(Door.COPY.inside), Door.COPY.inside);
+  for (const t of Door.COPY.intro) assert.ok(/[.!?]$/.test(t), t);
+  for (const v of Door.verbs("", { nOpen: 25950, nCompanies: 1502, nRoles: 54 })) assert.ok(/[.!?]$/.test(v.line), `${v.key}: ${v.line}`);
+});
+
+test("You.steps: the inline wizard's label counts the same steps as its bar (three questions and the résumé)", () => {
+  for (let i = 0; i <= 3; i++) {
+    const S = You.steps(i, 3), [, a, b] = S.label.match(/Step (\d+) of (\d+)/) || [];
+    assert.equal(S.bars, 4);
+    assert.equal(Number(b), S.bars, `step ${i}: the count is the bar's length`);
+    assert.equal(Number(a), S.done, `step ${i}: the step number is the filled bars`);
+  }
+  assert.equal(You.steps(1, 3).label, "Step 2 of 4");
+  assert.equal(You.steps(3, 3).label, "Step 4 of 4: your résumé, optional");
+});

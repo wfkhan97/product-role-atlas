@@ -68,7 +68,7 @@ the first line, so a cut that has moved fails loudly), its own `role`, `seniorit
 
 `evals/resume_titles.json` lists job titles as resumes write them with the role family each must be read as, or
 none. `node evals/run.mjs` checks it with the role families of `web/data/roles_mba.json`. A case marked `known_gap` is
-reported and not counted.
+reported and not counted. Its tech twin, `evals/resume_titles_tech.json`, is checked by `node evals/run_tech.mjs`.
 
 `node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
 
@@ -168,7 +168,10 @@ The runner requires `web/match.js` directly, so it always runs the code the app 
 above plus `known_miss`: `{skill id, "level" or target: reason}`, a wrong answer accepted for now that fails when it starts
 to pass) through `web/match.js` with `web/data/taxonomy_tech.json`. `--baseline` writes `baseline_tech.md`. A sample's band is a judgment
 call; the calibrated bands are in `bands_tech.json` (software and security; data and AI, design and legal wait for
-samples).
+samples). The runner also reads `evals/resume_titles_tech.json`: job titles as résumés write them (rows marked
+`from_sample` come from the published tech samples, with the employer line beside them), each with the tech family
+and, where the title names a grade, the level it must be read as; `known_gap` rows are reported with their reason and
+not counted.
 
 ## Extraction baselines
 
@@ -223,12 +226,13 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 | backlog | – | What a refresh does to a company's postings (`pipeline.scrape.merge`): it adds new ones, closes missing ones, reopens returning ones, drops none, and closes nothing when most postings fail to come back. A posting is its requisition id (its URL on a board that gives none): a requisition under a new URL is the same row and takes the current URL and title; two rows of one requisition fold into the one seen last. |
 | titles | `titles_mba.json` | 810 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"), 156 cover campus titles, sector bankers and entry-level grades (set `entry-2026-10-13`), 17 the AI transformation role and its edges (set `ai-transformation-2026-10-30`: engineers, research labs, AI governance and AI strategy are not it). |
 | golden, entry, integrity, graph, matcher (tech) | `golden_tech.json`, `entry_tech.json` | `run_pipeline.py --roles tech`: 14 golden postings (two per role) with must and must-not skills, floors 0.87 and 0.27; 130 postings with their entry mark, read with their text. Integrity, graph and matcher read `data/processed/jobs_tech.json` and `web/data/graph_tech*`. The js part also checks that `web/data/taxonomy_tech.json` is the set's part of the taxonomy (`python -m pipeline.roles_tech`). |
-| titles (tech) | `titles_tech.json` | `run_pipeline.py --roles tech`: 748 titles with the role, level, ladder and entry mark each must get in the tech role set (PLAN.md, "A third role set"), labelled by two readers who saw a written spec and never the rules: 480 drawn from a census of the Greenhouse, Lever and Ashby boards, 236 written at the borders with the product and MBA sets, hardware, banks and the ladders, 32 entry titles. The same run checks `web/data/roles_tech.json` against `export()` and `evals/roles_tech.mjs` against `pipeline/roles_tech.py`. Baseline: `pipeline_baseline_tech.md`. The other parts come with the set's scrape and graph build. |
+| titles (tech) | `titles_tech.json` | `run_pipeline.py --roles tech`: 748 titles with the role, level, ladder and entry mark each must get in the tech role set (PLAN.md, "A third role set"), labelled by readers who saw a written spec and never the rules: 480 drawn from a census of the Greenhouse, Lever and Ashby boards, 236 written at the borders with the product and MBA sets, hardware, banks and the ladders, 32 entry titles, and 90 bare titles at employers of every industry, with the employer's industry, which decides them. The same run checks `web/data/roles_tech.json` against `export()` and `evals/roles_tech.mjs` against `pipeline/roles_tech.py`. Baseline: `pipeline_baseline_tech.md`. The other parts come with the set's scrape and graph build. |
+| titles, fresh (tech) | `titles_tech_fresh.json` | Reported by the same run, never checked: 420 titles drawn on 2026-11-06 after the rules were written (300 from the census with a new seed, 120 kept by the refresh from Workday and the other boards), labelled by two readers on every title from the same spec; 302 rows where both were sure and agreed. The rates (role right, recall, precision, level, entry mark) are the honest ones, since no rule was fixed on these titles. A miss is fixed through a new row in `titles_tech.json`, never by editing this file. |
 | levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
 | entry | `entry_mba.json` | 231 postings with the entry mark each must get: `mba`, `pre_mba` or none, and internship or not. 210 are real US postings drawn by seed from 20 strata; 21 are titles written to probe the firm table. 32 are read with their posting text. The part also checks that every row of the firm table has a source. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
 | golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |
-| sponsorship | `sponsorship.json` | Visa sponsorship as a posting fact: postings labelled by reading them (yes: the employer says it sponsors; no: it says it does not; null: it says nothing, some naming a project sponsor or a sponsored event), with the deciding sentence in `note`. `pipeline.sponsorship.read` must equal every label; the part also prints the values in the processed file. 22 rows, all from the golden postings; a fuller set (15 yes, 15 no) needs the backlog. |
+| sponsorship | `sponsorship.json` | Visa sponsorship as a posting fact: postings labelled by reading them (yes: the employer says it sponsors; no: it says it does not; null: it says nothing, some naming a project sponsor or a sponsored event), with the deciding sentence in `note`. `pipeline.sponsorship.read` must equal every label; the part also prints the values in the processed file. 62 rows: 22 business postings from the golden set and 40 tech postings (`set: "tech"`) drawn from the 2026-11-05 tech refresh, 18 yes, 24 no and 20 silent in all. |
 | integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings, except a role the current rules would fill from postings stored under another role (a role added since the last extraction: reported as waiting for `pipeline.extract --roles mba`, with the count of stale postings). Every posting has an entry mark from the allowed values, and a source exactly when it has a mark. |
 | graph | – | The role files add up to the index. A role with no postings is in the index with n 0, has an empty file and is in no group; every other role is in exactly one group. Every posting is a US posting of its role. The entry marks in the files equal the processed file, and the entry counts in the index (per role and ladder, per ladder) add up to the files. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
 | js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level, ladder and entry mark as `pipeline/roles_mba.py` on every title we hold, and the same entry mark on the labelled postings that carry a text. |
@@ -521,7 +525,7 @@ ticked; until then PLAN.md carries it under Later with the boxes left.
    joined (`ADDED`), and searches for the search-based job boards (`SEARCH_QUERIES_2`).
 2. Labelled titles in `evals/titles_mba.json`, written from real titles before the patterns, with the edges the
    patterns must not take; older null rows the role now takes get relabelled with the reason. The resume-side twin,
-   `evals/resume_titles.json`, the same way.
+   `evals/resume_titles.json` (`evals/resume_titles_tech.json` for the tech set), the same way.
 3. Pin tests in `tests/python/test_roles_mba.py`; a one-sentence `web/data/role_blurbs.json` entry.
 4. A new group also needs its campus subjects (`field_subjects` in `web/data/sp27_campus.json`).
 5. `build_graph --roles mba`, `evals/run_pipeline.py --baseline`, `node evals/run.mjs`, both test suites.
