@@ -331,13 +331,13 @@ test("in node the DOM part is inert: after and relaunch return false, isOpen is 
 });
 
 // ---------- the shell ----------
-test("the shell: guide.js loads after feedback.js and before app.js; the flag ships off; the footer has the relaunch link", () => {
+test("the shell: guide.js loads after feedback.js and before app.js; the flag is a boolean in config.js; the footer has the relaunch link", () => {
   const html = fs.readFileSync(path.join(web, "index.html"), "utf8");
   const at = s => html.indexOf(`<script src="${s}"></script>`);
   assert.ok(at("feedback.js") > 0 && at("feedback.js") < at("guide.js") && at("guide.js") < at("app.js"));
   assert.match(html, /<button[^>]*id="foot-guide"[^>]*hidden/);
   const cfg = fs.readFileSync(path.join(web, "config.js"), "utf8");
-  assert.match(cfg, /\n  GUIDE_ENABLED: false,/);
+  assert.match(cfg, /\n  GUIDE_ENABLED: (true|false),/, "the flag is in config.js as a plain boolean (its value is the owner's flip)");
 });
 
 test("app.js: one hook in route() (the guide first, the feedback prompt otherwise), the prompt yields to an open run, the top bar's link", () => {
