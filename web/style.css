@@ -3,8 +3,8 @@
    (gaps). Skill areas are text, not colours. Desktop only (owner's decision 2026-10-13); no phone layout. */
 
 :root { --input: oklch(0.52 0.012 160); --page-max: 880px; }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --input: oklch(0.60 0.006 160); --green-400: oklch(0.50 0.15 145); --primary-tint: oklch(0.50 0.15 145 / 0.12); } }
-:root[data-theme="light"] { --input: oklch(0.60 0.006 160); --green-400: oklch(0.50 0.15 145); --primary-tint: oklch(0.50 0.15 145 / 0.12); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --input: oklch(0.60 0.006 160); --green-400: oklch(0.485 0.15 145); --primary-tint: oklch(0.485 0.15 145 / 0.12); } }
+:root[data-theme="light"] { --input: oklch(0.60 0.006 160); --green-400: oklch(0.485 0.15 145); --primary-tint: oklch(0.485 0.15 145 / 0.12); }
 
 * { box-sizing: border-box; }
 html, body { min-height: 100%; }
@@ -35,6 +35,16 @@ header.top { height: var(--topbar-height); flex: none; display: flex; align-item
   .top-actions { order: 3; flex: 0 0 100%; min-width: 0; gap: var(--space-3); }
   .verbs-nav { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; gap: var(--space-3); padding: var(--space-1) 0; }
   .verbs-nav::-webkit-scrollbar { display: none; }
+  /* the strip fades at its right edge, so a cut word reads as "more this way" (2026-11-08); where the browser ties an
+     animation to the strip's own scroll, the fade goes once the strip is scrolled to its end */
+  .verbs-nav { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  @supports (animation-timeline: scroll()) {
+    .verbs-nav { animation: verbs-fade linear both; animation-timeline: scroll(self inline); }
+  }
+}
+@keyframes verbs-fade {
+  0%, 92% { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  100% { -webkit-mask-image: none; mask-image: none; }
 }
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; }
 .brand .mark { width: 22px; height: 22px; border-radius: 6px; background: var(--primary); }
@@ -178,6 +188,11 @@ header.top { height: var(--topbar-height); flex: none; display: flex; align-item
 .areabox[open] > summary::before { content: "▾"; }
 .areabox > summary .t { font-weight: var(--weight-medium); color: var(--heading-foreground); flex: 1; }
 .areabox > summary .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); white-space: nowrap; }
+/* "How you work" counts its ways in a sentence, not a number: it wraps under the name at every width (2026-11-08; it
+   ran past the summary's right edge on a desktop). The other rows keep their counts on one line */
+.areabox.behaviours > summary { flex-wrap: wrap; }
+.areabox.behaviours > summary .t { min-width: 0; }
+.areabox.behaviours > summary .n { white-space: normal; min-width: 0; flex-basis: 100%; padding-left: var(--space-6); }
 .srows { padding: 0 0 12px 24px; display: flex; flex-direction: column; }
 .srow { display: grid; grid-template-columns: 1fr; gap: 2px 10px; align-items: center; padding: 7px 8px; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: transparent; color: var(--foreground); text-align: left; font-size: var(--text-base); width: 100%; }
 .srows > .srow:first-child, .tierlab + .srow { border-top: 0; }
@@ -202,6 +217,8 @@ header.top { height: var(--topbar-height); flex: none; display: flex; align-item
    too; the map keeps its blue */
 .legend .k .sw.todo, .srow .nm .sw.todo { background: var(--warning); }
 .fit-top { align-items: baseline; } .fit-top .eyebrow { margin: 0; }
+/* the fit screen's heading is its eyebrow ("Your fit · {role}"), an h1 so the screen has one (2026-11-08): it looks as before */
+h1.eyebrow { font-weight: var(--weight-regular); line-height: inherit; }
 .ctx select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2px 6px; }
 .lead .tip { vertical-align: 1px; }
 .tierlab { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 12px 0 2px; }
@@ -1444,12 +1461,18 @@ body.guide-room { padding-bottom: 50vh; }
 
 /* ---------- a phone (640 px and under): the usability pass of 2026-11-06, cluster "phone layout". Tokens only ---------- */
 /* what a screen is for comes first in one column: the prep card before Who to look for, the postings before the
-   filters, the résumé box before the field tiles (visual order; the markup keeps its order) */
+   filters, the résumé box before the field tiles. The markup has that order, so Tab follows what a phone shows
+   (2026-11-08); the desktop columns are pinned with grid-column under min-width 901px */
 @media (max-width: 900px) {
-  .nw-side { order: -1; }
-  .jobs-grid .jmain { order: -1; }
   .jobs-grid .jfilters-link { display: inline-block; margin-bottom: var(--space-2); }
-  .lf-side { order: -1; }
+}
+@media (min-width: 901px) {
+  .jobs-grid .jrail { grid-column: 1; grid-row: 1; }
+  .jobs-grid .jmain { grid-column: 2; grid-row: 1; }
+  .lf-main { grid-column: 1; grid-row: 1; }
+  .lf-side { grid-column: 2; grid-row: 1; }
+  .nw-main { grid-column: 1; grid-row: 1; }
+  .nw-side { grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 640px) {
   /* the role page: the "How you work" row's summary wraps under its name (it was one line, 1,147 px wide) */

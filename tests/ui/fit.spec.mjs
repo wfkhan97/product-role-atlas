@@ -177,7 +177,8 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   const shown = num(count.match(/of ([\d,]+) postings/)[1]);
   const folded = num((count.match(/([\d,]+) repeats?/) || [0, "0"])[1]);
   expect(shown + folded).toBe(total);
-  // the role count: the launcher, Explore and the skill card say the same number; home says it rounded down
+  // the role count: the launcher, Explore, home and the skill card say the same number (home names none until the
+  // product set's roles are counted)
   await gotoHash(page, "#/skills");
   await page.locator("#main #lf-body").waitFor();
   const roles = num((await text(page.locator("#main p.lead").first())).match(/from (\d+)/)[1]);
@@ -185,9 +186,8 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   await expect(page.locator("#main p.lead").first()).toContainText(`${roles} roles`);
   await gotoHash(page, "#/home");
   await waitForScreen(page, "home");
-  const home = num((await text(page.locator('#main a.verb[data-verb="skills"]'))).match(/over (\d+) roles/)[1]);
-  expect(home).toBeLessThanOrEqual(roles);
-  expect(roles - home).toBeLessThan(10);
+  await expect(page.locator('#main a.verb[data-verb="skills"]')).toContainText(`Explore ${roles} roles`);
+  await expect(page.locator('#main a.verb[data-verb="skills"]')).not.toContainText("over");
   await page.evaluate(() => sessionStorage.setItem("explore-view", JSON.stringify("map")));
   await gotoHash(page, "#/explore");
   await page.locator("#main #sm-find").waitFor();
@@ -197,7 +197,9 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   await card.waitFor({ state: "attached" });
   const said = await text(card);
   expect(said).not.toMatch(/MBA/);
-  expect(said).toContain(`${roles} roles`);
+  // the card averages over the roles the map shows: every role but the tech set's (skillmap.js roleShare)
+  const tech = await page.evaluate(async () => Object.values((await Atlas.index()).roles).filter(r => r.set === "tech").length);
+  expect(said).toContain(`${roles - tech} roles`);
   // the role page: the facts say the open US postings; the list head names what its larger number counts
   await gotoHash(page, `#/role/${ROLE}`);
   await page.locator("#main .listhead").waitFor();
@@ -206,4 +208,20 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   const head = await text(page.locator("#main .listhead .small.muted"));
   expect(num(head.match(/([\d,]+) /)[1])).toBe(world);
   expect(head).toMatch(/worldwide/);
+});
+
+// ---------- one h1 per screen; the "How you work" row inside its box (2026-11-08) ----------
+test("the fit screen with a résumé has exactly one h1, the eyebrow that names the role", async ({ visitor }) => {
+  const page = await visit(visitor, { resume: true, hash: `#/role/${ROLE}/fit` });
+  await page.locator("#main .fitcols").waitFor();
+  expect(await page.locator("#main h1").count()).toBe(1);
+  await expect(page.locator("#main h1")).toHaveClass(/eyebrow/);
+});
+
+test("the role page's \"How you work\" count stays inside its row", async ({ visitor }) => {
+  const page = await visit(visitor, { resume: true, hash: `#/role/${ROLE}` });
+  const sum = page.locator("#main details.areabox.behaviours > summary");
+  await sum.waitFor();
+  const [n, s] = await Promise.all([sum.locator(".n").boundingBox(), sum.boundingBox()]);
+  expect(n.x + n.width).toBeLessThanOrEqual(s.x + s.width + 0.5);
 });

@@ -22,7 +22,7 @@
   const BOARD = 12, PICK = 5, CALLS = 8, HALF = 0.5, CALL_MIN = 0.10, ROUNDS = 3;
   // the ramp inside a game (G5): the first board's decoys are from another world and the first calls are far from
   // half; later rounds use decoys from nearer roles and calls nearer half
-  const STAGES = [{ diff: 0, gap: 0.20, say: "" }, { diff: 1, gap: 0.12, say: "Closer calls from here." }, { diff: 2, gap: 0.08, say: "Decoys from nearby roles from here." }];
+  const STAGES = [{ diff: 0, gap: 0.20, say: "" }, { diff: 1, gap: 0.12, say: "Closer calls from here." }, { diff: 2, gap: 0.08, say: "From here, the other skills come from nearby roles." }];
   const SPEED = { board: 45, call: 6 };   // seconds, the Speed round only
 
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -137,7 +137,7 @@
     const w = sc.wrong.slice().sort((a, b) => b.whereShare - a.whereShare)[0], m = sc.missed.slice().sort((a, b) => b.share - a.share)[0];
     if (w) return `${w.name}: ${pct(w.share)} of ${pool.label} postings ask for it; ${pct(w.whereShare)} of ${w.whereLabel} postings do.`;
     if (m) return `${m.name}: ${pct(m.share)} of ${pool.label} postings ask for it, and you left it.`;
-    return `All ${sc.reals} real asks, no decoys. ${pool.asks[0] ? `${pool.asks[0].name} leads: ${pct(pool.asks[0].share)} of ${pool.label} postings ask for it.` : ""}`;
+    return `${REVEAL.clean(sc.reals)} ${pool.asks[0] ? `${pool.asks[0].name} leads: ${pct(pool.asks[0].share)} of ${pool.label} postings ask for it.` : ""}`;
   }
   // the help line and the first coach line (2026-11-06, the usability pass: short sentences, active voice, no inside
   // words such as "decoys"); tests/web/know-the-role.test.mjs runs the copy rule over them
@@ -145,7 +145,15 @@
     rules: () => `Which skills do the role's postings ask for? Round one shows twelve skills. Pick the ${PICK} that most of the role's postings ask for. The other skills come from other roles. Then make ${CALLS} calls against the role's top ask. Do more or fewer than half of its postings ask for each skill? A real ask shows up in at least 40% of the role's postings. There are three rounds. As you go, the calls get closer and the wrong answers come from nearer roles.`,
     coach: (n, label) => `Pick the ${n} skills that most ${label} postings ask for. The other skills come from other roles. Then hand in.`,
   };
-  const logic = { RULE, HELP, BOARD, PICK, CALLS, HALF, CALL_MIN, ROUNDS, STAGES, pools, playable, dealBoard, scoreBoard, dealCalls, scoreCalls, dealHop, boardTakeaway, mulberry32, shuffle };
+  // the board's reveal (2026-11-08): the same words as the help line, "from other roles", never the inside word
+  // "decoy"; tests/web/know-the-role.test.mjs runs the copy rule over them
+  const REVEAL = {
+    clean: reals => `All ${reals} real asks, no picks from other roles.`,
+    other: (label, share) => `from another role: ${label} ${pct(share)}`,
+    picked: n => `${words(n)} ${n === 1 ? "pick from another role" : "picks from other roles"}`,
+    key: label => `The twelve on ${label}'s own ranked list: % of its postings that ask. ✓ marks your right picks and amber the real asks you left. A line runs through each pick from another role.`,
+  };
+  const logic = { RULE, HELP, REVEAL, BOARD, PICK, CALLS, HALF, CALL_MIN, ROUNDS, STAGES, pools, playable, dealBoard, scoreBoard, dealCalls, scoreCalls, dealHop, boardTakeaway, mulberry32, shuffle };
 
   // ---------- the screens ----------
   async function mount(el, ctx) {
@@ -247,12 +255,12 @@
       F.set({ marks: S.marks });
       // the reveal: the twelve on the role's ranked list, your picks marked, one line per miss
       const rows = S.board.tiles.slice().sort((a, b) => b.share - a.share).map(t => { const i = S.board.tiles.indexOf(t), p = S.picked.has(i);
-        return { name: t.name, share: t.share, cls: t.real ? (p ? "you" : "miss") : (p ? "wrong" : "dim"), note: t.real ? (p ? "" : "missed, a real ask") : (p ? `you picked it · ${pct(t.whereShare)} of ${t.whereLabel} postings ask for it` : `a decoy: ${t.whereLabel} ${pct(t.whereShare)}`) }; });
+        return { name: t.name, share: t.share, cls: t.real ? (p ? "you" : "miss") : (p ? "wrong" : "dim"), note: t.real ? (p ? "" : "missed, a real ask") : (p ? `you picked it · ${pct(t.whereShare)} of ${t.whereLabel} postings ask for it` : REVEAL.other(t.whereLabel, t.whereShare)) }; });
       F.body.innerHTML = GS.results({
         eyebrow: `Board ${S.round === 0 ? 1 : 2} · ${esc(S.pool.label)}`,
-        measure: `${sc.got} of ${sc.reals} real asks${sc.wrong.length ? ` · ${words(sc.wrong.length)} ${sc.wrong.length === 1 ? "decoy" : "decoys"} picked` : ""}`,
+        measure: `${sc.got} of ${sc.reals} real asks${sc.wrong.length ? ` · ${REVEAL.picked(sc.wrong.length)}` : ""}`,
         takeaway: esc(boardTakeaway(sc, S.pool)),
-        visual: `${GS.ranked(rows, `{n} of ${esc(S.pool.label)} postings ask for it.`)}<p class="gm-key">The twelve on ${esc(S.pool.label)}'s own ranked list: % of its postings that ask. ✓ your right picks; amber a real ask you left; struck a decoy you picked.</p>`,
+        visual: `${GS.ranked(rows, `{n} of ${esc(S.pool.label)} postings ask for it.`)}<p class="gm-key">${esc(REVEAL.key(S.pool.label))}</p>`,
         link: { href: `#/role/${encodeURIComponent(S.pool.id)}`, label: `Open ${S.pool.label}` },
         foot: GS.foot({ primary: { id: "ktr-next", label: S.round + 1 < ROUNDS ? "Next round" : "See your result", key: "Enter" }, quiet: S.round === 0 ? { id: "ktr-hop", label: "Try the same skill across fields" } : null }),
       });

@@ -19,8 +19,9 @@ async function visit(visitor, hash, { email = GENERAL_EMAIL } = {}) {
 const SENIOR = /\b(sr\.?|senior|principal|staff|lead|director|head|vp|vice president|chief)\b/i;
 const PROPER = /^(Python|Excel|Salesforce|Google|Microsoft|Amazon|Adobe|Oracle|Apple|Medicare|Medicaid|Agile)\b/;
 
-for (const q of ["data", "software"]) {
-  test(`the Role box: "${q}" matches no role, and the list shows the closest roles, the fields and the roles that come later`, async ({ visitor }) => {
+// "data" and "software" matched no role until the tech set went live; a nurse and a teacher still match none
+for (const q of ["nurse", "teacher"]) {
+  test(`the Role box: "${q}" matches no role, and the list shows the closest roles and the fields (the tech set is on, so no "come later" note)`, async ({ visitor }) => {
     const page = await visit(visitor, "#/network?role=product.pm");
     const box = page.locator("#main #nw-role input");
     await box.click();
@@ -30,9 +31,8 @@ for (const q of ["data", "software"]) {
     await expect(list.locator(".pick-none")).toContainText("No role has that name");
     const roles = await list.locator("li[role=option]").allTextContents();
     expect(roles.length, "the closest roles").toBeGreaterThan(0);
-    if (q === "data") expect(roles.join(" | ")).toContain("Business Analytics Manager");
     await expect(list.locator(".pick-note").first()).toContainText("Product");
-    await expect(list.locator(".pick-note").last()).toContainText("Engineering, design and legal roles come later");
+    await expect(list.locator(".pick-note")).toHaveCount(1);   // the "come later" note went with TECH_ENABLED
     // a closest role picks like any option
     const first = await list.locator("li[role=option]").first().evaluate(li => li.firstChild.textContent.trim());
     await list.locator("li[role=option]").first().click();
@@ -73,4 +73,16 @@ test("a professor's row names the skills in lower case mid-sentence", async ({ v
   const names = lines.filter(l => l.includes(" · teaches ")).flatMap(l => l.split(" · teaches ")[1].split(", "));
   expect(names.length, "rows that name what they teach").toBeGreaterThan(0);
   for (const n of names) expect(/^[A-Z][a-z]/.test(n) && !PROPER.test(n), `"${n}" starts with a capital mid-sentence`).toBe(false);
+});
+
+test("the Company box: the list shows each count as a hint, and a pick leaves the bare name in the box", async ({ visitor }) => {
+  const page = await visit(visitor, "#/network?role=product.pm&type=recruiter");
+  const box = page.locator("#main #nw-target input");
+  await box.click();
+  const first = page.locator("#main #nw-target li[role=option]").first();
+  await expect(first.locator(".pick-hint")).toHaveText(/^[\d,]+ open$/);
+  const name = await first.evaluate(li => li.firstChild.textContent.trim());
+  expect(name).not.toMatch(/open/);
+  await first.click();
+  await expect(page.locator("#main #nw-target input")).toHaveValue(name);
 });

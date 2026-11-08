@@ -535,3 +535,58 @@ test("on the real file, the short forms find the jobs they stand for", () => {
     assert.equal(found.relaxed, false, `${q}: ${found.rows.length} rows match every word`);
   }
 });
+
+// ---------- one field and one role per label (2026-11-08) ----------
+// The Product filter left out the MBA set's product_manager and product_strategy postings: the index skips the MBA
+// Product group, so the filter's fieldOf gave them no field while their cards said "Product". Jobs.fieldLookup is the
+// one lookup the filter, the counts, the rail and the card read.
+test("fieldLookup: every family of the MBA graph's Product group is in the Product field", async () => {
+  const { realAtlas } = await import("./_load.mjs");
+  const ix = await realAtlas().index(), M = readJson("graph_mba.json"), fieldOf = J.fieldLookup(ix);
+  const fams = (M.groups.find(g => g.id === "product") || {}).families || [];
+  assert.ok(fams.includes("product_manager") && fams.includes("product_strategy"), "the MBA Product group's families");
+  for (const f of fams) assert.equal(fieldOf(f), "product", f);
+  for (const g of M.groups) for (const f of g.families) assert.equal(fieldOf(f), g.id, `${f}: its group`);
+  assert.equal(fieldOf("product.pm"), "product", "the product set by its namespace");
+  assert.equal(fieldOf("no_such_role"), "", "a role nobody lists has no field");
+});
+
+test("on the real file, the Product filter keeps every product_manager and product_strategy posting, and every card that says Product", async () => {
+  const { realAtlas } = await import("./_load.mjs");
+  const ix = await realAtlas().index(), D = readJson("jobs_open.json"), rows = J.rowsOf(D);
+  const fieldOf = J.fieldLookup(ix), rctx = { fieldOf, roleKey: J.roleKey(D), roleIds: D.roles };
+  const kept = new Set(J.filterJobs(rows, { field: "product" }, rctx).map(r => r.id));
+  const mbaProduct = rows.filter(r => r.role === "product_manager" || r.role === "product_strategy");
+  assert.ok(mbaProduct.length > 0, "the file has MBA product postings");
+  for (const r of mbaProduct) assert.ok(kept.has(r.id), `${r.id} (${r.role}) passes the Product filter`);
+  // the card's field name reads the same lookup: a card that says Product passes the filter, and only those do
+  const saysProduct = rows.filter(r => fieldOf(r.role) === "product");
+  assert.equal(kept.size, saysProduct.length);
+  for (const r of saysProduct) assert.ok(kept.has(r.id), `${r.id} says Product`);
+  const fc = J.facetCounts(rows, {}, "field", ["product"], rctx);
+  assert.equal(fc.product, saysProduct.length, "the Product facet counts them too");
+});
+
+test("roleKey: two ids that share a label filter as one role", () => {
+  const D = { roles: ["product.pm", "product.pmm", "product_manager", "pmm", "fpa"], role_labels: { "product.pm": "Product Manager", "product.pmm": "Product Marketing Manager", product_manager: "Product Manager", pmm: "Product Marketing Manager", fpa: "FP&A" } };
+  const key = J.roleKey(D);
+  assert.equal(key("product_manager"), "product.pm", "the first id with the label is the key");
+  assert.equal(key("product.pm"), "product.pm");
+  assert.equal(key("pmm"), "product.pmm");
+  assert.equal(key("fpa"), "fpa", "a label of its own: its own key");
+  assert.equal(key("unlisted"), "unlisted");
+  const FIELDS = { "product.pm": "product", product_manager: "product", "product.pmm": "product", pmm: "marketing", fpa: "finance" };
+  const kctx = { fieldOf: id => FIELDS[id] || "", roleKey: key, roleIds: D.roles };
+  const R = [row("x1", { role: "product.pm" }), row("x2", { role: "product_manager" }), row("x3", { role: "pmm" }), row("x4", { role: "product.pmm" }), row("x5", { role: "fpa" })];
+  const f = filt => ids(J.filterJobs(R, filt, kctx));
+  assert.deepEqual(f({ role: "product.pm" }), ["x1", "x2"]);
+  assert.deepEqual(f({ role: "product_manager" }), ["x1", "x2"], "either id filters as the key");
+  assert.deepEqual(f({ role: "pmm" }), ["x3", "x4"]);
+  assert.deepEqual(f({ role: "product.pmm", field: "marketing" }), ["x3"], "the field still cuts the key's ids");
+  assert.deepEqual(J.facetCounts(R, {}, "role", ["product.pm", "product.pmm", "fpa"], kctx), { "product.pm": 2, "product.pmm": 2, fpa: 1 }, "one count per key, both ids' postings");
+  assert.equal(J.roleInField("product.pmm", "marketing", kctx), true, "a key is in each field one of its ids is in");
+  assert.equal(J.roleInField("product.pm", "marketing", kctx), false);
+  assert.deepEqual(J.facetCounts(R, { role: "product.pmm" }, "field", ["marketing", "finance"], kctx), { marketing: 1, finance: 1 }, "a field the key is not in drops the role");
+  assert.deepEqual(f({ role: "x" }), [], "without a key a role is itself");
+  assert.deepEqual(ids(J.filterJobs(R, { role: "product_manager" }, { fieldOf: kctx.fieldOf })), ["x2"], "a ctx without roleKey compares ids");
+});

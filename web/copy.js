@@ -36,10 +36,11 @@
     loading: "Loading…",
     loadingRoles: "Loading the roles…",
     bar: { jobs: "Find jobs", skills: "Explore careers", classes: "Find classes", network: "Networking" },   // the top bar's short labels
-    // the theme button's name (2026-11-06): it says the theme now; the device's is the first state only, and a press
-    // always changes what is on screen (light and dark take turns)
-    themeLabel: "Theme: {theme}",
-    themeNames: { system: "device", light: "light", dark: "dark" },
+    // the theme button's name (2026-11-08): what a press does. From the device's theme it shows the other one, and
+    // the next press follows the device again (Routes.Theme)
+    themeTo: "Switch to the {theme} theme",
+    themeToDevice: "Follow your device's theme",
+    themeNames: { light: "light", dark: "dark" },
     railTab: "Your fit",
     tipLabel: "What this means",
     failHeading: "Something did not load",
@@ -113,10 +114,11 @@
   // ---------- home (#/home): the four verbs, one data-built line each ----------
   const home = {
     heading: "What do you want to do?",
-    // {jobs}, {companies} and {roles} are counts in words, rounded down (Door.thousands, hundreds, tens)
+    // {jobs} and {companies} are counts in words, rounded down (Door.thousands, hundreds); {roles} is the exact count the
+    // launcher and Explore say, and lineAll stands in until the product set's roles are counted (2026-11-08)
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
-      skills: { title: "Explore careers", line: "Explore over {roles} roles and see how your experience and skills match up." },
+      skills: { title: "Explore careers", line: "Explore {roles} roles and see how your experience and skills match up.", lineAll: "Explore every role and see how your experience and skills match up." },
       classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
       network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with." },
     },
@@ -245,7 +247,7 @@
     counts: "{fields} fields, {roles} roles.",
     pickField: "Pick a field.",
     fitFirst: "The ones that fit you come first.",
-    mapLead: "Select a skill to see who asks for it. With a mouse, point to a field to light up the skills that set it apart.",   // a phone has no hover (usability pass 2026-11-06)
+    mapLead: "Select a skill to see who asks for it. Point to or tap a field to light the skills that set it apart.",   // the first tap lights, the second opens (2026-11-08)
     countsTip: "Counts are open postings in the US: business fields refreshed {date}{product}.",
     countsTipProduct: ", Product scraped {date} ({n} worldwide)",
     findSkill: "Find a skill",
@@ -263,7 +265,7 @@
       biggestFirst: "The biggest first.",
       green: "Green: a rough read of your résumé; open a role for your band of fit.",
       map: "See {field} on the skill map →",
-      hover: "Select a skill in the chart to see what it means. With a mouse, point to a role to light its skills in the chart.",
+      hover: "Select a skill in the chart to see what it means. Point to or tap a role to light its skills in the chart.",
       axis: "% of {field} postings that ask for the skill",
       axisMeasure: "The share of {field} postings that ask for the skill, averaged over the field's roles. {postings}",
       recent: "The count takes recent postings, open and closed over the last year.", open: "The count takes open postings.",
@@ -399,7 +401,7 @@
       noClass: "No {term} class names one of your gaps in its description.", seeRoster: "See the roster →",
       needsEvidence: "Needs more evidence",
       evidenceOne: "Evidence that one and your résumé reads as “{band}”.", evidenceThree: "Evidence the top three and your résumé reads as “{band}”.",
-      nothingMissing: "Nothing important missing: you show every skill most postings ask for.",
+      nothingMissing: "You show all {m} skills most postings ask for.",
       seeAll: "See all {n} skills on your résumé, matched to this role →", seeAllOne: "See all 1 skill on your résumé, matched to this role →",
       postingsAsking: "Postings asking for it:",
     },
@@ -679,7 +681,7 @@
     companyPlaceholder: "Type a company",
     professor: "Professor",
     professorPlaceholder: "Type a name",
-    openLabel: "{company} · {n} open",
+    openHint: "{n} open",
     coversHint: "covers {n} of your gaps",
     noTitle: "Title not on the roster",
     sideAria: "Prep a chat",
@@ -1295,6 +1297,28 @@
         facts: { title: "What we count", body: "These numbers come from the latest data refresh. Home and Find jobs use the same counts." },
         employers: { title: "Who hires most", body: "Open this list to see the employers with the most open postings." },
         feedback: { title: "Tell us what is wrong", body: "Feedback opens a short box. Write one sentence, and we read every message." },
+      },
+      course: {
+        level: { title: "Pick the level to compare", body: "We compare the course with what postings at this level ask for." },
+        read: { title: "Add the course description", body: "Drop the syllabus or paste its text, then press Read the course. Nothing leaves your browser." },
+        result: { title: "What the course covers", body: "Green skills are the ones the course names. Red ones are top asks it leaves out." },
+      },
+      play: {
+        round: { title: "Your rounds", body: "Each dot is one round. The dots fill in as you play." },
+        body: { title: "Play here", body: "Each round shows up here. Read it, then pick your answer." },
+        tools: { title: "Rules and the way out", body: "The i button explains the rules. Quit or Esc leaves the game." },
+      },
+      professor: {
+        tags: { title: "What they work on", body: "These tags come from the professor's public profile." },
+        classes: { title: "Their classes this term", body: "Each row opens that class in Find classes." },
+        gaps: { title: "Gaps their classes cover", body: "These are skills your résumé lacks for your roles. Each code is a class of theirs that covers one." },
+        angle: { title: "What to talk about", body: "These notes suggest topics to raise when you meet them." },
+      },
+      event: {
+        kinds: { title: "Pick the kind of event", body: "Each chip changes the advice: a networking event, a roundtable or a hackathon." },
+        employers: { title: "Who hires in this field", body: "These employers post the most jobs in this field. Look for them at the event." },
+        roundtable: { title: "Go role by role", body: "Each card names what one role asks for most. Read it before you talk to someone in that role." },
+        build: { title: "What to build", body: "These skills come up across the field's roles. Most lines name a small step to practise one." },
       },
     },
   };

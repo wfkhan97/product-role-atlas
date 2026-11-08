@@ -23,12 +23,17 @@ const FLAG_ON = () => {
   let v;
   Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.GUIDE_ENABLED = true; } });
 };
+// the flag off, whatever web/config.js ships (it ships on since 2026-11-07)
+const FLAG_OFF = () => {
+  let v;
+  Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.GUIDE_ENABLED = false; } });
+};
 // a page in one state: email (null: fresh, the door), a résumé or not, the guide's seen-state, more storage
 async function visit(visitor, { email = GENERAL_EMAIL, resume = false, hash = "#/home", seen = null, storage = {}, flag = true } = {}) {
   const kv = { ...(email ? { "door.email": email, "door.where": "", "door.seen": "1" } : {}), ...(resume ? { resume: RESUME } : {}), ...(seen ? { "guide.seen": JSON.stringify(seen) } : {}), ...storage };
   const page = await visitor.open({ storage: kv });
   const ctx = page.context();
-  if (flag) await ctx.addInitScript(FLAG_ON);
+  await ctx.addInitScript(flag ? FLAG_ON : FLAG_OFF);
   await ctx.route("**/api/infer", r => r.request().method() === "POST" ? r.fulfill({ status: 503, body: "{}" }) : r.continue());
   page.rows = [];
   await ctx.route(/\.supabase\.co\/rest\/v1\/events/, r => { if (r.request().method() === "POST") { try { const b = r.request().postDataJSON(); for (const x of [].concat(b)) page.rows.push(x); } catch { } } return r.fulfill({ status: 201, body: "" }); });
@@ -89,7 +94,9 @@ async function walk(page, info, screen, ctxState, { min = 1, absent = [] } = {})
   await expect(page.locator(".guide-hole")).toHaveCount(0);
   const want = [`cta_shown guide_${screen} ${screen}`, ...(steps.length > 1 ? [`cta_click guide_${screen} ${screen}`] : []), `cta_done guide_${screen} ${screen}`];
   await expect.poll(() => ctaRows(page)).toEqual(want);
-  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))[screen]).toBe(1);
+  // the run marks the screen seen at the table's version (jobs ships at 2 since the quick filters)
+  const version = await page.evaluate(s => Guide.SCREENS[s].version, screen);
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))[screen]).toBe(version);
   return steps;
 }
 const C = (resume, extra = {}) => ({ resume, config: { FEEDBACK_ENABLED: true, GUIDE_ENABLED: true }, ...extra });
@@ -122,6 +129,7 @@ test("classes (campus, no role): the role box, the résumé, the subjects; no ba
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes" });
   const steps = await walk(page, info, "classes", C(false), { min: 3, absent: ["band", "gaps"] });
   expect(steps.map(s => s.id)).toEqual(["role", "resume", "subjects"]);
+  await expect(page.locator("#cls-add ul.pick-list")).toBeHidden();   // the run hands focus back to the role box; the list stays shut
 });
 test("classes (campus, a role, no résumé): role, band, résumé, subjects", async ({ visitor }, info) => {
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: `#/classes?role=${ROLE}` });
@@ -136,10 +144,10 @@ test("classes (campus, a role and a résumé): role, band, gaps, subjects", asyn
 
 for (const resume of [false, true]) {
   const tag = resume ? "a résumé" : "no résumé";
-  test(`jobs (general, ${tag}): search, fields, ${resume ? "cardFit" : "card"}`, async ({ visitor }, info) => {
+  test(`jobs (general, ${tag}): search, quick filters, fields, ${resume ? "cardFit" : "card"}`, async ({ visitor }, info) => {
     const page = await visit(visitor, { resume, hash: "#/jobs" });
-    const steps = await walk(page, info, "jobs", C(resume), { min: 3 });
-    expect(steps.map(s => s.id)).toEqual(["search", "fields", resume ? "cardFit" : "card"]);
+    const steps = await walk(page, info, "jobs", C(resume), { min: 4 });
+    expect(steps.map(s => s.id)).toEqual(["search", "quick", "fields", resume ? "cardFit" : "card"]);
   });
   test(`skills (general, ${tag}): fields, search, ${resume ? "resumeFit" : "resume"}`, async ({ visitor }, info) => {
     const page = await visit(visitor, { resume, hash: "#/skills" });
@@ -204,6 +212,42 @@ test("you (general, a résumé: the summary): the answers and the résumé link;
   const steps = await walk(page, info, "you", C(true), { min: 2, absent: ["opts", "steps"] });
   expect(steps.map(s => s.id)).toEqual(["answers", "resume"]);
 });
+test("course (general, no course read): the level, the description box; no result yet", async ({ visitor }, info) => {
+  const page = await visit(visitor, { hash: `#/role/${ROLE}/course` });
+  const steps = await walk(page, info, "course", C(false), { min: 2, absent: ["result"] });
+  expect(steps.map(s => s.id)).toEqual(["level", "read"]);
+});
+test("play (general, a live game): the rounds (once one starts), the board, the rules and Quit, once the board draws; the game stays open", async ({ visitor }, info) => {
+  const page = await visit(visitor, { hash: `#/play/know-the-role?role=${ROLE}` });
+  const steps = await walk(page, info, "play", C(false), { min: 2 });
+  expect(steps.map(s => s.id).filter(id => id !== "round")).toEqual(["body", "tools"]);   // the dots draw once a round starts
+  expect(await page.evaluate(() => location.hash)).toMatch(/^#\/play\/know-the-role/);
+});
+test("play: Esc skips the tips and does not quit the game", async ({ visitor }) => {
+  const page = await visit(visitor, { hash: `#/play/know-the-role?role=${ROLE}` });
+  await expect(card(page)).toBeVisible({ timeout: 15_000 });
+  await page.keyboard.press("Escape");
+  await expect(card(page)).toHaveCount(0);
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toMatch(/^#\/play\/know-the-role/);
+});
+test("professor (campus, no role): the classes and what the profile holds; no gaps without a role", async ({ visitor }, info) => {
+  // a professor with a profile: the first one a class's detail panel links to (Find classes already seen)
+  const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes", seen: { classes: 1 } });
+  await page.locator("#main #cls-list").waitFor();
+  await page.locator(".cls-card", { has: page.locator("a[data-prof]") }).first().locator("[data-open]").click();
+  const href = await page.locator("#aside a[href^='#/professor/']").first().getAttribute("href");
+  await page.evaluate(h => { location.hash = h; }, href);
+  const steps = await walk(page, info, "professor", C(false), { min: 1, absent: ["gaps"] });
+  expect(steps.map(s => s.id)).toContain("classes");
+});
+for (const [kind, id] of [["networking", "employers"], ["roundtable", "roundtable"], ["hackathon", "build"]]) {
+  test(`event (general, ${kind}): the kinds, then the ${id} block only`, async ({ visitor }, info) => {
+    const page = await visit(visitor, { hash: `#/field/marketing/event?${kind}` });
+    const steps = await walk(page, info, "event", C(false), { min: 2 });
+    expect(steps.map(s => s.id)).toEqual(["kinds", id]);
+  });
+}
 for (const [label, email] of [["general", GENERAL_EMAIL], ["campus", CAMPUS_EMAIL]]) {
   test(`about (${label}): the counts, the employers, then Feedback (the footer's when the top bar's is past the edge)`, async ({ visitor }, info) => {
     const page = await visit(visitor, { email, hash: "#/about" });
@@ -219,9 +263,9 @@ test("Back goes to the previous tip and hides on the first", async ({ visitor },
   const page = await visit(visitor, { hash: "#/jobs" });
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.locator('.guide-card [data-g="next"]').click();
-  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 2, n: 3 }));
+  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 2, n: 4 }));   // Find jobs has four tips
   await page.locator('.guide-card [data-g="back"]').click();
-  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 1, n: 3 }));
+  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 1, n: 4 }));
   await expect(page.locator('.guide-card [data-g="back"]')).toBeHidden();
   void info;
 });
@@ -282,16 +326,16 @@ test("Tab and Shift+Tab stay among the card's buttons", async ({ visitor }) => {
 });
 
 test("a version bump re-shows a seen screen once", async ({ visitor }, info) => {
-  const page = await visit(visitor, { hash: "#/jobs", seen: { home: 1, jobs: 1 } });
+  const page = await visit(visitor, { hash: "#/jobs", seen: { home: 1, jobs: 2 } });   // jobs ships at 2 since the quick filters
   await page.locator("#jsearch").waitFor();
   await page.waitForTimeout(3500);
   await expect(card(page)).toHaveCount(0);
-  // the table's version raised in the page (all screens ship at 1, so a lower stored version is 0, which reads as unseen)
+  // the table's version raised in the page (a lower stored version is 0, which reads as unseen)
   await page.evaluate(() => { Guide.SCREENS.home.version = 2; });
   await gotoHash(page, "#/home");
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.locator('.guide-card [data-g="skip"]').click();
-  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))).toEqual({ home: 2, jobs: 1 });
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))).toEqual({ home: 2, jobs: 2 });
   await gotoHash(page, "#/jobs");
   await page.locator("#jsearch").waitFor();
   await gotoHash(page, "#/home");
@@ -357,7 +401,7 @@ test("the feedback prompt does not open while a run is due or open; it does on a
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.waitForTimeout(1000);
   await expect(page.locator("#fb-box")).toHaveCount(0);
-  const control = await visit(visitor, { hash: "#/jobs", storage, seen: { home: 1, jobs: 1 } });
+  const control = await visit(visitor, { hash: "#/jobs", storage, seen: { home: 1, jobs: 2 } });
   await expect(control.locator("#fb-box")).toBeVisible({ timeout: 10_000 });
   await expect(card(control)).toHaveCount(0);
 });

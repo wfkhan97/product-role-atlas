@@ -42,6 +42,7 @@
     home: { version: 1 }, classes: { version: 1 }, jobs: { version: 2 }, skills: { version: 1 },
     role: { version: 1 }, fit: { version: 1, ready: ".fitcols" }, explore: { version: 1 }, field: { version: 1 },
     network: { version: 1, ready: "#nw-prep" }, you: { version: 1 }, about: { version: 1 },
+    course: { version: 1 }, play: { version: 1, ready: "#gm-body" }, professor: { version: 1 }, event: { version: 1 },
   };
   const resume = c => !!(c && c.resume), noResume = c => !(c && c.resume);
   const STEPS = [
@@ -86,6 +87,22 @@
     { screen: "you", id: "resume", target: ["#main a[href=\"#/you?step=3\"]"] },
     { screen: "about", id: "facts", target: [".about-facts"] },
     { screen: "about", id: "employers", target: ["details[data-k=\"about-top\"]"] },
+    { screen: "course", id: "level", target: [".seg.course-level"] },
+    { screen: "course", id: "read", target: ["#paste", "#go"] },
+    { screen: "course", id: "result", target: ["#main .tags"] },   // only once a course is read
+    // the game's coachmark (#gm-coach) goes at the first click, the guide's own Next included, so it has no step
+    { screen: "play", id: "round", target: ["#gm-round", ".gm-pips"] },
+    { screen: "play", id: "body", target: ["#gm-body"] },
+    { screen: "play", id: "tools", target: [".gm-tools", "#gm-info"] },
+    { screen: "professor", id: "tags", target: ["#prof-tags"] },
+    { screen: "professor", id: "classes", target: ["#prof-classes"] },
+    { screen: "professor", id: "gaps", target: ["#prof-gaps"] },   // a role and a résumé only
+    { screen: "professor", id: "angle", target: ["#prof-angle"] },
+    // one body per kind of event (the chips): the employers, the role cards, the build list
+    { screen: "event", id: "kinds", target: ["#main .chips"] },
+    { screen: "event", id: "employers", target: ["#employers"] },
+    { screen: "event", id: "roundtable", target: ["#yourlines", "#roundtable"] },
+    { screen: "event", id: "build", target: ["#main ol.next:not(#yourlines *)"] },
     { screen: "about", id: "feedback", target: ["#verbs [data-feedback]", "#foot-feedback"], when: c => !!((c && c.config) || {}).FEEDBACK_ENABLED },
   ];
   const known = s => typeof s === "string" && Object.hasOwn(SCREENS, s);
@@ -122,10 +139,8 @@
   const clean = obj => {
     const out = {};
     if (!obj || typeof obj !== "object" || Array.isArray(obj)) return out;
-    for (const [k, v] of Object.entries(obj)) {
-      const n = typeof v === "string" && /^\d+$/.test(v.trim()) ? Number(v.trim()) : v;
-      if (known(k) && Number.isInteger(n) && n >= 1) out[k] = n;
-    }
+    // whole numbers only: a string ("2") is not a version this code wrote, so it drops like any other bad value
+    for (const [k, v] of Object.entries(obj)) if (known(k) && Number.isInteger(v) && v >= 1) out[k] = v;
     return out;
   };
   function readSeen(raw) { try { return raw == null || raw === "" ? {} : clean(JSON.parse(raw)); } catch { return {}; } }
@@ -306,7 +321,7 @@
     ui.card.addEventListener("click", e => { const b = e.target.closest && e.target.closest("[data-g]"); if (!b) return; act(b.dataset.g); });
     cur.ui = ui;
     const on = (t, ev, fn, opt) => { t.addEventListener(ev, fn, opt); cur.listeners.push([t, ev, fn, opt]); };
-    on(doc, "keydown", onKey, true);
+    on(win, "keydown", onKey, true);   // the window's capture runs before a screen's own document-capture keys (a game's Esc quits)
     on(doc, "click", onClick, true);
     on(win, "scroll", follow, { passive: true });
     on(win, "resize", follow);
