@@ -17,7 +17,7 @@ Four verbs behind a door, on a hash router. Every route is in `web/app.js` unles
 |---|---|---|
 | `#/` | The door: an email and what you study. Everyone can skip it. A campus address opens Find classes. | `Door` in `app.js`, `web/doors.js` |
 | `#/home` | The four verbs as cards, About you inline. | `app.js` |
-| `#/jobs` | Find jobs: one search over every open US posting of both role sets, counted facets, the posting in a side panel. | `web/jobs.js` |
+| `#/jobs` | Find jobs: one search over every open US posting of the three role sets (the tech set while `TECH_ENABLED`), counted facets, the posting in a side panel. | `web/jobs.js` |
 | `#/skills` | Explore careers: the launcher by field or search, the résumé's match beside it. | `web/launcher.js` |
 | `#/explore`, `#/field/<id>` | The fields and their skills (crumb "All fields"): the fields as cards or a skill map; one field's roles with its skills on lanes. | `web/skillmap.js` |
 | `#/role/<id>` | A role: its skills by area, filters, the fit rail, the heart. | `app.js` |
@@ -98,7 +98,7 @@ the evals.
 .venv/bin/python -m pipeline.scrape --roles mba --refresh   # the MBA backlog (hours; --ats workday or --only "Name" narrows)
 .venv/bin/python -m pipeline.extract --roles mba            # tag the postings -> data/processed/jobs_mba.json.gz (about 20 minutes)
 .venv/bin/python -m pipeline.build_graph --roles mba        # the graph -> web/data/graph_mba.json + graph_mba/<role>.json
-.venv/bin/python -m pipeline.jobs_open                      # every open US posting -> web/data/jobs_open.json + jobs_meta.json
+.venv/bin/python -m pipeline.jobs_open                      # every open US posting of the three sets -> web/data/jobs_open.json + jobs_meta.json
 .venv/bin/python -m pipeline.scrape --roles tech --count-only counts.json   # the tech set: what its sampling would keep, nothing written
 .venv/bin/python evals/run_pipeline.py [--roles tech]       # titles, levels, countries, golden postings, graph integrity
 .venv/bin/python -m pipeline.catalog_export                 # the Spring 2027 catalog -> web/data/catalog/cornell_tech.json

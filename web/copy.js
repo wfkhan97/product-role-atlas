@@ -1149,6 +1149,8 @@
     counts: { 2: "Two things to do here, all built from live job postings.", 3: "Three things to do here, all built from live job postings.", 4: "Four things to do here, all built from live job postings." },
     jobs: "Find jobs",
     jobsLine: "One search over every open US posting we hold, for business roles and product roles. With a résumé on file, each posting says how many of its skills you show.",
+    // the same line while the engineering, design and legal roles are on the site (CONFIG.TECH_ENABLED)
+    jobsLineTech: "One search over every open US posting we hold, for business, product, engineering, design and legal roles. With a résumé on file, each posting says how many of its skills you show.",
     skills: "Explore careers",
     skillsLine: "Every role by field, with the skills most of its postings ask for. We read your résumé against them, in your browser and once with our AI reader. The fit says which skills are gaps.",
     classes: "Find classes",
