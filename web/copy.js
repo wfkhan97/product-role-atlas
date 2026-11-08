@@ -573,27 +573,34 @@
     // the same four words for the tech set's cards, and for the rail while a tech field is picked: an engineer at the
     // second grade is not a manager
     levelsTech: { associate: "New grad or junior", mid: "Mid-level or senior", staff: "Staff or principal", director: "Director" },
-    entries: { mba: "MBA entry", bachelor: "Bachelor's entry", intern: "Internship" },
+    // the Entry facet: new graduates holds every set's mark, and the last value names the year after the data's own
+    entries: { grads: "New graduates", mba: "MBA entry", intern: "Internship", later: "Starts {year} or later" },
     // the years filter: the most a posting may ask for; a posting that names no number always counts
     years: { "2": "Up to 2 years", "5": "Up to 5 years", "8": "Up to 8 years" },
     yearsNote: "Postings that name no number of years count too.",
     yearsFact: "asks for {n}+ years", clearanceFact: "asks for a security clearance",
     employers: { fortune500: "Fortune 500", startup: "Startup", mba_employer: "MBA employer" },
     groupStartup: "Startup", groupMBA: "MBA employer", groupFortune: "Fortune {n}",
-    who: { intern: "An internship", mba: "A job for MBA graduates", grads: "A job for new graduates" },
+    who: { intern: "An internship", mba: "A job for MBA graduates", grads: "A job for new graduates", mba_start: "A job for MBA graduates, starting {year}", grads_start: "A job for new graduates, starting {year}" },
     fitLine: "{n} of the {m} skills this posting asks for are on your résumé.",
     // the card's facts line names a field on every card; a role the data puts in no field gets this word
     noField: "Other field",
     moreSkills: "+{n} more",
-    remote: "remote", sponsorsVisa: "says it sponsors a visa",
+    remote: "remote", sponsorsVisa: "says it sponsors a visa", noSponsorVisa: "says it does not sponsor a visa",
     addResume: "Add your résumé", addResumeAfter: "and this line counts the skills you show.",
     openAt: "Open the posting at {company} ↗",
     skillAsks: "1 skill this posting asks for", skillsAsk: "{n} skills this posting asks for",
     dupeOne: "1 more posting", dupes: "{n} more postings", dupeAfter: "with this title at {company}{where}. We show it once.", dupeWhere: " in {location}",
     // the rail
     dead: "No posting matches this with the other filters on",
-    facets: { field: "Field", role: "Role", level: "Level", entry: "Entry", years: "Years of experience", sector: "Industry", group: "Employer type", company: "Company", work: "Work" },
-    remoteFacet: "Remote", sponsorFacet: "Says it sponsors a visa", noclearFacet: "No security clearance",
+    facets: { field: "Field", role: "Role", level: "Level", entry: "Entry", years: "Years of experience", sector: "Industry", group: "Employer type", sponsor: "Visa sponsorship", company: "Company", work: "Work" },
+    remoteFacet: "Remote", noclearFacet: "No security clearance",
+    // the sponsorship facet's two values, and the chip over the list for each: "open" keeps every posting that does
+    // not say it will not sponsor
+    sponsor: { yes: "Says it sponsors", open: "Doesn't rule it out" },
+    sponsorChip: { yes: "Says it sponsors a visa", open: "Doesn't rule out a visa" },
+    // the quick filters under the search box: the same filters as their rows on the rail
+    quickAria: "Quick filters", quick: { sponsor: "Says it sponsors a visa", grads: "New graduates", remote: "Remote" },
     more: "more…",
     // the empty state and the count
     quoted: "“{q}”", inLoc: "in {loc}",
@@ -1233,7 +1240,8 @@
       },
       jobs: {
         search: { title: "Search every open job", body: "Type a title, a skill or a company. Add a city to narrow the list." },
-        fields: { title: "Narrow by field", body: "Pick a field to see only its postings. The count above the list changes with it." },
+        quick: { title: "Three quick filters", body: "Press one to keep jobs that say they sponsor a visa, jobs for new graduates or remote jobs. The number on each says how many stay." },
+        fields: { title: "Narrow by field and more", body: "Pick a field to see only its postings. The rail also filters by level, employer, visa sponsorship and more." },
         card: { title: "See your skills on each card", body: "Add your résumé, and each card counts the skills you show for that posting." },
         cardFit: { title: "Your skills on each card", body: "This line counts the posting's skills that your résumé shows. The skills you show turn green." },
       },

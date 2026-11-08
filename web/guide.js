@@ -39,7 +39,7 @@
   // target: selectors tried in order, the first present one wins. when: the state the step needs (ctx: campus, resume,
   // signedIn, config); a row without one needs only its target. ready: the screen counts as drawn once this is present.
   const SCREENS = {
-    home: { version: 1 }, classes: { version: 1 }, jobs: { version: 1 }, skills: { version: 1 },
+    home: { version: 1 }, classes: { version: 1 }, jobs: { version: 2 }, skills: { version: 1 },
     role: { version: 1 }, fit: { version: 1, ready: ".fitcols" }, explore: { version: 1 }, field: { version: 1 },
     network: { version: 1, ready: "#nw-prep" }, you: { version: 1 }, about: { version: 1 },
   };
@@ -54,6 +54,7 @@
     { screen: "classes", id: "gaps", target: [".cls-card .cls-gaps"], when: resume },
     { screen: "classes", id: "subjects", target: [".chips:has(> [data-subject])"] },
     { screen: "jobs", id: "search", target: ["#jsearch"] },
+    { screen: "jobs", id: "quick", target: ["#jquick"] },
     { screen: "jobs", id: "fields", target: ["#jrail"] },
     { screen: "jobs", id: "card", target: ["#jlist .jcard"], when: noResume },
     { screen: "jobs", id: "cardFit", target: ["#jlist .jcard"], when: resume },

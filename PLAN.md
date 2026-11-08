@@ -3039,6 +3039,58 @@ refresh-mba do; before, a tech refresh left Find jobs stale.
 graduates), at 1,559 companies (20 new, 1,121 with tech postings), 78 roles. The file grows from 11.0 MB to 14.0 MB raw,
 2.6 MB to 3.4 MB gzipped. "MLE" finds two postings, the two whose titles say it; an alias table is a later change.
 
+## Sponsorship first, new graduates marked (`feat/jobs-filters`, 2026-11-08)
+
+Two students told us the visa-sponsorship filter on Find jobs was too hard to find, and asked for the jobs for new
+graduates to stand out, "the ones that can wait until graduation next year". The sponsorship row was the second row of
+"Work", the last rail group, closed by default under eight others; on a phone the rail sits after the postings. The
+Entry facet read only the MBA set's marks and the tech set's grad mark, so the product set had none, and nothing read a
+start year.
+
+**A strip, not a reordered rail.** Three toggle chips sit under the search form: "Says it sponsors a visa", "New
+graduates", "Remote", each with the count it would leave on. Each is the same state as its rail row (the same
+`data-key` and `data-val`, one click handler, `toggleFacet`), so the strip, the rail and the chips over the list always
+agree and the hash holds one value. We chose a strip over moving the group up the rail because the rail is closed by
+default and comes after the list on a phone, and these three are what the students asked for first. Focus after a
+redraw stays in the container the person used: the same key and value sit in both.
+
+**The rail scrolls on its own.** The rail is sticky and, with eleven groups, taller than a short window (800×600): its
+last groups, Visa sponsorship among them, were out of reach until the list ended, which is part of why the filter felt
+hidden. It now has a max-height of the window less its margins and its own scroll bar; the phone layout, where it is
+static after the postings, is unchanged.
+
+**Sponsorship has two values.** It is its own rail group, "Visa sponsorship", between Employer type and Company, with
+"Says it sponsors" (`sponsor=yes`) and "Doesn't rule it out" (`sponsor=open`): every posting that does not say it will
+not sponsor. Most postings say nothing either way (54,664 of 62,032 are open, 659 say yes, 7,368 say no), so a student
+who needs a visa can drop the clear no's without losing the silent ones. The two are exclusive values of one key, like
+Level. The panel now says "says it does not sponsor a visa" for a no, so a person sees why a posting is missing under
+"Doesn't rule it out". Old links' `sponsor=1` read as `yes`.
+
+**The title read.** `pipeline.jobs_open` sets bit `1024` when the title says the job is for new graduates, in every set,
+by one regex (`GRAD_TITLE`): new grad(uate)s, university or college grad/hire, early career, campus hire, program,
+recruiting or year, graduate program/scheme/hire/trainee/rotation, rotational, class of 20xx, and a year from 2026 to
+2029 followed within four words by start, grad(uate)s, MBA, university or new grad. "Campus" and "university" alone
+do not count ("Campus and Branch", "ServiceNow University"). A second pattern (`NOT_A_GRAD_JOB`) keeps the mark off
+titles that name graduates but are not a graduate's job: an internship whose row lacks the intern flag ("2027 MBA
+Intern – Product Manager"), a co-op, and the jobs that run the programs (recruiters, heads of, directors, onboarding).
+An intern row never carries the mark. Limits: a title is a few words, so a posting that says "new graduates" only in its
+text is not marked, and "Rotational Program Manager, Early Careers" still is. The mark adds 38 postings to the 1,646 the
+set marks already held; the product set gets its first 11.
+
+**The start year.** A thirteenth column, `start`: the first year from 2026 to 2029 in a title with the mark, else null.
+The Entry facet is now New graduates (`pre_mba`, `grad` or the title mark), MBA entry, Internship and "Starts {year}
+or later", the year after the file's `generated` year (`Jobs.ENTRIES(year)`, `ctx.year`), so it reads "Starts 2027 or
+later" this year and moves with the data. The card's line says ", starting 2027" when a start is known. Old links'
+`entry=bachelor` read as `grads`.
+
+**The guide.** A tip for the strip after the search tip ("Three quick filters"); the field tip says the rail also
+filters by level, employer, sponsorship and more. `SCREENS.jobs.version` is 2, so a returning visitor sees the jobs
+tips once more.
+
+**Counts** (2026-11-08): the title mark on 196 rows (11 product, 123 MBA, 62 tech); a start year on 97 (2026: 16,
+2027: 81). Entry: New graduates 1,684, MBA entry 590, Internship 1,221, Starts 2027 or later 81. Sponsorship: says it
+sponsors 659, doesn't rule it out 54,664.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3119,6 +3171,8 @@ done). One line per item; the section that explains it is named where it helps.
 - An "Open now / Last 12 months" switch on the field and role pages, once the product graph keeps closed postings as
   the MBA graph does.
 - An events feed for Networking (the intake promises one).
+- The new-graduate mark from a posting's text, not its title alone: the extract has the text, and "new graduates" or a
+  start date often sits there ("Sponsorship first, new graduates marked").
 - IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
   `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.
 - The class matching's next lever: six known failures in `evals/classes/` share one shape, one small gap carrying a

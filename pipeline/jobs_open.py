@@ -6,14 +6,17 @@ the build writes and nothing else: no network, no .env. Idempotent: the same inp
                             open true and country equal to the index meta's) and of the tech set (graph_tech/<role>.json,
                             the same rule). Column-oriented so the screen loads it
                             fast: the companies, locations, roles and titles are lists, and a row is
-                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen, yoe, posted]
+                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen, yoe, posted, start]
                             num is the posting's own number (the id is p<num>, m<num> or t<num>); levelIdx indexes
                             levels[<set>]; flags is a bit field (FLAGS: bit 1 marks the MBA set, 256 the tech set, 512
-                            the tech set's new-graduate mark); skills index this file's own skill_ids, the union of the
+                            the tech set's new-graduate mark, 1024 a title that says the job is for new graduates, in
+                            any set: GRAD_TITLE); skills index this file's own skill_ids, the union of the
                             three sets'; url is the posting's URL minus its company's url_prefix; yoe is the
                             years of experience the posting asks for, or null. firstSeen is the day our scrape first
                             saw the posting (MBA and tech sets; it clusters on scrape days); posted is the board's own
-                            posting date (build_graph posted_day, YYYY-MM-DD), or null. A row's skills are the ones a
+                            posting date (build_graph posted_day, YYYY-MM-DD), or null. start is the year a
+                            graduate title says the job starts (the first of 2026 to 2029 in a title with bit 1024), or
+                            null. A row's skills are the ones a
                             person can learn or show: no credential (years, degrees, licences, clearance: years is its
                             own column and clearance a flag) and no industry (cluster domain) unless it defines the
                             posting's MBA or tech role. No snippet, no sub-skills. web/jobs.js rowsOf(file) expands it.
@@ -22,7 +25,7 @@ the build writes and nothing else: no network, no .env. Idempotent: the same inp
 
   .venv/bin/python -m pipeline.jobs_open
 """
-import glob, json, os, sys, time
+import glob, json, os, re, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 DATA = os.path.join(ROOT, "web", "data")
@@ -33,15 +36,31 @@ TECH_NS = "tech."         # web/atlas.js techKey: the tech set's the same way
 US = "United States"
 # the bits of a row's flags (web/jobs.js FLAGS reads the same)
 FLAGS = {"mba": 1, "intern": 2, "remote": 4, "entry_mba": 8, "entry_pre_mba": 16, "sponsor_yes": 32, "sponsor_no": 64, "clearance": 128,
-         "tech": 256, "entry_grad": 512}
+         "tech": 256, "entry_grad": 512, "grad_title": 1024}
 CLEARANCE = "security_clearance"   # the credential the clearance flag reads
+# A title that says the job is for new graduates, in any set: the product set has no entry mark of its own and the
+# MBA set's marks miss titles like "Associate Product Manager, New Grad (2027 Start)". Each form names graduates, a
+# campus hire or a start class; "campus" and "university" alone do not count, since a title like "Product Marketing,
+# Campus and Branch" or "Product Manager - ServiceNow University" names a place or a product. A year counts only when a
+# word for a start, a degree or graduates follows it within a few words, so "2026 Roadmap" is not a mark.
+GRAD_TITLE = re.compile(
+    r"\b(?:new[- ]?grad(?:uate)?s?|(?:university|college)\s+(?:grad(?:uate)?|hire)s?|early[- ]career"
+    r"|campus\s+(?:hire|program|recruit\w*|20\d\d)|graduate\s+(?:program|programme|scheme|hire|trainee|rotation\w*)"
+    r"|rotational|class\s+of\s+20\d\d"
+    r"|20(?:2[6-9])\W+(?:\w+\W+){0,4}?(?:start\w*|grad(?:uate)?s?|mba|university|new\s+grad))\b", re.I)
+# A title can name graduates and still not be a graduate's job: an internship whose row lacks the intern flag ("2027
+# MBA Intern – Product Manager"), a co-op, or a job that runs the graduate programs ("Head of Early Career Recruiting",
+# "University Recruiter (Early Career)", "Sr Director, Program Management - Early Career & Rotational Programming").
+NOT_A_GRAD_JOB = re.compile(r"\b(?:intern(?:ships?|s)?|co-?op|recruiters?|head\s+of|director|onboarding|programming)\b", re.I)
+# the start year a graduate title names: the first of 2026 to 2029 in it
+START_YEAR = re.compile(r"\b(202[6-9])\b")
 
 NOTE = ("Every open posting of the site's US slice, the three role sets, for Find jobs. Column-oriented: companies, "
         "locations, roles and titles are lists; a row is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, "
-        "flags, skills, url, firstSeen, yoe, posted]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs), m<num> (MBA, "
+        "flags, skills, url, firstSeen, yoe, posted, start]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs), m<num> (MBA, "
         "the row id in graph_mba/<role>.json) or t<num> (tech, the row id in graph_tech/<role>.json); flags: 1 MBA set, 2 internship, 4 remote, 8 MBA entry, 16 bachelor's "
-        "entry, 32 says it sponsors, 64 says it does not, 128 asks for a security clearance, 256 tech set, 512 tech entry for new graduates; levelIdx indexes levels[set]; skills index skill_ids; url "
-        "is the posting's URL after its company's url_prefix; yoe is the years asked, or null; firstSeen is the day our scrape first saw the posting and posted the board's own posting date (YYYY-MM-DD), each or null. Skills leave out credentials and the industries that do not define the posting's role. Written by pipeline.jobs_open; rows are sorted by set (product, MBA, tech), "
+        "entry, 32 says it sponsors, 64 says it does not, 128 asks for a security clearance, 256 tech set, 512 tech entry for new graduates, 1024 the title says the job is for new graduates (any set, never an internship); levelIdx indexes levels[set]; skills index skill_ids; url "
+        "is the posting's URL after its company's url_prefix; yoe is the years asked, or null; firstSeen is the day our scrape first saw the posting and posted the board's own posting date (YYYY-MM-DD), each or null; start is the year 2026 to 2029 a graduate title names, or null. Skills leave out credentials and the industries that do not define the posting's role. Written by pipeline.jobs_open; rows are sorted by set (product, MBA, tech), "
         "then by number. web/jobs.js rowsOf expands it.")
 
 
@@ -79,11 +98,26 @@ def flags_of(set_, j, clearance=False):
     # the tech set has one entry mark of its own (pipeline/roles_tech.py entry: "grad" or None)
     if set_ == "tech" and j.get("entry") == "grad":
         f |= FLAGS["entry_grad"]
+    # the title's own mark, for every set; an internship stays an internship even when its title names graduates
+    if not j.get("intern") and grad_title(j.get("title")):
+        f |= FLAGS["grad_title"]
     if j.get("sponsorship") == "yes":
         f |= FLAGS["sponsor_yes"]
     elif j.get("sponsorship") == "no":
         f |= FLAGS["sponsor_no"]
     return f
+
+
+def grad_title(title):
+    """Whether a title says the job is for new graduates (GRAD_TITLE) and is not an internship or a recruiter's."""
+    return bool(GRAD_TITLE.search(title or "")) and not NOT_A_GRAD_JOB.search(title or "")
+
+
+def start_of(title, flags):
+    """The year a graduate job starts, from its title: the first of 2026 to 2029 when the title carries the graduate
+    mark, else None. A year on a title without the mark (a product's version, a fiscal year) says nothing of a start."""
+    m = START_YEAR.search(title or "") if flags & FLAGS["grad_title"] else None
+    return int(m.group(1)) if m else None
 
 
 def common_prefix(urls):
@@ -158,12 +192,13 @@ def build():
         prefix = companies.values[c]["url_prefix"] = common_prefix(urls_by_company[j["company"]])
         url = j.get("url") or ""
         ids = [graphs[set_]["skill_ids"][i] for i in j.get("skills", [])]
+        flags = flags_of(set_, j, CLEARANCE in ids)
         rows.append([
             num, c, roles.idx(role), titles.idx(j["title"]), levels[set_].index(j["level"]),
-            locations.idx(j.get("location") or ""), flags_of(set_, j, CLEARANCE in ids),
+            locations.idx(j.get("location") or ""), flags,
             sorted(remap[k] for k in ids if keeps(set_, role, k)),
             url[len(prefix):] if url.startswith(prefix) else url, j.get("first_seen"), j.get("yoe"),
-            j.get("posted"),
+            j.get("posted"), start_of(j["title"], flags),
         ])
     generated = time.strftime("%Y-%m-%d")
     out = {

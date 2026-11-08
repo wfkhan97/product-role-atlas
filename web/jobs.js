@@ -15,19 +15,21 @@
 
   // ---------- the file: column-oriented (pipeline.jobs_open), expanded once into row objects ----------
   // A row of the file is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe,
-  // posted]; rowsOf gives { id, set, role, title, company, group, sector, level, entry, intern, location, remote,
-  // sponsorship, url, skills, first_seen, yoe, clearance, posted }, the shape every function below takes. The skills
+  // posted, start]; rowsOf gives { id, set, role, title, company, group, sector, level, entry, intern, location, remote,
+  // sponsorship, url, skills, first_seen, yoe, clearance, posted, grad, start }, the shape every function below takes. The skills
   // stay indexes into file.skill_ids and hold no credential: the years asked are yoe (a number or null), a clearance is
   // its own flag. posted is the board's own posting date and first_seen the day our scrape first saw the posting (both
   // YYYY-MM-DD or null); a file written before the twelfth column gives posted null. The set is a bit: mba (id m<num>),
   // tech (id t<num>, role tech.<family>), else product (id p<num>); the tech set's one entry mark, new graduates, is
-  // its own bit and reads as entry "grad".
-  const FLAGS = { mba: 1, intern: 2, remote: 4, entry_mba: 8, entry_pre_mba: 16, sponsor_yes: 32, sponsor_no: 64, clearance: 128, tech: 256, entry_grad: 512 };
+  // its own bit and reads as entry "grad". grad is the title's own mark, in any set (the title says the job is for new
+  // graduates, pipeline.jobs_open GRAD_TITLE), and start the year such a title names, or null; a file written before
+  // the thirteenth column gives start null.
+  const FLAGS = { mba: 1, intern: 2, remote: 4, entry_mba: 8, entry_pre_mba: 16, sponsor_yes: 32, sponsor_no: 64, clearance: 128, tech: 256, entry_grad: 512, grad_title: 1024 };
   const ID_PREFIX = { product: "p", mba: "m", tech: "t" };
   function rowsOf(file) {
     const F = Object.assign({}, FLAGS, file.flags || {}), C = file.companies || [], L = file.locations || [], R = file.roles || [], T = file.titles || [], levels = file.levels || {};
     return (file.rows || []).map(r => {
-      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe, posted] = r, c = C[ci] || {}, set = flags & F.tech ? "tech" : flags & F.mba ? "mba" : "product";
+      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe, posted, start] = r, c = C[ci] || {}, set = flags & F.tech ? "tech" : flags & F.mba ? "mba" : "product";
       return {
         id: ID_PREFIX[set] + num, set, role: R[ri], title: T[ti], company: c.name, group: c.group, sector: c.sector == null ? null : c.sector,
         level: (levels[set] || [])[li], entry: flags & F.entry_mba ? "mba" : flags & F.entry_pre_mba ? "pre_mba" : flags & F.entry_grad ? "grad" : null,
@@ -35,6 +37,7 @@
         sponsorship: flags & F.sponsor_yes ? "yes" : flags & F.sponsor_no ? "no" : null,
         url: (c.url_prefix || "") + (url || ""), skills: skills || [], first_seen: firstSeen == null ? null : firstSeen,
         yoe: yoe == null ? null : yoe, clearance: !!(flags & F.clearance), posted: posted == null ? null : posted,
+        grad: !!(flags & F.grad_title), start: start == null ? null : start,
       };
     });
   }
@@ -55,7 +58,14 @@
     tech: Object.assign({}, FOUR),
   };
   const levelLabels = set => set === "tech" ? LEVEL_WORDS.techLabels : LEVEL_WORDS.labels;
-  const ENTRIES = ["mba", "bachelor", "intern"].map(id => [id, W.entries[id]]);
+  // The Entry facet: new graduates, MBA entry, internship, and the jobs that start after this year. "New graduates"
+  // holds the MBA set's pre-MBA mark, the tech set's grad mark and any title that says it is for new graduates, so the
+  // product set has the mark too. The last value's year is the file's own year plus one (a file written in 2026 says
+  // "Starts 2027 or later"), so ENTRIES is a function of that year; without one, the year it is now.
+  const ENTRY_IDS = ["grads", "mba", "intern", "later"];
+  const ENTRIES = year => ENTRY_IDS.map(id => [id, fill(W.entries[id], { year: (year || new Date().getFullYear()) + 1 })]);
+  // a link from before the values were renamed: bachelor (and pre_mba, which the facet once took) is New graduates
+  const ENTRY_ALIAS = { bachelor: "grads", pre_mba: "grads" };
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
   const SORTS = ["best", "fit", "newest", "company"];
   // the years a person has: a posting fits when it asks for that many or fewer, or names no number (owner's decision
@@ -109,22 +119,33 @@
   // ---------- the filters ----------
   // f = { field, role, level, entry, years, sector, location, remote, sponsor, noclear, group, company }; a missing or
   // empty key is off. sector is the employer's industry (companies[].sector); noclear keeps postings that ask for no
-  // security clearance.
-  const blankFilter = () => ({ field: "", role: "", level: "", entry: "", years: "", sector: "", location: "", remote: false, sponsor: false, noclear: false, group: "", company: "" });
-  // Bachelor's entry is the MBA set's pre_mba mark and the tech set's grad mark: both are a job for new graduates
-  const entryHit = (row, entry) => entry === "intern" ? !!row.intern : entry === "mba" ? row.entry === "mba" : entry === "bachelor" || entry === "pre_mba" ? row.entry === "pre_mba" || row.entry === "grad" : false;
+  // security clearance. sponsor is one of two values, like level: "yes" keeps the postings that say they sponsor a
+  // visa, "open" every posting that does not say it will not (most say nothing either way).
+  const blankFilter = () => ({ field: "", role: "", level: "", entry: "", years: "", sector: "", location: "", remote: false, sponsor: "", noclear: false, group: "", company: "" });
+  const SPONSOR = ["yes", "open"];
+  const sponsorHit = (row, v) => v === "yes" ? row.sponsorship === "yes" : v === "open" ? row.sponsorship !== "no" : true;
+  // the year "later" counts from is the file's (ctx.year, the year of its generated date): a start after it
+  const yearOf = ctx => (ctx && ctx.year) || new Date().getFullYear();
+  function entryHit(row, entry, ctx) {
+    entry = ENTRY_ALIAS[entry] || entry;
+    if (entry === "intern") return !!row.intern;
+    if (entry === "mba") return row.entry === "mba";
+    if (entry === "grads") return row.entry === "pre_mba" || row.entry === "grad" || !!row.grad;
+    if (entry === "later") return row.start != null && row.start > yearOf(ctx);
+    return false;
+  }
   // every word must start a word in the posting's location; "remote" also matches the flag
   const locHit = (row, toks) => { const ws = words(row.location); return toks.every(t => (t === "remote" && row.remote) || hit(t, ws) > 0); };
   function matches(row, f, ctx, locToks) {
     if (f.field && fieldOfRole(row.role, ctx) !== f.field) return false;
     if (f.role && row.role !== f.role) return false;
     if (f.level && levelWord(row) !== f.level) return false;
-    if (f.entry && !entryHit(row, f.entry)) return false;
+    if (f.entry && !entryHit(row, f.entry, ctx)) return false;
     if (f.years && !yearsHit(row, f.years)) return false;
     if (f.sector && row.sector !== f.sector) return false;
     if (locToks.length && !locHit(row, locToks)) return false;
     if (f.remote && !row.remote) return false;
-    if (f.sponsor && row.sponsorship !== "yes") return false;
+    if (f.sponsor && !sponsorHit(row, f.sponsor)) return false;
     if (f.noclear && row.clearance) return false;
     if (f.group && employerOf(row.group) !== f.group && row.group !== f.group) return false;
     if (f.company && row.company !== f.company) return false;
@@ -237,8 +258,8 @@
 
   // ---------- the hash: every filter, the query, the sort, the page and the open posting ----------
   const KEYS = ["q", "field", "role", "level", "entry", "years", "sector", "loc", "remote", "sponsor", "noclear", "group", "company", "sort", "page", "open"];
-  const BOOL = new Set(["remote", "sponsor", "noclear"]);
-  const blankState = () => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: false, noclear: false, group: "", company: "", sort: "best", page: 1, open: "" });
+  const BOOL = new Set(["remote", "noclear"]);
+  const blankState = () => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: "", noclear: false, group: "", company: "", sort: "best", page: 1, open: "" });
   // reads "q=product&level=mid", "?q=…", "#/jobs?q=…" or a full hash; what is absent takes its default
   function parseState(query) {
     const s = blankState();
@@ -252,6 +273,9 @@
       if (BOOL.has(k)) s[k] = v === "1" || v === "true";
       else if (k === "page") s.page = Math.max(1, Math.floor(Number(v)) || 1);
       else if (k === "sort") s.sort = SORTS.includes(v) ? v : "best";
+      // sponsor was a switch until it had two values: an old link's sponsor=1 is "says it sponsors"
+      else if (k === "sponsor") s.sponsor = v === "1" || v === "true" ? "yes" : SPONSOR.includes(v) ? v : "";
+      else if (k === "entry") s.entry = ENTRY_ALIAS[v] || v;
       else s[k] = v;
     }
     return s;
@@ -269,7 +293,7 @@
     return h.toString();
   }
   // the filter object of a state (the hash says loc; the filter says location)
-  const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: !!s.sponsor, noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
+  const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: SPONSOR.includes(s.sponsor) ? s.sponsor : "", noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

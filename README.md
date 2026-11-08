@@ -17,7 +17,7 @@ Four verbs behind a door, on a hash router. Every route is in `web/app.js` unles
 |---|---|---|
 | `#/` | The door: an email and what you study. Everyone can skip it. A campus address opens Find classes. | `Door` in `app.js`, `web/doors.js` |
 | `#/home` | The four verbs as cards, About you inline. | `app.js` |
-| `#/jobs` | Find jobs: one search over every open US posting of the three role sets (the tech set while `TECH_ENABLED`), counted facets, the posting in a side panel. | `web/jobs.js` |
+| `#/jobs` | Find jobs: one search over every open US posting of the three role sets (the tech set while `TECH_ENABLED`), counted facets (visa sponsorship, new graduates and remote also as quick filters under the search box), the posting in a side panel. | `web/jobs.js` |
 | `#/skills` | Explore careers: the launcher by field or search, the résumé's match beside it. | `web/launcher.js` |
 | `#/explore`, `#/field/<id>` | The fields and their skills (crumb "All fields"): the fields as cards or a skill map; one field's roles with its skills on lanes. | `web/skillmap.js` |
 | `#/role/<id>` | A role: its skills by area, filters, the fit rail, the heart. | `app.js` |
