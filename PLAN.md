@@ -3028,7 +3028,8 @@ before anything counts them, so the lead and the facets never name a hidden set,
 new `without_tech` counts (the employers overlap across sets, so that count is its own number, not a difference).
 
 **The words.** A tech new-graduate posting says "A job for new graduates" and is under the Bachelor's entry filter,
-with the MBA set's `pre_mba`. The tech levels fold to the same four words as the other sets. About's line names
+with the MBA set's `pre_mba`. The tech levels fold to the same four ids, said in the set's own words on the card and on
+the rail while a tech field is picked (`Copy.jobs.levelsTech`: "Mid-level or senior", never "Manager"). About's line names
 engineering, design and legal roles while the switch is on.
 
 **The refresh.** refresh-tech runs `jobs_open` after its graph build and commits the two files, as refresh-product and
@@ -3072,8 +3073,6 @@ done). One line per item; the section that explains it is named where it helps.
 **The tech role set** (off behind `TECH_ENABLED`; "A third role set")
 - Find jobs' search aliases ("The tech set in Find jobs"): "MLE", "SWE", "PM" and the like find only titles that spell
   them; a short alias table in `web/jobs.js`, checked against the tech titles.
-- Find jobs' level words read business: a Software Engineer II card says "Manager" and a new-grad engineer "Analyst or
-  associate". Per-set words on the card (the tech set's `level_labels`), the rail keeping its four.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".

@@ -570,6 +570,9 @@
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     // the four level words on the rail and the card, the entry marks, the employer types
     levels: { associate: "Analyst or associate", mid: "Manager", staff: "Lead or principal", director: "Director" },
+    // the same four words for the tech set's cards, and for the rail while a tech field is picked: an engineer at the
+    // second grade is not a manager
+    levelsTech: { associate: "New grad or junior", mid: "Mid-level or senior", staff: "Staff or principal", director: "Director" },
     entries: { mba: "MBA entry", bachelor: "Bachelor's entry", intern: "Internship" },
     // the years filter: the most a posting may ask for; a posting that names no number always counts
     years: { "2": "Up to 2 years", "5": "Up to 5 years", "8": "Up to 8 years" },

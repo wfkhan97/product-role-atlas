@@ -247,6 +247,10 @@ test("the four level words, and every level id of the three sets maps to one", (
   for (const set of ["product", "mba", "tech"]) for (const [id, word] of Object.entries(J.LEVEL_WORDS[set])) assert.ok(four.has(word), `${set} ${id} -> ${word}`);
   assert.equal(J.levelLabel(row("x", { level: "senior" })), "Manager");
   assert.equal(J.levelLabel(row("x", { level: "cpo", set: "product" })), "Director");
+  // the tech set's cards use its own four words on the same ids: an Engineer II is not a manager
+  assert.equal(J.levelLabel(row("x", { level: "mid", set: "tech" })), "Mid-level or senior");
+  assert.equal(J.levelLabel(row("x", { level: "associate", set: "tech" })), "New grad or junior");
+  assert.deepEqual(J.levelLabels("tech").map(([id]) => id), J.levelLabels("mba").map(([id]) => id), "the same four ids, so the Level filter's value holds across fields");
 });
 
 // ---------- the file shape ----------
@@ -288,11 +292,12 @@ test("rowsOf reads the tech set's bits: set tech, id t<num>, the grad entry, the
   assert.equal(J.filterJobs([grad, senior], { entry: "mba" }, {}).length, 0);
 });
 
-test("the tech set's eight levels fold to the same four words", () => {
+test("the tech set's eight levels fold to the same four ids, said in its own words", () => {
   assert.deepEqual(J.LEVEL_WORDS.tech, J.LEVEL_WORDS.mba);
   const w = level => J.levelWord({ set: "tech", level });
   assert.deepEqual(["associate", "mid", "senior", "staff", "group", "director", "vp", "cpo"].map(w), ["associate", "mid", "mid", "staff", "staff", "director", "director", "director"]);
-  assert.equal(J.levelLabel({ set: "tech", level: "staff" }), J.LEVEL_WORDS.labels.find(([id]) => id === "staff")[1]);
+  assert.equal(J.levelLabel({ set: "tech", level: "staff" }), J.LEVEL_WORDS.techLabels.find(([id]) => id === "staff")[1]);
+  assert.notEqual(J.levelLabel({ set: "tech", level: "senior" }), J.levelLabel({ set: "mba", level: "senior" }), "a senior engineer is not called a manager");
 });
 
 // ---------- the real file ----------

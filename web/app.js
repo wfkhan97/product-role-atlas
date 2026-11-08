@@ -2120,7 +2120,7 @@
     const rail = (searched, f) => {
       const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
       const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
-      const levels = Jobs.LEVEL_WORDS.labels;
+      const levels = levelsOf();
       const count = (facet, pairs) => Jobs.facetCounts(searched, f, facet, pairs.map(([v]) => v), ctx);
       // the companies in one pass over the rows the other filters keep: the twenty with the most postings, then all
       const cm = {}; for (const r of Jobs.filterJobs(searched, Object.assign({}, f, { company: "" }), ctx)) cm[r.company] = (cm[r.company] || 0) + 1;
@@ -2149,7 +2149,8 @@
       if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]); if (s.noclear) out.push(["noclear", JB.noclearFacet]);
       return out;
     };
-    const levelsOf = () => Jobs.LEVEL_WORDS.labels;
+    // the Level facet's words follow the picked field: the tech set's while a tech field is on, else the business ones
+    const levelsOf = () => Jobs.levelLabels(s.field && (ix.groups.find(g => g.id === s.field) || {}).set === "tech" ? "tech" : "mba");
     const chipHtml = ([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="${esc(fill(JB.remove, { label: l }))}">${esc(l)} <span class="n">×</span></button>`;
     const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(chipHtml).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----

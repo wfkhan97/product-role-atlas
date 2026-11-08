@@ -45,12 +45,16 @@
   // CTO sit with the directors.
   // A senior manager is still a manager; a group manager leads; a VP and a chief officer sit with the directors.
   const FOUR = { associate: "associate", mid: "mid", senior: "mid", staff: "staff", group: "staff", director: "director", vp: "director", cpo: "director" };
+  // The ids are shared, the words are not: the tech set's cards say "Mid-level or senior" where a business card says
+  // "Manager" (Copy.jobs.levelsTech), and the rail shows the tech words while a tech field is picked (levelLabels).
   const LEVEL_WORDS = {
     labels: ["associate", "mid", "staff", "director"].map(id => [id, W.levels[id]]),
+    techLabels: ["associate", "mid", "staff", "director"].map(id => [id, W.levelsTech[id]]),
     product: Object.assign({}, FOUR),
     mba: Object.assign({}, FOUR),
     tech: Object.assign({}, FOUR),
   };
+  const levelLabels = set => set === "tech" ? LEVEL_WORDS.techLabels : LEVEL_WORDS.labels;
   const ENTRIES = ["mba", "bachelor", "intern"].map(id => [id, W.entries[id]]);
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
   const SORTS = ["best", "fit", "newest", "company"];
@@ -59,7 +63,7 @@
   const YEARS = ["2", "5", "8"].map(id => [id, W.years[id]]);
   const yearsHit = (row, max) => row.yoe == null || row.yoe <= Number(max);
   const levelWord = row => (LEVEL_WORDS[row.set] || {})[row.level] || row.level || "";
-  const levelLabel = row => (LEVEL_WORDS.labels.find(([id]) => id === levelWord(row)) || [, row.level])[1] || "";
+  const levelLabel = row => (levelLabels(row.set).find(([id]) => id === levelWord(row)) || [, row.level])[1] || "";
   // the employer type from the company group: fortune50..fortune500 are one type
   const employerOf = group => group === "startup" ? "startup" : group === "mba_employer" ? "mba_employer" : /^fortune/.test(String(group || "")) ? "fortune500" : String(group || "");
   const fieldOfRole = (id, ctx) => ctx && ctx.fieldOf ? (ctx.fieldOf(id) || "") : String(id || "").startsWith(PRODUCT_NS) ? "product" : "";
@@ -267,5 +271,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: !!s.sponsor, noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });
