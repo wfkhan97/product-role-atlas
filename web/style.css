@@ -35,6 +35,16 @@ header.top { height: var(--topbar-height); flex: none; display: flex; align-item
   .top-actions { order: 3; flex: 0 0 100%; min-width: 0; gap: var(--space-3); }
   .verbs-nav { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; gap: var(--space-3); padding: var(--space-1) 0; }
   .verbs-nav::-webkit-scrollbar { display: none; }
+  /* the strip fades at its right edge, so a cut word reads as "more this way" (2026-11-08); where the browser ties an
+     animation to the strip's own scroll, the fade goes once the strip is scrolled to its end */
+  .verbs-nav { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  @supports (animation-timeline: scroll()) {
+    .verbs-nav { animation: verbs-fade linear both; animation-timeline: scroll(self inline); }
+  }
+}
+@keyframes verbs-fade {
+  0%, 92% { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  100% { -webkit-mask-image: none; mask-image: none; }
 }
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; }
 .brand .mark { width: 22px; height: 22px; border-radius: 6px; background: var(--primary); }
