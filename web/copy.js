@@ -679,7 +679,7 @@
     companyPlaceholder: "Type a company",
     professor: "Professor",
     professorPlaceholder: "Type a name",
-    openLabel: "{company} · {n} open",
+    openHint: "{n} open",
     coversHint: "covers {n} of your gaps",
     noTitle: "Title not on the roster",
     sideAria: "Prep a chat",
