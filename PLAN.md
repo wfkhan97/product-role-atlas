@@ -3347,6 +3347,9 @@ done). One line per item; the section that explains it is named where it helps.
   them to `--input` (some are on frozen screens).
 - `tests/ui/resume.spec.mjs`'s "the résumé line names the AI reader only when it answered (200)" fails on `main`:
   the stubbed 200 answers `{}` and the line never says "AI reader". The stub, or the line's rule, wants a look.
+- `tests/ui/chrome.spec.mjs`'s "About: a late class count keeps the scroll and the open employer list" fails on
+  `main` in most local runs (seen 2026-11-08 on 733401d, both viewports): the page moves about 200px when the count
+  lands. CI does not run the UI suite, so nothing flags it; the About screen's late redraw wants a look.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 
 **The pipeline**
