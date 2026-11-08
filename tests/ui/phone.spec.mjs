@@ -8,6 +8,7 @@
 //   - on those three screens Tab reaches the content before the filters, the tiles or the list
 //   - the top bar takes two rows at most, with every verb on it
 //   - the skill map's labels do not overlap, and no screen tells a phone to hover
+//   - Explore opens on the field cards; a tap lights a role's skills on the field page, a second tap opens the role
 //   - the posting panel and the skill card fit the screen
 //   - the game board wraps whole words and keeps its checkboxes clear of the words
 import fs from "node:fs";
@@ -256,6 +257,63 @@ test("field page: the chart hint does not tell a phone to hover", async ({ visit
   await gotoHash(page, "#/field/marketing");
   await page.locator("#main .field-split .list a.r").first().waitFor();
   await expect(page.locator("#main .field-split")).not.toContainText(/hover/i);
+});
+
+test("explore: a phone opens on the field cards, the launcher's map link too, and the toggle still opens the map", async ({ visitor }) => {
+  const page = await general(visitor);
+  for (const hash of ["#/explore", "#/explore?view=map"]) {
+    await gotoHash(page, hash);
+    await page.locator("#main .fcards .fcard").first().waitFor();
+    expect(await page.locator("#main .sm-field").count(), hash).toBe(0);
+    await gotoHash(page, "#/home");
+    await waitForScreen(page, "home");
+  }
+  await gotoHash(page, "#/explore");
+  await page.locator("#main #v-map").click();
+  await page.locator("#sm-stage .sm-field").first().waitFor();
+  expect(await page.locator("#main .fcards").count()).toBe(0);
+});
+test("field page: the first tap on a role lights its skills and stays; the second opens the role", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/field/marketing");
+  const row = page.locator("#main .field-split .list a.r").first();
+  await row.waitFor();
+  await page.locator("#chart circle").first().waitFor({ state: "attached" });
+  const role = await row.getAttribute("data-role");
+  const litCount = () => page.evaluate(() => document.querySelectorAll("#chart .lit").length);
+  const before = await litCount();
+  await row.tap();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toBe("#/field/marketing");
+  expect(await litCount(), "the chart lights the role's skills").toBeGreaterThan(before);
+  await row.tap();
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/role/${role}`);
+});
+test("skill map: the first tap on a field lights it and stays; the second opens the field", async ({ visitor }) => {
+  const page = await general(visitor);
+  await page.evaluate(() => sessionStorage.setItem("explore-view", JSON.stringify("map")));
+  await gotoHash(page, "#/explore");
+  const bubble = () => page.locator("#sm-stage .sm-field").first();
+  await bubble().waitFor();
+  await page.waitForTimeout(400);
+  const g = await bubble().getAttribute("data-g");
+  const field = page.locator(`#sm-stage .sm-field[data-g="${g}"]`);
+  await field.tap();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toBe("#/explore");
+  await expect(field).toHaveClass(/\blit\b/);
+  await field.tap();
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/field/${g}`);
+});
+test("field page: Enter on a role row opens it at once", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/field/marketing");
+  const row = page.locator("#main .field-split .list a.r").first();
+  await row.waitFor();
+  const role = await row.getAttribute("data-role");
+  await row.focus();
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/role/${role}`);
 });
 
 // ---------- the posting panel and the skill card ----------

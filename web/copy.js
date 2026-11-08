@@ -245,7 +245,7 @@
     counts: "{fields} fields, {roles} roles.",
     pickField: "Pick a field.",
     fitFirst: "The ones that fit you come first.",
-    mapLead: "Select a skill to see who asks for it. With a mouse, point to a field to light up the skills that set it apart.",   // a phone has no hover (usability pass 2026-11-06)
+    mapLead: "Select a skill to see who asks for it. Point to or tap a field to light the skills that set it apart.",   // the first tap lights, the second opens (2026-11-08)
     countsTip: "Counts are open postings in the US: business fields refreshed {date}{product}.",
     countsTipProduct: ", Product scraped {date} ({n} worldwide)",
     findSkill: "Find a skill",
@@ -263,7 +263,7 @@
       biggestFirst: "The biggest first.",
       green: "Green: a rough read of your résumé; open a role for your band of fit.",
       map: "See {field} on the skill map →",
-      hover: "Select a skill in the chart to see what it means. With a mouse, point to a role to light its skills in the chart.",
+      hover: "Select a skill in the chart to see what it means. Point to or tap a role to light its skills in the chart.",
       axis: "% of {field} postings that ask for the skill",
       axisMeasure: "The share of {field} postings that ask for the skill, averaged over the field's roles. {postings}",
       recent: "The count takes recent postings, open and closed over the last year.", open: "The count takes open postings.",

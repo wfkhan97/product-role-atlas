@@ -2378,7 +2378,20 @@
     wireHearts(main);
     if (!charted) return;
     SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
-    main.querySelectorAll("[data-role]").forEach(a => { a.onmouseenter = () => SkillMap.chartLight(a.dataset.role); a.onmouseleave = () => SkillMap.chartLight(null); });
+    // a pointer that hovers lights a role's skills while over its row; a tap (SkillMap.tapped) lights them on the first
+    // tap and opens the role on the second, and a tap outside the rows and the chart puts the light out (2026-11-08)
+    let tapLit = null;
+    main.querySelectorAll("[data-role]").forEach(a => {
+      a.onpointerenter = e => { if (e.pointerType !== "touch") SkillMap.chartLight(a.dataset.role); };
+      a.onpointerleave = e => { if (e.pointerType !== "touch" && !tapLit) SkillMap.chartLight(null); };
+      a.addEventListener("click", e => {
+        if (!SkillMap.tapped() || tapLit === a.dataset.role) return;
+        e.preventDefault(); tapLit = a.dataset.role; SkillMap.chartLight(tapLit);
+      });
+    });
+    main.firstElementChild.addEventListener("click", e => {
+      if (tapLit && SkillMap.tapped() && !e.target.closest("[data-role]") && !e.target.closest("#chart")) { tapLit = null; SkillMap.chartLight(null); }
+    });
   }
   function productLine(g, r, line) {
     if (g.set !== "product") return line(r);
