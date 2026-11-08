@@ -36,10 +36,11 @@
     loading: "Loading…",
     loadingRoles: "Loading the roles…",
     bar: { jobs: "Find jobs", skills: "Explore careers", classes: "Find classes", network: "Networking" },   // the top bar's short labels
-    // the theme button's name (2026-11-06): it says the theme now; the device's is the first state only, and a press
-    // always changes what is on screen (light and dark take turns)
-    themeLabel: "Theme: {theme}",
-    themeNames: { system: "device", light: "light", dark: "dark" },
+    // the theme button's name (2026-11-08): what a press does. From the device's theme it shows the other one, and
+    // the next press follows the device again (Routes.Theme)
+    themeTo: "Switch to the {theme} theme",
+    themeToDevice: "Follow your device's theme",
+    themeNames: { light: "light", dark: "dark" },
     railTab: "Your fit",
     tipLabel: "What this means",
     failHeading: "Something did not load",

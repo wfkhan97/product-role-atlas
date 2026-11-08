@@ -251,12 +251,13 @@
       return { section, items: [[label, href], ...rest] };
     },
   };
-  // The theme button (2026-11-06): the device's theme is the first state only; a press always changes what is on
-  // screen, so from the device's it goes to the other one, then light and dark take turns. `dark`: the device is dark.
+  // The theme button: a press always changes what is on screen. From the device's theme it goes to the other one, and
+  // the next press goes back to following the device (2026-11-08; before, light and dark took turns and the device's
+  // theme never came back but by clearing the site's storage). Its name says what a press does. `dark`: the device is dark.
   const Theme = {
     STATES: ["system", "light", "dark"],
-    next: (now, dark) => now === "system" ? (dark ? "light" : "dark") : now === "dark" ? "light" : "dark",
-    label: now => Copy.fill(Copy.common.themeLabel, { theme: Copy.common.themeNames[now] || Copy.common.themeNames.system }),
+    next: (now, dark) => now === "system" ? (dark ? "light" : "dark") : "system",
+    label: (now, dark) => { const to = Theme.next(now, dark), C = Copy.common; return to === "system" ? C.themeToDevice : Copy.fill(C.themeTo, { theme: C.themeNames[to] }); },
   };
   return { parseRoute, Stage, Intake, Door, RoleFilters, You, FitCounts, CourseCore, Crumbs, Theme };
 });
@@ -310,8 +311,10 @@
   const GLYPH = { system: "◐", dark: "●", light: "○" };
   let theme = "system"; try { theme = localStorage.getItem("theme") || "system"; } catch { }
   const deviceDark = () => { try { return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches); } catch { return false; } };
-  function applyTheme(t) { theme = Routes.Theme.STATES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"), name = Routes.Theme.label(theme); b.textContent = GLYPH[theme]; b.title = name; b.setAttribute("aria-label", name); }
+  function applyTheme(t) { theme = Routes.Theme.STATES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"), name = Routes.Theme.label(theme, deviceDark()); b.textContent = GLYPH[theme]; b.title = name; b.setAttribute("aria-label", name); }
   applyTheme(theme);
+  // the name says what a press does, which turns on the device's theme: it is said again when the device changes
+  try { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTheme(theme)); } catch { }
   $("#theme").onclick = () => { applyTheme(Routes.Theme.next(theme, deviceDark())); try { localStorage.setItem("theme", theme); } catch { } remountForms(); };
 
   // ---------- shell helpers ----------
