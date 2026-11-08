@@ -113,10 +113,11 @@
   // ---------- home (#/home): the four verbs, one data-built line each ----------
   const home = {
     heading: "What do you want to do?",
-    // {jobs}, {companies} and {roles} are counts in words, rounded down (Door.thousands, hundreds, tens)
+    // {jobs} and {companies} are counts in words, rounded down (Door.thousands, hundreds); {roles} is the exact count the
+    // launcher and Explore say, and lineAll stands in until the product set's roles are counted (2026-11-08)
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
-      skills: { title: "Explore careers", line: "Explore over {roles} roles and see how your experience and skills match up." },
+      skills: { title: "Explore careers", line: "Explore {roles} roles and see how your experience and skills match up.", lineAll: "Explore every role and see how your experience and skills match up." },
       classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
       network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with." },
     },

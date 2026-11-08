@@ -141,18 +141,18 @@
       return names.length ? Copy.fill(Copy.home.classesOnly, { schools: names.join(" or ") }) : Copy.home.classesClosed;
     },
     // a count in words, rounded down so the sentence stays true until the next refresh: 25,950 -> "25 thousand",
-    // 1,502 -> "1,500", 54 -> "50"
+    // 1,502 -> "1,500"
     thousands: n => n >= 1000 ? `${Math.floor(n / 1000)} thousand` : Door.hundreds(n),
     hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
-    tens: n => String(Math.floor(n / 10) * 10),
     // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
-    // US postings of every role set the site shows, the employers behind them, the roles in the index); Find classes is open only when
+    // US postings of every role set the site shows, the employers behind them, the roles in the index, exact, or 0 while
+    // the product set's are not counted yet, when the line names no number); Find classes is open only when
     // the email opens a roster (Door.opens), and the screens draw the open cards alone (2026-11-04: no grayed card)
     verbs(email, counts, domains, campuses) {
       const c = counts || {}, V = Copy.home.verbs, fill = Copy.fill;
       return [
         { key: "jobs", href: "#/jobs", title: V.jobs.title, line: fill(V.jobs.line, { jobs: Door.thousands(c.nOpen || 0), companies: Door.hundreds(c.nCompanies || 0) }), open: true },
-        { key: "skills", href: "#/skills", title: V.skills.title, line: fill(V.skills.line, { roles: Door.tens(c.nRoles || 0) }), open: true },
+        { key: "skills", href: "#/skills", title: V.skills.title, line: c.nRoles ? fill(V.skills.line, { roles: c.nRoles }) : V.skills.lineAll, open: true },
         { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email, domains, campuses) },
         { key: "network", href: "#/network", title: V.network.title, line: V.network.line, open: true },
       ];
@@ -683,14 +683,13 @@
   // the games list, for a game's own screen (web/data/games.json)
   let gamesP = null;
   const games = () => gamesP ||= Atlas.fetchJson("data/games.json").catch(() => []);
-  // the role count both screens say: the roles the index shows, the product set's six among them once its file is
-  // loaded; until then the index's own families table (which counts the two product-group families the product set
-  // stands in for) is the floor, so the number never dips while the file loads
   // the role count every screen says (2026-11-06): the roles the index lists, the product set's among them once its
-  // file is loaded (the launcher, Explore and the skill card count the same). Home draws the business roles first and
-  // its line again when the product file arrives; it rounds down, so it is true at both moments. (Before, the index's
-  // families table set a floor of 64, and home said "over 60" while the launcher said 56.)
+  // file is loaded (the launcher, Explore and the skill card count the same). Home says the exact number too
+  // (2026-11-08; it said "over 60", rounded down, while the launcher said 69): until the product file is in
+  // (productCounted) its line names no number, and it draws the line again when the file arrives, so no smaller
+  // number shows first
   const roleCount = ix => Object.keys(ix.roles).length;
+  const productCounted = ix => ix.groups.some(g => g.set === "product" && g.roles.length > 0);
   // The one count of open postings every screen says (owner's feedback 2026-11-01: home said "over 31 thousand" while
   // the footer said 25,950, the MBA set alone): the open US postings of every role set the site shows that Find jobs
   // searches, and the employers behind them. data/jobs_meta.json carries the numbers beside the Find jobs file (B4;
@@ -703,7 +702,7 @@
   const techShown = () => !!(window.CONFIG || {}).TECH_ENABLED;
   const openCounts = () => jobsMeta().then(jm => { const c = jm && (techShown() || !jm.by_set || !jm.by_set.tech ? jm : jm.without_tech); return c && c.n_open > 0 && c.n_companies > 0 ? { nOpen: c.n_open, nCompanies: c.n_companies }
     : jobsData().then(J => ({ nOpen: J.rows.length, nCompanies: J.nCompanies })).catch(() => ({ nOpen: 0, nCompanies: 0 })); });
-  const homeCounts = (ix, n) => ({ nOpen: n.nOpen, nCompanies: n.nCompanies, nRoles: roleCount(ix) });
+  const homeCounts = (ix, n) => ({ nOpen: n.nOpen, nCompanies: n.nCompanies, nRoles: productCounted(ix) ? roleCount(ix) : 0 });
   // what the door keeps, in this browser only (door.email, door.where, door.seen); a program answer also fills About
   // you's first question when About you has no program of its own (You.fromDoor: marked whereFrom "door", so home's
   // inline questions skip it and still ask the rest). The door's two buttons and the Tally return (home) go through here.
@@ -2314,7 +2313,7 @@
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
         const key = overlay ? `<span><i class="sw have"></i> ${esc(EX.key.have)}</span><span><i class="sw todo"></i> ${esc(EX.key.todo)}</span><span><i class="sw quiet"></i> ${esc(EX.key.quiet)}</span>` : `<span><i class="sw top"></i> ${esc(EX.key.top)}</span><span><i class="sw quiet"></i> ${esc(EX.key.rest)}</span>${fit && fit.size ? `<span><i class="sw you"></i> ${esc(EX.key.you)}</span>` : ""}`;
         page(`<h1>${esc(EX.heading)}</h1>
-          <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.mapLead)} ${dates}</p>${chips}${view}
+          <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || roleCount(ix) }))} ${esc(EX.mapLead)} ${dates}</p>${chips}${view}
           <div id="sm-plan"></div>
           <div class="sm-stage" id="sm-stage"></div>
           <p class="key swkey">${key}<button type="button" class="linkish link" id="sm-all">${esc(SkillMap.allShown() ? EX.fieldsAlone : EX.allSkills)}</button></p>`);
@@ -2333,7 +2332,7 @@
       const saved = hearts().filter(id => ix.roles[id]);   // the hearts (step 5): where to find them again
       const savedStrip = saved.length ? `<p class="small saved-strip"><span class="hi" aria-hidden="true">♥</span> ${esc(EX.saved)} ${saved.map(id => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`).join(" · ")}</p>` : "";
       page(`<h1>${esc(EX.heading)}</h1>
-        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${savedStrip}${view}
+        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || roleCount(ix) }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${savedStrip}${view}
         <div class="fcards">${groups.map(card).join("")}</div>`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };

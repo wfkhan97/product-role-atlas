@@ -87,15 +87,17 @@ test("Door.verbs: four cards in order, Find classes open only for an address who
   assert.deepEqual(closed.filter(v => v.open).map(v => v.key), ["jobs", "skills", "network"]);
 });
 
-test("the lines carry the counts in words, rounded down: over 25 thousand, over 1,500, over 50", () => {
-  const [jobs, skills] = Door.verbs("", { nOpen: 25950, nCompanies: 1502, nRoles: 54 });
+test("the jobs line carries its counts in words, rounded down (over 25 thousand, over 1,500); the roles line the exact count", () => {
+  const [jobs, skills] = Door.verbs("", { nOpen: 25950, nCompanies: 1502, nRoles: 69 });
   assert.equal(jobs.line, "Search over 25 thousand open jobs in popular fields for grad students, from over 1,500 companies.");
-  assert.equal(skills.line, "Explore over 50 roles and see how your experience and skills match up.");
+  // the launcher and Explore say 69: home says 69 too, never "over 60" (2026-11-08)
+  assert.equal(skills.line, "Explore 69 roles and see how your experience and skills match up.");
+  // before the product set's roles are counted the line names no number, so no smaller one shows first
+  assert.equal(Door.verbs("", { nOpen: 25950, nCompanies: 1502, nRoles: 0 })[1].line, "Explore every role and see how your experience and skills match up.");
   // a count under a thousand reads in hundreds, so the sentence never says "0 thousand"
   assert.equal(Door.verbs("", { nOpen: 950, nCompanies: 99, nRoles: 9 })[0].line, "Search over 900 open jobs in popular fields for grad students, from over 0 companies.");
   assert.equal(Door.thousands(31965), "31 thousand");
   assert.equal(Door.hundreds(1694), "1,600");
-  assert.equal(Door.tens(56), "50");
 });
 
 // every string of the copy and of the four lines, flattened
@@ -214,4 +216,18 @@ test("You.steps: the inline wizard's label counts the same steps as its bar (thr
   }
   assert.equal(You.steps(1, 3).label, "Step 2 of 4");
   assert.equal(You.steps(3, 3).label, "Step 4 of 4: your résumé, optional");
+});
+
+// home says the role count the launcher and Explore say (2026-11-08): exact, with no "over" and no rounding, and no
+// screen falls back to a number of its own
+test("the role count: home's line has no \"over\", nothing rounds it, and Explore falls back to roleCount, not 56", async () => {
+  const fs = await import("fs");
+  const app = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  const Copy = require(path.join(web, "copy.js"));
+  assert.doesNotMatch(Copy.home.verbs.skills.line, /\bover\b/);
+  assert.doesNotMatch(Copy.home.verbs.skills.lineAll, /\{roles\}|\d/);
+  assert.equal(Door.tens, undefined, "no rounding to tens is left");
+  assert.doesNotMatch(app, /Door\.tens\(/);
+  assert.doesNotMatch(app, /\|\| 56\b/);
+  assert.match(app, /line: c\.nRoles \? fill\(V\.skills\.line, \{ roles: c\.nRoles \}\) : V\.skills\.lineAll/);
 });

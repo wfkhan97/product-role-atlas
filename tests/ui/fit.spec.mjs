@@ -177,7 +177,8 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   const shown = num(count.match(/of ([\d,]+) postings/)[1]);
   const folded = num((count.match(/([\d,]+) repeats?/) || [0, "0"])[1]);
   expect(shown + folded).toBe(total);
-  // the role count: the launcher, Explore and the skill card say the same number; home says it rounded down
+  // the role count: the launcher, Explore, home and the skill card say the same number (home names none until the
+  // product set's roles are counted)
   await gotoHash(page, "#/skills");
   await page.locator("#main #lf-body").waitFor();
   const roles = num((await text(page.locator("#main p.lead").first())).match(/from (\d+)/)[1]);
@@ -185,9 +186,8 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   await expect(page.locator("#main p.lead").first()).toContainText(`${roles} roles`);
   await gotoHash(page, "#/home");
   await waitForScreen(page, "home");
-  const home = num((await text(page.locator('#main a.verb[data-verb="skills"]'))).match(/over (\d+) roles/)[1]);
-  expect(home).toBeLessThanOrEqual(roles);
-  expect(roles - home).toBeLessThan(10);
+  await expect(page.locator('#main a.verb[data-verb="skills"]')).toContainText(`Explore ${roles} roles`);
+  await expect(page.locator('#main a.verb[data-verb="skills"]')).not.toContainText("over");
   await page.evaluate(() => sessionStorage.setItem("explore-view", JSON.stringify("map")));
   await gotoHash(page, "#/explore");
   await page.locator("#main #sm-find").waitFor();
