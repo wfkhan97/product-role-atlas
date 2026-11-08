@@ -37,7 +37,7 @@ The parts the set has so far: titles, levels, entry marks and the JavaScript rea
   14 pass, 0 fail
 == graph files
   entry marks (n, of which the posting says so): engineering: grad 94 (94), grad_intern 391 (391); legal: grad 3 (3), grad_intern 8 (8); bank: grad 0 (0), grad_intern 10 (10)
-  14,165 postings in 7 role files (15.2 MB; largest software_engineer 7.74 MB, smallest ux_researcher 58 KB); index 0.82 MB; heaviest employer in a role: 3.5% (product_designer)
+  14,165 postings in 7 role files (15.6 MB; largest software_engineer 7.91 MB, smallest ux_researcher 59 KB); index 0.82 MB; heaviest employer in a role: 3.5% (product_designer)
   153 pass, 0 fail
 == web/match.js reads the graph unchanged
   matcher reads the tech graph: 7 roles pass, 0 fail
