@@ -395,7 +395,7 @@
       readingRoster: "Reading the {term} roster against your gaps…",
       termClasses: "{term} classes →",
       covers: "Covers {names}",
-      allClasses: "All {term} classes, sorted by gaps covered →",
+      allClasses: "All {term} classes, sorted by gaps covered and fit →",
       noClass: "No {term} class names one of your gaps in its description.", seeRoster: "See the roster →",
       needsEvidence: "Needs more evidence",
       evidenceOne: "Evidence that one and your résumé reads as “{band}”.", evidenceThree: "Evidence the top three and your résumé reads as “{band}”.",
