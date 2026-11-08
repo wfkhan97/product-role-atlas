@@ -18,8 +18,10 @@ const RESUME = JSON.stringify({ text: RESUME_TEXT, name: "grad_student_new.txt",
 const desktopOnly = info => test.skip(info.project.name !== "desktop", "keyboard paths: the desktop project");
 
 // a visitor past the door (gmail or campus), with a résumé kept or not, in a theme ("light", "dark") or the device's
+// every guide screen read as seen, so the guide's card never takes focus or Esc in a keyboard test (tests/ui/guide.spec.mjs covers the guide)
+const GUIDE_SEEN = JSON.stringify(Object.fromEntries(["home", "classes", "jobs", "skills", "role", "fit", "explore", "field", "network", "you", "about", "course", "play", "professor", "event"].map(k => [k, 99])));
 async function visit(visitor, { email = GENERAL_EMAIL, resume = false, theme = null, hash = "#/home" } = {}) {
-  const storage = { "door.email": email, "door.where": "", "door.seen": "1", ...(resume ? { resume: RESUME } : {}), ...(theme ? { theme } : {}) };
+  const storage = { "door.email": email, "door.where": "", "door.seen": "1", "guide.seen": GUIDE_SEEN, ...(resume ? { resume: RESUME } : {}), ...(theme ? { theme } : {}) };
   const page = await visitor.open({ storage });
   await page.goto("/#/home");
   await waitForScreen(page, "home");

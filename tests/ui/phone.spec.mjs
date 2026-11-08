@@ -25,8 +25,11 @@ const RESUME_TEXT = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.
 const RESUME = JSON.stringify({ text: RESUME_TEXT, name: "grad_student_new.txt", words: RESUME_TEXT.split(/\s+/).filter(Boolean).length });
 
 // a gmail visitor past the door, with or without a résumé kept (the site keeps it in localStorage "resume")
+// every guide screen read as seen: the guide's card scrolls to its target a moment after a screen draws, which moved
+// the page under a layout check (tests/ui/guide.spec.mjs covers the guide)
+const GUIDE_SEEN = JSON.stringify(Object.fromEntries(["home", "classes", "jobs", "skills", "role", "fit", "explore", "field", "network", "you", "about", "course", "play", "professor", "event"].map(k => [k, 99])));
 async function general(visitor, { resume = false } = {}) {
-  const storage = { "door.email": GENERAL_EMAIL, "door.where": "", "door.seen": "1", ...(resume ? { resume: RESUME } : {}) };
+  const storage = { "door.email": GENERAL_EMAIL, "door.where": "", "door.seen": "1", "guide.seen": GUIDE_SEEN, ...(resume ? { resume: RESUME } : {}) };
   const page = await visitor.open({ storage });
   await page.goto("/#/home");
   await waitForScreen(page, "home");
@@ -268,16 +271,21 @@ test("top bar: the verb strip fades at its cut edge until it is scrolled to its 
   await strip.evaluate(e => { e.scrollLeft = e.scrollWidth; });
   await expect.poll(mask).toBe("none");
 });
-test("explore: a phone opens on the field cards, the launcher's map link too, and the toggle still opens the map", async ({ visitor }) => {
+test("explore: a phone opens on the field cards; the launcher's map link and the toggle still open the map", async ({ visitor }) => {
   const page = await general(visitor);
-  for (const hash of ["#/explore", "#/explore?view=map"]) {
-    await gotoHash(page, hash);
-    await page.locator("#main .fcards .fcard").first().waitFor();
-    expect(await page.locator("#main .sm-field").count(), hash).toBe(0);
-    await gotoHash(page, "#/home");
-    await waitForScreen(page, "home");
-  }
   await gotoHash(page, "#/explore");
+  await page.locator("#main .fcards .fcard").first().waitFor();
+  expect(await page.locator("#main .sm-field").count(), "#/explore").toBe(0);
+  await gotoHash(page, "#/home");
+  await waitForScreen(page, "home");
+  await gotoHash(page, "#/explore?view=map");   // an explicit ask for the map is honoured on a phone too
+  await page.locator("#sm-stage .sm-field").first().waitFor();
+  expect(await page.locator("#main .fcards").count(), "#/explore?view=map").toBe(0);
+  await page.evaluate(() => sessionStorage.removeItem("explore-view"));
+  await gotoHash(page, "#/home");
+  await waitForScreen(page, "home");
+  await gotoHash(page, "#/explore");
+  await page.locator("#main .fcards .fcard").first().waitFor();
   await page.locator("#main #v-map").click();
   await page.locator("#sm-stage .sm-field").first().waitFor();
   expect(await page.locator("#main .fcards").count()).toBe(0);

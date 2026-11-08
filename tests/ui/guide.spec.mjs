@@ -23,12 +23,17 @@ const FLAG_ON = () => {
   let v;
   Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.GUIDE_ENABLED = true; } });
 };
+// the flag off, whatever web/config.js ships (it ships on since 2026-11-07)
+const FLAG_OFF = () => {
+  let v;
+  Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.GUIDE_ENABLED = false; } });
+};
 // a page in one state: email (null: fresh, the door), a résumé or not, the guide's seen-state, more storage
 async function visit(visitor, { email = GENERAL_EMAIL, resume = false, hash = "#/home", seen = null, storage = {}, flag = true } = {}) {
   const kv = { ...(email ? { "door.email": email, "door.where": "", "door.seen": "1" } : {}), ...(resume ? { resume: RESUME } : {}), ...(seen ? { "guide.seen": JSON.stringify(seen) } : {}), ...storage };
   const page = await visitor.open({ storage: kv });
   const ctx = page.context();
-  if (flag) await ctx.addInitScript(FLAG_ON);
+  await ctx.addInitScript(flag ? FLAG_ON : FLAG_OFF);
   await ctx.route("**/api/infer", r => r.request().method() === "POST" ? r.fulfill({ status: 503, body: "{}" }) : r.continue());
   page.rows = [];
   await ctx.route(/\.supabase\.co\/rest\/v1\/events/, r => { if (r.request().method() === "POST") { try { const b = r.request().postDataJSON(); for (const x of [].concat(b)) page.rows.push(x); } catch { } } return r.fulfill({ status: 201, body: "" }); });
@@ -89,7 +94,9 @@ async function walk(page, info, screen, ctxState, { min = 1, absent = [] } = {})
   await expect(page.locator(".guide-hole")).toHaveCount(0);
   const want = [`cta_shown guide_${screen} ${screen}`, ...(steps.length > 1 ? [`cta_click guide_${screen} ${screen}`] : []), `cta_done guide_${screen} ${screen}`];
   await expect.poll(() => ctaRows(page)).toEqual(want);
-  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))[screen]).toBe(1);
+  // the run marks the screen seen at the table's version (jobs ships at 2 since the quick filters)
+  const version = await page.evaluate(s => Guide.SCREENS[s].version, screen);
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))[screen]).toBe(version);
   return steps;
 }
 const C = (resume, extra = {}) => ({ resume, config: { FEEDBACK_ENABLED: true, GUIDE_ENABLED: true }, ...extra });
@@ -137,10 +144,10 @@ test("classes (campus, a role and a résumé): role, band, gaps, subjects", asyn
 
 for (const resume of [false, true]) {
   const tag = resume ? "a résumé" : "no résumé";
-  test(`jobs (general, ${tag}): search, fields, ${resume ? "cardFit" : "card"}`, async ({ visitor }, info) => {
+  test(`jobs (general, ${tag}): search, quick filters, fields, ${resume ? "cardFit" : "card"}`, async ({ visitor }, info) => {
     const page = await visit(visitor, { resume, hash: "#/jobs" });
-    const steps = await walk(page, info, "jobs", C(resume), { min: 3 });
-    expect(steps.map(s => s.id)).toEqual(["search", "fields", resume ? "cardFit" : "card"]);
+    const steps = await walk(page, info, "jobs", C(resume), { min: 4 });
+    expect(steps.map(s => s.id)).toEqual(["search", "quick", "fields", resume ? "cardFit" : "card"]);
   });
   test(`skills (general, ${tag}): fields, search, ${resume ? "resumeFit" : "resume"}`, async ({ visitor }, info) => {
     const page = await visit(visitor, { resume, hash: "#/skills" });
@@ -256,9 +263,9 @@ test("Back goes to the previous tip and hides on the first", async ({ visitor },
   const page = await visit(visitor, { hash: "#/jobs" });
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.locator('.guide-card [data-g="next"]').click();
-  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 2, n: 3 }));
+  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 2, n: 4 }));   // Find jobs has four tips
   await page.locator('.guide-card [data-g="back"]').click();
-  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 1, n: 3 }));
+  await expect(page.locator("#guide-n")).toHaveText(Copy.fill(G.count, { i: 1, n: 4 }));
   await expect(page.locator('.guide-card [data-g="back"]')).toBeHidden();
   void info;
 });
@@ -319,16 +326,16 @@ test("Tab and Shift+Tab stay among the card's buttons", async ({ visitor }) => {
 });
 
 test("a version bump re-shows a seen screen once", async ({ visitor }, info) => {
-  const page = await visit(visitor, { hash: "#/jobs", seen: { home: 1, jobs: 1 } });
+  const page = await visit(visitor, { hash: "#/jobs", seen: { home: 1, jobs: 2 } });   // jobs ships at 2 since the quick filters
   await page.locator("#jsearch").waitFor();
   await page.waitForTimeout(3500);
   await expect(card(page)).toHaveCount(0);
-  // the table's version raised in the page (all screens ship at 1, so a lower stored version is 0, which reads as unseen)
+  // the table's version raised in the page (a lower stored version is 0, which reads as unseen)
   await page.evaluate(() => { Guide.SCREENS.home.version = 2; });
   await gotoHash(page, "#/home");
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.locator('.guide-card [data-g="skip"]').click();
-  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))).toEqual({ home: 2, jobs: 1 });
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem("guide.seen")))).toEqual({ home: 2, jobs: 2 });
   await gotoHash(page, "#/jobs");
   await page.locator("#jsearch").waitFor();
   await gotoHash(page, "#/home");
@@ -394,7 +401,7 @@ test("the feedback prompt does not open while a run is due or open; it does on a
   await expect(card(page)).toBeVisible({ timeout: 15_000 });
   await page.waitForTimeout(1000);
   await expect(page.locator("#fb-box")).toHaveCount(0);
-  const control = await visit(visitor, { hash: "#/jobs", storage, seen: { home: 1, jobs: 1 } });
+  const control = await visit(visitor, { hash: "#/jobs", storage, seen: { home: 1, jobs: 2 } });
   await expect(control.locator("#fb-box")).toBeVisible({ timeout: 10_000 });
   await expect(card(control)).toHaveCount(0);
 });

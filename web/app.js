@@ -1598,7 +1598,8 @@
     // much of its core asks is technical, for a word no role holds ("software")
     const coreSkills = r => [...(r.definingList || []), ...(r.asks || [])].filter(a => a.share >= Atlas.TIER.core).map(a => ix.skillById[a.id]).filter(Boolean);
     const roleOptions = ix.groups.flatMap(g => g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen).map(r => { const cs = coreSkills(r); return { value: r.id, label: r.label, hint: g.label, about: [r.blurb || "", ...cs.filter(x => !["behaviour", "credential", "tool"].includes(x.kind) && x.cluster !== "credentials").map(x => x.name)], lean: cs.filter(x => x.kind === "technical").length }; }));
-    const roleHelp = { closest: 3, lead: C.roleClosest, notes: [fill(C.roleFields, { fields: ix.groups.map(g => g.label).join(", ") }), C.roleLater] };
+    // the note that the tech set comes later goes once the set is shown (TECH_ENABLED)
+    const roleHelp = { closest: 3, lead: C.roleClosest, notes: [fill(C.roleFields, { fields: ix.groups.map(g => g.label).join(", ") }), ...(techShown() ? [] : [C.roleLater])] };
     const writeHash = () => { const p = new URLSearchParams({ role: s.role, type: s.type }); if (s.key) p.set("target", s.key); const next = "#/network?" + p; if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     let token = 0;
     // the context for the role on: the role file, the field's postings, the fit, the professors, the skills generic
@@ -2283,10 +2284,9 @@
     crumbs([[EX.crumb, null]]); showAside(null);
     const hq = new URLSearchParams(location.hash.split("?")[1] || ""), focus = hq.get("field");
     // a phone opens on the field cards (2026-11-08): the map has room for few field names there and drops the biggest
-    // ones. The launcher's ?view=map does not switch a phone to the map; the view toggle (remembered for the session,
-    // SkillMap.mode) and a link to one field (?field=) still do
-    const phone = typeof matchMedia === "function" && matchMedia("(max-width:640px)").matches;
-    if (focus || (!phone && hq.get("view") === "map")) SkillMap.setMode("map");   // the launcher's "See all fields on a skill map"
+    // ones. An explicit ask still opens the map there: the launcher's ?view=map, a link to one field (?field=), or the
+    // view toggle (remembered for the session, SkillMap.mode)
+    if (focus || hq.get("view") === "map") SkillMap.setMode("map");   // the launcher's "See all fields on a skill map"
     const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
     // the map's colours (owner's decision 2026-10-24): the skills the roles of the fields that fit ask for, green when
     // the rough read of the resume shows them, blue when not; nothing without a resume
