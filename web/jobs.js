@@ -71,7 +71,11 @@
   // a link from before the values were renamed: bachelor (and pre_mba, which the facet once took) is New graduates
   const ENTRY_ALIAS = { bachelor: "grads", pre_mba: "grads" };
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
-  const SORTS = ["best", "fit", "newest", "company"];
+  // the sorts in the order the menu lists them (Fit only with a résumé on file), and the one a person starts on:
+  // Fit with a résumé, Newest without one
+  const SORTS = ["fit", "newest", "best", "company"];
+  const defaultSort = have => have ? "fit" : "newest";
+  const sortChoices = have => have ? SORTS : SORTS.filter(v => v !== "fit");
   // the years a person has: a posting fits when it asks for that many or fewer, or names no number (owner's decision
   // on the skills audit, 2026-11-06: years of experience is a filter, not a skill)
   const YEARS = ["2", "5", "8"].map(id => [id, W.years[id]]);
@@ -368,10 +372,12 @@
   // ---------- the hash: every filter, the query, the sort, the page and the open posting ----------
   const KEYS = ["q", "field", "role", "level", "entry", "years", "sector", "loc", "remote", "sponsor", "noclear", "group", "company", "sort", "page", "open"];
   const BOOL = new Set(["remote", "noclear"]);
-  const blankState = () => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: "", noclear: false, group: "", company: "", sort: "best", page: 1, open: "" });
+  // `sort` is the default sort of the person reading (defaultSort): it is what an absent or unknown sort means, and
+  // it stays out of the link
+  const blankState = (sort = "newest") => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: "", noclear: false, group: "", company: "", sort, page: 1, open: "" });
   // reads "q=product&level=mid", "?q=…", "#/jobs?q=…" or a full hash; what is absent takes its default
-  function parseState(query) {
-    const s = blankState();
+  function parseState(query, sort = "newest") {
+    const s = blankState(sort);
     let str = String(query || "");
     const i = str.indexOf("?");
     if (i >= 0) str = str.slice(i + 1); else if (str.startsWith("#")) str = str.slice(1);
@@ -381,7 +387,7 @@
       const v = h.get(k);
       if (BOOL.has(k)) s[k] = v === "1" || v === "true";
       else if (k === "page") s.page = Math.max(1, Math.floor(Number(v)) || 1);
-      else if (k === "sort") s.sort = SORTS.includes(v) ? v : "best";
+      else if (k === "sort") s.sort = SORTS.includes(v) ? v : sort;
       // sponsor was a switch until it had two values: an old link's sponsor=1 is "says it sponsors"
       else if (k === "sponsor") s.sponsor = v === "1" || v === "true" ? "yes" : SPONSOR.includes(v) ? v : "";
       else if (k === "entry") s.entry = ENTRY_ALIAS[v] || v;
@@ -389,13 +395,13 @@
     }
     return s;
   }
-  // the query string of a state: empty values, false, "best" and page 1 stay out
-  function stateQuery(state) {
-    const s = Object.assign(blankState(), state || {}), h = new URLSearchParams();
+  // the query string of a state: empty values, false, the default sort and page 1 stay out
+  function stateQuery(state, sort = "newest") {
+    const s = Object.assign(blankState(sort), state || {}), h = new URLSearchParams();
     for (const k of KEYS) {
       const v = s[k];
       if (v == null || v === "" || v === false) continue;
-      if (k === "sort" && v === "best") continue;
+      if (k === "sort" && v === sort) continue;
       if (k === "page" && Number(v) === 1) continue;
       h.set(k, v === true ? "1" : String(v));
     }
@@ -404,5 +410,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: SPONSOR.includes(s.sponsor) ? s.sponsor : "", noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, fieldLookup, roleKey, roleInField, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, defaultSort, sortChoices, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, fieldLookup, roleKey, roleInField, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

@@ -3235,6 +3235,26 @@ says "then a role inside it". The skill card's share line says "business and pro
 the tech set too and the two numbers read as a disagreement. Field and classes go to version 2, so a person who saw
 the old tips sees the new ones once.
 
+## Find jobs opens on Newest, or on Fit with a résumé (`feat/jobs-default-sort`, 2026-11-08)
+
+The owner's call after the first week of the Newest sort: a person with no résumé on file has no fit to rank by, and
+"Best match" with nothing typed is company A–Z in practice, the order the students complained about. So the list
+opens on **Newest** without a résumé and on **Fit** with one, and the menu reads Fit, Newest, Best match, Company A–Z
+(Newest, Best match, Company A–Z without a résumé: there is no Fit to offer).
+
+- `Jobs.defaultSort(have)` names the sort a person starts on and `Jobs.sortChoices(have)` the menu's order.
+  `parseState(hash, sort)` and `stateQuery(state, sort)` take that default: an absent or unknown `sort` means it, and
+  it stays out of the link. Any other sort is a choice and stays in the link, so with a résumé `sort=newest` and
+  `sort=best` are written and without one `sort=best` is.
+- Old links keep their meaning where they named a sort (`sort=best`, `sort=company`, `sort=fit`). A link with no
+  sort opened on Best match for a person without a résumé and now opens on Newest; that is the change asked for.
+  `sort=fit` without a résumé falls to Newest, where it fell to Best match.
+- A typed query keeps the default: every row shown matches every word (or all but one, said in the line over the
+  list), so newest-first among the matches is the reading asked for. Best match is one choice away.
+
+Tests: the state's defaults and the menu's order in `tests/web/jobs.test.mjs`; the menu, the link and the newest-first
+order of the cards with and without a résumé in `tests/ui/jobs.spec.mjs`.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as

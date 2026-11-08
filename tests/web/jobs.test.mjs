@@ -294,6 +294,22 @@ test("fifty a page, clamped, with the count line's numbers", () => {
 });
 
 // ---------- the hash ----------
+// the sort a person starts on (owner, 2026-11-08): Newest without a résumé, Fit with one, and Newest second in the menu
+test("the default sort is Newest without a résumé and Fit with one; the menu lists Newest second", () => {
+  assert.equal(J.defaultSort(null), "newest");
+  assert.equal(J.defaultSort(new Set(["sql"])), "fit");
+  assert.deepEqual(J.sortChoices(new Set(["sql"])), ["fit", "newest", "best", "company"]);
+  assert.deepEqual(J.sortChoices(null), ["newest", "best", "company"], "no Fit to offer without a résumé");
+  // the default of the person reading stays out of the link; the other one is a choice and stays in it
+  assert.equal(J.parseState("q=pm").sort, "newest");
+  assert.equal(J.parseState("q=pm", "fit").sort, "fit");
+  assert.equal(J.parseState("sort=oldest", "fit").sort, "fit", "an unknown sort is that person's default");
+  assert.equal(J.stateQuery({ ...J.blankState("fit"), q: "pm" }, "fit"), "q=pm");
+  assert.equal(J.stateQuery({ ...J.blankState("fit"), sort: "newest" }, "fit"), "sort=newest", "with a résumé, Newest is a choice");
+  assert.equal(J.stateQuery({ ...J.blankState(), sort: "fit" }), "sort=fit");
+  assert.equal(J.parseState("sort=best", "fit").sort, "best", "an old link's Best match still opens on it");
+});
+
 test("the state round-trips through the query string; defaults stay out", () => {
   assert.equal(J.stateQuery(J.blankState()), "");
   assert.deepEqual(J.parseState(""), J.blankState());
@@ -303,9 +319,9 @@ test("the state round-trips through the query string; defaults stay out", () => 
   assert.deepEqual(J.parseState(q), s);
   assert.deepEqual(J.parseState("#/jobs?" + q), s, "a full hash reads the same");
   assert.deepEqual(J.parseState("?" + q), s);
-  assert.equal(J.stateQuery({ sort: "best", page: 1, remote: false, sponsor: "" }), "", "best and page 1 are the defaults");
-  assert.equal(J.parseState("sort=oldest").sort, "best", "an unknown sort is the default");
-  assert.equal(J.stateQuery({ ...J.blankState(), sort: "newest" }), "sort=newest");
+  assert.equal(J.stateQuery({ sort: "newest", page: 1, remote: false, sponsor: "" }), "", "newest and page 1 are the defaults");
+  assert.equal(J.parseState("sort=oldest").sort, "newest", "an unknown sort is the default");
+  assert.equal(J.stateQuery({ ...J.blankState(), sort: "best" }), "sort=best");
   assert.equal(J.parseState(J.stateQuery({ ...J.blankState(), sort: "newest" })).sort, "newest", "newest round-trips");
   assert.equal(J.parseState("page=abc").page, 1);
   assert.equal(J.parseState("page=-2").page, 1);
