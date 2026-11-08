@@ -17,8 +17,5 @@
    "CS 6816",
    "ORIE 7590"
   ]
- },
- "known_failures": {
-  "must_top INFO 5305": "The same as the UX research case: the product management course covers more of the gaps."
  }
 }

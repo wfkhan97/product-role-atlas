@@ -24,8 +24,5 @@
       "CS 5304",
       "TECHIE 5356"
     ]
-  },
-  "known_failures": {
-    "must_not_top CS 6412": "The operating-systems class covers one gap at a score of 0.03 and lands third: a covered gap outranks any score. One small gap carries the list."
   }
 }
