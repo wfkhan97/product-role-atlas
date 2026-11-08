@@ -64,7 +64,7 @@ test("the guide's copy: no sentence over 20 words, no passive, no stoplist word;
 });
 
 test("SCREENS: every key is a route name parseRoute returns; fit waits for .fitcols and network for #nw-prep; versions are integers of 1 or more", () => {
-  const hashOf = { door: "#/", fit: "#/role/x/fit", role: "#/role/x", field: "#/field/x" };
+  const hashOf = { door: "#/", fit: "#/role/x/fit", role: "#/role/x", field: "#/field/x", course: "#/role/x/course", event: "#/field/x/event", play: "#/play/x", professor: "#/professor/x" };
   for (const [s, v] of Object.entries(G.SCREENS)) {
     assert.equal(Routes.parseRoute(hashOf[s] || `#/${s}`).name, s, s);
     assert.ok(Number.isInteger(v.version) && v.version >= 1, `${s} version`);
@@ -89,8 +89,8 @@ test("the top bar's links have the footer's as a second target, for a phone wher
 
 // ---------- has ----------
 test("has: true for a screen with rows, false for the screens without and for nonsense", () => {
-  for (const s of ["home", "fit"]) assert.equal(G.has(s), true, s);
-  for (const s of ["door", "signin", "map", "play", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
+  for (const s of ["home", "fit", "course", "play", "professor", "event"]) assert.equal(G.has(s), true, s);
+  for (const s of ["door", "signin", "map", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
 });
 
 // ---------- stepsFor ----------

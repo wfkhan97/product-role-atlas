@@ -321,7 +321,8 @@
     // per-card tags the picker reads, joined over this instructor's cards; public facts stay as they are, and nothing
     // here is a rating or a review
     const gapsBlock = await safe(instructorGapsHtml(P, r.classes, ctx, at), "");
-    const taught = r.classes.length ? `<h2>${esc(fill(CL.teachingIn, { term: at.term_label || CFG().CATALOG_TERM || "SP27" }))}</h2><div class="list">${r.classes.map(c => `<a class="r" href="#/classes?open=${encodeURIComponent(c.code)}"><span class="t">${esc(c.code)}${c.title ? " · " + esc(c.title) : ""}</span><span class="n">${esc(CL.openInPicker)}</span></a>`).join("")}</div>` : `<p class="small muted">${esc(CL.noClassTerm)}</p>`;
+    // the blocks carry ids (#prof-tags, #prof-classes, #prof-gaps, #prof-angle) for the guide's steps (web/guide.js)
+    const taught = `<div id="prof-classes">${r.classes.length ? `<h2>${esc(fill(CL.teachingIn, { term: at.term_label || CFG().CATALOG_TERM || "SP27" }))}</h2><div class="list">${r.classes.map(c => `<a class="r" href="#/classes?open=${encodeURIComponent(c.code)}"><span class="t">${esc(c.code)}${c.title ? " · " + esc(c.title) : ""}</span><span class="n">${esc(CL.openInPicker)}</span></a>`).join("")}</div>` : `<p class="small muted">${esc(CL.noClassTerm)}</p>`}</div>`;
     // A profile whose identity the research could not confirm stays unshown: the card is the name, the classes and the
     // gaps, and (owner feedback 2026-11-01) the screen says nothing about identity either way
     if (P.identity === "not_confirmed") {
@@ -329,12 +330,12 @@
       return;
     }
     const secs = Catalog.mdSections(P.profile_md || "");
-    const angle = secs["Networking angle"] ? `<h2>${esc(CL.angle)}</h2>${Catalog.mdHtml(secs["Networking angle"])}` : "";
+    const angle = secs["Networking angle"] ? `<div id="prof-angle"><h2>${esc(CL.angle)}</h2>${Catalog.mdHtml(secs["Networking angle"])}</div>` : "";
     const bio = secs["Bio"] ? `<details class="disc" style="margin-top:14px"><summary>${esc(CL.more)}</summary><div class="disc-body">${Catalog.mdHtml(secs["Bio"])}</div></details>` : "";
     const links = [[P.official_profile_url, CL.links.official], [P.personal_site_url, CL.links.site], [P.scholar_url, CL.links.scholar], [P.linkedin_url, CL.links.linkedin]].filter(([u]) => u).map(([u, l]) => `<a class="link" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join(" · ");
     page(`<p class="eyebrow">${esc(CL.professor)}</p><h1>${esc(P.name)}</h1>
       <p class="lead">${esc([P.title, P.affiliation].filter(Boolean).join(" · ") || CL.noTitle)}</p>
-      ${(P.expertise || []).length ? `<div class="tags">${P.expertise.map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>` : ""}
+      ${(P.expertise || []).length ? `<div class="tags" id="prof-tags">${P.expertise.map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>` : ""}
       ${taught}${gapsBlock}${angle}${links ? `<p class="small" style="margin-top:14px">${links}</p>` : ""}${bio}`, true);
   }
 
@@ -357,7 +358,7 @@
     const body = gaps.length
       ? `<p class="small">${esc(fill(CL.profCovers, { ...words, n: gaps.length, gaps: `${G.gaps.length} ${G.gaps.length === 1 ? CL.gapWord : CL.gapsWord}` }))}</p><ul class="plain">${gaps.map(g => `<li><b>${esc(g.name)}</b> · ${g.codes.map(link).join(", ")}</li>`).join("")}</ul>`
       : `<p class="small muted">${esc(fill(CL.profCoversNone, { ...words, n: G.gaps.length }))}</p>`;
-    return `<h2>${esc(CL.yourGaps)}</h2>${body}<p class="small muted">${fill(esc(CL.byKind), { links: fitLinks })}</p>`;
+    return `<div id="prof-gaps"><h2>${esc(CL.yourGaps)}</h2>${body}<p class="small muted">${fill(esc(CL.byKind), { links: fitLinks })}</p></div>`;
   }
 
   // ---------- 3. #/signin: one line, then home (the roster is open; nothing here needs an account) ----------
