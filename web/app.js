@@ -1994,18 +1994,18 @@
     if (!techShown()) D.roles = D.roles.filter(id => !id.startsWith("tech."));   // after rowsOf: the rows index the whole list
     const nCompanies = new Set(rows.map(r => r.company)).size;
     const roleLabel = id => Atlas.us((D.role_labels || {})[id] || (ix.roles[id] || {}).label || id);
-    const fieldOf = id => (ix.roles[id] || {}).group || Jobs.fieldOfRole(id);
+    // one field per role for the filter, its counts, the rail and the card (Jobs.fieldLookup): the MBA set's
+    // product_manager and product_strategy are in the Product field like the product set's roles
+    const fieldOf = Jobs.fieldLookup(ix);
     // a skill's name from the MBA index, else the tech index's (a skill only tech postings ask for)
     const skillName = i => { const id = D.skill_ids[i], sk = ix.skillById[id] || ix.techSkillById[id]; return sk ? sk.name : id; };
     const fields = ix.groups.map(g => [g.id, Atlas.us(g.label)]);
-    // the card's field (B-32, 2026-11-06): the index's field, else the field the MBA graph puts the role in. The index
-    // leaves out the MBA set's own Product field (its product_manager and product_strategy postings), since the
-    // product set stands for that field, so those cards had no field. The filters keep fieldOf as it is.
-    const mbaGroup = new Map(); for (const g of ix.M.groups || []) for (const f of g.families || []) mbaGroup.set(f, g.id);
-    const fieldName = r => { const f = fieldOf(r.role) || mbaGroup.get(r.role) || ""; return f ? labelIn(fields, f) : ""; };
+    // the card's field (B-32, 2026-11-06), from the same lookup the filter reads
+    const fieldName = r => { const f = fieldOf(r.role); return f ? labelIn(fields, f) : ""; };
     // the file's own year, which "Starts {year} or later" counts from (Jobs.ENTRIES)
     const year = Number(String(D.generated || "").slice(0, 4)) || new Date().getFullYear();
-    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName, year };
+    // roles that share a label filter as one (Jobs.roleKey): product.pm and product_manager, product.pmm and pmm
+    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName, year, roleKey: Jobs.roleKey(D), roleIds: D.roles };
     return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields, nCompanies };
   }).catch(e => { jobsP = null; throw e; });
   const JB = Copy.jobs;
@@ -2037,8 +2037,9 @@
     if (!location.hash.includes("?")) { let r = chosenRole(); if (r && !roleOk(r)) r = Atlas.productKey(r); if (roleOk(r)) s.role = r; }
     if (s.role && !roleOk(s.role)) s.role = "";
     if (s.field && !fields.some(([id]) => id === s.field)) s.field = "";
-    if (s.role && !s.field) s.field = fieldOf(s.role);
-    if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = "";
+    if (s.role && !s.field) s.field = fieldOf(s.role);   // the id's own field: a link to the MBA pmm opens Marketing
+    if (s.role) s.role = ctx.roleKey(s.role);   // then the role's key: role=product_manager is product.pm's filter
+    if (s.role && s.field && !Jobs.roleInField(s.role, s.field, ctx)) s.role = "";
     if (have && !/[?&]sort=/.test(location.hash)) s.sort = "fit";
     if (s.sort === "fit" && !have) s.sort = "best";
     const writeHash = () => {
@@ -2125,7 +2126,8 @@
     };
     const group = (key, label, pairs, counts, extra, lead) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${lead || ""}${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
     const rail = (searched, f) => {
-      const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
+      // one row per key: two ids with one label are one role, its count both ids' postings (in the field, when one is on)
+      const roleIds = [...new Set((s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles).map(ctx.roleKey))];
       const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
       const levels = levelsOf();
       const count = (facet, pairs) => Jobs.facetCounts(searched, f, facet, pairs.map(([v]) => v), ctx);
@@ -2226,8 +2228,8 @@
     const change = () => { s.page = 1; draw(); };
     const toggleFacet = (key, val) => {
       if (key === "remote" || key === "noclear") s[key] = !s[key];
-      else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; }
-      else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role) s.field = fieldOf(s.role); }
+      else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && !Jobs.roleInField(s.role, s.field, ctx)) s.role = ""; }
+      else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role && !(s.field && Jobs.roleInField(s.role, s.field, ctx))) s.field = fieldOf(s.role); }
       else s[key] = s[key] === val ? "" : val;
       change();
     };

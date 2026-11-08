@@ -81,6 +81,31 @@
   // the employer type from the company group: fortune50..fortune500 are one type
   const employerOf = group => group === "startup" ? "startup" : group === "mba_employer" ? "mba_employer" : /^fortune/.test(String(group || "")) ? "fortune500" : String(group || "");
   const fieldOfRole = (id, ctx) => ctx && ctx.fieldOf ? (ctx.fieldOf(id) || "") : String(id || "").startsWith(PRODUCT_NS) ? "product" : "";
+  // One field per role for the filter, its counts, the rail and the card (2026-11-08): the index's group, else the
+  // group the MBA graph puts the role in, else the product namespace. The index leaves out the MBA set's own Product
+  // group (atlas.js: the product set stands for that field), so without the second step product_manager and
+  // product_strategy had no field and the Product filter dropped them while their cards said "Product".
+  function fieldLookup(ix) {
+    const mba = new Map();
+    for (const g of (ix && ix.M && ix.M.groups) || []) for (const f of g.families || []) mba.set(f, g.id);
+    const roles = (ix && ix.roles) || {};
+    return id => (roles[id] || {}).group || mba.get(id) || fieldOfRole(id);
+  }
+  // Roles that share a label are one role to the filter (2026-11-08): the product set's product.pm and the MBA set's
+  // product_manager are both "Product Manager", product.pmm and pmm both "Product Marketing Manager". The key of a
+  // role is the first id in D.roles with its label; the file lists the product set first, so the key is the product
+  // set's id. An id the file does not list is its own key.
+  function roleKey(D) {
+    const labels = (D && D.role_labels) || {}, first = new Map(), key = new Map();
+    for (const id of (D && D.roles) || []) { const l = labels[id]; if (!l) { key.set(id, id); continue; } if (!first.has(l)) first.set(l, id); key.set(id, first.get(l)); }
+    return id => key.get(id) || id;
+  }
+  const keyOf = (id, ctx) => ctx && ctx.roleKey ? ctx.roleKey(id) : id;
+  // whether a role (any id of its key) has postings in a field; ctx.roleIds lists the ids a key may stand for
+  const roleInField = (role, field, ctx) => {
+    const k = keyOf(role, ctx), all = (ctx && ctx.roleIds) || [role];
+    return all.filter(id => keyOf(id, ctx) === k).concat(role).some(id => fieldOfRole(id, ctx) === field);
+  };
   const roleName = (row, ctx) => ctx && ctx.roleName ? ctx.roleName(row) || "" : "";
   const skillNames = (row, ctx) => { const v = ctx && ctx.skillNames ? ctx.skillNames(row) : []; return Array.isArray(v) ? v.join(" ") : String(v || ""); };
 
@@ -222,7 +247,7 @@
   const locHit = (row, toks) => { const ws = words(row.location); return toks.every(t => (t === "remote" && row.remote) || hit(t, ws) > 0); };
   function matches(row, f, ctx, locToks) {
     if (f.field && fieldOfRole(row.role, ctx) !== f.field) return false;
-    if (f.role && row.role !== f.role) return false;
+    if (f.role && keyOf(row.role, ctx) !== keyOf(f.role, ctx)) return false;
     if (f.level && levelWord(row) !== f.level) return false;
     if (f.entry && !entryHit(row, f.entry, ctx)) return false;
     if (f.years && !yearsHit(row, f.years)) return false;
@@ -246,7 +271,7 @@
     const out = {};
     for (const v of values) {
       const g = Object.assign(blankFilter(), f || {}, { [facet]: v });
-      if (facet === "field" && g.role && v && fieldOfRole(g.role, ctx) !== v) g.role = "";
+      if (facet === "field" && g.role && v && !roleInField(g.role, v, ctx)) g.role = "";
       out[v] = filterJobs(jobs, g, ctx).length;
     }
     return out;
@@ -379,5 +404,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: SPONSOR.includes(s.sponsor) ? s.sponsor : "", noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, fieldLookup, roleKey, roleInField, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });
