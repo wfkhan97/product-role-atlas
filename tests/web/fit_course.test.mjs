@@ -73,5 +73,5 @@ test("SkillMap.roleShare: the card counts the roles the map shows (no tech role;
   assert.ok(r.share > 0 && r.share < 1);
   assert.equal(window.SkillMap.roleShare(ix, null, "roadmap").n, shown.filter(x => x.set !== "product").length, "before the product file: the business roles alone");
   const line = window.SkillMap.cardShare(ix, P, "roadmap");
-  assert.ok(line.includes(`${shown.length} roles`) && !/MBA/.test(line), line);
+  assert.ok(line.includes(`${shown.length} business and product roles`) && !/MBA/.test(line), line);   // named, since the launcher counts the tech set too
 });

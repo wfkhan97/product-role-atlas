@@ -39,8 +39,9 @@
   // target: selectors tried in order, the first present one wins. when: the state the step needs (ctx: campus, resume,
   // signedIn, config); a row without one needs only its target. ready: the screen counts as drawn once this is present.
   const SCREENS = {
-    home: { version: 1 }, classes: { version: 1 }, jobs: { version: 2 }, skills: { version: 1 },
-    role: { version: 1 }, fit: { version: 1, ready: ".fitcols" }, explore: { version: 1 }, field: { version: 1 },
+    // jobs 2: the quick filters (2026-11-08); classes 2: the band tip names the sort, field 2: the tap on a phone (2026-11-08)
+    home: { version: 1 }, classes: { version: 2 }, jobs: { version: 2 }, skills: { version: 1 },
+    role: { version: 1 }, fit: { version: 1, ready: ".fitcols" }, explore: { version: 1 }, field: { version: 2 },
     network: { version: 1, ready: "#nw-prep" }, you: { version: 1 }, about: { version: 1 },
     course: { version: 1 }, play: { version: 1, ready: "#gm-body" }, professor: { version: 1 }, event: { version: 1 },
   };
@@ -50,7 +51,7 @@
     { screen: "home", id: "you", target: ["#main section.home-you:has(.opts)"] },   // the questions only, never the summary
     { screen: "home", id: "relaunch", target: ["#verbs [data-guide]", "#foot-guide"] },   // a phone: the top bar's link is past the edge
     { screen: "classes", id: "role", target: [".cls-roles"] },
-    { screen: "classes", id: "band", target: [".cls-card .cls-rel"] },
+    { screen: "classes", id: "band", target: [".cls-card .cls-rel"] },   // its tip names the Gaps covered sort too (2026-11-08)
     { screen: "classes", id: "resume", target: ["#cls-resume"], when: noResume },
     { screen: "classes", id: "gaps", target: [".cls-card .cls-gaps"], when: resume },
     { screen: "classes", id: "subjects", target: [".chips:has(> [data-subject])"] },

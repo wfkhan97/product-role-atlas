@@ -120,7 +120,7 @@
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
       skills: { title: "Explore careers", line: "Explore {roles} roles and see how your experience and skills match up.", lineAll: "Explore every role and see how your experience and skills match up." },
       classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
-      network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with." },
+      network: { title: "Networking", line: "Find the hiring managers, recruiters, alumni and faculty to meet for a role, and what to say." },
     },
     // one line over the cards after #/classes or #/professor sent a visitor home (app.js route(), Door.reach): {schools}
     // are the campuses with a loaded roster (Door.schoolLine's list); the link goes to the door (#/)
@@ -257,7 +257,7 @@
     example: "e.g. {names}", moreRole: ", +{n} more role", moreRoles: ", +{n} more roles",
     loading: "loading…",
     // the skill map's card (web/skillmap.js): the mean share over the roles the map shows, the count Explore says
-    card: { share: "{share} of a role's postings ask for it, on average over the {n} roles." },
+    card: { share: "{share} of a role's postings ask for it, on average over the {n} business and product roles." },
     // a field
     field: {
       roles: "{n} roles", role: "1 role",
@@ -1241,7 +1241,7 @@
       },
       classes: {
         role: { title: "Start with a role", body: "Pick a role here. Each class then shows how well it fits that role." },
-        band: { title: "What high, medium and low mean", body: "The band shows how many of the role's main skills the course description names. A class can teach more than its description names." },
+        band: { title: "What high, medium and low mean", body: "The band shows how many of the role's main skills the course description names. The Gaps covered sort puts the classes that cover your gaps and fit the role first." },
         resume: { title: "Add your résumé for gaps", body: "Choose your résumé, then press Read my fit. Each card then says which of your gaps it covers." },
         gaps: { title: "How we count your gaps", body: "A gap is a skill the role asks for that your résumé does not show yet. Your study answer sets the level, so it can change this count." },
         subjects: { title: "Subject codes", body: "Each chip is a subject code, the first part of a class number. CS 5304 is a CS class." },
@@ -1249,7 +1249,7 @@
       jobs: {
         search: { title: "Search every open job", body: "Type a title, a skill or a company. Add a city to narrow the list." },
         quick: { title: "Three quick filters", body: "Press one to keep jobs that say they sponsor a visa, jobs for new graduates or remote jobs. The number on each says how many stay." },
-        fields: { title: "Narrow by field and more", body: "Pick a field to see only its postings. The rail also filters by level, employer, visa sponsorship and more." },
+        fields: { title: "Narrow by field and more", body: "Pick a field, then a role inside it, to see only their postings. The rail also filters by level, employer, visa sponsorship and more." },
         card: { title: "See your skills on each card", body: "Add your résumé, and each card counts the skills you show for that posting." },
         cardFit: { title: "Your skills on each card", body: "This line counts the posting's skills that your résumé shows. The skills you show turn green." },
       },
@@ -1272,12 +1272,12 @@
         posting: { title: "Check one posting", body: "Paste a posting you like. The lists then mark the skills it asks for." },
       },
       explore: {
-        views: { title: "Two ways to see fields", body: "▦ shows each field as a card. ⊞ shows a skill map of the fields and the skills they ask for." },
+        views: { title: "Two ways to see fields", body: "▦ shows each field as a card, ⊞ a skill map of the fields and the skills they ask for. On a phone, tap a field on the map once to light it and again to open it." },
         cards: { title: "Pick a field", body: "Each card shows a field, some of its roles and its open jobs. Open one to see every role." },
         find: { title: "Find a skill", body: "Type a skill to open its card. The card names the roles that ask for it most." },
       },
       field: {
-        roles: { title: "Roles in this field", body: "The biggest roles come first. Open one to see what its postings ask for." },
+        roles: { title: "Roles in this field", body: "The biggest roles come first, and opening one shows what its postings ask for. On a phone, tap a role once to light its skills and again to open it." },
         chart: { title: "Skills these roles ask for", body: "Each dot is a skill. Press a dot to read what it means and which roles ask for it." },
         heart: { title: "Save a role", body: "Press the heart to keep a role. Your saved roles then show at the top of All fields." },
       },
