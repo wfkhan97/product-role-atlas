@@ -38,3 +38,17 @@ test("in-text links carry an underline, and the game's key hint uses the primary
   assert.match(kbd, /color: var\(--primary-foreground\)/);
   assert.doesNotMatch(kbd, /opacity/);
 });
+
+// 2026-11-08: the phone order is the markup's, so Tab follows it; the desktop columns are pinned in the CSS
+test("Find jobs, the launcher and Networking put their content first in the markup, with no CSS order on a phone", () => {
+  const phone = css.match(/@media \(max-width: 900px\) \{\n  \.jobs-grid \.jfilters-link[^}]*\}\n\}/);
+  assert.ok(phone, "the phone block");
+  assert.doesNotMatch(css, /order: -1/, "no CSS reorder anywhere");
+  const at = s => { const i = app.indexOf(s); assert.ok(i >= 0, s); return i; };
+  assert.ok(at('<section class="jmain"') < at('<div class="jrail" id="jfilters"'), "Find jobs: the postings before the filters");
+  assert.ok(at('<div class="lf-side" id="lf-side">') < at('<section class="lf-main"'), "the launcher: the résumé box before the tiles");
+  assert.ok(at('<aside class="nw-side"') < at('<div class="nw-main">'), "Networking: the prep card before Who to look for");
+  const desk = css.match(/@media \(min-width: 901px\) \{[^@]*\}/)[0];
+  for (const [sel, col] of [[".jobs-grid .jrail", 1], [".jobs-grid .jmain", 2], [".lf-main", 1], [".lf-side", 2], [".nw-main", 1], [".nw-side", 2]])
+    assert.match(desk, new RegExp(sel.replace(/\./g, "\\.") + ` \\{ grid-column: ${col}; grid-row: 1; \\}`), `${sel} pinned to column ${col}, row 1`);
+});

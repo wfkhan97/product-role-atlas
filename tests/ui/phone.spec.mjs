@@ -5,6 +5,7 @@
 //   - the Networking prep card and the first posting on Find jobs start within one screen of the top
 //   - Find jobs has a Filters link over the postings that goes to the filters
 //   - the launcher's résumé box comes before the field tiles
+//   - on those three screens Tab reaches the content before the filters, the tiles or the list
 //   - the top bar takes two rows at most, with every verb on it
 //   - the skill map's labels do not overlap, and no screen tells a phone to hover
 //   - the posting panel and the skill card fit the screen
@@ -161,6 +162,40 @@ test("launcher: the résumé box comes before the field tiles", async ({ visitor
   const side = await box(page, "#lf-side"), tile = await box(page, ".lf-tiles .fcard");
   expect(side.y, "the résumé box's top").toBeLessThan(tile.y);
   expect(side.y).toBeLessThan(H);
+});
+
+// ---------- Tab follows what the phone shows first (2026-11-08) ----------
+// The three screens once put their content first with CSS order, so Tab crossed the filters, the tiles or the list
+// before the content. The markup has the phone's order now: Tab from the top reaches the content first.
+// Tab from `from` (the control just over the two columns), or the top of the page, until focus is inside `a` or `b`: which one it reached first
+async function tabFirst(page, a, b, { from = null, max = 150 } = {}) {
+  if (from) await page.locator(from).focus();
+  else await page.evaluate(() => { document.activeElement && document.activeElement.blur(); window.scrollTo(0, 0); });
+  for (let i = 0; i < max; i++) {
+    await page.keyboard.press("Tab");
+    const at = await page.evaluate(([a, b]) => { const e = document.activeElement; return !e ? null : e.closest(a) ? "a" : e.closest(b) ? "b" : null; }, [a, b]);
+    if (at) return at;
+  }
+  return null;
+}
+test("jobs: Tab from the search reaches a posting before the filters", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/jobs");
+  await page.locator(".jcard").first().waitFor();
+  expect(await tabFirst(page, ".jcard [data-open]", "#jrail", { from: "#jsearch button[type=submit]" })).toBe("a");
+});
+test("launcher: Tab reaches the résumé box before the search and the field tiles", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/skills");
+  await page.locator(".lf-tiles .fcard").first().waitFor();
+  await page.locator("#lf-side .lf-step").first().waitFor();
+  expect(await tabFirst(page, "#lf-side", ".lf-main", { from: ".lf-lead .lf-map" })).toBe("a");
+});
+test("networking: Tab reaches the prep card before Who to look for", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/network?role=product.pm");
+  await page.locator("#nw-prep").waitFor();
+  expect(await tabFirst(page, ".nw-side", ".nw-main", { from: '.nw-tabs [aria-selected="true"]' })).toBe("a");
 });
 
 // ---------- the top bar ----------

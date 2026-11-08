@@ -898,7 +898,7 @@
       if (state.resume && !s.change && (!light || light.text !== state.resume.text)) { const text = state.resume.text; closestFits(ix).then(res => { if (!here() || !state.resume || state.resume.text !== text) return; light = res; drawRight(); }).catch(e => { console.error(e); if (here()) { light = { text, failed: true, chosen: null, rows: [] }; $("#lf-side").innerHTML = right(); wireRight(); } }); }
     };
     page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))} <a href="#/explore?view=map" class="lf-map">${esc(C.mapLink)}</a></p>
-      <div class="lf"><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off">${slot}<div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
+      <div class="lf"><div class="lf-side" id="lf-side"></div><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off">${slot}<div id="lf-body"></div></section></div>`);
     main.firstElementChild.classList.add("wide", "lf-page");
     let timer = null;
     $("#lf-q").oninput = e => { clearTimeout(timer); timer = setTimeout(() => { s.q = e.target.value; drawLeft(); }, 150); };
@@ -1632,7 +1632,7 @@
       const prep = `<section class="pcard" id="nw-prep"><p class="eyebrow">${esc(C.prep)} · ${esc(role.label)}</p><h2>${esc(type.label)}</h2>${pickHtml}${where}${approach}</section>`;
       page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1>
         <div class="nw-head"><div class="dlabel nw-role"><span>${esc(C.role)}</span><div id="nw-role"></div></div>${tabs}</div>
-        <div class="nw" role="tabpanel" id="nw-panel" aria-labelledby="nw-tab-${esc(s.type)}"><div class="nw-main">${who}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}</aside></div>`);
+        <div class="nw" role="tabpanel" id="nw-panel" aria-labelledby="nw-tab-${esc(s.type)}"><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}</aside><div class="nw-main">${who}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div></div>`);
       main.firstElementChild.classList.add("wide", "nw-page");
       // ---- the wiring ----
       wireWait(main, redraw);
@@ -2056,8 +2056,8 @@
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
       <div class="chips jquick" id="jquick" role="group" aria-label="${esc(JB.quickAria)}"></div>
       <div class="jobs-grid">
-        <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
         <section class="jmain" aria-label="${esc(JB.postingsAria)}"><button type="button" class="linkish link jfilters-link" data-to-filters="1">${esc(JB.filtersLink)}</button><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="jnotes" id="jnotes"></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
+        <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
       </div>`);
     const pageEl = main.querySelector(".page"); pageEl.classList.add("jobs-page");
     const form = $("#jsearch"), railEl = $("#jrail");
@@ -2241,7 +2241,7 @@
     $("#jsort").onchange = e => { s.sort = e.target.value; change(); };
     pageEl.addEventListener("click", e => {
       const t = e.target;
-      // on a phone the filters sit after the postings (CSS order): this link, shown only there, scrolls to them and moves focus there (usability pass 2026-11-06)
+      // on a phone the filters sit after the postings (markup order): this link, shown only there, scrolls to them and moves focus there (usability pass 2026-11-06)
       if (t.closest("[data-to-filters]")) { const r = $("#jfilters"); r.scrollIntoView({ block: "start" }); r.focus({ preventScroll: true }); return; }
       if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; Object.assign(opened, openedFor()); moreCompanies = false; syncInputs(); draw(); return; }
       const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }

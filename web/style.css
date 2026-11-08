@@ -1444,12 +1444,18 @@ body.guide-room { padding-bottom: 50vh; }
 
 /* ---------- a phone (640 px and under): the usability pass of 2026-11-06, cluster "phone layout". Tokens only ---------- */
 /* what a screen is for comes first in one column: the prep card before Who to look for, the postings before the
-   filters, the résumé box before the field tiles (visual order; the markup keeps its order) */
+   filters, the résumé box before the field tiles. The markup has that order, so Tab follows what a phone shows
+   (2026-11-08); the desktop columns are pinned with grid-column under min-width 901px */
 @media (max-width: 900px) {
-  .nw-side { order: -1; }
-  .jobs-grid .jmain { order: -1; }
   .jobs-grid .jfilters-link { display: inline-block; margin-bottom: var(--space-2); }
-  .lf-side { order: -1; }
+}
+@media (min-width: 901px) {
+  .jobs-grid .jrail { grid-column: 1; grid-row: 1; }
+  .jobs-grid .jmain { grid-column: 2; grid-row: 1; }
+  .lf-main { grid-column: 1; grid-row: 1; }
+  .lf-side { grid-column: 2; grid-row: 1; }
+  .nw-main { grid-column: 1; grid-row: 1; }
+  .nw-side { grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 640px) {
   /* the role page: the "How you work" row's summary wraps under its name (it was one line, 1,147 px wide) */
