@@ -966,7 +966,9 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .jquick .chip { cursor: pointer; }
 .jquick .chip.dead { color: var(--subtle-foreground); cursor: default; }
 .jobs-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; margin-top: 16px; align-items: start; }
-.jrail { position: sticky; top: 16px; }
+/* sticky, and never taller than the window: on a short screen the rail scrolls on its own, so its last groups (Visa
+   sponsorship, Company, Work) are reachable before the list ends (2026-11-08; before, they were out of reach) */
+.jrail { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
 .jnote { margin: 10px 0 0; }
 .facets { display: grid; gap: 0; align-content: start; }
 .facets details { border-top: 1px solid var(--border); padding: 6px 0; }

@@ -3054,6 +3054,11 @@ agree and the hash holds one value. We chose a strip over moving the group up th
 default and comes after the list on a phone, and these three are what the students asked for first. Focus after a
 redraw stays in the container the person used: the same key and value sit in both.
 
+**The rail scrolls on its own.** The rail is sticky and, with eleven groups, taller than a short window (800×600): its
+last groups, Visa sponsorship among them, were out of reach until the list ended, which is part of why the filter felt
+hidden. It now has a max-height of the window less its margins and its own scroll bar; the phone layout, where it is
+static after the postings, is unchanged.
+
 **Sponsorship has two values.** It is its own rail group, "Visa sponsorship", between Employer type and Company, with
 "Says it sponsors" (`sponsor=yes`) and "Doesn't rule it out" (`sponsor=open`): every posting that does not say it will
 not sponsor. Most postings say nothing either way (54,664 of 62,032 are open, 659 say yes, 7,368 say no), so a student
@@ -3166,9 +3171,6 @@ done). One line per item; the section that explains it is named where it helps.
 - An "Open now / Last 12 months" switch on the field and role pages, once the product graph keeps closed postings as
   the MBA graph does.
 - An events feed for Networking (the intake promises one).
-- Find jobs' rail is sticky and taller than a short window (800×600): its lower groups (Visa sponsorship, Company,
-  Work) stay below the fold until the list ends. A max-height with its own scroll, or no stickiness past the window
-  ("Sponsorship first, new graduates marked"; the strip covers sponsorship meanwhile).
 - The new-graduate mark from a posting's text, not its title alone: the extract has the text, and "new graduates" or a
   start date often sits there ("Sponsorship first, new graduates marked").
 - IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
