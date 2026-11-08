@@ -122,10 +122,8 @@
   const clean = obj => {
     const out = {};
     if (!obj || typeof obj !== "object" || Array.isArray(obj)) return out;
-    for (const [k, v] of Object.entries(obj)) {
-      const n = typeof v === "string" && /^\d+$/.test(v.trim()) ? Number(v.trim()) : v;
-      if (known(k) && Number.isInteger(n) && n >= 1) out[k] = n;
-    }
+    // whole numbers only: a string ("2") is not a version this code wrote, so it drops like any other bad value
+    for (const [k, v] of Object.entries(obj)) if (known(k) && Number.isInteger(v) && v >= 1) out[k] = v;
     return out;
   };
   function readSeen(raw) { try { return raw == null || raw === "" ? {} : clean(JSON.parse(raw)); } catch { return {}; } }
