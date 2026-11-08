@@ -598,12 +598,15 @@
     for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
     const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send"), em = wrap.querySelector("#fb-email");
     const use = wrap.querySelector("#fb-use");
-    if (use) use.onclick = () => { em.value = onFile; use.parentElement.hidden = true; out.textContent = ""; em.focus(); };
+    // a bad address marks the field invalid and points it at the line that says why; typing or "Use …" clears both
+    const emailFine = () => { em.removeAttribute("aria-invalid"); em.removeAttribute("aria-describedby"); };
+    em.addEventListener("input", emailFine);
+    if (use) use.onclick = () => { em.value = onFile; use.parentElement.hidden = true; out.textContent = ""; emailFine(); em.focus(); };
     ta.oninput = () => { wrap.querySelector("#fb-count").textContent = fill(FB.count, { n: ta.value.length, max: Feedback.LIMITS.text }); };
     btn.onclick = async () => {
       const text = ta.value.trim();
       if (!text) { out.textContent = FB.empty; ta.focus(); return; }
-      if (!Feedback.emailOk(em.value)) { out.textContent = FB.badEmail; em.focus(); return; }
+      if (!Feedback.emailOk(em.value)) { out.textContent = FB.badEmail; em.setAttribute("aria-invalid", "true"); em.setAttribute("aria-describedby", "fb-out"); em.focus(); return; }
       if (window.Capture) Capture.cta(id, "click", { role_id: state.roleId });
       btn.disabled = true; out.textContent = FB.sending;
       const ok = await Feedback.send({ text, email: em.value, screen, prompted, session: window.Capture ? Capture.session() : null, visitor: window.Capture ? Capture.visitor() : null, user_id: sess ? sess.uid : null });

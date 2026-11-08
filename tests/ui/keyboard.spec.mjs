@@ -193,6 +193,27 @@ test("feedback: Tab and Shift+Tab stay inside the sheet; Esc and Not now give fo
   expect(await opener.evaluate(e => e === document.activeElement), "Not now: focus on the Feedback link").toBe(true);
 });
 
+test("feedback: a bad address marks the email field invalid, pointed at the line that says why; typing clears it", async ({ visitor }, info) => {
+  desktopOnly(info);
+  const page = await visit(visitor, { hash: "#/explore" });
+  const opener = page.locator(".top [data-feedback]").first();
+  await opener.waitFor();
+  await opener.click();
+  await page.locator("#fb-box").waitFor();
+  await page.locator("#fb-text").fill("The map is lovely.");
+  const em = page.locator("#fb-email");
+  await em.fill("not-an-address");
+  await page.locator("#fb-send").click();   // the check stops it before any send
+  await expect(em).toHaveAttribute("aria-invalid", "true");
+  await expect(em).toHaveAttribute("aria-describedby", "fb-out");
+  await expect(page.locator("#fb-out")).not.toBeEmpty();
+  expect(await activeIs(page, "#fb-email")).toBe(true);
+  await page.keyboard.type("x");
+  await expect(em).not.toHaveAttribute("aria-invalid", "true");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#fb-box")).toHaveCount(0);
+});
+
 // ---------- the posting panel on a phone (2026-11-08) ----------
 // Under 640 px the panel covers the screen: it is a modal dialog there, and Tab goes round its own controls
 test("Find jobs on a phone: Tab and Shift+Tab stay inside an open posting; Esc closes it", async ({ visitor }, info) => {
