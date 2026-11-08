@@ -123,6 +123,27 @@ test("picker: typing \"product manager\" lists Product Manager first, and the tw
   await expect(page.locator(".cls-roles .chip.on").first()).not.toContainText("Marketing");
 });
 
+test("picker: the role list opens on a click, not on focus, and axe finds no listbox fault while it is open", async ({ visitor }) => {
+  const page = await picker(await visitor.campus());
+  const list = page.locator("#cls-add ul.pick-list");
+  await roleBox(page).focus();
+  await expect(list).toBeHidden();
+  await roleBox(page).click();
+  await expect(list).toBeVisible();
+  await expect(roleBox(page)).toHaveAttribute("aria-controls", await list.getAttribute("id"));
+  await expect(list).toHaveAttribute("aria-label", /.+/);
+  await page.keyboard.press("ArrowDown");
+  await expect(roleBox(page)).toHaveAttribute("aria-activedescendant", /-0$/);
+  const r = await new AxeBuilder({ page }).include("#cls-add").analyze();
+  const ids = r.violations.map(v => v.id);
+  for (const id of ["aria-input-field-name", "scrollable-region-focusable", "aria-required-attr"]) expect(ids, id).not.toContain(id);
+  // the empty list: its note row is presentation, so the listbox still holds only options
+  await roleBox(page).fill("zzzz");
+  await expect(list.locator(".pick-none")).toBeVisible();
+  const r2 = await new AxeBuilder({ page }).include("#cls-add").analyze();
+  expect(r2.violations.map(v => v.id).filter(id => /aria|scrollable/.test(id))).toEqual([]);
+});
+
 test("picker: focus stays on the control after each redraw (role, subject, facet, Covers a gap, sort)", async ({ visitor }) => {
   const page = await picker(await visitor.campus());
   await pickRole(page, "Product Manager");

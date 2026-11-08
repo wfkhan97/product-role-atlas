@@ -122,6 +122,7 @@ test("classes (campus, no role): the role box, the résumé, the subjects; no ba
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes" });
   const steps = await walk(page, info, "classes", C(false), { min: 3, absent: ["band", "gaps"] });
   expect(steps.map(s => s.id)).toEqual(["role", "resume", "subjects"]);
+  await expect(page.locator("#cls-add ul.pick-list")).toBeHidden();   // the run hands focus back to the role box; the list stays shut
 });
 test("classes (campus, a role, no résumé): role, band, résumé, subjects", async ({ visitor }, info) => {
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: `#/classes?role=${ROLE}` });
