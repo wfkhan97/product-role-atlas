@@ -563,7 +563,11 @@
     noteResume: "Each posting counts the skills it asks for that your résumé shows. Fit puts the postings where you show the largest part of those skills first. Change your résumé in", noteResumeLink: "About you",
     noteNoResume: "Add your résumé", noteNoResumeAfter: "and each posting says how many of its skills you show.",
     sort: "Sort",
-    sorts: { fit: "Fit", best: "Best match", company: "Company A–Z" },
+    sorts: { fit: "Fit", best: "Best match", newest: "Newest", company: "Company A–Z" },
+    // the date on the card and the panel: the board's own posting date, else the day our scrape first saw the posting,
+    // which is never called a posting date (it clusters on the days we scrape)
+    posted: "Posted {date}", listed: "Listed here {date}",
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     // the four level words on the rail and the card, the entry marks, the employer types
     levels: { associate: "Analyst or associate", mid: "Manager", staff: "Lead or principal", director: "Director" },
     entries: { mba: "MBA entry", bachelor: "Bachelor's entry", intern: "Internship" },

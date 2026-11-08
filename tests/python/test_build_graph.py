@@ -1,4 +1,5 @@
-"""pipeline/build_graph.py: the share arithmetic under every number of the graph files."""
+"""pipeline/build_graph.py: the share arithmetic under every number of the graph files, and the posting dates they carry."""
+import datetime
 import math
 
 import pytest
@@ -85,3 +86,27 @@ def test_field_flavour_needs_a_share_of_thirty_percent_and_weighs_postings(monke
 def test_field_flavour_with_no_postings_is_empty_not_a_division_error(monkeypatch):
     monkeypatch.setattr(B, "KIND", {"t": "behaviour", "a": "method"})
     assert B.field_flavour("t", [], [], ["s1"]) == {"n": 0, "with": [], "subs": []}
+
+
+# ---- posted_day: the board's own posting date, one shape per board
+
+TODAY = datetime.date(2026, 11, 7)
+
+
+@pytest.mark.parametrize("value, day", [
+    ("2026-10-08", "2026-10-08"),                       # an ISO date (Workday, Oracle)
+    ("2026-08-18T02:41:46.087+00:00", "2026-08-18"),    # an ISO datetime (Greenhouse, Ashby): the date as written
+    (1758094535918, "2025-09-17"),                      # epoch milliseconds (Lever)
+    (1790244980, "2026-09-24"),                         # epoch seconds (Eightfold)
+    ("1790244980", "2026-09-24"),                       # epoch seconds as a numeric string
+    ("November  4, 2026", "2026-11-04"),                # English text, full month, the double space (Amazon, Apple)
+    ("Nov 1, 2026", "2026-11-01"),                      # English text, short month (KPMG)
+    ("09/21/2026", "2026-09-21"),                       # month/day/year (BofA)
+])
+def test_posted_day_reads_each_boards_shape(value, day):
+    assert B.posted_day(value, today=TODAY) == day
+
+
+@pytest.mark.parametrize("value", [None, "", "soon", "Smarch 3, 2026", "2026-13-01", 0.0, True, "2026-11-08", "1999-12-31"])
+def test_posted_day_is_none_for_what_it_cannot_read_and_for_a_day_outside_2000_to_today(value):
+    assert B.posted_day(value, today=TODAY) is None

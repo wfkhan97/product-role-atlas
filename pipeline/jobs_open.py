@@ -5,13 +5,15 @@ the build writes and nothing else: no network, no .env. Idempotent: the same inp
                             the US slice is country == "United States") and of the MBA set (web/data/graph_mba/<role>.json:
                             open true and country equal to the index meta's). Column-oriented so the screen loads it
                             fast: the companies, locations, roles and titles are lists, and a row is
-                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen, yoe]
+                              [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills[], url, firstSeen, yoe, posted]
                             num is the posting's own number (the id is p<num> or m<num>); levelIdx indexes
                             levels[<set>]; flags is a bit field (FLAGS); skills index this file's own skill_ids, the
                             union of both sets'; url is the posting's URL minus its company's url_prefix; yoe is the
-                            years of experience the posting asks for, or null. A row's skills are the ones a person
-                            can learn or show: no credential (years, degrees, licences, clearance: years is its own
-                            column and clearance a flag) and no industry (cluster domain) unless it defines the
+                            years of experience the posting asks for, or null. firstSeen is the day our scrape first
+                            saw the posting (MBA set only; it clusters on scrape days); posted is the board's own
+                            posting date (build_graph posted_day, YYYY-MM-DD), or null. A row's skills are the ones a
+                            person can learn or show: no credential (years, degrees, licences, clearance: years is its
+                            own column and clearance a flag) and no industry (cluster domain) unless it defines the
                             posting's MBA role. No snippet, no sub-skills. web/jobs.js rowsOf(file) expands it.
   web/data/jobs_meta.json   the counts alone (home reads this, never the big file).
 
@@ -31,10 +33,10 @@ CLEARANCE = "security_clearance"   # the credential the clearance flag reads
 
 NOTE = ("Every open posting of the site's US slice, both role sets, for Find jobs. Column-oriented: companies, "
         "locations, roles and titles are lists; a row is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, "
-        "flags, skills, url, firstSeen, yoe]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs) or m<num> (MBA, "
+        "flags, skills, url, firstSeen, yoe, posted]; role_labels names each role. The id is p<num> (product, the index into graph.json jobs) or m<num> (MBA, "
         "the row id in graph_mba/<role>.json); flags: 1 MBA set, 2 internship, 4 remote, 8 MBA entry, 16 bachelor's "
         "entry, 32 says it sponsors, 64 says it does not, 128 asks for a security clearance; levelIdx indexes levels[set]; skills index skill_ids; url "
-        "is the posting's URL after its company's url_prefix; yoe is the years asked, or null. Skills leave out credentials and the industries that do not define the posting's role. Written by pipeline.jobs_open; rows are sorted by set, "
+        "is the posting's URL after its company's url_prefix; yoe is the years asked, or null; firstSeen is the day our scrape first saw the posting and posted the board's own posting date (YYYY-MM-DD), each or null. Skills leave out credentials and the industries that do not define the posting's role. Written by pipeline.jobs_open; rows are sorted by set, "
         "then by number. web/jobs.js rowsOf expands it.")
 
 
@@ -139,6 +141,7 @@ def build():
             locations.idx(j.get("location") or ""), flags_of(set_, j, CLEARANCE in ids),
             sorted(remap[k] for k in ids if keeps(set_, role, k)),
             url[len(prefix):] if url.startswith(prefix) else url, j.get("first_seen"), j.get("yoe"),
+            j.get("posted"),
         ])
     generated = time.strftime("%Y-%m-%d")
     out = {

@@ -5,11 +5,13 @@ usage: python -m pipeline.build_graph              ->  web/data/graph.json (+ ta
                                                        taxonomy_mba.json, subskills_mba.json, roles_mba.json
 """
 import collections
+import datetime
 import glob
 import itertools
 import json
 import math
 import os
+import re
 import sys
 import time
 
@@ -35,6 +37,41 @@ IC_LEVELS = ("senior", "staff")
 MGMT_LEVELS = ("group", "director", "vp", "cpo")
 TECH_SPECS = {"platform", "ai_ml", "data", "hardware_devices", "security_identity"}
 COMM_SPECS = {"growth", "ads_marketing", "commerce", "enterprise_b2b", "payments_fintech"}
+
+
+_MONTHS = {m: i + 1 for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"))}
+
+
+def posted_day(v, today=None):
+    """The board's own posting date as YYYY-MM-DD, or None. Each board writes it its own way: an ISO date (Workday,
+    Oracle), an ISO datetime (Greenhouse, Ashby; the date as written, its zone ignored), epoch milliseconds (Lever) or
+    seconds (Eightfold, an int or a numeric string; a number under 1e11 is seconds), US month/day/year (BofA) or English
+    text with a full or short month ("November  4, 2026", "Nov 1, 2026": Amazon, Apple, KPMG). A value none of these
+    read, or a day after today or before 2000, is None: a wrong date is worse than none on a list sorted by it."""
+    d = None
+    try:
+        if isinstance(v, bool) or v is None:
+            return None
+        if isinstance(v, str) and v.strip().isdigit():
+            v = int(v.strip())
+        if isinstance(v, (int, float)):
+            secs = v / 1000 if v >= 1e11 else v
+            d = datetime.date.fromtimestamp(secs)   # the build's own clock, as today is
+        elif isinstance(v, str):
+            t = v.strip()
+            m = re.match(r"(\d{4})-(\d{2})-(\d{2})(?:$|[T ])", t)
+            if m:
+                d = datetime.date(int(m[1]), int(m[2]), int(m[3]))
+            elif (m := re.fullmatch(r"(\d{1,2})/(\d{1,2})/(\d{4})", t)):
+                d = datetime.date(int(m[3]), int(m[1]), int(m[2]))
+            elif (m := re.fullmatch(r"([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})", t)) and m[1][:3].lower() in _MONTHS:
+                d = datetime.date(int(m[3]), _MONTHS[m[1][:3].lower()], int(m[2]))
+    except (ValueError, OverflowError, OSError):
+        return None
+    today = today or datetime.date.today()
+    if d is None or d > today or d.year < 2000:
+        return None
+    return d.isoformat()
 
 
 def field_flavour(sid, with_skill, base, sub_ids, wkey=None):
@@ -193,7 +230,7 @@ def main():
         "jobs": [{"id": i, "company": j["company"], "group": j["group"], "title": j["title"],
                   "family": j["family"], "level": j["level"], "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                   "investors": [fund_by_name.get(n, n) for n in (j.get("investors") or [])],
-                  "yoe": j["yoe"], "sponsorship": j.get("sponsorship"), "skills": sorted(skill_index[k] for k in j["skills"]), "sub": sorted(sub_index[k] for k in j.get("sub", [])), "snippet": j["snippet"][:180]} for i, j in enumerate(jobs)],
+                  "yoe": j["yoe"], "sponsorship": j.get("sponsorship"), "skills": sorted(skill_index[k] for k in j["skills"]), "sub": sorted(sub_index[k] for k in j.get("sub", [])), "snippet": j["snippet"][:180], "posted": posted_day(j.get("posted"))} for i, j in enumerate(jobs)],
     }
     os.makedirs(os.path.join(ROOT, "web", "data"), exist_ok=True)
     with open(os.path.join(ROOT, "web", "data", "graph.json"), "w") as f:
@@ -417,7 +454,7 @@ def build_roleset(roleset):
                          "category": j.get("category"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                          "investors": [fund_by_name.get(x, x) for x in (j.get("investors") or [])], "yoe": j["yoe"],
                          "skills": sorted(skill_index[k] for k in j["skills"] if k in skill_index), "sub": sorted(sub_index[k] for k in j.get("sub", [])),
-                         "snippet": j["snippet"][:180], "sponsorship": j.get("sponsorship"), "first_seen": j.get("first_seen")})
+                         "snippet": j["snippet"][:180], "sponsorship": j.get("sponsorship"), "first_seen": j.get("first_seen"), "posted": posted_day(j.get("posted"))})
             jid += 1
         rel = f"graph_{roleset}/{f}.json"
         with open(os.path.join(out_dir, rel), "w") as fh:
