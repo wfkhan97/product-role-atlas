@@ -65,3 +65,11 @@ test("the posting panel is a dialog and the keydown keeps Tab in it on a phone; 
   assert.match(app, /if \(e\.key === "Tab" && asideEsc && !aside\.hidden && !fbOpen && onPhone\(\)\) \{ trapTab\(aside, e\); return; \}/);
   assert.match(app, /if \(e\.key === "Tab"\) trapTab\(box, e\);/, "the feedback sheet's loop is trapTab");
 });
+
+test("the phone's verb strip fades at its cut edge, and the fade goes at the end of its scroll where the browser can tell", () => {
+  const phone = css.slice(css.indexOf("@media (max-width: 640px) {\n  header.top"));
+  const strip = phone.slice(0, phone.indexOf("@keyframes verbs-fade"));
+  assert.match(strip, /\.verbs-nav \{ -webkit-mask-image: linear-gradient\(to right, #000 calc\(100% - 28px\), transparent\); mask-image: linear-gradient\(to right, #000 calc\(100% - 28px\), transparent\); \}/);
+  assert.match(strip, /@supports \(animation-timeline: scroll\(\)\) \{\s*\.verbs-nav \{ animation: verbs-fade linear both; animation-timeline: scroll\(self inline\); \}/);
+  assert.match(css, /@keyframes verbs-fade \{[^]*?100% \{ -webkit-mask-image: none; mask-image: none; \}/);
+});

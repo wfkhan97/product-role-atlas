@@ -259,6 +259,15 @@ test("field page: the chart hint does not tell a phone to hover", async ({ visit
   await expect(page.locator("#main .field-split")).not.toContainText(/hover/i);
 });
 
+test("top bar: the verb strip fades at its cut edge until it is scrolled to its end", async ({ visitor }) => {
+  const page = await general(visitor);
+  const strip = page.locator("#verbs");
+  const mask = () => strip.evaluate(e => getComputedStyle(e).maskImage || getComputedStyle(e).webkitMaskImage);
+  expect(await strip.evaluate(e => e.scrollWidth > e.clientWidth), "the strip is cut on a phone").toBe(true);
+  expect(await mask()).toMatch(/linear-gradient/);
+  await strip.evaluate(e => { e.scrollLeft = e.scrollWidth; });
+  await expect.poll(mask).toBe("none");
+});
 test("explore: a phone opens on the field cards, the launcher's map link too, and the toggle still opens the map", async ({ visitor }) => {
   const page = await general(visitor);
   for (const hash of ["#/explore", "#/explore?view=map"]) {
