@@ -233,7 +233,7 @@ test("play: Esc skips the tips and does not quit the game", async ({ visitor }) 
 });
 test("professor (campus, no role): the classes and what the profile holds; no gaps without a role", async ({ visitor }, info) => {
   // a professor with a profile: the first one a class's detail panel links to (Find classes already seen)
-  const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes", seen: { classes: 1 } });
+  const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes", seen: { classes: 2 } });   // classes ships at 2
   await page.locator("#main #cls-list").waitFor();
   await page.locator(".cls-card", { has: page.locator("a[data-prof]") }).first().locator("[data-open]").click();
   const href = await page.locator("#aside a[href^='#/professor/']").first().getAttribute("href");
