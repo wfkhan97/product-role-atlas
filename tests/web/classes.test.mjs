@@ -351,20 +351,20 @@ test("gapsCovered leaves the generic gaps out", () => {
   assert.deepEqual(C.gapsCovered(new Set(["communication"]), GAPS, GENERIC), []);
 });
 
-test("sortCards 'gaps' orders by the share covered, then the score, then the field, then code; with nothing covered, by score", () => {
+test("sortCards 'gaps' orders by the line (the share covered plus 0.75 times the score), then the score, then the field, then code; with nothing covered, by score", () => {
   const mk = (code, extra) => cls(code, extra);
   const cards = C.collapse({ classes: [mk("TECH 1"), mk("BANA 2"), mk("CS 3"), mk("LAW 4"), mk("NBAY 5")] });   // BANA 2, CS 3, LAW 4, NBAY 5, TECH 1
   const g = (id, w, tier = "core") => ({ id, name: id, tier, w });
   const info = {
     "TECH 1": { score: 0.2, covered: [g("a", 0.5)] },
-    "BANA 2": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },   // 0.5 too: the score breaks the tie
-    "CS 3": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },     // 0.5 and 0.9 too: the field, then code
-    "LAW 4": { score: 0.1, covered: [g("d", 0.8, "common")] },
+    "BANA 2": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },   // 0.5 + 0.675: the line
+    "CS 3": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },     // the same line and score: the field, then code
+    "LAW 4": { score: 0.1, covered: [g("d", 0.8, "common")] },        // 0.8 + 0.075, over TECH 1's 0.5 + 0.15
     "NBAY 5": { score: 0.7, covered: [] },
   };
-  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["LAW 4", "BANA 2", "CS 3", "TECH 1", "NBAY 5"], "weight first (a common gap of 0.8 outranks a core one of 0.5), then score, then code");
-  assert.deepEqual(C.sortCards(cards, "gaps", info, ["CS"]).map(c => c.key), ["LAW 4", "CS 3", "BANA 2", "TECH 1", "NBAY 5"], "the field tie-break lifts CS 3 over BANA 2");
-  assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["LAW 4", "BANA 2", "CS 3"]);
+  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["BANA 2", "CS 3", "LAW 4", "TECH 1", "NBAY 5"], "the line first (a common gap of 0.8 outranks a core one of 0.5 at a near score), then score, then code");
+  assert.deepEqual(C.sortCards(cards, "gaps", info, ["CS"]).map(c => c.key), ["CS 3", "BANA 2", "LAW 4", "TECH 1", "NBAY 5"], "the field tie-break lifts CS 3 over BANA 2");
+  assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["BANA 2", "CS 3", "LAW 4"]);
   // relevance: by band, then score, then field, then code
   const rel = { "TECH 1": { band: "high", score: 0.4 }, "BANA 2": { band: "high", score: 0.5 }, "CS 3": { band: "medium", score: 0.3 }, "LAW 4": { band: "medium", score: 0.3 }, "NBAY 5": { band: "low", score: 0.9 } };
   assert.deepEqual(C.sortCards(cards, "relevance", rel).map(c => c.key), ["BANA 2", "TECH 1", "CS 3", "LAW 4", "NBAY 5"]);
@@ -375,6 +375,19 @@ test("sortCards 'gaps' orders by the share covered, then the score, then the fie
   assert.deepEqual(C.sortCards(cards, "gaps", none).map(c => c.key), ["BANA 2", "CS 3", "NBAY 5", "TECH 1", "LAW 4"]);
   assert.deepEqual(C.topCovering(cards, none, 3), [], "the rail shows none");
   assert.equal(C.NO_COVER_LINE, "No class names your gaps. These are the closest.");
+});
+
+test("the gaps sort ranks one line per card: a low-band class that names one gap falls below the role's core course", () => {
+  const cards = C.collapse({ classes: [cls("LOW 1"), cls("HIGH 2"), cls("MED 3")] });
+  const gap = { id: "office", name: "Office suite", tier: "common", w: 0.3 };
+  const info = {
+    "LOW 1": { band: "low", score: 0.03, covered: [gap] },     // 0.3 / 2 + 0.0225 = 0.1725
+    "HIGH 2": { band: "high", score: 0.45, covered: [] },      // 0 + 0.3375
+    "MED 3": { band: "medium", score: 0.2, covered: [gap] },   // 0.3 + 0.15 = 0.45
+  };
+  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["MED 3", "HIGH 2", "LOW 1"]);
+  const none = Object.fromEntries(Object.entries(info).map(([k, v]) => [k, { ...v, covered: [] }]));
+  assert.deepEqual(C.sortCards(cards, "gaps", none).map(c => c.key), ["HIGH 2", "MED 3", "LOW 1"], "nothing covered: by score alone");
 });
 
 test("inField: a card whose subject is in the list; fieldSubjects reads the campus map for the roles' fields, MBA and tech", () => {

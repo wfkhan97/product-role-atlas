@@ -3133,6 +3133,34 @@ MBA and tech sets' own reads. The rebuilt query is the query's words in lower ca
 learning engineer" 5,276; "PM new grad" 7 (Databricks' Associate Product Manager, New Grad first); "SWE" 8,084; "APM"
 697.
 
+## The class picker ranks by one line score (`fix/classes-line-score`, 2026-11-08)
+
+**The shape.** The Gaps covered sort ordered by the sum of the gap shares a class covers, then by relevance. A class
+with low relevance that named one small gap outranked the role's core course: Robots in the Wild third for the HCI
+PhD matched to three product roles, Memory Technologies fourth for a product designer. Sixteen tech cases and six MBA
+cases in `evals/classes/` were known failures of this shape or of broad tags.
+
+**The lever tried.** Eleven variants of the sort were run over all 53 cases (scratch, 2026-11-08): the gap weight
+plus k × relevance for k in 0.5 to 2, a floor under which a gap does not count (0.1 to 0.3), core-only weights,
+weight × relevance, the weight normalised to the case's best. A floor on small gaps broke seven to sixteen passing
+checks; k = 2 broke six. The one kept: the gap shares covered, halved when the class's relevance band is low, plus
+0.75 × relevance (`Catalog.sortCards`, two named constants). Ties keep the old tail; the noCover case keeps score
+order.
+
+**What moved.** 281 pass, 18 fail, 17 known, from 279 / 19 / 18. Two known failures pass (Advanced UX and User
+Research for the UX researcher, alone and with the designer), one real one passes (Robots in the Wild leaves the staff
+PM's top 5), and one passing check becomes known: Advanced Operating Systems for the security career changer read as
+a software engineer falls from rank 10 to 24, because its tags give it a relevance of 0.05 (system architecture and
+Linux only). Where a top 3 moves (26 cases), a high-relevance core course steps past a low-relevance class that named
+one gap.
+
+**What the sort cannot move.** Ten of the sixteen tech known failures are tag problems: Analysis of Algorithms scores
+0 and covers nothing; Advanced ML Systems is tagged AI/ML and hardware only; Privacy in the Digital Age scores 0.08.
+No sort lifts a class with no relevance and no covered gap into the top 10. They stay known with their reasons until
+the tags are reread (`pipeline/catalog_tags.mjs`, the data thread). The 18 failures left were on `main` before this
+change, from the data refreshes since the 2026-11-06 baseline; their spec files are the reader's expectations and stay
+as they are.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3174,9 +3202,9 @@ done). One line per item; the section that explains it is named where it helps.
 - Tech titles: dispatch refresh-tech once "Bare titles and the employer" has merged, so the 619 stored postings the rule
   now reads differently are re-extracted. The fresh sample's other misses (two security titles worded as "automation"
   and "attack" engineers, an AI power engineer read as ML) wait for new labelled rows.
-- The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
-  gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
-  Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
+- The class picker's tech cases: ten known failures are tag problems ("The class picker ranks by one line score"); a reread
+  of the under-tagged classes in `pipeline/catalog_tags.mjs` (Advanced OS, Analysis of Algorithms, Advanced ML Systems,
+  Privacy in the Digital Age), then `run_classes --baseline`.
 - The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
   `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
   `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
@@ -3215,10 +3243,6 @@ done). One line per item; the section that explains it is named where it helps.
   start date often sits there ("Sponsorship first, new graduates marked").
 - IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
   `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.
-- The class matching's next lever: six known failures in `evals/classes/` share one shape, one small gap carrying a
-  class the role does not need; try a per-line score or a cap on small gaps (a relevance floor was tried and is not it).
-- `evals/run_classes.mjs`: two known failures now pass (`pivot_phd_hci+business_intelligence: must_not_top CS 6412`,
-  `pivot_phd_hci+all: must_not_top ECE 5748`); drop them from `known_failures` on a `data/` branch.
 - The phone Tab order on Find jobs, the launcher and Networking: the CSS shows the postings, the résumé box and the
   prep card first, but Tab still crosses the facets, the tiles or the list before them. Reorder the markup on those
   three screens and keep the desktop layout with CSS.

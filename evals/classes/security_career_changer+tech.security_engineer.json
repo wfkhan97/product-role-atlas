@@ -20,7 +20,6 @@
   ]
  },
  "known_failures": {
-  "must_top NBAY 5725": "No gaps, so the order is relevance; the security role's core asks are mostly general (ownership, cloud, communication), so broad courses outrank the cybersecurity course.",
   "must_top CS 5436": "The same: tagged security and surveys only, so its relevance to a role whose core asks are general stays low."
  }
 }

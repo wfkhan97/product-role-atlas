@@ -16,8 +16,5 @@
    "CS 6816",
    "LAW 6332"
   ]
- },
- "known_failures": {
-  "must_top INFO 5368": "Rank 12: three advanced ML systems courses name more of a beginner's many gaps (25) than the practical ML course does."
  }
 }
