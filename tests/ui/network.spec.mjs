@@ -74,3 +74,15 @@ test("a professor's row names the skills in lower case mid-sentence", async ({ v
   expect(names.length, "rows that name what they teach").toBeGreaterThan(0);
   for (const n of names) expect(/^[A-Z][a-z]/.test(n) && !PROPER.test(n), `"${n}" starts with a capital mid-sentence`).toBe(false);
 });
+
+test("the Company box: the list shows each count as a hint, and a pick leaves the bare name in the box", async ({ visitor }) => {
+  const page = await visit(visitor, "#/network?role=product.pm&type=recruiter");
+  const box = page.locator("#main #nw-target input");
+  await box.click();
+  const first = page.locator("#main #nw-target li[role=option]").first();
+  await expect(first.locator(".pick-hint")).toHaveText(/^[\d,]+ open$/);
+  const name = await first.evaluate(li => li.firstChild.textContent.trim());
+  expect(name).not.toMatch(/open/);
+  await first.click();
+  await expect(page.locator("#main #nw-target input")).toHaveValue(name);
+});

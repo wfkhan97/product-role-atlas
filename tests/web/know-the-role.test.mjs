@@ -2,6 +2,7 @@
 // on the real web/data/ files. The screens are not tested.
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "fs";
 import path from "path";
 import { require, web, realAtlas } from "./_load.mjs";
 
@@ -82,7 +83,7 @@ test("boardTakeaway: the decoy picked that another role prizes most, else the bi
   assert.match(L.boardTakeaway(sc, pool), /^X0: 5% of Role postings ask for it; 70% of Other postings do\.$/);
   const left = L.scoreBoard([{ ...ask("b", 0.8), real: true }, { ...ask("a", 0.9), real: true }], new Set([1]));
   assert.match(L.boardTakeaway(left, pool), /^B: 80% of Role postings ask for it, and you left it\.$/);
-  assert.match(L.boardTakeaway(L.scoreBoard([{ ...ask("a", 0.9), real: true }], new Set([0])), pool), /^All 1 real asks, no decoys\./);
+  assert.match(L.boardTakeaway(L.scoreBoard([{ ...ask("a", 0.9), real: true }], new Set([0])), pool), /^All 1 real asks, no picks from other roles\./);
 });
 
 test("pools on the real data: every role has real asks at 40% or more, decoys another role prizes, and calls at 10% or more", async () => {
@@ -100,9 +101,20 @@ test("pools on the real data: every role has real asks at 40% or more, decoys an
 
 // the usability pass of 2026-11-06: the help line and the first coach line follow the copy rule (no sentence over 20
 // words, no passive, no stoplist word) and drop the inside word "decoys"
-test("the game's help line and its first coach line follow the copy rule", async () => {
+// (2026-11-08) the board's reveal too: the clean line, a row's note, the count of wrong picks (one and many), the key
+test("the game's help line, its first coach line and the board's reveal follow the copy rule and never say decoy", async () => {
   const { checkAll } = await import("../../evals/copy_lib.mjs");
-  const list = [{ path: "know-the-role.rules", text: L.HELP.rules() }, { path: "know-the-role.coach", text: L.HELP.coach(5, "Product Manager") }];
+  const list = [{ path: "know-the-role.rules", text: L.HELP.rules() }, { path: "know-the-role.coach", text: L.HELP.coach(5, "Product Manager") },
+    { path: "know-the-role.reveal.clean", text: L.REVEAL.clean(5) }, { path: "know-the-role.reveal.other", text: L.REVEAL.other("Data Scientist", 0.7) + "." },
+    { path: "know-the-role.reveal.picked1", text: L.REVEAL.picked(1) + "." }, { path: "know-the-role.reveal.picked2", text: L.REVEAL.picked(2) + "." },
+    { path: "know-the-role.reveal.key", text: L.REVEAL.key("Product Manager") }];
+  assert.equal(L.REVEAL.picked(1), "one pick from another role");
+  assert.equal(L.REVEAL.picked(3), "three picks from other roles");
+  assert.equal(L.REVEAL.other("Data Scientist", 0.7), "from another role: Data Scientist 70%");
+  // no string in the game says "decoy": the source's string literals, comments aside (code names may keep the word)
+  const src = fs.readFileSync(path.join(web, "games", "know-the-role.js"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
+  const strings = src.match(/"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`/g) || [];
+  assert.deepEqual(strings.filter(s => /decoy/i.test(s)), [], "a string literal says decoy");
   assert.deepEqual(checkAll(list).map(o => `${o.path} [${o.rule}] ${o.hit}`), []);
   for (const { text } of list) assert.doesNotMatch(text, /decoy|prize/i);
 });

@@ -122,6 +122,7 @@ test("classes (campus, no role): the role box, the résumé, the subjects; no ba
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes" });
   const steps = await walk(page, info, "classes", C(false), { min: 3, absent: ["band", "gaps"] });
   expect(steps.map(s => s.id)).toEqual(["role", "resume", "subjects"]);
+  await expect(page.locator("#cls-add ul.pick-list")).toBeHidden();   // the run hands focus back to the role box; the list stays shut
 });
 test("classes (campus, a role, no résumé): role, band, résumé, subjects", async ({ visitor }, info) => {
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: `#/classes?role=${ROLE}` });
@@ -204,6 +205,42 @@ test("you (general, a résumé: the summary): the answers and the résumé link;
   const steps = await walk(page, info, "you", C(true), { min: 2, absent: ["opts", "steps"] });
   expect(steps.map(s => s.id)).toEqual(["answers", "resume"]);
 });
+test("course (general, no course read): the level, the description box; no result yet", async ({ visitor }, info) => {
+  const page = await visit(visitor, { hash: `#/role/${ROLE}/course` });
+  const steps = await walk(page, info, "course", C(false), { min: 2, absent: ["result"] });
+  expect(steps.map(s => s.id)).toEqual(["level", "read"]);
+});
+test("play (general, a live game): the rounds (once one starts), the board, the rules and Quit, once the board draws; the game stays open", async ({ visitor }, info) => {
+  const page = await visit(visitor, { hash: `#/play/know-the-role?role=${ROLE}` });
+  const steps = await walk(page, info, "play", C(false), { min: 2 });
+  expect(steps.map(s => s.id).filter(id => id !== "round")).toEqual(["body", "tools"]);   // the dots draw once a round starts
+  expect(await page.evaluate(() => location.hash)).toMatch(/^#\/play\/know-the-role/);
+});
+test("play: Esc skips the tips and does not quit the game", async ({ visitor }) => {
+  const page = await visit(visitor, { hash: `#/play/know-the-role?role=${ROLE}` });
+  await expect(card(page)).toBeVisible({ timeout: 15_000 });
+  await page.keyboard.press("Escape");
+  await expect(card(page)).toHaveCount(0);
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toMatch(/^#\/play\/know-the-role/);
+});
+test("professor (campus, no role): the classes and what the profile holds; no gaps without a role", async ({ visitor }, info) => {
+  // a professor with a profile: the first one a class's detail panel links to (Find classes already seen)
+  const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes", seen: { classes: 1 } });
+  await page.locator("#main #cls-list").waitFor();
+  await page.locator(".cls-card", { has: page.locator("a[data-prof]") }).first().locator("[data-open]").click();
+  const href = await page.locator("#aside a[href^='#/professor/']").first().getAttribute("href");
+  await page.evaluate(h => { location.hash = h; }, href);
+  const steps = await walk(page, info, "professor", C(false), { min: 1, absent: ["gaps"] });
+  expect(steps.map(s => s.id)).toContain("classes");
+});
+for (const [kind, id] of [["networking", "employers"], ["roundtable", "roundtable"], ["hackathon", "build"]]) {
+  test(`event (general, ${kind}): the kinds, then the ${id} block only`, async ({ visitor }, info) => {
+    const page = await visit(visitor, { hash: `#/field/marketing/event?${kind}` });
+    const steps = await walk(page, info, "event", C(false), { min: 2 });
+    expect(steps.map(s => s.id)).toEqual(["kinds", id]);
+  });
+}
 for (const [label, email] of [["general", GENERAL_EMAIL], ["campus", CAMPUS_EMAIL]]) {
   test(`about (${label}): the counts, the employers, then Feedback (the footer's when the top bar's is past the edge)`, async ({ visitor }, info) => {
     const page = await visit(visitor, { email, hash: "#/about" });

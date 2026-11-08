@@ -64,7 +64,7 @@ test("the guide's copy: no sentence over 20 words, no passive, no stoplist word;
 });
 
 test("SCREENS: every key is a route name parseRoute returns; fit waits for .fitcols and network for #nw-prep; versions are integers of 1 or more", () => {
-  const hashOf = { door: "#/", fit: "#/role/x/fit", role: "#/role/x", field: "#/field/x" };
+  const hashOf = { door: "#/", fit: "#/role/x/fit", role: "#/role/x", field: "#/field/x", course: "#/role/x/course", event: "#/field/x/event", play: "#/play/x", professor: "#/professor/x" };
   for (const [s, v] of Object.entries(G.SCREENS)) {
     assert.equal(Routes.parseRoute(hashOf[s] || `#/${s}`).name, s, s);
     assert.ok(Number.isInteger(v.version) && v.version >= 1, `${s} version`);
@@ -89,8 +89,8 @@ test("the top bar's links have the footer's as a second target, for a phone wher
 
 // ---------- has ----------
 test("has: true for a screen with rows, false for the screens without and for nonsense", () => {
-  for (const s of ["home", "fit"]) assert.equal(G.has(s), true, s);
-  for (const s of ["door", "signin", "map", "play", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
+  for (const s of ["home", "fit", "course", "play", "professor", "event"]) assert.equal(G.has(s), true, s);
+  for (const s of ["door", "signin", "map", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
 });
 
 // ---------- stepsFor ----------
@@ -170,12 +170,12 @@ test("due: the first visit, a seen screen, a version bump, an older version than
 });
 
 // ---------- the seen-state ----------
-test("readSeen: nothing usable reads as {}; good keys survive, bad ones drop; never throws", () => {
+test("readSeen: nothing usable reads as {}; good keys survive, bad ones drop (a digit string too: only whole numbers are versions); never throws", () => {
   for (const raw of [null, undefined, "", "not json", "[]", "3", "null", "{", "true"]) assert.deepEqual(G.readSeen(raw), {}, String(raw));
-  assert.deepEqual(G.readSeen('{"home":1,"classes":"2","jobs":1.5,"x":1,"fit":0,"you":-1}'), { home: 1, classes: 2 });
+  assert.deepEqual(G.readSeen('{"home":1,"classes":"2","jobs":1.5,"x":1,"fit":0,"you":-1}'), { home: 1 });
 });
 
-test("markSeen and writeSeen: a new object with the screen set, the input untouched; an unknown screen changes nothing; the round trip cleans", () => {
+test("markSeen and writeSeen: a new object with the screen set, the input untouched; an unknown screen changes nothing; the round trip cleans (a digit string drops)", () => {
   const before = { home: 1 };
   const after = G.markSeen(before, "jobs", 2);
   assert.deepEqual(after, { home: 1, jobs: 2 });
@@ -183,7 +183,7 @@ test("markSeen and writeSeen: a new object with the screen set, the input untouc
   assert.deepEqual(G.markSeen(before, "nope", 1), { home: 1 });
   assert.notEqual(G.markSeen(before, "nope", 1), before, "a copy, even unchanged");
   const bad = '{"classes":"2","jobs":1.5,"x":1,"about":3}';
-  assert.deepEqual(G.readSeen(G.writeSeen(G.markSeen(G.readSeen(bad), "home", 1))), { classes: 2, about: 3, home: 1 });
+  assert.deepEqual(G.readSeen(G.writeSeen(G.markSeen(G.readSeen(bad), "home", 1))), { about: 3, home: 1 });
   assert.equal(G.writeSeen({ home: 1, x: 2, jobs: "no" }), '{"home":1}');
 });
 

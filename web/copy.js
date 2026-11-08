@@ -681,7 +681,7 @@
     companyPlaceholder: "Type a company",
     professor: "Professor",
     professorPlaceholder: "Type a name",
-    openLabel: "{company} · {n} open",
+    openHint: "{n} open",
     coversHint: "covers {n} of your gaps",
     noTitle: "Title not on the roster",
     sideAria: "Prep a chat",
@@ -1297,6 +1297,28 @@
         facts: { title: "What we count", body: "These numbers come from the latest data refresh. Home and Find jobs use the same counts." },
         employers: { title: "Who hires most", body: "Open this list to see the employers with the most open postings." },
         feedback: { title: "Tell us what is wrong", body: "Feedback opens a short box. Write one sentence, and we read every message." },
+      },
+      course: {
+        level: { title: "Pick the level to compare", body: "We compare the course with what postings at this level ask for." },
+        read: { title: "Add the course description", body: "Drop the syllabus or paste its text, then press Read the course. Nothing leaves your browser." },
+        result: { title: "What the course covers", body: "Green skills are the ones the course names. Red ones are top asks it leaves out." },
+      },
+      play: {
+        round: { title: "Your rounds", body: "Each dot is one round. The dots fill in as you play." },
+        body: { title: "Play here", body: "Each round shows up here. Read it, then pick your answer." },
+        tools: { title: "Rules and the way out", body: "The i button explains the rules. Quit or Esc leaves the game." },
+      },
+      professor: {
+        tags: { title: "What they work on", body: "These tags come from the professor's public profile." },
+        classes: { title: "Their classes this term", body: "Each row opens that class in Find classes." },
+        gaps: { title: "Gaps their classes cover", body: "These are skills your résumé lacks for your roles. Each code is a class of theirs that covers one." },
+        angle: { title: "What to talk about", body: "These notes suggest topics to raise when you meet them." },
+      },
+      event: {
+        kinds: { title: "Pick the kind of event", body: "Each chip changes the advice: a networking event, a roundtable or a hackathon." },
+        employers: { title: "Who hires in this field", body: "These employers post the most jobs in this field. Look for them at the event." },
+        roundtable: { title: "Go role by role", body: "Each card names what one role asks for most. Read it before you talk to someone in that role." },
+        build: { title: "What to build", body: "These skills come up across the field's roles. Most lines name a small step to practise one." },
       },
     },
   };
