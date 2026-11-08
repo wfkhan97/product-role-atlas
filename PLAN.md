@@ -3091,6 +3091,48 @@ tips once more.
 2027: 81). Entry: New graduates 1,684, MBA entry 590, Internship 1,221, Starts 2027 or later 81. Sponsorship: says it
 sponsors 659, doesn't rule it out 54,664.
 
+## Find jobs reads abbreviations, falls back, and offers the filter (`feat/jobs-search`, 2026-11-08)
+
+A student searched Find jobs for "MLE new grad", got nothing useful, and said the search "feels keyword-based". It
+is: every word must hit a posting (AND), by whole word or the start of one, weighted title 3, company 2, role name 2,
+skill names 1, location 1. "MLE" is a word in two titles; thousands say "Machine Learning Engineer". Three changes,
+all in `web/jobs.js` and the screen, all deterministic.
+
+**A table of short forms, not embeddings.** `ALIASES` maps 37 short forms to the words they stand for (mle, swe, sde,
+pm, apm, pmm, tpm, po, ds, da, fde, ib, pe, vc, bd, cs, csm, ux, ui, ml, ai, eng, mgr, sr, jr, dev, ops, bizops, hr,
+qa, sec, fpa, gm, cos, ae, sdr, ldp). A query word in the table hits a posting by the word itself, as a whole word
+("PM, Growth"), or when every word of its expansion hits, as if typed; it scores the better of the two (the
+expansion's words' average). The short form never counts as the start of a longer word: by the start of a word "pm"
+found 1,830 PMO postings, "po" 23,142 (PowerPoint, positioning), "da" 35,917 (data, daily), "eng" 25,798 (engagement
+among them). We chose a table over embeddings because it reads the same way every time, needs no key and no route,
+and a wrong entry is one line; the search a student types is mostly these short forms and the filters below. Each
+entry was counted against the 62,032 open postings: "de" (data engineer) is out, since 139 of the 166 postings with
+"de" as a word have it in the location (Delaware) and its 30 titles are Spanish or French ("Líder de Producto") or
+Delaware, none a data engineer; the other two-letter forms are rare words in their own sense (da 4 titles, po 1, pe
+11, ui 45) or common in theirs (ai, hr, sr, ux). Before the words are cut, "FP&A" reads as "fpa" and "H-1B" as "h1b",
+in the query and the postings alike; "new-grad" was already two words. "and" and "of" in an expansion are not asked for.
+
+**The AND stays.** Every word still has to hit. Dropping it would rank postings that match half a query among those
+that match all of it, and a student reads the top of the list.
+
+**All but one, when nothing matches.** When a query of two or more words finds nothing, `searchJobsRelaxed` returns the
+postings that match every word but one, with `relaxed: true` on the result, and a line over the list says so ("No
+posting has every word you searched. These match all but one."). It runs only after an empty exact pass, so a query
+that finds something costs what it did; never two misses, since past one the list stops being about the query. The
+count keeps its numbers; when even that finds nothing, the empty state draws as before.
+
+**The filter a query names.** `queryHints` reads the words that ask for a filter: new grad(uates), grad(s),
+graduate(s), entry level, early career (New graduates); intern(s), internship(s) (Internship); remote; sponsor(s),
+sponsorship, visa, h1b (Says it sponsors a visa); a year after the file's ("Starts 2027 or later"). A line over the
+list offers each one whose filter is off ("Looking for remote jobs? Turn on the Remote filter."), the filter's name a
+button that turns it on and takes those words out of the search, keeping the rest. It shows even when the search has
+results: the title mark finds "new grad" in titles, and the filter also holds the postings whose mark came from the
+MBA and tech sets' own reads. The rebuilt query is the query's words in lower case.
+
+**Counts** (2026-11-08, the real file): "MLE new grad" 18 postings, the top an ML engineer new-grad title; "machine
+learning engineer" 5,276; "PM new grad" 7 (Databricks' Associate Product Manager, New Grad first); "SWE" 8,084; "APM"
+697.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3123,8 +3165,6 @@ done). One line per item; the section that explains it is named where it helps.
 - Delete `auth.users` rows by hand when a person asks to be forgotten (the button deletes the three tables only).
 
 **The tech role set** (off behind `TECH_ENABLED`; "A third role set")
-- Find jobs' search aliases ("The tech set in Find jobs"): "MLE", "SWE", "PM" and the like find only titles that spell
-  them; a short alias table in `web/jobs.js`, checked against the tech titles.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
@@ -3183,6 +3223,11 @@ done). One line per item; the section that explains it is named where it helps.
   prep card first, but Tab still crosses the facets, the tiles or the list before them. Reorder the markup on those
   three screens and keep the desktop layout with CSS.
 - A focus trap for Find jobs' posting panel on a phone: it covers the screen, but Tab can leave it for the footer.
+- Semantic search on Find jobs, in two steps, each with an eval of labelled queries ("Find jobs reads abbreviations"):
+  first query understanding from the atlas's own vocabulary (role labels, skill names and the taxonomy's patterns
+  mapped to role and skill boosts), then embeddings of titles and skill names built per refresh with an `/api/embed`
+  route (Anthropic has no embeddings endpoint; Voyage or similar needs a key in the Vercel project), blended with the
+  word score.
 - The skill map on a phone drops the names of its biggest fields (Operations & general management, Marketing, Sales)
   to keep labels apart; the circles keep an aria-label. A denser phone layout, or a list of the map on a phone.
 - Tap-to-light on the field page and the map: hover lights a role's skills, a tap navigates. On a touch screen, a

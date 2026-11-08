@@ -189,7 +189,10 @@ and evals run the code the site runs.
   prompt waits while a tip is due or open); `topBar` draws "Show me around" beside Feedback.
 - `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking
   (`Network.sentenceCase`: skill names in lower case mid-sentence, acronyms and proper nouns kept), Find jobs
-  (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
+  (`searchJobs`, `filterJobs`, `facetCounts`; the search reads the short forms in `ALIASES` ("mle", "pm", "swe") by
+  their own word or the words they stand for, `searchJobsRelaxed` gives the rows that match all but one word when none
+  match every word, and `queryHints` names the filters a query's words ask for ("new grad", "remote", "visa"); `fitOf`,
+  `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
   `cardFacts`, `dateOf`, `dateLine`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win
   on its count alone; Newest orders by `posted`, else `first_seen`, shown as "Posted 3 Nov" or "Listed here 5 Nov";
   `sponsor` is `yes` or `open` (every posting that does not say it will not sponsor), and `ENTRIES(year)` gives New
