@@ -2977,6 +2977,36 @@ from 22% (was 29%), strong from 52% (was 54%), on the full 376-résumé set.
 (`decisions_results.jsonl`, the audit answers) that are in neither this checkout nor the store. `run_depth.py` keeps its
 64 failures, all already on main; its baseline is written only from a clean run.
 
+## Posted dates and a Newest sort on Find jobs (`feat/jobs-posted-newest`, 2026-11-07)
+
+A student told us a listing's age matters most for new-grad roles, and Find jobs showed no date and had no Newest
+sort. The boards' own date was already in the processed files as `posted`; it never reached the graph files.
+
+**What `posted` is.** Whatever date the board gives, read by its adapter: Workday `startDate`, Oracle `PostedDate`,
+Lever `createdAt` (epoch milliseconds), Eightfold `postedTs` (epoch seconds), Ashby `publishedAt`, SmartRecruiters
+`releasedDate`, Amazon, Apple and KPMG as English text, BofA as month/day/year, the schema.org boards `datePosted`.
+Greenhouse gives only `updated_at`, the last edit, so a Greenhouse posting can look newer than it is; we show it as
+the posting date anyway, because the board offers nothing closer. Google,
+SuccessFactors, McKinsey and Goldman give no date.
+
+**The reader.** `build_graph.posted_day` turns each shape into `YYYY-MM-DD`, and writes `posted` on every job row
+of `graph.json` and of the MBA and tech role files. A value it cannot read, or a day after the build or before
+2000, is null: on a list sorted by date a wrong date is worse than none. On today's processed files it reads every
+value but 32 of the MBA set's (28 future days, four zeros).
+
+**The column.** `jobs_open.json` rows gain `posted` as a twelfth column, at the end, so `firstSeen` stays the tenth
+and a reader of the old shape still reads the first eleven.
+
+**Newest and the words.** Newest orders by `posted`, else `first_seen`, newest first, undated last, a tie in the Best
+match order. The card's facts line and the panel's facts end with "Posted 3 Nov" for a board date and "Listed here
+5 Nov" for `first_seen` alone. `first_seen` is the day our scrape first saw the posting; it clusters on scrape days,
+so it is never called a posting date. The year shows only when it is not the current one.
+
+**Coverage** (the rebuilt `jobs_open.json`, 48,075 open US postings): `posted` on 95.7% of the 6,513 product rows and
+92.8% of the 41,562 MBA rows (93.2% overall); every MBA row has `first_seen`, so every MBA row has a date and 4.3% of
+product rows have none. The tech role files carry `posted` on 95.5% of their 14,165 postings. 5,243 dates of the
+three processed files are more than six months old, the oldest from 2019: the date is the board's, shown as it says.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3052,9 +3082,8 @@ done). One line per item; the section that explains it is named where it helps.
   ("The visitor journey", step 4). Uploads of more context to `maps/<uid>/context/` with a storage policy, read into
   `profile.md`. Missions that cover a whole class's gaps (R16); the quest map's one-world view; the layout eval
   (`evals/README.md`, "Evals to build").
-- Find jobs: a Newest sort once the product graph carries `first_seen` (a `build_graph` then `jobs_open` rebuild on a
-  `data/` branch; the MBA rows carry it). An "Open now / Last 12 months" switch on the field and role pages, once the
-  product graph keeps closed postings as the MBA graph does.
+- An "Open now / Last 12 months" switch on the field and role pages, once the product graph keeps closed postings as
+  the MBA graph does.
 - An events feed for Networking (the intake promises one).
 - IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
   `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.

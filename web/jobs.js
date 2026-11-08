@@ -14,22 +14,24 @@
   const PRODUCT_NS = "product.";   // web/atlas.js productKey: the product set's roles are product.<family>
 
   // ---------- the file: column-oriented (pipeline.jobs_open), expanded once into row objects ----------
-  // A row of the file is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe];
-  // rowsOf gives { id, set, role, title, company, group, sector, level, entry, intern, location, remote, sponsorship,
-  // url, skills, first_seen, yoe, clearance }, the shape every function below takes. The skills stay indexes into
-  // file.skill_ids and hold no credential: the years asked are yoe (a number or null), a clearance is its own flag.
+  // A row of the file is [num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe,
+  // posted]; rowsOf gives { id, set, role, title, company, group, sector, level, entry, intern, location, remote,
+  // sponsorship, url, skills, first_seen, yoe, clearance, posted }, the shape every function below takes. The skills
+  // stay indexes into file.skill_ids and hold no credential: the years asked are yoe (a number or null), a clearance is
+  // its own flag. posted is the board's own posting date and first_seen the day our scrape first saw the posting (both
+  // YYYY-MM-DD or null); a file written before the twelfth column gives posted null.
   const FLAGS = { mba: 1, intern: 2, remote: 4, entry_mba: 8, entry_pre_mba: 16, sponsor_yes: 32, sponsor_no: 64, clearance: 128 };
   function rowsOf(file) {
     const F = Object.assign({}, FLAGS, file.flags || {}), C = file.companies || [], L = file.locations || [], R = file.roles || [], T = file.titles || [], levels = file.levels || {};
     return (file.rows || []).map(r => {
-      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe] = r, c = C[ci] || {}, set = flags & F.mba ? "mba" : "product";
+      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe, posted] = r, c = C[ci] || {}, set = flags & F.mba ? "mba" : "product";
       return {
         id: (set === "mba" ? "m" : "p") + num, set, role: R[ri], title: T[ti], company: c.name, group: c.group, sector: c.sector == null ? null : c.sector,
         level: (levels[set] || [])[li], entry: flags & F.entry_mba ? "mba" : flags & F.entry_pre_mba ? "pre_mba" : null,
         intern: !!(flags & F.intern), location: L[loci] || "", remote: !!(flags & F.remote),
         sponsorship: flags & F.sponsor_yes ? "yes" : flags & F.sponsor_no ? "no" : null,
         url: (c.url_prefix || "") + (url || ""), skills: skills || [], first_seen: firstSeen == null ? null : firstSeen,
-        yoe: yoe == null ? null : yoe, clearance: !!(flags & F.clearance),
+        yoe: yoe == null ? null : yoe, clearance: !!(flags & F.clearance), posted: posted == null ? null : posted,
       };
     });
   }
@@ -45,7 +47,7 @@
   };
   const ENTRIES = ["mba", "bachelor", "intern"].map(id => [id, W.entries[id]]);
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
-  const SORTS = ["best", "fit", "company"];
+  const SORTS = ["best", "fit", "newest", "company"];
   // the years a person has: a posting fits when it asks for that many or fewer, or names no number (owner's decision
   // on the skills audit, 2026-11-06: years of experience is a filter, not a skill)
   const YEARS = ["2", "5", "8"].map(id => [id, W.years[id]]);
@@ -170,16 +172,33 @@
   // The card keeps "N of the M skills" (fitLine): the share orders the list and is never shown.
   const FIT_FLOOR = 15;
   const fitShare = fit => fit && fit.n ? fit.n / Math.max(fit.m || 0, FIT_FLOOR) : 0;
+  // A row's date and which kind it is: the board's posting date when it has one, else the day our scrape first saw it
+  // ("listed"), else null. first_seen clusters on scrape days, so the screen never calls it a posting date.
+  const dateOf = row => row && row.posted ? { date: row.posted, kind: "posted" } : row && row.first_seen ? { date: row.first_seen, kind: "listed" } : null;
+  // the day as the card shows it: "3 Nov", with the year when it is not this year's ("3 Nov 2025"). The month words are
+  // Copy.jobs.months, not a locale's, so every browser prints the same.
+  function dayLabel(iso, now) {
+    const [y, m, d] = String(iso || "").split("-").map(Number);
+    if (!y || !m || !d) return "";
+    return `${d} ${W.months[m - 1]}${y !== (now || new Date()).getFullYear() ? " " + y : ""}`;
+  }
+  // "Posted 3 Nov", "Listed here 5 Nov", or "" for a row with neither date
+  const dateLine = (row, now) => { const x = dateOf(row); return x ? fill(W[x.kind], { date: dayLabel(x.date, now) }) : ""; };
   // "best": strength, then the fit share when fits are given, then company A–Z, title A–Z;
-  // "fit": the fit share first, then strength (without fits, the same as best); "company": company A–Z, title A–Z
+  // "fit": the fit share first, then strength (without fits, the same as best); "newest": the date of dateOf, newest
+  // first, the undated last, a tie in the best order; "company": company A–Z, title A–Z
   function sortJobs(rows, mode, fits) {
     const fit = fitLookup(fits);
     // compared as N_y * max(M_x, floor) against N_x * max(M_y, floor): whole numbers, so equal shares tie exactly
     const byFit = (a, b) => { if (!fit) return 0; const x = fit(a) || { n: 0, m: 0 }, y = fit(b) || { n: 0, m: 0 }; return (y.n || 0) * Math.max(x.m || 0, FIT_FLOOR) - (x.n || 0) * Math.max(y.m || 0, FIT_FLOOR); };
+    const best = (a, b) => byStrength(a, b) || byFit(a, b) || tie(a, b);
+    // YYYY-MM-DD strings order as dates; "" (no date) sorts after every date
+    const day = r => (dateOf(r) || { date: "" }).date;
     const out = rows.slice();
     if (mode === "company") out.sort(tie);
+    else if (mode === "newest") out.sort((a, b) => { const x = day(a), y = day(b); return x === y ? best(a, b) : !x ? 1 : !y ? -1 : x < y ? 1 : -1; });
     else if (mode === "fit") out.sort((a, b) => byFit(a, b) || byStrength(a, b) || tie(a, b));
-    else out.sort((a, b) => byStrength(a, b) || byFit(a, b) || tie(a, b));
+    else out.sort(best);
     return out;
   }
 
@@ -241,5 +260,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: !!s.sponsor, noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

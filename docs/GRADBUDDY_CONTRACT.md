@@ -148,26 +148,30 @@ flag `128`. An industry (cluster `domain`) is in them only when it defines the p
 - `levels` (`product`, `mba`: the eight level ids of each set), `level_labels` (the same, with words), `flags` (the bit
   names below), `generated`, `country`.
 - `rows[]`, sorted by set then by number. Each row is, in this order:
-  `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe]`. `levelIdx` indexes
-  `levels[<set>]`; `skills` are indexes into `skill_ids`, sorted; `url` is the posting's URL after its company's
-  `url_prefix`; `firstSeen` is a date or null; `yoe` is the years of experience the posting asks for, or null.
+  `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe, posted]`. `levelIdx`
+  indexes `levels[<set>]`; `skills` are indexes into `skill_ids`, sorted; `url` is the posting's URL after its
+  company's `url_prefix`; `firstSeen` is the day our scrape first saw the posting (`YYYY-MM-DD`) or null; `yoe` is the
+  years of experience the posting asks for, or null; `posted` is the board's own posting date (`YYYY-MM-DD`, never
+  after `generated`) or null.
 - The flag bits: `1` MBA set (clear for the product set), `2` internship, `4` remote, `8` MBA entry, `16` bachelor's
   entry (`pre_mba`), `32` says it sponsors a visa, `64` says it does not, `128` asks for a security clearance.
 
 `Jobs.rowsOf(file)` (`web/jobs.js`; `require("web/jobs.js")` in node) expands the file once into row objects:
 `{ id, set, role, title, company, group, sector, level, entry, intern, location, remote, sponsorship, url, skills,
-first_seen, yoe, clearance }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
+first_seen, yoe, clearance, posted }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
 `m<num>` for an MBA posting, where `num` is its row id in the role file. So a row joins back to the graphs. `set` is
 `product` or `mba`; `entry` is `mba` · `pre_mba` · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
-`skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA rows and null on the product rows until
-the product graph is rebuilt; there is no "newest" order until every row carries it.
+`skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA rows and null on the product rows (the
+product extract does not carry it); `posted` is set on about nine rows in ten of both sets.
+`Jobs.dateOf(row)` gives `{ date, kind }`, `kind` `posted` or `listed` (first_seen), or null, and the `newest` sort
+orders by it.
 
 `jobs_meta.json`: `{ generated, n_open, n_companies, by_set: { product: { n_open, n_companies }, mba: { … } }, n_roles }`.
 
-**Stable**: the two paths, the key names of both files, the order of a row's ten columns, the flag bits and their
-names, the id forms `p<n>` and `m<n>`, the keys of a `rowsOf` row. **Not stable**: the counts, the order of the tables
-(first-seen order), `generated`, the strings in `titles` and `locations`, and `first_seen`, which turns from null to a
-date at the next rebuild.
+**Stable**: the two paths, the key names of both files, the order of a row's twelve columns (a new column goes at the
+end), the flag bits and their names, the id forms `p<n>` and `m<n>`, the keys of a `rowsOf` row. **Not stable**: the
+counts, the order of the tables (first-seen order), `generated`, the strings in `titles` and `locations`, and
+`first_seen` and `posted`, which a rebuild can turn from null to a date or back.
 
 ## The catalog as public files: `web/data/catalog/cornell_tech.json`, `cornell_tech_tags.json`
 

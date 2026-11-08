@@ -2034,7 +2034,7 @@
     const note = have
       ? `${esc(JB.noteResume)} <a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteResumeLink)}</a>.`
       : `<a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
-    const sortOptions = () => [...(have ? ["fit"] : []), "best", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
+    const sortOptions = () => [...(have ? ["fit"] : []), "best", "newest", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
     page(`<h1>${esc(JB.heading)}</h1>
       <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(D.companies.length) }))}</p>
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
@@ -2058,7 +2058,7 @@
       const w = jobWho(r), fit = fits && fits.get(r.id);
       return `<article class="jcard${s.open === r.id ? " on" : ""}" data-id="${esc(r.id)}">
         <div class="jtop"><div><p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}</p><h3 class="jt"><button type="button" class="linkish" data-open="${esc(r.id)}">${esc(r.title)}</button></h3></div><span class="tag thin lvl">${esc(Jobs.levelLabel(r))}</span></div>
-        <p class="facts">${Jobs.cardFacts(r, ctx, shortLoc(r.location)).map(esc).join(" · ")}</p>
+        <p class="facts">${[...Jobs.cardFacts(r, ctx, shortLoc(r.location)), Jobs.dateLine(r)].filter(Boolean).map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
         ${fit ? `<p class="small jfit">${esc(Jobs.fitLine(fit))}</p>` : ""}
         ${chips(r)}
@@ -2066,7 +2066,7 @@
     };
     const panel = r => {
       const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
-      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null].filter(Boolean);
+      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null, Jobs.dateLine(r)].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
       return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">

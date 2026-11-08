@@ -16,7 +16,7 @@ const ctx = {
   skillNames: r => r.skills.map(i => NAMES[SKILLS[i]]),
   fieldOf: id => (ROLES[id] || ["", ""])[1],
 };
-const row = (id, extra = {}) => ({ id, set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "mid", entry: null, intern: false, location: "New York, NY", remote: false, sponsorship: null, url: "https://example.test/" + id, skills: [0, 1], first_seen: null, ...extra });
+const row = (id, extra = {}) => ({ id, set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "mid", entry: null, intern: false, location: "New York, NY", remote: false, sponsorship: null, url: "https://example.test/" + id, skills: [0, 1], first_seen: null, posted: null, ...extra });
 const ROWS = [
   row("m1", { title: "Product Manager", role: "product.pm", set: "product", company: "Adobe", group: "fortune250", level: "senior", skills: [1, 3], location: "San Jose, CA", remote: true }),
   row("m2", { title: "Strategy Consultant", company: "Bain", group: "mba_employer", level: "associate", entry: "mba", skills: [0, 1, 2] }),
@@ -126,6 +126,35 @@ test("best: strength, then the fit share, then company, then title", () => {
   assert.deepEqual(ids(J.sortJobs(rows, "best", new Map(Object.entries(fits)))), ["b", "c", "a", "d"], "a Map of fits works too");
 });
 
+// A student: a listing's age matters most for new-grad roles. Newest orders by the board's posting date, else the day
+// our scrape first saw the posting; the undated go last, and a tie keeps the best order.
+test("newest: the posting date, else the first-seen day, newest first; undated last; a tie in the best order", () => {
+  const rows = [
+    row("none", { strength: 9 }),
+    row("seen", { first_seen: "2026-11-05", strength: 1 }),
+    row("old", { posted: "2026-09-01", first_seen: "2026-11-06", strength: 1 }),
+    row("new", { posted: "2026-11-03", strength: 1 }),
+    row("tieB", { posted: "2026-10-10", strength: 1, company: "Bain" }),
+    row("tieA", { posted: "2026-10-10", strength: 1, company: "Acme" }),
+    row("tieS", { posted: "2026-10-10", strength: 3, company: "Zed" }),
+  ];
+  assert.deepEqual(ids(J.sortJobs(rows, "newest")), ["seen", "new", "tieS", "tieA", "tieB", "old", "none"],
+    "posted beats first_seen on the same row (old is 1 Sep though first seen 6 Nov); within a day, strength then company");
+  assert.deepEqual(J.dateOf(rows[2]), { date: "2026-09-01", kind: "posted" });
+  assert.deepEqual(J.dateOf(rows[1]), { date: "2026-11-05", kind: "listed" });
+  assert.equal(J.dateOf(rows[0]), null);
+});
+
+test("the date line says Posted for the board's date and Listed here for first_seen, with the year only when it is not this one", () => {
+  const now = new Date(2026, 10, 7);
+  assert.equal(J.dateLine(row("a", { posted: "2026-11-03", first_seen: "2026-11-05" }), now), "Posted 3 Nov");
+  assert.equal(J.dateLine(row("b", { first_seen: "2026-11-05" }), now), "Listed here 5 Nov", "first_seen is never called a posting date");
+  assert.equal(J.dateLine(row("c", { posted: "2025-11-03" }), now), "Posted 3 Nov 2025");
+  assert.equal(J.dateLine(row("d"), now), "", "no date, no line");
+  assert.equal(J.dayLabel("2026-09-30", now), "30 Sep");
+  assert.equal(J.dayLabel("", now), "");
+});
+
 // B-03 (usability pass 2026-11-06), the Fit sort put Staff and Principal postings first for a new graduate: it ranked by
 // the count N, so a long posting won. The owner's decision 3a: the share N / max(M, floor).
 test("fit sorts by the share of the posting's skills, so a long senior posting does not beat a short entry one", () => {
@@ -197,7 +226,9 @@ test("the state round-trips through the query string; defaults stay out", () => 
   assert.deepEqual(J.parseState("#/jobs?" + q), s, "a full hash reads the same");
   assert.deepEqual(J.parseState("?" + q), s);
   assert.equal(J.stateQuery({ sort: "best", page: 1, remote: false, sponsor: false }), "", "best and page 1 are the defaults");
-  assert.equal(J.parseState("sort=newest").sort, "best", "an unknown sort is the default");
+  assert.equal(J.parseState("sort=oldest").sort, "best", "an unknown sort is the default");
+  assert.equal(J.stateQuery({ ...J.blankState(), sort: "newest" }), "sort=newest");
+  assert.equal(J.parseState(J.stateQuery({ ...J.blankState(), sort: "newest" })).sort, "newest", "newest round-trips");
   assert.equal(J.parseState("page=abc").page, 1);
   assert.equal(J.parseState("page=-2").page, 1);
   assert.equal(J.stateQuery({ company: "Goldman Sachs & Co" }), "company=Goldman+Sachs+%26+Co");
@@ -224,15 +255,15 @@ test("rowsOf expands the column-oriented file into the row objects the other fun
     companies: [{ name: "Acme", group: "fortune50", sector: "Consulting", url_prefix: "https://acme.test/jobs/" }, { name: "Adobe", group: "fortune250", sector: null, url_prefix: "" }],
     locations: ["New York, NY", "Remote - USA"], roles: ["management_consultant", "product.pm"], titles: ["Consultant", "Director of Product"],
     rows: [
-      [7, 0, 0, 0, 2, 0, 1 | 8 | 32, [0, 1], "123", null, 5],
+      [7, 0, 0, 0, 2, 0, 1 | 8 | 32, [0, 1], "123", null, 5, "2026-10-28"],
       [3, 1, 1, 1, 1, 1, 4 | 128, [3], "https://adobe.test/x", "2026-10-01", null],
       [9, 0, 0, 0, 0, 0, 1 | 2 | 16 | 64, [], "", null],
     ],
   };
   const rows = J.rowsOf(file);
-  assert.deepEqual(rows[0], { id: "m7", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "senior", entry: "mba", intern: false, location: "New York, NY", remote: false, sponsorship: "yes", url: "https://acme.test/jobs/123", skills: [0, 1], first_seen: null, yoe: 5, clearance: false });
-  assert.deepEqual(rows[1], { id: "p3", set: "product", role: "product.pm", title: "Director of Product", company: "Adobe", group: "fortune250", sector: null, level: "mid", entry: null, intern: false, location: "Remote - USA", remote: true, sponsorship: null, url: "https://adobe.test/x", skills: [3], first_seen: "2026-10-01", yoe: null, clearance: true });
-  assert.deepEqual(rows[2], { id: "m9", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "associate", entry: "pre_mba", intern: true, location: "New York, NY", remote: false, sponsorship: "no", url: "https://acme.test/jobs/", skills: [], first_seen: null, yoe: null, clearance: false });
+  assert.deepEqual(rows[0], { id: "m7", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "senior", entry: "mba", intern: false, location: "New York, NY", remote: false, sponsorship: "yes", url: "https://acme.test/jobs/123", skills: [0, 1], first_seen: null, yoe: 5, clearance: false, posted: "2026-10-28" });
+  assert.deepEqual(rows[1], { id: "p3", set: "product", role: "product.pm", title: "Director of Product", company: "Adobe", group: "fortune250", sector: null, level: "mid", entry: null, intern: false, location: "Remote - USA", remote: true, sponsorship: null, url: "https://adobe.test/x", skills: [3], first_seen: "2026-10-01", yoe: null, clearance: true, posted: null });
+  assert.deepEqual(rows[2], { id: "m9", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "associate", entry: "pre_mba", intern: true, location: "New York, NY", remote: false, sponsorship: "no", url: "https://acme.test/jobs/", skills: [], first_seen: null, yoe: null, clearance: false, posted: null });
   assert.deepEqual(J.rowsOf({}), []);
   assert.deepEqual(Object.keys(J.FLAGS), ["mba", "intern", "remote", "entry_mba", "entry_pre_mba", "sponsor_yes", "sponsor_no", "clearance"]);
 });
@@ -252,7 +283,9 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
   assert.equal(new Set(D.companies.map(c => c.name)).size, D.companies.length, "companies are distinct");
   for (const c of D.companies) { assert.equal(typeof c.name, "string"); assert.equal(typeof c.group, "string"); assert.equal(typeof c.url_prefix, "string"); assert.ok(c.url_prefix === "" || /^https?:\/\/.+\/$/.test(c.url_prefix), `${c.name}: url_prefix ${c.url_prefix}`); }
   for (const r of D.rows) {
-    assert.equal(r.length, 11, "eleven columns");
+    assert.equal(r.length, 12, "twelve columns");
+    assert.ok(r[11] === null || (/^\d{4}-\d{2}-\d{2}$/.test(r[11]) && r[11] <= D.generated), `posted ${r[11]}`);
+    assert.ok(r[9] === null || /^\d{4}-\d{2}-\d{2}$/.test(r[9]), `firstSeen ${r[9]}`);
     assert.ok(r[10] === null || (typeof r[10] === "number" && r[10] > 0 && r[10] < 40), `yoe ${r[10]}`);
     assert.ok(Number.isInteger(r[0]) && r[0] >= 0, `num ${r[0]}`);
     assert.ok(D.companies[r[1]], `company index ${r[1]}`); assert.ok(D.roles[r[2]], `role index ${r[2]}`); assert.ok(D.titles[r[3]] != null, `title index ${r[3]}`); assert.ok(D.locations[r[5]] != null, `location index ${r[5]}`);

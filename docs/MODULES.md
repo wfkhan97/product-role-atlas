@@ -74,7 +74,8 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 
 - `pipeline/scrape.py`, `extract.py`, `build_graph.py` — the three stages. Scrape and extract share one path: title
   filter, cleaning, repost and repeated-URL dedupe, tagging in worker processes, evidence sentences per skill and
-  level. Build_graph computes shares (company-balanced for the MBA set: `pipeline/balance.py`, one employer at most
+  level. Build_graph carries each posting's board date as `posted` (`posted_day`: YYYY-MM-DD from each board's
+  shape, null when unreadable or not between 2000 and today), computes shares (company-balanced for the MBA set: `pipeline/balance.py`, one employer at most
   5% of a role), levels per ladder, the axis positions, and writes the index plus one file per role.
 - `data/raw/jobs*/` — the backlog, one file per employer, not in git. A refresh never drops a posting: one still shown
   gets `last_seen`, a new one `first_seen`, one no longer shown `closed`. A posting is its requisition id (its URL on a
@@ -96,7 +97,8 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   `PIPELINE_LOG_LEVEL=DEBUG` shows more, `PIPELINE_RUNS=off` skips the row.
 - `pipeline/jobs_open.py` — every open US posting of both sets → `web/data/jobs_open.json` (column-oriented: companies,
   locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx,
-  flags, skills, url, firstSeen, yoe]`; `flags` is a bit field the file names, `yoe` the years asked) and
+  flags, skills, url, firstSeen, yoe, posted]`; `flags` is a bit field the file names, `yoe` the years asked,
+  `firstSeen` the day our scrape first saw the posting (MBA set only), `posted` the board's own posting date) and
   `jobs_meta.json` (the counts). A row's skills leave out credentials and the industries that do not define its MBA
   role. No snippet, no sub-skills. Runs after `build_graph`, no network.
 - `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
@@ -185,7 +187,8 @@ and evals run the code the site runs.
 - `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking
   (`Network.sentenceCase`: skill names in lower case mid-sentence, acronyms and proper nouns kept), Find jobs
   (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
-  `cardFacts`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win on its count alone),
+  `cardFacts`, `dateOf`, `dateLine`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win
+  on its count alone; Newest orders by `posted`, else `first_seen`, shown as "Posted 3 Nov" or "Listed here 5 Nov"),
   the role picker (`Pick.distinct` names two roles with one title apart by field; `Pick.closest` offers the nearest
   roles when nothing matches), and the skill map (the fields on a ring, skills near the fields that ask for them,
   `SkillMap.chart` for one field, `thinNames` drops a label that would overlap, the route planner).
