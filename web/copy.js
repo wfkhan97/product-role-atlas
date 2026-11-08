@@ -400,7 +400,7 @@
       noClass: "No {term} class names one of your gaps in its description.", seeRoster: "See the roster →",
       needsEvidence: "Needs more evidence",
       evidenceOne: "Evidence that one and your résumé reads as “{band}”.", evidenceThree: "Evidence the top three and your résumé reads as “{band}”.",
-      nothingMissing: "Nothing important missing: you show every skill most postings ask for.",
+      nothingMissing: "You show all {m} skills most postings ask for.",
       seeAll: "See all {n} skills on your résumé, matched to this role →", seeAllOne: "See all 1 skill on your résumé, matched to this role →",
       postingsAsking: "Postings asking for it:",
     },
