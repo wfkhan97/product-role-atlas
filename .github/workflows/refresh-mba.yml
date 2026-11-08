@@ -276,7 +276,7 @@ jobs:
         run: python -m pipeline.store push caches --only data/experiments/extract_cache_mba.json.gz
       - name: Build the graph
         run: python -m pipeline.build_graph --roles mba
-      - name: The open postings of both role sets, for Find jobs (web/data/jobs_open.json and jobs_meta.json)
+      - name: The open postings of every role set, for Find jobs (web/data/jobs_open.json and jobs_meta.json)
         run: python -m pipeline.jobs_open
       - name: Pipeline evals
         id: evals

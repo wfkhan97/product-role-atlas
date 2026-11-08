@@ -100,6 +100,7 @@ test("C-24, About's count line ran to 22 words once the date filled in: no sente
   const filled = Copy.fill(Copy.about.countLine, { date: "30 Sep 2026", fortune: "468", startups: "1,204", mba: "97" });
   assert.deepEqual(checkAll([{ path: "about.countLine (filled)", text: filled }]).map(o => `${o.rule} ${o.hit}`), []);
   assert.doesNotMatch(Copy.about.jobsLine, /role sets/, "no unexplained term");
+  assert.doesNotMatch(Copy.about.jobsLineTech, /role sets/, "no unexplained term");
   assert.doesNotMatch(Copy.about.editorial, /editorial|sub-skills|ladders/i, "no unexplained term");
 });
 

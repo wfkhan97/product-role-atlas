@@ -146,7 +146,7 @@
     hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
     tens: n => String(Math.floor(n / 10) * 10),
     // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
-    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is open only when
+    // US postings of every role set the site shows, the employers behind them, the roles in the index); Find classes is open only when
     // the email opens a roster (Door.opens), and the screens draw the open cards alone (2026-11-04: no grayed card)
     verbs(email, counts, domains, campuses) {
       const c = counts || {}, V = Copy.home.verbs, fill = Copy.fill;
@@ -677,15 +677,17 @@
   // families table set a floor of 64, and home said "over 60" while the launcher said 56.)
   const roleCount = ix => Object.keys(ix.roles).length;
   // The one count of open postings every screen says (owner's feedback 2026-11-01: home said "over 31 thousand" while
-  // the footer said 25,950, the MBA set alone): the open US postings of both role sets that Find jobs searches, and
-  // the employers behind them. data/jobs_meta.json carries the two numbers beside the Find jobs file (224 bytes, B4;
+  // the footer said 25,950, the MBA set alone): the open US postings of every role set the site shows that Find jobs
+  // searches, and the employers behind them. data/jobs_meta.json carries the numbers beside the Find jobs file (B4;
   // pipeline.jobs_open asserts n_open is the row count of jobs_open.json and tests/web/jobs.test.mjs checks it), so
-  // home, #/about and the Find jobs lead (rows.length, D.companies.length) agree. When the meta file is missing the
-  // Find jobs file itself is counted, never another index's number. Home says it in words, rounded down ("over").
+  // home, #/about and the Find jobs lead (rows.length, nCompanies) agree. With the tech set switched off
+  // (CONFIG.TECH_ENABLED) the counts are the meta's without_tech, the same rows jobsData keeps. When the meta file is
+  // missing the Find jobs file itself is counted, never another index's number. Home says it in words, rounded down.
   let jobsMetaP = null;
   const jobsMeta = () => jobsMetaP ||= Atlas.fetchJson("data/jobs_meta.json").catch(() => null);
-  const openCounts = () => jobsMeta().then(jm => jm && jm.n_open > 0 && jm.n_companies > 0 ? { nOpen: jm.n_open, nCompanies: jm.n_companies }
-    : jobsData().then(J => ({ nOpen: J.rows.length, nCompanies: J.D.companies.length })).catch(() => ({ nOpen: 0, nCompanies: 0 })));
+  const techShown = () => !!(window.CONFIG || {}).TECH_ENABLED;
+  const openCounts = () => jobsMeta().then(jm => { const c = jm && (techShown() || !jm.by_set || !jm.by_set.tech ? jm : jm.without_tech); return c && c.n_open > 0 && c.n_companies > 0 ? { nOpen: c.n_open, nCompanies: c.n_companies }
+    : jobsData().then(J => ({ nOpen: J.rows.length, nCompanies: J.nCompanies })).catch(() => ({ nOpen: 0, nCompanies: 0 })); });
   const homeCounts = (ix, n) => ({ nOpen: n.nOpen, nCompanies: n.nCompanies, nRoles: roleCount(ix) });
   // what the door keeps, in this browser only (door.email, door.where, door.seen); a program answer also fills About
   // you's first question when About you has no program of its own (You.fromDoor: marked whereFrom "door", so home's
@@ -1975,19 +1977,26 @@
     return { fields: new Set(why.keys()), why };
   }
 
-  // ---------- 2b. Find jobs (v19 B4): one search over every open US posting of both role sets ----------
+  // ---------- 2b. Find jobs (v19 B4): one search over every open US posting of every role set the site shows ----------
   // The rows are web/data/jobs_open.json (pipeline.jobs_open; column-oriented, loaded once per page and expanded by
   // Jobs.rowsOf); the logic is web/jobs.js (the owner's search_logic.md); the layout is the J4 mock. The hash is
   // the state (#/jobs?q=…&field=…&open=…), written with replaceState so Back is one step per screen, not per click.
   // With a résumé on file the rough read's skills (rough().shown) give each posting "N of the M skills this posting
   // asks for", never a percentage, and Fit is the default sort. The only event sent is posting_link, through the
-  // document-level [data-posting] handler above, the way the role screen sends it.
+  // document-level [data-posting] handler above, the way the role screen sends it. With the tech set switched off
+  // (CONFIG.TECH_ENABLED) its rows and roles leave here, before anything counts them, so neither the lead nor a facet
+  // names a set the site hides.
   let jobsP = null;
-  const jobsData = () => jobsP ||= Promise.all([Atlas.fetchJson("data/jobs_open.json"), Atlas.index()]).then(([D, ix]) => {
+  const jobsData = () => jobsP ||= Promise.all([Atlas.fetchJson("data/jobs_open.json"), Atlas.index()]).then(([file, ix]) => {
+    const techBit = Object.assign({}, Jobs.FLAGS, file.flags || {}).tech;
+    const D = techShown() ? file : { ...file, rows: (file.rows || []).filter(r => !(r[6] & techBit)) };
     const rows = Jobs.rowsOf(D), byId = new Map(rows.map(r => [r.id, r]));
+    if (!techShown()) D.roles = D.roles.filter(id => !id.startsWith("tech."));   // after rowsOf: the rows index the whole list
+    const nCompanies = new Set(rows.map(r => r.company)).size;
     const roleLabel = id => Atlas.us((D.role_labels || {})[id] || (ix.roles[id] || {}).label || id);
     const fieldOf = id => (ix.roles[id] || {}).group || Jobs.fieldOfRole(id);
-    const skillName = i => { const sk = ix.skillById[D.skill_ids[i]]; return sk ? sk.name : D.skill_ids[i]; };
+    // a skill's name from the MBA index, else the tech index's (a skill only tech postings ask for)
+    const skillName = i => { const id = D.skill_ids[i], sk = ix.skillById[id] || ix.techSkillById[id]; return sk ? sk.name : id; };
     const fields = ix.groups.map(g => [g.id, Atlas.us(g.label)]);
     // the card's field (B-32, 2026-11-06): the index's field, else the field the MBA graph puts the role in. The index
     // leaves out the MBA set's own Product field (its product_manager and product_strategy postings), since the
@@ -1995,7 +2004,7 @@
     const mbaGroup = new Map(); for (const g of ix.M.groups || []) for (const f of g.families || []) mbaGroup.set(f, g.id);
     const fieldName = r => { const f = fieldOf(r.role) || mbaGroup.get(r.role) || ""; return f ? labelIn(fields, f) : ""; };
     const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName };
-    return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields };
+    return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields, nCompanies };
   }).catch(e => { jobsP = null; throw e; });
   const JB = Copy.jobs;
   const groupLabel = g => g === "startup" ? JB.groupStartup : g === "mba_employer" ? JB.groupMBA : /^fortune(\d+)$/.test(String(g || "")) ? fill(JB.groupFortune, { n: RegExp.$1 }) : String(g || "");
@@ -2012,7 +2021,7 @@
     try { J = await jobsData(); } catch (e) { console.error(e); page(`<h1>${esc(JB.heading)}</h1><p class="lead">${esc(JB.loadFailed)}</p>`); return; }
     const rg = state.resume ? await rough().catch(e => { console.error(e); return null; }) : null;
     if (Routes.parseRoute(location.hash).name !== "jobs") return;   // the person moved on while the file loaded
-    const { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields } = J;
+    const { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields, nCompanies } = J;
     const have = rg ? rg.shown : null;   // the skill ids the résumé shows, or null without one
     const fieldLabel = id => labelIn(fields, id);
     const kindLabel = k => ((ix.M.meta.kinds || {})[k] || {}).label || k;
@@ -2036,7 +2045,7 @@
       : `<a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
     const sortOptions = () => [...(have ? ["fit"] : []), "best", "newest", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
     page(`<h1>${esc(JB.heading)}</h1>
-      <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(D.companies.length) }))}</p>
+      <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(nCompanies) }))}</p>
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
       <div class="jobs-grid">
         <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
@@ -2067,7 +2076,7 @@
     const panel = r => {
       const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
       const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null, Jobs.dateLine(r)].filter(Boolean);
-      const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
+      const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]] || ix.techSkillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
       return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
         <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2 id="jdetail-h" tabindex="-1">${esc(r.title)}</h2>
@@ -2111,7 +2120,7 @@
     const rail = (searched, f) => {
       const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
       const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
-      const levels = Jobs.LEVEL_WORDS.labels;
+      const levels = levelsOf();
       const count = (facet, pairs) => Jobs.facetCounts(searched, f, facet, pairs.map(([v]) => v), ctx);
       // the companies in one pass over the rows the other filters keep: the twenty with the most postings, then all
       const cm = {}; for (const r of Jobs.filterJobs(searched, Object.assign({}, f, { company: "" }), ctx)) cm[r.company] = (cm[r.company] || 0) + 1;
@@ -2140,7 +2149,8 @@
       if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]); if (s.noclear) out.push(["noclear", JB.noclearFacet]);
       return out;
     };
-    const levelsOf = () => Jobs.LEVEL_WORDS.labels;
+    // the Level facet's words follow the picked field: the tech set's while a tech field is on, else the business ones
+    const levelsOf = () => Jobs.levelLabels(s.field && (ix.groups.find(g => g.id === s.field) || {}).set === "tech" ? "tech" : "mba");
     const chipHtml = ([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="${esc(fill(JB.remove, { label: l }))}">${esc(l)} <span class="n">×</span></button>`;
     const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(chipHtml).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----
@@ -3103,7 +3113,7 @@
     page(`<div id="about"><h1>${esc(AB.heading)}</h1>
       <p class="lead">${esc(AB.lead)} ${esc(AB.counts[verbs.length] || "")}</p>
       <h3>${esc(AB.jobs)}</h3>
-      <p class="small">${esc(AB.jobsLine)}</p>
+      <p class="small">${esc(techShown() ? AB.jobsLineTech : AB.jobsLine)}</p>
       <h3>${esc(AB.skills)}</h3>
       <p class="small">${esc(AB.skillsLine)}</p>
       ${classesOpen ? `<h3>${esc(AB.classes)}</h3>

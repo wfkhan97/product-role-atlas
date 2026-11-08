@@ -3007,6 +3007,38 @@ so it is never called a posting date. The year shows only when it is not the cur
 product rows have none. The tech role files carry `posted` on 95.5% of their 14,165 postings. 5,243 dates of the
 three processed files are more than six months old, the oldest from 2019: the date is the board's, shown as it says.
 
+## The tech set in Find jobs (`feat/jobs-tech-set`, 2026-11-07)
+
+The tech set (software, ML, data and security engineers, product designers, UX researchers, counsel) went live behind
+`TECH_ENABLED`, but Find jobs searched the product and MBA sets only: `pipeline.jobs_open` read `graph.json` and
+`graph_mba/<role>.json` and nothing else, so a student searching "machine learning engineer" found only business
+postings. The tech role files already carried every column the file needs, `posted` included, so this is a reader
+change and a rerun, with no graph rebuild.
+
+**The file.** `jobs_open` reads `graph_tech/<role>.json` by the MBA set's rule (`open` true, the index's country). A
+tech row's id is `t<num>`, its role `tech.<family>` (the key `Atlas.index()` gives tech roles, so the screen's field
+and role lookups hold), its level indexes `levels.tech`. Two new flag bits: `256` the tech set, `512` its
+new-graduate mark (`entry` `"grad"`). The bits only add; the first twelve columns keep their meaning. An industry
+stays in a tech row's skills only when it defines the role (data modeling for data engineers), as for the MBA set.
+`skill_ids` is the union of the three sets, so its indexes shift; the product and MBA rows decode to the same values
+as before (checked row by row against the previous file), though their bytes change.
+
+**The switch.** The file holds the tech rows whatever `TECH_ENABLED` says. With the switch off, `jobsData` drops them
+before anything counts them, so the lead and the facets never name a hidden set, and home and About read the meta's
+new `without_tech` counts (the employers overlap across sets, so that count is its own number, not a difference).
+
+**The words.** A tech new-graduate posting says "A job for new graduates" and is under the Bachelor's entry filter,
+with the MBA set's `pre_mba`. The tech levels fold to the same four ids, said in the set's own words on the card and on
+the rail while a tech field is picked (`Copy.jobs.levelsTech`: "Mid-level or senior", never "Manager"). About's line names
+engineering, design and legal roles while the switch is on.
+
+**The refresh.** refresh-tech runs `jobs_open` after its graph build and commits the two files, as refresh-product and
+refresh-mba do; before, a tech refresh left Find jobs stale.
+
+**Counts** (2026-11-08): 62,032 open US postings, 6,513 product, 41,562 MBA, 13,957 tech (498 of them for new
+graduates), at 1,559 companies (20 new, 1,121 with tech postings), 78 roles. The file grows from 11.0 MB to 14.0 MB raw,
+2.6 MB to 3.4 MB gzipped. "MLE" finds two postings, the two whose titles say it; an alias table is a later change.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3039,6 +3071,8 @@ done). One line per item; the section that explains it is named where it helps.
 - Delete `auth.users` rows by hand when a person asks to be forgotten (the button deletes the three tables only).
 
 **The tech role set** (off behind `TECH_ENABLED`; "A third role set")
+- Find jobs' search aliases ("The tech set in Find jobs"): "MLE", "SWE", "PM" and the like find only titles that spell
+  them; a short alias table in `web/jobs.js`, checked against the tech titles.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".

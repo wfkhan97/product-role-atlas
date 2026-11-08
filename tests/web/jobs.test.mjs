@@ -2,6 +2,7 @@
 // against the indexes it was written from.
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "fs";
 import path from "path";
 import { require, web, readJson } from "./_load.mjs";
 
@@ -240,12 +241,16 @@ test("the state round-trips through the query string; defaults stay out", () => 
 });
 
 // ---------- the level words ----------
-test("the four level words, and every level id of both sets maps to one", () => {
+test("the four level words, and every level id of the three sets maps to one", () => {
   assert.deepEqual(J.LEVEL_WORDS.labels.map(([, l]) => l), ["Analyst or associate", "Manager", "Lead or principal", "Director"]);
   const four = new Set(J.LEVEL_WORDS.labels.map(([id]) => id));
-  for (const set of ["product", "mba"]) for (const [id, word] of Object.entries(J.LEVEL_WORDS[set])) assert.ok(four.has(word), `${set} ${id} -> ${word}`);
+  for (const set of ["product", "mba", "tech"]) for (const [id, word] of Object.entries(J.LEVEL_WORDS[set])) assert.ok(four.has(word), `${set} ${id} -> ${word}`);
   assert.equal(J.levelLabel(row("x", { level: "senior" })), "Manager");
   assert.equal(J.levelLabel(row("x", { level: "cpo", set: "product" })), "Director");
+  // the tech set's cards use its own four words on the same ids: an Engineer II is not a manager
+  assert.equal(J.levelLabel(row("x", { level: "mid", set: "tech" })), "Mid-level or senior");
+  assert.equal(J.levelLabel(row("x", { level: "associate", set: "tech" })), "New grad or junior");
+  assert.deepEqual(J.levelLabels("tech").map(([id]) => id), J.levelLabels("mba").map(([id]) => id), "the same four ids, so the Level filter's value holds across fields");
 });
 
 // ---------- the file shape ----------
@@ -265,13 +270,42 @@ test("rowsOf expands the column-oriented file into the row objects the other fun
   assert.deepEqual(rows[1], { id: "p3", set: "product", role: "product.pm", title: "Director of Product", company: "Adobe", group: "fortune250", sector: null, level: "mid", entry: null, intern: false, location: "Remote - USA", remote: true, sponsorship: null, url: "https://adobe.test/x", skills: [3], first_seen: "2026-10-01", yoe: null, clearance: true, posted: null });
   assert.deepEqual(rows[2], { id: "m9", set: "mba", role: "management_consultant", title: "Consultant", company: "Acme", group: "fortune50", sector: "Consulting", level: "associate", entry: "pre_mba", intern: true, location: "New York, NY", remote: false, sponsorship: "no", url: "https://acme.test/jobs/", skills: [], first_seen: null, yoe: null, clearance: false, posted: null });
   assert.deepEqual(J.rowsOf({}), []);
-  assert.deepEqual(Object.keys(J.FLAGS), ["mba", "intern", "remote", "entry_mba", "entry_pre_mba", "sponsor_yes", "sponsor_no", "clearance"]);
+  assert.deepEqual(Object.keys(J.FLAGS), ["mba", "intern", "remote", "entry_mba", "entry_pre_mba", "sponsor_yes", "sponsor_no", "clearance", "tech", "entry_grad"]);
+});
+
+// A student searching "ML engineer new grad": the tech set's rows carry their own set bit (256) and new-graduate bit
+// (512), so they read as set tech, id t<num>, role tech.<family> and entry "grad", and the Bachelor's entry facet finds them.
+test("rowsOf reads the tech set's bits: set tech, id t<num>, the grad entry, the level from levels.tech", () => {
+  const file = {
+    levels: { product: ["associate", "mid"], mba: ["associate", "mid"], tech: ["associate", "mid", "senior"] },
+    companies: [{ name: "Acme", group: "startup", sector: "Technology", url_prefix: "https://acme.test/" }],
+    locations: ["Austin, TX"], roles: ["tech.ml_engineer", "tech.software_engineer"], titles: ["Machine Learning Engineer, New Grad", "Senior Software Engineer"],
+    rows: [
+      [12, 0, 0, 0, 0, 0, 256 | 512, [1], "a", "2026-11-05", null, "2026-11-01"],
+      [40, 0, 1, 1, 2, 0, 256 | 4, [], "b", null, 5, null],
+    ],
+  };
+  const [grad, senior] = J.rowsOf(file);
+  assert.deepEqual(grad, { id: "t12", set: "tech", role: "tech.ml_engineer", title: "Machine Learning Engineer, New Grad", company: "Acme", group: "startup", sector: "Technology", level: "associate", entry: "grad", intern: false, location: "Austin, TX", remote: false, sponsorship: null, url: "https://acme.test/a", skills: [1], first_seen: "2026-11-05", yoe: null, clearance: false, posted: "2026-11-01" });
+  assert.equal(senior.id, "t40"); assert.equal(senior.set, "tech"); assert.equal(senior.level, "senior"); assert.equal(senior.entry, null); assert.equal(senior.remote, true);
+  assert.deepEqual(J.filterJobs([grad, senior], { entry: "bachelor" }, {}).map(r => r.id), ["t12"], "Bachelor's entry holds the tech set's new-graduate postings");
+  assert.equal(J.filterJobs([grad, senior], { entry: "mba" }, {}).length, 0);
+});
+
+test("the tech set's eight levels fold to the same four ids, said in its own words", () => {
+  assert.deepEqual(J.LEVEL_WORDS.tech, J.LEVEL_WORDS.mba);
+  const w = level => J.levelWord({ set: "tech", level });
+  assert.deepEqual(["associate", "mid", "senior", "staff", "group", "director", "vp", "cpo"].map(w), ["associate", "mid", "mid", "staff", "staff", "director", "director", "director"]);
+  assert.equal(J.levelLabel({ set: "tech", level: "staff" }), J.LEVEL_WORDS.techLabels.find(([id]) => id === "staff")[1]);
+  assert.notEqual(J.levelLabel({ set: "tech", level: "senior" }), J.levelLabel({ set: "mba", level: "senior" }), "a senior engineer is not called a manager");
 });
 
 // ---------- the real file ----------
 test("web/data/jobs_open.json agrees with the indexes it was written from, and jobs_meta.json with it", () => {
-  const D = readJson("jobs_open.json"), META = readJson("jobs_meta.json"), M = readJson("graph_mba.json"), G = readJson("graph.json");
+  const D = readJson("jobs_open.json"), META = readJson("jobs_meta.json"), M = readJson("graph_mba.json"), G = readJson("graph.json"), T = readJson("graph_tech.json");
   assert.equal(D.country, M.meta.country);
+  assert.equal(D.country, T.meta.country);
+  const TECH_NS = "tech.", techFamily = id => id.slice(TECH_NS.length);
   assert.deepEqual(D.flags, J.FLAGS, "the file names the same bits jobs.js reads");
   for (const k of ["companies", "locations", "roles", "titles", "rows"]) assert.ok(Array.isArray(D[k]), `${k} is a list`);
   assert.equal(new Set(D.titles).size, D.titles.length, "titles are distinct");
@@ -279,7 +313,7 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
   assert.equal(new Set(D.roles).size, D.roles.length, "roles are distinct");
   assert.deepEqual(Object.keys(D.role_labels), D.roles, "every role has its label, in the roles' order");
   for (const id of D.roles) assert.ok(typeof D.role_labels[id] === "string" && D.role_labels[id], `${id} has a label`);
-  for (const id of D.roles) assert.equal(D.role_labels[id], id.startsWith(J.PRODUCT_NS) ? G.families[id.slice(J.PRODUCT_NS.length)] : M.roles[id].label, `${id}: the label the index gives`);
+  for (const id of D.roles) assert.equal(D.role_labels[id], id.startsWith(J.PRODUCT_NS) ? G.families[id.slice(J.PRODUCT_NS.length)] : id.startsWith(TECH_NS) ? T.roles[techFamily(id)].label : M.roles[id].label, `${id}: the label the index gives`);
   assert.equal(new Set(D.companies.map(c => c.name)).size, D.companies.length, "companies are distinct");
   for (const c of D.companies) { assert.equal(typeof c.name, "string"); assert.equal(typeof c.group, "string"); assert.equal(typeof c.url_prefix, "string"); assert.ok(c.url_prefix === "" || /^https?:\/\/.+\/$/.test(c.url_prefix), `${c.name}: url_prefix ${c.url_prefix}`); }
   for (const r of D.rows) {
@@ -289,38 +323,48 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
     assert.ok(r[10] === null || (typeof r[10] === "number" && r[10] > 0 && r[10] < 40), `yoe ${r[10]}`);
     assert.ok(Number.isInteger(r[0]) && r[0] >= 0, `num ${r[0]}`);
     assert.ok(D.companies[r[1]], `company index ${r[1]}`); assert.ok(D.roles[r[2]], `role index ${r[2]}`); assert.ok(D.titles[r[3]] != null, `title index ${r[3]}`); assert.ok(D.locations[r[5]] != null, `location index ${r[5]}`);
-    assert.ok(Number.isInteger(r[6]) && r[6] >= 0 && r[6] < 256, `flags ${r[6]}`);
+    assert.ok(Number.isInteger(r[6]) && r[6] >= 0 && r[6] < 1024, `flags ${r[6]}`);
+    assert.ok(!((r[6] & J.FLAGS.mba) && (r[6] & J.FLAGS.tech)), `flags ${r[6]}: one set`);
     assert.equal(typeof r[8], "string");
   }
   const jobs = J.rowsOf(D);
   assert.equal(jobs.length, META.n_open, "the meta count is the row count");
   assert.equal(META.n_companies, new Set(jobs.map(j => j.company)).size);
-  assert.equal(META.by_set.product.n_open + META.by_set.mba.n_open, META.n_open);
+  assert.equal(META.by_set.product.n_open + META.by_set.mba.n_open + META.by_set.tech.n_open, META.n_open);
   assert.equal(META.by_set.mba.n_open, M.meta.n_open, "the MBA rows are the index's open US postings");
+  const techOpen = fs.readdirSync(path.join(web, "data", "graph_tech")).filter(f => f.endsWith(".json") && !f.startsWith("_"))
+    .reduce((a, f) => a + readJson(path.join("graph_tech", f)).jobs.filter(j => j.open !== false && j.country === T.meta.country).length, 0);
+  assert.equal(META.by_set.tech.n_open, techOpen, "the tech rows are the open US rows of graph_tech/<role>.json");
+  const rest = jobs.filter(j => j.set !== "tech");
+  assert.deepEqual(META.without_tech, { n_open: rest.length, n_companies: new Set(rest.map(j => j.company)).size }, "the counts a site without the tech set shows");
   assert.equal(META.by_set.product.n_open, G.jobs.filter(j => j.country === D.country).length, "the product rows are the US slice");
   assert.equal(META.n_roles, new Set(jobs.map(j => j.role)).size);
-  assert.deepEqual(D.skill_ids, [...new Set([...G.skill_ids, ...M.skill_ids])].sort(), "the union of both sets' skill ids");
-  assert.deepEqual(D.levels, { product: G.levels, mba: M.levels });
-  const levels = { product: new Set(G.levels), mba: new Set(M.levels) }, roles = new Set(Object.keys(M.roles)), seen = new Set();
-  for (const set of ["product", "mba"]) for (const id of D.levels[set]) assert.ok(J.LEVEL_WORDS[set][id], `${set} level ${id} has a level word`);
+  assert.deepEqual(D.skill_ids, [...new Set([...G.skill_ids, ...M.skill_ids, ...T.skill_ids])].sort(), "the union of the three sets' skill ids");
+  assert.deepEqual(D.levels, { product: G.levels, mba: M.levels, tech: T.levels });
+  assert.deepEqual(D.level_labels, { product: G.level_labels, mba: M.level_labels, tech: T.level_labels });
+  const levels = { product: new Set(G.levels), mba: new Set(M.levels), tech: new Set(T.levels) }, roles = new Set(Object.keys(M.roles)), seen = new Set();
+  for (const set of ["product", "mba", "tech"]) for (const id of D.levels[set]) assert.ok(J.LEVEL_WORDS[set][id], `${set} level ${id} has a level word`);
   const byProduct = new Map(G.jobs.map(j => [j.id, j]));
-  const cluster = Object.fromEntries([...G.skills, ...M.skills].map(s => [s.id, s.cluster]));
-  const definingOf = role => new Set(((M.roles[role] || {}).defining || []).map(a => a.id));
-  const keeps = (set, role, id) => cluster[id] !== "credentials" && (cluster[id] !== "domain" || (set === "mba" && definingOf(role).has(id)));
+  const cluster = Object.fromEntries([...G.skills, ...M.skills, ...T.skills].map(s => [s.id, s.cluster]));
+  const definingOf = role => new Set((role.startsWith(TECH_NS) ? (T.roles[techFamily(role)] || {}).defining : (M.roles[role] || {}).defining || []).map(a => a.id));
+  const keeps = (set, role, id) => cluster[id] !== "credentials" && (cluster[id] !== "domain" || (set !== "product" && definingOf(role).has(id)));
   for (const j of jobs) {
     assert.ok(!seen.has(j.id), `duplicate id ${j.id}`); seen.add(j.id);
-    assert.ok((j.set === "product" && j.id[0] === "p") || (j.set === "mba" && j.id[0] === "m"), `${j.id}: set ${j.set}`);
+    assert.ok((j.set === "product" && j.id[0] === "p") || (j.set === "mba" && j.id[0] === "m") || (j.set === "tech" && j.id[0] === "t"), `${j.id}: set ${j.set}`);
     if (j.set === "product") assert.ok(j.role.startsWith(J.PRODUCT_NS) && G.families[j.role.slice(J.PRODUCT_NS.length)], `${j.id}: role ${j.role}`);
+    else if (j.set === "tech") assert.ok(j.role.startsWith(TECH_NS) && T.roles[techFamily(j.role)], `${j.id}: role ${j.role}`);
     else assert.ok(roles.has(j.role), `${j.id}: role ${j.role}`);
     assert.ok(levels[j.set].has(j.level), `${j.id}: level ${j.level}`);
     assert.ok(typeof j.title === "string" && j.title, `${j.id}: title`);
     assert.ok(/^https?:\/\//.test(j.url), `${j.id}: url ${j.url}`);
     for (const i of j.skills) assert.ok(Number.isInteger(i) && i >= 0 && i < D.skill_ids.length, `${j.id}: skill index ${i}`);
     assert.ok(!("snippet" in j) && !("sub" in j) && !("country" in j), `${j.id} carries a field the file leaves out`);
-    for (const i of j.skills) { const c = cluster[D.skill_ids[i]]; assert.ok(c !== "credentials", `${j.id}: a credential ${D.skill_ids[i]} is not a skill`); if (c === "domain") assert.ok(j.set === "mba" && definingOf(j.role).has(D.skill_ids[i]), `${j.id}: industry ${D.skill_ids[i]} kept though it does not define ${j.role}`); }
+    for (const i of j.skills) { const c = cluster[D.skill_ids[i]]; assert.ok(c !== "credentials", `${j.id}: a credential ${D.skill_ids[i]} is not a skill`); if (c === "domain") assert.ok(j.set !== "product" && definingOf(j.role).has(D.skill_ids[i]), `${j.id}: industry ${D.skill_ids[i]} kept though it does not define ${j.role}`); }
     assert.equal(typeof j.remote, "boolean"); assert.equal(typeof j.intern, "boolean");
     if (j.set === "product") assert.equal(j.entry, null);
+    assert.equal(j.entry === "grad", j.set === "tech" && j.entry !== null, `${j.id}: entry ${j.entry}: grad is the tech set's mark, and its only one`);
   }
+  assert.ok(jobs.some(j => j.entry === "grad"), "the tech set's new-graduate postings are marked");
   // a sample of product rows reads back exactly what graph.json says
   for (const j of jobs.filter(x => x.set === "product").filter((x, i) => i % 500 === 0)) {
     const g = byProduct.get(Number(j.id.slice(1)));
@@ -328,6 +372,16 @@ test("web/data/jobs_open.json agrees with the indexes it was written from, and j
     assert.equal(j.title, g.title); assert.equal(j.company, g.company); assert.equal(j.url, g.url); assert.equal(j.level, g.level); assert.equal(j.location, g.location || ""); assert.equal(j.remote, !!g.remote);
     assert.deepEqual(j.skills.map(i => D.skill_ids[i]).sort(), g.skills.map(i => G.skill_ids[i]).filter(id => keeps("product", j.role, id)).sort());
     assert.equal(j.yoe, g.yoe == null ? null : g.yoe); assert.equal(j.clearance, g.skills.some(i => G.skill_ids[i] === "security_clearance"));
+  }
+  // a sample of tech rows reads back what its role file says
+  const techFiles = new Map();
+  for (const j of jobs.filter(x => x.set === "tech").filter((x, i) => i % 500 === 0)) {
+    const f = techFamily(j.role);
+    if (!techFiles.has(f)) techFiles.set(f, new Map(readJson(path.join("graph_tech", f + ".json")).jobs.map(x => [x.id, x])));
+    const g = techFiles.get(f).get(Number(j.id.slice(1)));
+    assert.ok(g, `${j.id} is in graph_tech/${f}.json`);
+    assert.equal(j.title, g.title); assert.equal(j.company, g.company); assert.equal(j.url, g.url); assert.equal(j.level, g.level); assert.equal(j.entry, g.entry === "grad" ? "grad" : null); assert.equal(j.posted, g.posted || null);
+    assert.deepEqual(j.skills.map(i => D.skill_ids[i]).sort(), g.skills.map(i => T.skill_ids[i]).filter(id => keeps("tech", j.role, id)).sort());
   }
 });
 

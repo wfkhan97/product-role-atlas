@@ -2,9 +2,10 @@
 # refresh-product.yml for the scrape: one job per ATS family of the product registry, each pulling its part of the
 # tech backlog, scraping with the set's sampling rules (US only, at most 30 open postings per employer and role, three
 # pages a query on search boards; pipeline/scrape.py) and pushing to the Supabase backlog as it goes.
-# Then one build job, as refresh-product has: pull the tech backlog, extract, build the graph and the set's baselines, run
-# the checks, open a pull request from data/tech-<date> and merge it when every check passes (REFRESH_AUTO_MERGE=off
-# leaves it open). The set is not shown in the interface until CONFIG.TECH_ENABLED, so its files can land on main first.
+# Then one build job, as refresh-product has: pull the tech backlog, extract, build the graph and the set's baselines,
+# rewrite the Find jobs file (pipeline.jobs_open reads the three sets' committed graphs), run the checks, open a pull
+# request from data/tech-<date> and merge it when every check passes (REFRESH_AUTO_MERGE=off leaves it open). The site
+# shows the set while CONFIG.TECH_ENABLED is on; switched off, Find jobs and the counts leave its rows out.
 #
 # count_only (dispatch): list the boards with the set's rules and upload the counts per employer and role as an
 # artifact, with no detail fetches and nothing written to the backlog (Greenhouse, Lever, Ashby and Workday). Run it
@@ -224,6 +225,8 @@ jobs:
         run: |
           python -m pipeline.build_graph --roles tech
           python -m pipeline.experiments.role_coverage --roles tech
+      - name: The open postings of every role set, for Find jobs (web/data/jobs_open.json and jobs_meta.json)
+        run: python -m pipeline.jobs_open
       - name: Pipeline and taxonomy evals of the set
         id: evals
         continue-on-error: true
@@ -248,7 +251,7 @@ jobs:
         run: |
           git config user.name "refresh-tech (GitHub Actions)"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          paths="data/processed/jobs_tech.json data/processed/jobs_tech.json.gz data/processed/company_stage_tech.json data/processed/evidence_tech.json web/data/graph_tech.json web/data/graph_tech web/data/taxonomy_tech.json web/data/subskills_tech.json web/data/roles_tech.json evals/extraction_baseline_tech.md"
+          paths="data/processed/jobs_tech.json data/processed/jobs_tech.json.gz data/processed/company_stage_tech.json data/processed/evidence_tech.json web/data/graph_tech.json web/data/graph_tech web/data/taxonomy_tech.json web/data/subskills_tech.json web/data/roles_tech.json web/data/jobs_open.json web/data/jobs_meta.json evals/extraction_baseline_tech.md"
           existing=""
           for p in $paths; do [ -e "$p" ] && existing="$existing $p"; done
           if [ -z "$(git status --porcelain -- $existing)" ]; then echo "nothing changed; no pull request"; exit 0; fi

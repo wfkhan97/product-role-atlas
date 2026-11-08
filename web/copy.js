@@ -570,6 +570,9 @@
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     // the four level words on the rail and the card, the entry marks, the employer types
     levels: { associate: "Analyst or associate", mid: "Manager", staff: "Lead or principal", director: "Director" },
+    // the same four words for the tech set's cards, and for the rail while a tech field is picked: an engineer at the
+    // second grade is not a manager
+    levelsTech: { associate: "New grad or junior", mid: "Mid-level or senior", staff: "Staff or principal", director: "Director" },
     entries: { mba: "MBA entry", bachelor: "Bachelor's entry", intern: "Internship" },
     // the years filter: the most a posting may ask for; a posting that names no number always counts
     years: { "2": "Up to 2 years", "5": "Up to 5 years", "8": "Up to 8 years" },
@@ -1149,6 +1152,8 @@
     counts: { 2: "Two things to do here, all built from live job postings.", 3: "Three things to do here, all built from live job postings.", 4: "Four things to do here, all built from live job postings." },
     jobs: "Find jobs",
     jobsLine: "One search over every open US posting we hold, for business roles and product roles. With a résumé on file, each posting says how many of its skills you show.",
+    // the same line while the engineering, design and legal roles are on the site (CONFIG.TECH_ENABLED)
+    jobsLineTech: "One search over every open US posting we hold, for business, product, engineering, design and legal roles. With a résumé on file, each posting says how many of its skills you show.",
     skills: "Explore careers",
     skillsLine: "Every role by field, with the skills most of its postings ask for. We read your résumé against them, in your browser and once with our AI reader. The fit says which skills are gaps.",
     classes: "Find classes",

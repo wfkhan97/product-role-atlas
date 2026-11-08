@@ -19,15 +19,18 @@
   // sponsorship, url, skills, first_seen, yoe, clearance, posted }, the shape every function below takes. The skills
   // stay indexes into file.skill_ids and hold no credential: the years asked are yoe (a number or null), a clearance is
   // its own flag. posted is the board's own posting date and first_seen the day our scrape first saw the posting (both
-  // YYYY-MM-DD or null); a file written before the twelfth column gives posted null.
-  const FLAGS = { mba: 1, intern: 2, remote: 4, entry_mba: 8, entry_pre_mba: 16, sponsor_yes: 32, sponsor_no: 64, clearance: 128 };
+  // YYYY-MM-DD or null); a file written before the twelfth column gives posted null. The set is a bit: mba (id m<num>),
+  // tech (id t<num>, role tech.<family>), else product (id p<num>); the tech set's one entry mark, new graduates, is
+  // its own bit and reads as entry "grad".
+  const FLAGS = { mba: 1, intern: 2, remote: 4, entry_mba: 8, entry_pre_mba: 16, sponsor_yes: 32, sponsor_no: 64, clearance: 128, tech: 256, entry_grad: 512 };
+  const ID_PREFIX = { product: "p", mba: "m", tech: "t" };
   function rowsOf(file) {
     const F = Object.assign({}, FLAGS, file.flags || {}), C = file.companies || [], L = file.locations || [], R = file.roles || [], T = file.titles || [], levels = file.levels || {};
     return (file.rows || []).map(r => {
-      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe, posted] = r, c = C[ci] || {}, set = flags & F.mba ? "mba" : "product";
+      const [num, ci, ri, ti, li, loci, flags, skills, url, firstSeen, yoe, posted] = r, c = C[ci] || {}, set = flags & F.tech ? "tech" : flags & F.mba ? "mba" : "product";
       return {
-        id: (set === "mba" ? "m" : "p") + num, set, role: R[ri], title: T[ti], company: c.name, group: c.group, sector: c.sector == null ? null : c.sector,
-        level: (levels[set] || [])[li], entry: flags & F.entry_mba ? "mba" : flags & F.entry_pre_mba ? "pre_mba" : null,
+        id: ID_PREFIX[set] + num, set, role: R[ri], title: T[ti], company: c.name, group: c.group, sector: c.sector == null ? null : c.sector,
+        level: (levels[set] || [])[li], entry: flags & F.entry_mba ? "mba" : flags & F.entry_pre_mba ? "pre_mba" : flags & F.entry_grad ? "grad" : null,
         intern: !!(flags & F.intern), location: L[loci] || "", remote: !!(flags & F.remote),
         sponsorship: flags & F.sponsor_yes ? "yes" : flags & F.sponsor_no ? "no" : null,
         url: (c.url_prefix || "") + (url || ""), skills: skills || [], first_seen: firstSeen == null ? null : firstSeen,
@@ -37,14 +40,21 @@
   }
 
   // ---------- the level words: four on the rail and the card, from each set's own level ids ----------
-  // Both sets grade on the same eight ids (graph.json and graph_mba.json `levels`); the words fold them to four.
+  // The three sets grade on the same eight ids (graph.json, graph_mba.json and graph_tech.json `levels`); the words
+  // fold them to four. For the tech set a senior engineer is still mid, staff and principal are staff, and a VP and a
+  // CTO sit with the directors.
   // A senior manager is still a manager; a group manager leads; a VP and a chief officer sit with the directors.
   const FOUR = { associate: "associate", mid: "mid", senior: "mid", staff: "staff", group: "staff", director: "director", vp: "director", cpo: "director" };
+  // The ids are shared, the words are not: the tech set's cards say "Mid-level or senior" where a business card says
+  // "Manager" (Copy.jobs.levelsTech), and the rail shows the tech words while a tech field is picked (levelLabels).
   const LEVEL_WORDS = {
     labels: ["associate", "mid", "staff", "director"].map(id => [id, W.levels[id]]),
+    techLabels: ["associate", "mid", "staff", "director"].map(id => [id, W.levelsTech[id]]),
     product: Object.assign({}, FOUR),
     mba: Object.assign({}, FOUR),
+    tech: Object.assign({}, FOUR),
   };
+  const levelLabels = set => set === "tech" ? LEVEL_WORDS.techLabels : LEVEL_WORDS.labels;
   const ENTRIES = ["mba", "bachelor", "intern"].map(id => [id, W.entries[id]]);
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
   const SORTS = ["best", "fit", "newest", "company"];
@@ -53,7 +63,7 @@
   const YEARS = ["2", "5", "8"].map(id => [id, W.years[id]]);
   const yearsHit = (row, max) => row.yoe == null || row.yoe <= Number(max);
   const levelWord = row => (LEVEL_WORDS[row.set] || {})[row.level] || row.level || "";
-  const levelLabel = row => (LEVEL_WORDS.labels.find(([id]) => id === levelWord(row)) || [, row.level])[1] || "";
+  const levelLabel = row => (levelLabels(row.set).find(([id]) => id === levelWord(row)) || [, row.level])[1] || "";
   // the employer type from the company group: fortune50..fortune500 are one type
   const employerOf = group => group === "startup" ? "startup" : group === "mba_employer" ? "mba_employer" : /^fortune/.test(String(group || "")) ? "fortune500" : String(group || "");
   const fieldOfRole = (id, ctx) => ctx && ctx.fieldOf ? (ctx.fieldOf(id) || "") : String(id || "").startsWith(PRODUCT_NS) ? "product" : "";
@@ -101,7 +111,8 @@
   // empty key is off. sector is the employer's industry (companies[].sector); noclear keeps postings that ask for no
   // security clearance.
   const blankFilter = () => ({ field: "", role: "", level: "", entry: "", years: "", sector: "", location: "", remote: false, sponsor: false, noclear: false, group: "", company: "" });
-  const entryHit = (row, entry) => entry === "intern" ? !!row.intern : entry === "mba" ? row.entry === "mba" : entry === "bachelor" || entry === "pre_mba" ? row.entry === "pre_mba" : false;
+  // Bachelor's entry is the MBA set's pre_mba mark and the tech set's grad mark: both are a job for new graduates
+  const entryHit = (row, entry) => entry === "intern" ? !!row.intern : entry === "mba" ? row.entry === "mba" : entry === "bachelor" || entry === "pre_mba" ? row.entry === "pre_mba" || row.entry === "grad" : false;
   // every word must start a word in the posting's location; "remote" also matches the flag
   const locHit = (row, toks) => { const ws = words(row.location); return toks.every(t => (t === "remote" && row.remote) || hit(t, ws) > 0); };
   function matches(row, f, ctx, locToks) {
@@ -260,5 +271,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: !!s.sponsor, noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

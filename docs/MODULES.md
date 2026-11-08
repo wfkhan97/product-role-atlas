@@ -95,12 +95,14 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   skipped record, ERROR with the traceback; `.env` values are masked. With `SUPABASE_DB_URL` set each run inserts one
   row into `runs` (`pipeline/sql/002_runs.sql`); `pipeline.runs` prints them. `PIPELINE_LOG` names a log file,
   `PIPELINE_LOG_LEVEL=DEBUG` shows more, `PIPELINE_RUNS=off` skips the row.
-- `pipeline/jobs_open.py` — every open US posting of both sets → `web/data/jobs_open.json` (column-oriented: companies,
-  locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx,
-  flags, skills, url, firstSeen, yoe, posted]`; `flags` is a bit field the file names, `yoe` the years asked,
-  `firstSeen` the day our scrape first saw the posting (MBA set only), `posted` the board's own posting date) and
-  `jobs_meta.json` (the counts). A row's skills leave out credentials and the industries that do not define its MBA
-  role. No snippet, no sub-skills. Runs after `build_graph`, no network.
+- `pipeline/jobs_open.py` — every open US posting of the three sets (product, MBA, tech) → `web/data/jobs_open.json`
+  (column-oriented: companies, locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx,
+  titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe, posted]`; `flags` is a bit field the file names,
+  with one bit for the MBA set, one for the tech set and one for the tech set's new-graduate mark, `yoe` the years
+  asked, `firstSeen` the day our scrape first saw the posting (MBA and tech sets), `posted` the board's own posting
+  date) and `jobs_meta.json` (the counts, per set and without the tech set). A row's skills leave out credentials and
+  the industries that do not define its MBA or tech role. No snippet, no sub-skills. Runs after `build_graph` of any
+  set, no network; refresh-product, refresh-mba and refresh-tech all run it.
 - `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
   the course catalog's loader dry and writes `web/data/catalog/cornell_tech.json` (committed) and
   `web/data/local/catalog_full.json` (this machine; the only copy with the syllabus digest). `catalog_tags` reads the

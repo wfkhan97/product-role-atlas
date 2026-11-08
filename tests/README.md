@@ -41,6 +41,7 @@ directory. `tests/web/_load.mjs` holds the paths and a node `Atlas` over `web/da
 | `test_adapters_common.py` | `strip_html`, the retry loop with a fake session. |
 | `test_processed.py` | The gzip switch. |
 | `test_build_graph.py` | Share arithmetic; the posting-date reader. |
+| `test_jobs_open.py` | The flag bits of a Find jobs row: one per set, the tech set's new-graduate mark. |
 | `test_depth_gen.py` | The model call with `requests.post` replaced; the key never reaches a log line. |
 | `test_log.py`, `test_runs.py` | Masking; the run recorder's row. |
 | `test_backlog.py`, `test_store.py` | The round trip of a raw file; the `atlas-store` rules on a dict bucket. |

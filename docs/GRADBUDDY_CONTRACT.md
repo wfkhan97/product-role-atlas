@@ -123,29 +123,31 @@ screen; `web/data/spelling_us.json`), `Atlas.fieldKeys(R)`. In node: `require("w
 
 ## The open postings: `web/data/jobs_open.json`, `jobs_meta.json`
 
-Every open US posting of both role sets in one file, for Find jobs (`#/jobs`; PLAN.md v19, step B4). Written by
+Every open US posting of the three role sets in one file, for Find jobs (`#/jobs`; PLAN.md v19, step B4). Written by
 `.venv/bin/python -m pipeline.jobs_open` from the committed graphs after `build_graph`; `run_all.sh` and the refresh
-workflows run it. No network, no model: the same graphs give the same bytes. Only `#/jobs` loads the file (7.4 MB
-raw, 1.8 MB gzipped); home reads `jobs_meta.json`, the counts alone.
+workflows run it. No network, no model: the same graphs give the same bytes. Only `#/jobs` loads the file (14 MB
+raw, 3.4 MB gzipped); home reads `jobs_meta.json`, the counts alone.
 
 **What is in it.** Every product posting is open: `graph.json` drops closed ones. A product posting is in when its
 country is `United States`. An MBA posting is in when its row in `graph_mba/<role id>.json` has `open` true and the
-country of the index's `meta`. `jobs_meta.json` holds the current counts (on 2026-11-06: 32,482 rows, 1,511
-companies, 58 roles). No pay (no posting carries one), no snippet, no sub-skills.
+country of the index's `meta`. A tech posting is in by the same rule on `graph_tech/<role id>.json`. The file holds
+the tech rows whatever `CONFIG.TECH_ENABLED` says; the site drops them when the switch is off. `jobs_meta.json` holds
+the current counts (on 2026-11-08: 62,032 rows, 1,559 companies, 78 roles). No pay (no posting carries one), no snippet, no sub-skills.
 
 **Skills and requirements.** A row's `skills` are what a person can learn or show. Credentials (years, degrees,
 licences, clearance; kind `credential`) are never in them: the years asked are the `yoe` column and a clearance ask is
-flag `128`. An industry (cluster `domain`) is in them only when it defines the posting's MBA role (`graph_mba.json`
-`roles.<id>.defining`); the employer's industry is `companies[].sector`.
+flag `128`. An industry (cluster `domain`) is in them only when it defines the posting's MBA or tech role
+(`graph_mba.json` or `graph_tech.json` `roles.<id>.defining`); the employer's industry is `companies[].sector`.
 
 **The shape.** Column-oriented. The tables are lists, and a row indexes into them:
 
 - `companies[]`: `{ name, group, sector, url_prefix }` (`url_prefix` is the longest common prefix of the company's
   URLs, cut at a `/`; `""` when there is none).
-- `locations[]`, `titles[]`: strings. `roles[]`: the site's role ids (`product.<family>` for the product set);
+- `locations[]`, `titles[]`: strings. `roles[]`: the site's role ids (`product.<family>` for the product set,
+  `tech.<family>` for the tech set);
   `role_labels` names each one.
-- `skill_ids[]`: the union of both sets' ids, sorted, so a row's skills decode without the graphs.
-- `levels` (`product`, `mba`: the eight level ids of each set), `level_labels` (the same, with words), `flags` (the bit
+- `skill_ids[]`: the union of the three sets' ids, sorted, so a row's skills decode without the graphs.
+- `levels` (`product`, `mba`, `tech`: the eight level ids of each set), `level_labels` (the same, with words), `flags` (the bit
   names below), `generated`, `country`.
 - `rows[]`, sorted by set then by number. Each row is, in this order:
   `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe, posted]`. `levelIdx`
@@ -153,23 +155,26 @@ flag `128`. An industry (cluster `domain`) is in them only when it defines the p
   company's `url_prefix`; `firstSeen` is the day our scrape first saw the posting (`YYYY-MM-DD`) or null; `yoe` is the
   years of experience the posting asks for, or null; `posted` is the board's own posting date (`YYYY-MM-DD`, never
   after `generated`) or null.
-- The flag bits: `1` MBA set (clear for the product set), `2` internship, `4` remote, `8` MBA entry, `16` bachelor's
-  entry (`pre_mba`), `32` says it sponsors a visa, `64` says it does not, `128` asks for a security clearance.
+- The flag bits: `1` MBA set, `2` internship, `4` remote, `8` MBA entry, `16` bachelor's entry (`pre_mba`), `32` says
+  it sponsors a visa, `64` says it does not, `128` asks for a security clearance, `256` tech set, `512` tech entry for
+  new graduates (`grad`). A row with neither `1` nor `256` is the product set's; a reader that took every row without
+  `1` for a product row reads the tech rows wrong.
 
 `Jobs.rowsOf(file)` (`web/jobs.js`; `require("web/jobs.js")` in node) expands the file once into row objects:
 `{ id, set, role, title, company, group, sector, level, entry, intern, location, remote, sponsorship, url, skills,
 first_seen, yoe, clearance, posted }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
-`m<num>` for an MBA posting, where `num` is its row id in the role file. So a row joins back to the graphs. `set` is
-`product` or `mba`; `entry` is `mba` · `pre_mba` · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
-`skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA rows and null on the product rows (the
-product extract does not carry it); `posted` is set on about nine rows in ten of both sets.
+`m<num>` for an MBA posting and `t<num>` for a tech posting, where `num` is its row id in the role file. So a row
+joins back to the graphs. `set` is `product`, `mba` or `tech`; `entry` is `mba` · `pre_mba` · `grad` (tech) · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
+`skills` stay indexes into `file.skill_ids`. `first_seen` is set on the MBA and tech rows and null on the product
+rows (the product extract does not carry it); `posted` is set on about nine rows in ten of every set.
 `Jobs.dateOf(row)` gives `{ date, kind }`, `kind` `posted` or `listed` (first_seen), or null, and the `newest` sort
 orders by it.
 
-`jobs_meta.json`: `{ generated, n_open, n_companies, by_set: { product: { n_open, n_companies }, mba: { … } }, n_roles }`.
+`jobs_meta.json`: `{ generated, n_open, n_companies, by_set: { product: { n_open, n_companies }, mba: { … }, tech: { … } },
+without_tech: { n_open, n_companies }, n_roles }`. `without_tech` is what a site with `CONFIG.TECH_ENABLED` off counts.
 
 **Stable**: the two paths, the key names of both files, the order of a row's twelve columns (a new column goes at the
-end), the flag bits and their names, the id forms `p<n>` and `m<n>`, the keys of a `rowsOf` row. **Not stable**: the
+end), the flag bits and their names, the id forms `p<n>`, `m<n>` and `t<n>`, the keys of a `rowsOf` row. **Not stable**: the
 counts, the order of the tables (first-seen order), `generated`, the strings in `titles` and `locations`, and
 `first_seen` and `posted`, which a rebuild can turn from null to a date or back.
 
