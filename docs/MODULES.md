@@ -195,6 +195,8 @@ and evals run the code the site runs.
   `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
   `cardFacts`, `dateOf`, `dateLine`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win
   on its count alone; Newest orders by `posted`, else `first_seen`, shown as "Posted 3 Nov" or "Listed here 5 Nov";
+  the list opens on Fit with a résumé on file and on Newest without one (`defaultSort`; the menu's order is
+  `sortChoices`), and that default stays out of the link;
   `sponsor` is `yes` or `open` (every posting that does not say it will not sponsor), and `ENTRIES(year)` gives New
   graduates, MBA entry, Internship and "Starts {year+1} or later" from the file's year; old links' `sponsor=1` and
   `entry=bachelor` read as `yes` and `grads`),

@@ -2003,7 +2003,7 @@
   // Jobs.rowsOf); the logic is web/jobs.js (the owner's search_logic.md); the layout is the J4 mock. The hash is
   // the state (#/jobs?q=…&field=…&open=…), written with replaceState so Back is one step per screen, not per click.
   // With a résumé on file the rough read's skills (rough().shown) give each posting "N of the M skills this posting
-  // asks for", never a percentage, and Fit is the default sort. The only event sent is posting_link, through the
+  // asks for", never a percentage, and Fit is the default sort; without one the default is Newest. The only event sent is posting_link, through the
   // document-level [data-posting] handler above, the way the role screen sends it. With the tech set switched off
   // (CONFIG.TECH_ENABLED) its rows and roles leave here, before anything counts them, so neither the lead nor a facet
   // names a set the site hides.
@@ -2053,25 +2053,25 @@
     const fieldLabel = id => labelIn(fields, id);
     const kindLabel = k => ((ix.M.meta.kinds || {})[k] || {}).label || k;
     const roleOk = id => !!id && D.roles.includes(id);
-    // the state: the hash, with the chosen role when the person arrives with nothing set, and Fit with a résumé
-    const s = Jobs.parseState(location.hash);
+    // the state: the hash, with the chosen role when the person arrives with nothing set; a link that names no sort
+    // opens on Fit with a résumé and on Newest without one
+    const sort0 = Jobs.defaultSort(have), s = Jobs.parseState(location.hash, sort0);
     if (!location.hash.includes("?")) { let r = chosenRole(); if (r && !roleOk(r)) r = Atlas.productKey(r); if (roleOk(r)) s.role = r; }
     if (s.role && !roleOk(s.role)) s.role = "";
     if (s.field && !fields.some(([id]) => id === s.field)) s.field = "";
     if (s.role && !s.field) s.field = fieldOf(s.role);   // the id's own field: a link to the MBA pmm opens Marketing
     if (s.role) s.role = ctx.roleKey(s.role);   // then the role's key: role=product_manager is product.pm's filter
     if (s.role && s.field && !Jobs.roleInField(s.role, s.field, ctx)) s.role = "";
-    if (have && !/[?&]sort=/.test(location.hash)) s.sort = "fit";
-    if (s.sort === "fit" && !have) s.sort = "best";
+    if (s.sort === "fit" && !have) s.sort = sort0;
     const writeHash = () => {
-      let q = Jobs.stateQuery(s); if (have && s.sort === "best") q += (q ? "&" : "") + "sort=best";   // with a résumé, Best match is a choice, so it stays in the link
+      const q = Jobs.stateQuery(s, sort0);   // the default sort stays out of the link; any other is a choice and stays in it
       const next = "#/jobs" + (q ? "?" + q : "");
       if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next);
     };
     const note = have
       ? `${esc(JB.noteResume)} <a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteResumeLink)}</a>.`
       : `<a href="${esc(resumeHref())}" data-resume-link>${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
-    const sortOptions = () => [...(have ? ["fit"] : []), "best", "newest", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
+    const sortOptions = () => Jobs.sortChoices(have).map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
     page(`<h1>${esc(JB.heading)}</h1>
       <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(nCompanies) }))}</p>
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
