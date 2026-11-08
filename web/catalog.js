@@ -334,12 +334,18 @@
   const inField = (card, subjects) => { const s = new Set(subjects || []); return (card.subjects || []).some(x => s.has(x)); };
   // the subjects of a list of field ids, from the campus entry's field_subjects map
   const fieldSubjects = (campus, groupIds) => [...new Set((groupIds || []).flatMap(g => ((campus && campus.field_subjects) || {})[g] || []))];
-  // sorts: relevance (the band, then the score, then the field, then roster order); gaps (the sum of the shares of the
-  // gaps covered, then the score, then the field, then roster order; with no card covering anything, by score, then the
-  // field, then roster order); any other mode is the roster's order, subject then number read as a number (the screen
+  // sorts: relevance (the band, then the score, then the field, then roster order); gaps (one line per card, the sum of
+  // the shares of the gaps covered, halved for a low-band class, plus LINE_SCORE times the score; then the score, then
+  // the field, then roster order; with no card covering anything, by score, then the field, then roster order), so a
+  // low-relevance class that names one small gap no longer outranks the role's core course (tuning 2026-11-08,
+  // evals/classes_baseline.md); any other mode is the roster's order, subject then number read as a number (the screen
   // offers no Code sort: with nothing to compare against it shows the roster as it stands). info[key] = { band, score,
   // covered } as the screen holds them; subjects: the field tie-break's list (inField), optional
   const BAND_RANK = { high: 0, medium: 1, low: 2 };
+  // the gaps sort: a low-band class's covered shares count at this fraction
+  const LOW_BAND_GAPS = 0.5;
+  // the gaps sort: the weight of the relevance score in a card's line, next to the shares covered
+  const LINE_SCORE = 0.75;
   const rosterOrder = (a, b) => { const p = a.primary || {}, q = b.primary || {}; return String(p.subject || "").localeCompare(String(q.subject || "")) || String(p.catalog_nbr || "").localeCompare(String(q.catalog_nbr || ""), undefined, { numeric: true }) || a.key.localeCompare(b.key); };
   function sortCards(cards, mode, info, subjects) {
     const inf = k => (info && info[k]) || {};
@@ -348,8 +354,9 @@
     const score = c => Number(inf(c.key).score) || 0;
     const w = c => (inf(c.key).covered || []).reduce((a, g) => a + (g.w || 0), 0);
     const tail = (a, b) => (score(b) - score(a)) || field(a, b) || byCode(a, b);
+    const line = c => (inf(c.key).band === "low" ? w(c) * LOW_BAND_GAPS : w(c)) + LINE_SCORE * score(c);
     if (mode === "relevance") return cards.slice().sort((a, b) => ((BAND_RANK[inf(a.key).band] ?? 3) - (BAND_RANK[inf(b.key).band] ?? 3)) || tail(a, b));
-    if (mode === "gaps") return noCover(cards, info) ? cards.slice().sort(tail) : cards.slice().sort((a, b) => (w(b) - w(a)) || tail(a, b));
+    if (mode === "gaps") return noCover(cards, info) ? cards.slice().sort(tail) : cards.slice().sort((a, b) => (line(b) - line(a)) || tail(a, b));
     return cards.slice().sort(byCode);
   }
   // the n courses that cover the most gap weight, for the rail; a course covering nothing is never one
