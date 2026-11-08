@@ -23,6 +23,6 @@
     ]
   },
   "known_failures": {
-    "must_top BANA 5065": "Financial Statement Analysis sits fourth: Business Models, Data Science in the Wild and ML Hardware cover Metrics & KPIs and the Office suite, and the share sum lifts them. A per-line score or a cap on small gaps is the next lever."
+    "must_top BANA 5065": "Financial Statement Analysis sits fourth: Business Models, Data Science in the Wild and ML Hardware cover Metrics & KPIs and the Office suite, and all three read as medium band, so the line score keeps them above it. The Office suite as a skill ML Hardware teaches is a tag problem (pipeline/catalog_tags.mjs), not the sort's."
   }
 }

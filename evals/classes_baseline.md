@@ -99,7 +99,7 @@ Bands over all cases: 238 high, 2733 medium, 2859 low. Checks: 281 pass, 18 fail
    4. BANA 5065    medium 0.144  gaps 1.016  Metrics & KPIs, Financial & management reporting  · Financial Statement Analysis
    5. TECH 5110    medium 0.206  gaps 0.893  Metrics & KPIs, Growth, funnels & retention  · Early Adopters
   PASS roles: spec names ["strategic_finance"], case is ["strategic_finance"]
-  KNOWN must_top BANA 5065: rank 4 of 110, n 3 — Financial Statement Analysis sits fourth: Business Models, Data Science in the Wild and ML Hardware cover Metrics & KPIs and the Office suite, and the share sum lifts them. A per-line score or a cap on small gaps is the next lever.
+  KNOWN must_top BANA 5065: rank 4 of 110, n 3 — Financial Statement Analysis sits fourth: Business Models, Data Science in the Wild and ML Hardware cover Metrics & KPIs and the Office suite, and all three read as medium band, so the line score keeps them above it. The Office suite as a skill ML Hardware teaches is a tag problem (pipeline/catalog_tags.mjs), not the sort's.
   PASS must_not_top CS 6412: rank 27 of 110, n 5
   PASS must_not_top LAW 6198: rank 15 of 110, n 5
   PASS must_cover financial_reporting BANA 5065: covers metrics_kpis, financial_reporting
