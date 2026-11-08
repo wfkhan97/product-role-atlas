@@ -5,6 +5,7 @@
 //   - Find jobs: the posting panel takes focus, Esc closes it and focus goes back to the card; a facet keeps focus
 //   - the launcher: a field tile hands focus to the field's first role, and the way back to its tile
 //   - Networking: the person types are tabs (arrow keys, Home, End, one Tab stop); a choice keeps focus
+//   - Find jobs on a phone: an open posting is a modal dialog that keeps Tab inside it
 //   - the feedback sheet keeps Tab inside it and gives focus back to the link that opened it
 //   - axe: no link-in-text-block, label-content-name-mismatch or color-contrast on these screens, in both themes
 import fs from "node:fs";
@@ -190,6 +191,29 @@ test("feedback: Tab and Shift+Tab stay inside the sheet; Esc and Not now give fo
   await page.keyboard.press("Enter");
   await expect(page.locator("#fb-box")).toHaveCount(0);
   expect(await opener.evaluate(e => e === document.activeElement), "Not now: focus on the Feedback link").toBe(true);
+});
+
+// ---------- the posting panel on a phone (2026-11-08) ----------
+// Under 640 px the panel covers the screen: it is a modal dialog there, and Tab goes round its own controls
+test("Find jobs on a phone: Tab and Shift+Tab stay inside an open posting; Esc closes it", async ({ visitor }, info) => {
+  test.skip(info.project.name !== "phone", "the panel covers the screen on a phone");
+  const page = await visit(visitor, { hash: "#/jobs" });
+  const open = page.locator(".jcard [data-open]").first();
+  await open.waitFor();
+  const id = await open.getAttribute("data-open");
+  await open.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#aside")).toBeVisible();
+  expect(await activeIs(page, "#jdetail-h"), "the panel's heading has focus").toBe(true);
+  await expect(page.locator("#aside")).toHaveAttribute("role", "dialog");
+  await expect(page.locator("#aside")).toHaveAttribute("aria-modal", "true");
+  await expect(page.locator("#aside")).toHaveAttribute("aria-labelledby", "jdetail-h");
+  for (let i = 0; i < 12; i++) { await page.keyboard.press("Tab"); expect(await activeIn(page, "#aside"), `Tab ${i + 1} stays in the panel`).toBe(true); }
+  for (let i = 0; i < 12; i++) { await page.keyboard.press("Shift+Tab"); expect(await activeIn(page, "#aside"), `Shift+Tab ${i + 1} stays in the panel`).toBe(true); }
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#aside")).toBeHidden();
+  await expect(page.locator("#aside")).not.toHaveAttribute("role", "dialog");
+  expect(await active(page)).toMatchObject({ key: { open: id } });
 });
 
 // ---------- names: the Explore view buttons, the heart, the rail tab ----------

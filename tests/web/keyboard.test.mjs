@@ -52,3 +52,16 @@ test("Find jobs, the launcher and Networking put their content first in the mark
   for (const [sel, col] of [[".jobs-grid .jrail", 1], [".jobs-grid .jmain", 2], [".lf-main", 1], [".lf-side", 2], [".nw-main", 1], [".nw-side", 2]])
     assert.match(desk, new RegExp(sel.replace(/\./g, "\\.") + ` \\{ grid-column: ${col}; grid-row: 1; \\}`), `${sel} pinned to column ${col}, row 1`);
 });
+
+// 2026-11-08: a posting's panel covers a phone's screen, so it is a dialog that keeps Tab inside it, through the same
+// trapTab the feedback sheet uses
+test("the posting panel is a dialog and the keydown keeps Tab in it on a phone; the feedback sheet shares trapTab", () => {
+  assert.match(app, /const phoneMq = [^\n]*matchMedia\("\(max-width: 640px\)"\)/);
+  assert.match(app, /function trapTab\(box, e\)/);
+  assert.match(app, /const TAB_STOPS = 'button, textarea, input, select, a\[href\], \[tabindex\]:not\(\[tabindex="-1"\]\)'/);
+  assert.match(app, /aside\.setAttribute\("role", "dialog"\); aside\.setAttribute\("aria-labelledby", on\); aside\.setAttribute\("aria-modal", String\(onPhone\(\)\)\)/);
+  assert.match(app, /asideEsc = closePanel;\n\s*asideDialog\("jdetail-h"\)/, "drawPanel makes the aside a dialog named by the heading");
+  assert.match(app, /function showAside\(html\) \{\n\s*asideDialog\(null\);/, "any other use of the aside drops the dialog");
+  assert.match(app, /if \(e\.key === "Tab" && asideEsc && !aside\.hidden && !fbOpen && onPhone\(\)\) \{ trapTab\(aside, e\); return; \}/);
+  assert.match(app, /if \(e\.key === "Tab"\) trapTab\(box, e\);/, "the feedback sheet's loop is trapTab");
+});

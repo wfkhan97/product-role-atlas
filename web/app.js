@@ -328,7 +328,26 @@
   function leaveRail() { railBase = null; shell.classList.remove("with-rail", "rail-open"); railTab.setAttribute("aria-expanded", "false"); aside.classList.remove("rail"); }
   // asideEsc: the close of a screen's own panel (Find jobs' posting), run by Esc; any showAside(null) clears it
   let asideEsc = null;
+  // a phone (640 px and under, style.css): the side panel covers the screen there, so a posting's panel is modal
+  const phoneMq = (() => { try { return window.matchMedia ? window.matchMedia("(max-width: 640px)") : null; } catch { return null; } })();
+  const onPhone = () => !!(phoneMq && phoneMq.matches);
+  // Tab and Shift+Tab go round a modal box's own controls (enabled and shown) and never reach the page behind it;
+  // focus outside the box goes to its first control. The feedback sheet and a posting's panel on a phone use it.
+  const TAB_STOPS = 'button, textarea, input, select, a[href], [tabindex]:not([tabindex="-1"])';
+  function trapTab(box, e) {
+    const els = [...box.querySelectorAll(TAB_STOPS)].filter(el => !el.disabled && !el.hidden && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden");
+    if (!els.length) return;
+    const first = els[0], last = els[els.length - 1], at = document.activeElement;
+    if (!box.contains(at)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+    else if (e.shiftKey && at === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+  }
+  // the dialog a posting's panel is (drawPanel sets it); any other use of the aside goes without it
+  const asideDialog = on => { for (const a of ["role", "aria-labelledby", "aria-modal"]) aside.removeAttribute(a); if (on) { aside.setAttribute("role", "dialog"); aside.setAttribute("aria-labelledby", on); aside.setAttribute("aria-modal", String(onPhone())); } };
+  // a window that crosses 640 px while a posting is open: the panel is modal again, or no longer
+  try { if (phoneMq) { const sync = () => { if (aside.getAttribute("role") === "dialog") aside.setAttribute("aria-modal", String(onPhone())); }; if (phoneMq.addEventListener) phoneMq.addEventListener("change", sync); else if (phoneMq.addListener) phoneMq.addListener(sync); } } catch { }
   function showAside(html) {
+    asideDialog(null);
     if (html == null) { asideEsc = null; if (railBase) { const y = aside.hidden ? 0 : aside.scrollTop; aside.hidden = false; aside.innerHTML = railBase(); aside.scrollTop = y; wireRail(); return; } aside.hidden = true; shell.classList.remove("with-aside"); aside.innerHTML = ""; return; }
     aside.hidden = false; if (!railBase) shell.classList.add("with-aside"); aside.innerHTML = html; aside.scrollTop = 0;
   }
@@ -361,6 +380,8 @@
   document.addEventListener("mouseout", e => { const m = e.target.closest("[data-measure]"); if (m && tipFor === m && !tipPinned && !m.contains(e.relatedTarget)) hideTip(); });
   window.addEventListener("scroll", () => { if (tipFor && !tipPinned) hideTip(); }, { passive: true });
   document.addEventListener("keydown", e => {
+    // a posting's panel covers a phone's screen: Tab stays in it (the feedback sheet over it keeps its own)
+    if (e.key === "Tab" && asideEsc && !aside.hidden && !fbOpen && onPhone()) { trapTab(aside, e); return; }
     if (e.key !== "Escape") return;
     if (tipFor) { hideTip(); return; }
     if (state.more && $("#drawer")) { state.more = false; keepScroll(renderRole); return; }
@@ -571,13 +592,7 @@
     const box = wrap.querySelector("#fb-box");
     const onKey = e => {
       if (e.key === "Escape") { close(); return; }
-      if (e.key !== "Tab") return;
-      const els = [...box.querySelectorAll("button, textarea, input, a[href]")].filter(el => !el.disabled && !el.hidden && el.offsetParent !== null);
-      if (!els.length) return;
-      const first = els[0], last = els[els.length - 1], at = document.activeElement;
-      if (!box.contains(at)) { e.preventDefault(); first.focus(); }
-      else if (e.shiftKey && at === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+      if (e.key === "Tab") trapTab(box, e);
     };
     document.addEventListener("keydown", onKey);
     for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
@@ -2109,6 +2124,7 @@
       if (!r) { s.open = ""; panelFor = null; showAside(null); return; }
       if (panelFor === r.id && !aside.hidden) return;
       panelFor = r.id; showAside(panel(r)); asideEsc = closePanel;
+      asideDialog("jdetail-h");   // role="dialog", named by its heading; modal on a phone, where it covers the screen
       aside.querySelector(".close").onclick = closePanel;
     };
     const openPosting = id => { s.open = id; mark(); drawPanel(); writeHash(); const h = $("#jdetail-h"); if (h) h.focus(); };
