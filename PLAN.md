@@ -3224,6 +3224,17 @@ card took focus, Esc and the scroll under the keyboard and phone specs. Those sp
 the guide's own spec covers the guide. One spec still fails on `main` and here: the résumé line naming the AI reader
 on a 200 (in Later).
 
+## The menus and the guide catch up with the site pass (`chore/menu-guide-copy`, 2026-11-08)
+
+An audit of the top bar, the footer, the home cards and every guide tip against what the two site-pass PRs shipped.
+The menus were current but one line: home's Networking card named "alumni, faculty, and peers" where the screen
+offers hiring managers, people in the role, recruiters, alumni and faculty. Three tips lagged: the field page's and
+the map's tap on a phone (a first tap lights, a second opens), and the class picker's Gaps covered sort, now named in
+the band tip (the guide keeps two to four tips a screen and two sentences a tip, so no new row). Find jobs' field tip
+says "then a role inside it". The skill card's share line says "business and product roles", since the launcher counts
+the tech set too and the two numbers read as a disagreement. Field and classes go to version 2, so a person who saw
+the old tips sees the new ones once.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as

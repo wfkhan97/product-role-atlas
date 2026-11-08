@@ -199,7 +199,7 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   expect(said).not.toMatch(/MBA/);
   // the card averages over the roles the map shows: every role but the tech set's (skillmap.js roleShare)
   const tech = await page.evaluate(async () => Object.values((await Atlas.index()).roles).filter(r => r.set === "tech").length);
-  expect(said).toContain(`${roles - tech} roles`);
+  expect(said).toContain(`${roles - tech} business and product roles`);
   // the role page: the facts say the open US postings; the list head names what its larger number counts
   await gotoHash(page, `#/role/${ROLE}`);
   await page.locator("#main .listhead").waitFor();
