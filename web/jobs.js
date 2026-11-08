@@ -3,7 +3,11 @@
    pipeline.jobs_open, column-oriented; rowsOf expands it once), and `ctx` hands in what the rows do not carry (a role's name and field, a skill's name), so
    the same code runs in node: require("web/jobs.js") gives the functions; in the browser they are window.Jobs.
    A person's fit is never a number on its own: fitLine says "N of the M skills". The words (the level words, the
-   entry marks, the employer types, the fit line) are web/copy.js, Copy.jobs. */
+   entry marks, the employer types, the fit line) are web/copy.js, Copy.jobs.
+   The query is words, read the same way every time, with no model: every word must hit a row (AND), a whole word
+   scoring more than the start of one, weighted by the field it hits. A short form in ALIASES ("mle", "pm", "swe")
+   also hits by the words it stands for; when nothing has every word of a longer query, searchJobsRelaxed gives the
+   rows that miss one; queryHints names the filters a query's words ask for ("new grad", "remote", "visa"). */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));   // node: require("web/jobs.js")
   else root.Jobs = factory(root.Copy);
@@ -81,9 +85,39 @@
   const skillNames = (row, ctx) => { const v = ctx && ctx.skillNames ? ctx.skillNames(row) : []; return Array.isArray(v) ? v.join(" ") : String(v || ""); };
 
   // ---------- the query ----------
-  const words = t => String(t || "").toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  // Before the words are cut, an ampersand between letters joins them ("FP&A" reads as "fpa", "AT&T" as "att") and
+  // "H-1B" reads as "h1b"; every other mark splits, so "new-grad" is "new grad". The rows' text is cut the same way,
+  // so a title that says "FP&A" has the word a person types.
+  const normalise = t => String(t || "").toLowerCase().replace(/(?<=[a-z])&(?=[a-z])/g, "").replace(/\bh-1b\b/g, "h1b");
+  const words = t => normalise(t).split(/[^a-z0-9]+/).filter(Boolean);
   // one word against one text's words: 2 for a whole word, 1 for the start of a word, 0 for nothing
   function hit(tok, ws) { let best = 0; for (const w of ws) { if (w === tok) return 2; if (best === 0 && w.startsWith(tok)) best = 1; } return best; }
+  // The short forms a student types for a job, and the words they stand for (2026-11-08: "MLE new grad" found the two
+  // titles that spell "MLE" and none of the thousands that say "Machine Learning Engineer"). A table, not a model: it
+  // is read the same way every time, and a wrong entry is one line to fix. A query word in the table hits a row when
+  // the word itself is a whole word of the row (a title "PM, Growth" hits "pm") or when every word of its expansion
+  // hits the row, as if the person had typed them; it scores the better of the two. The short form never counts as the
+  // start of a longer word: "pm" would find "PMO" and "po" "PowerPoint" (23,142 postings by the start of a word
+  // against 1 by the word), and the expansion finds the long forms. Each entry was checked against the open postings
+  // (2026-11-08). "de" is left out: of the 166 postings with "de" as a word, 139 have it in the location (Delaware),
+  // and the 30 titles with it are Spanish or French ("Líder de Producto") or Delaware, none a data engineer; a
+  // location is searched, so "de" would mix Delaware postings into a data-engineer search. The other two-letter forms
+  // are rare as words (da in 4 titles, po 1, ui 45, pe 11, all in their sense here) or common in their own sense (ai,
+  // hr, sr, ux). "and" and "of" in an expansion are not asked for, so "Financial Planning & Analysis" hits "fpa".
+  const ALIASES = {
+    mle: "machine learning engineer", swe: "software engineer", sde: "software development engineer",
+    pm: "product manager", apm: "associate product manager", pmm: "product marketing manager", tpm: "technical program manager",
+    po: "product owner", ds: "data scientist", da: "data analyst", fde: "forward deployed engineer",
+    ib: "investment banking", pe: "private equity", vc: "venture capital", bd: "business development",
+    cs: "customer success", csm: "customer success manager", ux: "user experience", ui: "user interface",
+    ml: "machine learning", ai: "artificial intelligence", eng: "engineer", mgr: "manager", sr: "senior", jr: "junior",
+    dev: "developer", ops: "operations", bizops: "business operations", hr: "human resources", qa: "quality assurance",
+    sec: "security", fpa: "financial planning and analysis", gm: "general manager", cos: "chief of staff",
+    ae: "account executive", sdr: "sales development representative", ldp: "leadership development program",
+  };
+  const LINK_WORDS = new Set(["and", "of"]);
+  const EXPAND = Object.fromEntries(Object.entries(ALIASES).map(([k, v]) => [k, words(v).filter(w => !LINK_WORDS.has(w))]));
+  const expansionOf = tok => Object.prototype.hasOwnProperty.call(EXPAND, tok) ? EXPAND[tok] : null;
   // the searched fields and their weights: title 3, company 2, role name 2, skill names 1, location 1. The words of
   // a row are cut once per ctx (the names a ctx gives can change when its data loads) and kept beside the row.
   const tokenize = (row, ctx) => [[words(row.title), 3], [words(row.company), 2], [words(roleName(row, ctx)), 2], [words(skillNames(row, ctx)), 1], [words(row.location), 1]];
@@ -94,27 +128,77 @@
     let f = rows.get(row); if (!f) rows.set(row, f = tokenize(row, ctx));
     return f;
   }
-  // the strength: every word must hit something (AND); a word scores its best hit times that field's weight; the
-  // strength sums the words. An empty query gives 1.
-  function strengthOf(row, q, ctx) {
+  // one query word against a row's fields: its best hit times that field's weight; a short form of the table scores the
+  // better of its whole-word hit and its expansion's words' average
+  function wordScore(tok, fields) {
+    const ex = expansionOf(tok);
+    let best = 0;
+    for (const [ws, w] of fields) { const h = (ex ? (ws.includes(tok) ? 2 : 0) : hit(tok, ws)) * w; if (h > best) best = h; }
+    if (!ex) return best;
+    let sum = 0;
+    for (const e of ex) { const s = wordScore(e, fields); if (!s) return best; sum += s; }
+    return Math.max(best, sum / ex.length);
+  }
+  // the strength: every word must hit something (AND); the strength sums the words' scores. An empty query gives 1.
+  // `slack` is how many words may miss (the all-but-one pass below gives 1).
+  function strengthOf(row, q, ctx, slack) {
     const toks = Array.isArray(q) ? q : words(q);
     if (!toks.length) return 1;
     const fields = searched(row, ctx);
-    let total = 0;
+    let total = 0, missed = 0;
     for (const t of toks) {
-      let best = 0;
-      for (const [ws, w] of fields) { const h = hit(t, ws) * w; if (h > best) best = h; }
-      if (!best) return 0;
-      total += best;
+      const s = wordScore(t, fields);
+      if (!s && ++missed > (slack || 0)) return 0;
+      total += s;
     }
     return total;
   }
   // the rows that match, each with its strength
-  function searchJobs(jobs, q, ctx) {
-    const toks = words(q), out = [];
-    for (const row of jobs) { const s = strengthOf(row, toks, ctx); if (s) out.push(Object.assign({}, row, { strength: s })); }
+  function searchJobs(jobs, q, ctx, slack) {
+    const toks = Array.isArray(q) ? q : words(q), out = [];
+    for (const row of jobs) { const s = strengthOf(row, toks, ctx, slack); if (s) out.push(Object.assign({}, row, { strength: s })); }
     return out;
   }
+  // The all-but-one fallback: when a query of two or more words finds nothing, the rows that match every word but one,
+  // and relaxed true so the screen can say so. One typo or one word no posting uses ("zanzibar") then leaves the rest
+  // of the query working instead of an empty list. It runs only after an empty exact pass, so a query that finds
+  // something costs what it did. Never two misses: past one, the list stops being about the query.
+  function searchJobsRelaxed(jobs, q, ctx) {
+    const toks = words(q), rows = searchJobs(jobs, toks, ctx);
+    if (rows.length || toks.length < 2) return { rows, relaxed: false };
+    const loose = searchJobs(jobs, toks, ctx, 1);
+    return { rows: loose, relaxed: loose.length > 0 };
+  }
+  // The filters a query's words name: "new grad", "remote", "sponsorship" and the like are what the Entry, Work and
+  // Visa sponsorship filters say better, since a posting's mark can come from its text and not its title. Each hint is
+  // { key, val, words, at }: the filter, its value, the query words it was read from and their places in words(q), so
+  // the screen can turn the filter on and take those words out (dropWords). A year after the file's (`year`, passed in)
+  // names "Starts {year} or later". Two-word phrases are read before one word, so "new grad" is one hint.
+  const HINT_PHRASES = [
+    [["new", "grad"], "entry", "grads"], [["new", "grads"], "entry", "grads"], [["new", "graduate"], "entry", "grads"], [["new", "graduates"], "entry", "grads"],
+    [["entry", "level"], "entry", "grads"], [["early", "career"], "entry", "grads"], [["early", "careers"], "entry", "grads"],
+    [["grad"], "entry", "grads"], [["grads"], "entry", "grads"], [["graduate"], "entry", "grads"], [["graduates"], "entry", "grads"],
+    [["intern"], "entry", "intern"], [["interns"], "entry", "intern"], [["internship"], "entry", "intern"], [["internships"], "entry", "intern"],
+    [["remote"], "remote", true],
+    [["sponsor"], "sponsor", "yes"], [["sponsors"], "sponsor", "yes"], [["sponsorship"], "sponsor", "yes"], [["visa"], "sponsor", "yes"], [["h1b"], "sponsor", "yes"],
+  ].sort((a, b) => b[0].length - a[0].length);
+  function queryHints(q, year) {
+    const toks = words(q), out = [], byKey = new Map();
+    const add = (key, val, at) => {
+      const k = key + "=" + val;
+      let h = byKey.get(k); if (!h) { byKey.set(k, h = { key, val, words: [], at: [] }); out.push(h); }
+      for (const i of at) { h.words.push(toks[i]); h.at.push(i); }
+    };
+    for (let i = 0; i < toks.length;) {
+      const p = HINT_PHRASES.find(([ws]) => ws.every((w, j) => toks[i + j] === w));
+      if (p) { add(p[1], p[2], p[0].map((_, j) => i + j)); i += p[0].length; continue; }
+      if (/^20\d\d$/.test(toks[i]) && Number(toks[i]) > (year || new Date().getFullYear())) add("entry", "later", [i]);
+      i += 1;
+    }
+    return out;
+  }
+  // the query without the words at those places (a hint's `at`), the rest kept in order
+  const dropWords = (q, at) => { const skip = new Set(at || []); return words(q).filter((_, i) => !skip.has(i)).join(" "); };
 
   // ---------- the filters ----------
   // f = { field, role, level, entry, years, sector, location, remote, sponsor, noclear, group, company }; a missing or
@@ -295,5 +379,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: SPONSOR.includes(s.sponsor) ? s.sponsor : "", noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, strengthOf, searchJobs, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

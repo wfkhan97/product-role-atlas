@@ -2056,7 +2056,7 @@
       <div class="chips jquick" id="jquick" role="group" aria-label="${esc(JB.quickAria)}"></div>
       <div class="jobs-grid">
         <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
-        <section class="jmain" aria-label="${esc(JB.postingsAria)}"><button type="button" class="linkish link jfilters-link" data-to-filters="1">${esc(JB.filtersLink)}</button><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
+        <section class="jmain" aria-label="${esc(JB.postingsAria)}"><button type="button" class="linkish link jfilters-link" data-to-filters="1">${esc(JB.filtersLink)}</button><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="jnotes" id="jnotes"></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
       </div>`);
     const pageEl = main.querySelector(".page"); pageEl.classList.add("jobs-page");
     const form = $("#jsearch"), railEl = $("#jrail");
@@ -2169,6 +2169,18 @@
       const on = key === "remote" ? !!s.remote : s[key] === val, n = Jobs.facetCounts(searched, f, key, [val], ctx)[val] || 0, dead = !on && !n;
       return `<button type="button" class="chip${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ` title="${esc(JB.dead)}" aria-disabled="true"` : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
     }).join("");
+    // ---- the lines over the list (2026-11-08): that the list matches all but one of the search's words, and the
+    // filters the search's words name, each a button that turns its filter on and takes those words out of the search.
+    // A hint whose filter is on already is not shown ----
+    let hints = [];
+    const hintOn = h => h.key === "remote" ? !!s.remote : s[h.key] === h.val;
+    const hintFilter = h => h.key === "remote" ? JB.quick.remote : h.key === "sponsor" ? JB.quick.sponsor : labelIn(Jobs.ENTRIES(ctx.year), h.val);
+    const hintHtml = (h, i) => {
+      const [a, b] = fill(JB.hint, { what: fill(JB.hintWhat[h.key === "entry" ? h.val : h.key], { year: ctx.year + 1 }), filter: "\u0000" }).split("\u0000");
+      return `${esc(a)}<button type="button" class="linkish link" data-hint="${i}">${esc(hintFilter(h))}</button>${esc(b || "")}`;
+    };
+    const notes = relaxed => (relaxed ? `<p class="small muted">${esc(JB.relaxed)}</p>` : "") + (hints.length ? `<p class="small jhint">${hints.map(hintHtml).join(" ")}</p>` : "");
+    const useHint = h => { if (h.key === "remote") s.remote = true; else s[h.key] = h.val; s.q = Jobs.dropWords(s.q, h.at); syncInputs(); change(); };
     const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(chipHtml).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----
     // Focus after a draw (B-12): the rail, the chips and the pager are drawn anew, so the control the person used is
@@ -2181,6 +2193,7 @@
         const inQuick = !!el.closest("#jquick"), at = `[data-key="${CSS.escape(d.key)}"][data-val="${CSS.escape(d.val)}"]`;
         return inQuick ? { sel: `#jquick ${at}`, near: "#jquick .chip" } : { sel: `#jrail ${at}`, near: `details[data-group="${CSS.escape(d.key === "remote" || d.key === "noclear" ? "work" : d.key)}"] > summary` };
       }
+      if (d.hint) return { sel: "#jnotes [data-hint]", near: "#jsearch input[name=q]" };
       if (d.remove) return { sel: `[data-remove="${CSS.escape(d.remove)}"]`, near: "#jactive [data-remove], #jsearch input[name=q]" };
       if (d.page) return { sel: `[data-page="${CSS.escape(d.page)}"]:not([disabled])`, near: "#jpager [data-page]:not([disabled])" };
       if (d.clear) return { sel: "#jsearch input[name=q]" };
@@ -2192,7 +2205,8 @@
     const draw = () => {
       const want = focusKeyOf(document.activeElement);
       const f = Jobs.filterOf(s);
-      const searched = lastSearched = Jobs.searchJobs(rows, s.q, ctx);
+      // the search, and when no posting has every word, the postings that miss one (Jobs.searchJobsRelaxed)
+      const found = Jobs.searchJobsRelaxed(rows, s.q, ctx), searched = lastSearched = found.rows;
       const d = Jobs.dedupe(Jobs.filterJobs(searched, f, ctx)); dupes = d.dupes;
       fits = have ? new Map(d.rows.map(r => [r.id, fitOf(r)])) : null;
       const list = Jobs.sortJobs(d.rows, s.sort, fits), pg = Jobs.pageOf(list, s.page); s.page = pg.page;
@@ -2201,6 +2215,8 @@
       $("#jcount").innerHTML = esc(pg.total > Jobs.PAGE ? fill(JB.showing, { from: fmt(pg.from), to: fmt(pg.to), total: fmt(pg.total) }) : pg.total === 1 ? JB.posting : fill(JB.postings, { n: fmt(pg.total) })) + (nFolded ? " · " + esc(nFolded === 1 ? JB.foldedOne : fill(JB.folded, { n: fmt(nFolded) })) : "") + (active ? ` · <button type="button" class="linkish link" data-clear="1">${esc(JB.clearFilters)}</button>` : "");
       const on = pg.rows.length ? activeChips().filter(([k]) => k !== "q" && k !== "loc") : [];
       $("#jactive").innerHTML = on.map(chipHtml).join(""); $("#jactive").hidden = !on.length;
+      hints = Jobs.queryHints(s.q, ctx.year).filter(h => !hintOn(h));
+      const nt = $("#jnotes"); nt.innerHTML = notes(found.relaxed && pg.rows.length > 0); nt.hidden = !nt.innerHTML;
       $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
       $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>${esc(fill(JB.previous, { n: Jobs.PAGE }))}</button><span>${esc(fill(JB.pageOf, { p: fmt(pg.page), n: fmt(pg.pages) }))}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>${esc(fill(JB.next, { n: Jobs.PAGE }))}</button>` : "";
       railEl.innerHTML = rail(searched, f); $("#jquick").innerHTML = quick(searched, f);
@@ -2228,6 +2244,7 @@
       if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; Object.assign(opened, openedFor()); moreCompanies = false; syncInputs(); draw(); return; }
       const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }
       if (t.closest("[data-more-companies]")) { const want = focusKeyOf(document.activeElement); moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); refocus(want); return; }
+      const hb = t.closest("[data-hint]"); if (hb) { const h = hints[Number(hb.dataset.hint)]; if (h) useHint(h); return; }
       const fb = t.closest("[data-key]"); if (fb) { toggleFacet(fb.dataset.key, fb.dataset.val); return; }
       const pb = t.closest("[data-page]"); if (pb) { if (pb.disabled) return; s.page += Number(pb.dataset.page); draw(); $("#jlist").scrollIntoView({ block: "start" }); return; }
       const ob = t.closest("[data-open]"); if (ob) { openPosting(ob.dataset.open); return; }

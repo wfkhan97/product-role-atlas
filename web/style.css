@@ -988,6 +988,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .jfilters-link { display: none; }
 .jhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; }
 .jhead .jcount { margin: 0; font-size: var(--text-sm); color: var(--muted-foreground); }
+.jnotes p { margin: 6px 0 0; }
 .jsort { display: inline-flex; gap: 8px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); white-space: nowrap; }
 .jsort select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; margin: 0; max-width: none; }
 .jlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 12px; margin-top: 12px; align-items: start; }
