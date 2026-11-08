@@ -2277,7 +2277,11 @@
     const ix = await Atlas.index(), EX = Copy.explore;
     crumbs([[EX.crumb, null]]); showAside(null);
     const hq = new URLSearchParams(location.hash.split("?")[1] || ""), focus = hq.get("field");
-    if (focus || hq.get("view") === "map") SkillMap.setMode("map");   // the launcher's "See all fields on a skill map"
+    // a phone opens on the field cards (2026-11-08): the map has room for few field names there and drops the biggest
+    // ones. The launcher's ?view=map does not switch a phone to the map; the view toggle (remembered for the session,
+    // SkillMap.mode) and a link to one field (?field=) still do
+    const phone = typeof matchMedia === "function" && matchMedia("(max-width:640px)").matches;
+    if (focus || (!phone && hq.get("view") === "map")) SkillMap.setMode("map");   // the launcher's "See all fields on a skill map"
     const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
     // the map's colours (owner's decision 2026-10-24): the skills the roles of the fields that fit ask for, green when
     // the rough read of the resume shows them, blue when not; nothing without a resume
