@@ -604,6 +604,12 @@
     more: "more…",
     // the empty state and the count
     quoted: "“{q}”", inLoc: "in {loc}",
+    // over the list when no posting has every word of the search and the list holds those that miss one
+    relaxed: "No posting has every word you searched. These match all but one.",
+    // over the list when the search names a filter: one sentence a filter, its name a button that turns it on and takes
+    // those words out of the search
+    hint: "Looking for {what}? Turn on the {filter} filter.",
+    hintWhat: { grads: "jobs for new graduates", intern: "internships", later: "jobs that start in {year} or later", remote: "remote jobs", sponsor: "jobs that sponsor a visa" },
     empty: "No posting matches all of this.", removeOne: "Remove one:", remove: "Remove {label}",
     showing: "Showing {from}–{to} of {total} postings", posting: "1 posting", postings: "{n} postings",
     // beside the count (2026-11-06): the lead counts every posting, the list shows a repeated title at one employer once

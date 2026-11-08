@@ -58,6 +58,80 @@ test("the query reads case and punctuation away", () => {
   assert.deepEqual(ids(J.searchJobs(ROWS, "GOLDMAN-sachs", ctx)), ["m3"]);
 });
 
+// ---------- the short forms, the all-but-one fallback, the filter words (2026-11-08) ----------
+const TECH = { "tech.ml_engineer": "ML / AI Engineer", "tech.software_engineer": "Software Engineer", "product.pm": "Product Manager" };
+const tctx = { roleName: r => TECH[r.role] || "", skillNames: () => [] };
+const AROWS = [
+  row("a1", { set: "tech", role: "tech.ml_engineer", title: "Machine Learning Engineer, New Grad", company: "Nvidia", location: "Santa Clara, CA", grad: true }),
+  row("a2", { set: "tech", role: "tech.ml_engineer", title: "MLE II", company: "Roku", location: "Austin, TX" }),
+  row("a3", { set: "product", role: "product.pm", title: "Associate Product Manager, New Grad (2027 Start)", company: "Databricks", location: "San Francisco, CA", grad: true, start: 2027 }),
+  row("a4", { set: "product", role: "product.pm", title: "PM, Growth", company: "Figma", location: "New York, NY" }),
+  row("a5", { role: "program_manager", title: "Program Management Office Lead (PMO)", company: "Acme", location: "Remote", remote: true }),
+  row("a6", { set: "tech", role: "tech.software_engineer", title: "Software Engineer, Backend", company: "Stripe", location: "Wilmington, DE" }),
+  row("a7", { set: "mba", role: "fpa", title: "Senior Manager, FP&A", company: "AbbVie", location: "Chicago, IL" }),
+];
+const strengthIn = (rows, q, id) => (J.searchJobs(rows, q, tctx).find(r => r.id === id) || {}).strength || 0;
+
+test("a short form finds its own word and the words it stands for, never the start of a longer word", () => {
+  assert.deepEqual(ids(J.searchJobs(AROWS, "mle", tctx)), ["a1", "a2"], "the expansion (a1) and the word itself (a2)");
+  assert.deepEqual(ids(J.searchJobs(AROWS, "pm", tctx)), ["a3", "a4"], "PM, Growth by the word, Product Manager by the expansion, not PMO");
+  assert.deepEqual(ids(J.searchJobs(AROWS, "swe", tctx)), ["a6"]);
+  assert.deepEqual(ids(J.searchJobs(AROWS, "fpa", tctx)), ["a7"], "FP&A reads as fpa");
+  assert.deepEqual(ids(J.searchJobs(AROWS, "fp&a", tctx)), ["a7"]);
+  assert.deepEqual(ids(J.searchJobs([...AROWS, row("de1", { set: "tech", title: "Data Engineer", location: "Austin, TX" })], "de", tctx)), ["a6"], "de is a plain word, not a short form: Delaware in the location, not a data engineer");
+  assert.ok(!("de" in J.ALIASES) && J.ALIASES.mle === "machine learning engineer" && J.ALIASES.pm === "product manager");
+  assert.deepEqual(ids(J.searchJobs(AROWS, "pm new grad", tctx)), ["a3"], "the expansion and the other words, with AND kept");
+});
+
+test("a short form scores the better of its word and its expansion's average", () => {
+  assert.equal(strengthIn(AROWS, "pm", "a4"), 6, "the word in the title: 2 x 3");
+  assert.equal(strengthIn(AROWS, "pm", "a3"), 6, "product and manager both whole words of the title: (6 + 6) / 2");
+  assert.equal(strengthIn(AROWS, "mle", "a2"), 6, "MLE in the title");
+  assert.equal(strengthIn(AROWS, "mle", "a1"), 6, "machine learning engineer in the title");
+  // an expansion spread over the title and the role name scores less than the word in the title
+  const spread = [row("s1", { role: "product.pm", title: "Product Lead, Payments" }), row("s2", { role: "product.pm", title: "Senior PM" })];
+  assert.equal(strengthIn(spread, "pm", "s1"), 5, "product in the title 6, manager in the role name 4: their average");
+  assert.deepEqual(ids(J.sortJobs(J.searchJobs(spread, "pm", tctx), "best")), ["s2", "s1"], "the word in the title first");
+});
+
+test("the all-but-one fallback runs only after an empty exact pass, and never for one word", () => {
+  const exact = J.searchJobsRelaxed(AROWS, "machine learning engineer", tctx);
+  assert.equal(exact.relaxed, false); assert.deepEqual(ids(exact.rows), ["a1"]);
+  const loose = J.searchJobsRelaxed(AROWS, "machine learning engineer zanzibar", tctx);
+  assert.equal(loose.relaxed, true, "no posting has zanzibar: the rows that miss only it");
+  assert.deepEqual(ids(loose.rows), ["a1"]);
+  assert.ok(loose.rows[0].strength > 0);
+  assert.ok(!("relaxed" in loose.rows[0]), "the flag is on the result, not the rows");
+  assert.deepEqual(J.searchJobsRelaxed(AROWS, "zanzibar", tctx), { rows: [], relaxed: false }, "one word: nothing to relax");
+  assert.deepEqual(J.searchJobsRelaxed(AROWS, "zanzibar mars", tctx), { rows: [], relaxed: false }, "two misses: still nothing");
+  assert.deepEqual(ids(J.searchJobsRelaxed(AROWS, "stripe zanzibar", tctx).rows), ["a6"]);
+});
+
+test("queryHints reads the filters a query names, with the words and their places", () => {
+  const h = q => J.queryHints(q, 2026).map(x => [x.key, x.val, x.words.join(" ")]);
+  for (const q of ["new grad", "new graduate", "new graduates", "new grads", "grad", "grads", "graduate", "graduates", "entry level", "early career", "new-grad", "Entry-Level"])
+    assert.deepEqual(h(q), [["entry", "grads", J.words(q).join(" ")]], q);
+  for (const q of ["intern", "interns", "internship", "internships"]) assert.deepEqual(h(q), [["entry", "intern", q]], q);
+  assert.deepEqual(h("remote"), [["remote", true, "remote"]]);
+  for (const q of ["sponsor", "sponsors", "sponsorship", "visa", "h1b"]) assert.deepEqual(h(q), [["sponsor", "yes", q]], q);
+  assert.deepEqual(h("H-1B"), [["sponsor", "yes", "h1b"]], "h-1b reads as h1b");
+  assert.deepEqual(h("2027"), [["entry", "later", "2027"]], "a year after the file's");
+  assert.deepEqual(h("2026"), [], "the file's own year is not later");
+  assert.deepEqual(J.queryHints("2027", 2027), []);
+  assert.deepEqual(h("product manager"), []);
+  const all = J.queryHints("product manager remote sponsorship new grad", 2026);
+  assert.deepEqual(all.map(x => [x.key, x.at]), [["remote", [2]], ["sponsor", [3]], ["entry", [4, 5]]]);
+  assert.equal(J.dropWords("Product Manager remote sponsorship", all[0].at), "product manager sponsorship", "the rest of the query kept, in order");
+  assert.equal(J.dropWords("PM new grad", J.queryHints("PM new grad", 2026)[0].at), "pm");
+});
+
+test("the query is read before it is cut: fp&a is one word, new-grad two", () => {
+  assert.deepEqual(J.words("FP&A"), ["fpa"]);
+  assert.deepEqual(J.words("new-grad"), ["new", "grad"]);
+  assert.deepEqual(J.words("R&D, AT&T"), ["rd", "att"]);
+  assert.deepEqual(J.words("H-1B visa"), ["h1b", "visa"]);
+});
+
 // ---------- the filters ----------
 test("each filter narrows as the spec says", () => {
   const f = (o) => ids(J.filterJobs(ROWS, o, ctx));
@@ -445,4 +519,19 @@ test("years keeps postings that ask that many or fewer, or name none; industry i
   assert.deepEqual(J.facetCounts(R, { sector: "Health Care" }, "years", J.YEARS.map(([v]) => v), {}), { 2: 0, 5: 1, 8: 2 });
   assert.deepEqual(J.YEARS.map(([v]) => v), ["2", "5", "8"]);
   assert.ok(J.isFiltered({ years: "5" }) && J.isFiltered({ noclear: true }) && J.isFiltered({ sector: "Retail" }));
+});
+
+// ---------- the short forms on the real file (2026-11-08) ----------
+test("on the real file, the short forms find the jobs they stand for", () => {
+  const D = readJson("jobs_open.json"), names = {};
+  for (const f of ["graph.json", "graph_mba.json", "graph_tech.json"]) for (const sk of readJson(f).skills) names[sk.id] ||= sk.name;
+  const jobs = J.rowsOf(D), rctx = { roleName: r => D.role_labels[r.role] || "", skillNames: r => r.skills.map(i => names[D.skill_ids[i]] || D.skill_ids[i]) };
+  const product = id => id.startsWith(J.PRODUCT_NS) || id === "product_manager" || id === "product_strategy" || id === "pmm";
+  const cases = [["MLE new grad", id => id === "tech.ml_engineer"], ["machine learning engineer", id => id === "tech.ml_engineer"], ["PM new grad", product], ["SWE", id => id === "tech.software_engineer"], ["APM", product]];
+  for (const [q, want] of cases) {
+    const found = J.searchJobsRelaxed(jobs, q, rctx), top = J.sortJobs(J.dedupe(found.rows).rows, "best");
+    assert.ok(top.length, `${q}: no rows`);
+    assert.ok(want(top[0].role), `${q}: ${found.rows.length} rows${found.relaxed ? " (all but one word)" : ""}; the top is ${top[0].role}, "${top[0].title}"`);
+    assert.equal(found.relaxed, false, `${q}: ${found.rows.length} rows match every word`);
+  }
 });
