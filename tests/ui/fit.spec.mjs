@@ -207,3 +207,19 @@ test("the counts agree: Find jobs' lead and its count, home, the launcher, Explo
   expect(num(head.match(/([\d,]+) /)[1])).toBe(world);
   expect(head).toMatch(/worldwide/);
 });
+
+// ---------- one h1 per screen; the "How you work" row inside its box (2026-11-08) ----------
+test("the fit screen with a résumé has exactly one h1, the eyebrow that names the role", async ({ visitor }) => {
+  const page = await visit(visitor, { resume: true, hash: `#/role/${ROLE}/fit` });
+  await page.locator("#main .fitcols").waitFor();
+  expect(await page.locator("#main h1").count()).toBe(1);
+  await expect(page.locator("#main h1")).toHaveClass(/eyebrow/);
+});
+
+test("the role page's \"How you work\" count stays inside its row", async ({ visitor }) => {
+  const page = await visit(visitor, { resume: true, hash: `#/role/${ROLE}` });
+  const sum = page.locator("#main details.areabox.behaviours > summary");
+  await sum.waitFor();
+  const [n, s] = await Promise.all([sum.locator(".n").boundingBox(), sum.boundingBox()]);
+  expect(n.x + n.width).toBeLessThanOrEqual(s.x + s.width + 0.5);
+});
