@@ -97,10 +97,11 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   `PIPELINE_LOG_LEVEL=DEBUG` shows more, `PIPELINE_RUNS=off` skips the row.
 - `pipeline/jobs_open.py` — every open US posting of the three sets (product, MBA, tech) → `web/data/jobs_open.json`
   (column-oriented: companies, locations, roles, titles, skill ids as lists; each row `[num, companyIdx, roleIdx,
-  titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe, posted]`; `flags` is a bit field the file names,
-  with one bit for the MBA set, one for the tech set and one for the tech set's new-graduate mark, `yoe` the years
-  asked, `firstSeen` the day our scrape first saw the posting (MBA and tech sets), `posted` the board's own posting
-  date) and `jobs_meta.json` (the counts, per set and without the tech set). A row's skills leave out credentials and
+  titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen, yoe, posted, start]`; `flags` is a bit field the file
+  names, with one bit for the MBA set, one for the tech set, one for the tech set's new-graduate mark and one for a
+  title that says the job is for new graduates (`GRAD_TITLE`, any set, never an internship), `yoe` the years asked,
+  `firstSeen` the day our scrape first saw the posting (MBA and tech sets), `posted` the board's own posting date,
+  `start` the year 2026 to 2029 a graduate title names) and `jobs_meta.json` (the counts, per set and without the tech set). A row's skills leave out credentials and
   the industries that do not define its MBA or tech role. No snippet, no sub-skills. Runs after `build_graph` of any
   set, no network; refresh-product, refresh-mba and refresh-tech all run it.
 - `pipeline/catalog_export.py`, `catalog_tags.mjs` — the Spring 2027 catalog as public files. `catalog_export` runs
@@ -190,7 +191,10 @@ and evals run the code the site runs.
   (`Network.sentenceCase`: skill names in lower case mid-sentence, acronyms and proper nouns kept), Find jobs
   (`searchJobs`, `filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`,
   `cardFacts`, `dateOf`, `dateLine`; the Fit sort ranks by `fitShare`, N / max(M, 15), so a long posting does not win
-  on its count alone; Newest orders by `posted`, else `first_seen`, shown as "Posted 3 Nov" or "Listed here 5 Nov"),
+  on its count alone; Newest orders by `posted`, else `first_seen`, shown as "Posted 3 Nov" or "Listed here 5 Nov";
+  `sponsor` is `yes` or `open` (every posting that does not say it will not sponsor), and `ENTRIES(year)` gives New
+  graduates, MBA entry, Internship and "Starts {year+1} or later" from the file's year; old links' `sponsor=1` and
+  `entry=bachelor` read as `yes` and `grads`),
   the role picker (`Pick.distinct` names two roles with one title apart by field; `Pick.closest` offers the nearest
   roles when nothing matches), and the skill map (the fields on a ring, skills near the fields that ask for them,
   `SkillMap.chart` for one field, `thinNames` drops a label that would overlap, the route planner).

@@ -96,7 +96,9 @@ test("has: true for a screen with rows, false for the screens without and for no
 // ---------- stepsFor ----------
 test("stepsFor: a screen's rows only, in table order, with their copy; an unknown screen gives none", () => {
   const jobs = G.stepsFor("jobs", { resume: false, config: ON }, all);
-  assert.deepEqual(ids(jobs), ["search", "fields", "card"]);
+  assert.deepEqual(ids(jobs), ["search", "quick", "fields", "card"]);
+  assert.equal(jobs[1].target, "#jquick", "the quick filters' tip follows the search box's");
+  assert.equal(G.SCREENS.jobs.version, 2, "raised with the quick filters, so a returning visitor sees the tips once more");
   assert.deepEqual(jobs[0], { id: "search", target: "#jsearch", title: Copy.guide.steps.jobs.search.title, body: Copy.guide.steps.jobs.search.body });
   assert.deepEqual(G.stepsFor("nope", {}, all), []);
   assert.deepEqual(G.stepsFor(undefined, {}, all), []);
@@ -193,9 +195,9 @@ test("seen() and mark(): the pair over localStorage; mark writes the screen's ve
   assert.equal(local.m["guide.seen"], '{"home":1}');
   local.m["guide.seen"] = '{"home":1,"bogus":5,"jobs":"x"}';
   g.mark("jobs");
-  assert.equal(local.m["guide.seen"], '{"home":1,"jobs":1}', "a bad value is rewritten clean on the next mark");
+  assert.equal(local.m["guide.seen"], '{"home":1,"jobs":2}', "a bad value is rewritten clean on the next mark, with the version SCREENS gives");
   g.mark("nope");
-  assert.equal(local.m["guide.seen"], '{"home":1,"jobs":1}');
+  assert.equal(local.m["guide.seen"], '{"home":1,"jobs":2}');
   const broken = { getItem: () => { throw new Error("denied"); }, setItem: () => { throw new Error("denied"); } };
   const g2 = factory({ config: () => ON, local: () => broken, copy: Copy });
   assert.deepEqual(g2.seen(), {});

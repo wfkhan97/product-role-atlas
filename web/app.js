@@ -2003,13 +2003,19 @@
     // product set stands for that field, so those cards had no field. The filters keep fieldOf as it is.
     const mbaGroup = new Map(); for (const g of ix.M.groups || []) for (const f of g.families || []) mbaGroup.set(f, g.id);
     const fieldName = r => { const f = fieldOf(r.role) || mbaGroup.get(r.role) || ""; return f ? labelIn(fields, f) : ""; };
-    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName };
+    // the file's own year, which "Starts {year} or later" counts from (Jobs.ENTRIES)
+    const year = Number(String(D.generated || "").slice(0, 4)) || new Date().getFullYear();
+    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf, fieldName, year };
     return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields, nCompanies };
   }).catch(e => { jobsP = null; throw e; });
   const JB = Copy.jobs;
   const groupLabel = g => g === "startup" ? JB.groupStartup : g === "mba_employer" ? JB.groupMBA : /^fortune(\d+)$/.test(String(g || "")) ? fill(JB.groupFortune, { n: RegExp.$1 }) : String(g || "");
   const KIND_ORDER = ["method", "technical", "knowledge", "tool", "practice", "behaviour", "credential"];
-  const jobWho = r => r.intern ? JB.who.intern : r.entry === "mba" ? JB.who.mba : (r.entry === "pre_mba" || r.entry === "grad") ? JB.who.grads : null;
+  // the card's who line; a graduate title that names its start year says it ("A job for new graduates, starting 2027")
+  const jobWho = r => {
+    const kind = r.intern ? "intern" : r.entry === "mba" ? "mba" : (r.entry === "pre_mba" || r.entry === "grad" || r.grad) ? "grads" : null;
+    return kind && kind !== "intern" && r.start ? fill(JB.who[kind + "_start"], { year: r.start }) : kind ? JB.who[kind] : null;
+  };
   const labelIn = (pairs, id) => (pairs.find(([v]) => v === id) || [, id])[1];
   // the role chosen elsewhere, for the role filter when a person arrives with none set: the role screen's (state.R),
   // else the first the class picker keeps in this browser (classes.roles), the same id gapsFor is handed
@@ -2047,6 +2053,7 @@
     page(`<h1>${esc(JB.heading)}</h1>
       <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(nCompanies) }))}</p>
       <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
+      <div class="chips jquick" id="jquick" role="group" aria-label="${esc(JB.quickAria)}"></div>
       <div class="jobs-grid">
         <div class="jrail" id="jfilters" role="region" aria-label="${esc(JB.filtersAria)}" tabindex="-1"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
         <section class="jmain" aria-label="${esc(JB.postingsAria)}"><button type="button" class="linkish link jfilters-link" data-to-filters="1">${esc(JB.filtersLink)}</button><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="chips jactive" id="jactive"></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
@@ -2075,7 +2082,7 @@
     };
     const panel = r => {
       const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
-      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null, Jobs.dateLine(r)].filter(Boolean);
+      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : r.sponsorship === "no" ? JB.noSponsorVisa : null, Jobs.dateLine(r)].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]] || ix.techSkillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
       return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
@@ -2109,14 +2116,14 @@
     // other facet only when the person opens it (owner's feedback 2026-11-01, second pass: neither a picked field nor a
     // role page's preset role opens one; the chips over the list show what is on). A person's own open and close are
     // kept until "Clear filters", which sets these defaults again.
-    const openedFor = () => ({ field: true, role: false, level: false, entry: false, years: false, sector: false, group: false, company: false, work: false });
+    const openedFor = () => ({ field: true, role: false, level: false, entry: false, years: false, sector: false, group: false, sponsor: false, company: false, work: false });
     const opened = openedFor();
     railEl.addEventListener("toggle", e => { const d = e.target; if (d.dataset && d.dataset.group) opened[d.dataset.group] = d.open; }, true);
     const facetRow = (key, val, label, n, on) => {
       const dead = !on && !n;
       return `<button type="button" class="frow${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ` title="${esc(JB.dead)}" aria-disabled="true"` : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
     };
-    const group = (key, label, pairs, counts, extra, lead) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${lead || ""}${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" || key === "sponsor" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
+    const group = (key, label, pairs, counts, extra, lead) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${lead || ""}${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
     const rail = (searched, f) => {
       const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
       const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
@@ -2128,13 +2135,16 @@
       const top = all.slice(0, 20); if (s.company && cm[s.company] && !top.some(([n]) => n === s.company)) top.push([s.company, cm[s.company]]);
       const shown = moreCompanies ? all : top;
       const more = all.length > shown.length ? `<button type="button" class="frow more" data-more-companies="1">${esc(JB.more)}<span class="n">${fmt(all.length)}</span></button>` : "";
-      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>${esc(JB.facets.work)}</summary>${facetRow("remote", true, JB.remoteFacet, count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, JB.sponsorFacet, count("sponsor", [[true]])[true], s.sponsor)}${facetRow("noclear", true, JB.noclearFacet, count("noclear", [[true]])[true], s.noclear)}</details>`;
+      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>${esc(JB.facets.work)}</summary>${facetRow("remote", true, JB.remoteFacet, count("remote", [[true]])[true], s.remote)}${facetRow("noclear", true, JB.noclearFacet, count("noclear", [[true]])[true], s.noclear)}</details>`;
       // the employer's industry (companies[].sector), most postings first, over the rows the other filters keep
       const sm = {}; for (const r of Jobs.filterJobs(searched, Object.assign({}, f, { sector: "" }), ctx)) if (r.sector) sm[r.sector] = (sm[r.sector] || 0) + 1;
       const sectors = Object.keys(sm).sort((a, b) => sm[b] - sm[a] || a.localeCompare(b)); if (s.sector && !sm[s.sector]) sectors.push(s.sector);
+      // visa sponsorship (2026-11-08): its own group, two values of one key like Level
+      const sponsors = Jobs.SPONSOR.map(v => [v, JB.sponsor[v]]), entries = Jobs.ENTRIES(ctx.year);
       return group("field", JB.facets.field, fields, count("field", fields)) + group("role", JB.facets.role, roles, count("role", roles)) + group("level", JB.facets.level, levels, count("level", levels))
-        + group("entry", JB.facets.entry, Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("years", JB.facets.years, Jobs.YEARS, count("years", Jobs.YEARS), "", `<p class="small muted">${esc(JB.yearsNote)}</p>`)
+        + group("entry", JB.facets.entry, entries, count("entry", entries)) + group("years", JB.facets.years, Jobs.YEARS, count("years", Jobs.YEARS), "", `<p class="small muted">${esc(JB.yearsNote)}</p>`)
         + group("sector", JB.facets.sector, sectors.map(v => [v, v]), sm) + group("group", JB.facets.group, Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
+        + group("sponsor", JB.facets.sponsor, sponsors, count("sponsor", sponsors))
         + group("company", JB.facets.company, shown.map(([n]) => [n, n]), cm, more) + work;
     };
     // ---- each filter that is on, as a chip an × removes: over the list (the facets but the search, which its box
@@ -2143,15 +2153,22 @@
       const out = [];
       if (s.q.trim()) out.push(["q", fill(JB.quoted, { q: s.q.trim() })]); if (s.loc.trim()) out.push(["loc", fill(JB.inLoc, { loc: s.loc.trim() })]);
       if (s.field) out.push(["field", fieldLabel(s.field)]); if (s.role) out.push(["role", roleLabel(s.role)]);
-      if (s.level) out.push(["level", labelIn(levelsOf(), s.level)]); if (s.entry) out.push(["entry", labelIn(Jobs.ENTRIES, s.entry)]);
+      if (s.level) out.push(["level", labelIn(levelsOf(), s.level)]); if (s.entry) out.push(["entry", labelIn(Jobs.ENTRIES(ctx.year), s.entry)]);
       if (s.years) out.push(["years", labelIn(Jobs.YEARS, s.years)]); if (s.sector) out.push(["sector", s.sector]);
       if (s.group) out.push(["group", labelIn(Jobs.EMPLOYERS, s.group)]); if (s.company) out.push(["company", s.company]);
-      if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]); if (s.noclear) out.push(["noclear", JB.noclearFacet]);
+      if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorChip[s.sponsor] || s.sponsor]); if (s.noclear) out.push(["noclear", JB.noclearFacet]);
       return out;
     };
     // the Level facet's words follow the picked field: the tech set's while a tech field is on, else the business ones
     const levelsOf = () => Jobs.levelLabels(s.field && (ix.groups.find(g => g.id === s.field) || {}).set === "tech" ? "tech" : "mba");
     const chipHtml = ([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="${esc(fill(JB.remove, { label: l }))}">${esc(l)} <span class="n">×</span></button>`;
+    // ---- the quick filters under the search box (2026-11-08): the same state as their rail rows, with the same
+    // data-key and data-val, so one click handler and toggleFacet serve both; each shows the count it would leave on ----
+    const QUICK = [["sponsor", "yes", JB.quick.sponsor], ["entry", "grads", JB.quick.grads], ["remote", true, JB.quick.remote]];
+    const quick = (searched, f) => QUICK.map(([key, val, label]) => {
+      const on = key === "remote" ? !!s.remote : s[key] === val, n = Jobs.facetCounts(searched, f, key, [val], ctx)[val] || 0, dead = !on && !n;
+      return `<button type="button" class="chip${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ` title="${esc(JB.dead)}" aria-disabled="true"` : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
+    }).join("");
     const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(chipHtml).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----
     // Focus after a draw (B-12): the rail, the chips and the pager are drawn anew, so the control the person used is
@@ -2159,7 +2176,11 @@
     const focusKeyOf = el => {
       if (!el || !pageEl.contains(el)) return null;
       const d = el.dataset || {};
-      if (d.key) return { sel: `[data-key="${CSS.escape(d.key)}"][data-val="${CSS.escape(d.val)}"]`, near: `details[data-group="${CSS.escape(d.key === "remote" || d.key === "sponsor" ? "work" : d.key)}"] > summary` };
+      // the same key and value sit in the strip and on the rail: the one found again is in the container the person used
+      if (d.key) {
+        const inQuick = !!el.closest("#jquick"), at = `[data-key="${CSS.escape(d.key)}"][data-val="${CSS.escape(d.val)}"]`;
+        return inQuick ? { sel: `#jquick ${at}`, near: "#jquick .chip" } : { sel: `#jrail ${at}`, near: `details[data-group="${CSS.escape(d.key === "remote" || d.key === "noclear" ? "work" : d.key)}"] > summary` };
+      }
       if (d.remove) return { sel: `[data-remove="${CSS.escape(d.remove)}"]`, near: "#jactive [data-remove], #jsearch input[name=q]" };
       if (d.page) return { sel: `[data-page="${CSS.escape(d.page)}"]:not([disabled])`, near: "#jpager [data-page]:not([disabled])" };
       if (d.clear) return { sel: "#jsearch input[name=q]" };
@@ -2182,13 +2203,13 @@
       $("#jactive").innerHTML = on.map(chipHtml).join(""); $("#jactive").hidden = !on.length;
       $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
       $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>${esc(fill(JB.previous, { n: Jobs.PAGE }))}</button><span>${esc(fill(JB.pageOf, { p: fmt(pg.page), n: fmt(pg.pages) }))}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>${esc(fill(JB.next, { n: Jobs.PAGE }))}</button>` : "";
-      railEl.innerHTML = rail(searched, f);
+      railEl.innerHTML = rail(searched, f); $("#jquick").innerHTML = quick(searched, f);
       drawPanel(); writeHash(); refocus(want);
     };
     const syncInputs = () => { form.q.value = s.q; form.loc.value = s.loc; $("#jsort").value = s.sort; };
     const change = () => { s.page = 1; draw(); };
     const toggleFacet = (key, val) => {
-      if (key === "remote" || key === "sponsor" || key === "noclear") s[key] = !s[key];
+      if (key === "remote" || key === "noclear") s[key] = !s[key];
       else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; }
       else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role) s.field = fieldOf(s.role); }
       else s[key] = s[key] === val ? "" : val;

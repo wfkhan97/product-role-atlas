@@ -32,7 +32,8 @@ test("the views read from the table: Door.COPY, Intake, Launcher.COPY, Network.C
   assert.equal(N.COPY, Copy.network);
   assert.deepEqual(N.TYPES.map(t => t.label), Object.values(Copy.network.types).map(t => t.label));
   assert.equal(J.fitLine({ n: 1, m: 2 }), Copy.fill(Copy.jobs.fitLine, { n: 1, m: 2 }));
-  assert.deepEqual(J.ENTRIES.map(([, l]) => l), Object.values(Copy.jobs.entries));
+  assert.deepEqual(J.ENTRIES(2026).map(([, l]) => l), Object.values(Copy.jobs.entries).map(l => Copy.fill(l, { year: 2027 })));
+  assert.equal(J.ENTRIES(2026).at(-1)[1], "Starts 2027 or later", "the last value names the year after the data's");
 });
 
 test("the checker: sentences, words, passives and the stoplist", () => {
