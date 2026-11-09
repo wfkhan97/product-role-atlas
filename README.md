@@ -104,13 +104,17 @@ the evals.
 .venv/bin/python -m pipeline.catalog_export                 # the Spring 2027 catalog -> web/data/catalog/cornell_tech.json
 node pipeline/catalog_tags.mjs                              # skill tags per class -> cornell_tech_tags.json (rerun after a taxonomy change)
 .venv/bin/python -m pipeline.funnel --from 2026-11-01       # screens reached, calls to action, returns, visible time, feedback counts
+.venv/bin/python -m pipeline.experiments.postings_read status   # the model read of the backlog: batches and spend (cache in data/experiments/postings_read/)
 .venv/bin/python -m pipeline.runs --last 20                 # the last recorded runs of every stage
 ```
 
 Three stages per role set (`--roles product|mba|tech`): `scrape` (one adapter per ATS, cached per employer),
 `extract` (title rules, cleaning, dedupe, skill tagging), `build_graph` (shares, levels, the role files). The raw
 files are a backlog: a refresh merges and never drops a posting (`CLAUDE.md`). The apprentice map generator is
-`pipeline/apprentice/` (its own README); the skill depth and taxonomy tooling are in `docs/MODULES.md`.
+`pipeline/apprentice/` (its own README); the skill depth and taxonomy tooling are in `docs/MODULES.md`. A model read
+of every posting (skills with required or nice-to-have, years, degree, audience, sponsorship, start date, remote,
+level) sits in `data/experiments/postings_read/` as a cache no stage reads yet (`pipeline/experiments/postings_read.py`;
+PLAN.md, "A model read of the backlog").
 
 ### Scheduled jobs
 

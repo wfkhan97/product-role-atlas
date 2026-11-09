@@ -69,6 +69,18 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   (writes `evals/extraction_baseline_<roles>.md`), `skill_audit.py` (model judgment per skill), `decisions_audit.py`,
   `decisions_report.py`, `decisions_compare.py` (the product audit). `OPENAI_API_KEY` for a live run; `--reuse`
   recomputes against saved answers. Output in `data/experiments/`.
+- `pipeline/experiments/postings_read.py` — a model read of every posting in the backlog, kept as a cache the
+  pipeline does not read yet. One request per posting through the Message Batches API: the taxonomy skill ids asked
+  (required or nice-to-have, each with a quoted phrase), years, degree, audience (intern, new graduate, early career),
+  sponsorship, start date, remote, level. `submit` sends what the cache lacks, `collect` folds ended batches in,
+  `sample` and `judge` run a second model on a stratified subset and a third on their disagreements, `compare --pilot`
+  scores model and regex on the labelled postings, `report` writes the per-field tables. Cache:
+  `data/experiments/postings_read/<set>/<employer>.json` plus `manifest.json` (model, prompt hash, batch ids, spend).
+  Needs `ANTHROPIC_API_KEY` to send; refuses to submit past `CAP_USD`.
+- `pipeline/experiments/postings_ladders.py` — definition, sub-skill and ladder drafts for skills without a depth
+  file, from the sentences the model read quoted (`packs`, `draft`, `check`, `finish`). Runs `depth_gen`'s code checks
+  and its support question; writes run files in `depth_gen`'s shape under `data/experiments/postings_read/ladders/`.
+  Drafts only: nothing reaches `pipeline/depth/` except through `depth_publish`.
 
 ### Stages and stores
 

@@ -3255,6 +3255,175 @@ opens on **Newest** without a résumé and on **Fit** with one, and the menu rea
 Tests: the state's defaults and the menu's order in `tests/web/jobs.test.mjs`; the menu, the link and the newest-first
 order of the cards with and without a résumé in `tests/ui/jobs.spec.mjs`.
 
+## A model read of the backlog (`feat/postings-read`, 2026-11-09)
+
+$103 of Anthropic API credit expires on 2026-11-10. We spent $95.99 of it on one thing the pipeline cannot do with
+patterns: a model read of every posting in the backlog, saved as a cache. No stage reads the cache yet and the pipeline is
+untouched; this section says what the cache holds, what the read found beside the regex, and how the data thread
+uses it. The runner is `pipeline/experiments/postings_read.py`, the ladder drafts
+`pipeline/experiments/postings_ladders.py`.
+
+**What ran.** One request per posting through the Message Batches API (half price), the answer held to a JSON schema.
+The role set's skill list (id, name, kind, the one-line definition where a depth file has one) rides in every request
+as a cached block: the MBA list is about 19,500 tokens, the tech list 10,300, read at a tenth of the input price by
+every posting after the first (one-hour cache). The posting's text is cut at 12,000 characters.
+
+| run | model | batches | requests | cost |
+|---|---|---|---|---|
+| pilot, the 313 labelled postings (two effort settings) | Haiku 5.5 | 5 | 1,565 | $0.45 |
+| pilot, the same postings | Sonnet 5.5 | 3 | 939 | $5.28 |
+| the full read | Haiku 5.5 | 42 | 116,306 | $67.91 |
+| the stratified subset | Sonnet 5.5 | 3 | 1,500 | $14.05 |
+| the judge | Opus 5.5 | 1 | 250 | $4.39 |
+| ladder drafts | Opus 5.5 | 1 | 59 | $3.79 |
+| ladder critic | Haiku 5.5 | 1 | 698 | $0.12 |
+| all | | 56 | 121,317 | $95.99 |
+
+The raw files came from the `backlog` bucket's snapshots (product and tech 2026-11-06, MBA 2026-11-05), not from
+`pipeline.backlog pull`: the shell's database URL in this checkout points at the catalog project. 116,304 postings:
+MBA 97,278, tech 15,569, product 9,746 of which 6,289 are in the MBA set too (same URL), read once there and pointed
+to from the product shards (`same_as`). Haiku 5.5 at medium effort read all of them at about $0.58 per thousand;
+Sonnet 5.5 costs sixteen times that. Two answers came back as broken JSON and
+were sent again, one posting a batch. No answer was cut at the token limit.
+
+**What we changed from the brief, and why.**
+- *One shard per employer, not a file per posting.* The caches store pushes files one by one; 116,000 objects would
+  take hours and the backlog's own unit is the employer. 4,214 files, 542 MB, the largest 29 MB (the store's limit is 50).
+- *Sonnet on 1,500 postings, not 20,000.* Sonnet costs $9 to $10 per thousand postings here; 20,000 would have been
+  twice the credit. 1,500 across 543 cells of (set, family, regex level), at least one a cell and the rest in
+  proportion, US and open postings first, is enough to say per field how often the two models agree.
+- *The judge on 250 postings, not on every disagreement.* Nearly every posting both models read (1,813) differs somewhere
+  (the skill lists almost always do). Opus 5.5 read 250: those with two disputed fields or more first, a random order
+  within, so the fields are covered and the skills are not only the messiest postings'.
+- *The cap.* The runner computes spend from each batch's usage at batch rates and refuses to submit when spend plus
+  the estimates in flight would pass $100. The owner allowed a small overrun for the last batch.
+
+**The cache** (`data/experiments/postings_read/`, gitignored, in the `caches` store).
+- `<set>/<employer slug>.json` is `{id: record}`; the id is the sha1 of the posting's backlog key. A record carries
+  the posting's facts (`company`, `title`, `url`, `location`, `family`, `posted`, `first_seen`, `last_seen`, `closed`,
+  `text_sha`), `regex` (what `pipeline.extract` reads today: `skills`, `level`, `yoe`, `sponsorship`, `remote`,
+  `country`, `entry`, `entry_src`, `intern`) and `reads`.
+- `reads` is keyed by `<variant>@<prompt hash>`. `haiku@c61ca63f5830` is the full read; `sonnet@c61ca63f5830` exists
+  on the 1,500 and on the labelled postings; `judge:haiku:sonnet@c61ca63f5830` on the 250. Each holds `model`,
+  `effort`, `batch`, `usage`, `usd`, `stop_reason`, `answer` and `checks`. The 313 labelled postings also keep the
+  pilot's reads under the first prompt, `52cfed7ad741`.
+- `answer`: `skills` (`id`, `need` = `required` or `nice`, `quote`), `years_min`, `years_max`, `degree_min`,
+  `degree_preferred`, `degree_fields`, `audience` (`intern`, `new_grad`, `early_career`, `experienced`, `unclear`),
+  `program`, `sponsorship` (`yes`, `no`, `silent`), `start_date`, `remote`, `level`, and a quote for each.
+- `checks`: `unknown_ids` (ids the model named that the set's list does not hold), `quotes` and `quote_missing`
+  (quotes not found in the posting with whitespace folded and case ignored).
+- `manifest.json`: the variants (model, effort, prompt hash, schema hash), every batch (id, tag, set, counts, usage,
+  dollars), the spend, the counts per set. `prompt_<hash>.txt` is the prompt and schema under each hash.
+  `sample_sonnet.json` is the stratified sample. `report.md` is the per-field report below, written by `report`.
+  `ladders/` holds the drafts.
+
+**How the data thread reads it.** `pipeline.store pull caches`, then
+`postings_read.cache_index(set)` gives `id → (slug, record)`; join to the pipeline's postings by `url`, and treat a
+record whose `text_sha` no longer matches the posting's text as unread. Four rules:
+1. Drop every skill whose id is in `checks.unknown_ids`. 3.9% of the MBA set's skill mentions are made-up ids (40.7%
+   of its postings carry one), 2.8% in tech. The prompt forbids them and Haiku writes them anyway; Sonnet almost
+   never does (14 in 1,500 postings).
+2. A quote is evidence only when it is in the posting: about 1% are not (`check_answer` says which).
+3. `audience: early_career` is not the site's new-graduate mark. It means "0 to 2 years asked" and covers 14% of open
+   US postings. The mark's counterpart is `new_grad` (and `intern`).
+4. `level` is the weakest field (below); do not replace the title rules with it.
+A posting scraped after the snapshots is not in the cache. `submit --roles all --variant haiku` reads only what the
+cache lacks (about $0.60 per thousand postings at batch rates), then `collect`.
+
+**What the read found.** The full tables are in `report.md` (`postings_read report`); the labelled set's in
+`compare --pilot`.
+
+*On the 313 labelled postings.*
+
+| | Haiku 5.5 | Sonnet 5.5 | regex |
+|---|---|---|---|
+| required skills found (recall on the golden "must") | 78.3% | 93.0% | 85.5% |
+| skills tagged that the label rules out | 2.4% | 3.1% | 15.9% |
+| skills named per posting | 18.3 | 19.9 | 26.2 |
+| sponsorship agrees with the label (62) | 58 | 58 | 62 |
+| new-graduate mark agrees with the label (153) | 140 | 140 | 153 |
+
+The regex was tuned on the sponsorship and new-graduate labels, so its full score there is the eval it was built
+against; twelve of each model's thirteen misses on the mark are `early_career` or `unclear` answers counted as "not
+marked". On skills the models are far more precise than the patterns; Haiku finds fewer of the required skills than
+the patterns do, Sonnet more.
+
+*On the whole backlog (Haiku beside the regex).*
+- **Sponsorship**, 57,828 open US postings: the regex says no on 6,805 and yes on 631; the model says no on 9,098 and
+  yes on 1,041. They agree on 54,789 (94.7%). The model alone says no on 2,250: real refusals the patterns miss
+  ("This role is not eligible for immigration support", "will not commence an immigration case") and a wider
+  reading the regex does not make (US citizenship or a clearance required; "must be currently authorized to work").
+  The model alone says yes on 571 ("We do sponsor visas!", "VISA Sponsorship: Yes", "This role is eligible for visa
+  sponsorship"). On 95 the regex says yes and the model no; the quotes are refusals ("cannot offer any sort of visa
+  sponsorship", "no current or future work authorization sponsorship available"), so these are candidates for a
+  wrong yes on the site today, except Deloitte's "Limited immigration sponsorship may be available", which the model
+  reads as a no and is a hedged yes. On 48 the regex says no and the model read nothing. The report lists the most
+  common quote and employer in every cell.
+- **New graduates**, open US: the regex marks 1,048 postings entry (title 283, text 336, category 243, firm 186) and
+  1,221 intern. The model reads 574 as new-graduate, 1,128 as intern and 8,323 as early-career. 113 postings the
+  model reads as new-graduate carry no mark ("have completed their Bachelor's degree within the last 12 months",
+  "Scheduled to obtain a Bachelor's degree by Spring 2027"); 38 it reads as internships carry none. Going the other
+  way, the model calls 171 of the 186 firm-rule marks and 89 of the 243 category-rule marks experienced: those two
+  rules mark by employer and category, not by what the posting says. 2,609 postings name a programme and 2,492 give
+  a start date (summer 2027 the most common).
+- **Years**: both read a number on 86,681 postings and it is the same number on 78.1%; the model alone reads one on
+  5,999, the regex alone on 1,767.
+- **Degree**: a bachelor's is the minimum on 51.7%, none is named on 36.2%, 6.9% say in words that no degree is
+  required, a master's 2.6%, a JD 0.9%, an MBA 0.4%, a PhD 0.2%.
+- **Remote**: the regex has one flag (8,132 remote). The model reads 9,422 remote, 22,596 hybrid, 38,225 on site and
+  46,059 unclear; 78% of the regex's remote postings are remote to the model, and 3,110 it calls remote carry no flag.
+- **Level**: the model's grade equals the title rules' level on 45.7%. The scales differ (the regex's `mid` is the
+  default for a title without a level word, 52,656 postings, which the model spreads over entry, mid, senior, manager
+  and unclear), and this is also where the two models agree least (67.7%).
+- **Skills**: the model names 15.6 skills a posting in the MBA set where the regex tags 24.9 (mean Jaccard 0.34), 15.3
+  against 23.4 in tech (0.40), 18.1 against 23.1 in product (0.47). Four of five asks are `required`, one `nice`. The
+  regex tags behaviours and industry words the model leaves out (collaboration on 71.7% of MBA postings against
+  25.2%, ownership 66.1% against 32.3%, supply chain 28.6% against 1.5%, fintech 30.6% against 5.3%): the golden
+  set's 15.9% wrong tags at scale. The model names more of the sales and requirement skills (consultative selling,
+  quota attainment, analytics requirements).
+- **Ids the model made up** are a list of what postings ask for and the taxonomy does not hold, mixed with near
+  misses of ids it does hold. MBA: project management (1,963 postings under two spellings), negotiation (1,313),
+  executive communication (1,054; the id is `exec_communication`), competitive analysis (915), account planning,
+  coaching and mentoring, automation, forecasting, financial modeling. Tech: mentoring (568 under three spellings),
+  distributed systems (226), C++ (124; the id is `c_cpp`), incident response (104), Kubernetes, microservices, CI/CD.
+
+*Haiku beside Sonnet* on the 1,500: skills Jaccard 0.53, the same `required` or `nice` on 94.0% of the skills both
+name, sponsorship 95.9%, audience 92.3%, degree 92.3%, years 96.9%, remote 83.5%, level 67.7%.
+
+*The judge* (Opus 5.5 on 250 postings; 219 outside the labelled set are counted): where one reader names a skill and
+the other does not, the judge's own reading matches Sonnet on 1,561 of 2,239 (70%). It sides with Sonnet on audience
+(73%), level (73%), remote (79%), sponsorship (67%) and years (72%), and with Haiku on the minimum degree (45 of 56).
+Read with the golden set: Haiku is precise and under-names; a field that matters is worth Sonnet's price on the
+postings where it matters.
+
+**Ladder and definition drafts** (`ladders/`, `pipeline/experiments/postings_ladders.py`). With what was left, Opus
+5.5 drafted a definition, five sub-skills and the rung statements for the 48 skills only the tech set holds and the 11
+MBA skills of the later roles, none of which has a depth file. The evidence is the sentences the Haiku read quoted in US
+postings (12,238 tech postings name one of the 48, 7,406 MBA postings one of the 11), bucketed by the regex level into
+the ladder's rungs (engineering or legal for tech, corporate for MBA). `depth_gen`'s code checks ran on every claim,
+then its support question went to Haiku 5.5 for the 698 that passed. `run_tech.json` and `run_mba.json` are in
+`depth_gen`'s run shape (`results[].claims[]` with `kind`, `key`, `status`, `why`, `evidence`), `report.md` has one
+row a skill.
+
+| | drafted | pass the code checks | pass the critic too |
+|---|---|---|---|
+| definitions | 59 | (not checked) | (not checked) |
+| sub-skills | 295 | 251 | 178 |
+| rung statements | 459 | 447 | 107 |
+| rungs, a skill and level with a statement left | 229 | | 93 |
+
+One skill keeps every rung (`research_publications`); eight keep none (`ruby_rails`, `performance_concurrency`,
+`code_quality`, `observability_tools`, `appsec`, `cryptography`, `design_portfolio`, `carbon_accounting`). The critic
+dropped a statement for one of two reasons: fewer than two employers' sentences carry it (184, `STMT_MIN_EMPLOYERS`),
+or a part of it is not in the evidence (156 statements, 73 sub-skills; often a clause the drafter added, "that other
+systems and user interfaces call"). `depth_gen` recovers both kinds with its redraft round, which did not run here;
+neither did the swap test. These are first-round drafts for the data thread: nothing was written to `pipeline/depth/`,
+and nothing reaches it except through `pipeline.depth_publish` from a checked run.
+
+**What we did not do.** Nothing in `web/data/` or `data/processed/` changed and no flag moved. The read is not wired
+into `extract`, the sponsorship reader or the new-graduate mark: each is a decision for the data thread, with its own
+eval chain. No eval was added for the cache itself; `compare --pilot` is the nearest thing and needs no key.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3306,6 +3475,9 @@ done). One line per item; the section that explains it is named where it helps.
 - A tech wording for the shared product skills that fire on company blurbs (launch, partnerships, growth loops,
   pricing; the golden ceiling is 27% against the MBA set's 16%). Whether `ux_researcher` folds into
   `product_designer`. Law firms on the registry; the full Fortune 500.
+- Depth for the 48 tech-only skills: first-round drafts are in the caches store
+  (`data/experiments/postings_read/ladders/run_tech.json`; 93 of 229 rungs across both sets pass the critic). Left:
+  the redraft round and the swap test, then `pipeline.depth_publish` and the depth eval ("A model read of the backlog").
 
 **The MBA role set**
 - Part D of "Adding a role" for the 15 later roles: samples and bands for the `impact` group, game passages,
@@ -3323,6 +3495,9 @@ done). One line per item; the section that explains it is named where it helps.
 - The editorial pass over the data strings `evals/copy_baseline.md` lists (abbreviations, long blurbs, passive lines;
   the Product Marketing Manager blurb in `web/data/role_blurbs.json` says "is described").
 - A carrier tie-break that prefers the carrier closer to the behaviour over the postings' order.
+- The 11 later-role skills have first-round ladder and sub-skill drafts from the model read
+  (`data/experiments/postings_read/ladders/run_mba.json`), made without the OpenRouter key; the redraft, the swap test
+  and `depth_publish` are still C11's to do.
 
 **The site**
 - The apprentice map's judgment half, self-serve: the build cards and the company research from a model, behind
@@ -3364,6 +3539,18 @@ done). One line per item; the section that explains it is named where it helps.
 - The first live run of `evals/lines_judged.mjs` (the report file is a placeholder).
 - Postings whose title repeats the team name ("…, Amazon Supply Chain Services, Amazon Supply Chain Services"): a
   cleaner rule in `pipeline/extract.py`, with the extraction eval chain of `CLAUDE.md`.
+- The model read of the backlog is a cache no stage reads ("A model read of the backlog"). Three uses for the data
+  thread to decide, each with its eval chain: the `required` or `nice` split and the quotes in `extract`; the
+  sponsorship reader checked against the 95 open US postings it calls a yes and the model a no, and the 2,250 the model
+  alone calls a no; the new-graduate mark checked against the 113 unmarked postings the model reads as new-graduate, and
+  the firm and category rules the model contradicts (171 of 186, 89 of 243).
+- Ids the model made up in that read, as a list of taxonomy candidates (project management, negotiation, competitive
+  analysis, account planning; mentoring, distributed systems, incident response, Kubernetes) and a map for the near
+  misses of real ids (`executive_communication` to `exec_communication`, `cpp` to `c_cpp`) so a reader keeps them.
+- Postings scraped after the snapshots the read used (product and tech 2026-11-06, MBA 2026-11-05) are unread:
+  `postings_read submit --roles all --variant haiku`, then `collect` (about $0.60 per thousand postings; needs
+  `ANTHROPIC_API_KEY`, and the cap in `CAP_USD` raised past what is spent). No workflow does this.
+- An eval for the cache itself (the labelled set through `compare --pilot` as a baseline file) before any stage reads it.
 
 **Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
 work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the
