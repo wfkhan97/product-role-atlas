@@ -62,3 +62,15 @@ test("Start over asks once, with Start over and Keep", () => {
   assert.match(Copy.you.startOverAsk, /^Start over\? This forgets your answers and your résumé on this device\.$/);
   assert.equal(Copy.you.startOverYes, "Start over"); assert.equal(Copy.you.startOverKeep, "Keep");
 });
+
+// the role rail after a read (2026-11-08): "change" went to a literal #/you?step=3 and never came back to the role;
+// with no gap among the most-asked skills, "all shown" came after "N skills in all still need evidence"
+test("the rail's \"change\" goes to the résumé step and back to the role; \"all shown\" comes before the still-needed count", async () => {
+  const fs = await import("fs");
+  const app = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  assert.doesNotMatch(app, /<a href="#\/you\?step=3">\$\{esc\(CM\.change\)\}/);
+  assert.match(app, /RR\.yourFit, \{ name: state\.resume\.name \}\)\)\} · <a href="\$\{esc\(resumeHref\(\)\)\}">\$\{esc\(CM\.change\)\}<\/a>/);
+  assert.equal(You.resumeHref(Q, "#/role/product.pm"), `#/you?step=${Q}&next=${encodeURIComponent("#/role/product.pm")}`);
+  assert.match(app, /\$\{line\}\$\{allShown\}\$\{counts\}/, "the all-shown line sits between the lead line and the counts");
+  assert.equal(Copy.role.rail.nothingMissing, "You show all {m} skills most postings ask for.");
+});

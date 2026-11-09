@@ -5,8 +5,10 @@
 //   - the Networking prep card and the first posting on Find jobs start within one screen of the top
 //   - Find jobs has a Filters link over the postings that goes to the filters
 //   - the launcher's résumé box comes before the field tiles
+//   - on those three screens Tab reaches the content before the filters, the tiles or the list
 //   - the top bar takes two rows at most, with every verb on it
 //   - the skill map's labels do not overlap, and no screen tells a phone to hover
+//   - Explore opens on the field cards; a tap lights a role's skills on the field page, a second tap opens the role
 //   - the posting panel and the skill card fit the screen
 //   - the game board wraps whole words and keeps its checkboxes clear of the words
 import fs from "node:fs";
@@ -23,8 +25,11 @@ const RESUME_TEXT = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.
 const RESUME = JSON.stringify({ text: RESUME_TEXT, name: "grad_student_new.txt", words: RESUME_TEXT.split(/\s+/).filter(Boolean).length });
 
 // a gmail visitor past the door, with or without a résumé kept (the site keeps it in localStorage "resume")
+// every guide screen read as seen: the guide's card scrolls to its target a moment after a screen draws, which moved
+// the page under a layout check (tests/ui/guide.spec.mjs covers the guide)
+const GUIDE_SEEN = JSON.stringify(Object.fromEntries(["home", "classes", "jobs", "skills", "role", "fit", "explore", "field", "network", "you", "about", "course", "play", "professor", "event"].map(k => [k, 99])));
 async function general(visitor, { resume = false } = {}) {
-  const storage = { "door.email": GENERAL_EMAIL, "door.where": "", "door.seen": "1", ...(resume ? { resume: RESUME } : {}) };
+  const storage = { "door.email": GENERAL_EMAIL, "door.where": "", "door.seen": "1", "guide.seen": GUIDE_SEEN, ...(resume ? { resume: RESUME } : {}) };
   const page = await visitor.open({ storage });
   await page.goto("/#/home");
   await waitForScreen(page, "home");
@@ -163,6 +168,40 @@ test("launcher: the résumé box comes before the field tiles", async ({ visitor
   expect(side.y).toBeLessThan(H);
 });
 
+// ---------- Tab follows what the phone shows first (2026-11-08) ----------
+// The three screens once put their content first with CSS order, so Tab crossed the filters, the tiles or the list
+// before the content. The markup has the phone's order now: Tab from the top reaches the content first.
+// Tab from `from` (the control just over the two columns), or the top of the page, until focus is inside `a` or `b`: which one it reached first
+async function tabFirst(page, a, b, { from = null, max = 150 } = {}) {
+  if (from) await page.locator(from).focus();
+  else await page.evaluate(() => { document.activeElement && document.activeElement.blur(); window.scrollTo(0, 0); });
+  for (let i = 0; i < max; i++) {
+    await page.keyboard.press("Tab");
+    const at = await page.evaluate(([a, b]) => { const e = document.activeElement; return !e ? null : e.closest(a) ? "a" : e.closest(b) ? "b" : null; }, [a, b]);
+    if (at) return at;
+  }
+  return null;
+}
+test("jobs: Tab from the search reaches a posting before the filters", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/jobs");
+  await page.locator(".jcard").first().waitFor();
+  expect(await tabFirst(page, ".jcard [data-open]", "#jrail", { from: "#jsearch button[type=submit]" })).toBe("a");
+});
+test("launcher: Tab reaches the résumé box before the search and the field tiles", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/skills");
+  await page.locator(".lf-tiles .fcard").first().waitFor();
+  await page.locator("#lf-side .lf-step").first().waitFor();
+  expect(await tabFirst(page, "#lf-side", ".lf-main", { from: ".lf-lead .lf-map" })).toBe("a");
+});
+test("networking: Tab reaches the prep card before Who to look for", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/network?role=product.pm");
+  await page.locator("#nw-prep").waitFor();
+  expect(await tabFirst(page, ".nw-side", ".nw-main", { from: '.nw-tabs [aria-selected="true"]' })).toBe("a");
+});
+
 // ---------- the top bar ----------
 for (const hash of ["#/classes", "#/network?role=product.pm"]) {
   test(`top bar: two rows at most on ${hash}, with every verb on it`, async ({ visitor }) => {
@@ -221,6 +260,77 @@ test("field page: the chart hint does not tell a phone to hover", async ({ visit
   await gotoHash(page, "#/field/marketing");
   await page.locator("#main .field-split .list a.r").first().waitFor();
   await expect(page.locator("#main .field-split")).not.toContainText(/hover/i);
+});
+
+test("top bar: the verb strip fades at its cut edge until it is scrolled to its end", async ({ visitor }) => {
+  const page = await general(visitor);
+  const strip = page.locator("#verbs");
+  const mask = () => strip.evaluate(e => getComputedStyle(e).maskImage || getComputedStyle(e).webkitMaskImage);
+  expect(await strip.evaluate(e => e.scrollWidth > e.clientWidth), "the strip is cut on a phone").toBe(true);
+  expect(await mask()).toMatch(/linear-gradient/);
+  await strip.evaluate(e => { e.scrollLeft = e.scrollWidth; });
+  await expect.poll(mask).toBe("none");
+});
+test("explore: a phone opens on the field cards; the launcher's map link and the toggle still open the map", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/explore");
+  await page.locator("#main .fcards .fcard").first().waitFor();
+  expect(await page.locator("#main .sm-field").count(), "#/explore").toBe(0);
+  await gotoHash(page, "#/home");
+  await waitForScreen(page, "home");
+  await gotoHash(page, "#/explore?view=map");   // an explicit ask for the map is honoured on a phone too
+  await page.locator("#sm-stage .sm-field").first().waitFor();
+  expect(await page.locator("#main .fcards").count(), "#/explore?view=map").toBe(0);
+  await page.evaluate(() => sessionStorage.removeItem("explore-view"));
+  await gotoHash(page, "#/home");
+  await waitForScreen(page, "home");
+  await gotoHash(page, "#/explore");
+  await page.locator("#main .fcards .fcard").first().waitFor();
+  await page.locator("#main #v-map").click();
+  await page.locator("#sm-stage .sm-field").first().waitFor();
+  expect(await page.locator("#main .fcards").count()).toBe(0);
+});
+test("field page: the first tap on a role lights its skills and stays; the second opens the role", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/field/marketing");
+  const row = page.locator("#main .field-split .list a.r").first();
+  await row.waitFor();
+  await page.locator("#chart circle").first().waitFor({ state: "attached" });
+  const role = await row.getAttribute("data-role");
+  const litCount = () => page.evaluate(() => document.querySelectorAll("#chart .lit").length);
+  const before = await litCount();
+  await row.tap();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toBe("#/field/marketing");
+  expect(await litCount(), "the chart lights the role's skills").toBeGreaterThan(before);
+  await row.tap();
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/role/${role}`);
+});
+test("skill map: the first tap on a field lights it and stays; the second opens the field", async ({ visitor }) => {
+  const page = await general(visitor);
+  await page.evaluate(() => sessionStorage.setItem("explore-view", JSON.stringify("map")));
+  await gotoHash(page, "#/explore");
+  const bubble = () => page.locator("#sm-stage .sm-field").first();
+  await bubble().waitFor();
+  await page.waitForTimeout(400);
+  const g = await bubble().getAttribute("data-g");
+  const field = page.locator(`#sm-stage .sm-field[data-g="${g}"]`);
+  await field.tap();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => location.hash)).toBe("#/explore");
+  await expect(field).toHaveClass(/\blit\b/);
+  await field.tap();
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/field/${g}`);
+});
+test("field page: Enter on a role row opens it at once", async ({ visitor }) => {
+  const page = await general(visitor);
+  await gotoHash(page, "#/field/marketing");
+  const row = page.locator("#main .field-split .list a.r").first();
+  await row.waitFor();
+  const role = await row.getAttribute("data-role");
+  await row.focus();
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe(`#/role/${role}`);
 });
 
 // ---------- the posting panel and the skill card ----------

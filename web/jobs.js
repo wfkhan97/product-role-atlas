@@ -71,7 +71,11 @@
   // a link from before the values were renamed: bachelor (and pre_mba, which the facet once took) is New graduates
   const ENTRY_ALIAS = { bachelor: "grads", pre_mba: "grads" };
   const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
-  const SORTS = ["best", "fit", "newest", "company"];
+  // the sorts in the order the menu lists them (Fit only with a résumé on file), and the one a person starts on:
+  // Fit with a résumé, Newest without one
+  const SORTS = ["fit", "newest", "best", "company"];
+  const defaultSort = have => have ? "fit" : "newest";
+  const sortChoices = have => have ? SORTS : SORTS.filter(v => v !== "fit");
   // the years a person has: a posting fits when it asks for that many or fewer, or names no number (owner's decision
   // on the skills audit, 2026-11-06: years of experience is a filter, not a skill)
   const YEARS = ["2", "5", "8"].map(id => [id, W.years[id]]);
@@ -81,6 +85,31 @@
   // the employer type from the company group: fortune50..fortune500 are one type
   const employerOf = group => group === "startup" ? "startup" : group === "mba_employer" ? "mba_employer" : /^fortune/.test(String(group || "")) ? "fortune500" : String(group || "");
   const fieldOfRole = (id, ctx) => ctx && ctx.fieldOf ? (ctx.fieldOf(id) || "") : String(id || "").startsWith(PRODUCT_NS) ? "product" : "";
+  // One field per role for the filter, its counts, the rail and the card (2026-11-08): the index's group, else the
+  // group the MBA graph puts the role in, else the product namespace. The index leaves out the MBA set's own Product
+  // group (atlas.js: the product set stands for that field), so without the second step product_manager and
+  // product_strategy had no field and the Product filter dropped them while their cards said "Product".
+  function fieldLookup(ix) {
+    const mba = new Map();
+    for (const g of (ix && ix.M && ix.M.groups) || []) for (const f of g.families || []) mba.set(f, g.id);
+    const roles = (ix && ix.roles) || {};
+    return id => (roles[id] || {}).group || mba.get(id) || fieldOfRole(id);
+  }
+  // Roles that share a label are one role to the filter (2026-11-08): the product set's product.pm and the MBA set's
+  // product_manager are both "Product Manager", product.pmm and pmm both "Product Marketing Manager". The key of a
+  // role is the first id in D.roles with its label; the file lists the product set first, so the key is the product
+  // set's id. An id the file does not list is its own key.
+  function roleKey(D) {
+    const labels = (D && D.role_labels) || {}, first = new Map(), key = new Map();
+    for (const id of (D && D.roles) || []) { const l = labels[id]; if (!l) { key.set(id, id); continue; } if (!first.has(l)) first.set(l, id); key.set(id, first.get(l)); }
+    return id => key.get(id) || id;
+  }
+  const keyOf = (id, ctx) => ctx && ctx.roleKey ? ctx.roleKey(id) : id;
+  // whether a role (any id of its key) has postings in a field; ctx.roleIds lists the ids a key may stand for
+  const roleInField = (role, field, ctx) => {
+    const k = keyOf(role, ctx), all = (ctx && ctx.roleIds) || [role];
+    return all.filter(id => keyOf(id, ctx) === k).concat(role).some(id => fieldOfRole(id, ctx) === field);
+  };
   const roleName = (row, ctx) => ctx && ctx.roleName ? ctx.roleName(row) || "" : "";
   const skillNames = (row, ctx) => { const v = ctx && ctx.skillNames ? ctx.skillNames(row) : []; return Array.isArray(v) ? v.join(" ") : String(v || ""); };
 
@@ -222,7 +251,7 @@
   const locHit = (row, toks) => { const ws = words(row.location); return toks.every(t => (t === "remote" && row.remote) || hit(t, ws) > 0); };
   function matches(row, f, ctx, locToks) {
     if (f.field && fieldOfRole(row.role, ctx) !== f.field) return false;
-    if (f.role && row.role !== f.role) return false;
+    if (f.role && keyOf(row.role, ctx) !== keyOf(f.role, ctx)) return false;
     if (f.level && levelWord(row) !== f.level) return false;
     if (f.entry && !entryHit(row, f.entry, ctx)) return false;
     if (f.years && !yearsHit(row, f.years)) return false;
@@ -246,7 +275,7 @@
     const out = {};
     for (const v of values) {
       const g = Object.assign(blankFilter(), f || {}, { [facet]: v });
-      if (facet === "field" && g.role && v && fieldOfRole(g.role, ctx) !== v) g.role = "";
+      if (facet === "field" && g.role && v && !roleInField(g.role, v, ctx)) g.role = "";
       out[v] = filterJobs(jobs, g, ctx).length;
     }
     return out;
@@ -343,10 +372,12 @@
   // ---------- the hash: every filter, the query, the sort, the page and the open posting ----------
   const KEYS = ["q", "field", "role", "level", "entry", "years", "sector", "loc", "remote", "sponsor", "noclear", "group", "company", "sort", "page", "open"];
   const BOOL = new Set(["remote", "noclear"]);
-  const blankState = () => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: "", noclear: false, group: "", company: "", sort: "best", page: 1, open: "" });
+  // `sort` is the default sort of the person reading (defaultSort): it is what an absent or unknown sort means, and
+  // it stays out of the link
+  const blankState = (sort = "newest") => ({ q: "", field: "", role: "", level: "", entry: "", years: "", sector: "", loc: "", remote: false, sponsor: "", noclear: false, group: "", company: "", sort, page: 1, open: "" });
   // reads "q=product&level=mid", "?q=…", "#/jobs?q=…" or a full hash; what is absent takes its default
-  function parseState(query) {
-    const s = blankState();
+  function parseState(query, sort = "newest") {
+    const s = blankState(sort);
     let str = String(query || "");
     const i = str.indexOf("?");
     if (i >= 0) str = str.slice(i + 1); else if (str.startsWith("#")) str = str.slice(1);
@@ -356,7 +387,7 @@
       const v = h.get(k);
       if (BOOL.has(k)) s[k] = v === "1" || v === "true";
       else if (k === "page") s.page = Math.max(1, Math.floor(Number(v)) || 1);
-      else if (k === "sort") s.sort = SORTS.includes(v) ? v : "best";
+      else if (k === "sort") s.sort = SORTS.includes(v) ? v : sort;
       // sponsor was a switch until it had two values: an old link's sponsor=1 is "says it sponsors"
       else if (k === "sponsor") s.sponsor = v === "1" || v === "true" ? "yes" : SPONSOR.includes(v) ? v : "";
       else if (k === "entry") s.entry = ENTRY_ALIAS[v] || v;
@@ -364,13 +395,13 @@
     }
     return s;
   }
-  // the query string of a state: empty values, false, "best" and page 1 stay out
-  function stateQuery(state) {
-    const s = Object.assign(blankState(), state || {}), h = new URLSearchParams();
+  // the query string of a state: empty values, false, the default sort and page 1 stay out
+  function stateQuery(state, sort = "newest") {
+    const s = Object.assign(blankState(sort), state || {}), h = new URLSearchParams();
     for (const k of KEYS) {
       const v = s[k];
       if (v == null || v === "" || v === false) continue;
-      if (k === "sort" && v === "best") continue;
+      if (k === "sort" && v === sort) continue;
       if (k === "page" && Number(v) === 1) continue;
       h.set(k, v === true ? "1" : String(v));
     }
@@ -379,5 +410,5 @@
   // the filter object of a state (the hash says loc; the filter says location)
   const filterOf = s => ({ field: s.field || "", role: s.role || "", level: s.level || "", entry: s.entry || "", years: s.years || "", sector: s.sector || "", location: s.loc || "", remote: !!s.remote, sponsor: SPONSOR.includes(s.sponsor) ? s.sponsor : "", noclear: !!s.noclear, group: s.group || "", company: s.company || "" });
 
-  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
+  return { PAGE, PRODUCT_NS, FIT_FLOOR, fitShare, FLAGS, rowsOf, LEVEL_WORDS, ENTRIES, ENTRY_IDS, SPONSOR, EMPLOYERS, YEARS, SORTS, defaultSort, sortChoices, KEYS, yearsHit, levelWord, levelLabel, levelLabels, employerOf, fieldOfRole, fieldLookup, roleKey, roleInField, words, ALIASES, strengthOf, searchJobs, searchJobsRelaxed, queryHints, dropWords, blankFilter, filterJobs, facetCounts, isFiltered, fitOf, fitLine, cardFacts, dateOf, dayLabel, dateLine, sortJobs, dedupe, pageOf, blankState, parseState, stateQuery, filterOf };
 });

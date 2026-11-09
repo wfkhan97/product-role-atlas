@@ -3133,6 +3133,128 @@ MBA and tech sets' own reads. The rebuilt query is the query's words in lower ca
 learning engineer" 5,276; "PM new grad" 7 (Databricks' Associate Product Manager, New Grad first); "SWE" 8,084; "APM"
 697.
 
+## The class picker ranks by one line score (`fix/classes-line-score`, 2026-11-08)
+
+**The shape.** The Gaps covered sort ordered by the sum of the gap shares a class covers, then by relevance. A class
+with low relevance that named one small gap outranked the role's core course: Robots in the Wild third for the HCI
+PhD matched to three product roles, Memory Technologies fourth for a product designer. Sixteen tech cases and six MBA
+cases in `evals/classes/` were known failures of this shape or of broad tags.
+
+**The lever tried.** Eleven variants of the sort were run over all 53 cases (scratch, 2026-11-08): the gap weight
+plus k × relevance for k in 0.5 to 2, a floor under which a gap does not count (0.1 to 0.3), core-only weights,
+weight × relevance, the weight normalised to the case's best. A floor on small gaps broke seven to sixteen passing
+checks; k = 2 broke six. The one kept: the gap shares covered, halved when the class's relevance band is low, plus
+0.75 × relevance (`Catalog.sortCards`, two named constants). Ties keep the old tail; the noCover case keeps score
+order.
+
+**What moved.** 281 pass, 18 fail, 17 known, from 279 / 19 / 18. Two known failures pass (Advanced UX and User
+Research for the UX researcher, alone and with the designer), one real one passes (Robots in the Wild leaves the staff
+PM's top 5), and one passing check becomes known: Advanced Operating Systems for the security career changer read as
+a software engineer falls from rank 10 to 24, because its tags give it a relevance of 0.05 (system architecture and
+Linux only). Where a top 3 moves (26 cases), a high-relevance core course steps past a low-relevance class that named
+one gap.
+
+**What the sort cannot move.** Ten of the sixteen tech known failures are tag problems: Analysis of Algorithms scores
+0 and covers nothing; Advanced ML Systems is tagged AI/ML and hardware only; Privacy in the Digital Age scores 0.08.
+No sort lifts a class with no relevance and no covered gap into the top 10. They stay known with their reasons until
+the tags are reread (`pipeline/catalog_tags.mjs`, the data thread). The 18 failures left were on `main` before this
+change, from the data refreshes since the 2026-11-06 baseline; their spec files are the reader's expectations and stay
+as they are.
+
+## Find jobs reaches every Product posting; a phone's Tab order; the polish list (`feat/site-reach-polish`, 2026-11-08)
+
+The site half of the Later list, after the Find jobs pass. Browser side only; `web/data/*` and the pipeline are the data
+thread's.
+
+**Find jobs: the Product field.** The filter's role-to-field lookup read `Atlas.index()`, which leaves out the MBA set's
+own Product group on purpose (the product set stands for that field), so `product_manager` and `product_strategy` had
+no field and the Product filter dropped 3,716 open rows whose cards said "Product" (the card had its own fallback).
+One lookup now serves the filter, its counts, the rail and the card (`Jobs.fieldLookup`): the index's group, else the
+MBA graph's, else the product namespace. Two ids with one label are one role to the filter (`Jobs.roleKey`: the first
+id in the file with that label, the product set's): "Product Manager" lists once and filters `product.pm` and
+`product_manager` together; "Product Marketing Manager" the same, and since `pmm` sits in Marketing and `product.pmm`
+in Product, that row shows in both fields with the field's own count. `#/jobs?role=product_manager` still opens, as
+`product.pm`'s filter.
+
+**A phone's Tab order.** Find jobs, the launcher and Networking showed the content first on a phone by CSS `order`,
+so Tab crossed the facets, the tiles or the list before it. The markup now has the phone's order (the postings before
+the facet rail, the résumé box before the tiles, the prep card before Who to look for) and the desktop columns are
+pinned with `grid-column` under `min-width: 901px`. On a desktop Tab now reaches the postings before the filters too.
+
+**The posting panel on a phone** covers the screen, so it is a dialog there: `role="dialog"`, named by its heading,
+`aria-modal` true under 640 px, and Tab stays inside it (`trapTab`, the feedback sheet's loop made a helper for both).
+Escape and the focus return were already there.
+
+**The polish list**, one line each, with the choice made where Later left two:
+- Explore opens in its list (grid) view on a phone when no field is picked; the map stays one tap away. The map's
+  phone layout dropped its biggest field names to keep labels apart; a list has none to drop.
+- Tap-to-light on the field page and the map: on a touch screen the first tap lights a role's or a field's skills,
+  the second tap on the same item navigates, a tap elsewhere clears. Hover and the keyboard are unchanged.
+- The phone top bar's verb strip fades at its right edge (a CSS mask) so a cut word reads as more to scroll.
+- The six token pairs under 4.5:1: light green, blue and amber a step darker, dark neutral a step lighter
+  (`web/tokens/colors.css` and the `style.css` override together); `tests/web/tokens.test.mjs` computes every drawn
+  pair in both themes and holds the floor.
+- `#/role/<id>/fit` has one h1 once a résumé is stored (the eyebrow line is it).
+- The role page's "How you work" summary wraps at every width.
+- Home says the exact role count from the data, the same count the launcher and Explore use; "over" is gone, and
+  Explore's hard-coded fallback with it.
+- Know the role's reveal lines say "from another role", never "decoy".
+- The role rail's "change" returns to the role; "You show all N skills most postings ask for" sits before the
+  still-count line.
+- Networking's Company box keeps the bare name after a pick; "N open" is the option's hint.
+- `Network.sentenceCase` lower-cases a tool named with bracketed examples (a category, not a product); the VP row puts
+  the listed employers first and US titles first within each group.
+- The feedback box's email field gets `aria-invalid` and `aria-describedby` on a bad address.
+- The theme button cycles system → the other theme → system; every press changes the screen.
+- Guide steps for the course screen, the games, the professor card (ids added to its markup) and the event screen;
+  the guide's key listener moved to the window's capture so Esc in a game's tips skips the tips, not the game.
+- `web/pick.js` opens on a click, typing or ArrowDown, never on focus (which also ends the guide's run on Find classes
+  with the list open); the listbox has an id, a name and a tabindex, the box `aria-controls` and
+  `aria-activedescendant`; the note rows are presentation. axe reports none of its three violations.
+- `guide.seen` reads whole numbers only.
+
+**Two small things found on the way.** The Networking role box said the engineering, design and legal roles come
+later; the tech set is shown, so the note goes. The skill card averages over the roles the map shows (the product and
+MBA sets), while the launcher counts every role; the counts test says so now instead of expecting one number.
+
+**Checks.** `node --test 'tests/web/*.test.mjs'` (503), `node evals/copy.mjs`, and the Playwright suite in `tests/ui`
+(phone and desktop) with a new spec for each change. The suite had fallen behind `main`: Find jobs' guide has four tips
+at version 2, the guide flag ships on, the Role-box test's "data" and "software" match tech roles now, and the guide's
+card took focus, Esc and the scroll under the keyboard and phone specs. Those specs read every guide screen as seen;
+the guide's own spec covers the guide. One spec still fails on `main` and here: the résumé line naming the AI reader
+on a 200 (in Later).
+
+## The menus and the guide catch up with the site pass (`chore/menu-guide-copy`, 2026-11-08)
+
+An audit of the top bar, the footer, the home cards and every guide tip against what the two site-pass PRs shipped.
+The menus were current but one line: home's Networking card named "alumni, faculty, and peers" where the screen
+offers hiring managers, people in the role, recruiters, alumni and faculty. Three tips lagged: the field page's and
+the map's tap on a phone (a first tap lights, a second opens), and the class picker's Gaps covered sort, now named in
+the band tip (the guide keeps two to four tips a screen and two sentences a tip, so no new row). Find jobs' field tip
+says "then a role inside it". The skill card's share line says "business and product roles", since the launcher counts
+the tech set too and the two numbers read as a disagreement. Field and classes go to version 2, so a person who saw
+the old tips sees the new ones once.
+
+## Find jobs opens on Newest, or on Fit with a résumé (`feat/jobs-default-sort`, 2026-11-08)
+
+The owner's call after the first week of the Newest sort: a person with no résumé on file has no fit to rank by, and
+"Best match" with nothing typed is company A–Z in practice, the order the students complained about. So the list
+opens on **Newest** without a résumé and on **Fit** with one, and the menu reads Fit, Newest, Best match, Company A–Z
+(Newest, Best match, Company A–Z without a résumé: there is no Fit to offer).
+
+- `Jobs.defaultSort(have)` names the sort a person starts on and `Jobs.sortChoices(have)` the menu's order.
+  `parseState(hash, sort)` and `stateQuery(state, sort)` take that default: an absent or unknown `sort` means it, and
+  it stays out of the link. Any other sort is a choice and stays in the link, so with a résumé `sort=newest` and
+  `sort=best` are written and without one `sort=best` is.
+- Old links keep their meaning where they named a sort (`sort=best`, `sort=company`, `sort=fit`). A link with no
+  sort opened on Best match for a person without a résumé and now opens on Newest; that is the change asked for.
+  `sort=fit` without a résumé falls to Newest, where it fell to Best match.
+- A typed query keeps the default: every row shown matches every word (or all but one, said in the line over the
+  list), so newest-first among the matches is the reading asked for. Best match is one choice away.
+
+Tests: the state's defaults and the menu's order in `tests/web/jobs.test.mjs`; the menu, the link and the newest-first
+order of the cards with and without a résumé in `tests/ui/jobs.spec.mjs`.
+
 ## A model read of the backlog (`feat/postings-read`, 2026-11-09)
 
 $103 of Anthropic API credit expires on 2026-11-10. We spent $95.99 of it on one thing the pipeline cannot do with
@@ -3323,9 +3445,9 @@ done). One line per item; the section that explains it is named where it helps.
   green, and the forms fail axe's contrast rule inside their iframe in dark theme.
 - The Tally door sends a local or preview visitor on to production after the form (a Tally setting); the harness
   passes the door by its return address meanwhile.
-- Find jobs' Product field filter leaves out the MBA set's Product Manager and Product Strategy postings (3,716 open
-  rows; their cards say "Product"). List them under Product (then "Product Manager" shows twice, once per role set)
-  or keep them reachable by role alone.
+- GitHub Actions stopped starting jobs on 2026-11-08 ("recent account payments have failed or your spending limit needs
+  to be increased", the job's annotation): the Billing and plans page of the account, then a rerun of the checks on
+  the open pull requests.
 - A spend cap on the Anthropic key and a rate-limit rule on `/api/infer` (the function has a same-origin check and
   body limits, nothing per visitor).
 - `CATALOG_SERVICE_ROLE_KEY` in the local `.env` when a map is next published by hand (`map_publish`,
@@ -3343,9 +3465,9 @@ done). One line per item; the section that explains it is named where it helps.
 - Tech titles: dispatch refresh-tech once "Bare titles and the employer" has merged, so the 619 stored postings the rule
   now reads differently are re-extracted. The fresh sample's other misses (two security titles worded as "automation"
   and "attack" engineers, an AI power engineer read as ML) wait for new labelled rows.
-- The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
-  gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
-  Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
+- The class picker's tech cases: ten known failures are tag problems ("The class picker ranks by one line score"); a reread
+  of the under-tagged classes in `pipeline/catalog_tags.mjs` (Advanced OS, Analysis of Algorithms, Advanced ML Systems,
+  Privacy in the Digital Age), then `run_classes --baseline`.
 - The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
   `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
   `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
@@ -3390,45 +3512,19 @@ done). One line per item; the section that explains it is named where it helps.
   start date often sits there ("Sponsorship first, new graduates marked").
 - IE New York in Find classes: its catalog file (`web/data/catalog/ienyc.json`) and tags file from
   `catalog_export` run for that campus, `catalog: true` on its entry, then `IENYC_ENABLED`.
-- The class matching's next lever: six known failures in `evals/classes/` share one shape, one small gap carrying a
-  class the role does not need; try a per-line score or a cap on small gaps (a relevance floor was tried and is not it).
-- `evals/run_classes.mjs`: two known failures now pass (`pivot_phd_hci+business_intelligence: must_not_top CS 6412`,
-  `pivot_phd_hci+all: must_not_top ECE 5748`); drop them from `known_failures` on a `data/` branch.
-- The phone Tab order on Find jobs, the launcher and Networking: the CSS shows the postings, the résumé box and the
-  prep card first, but Tab still crosses the facets, the tiles or the list before them. Reorder the markup on those
-  three screens and keep the desktop layout with CSS.
-- A focus trap for Find jobs' posting panel on a phone: it covers the screen, but Tab can leave it for the footer.
 - Semantic search on Find jobs, in two steps, each with an eval of labelled queries ("Find jobs reads abbreviations"):
   first query understanding from the atlas's own vocabulary (role labels, skill names and the taxonomy's patterns
   mapped to role and skill boosts), then embeddings of titles and skill names built per refresh with an `/api/embed`
   route (Anthropic has no embeddings endpoint; Voyage or similar needs a key in the Vercel project), blended with the
   word score.
-- The skill map on a phone drops the names of its biggest fields (Operations & general management, Marketing, Sales)
-  to keep labels apart; the circles keep an aria-label. A denser phone layout, or a list of the map on a phone.
-- Tap-to-light on the field page and the map: hover lights a role's skills, a tap navigates. On a touch screen, a
-  first tap that lights, or a tap and hold.
-- The phone top bar's verb strip scrolls sideways with no sign but a cut word ("Networki"): a fade or a chevron at
-  its edge.
-- Six token pairs fall under 4.5:1 (the lowest: light `--primary` on `--primary-tint` over `--card`, 4.00). No screen
-  draws one as text today; fix them in `web/tokens/` before one does.
-- One h1 per screen: `#/role/<id>/fit` has none once a résumé is stored (the lead takes its place).
-- The role page's "How you work" summary still runs past its column on a desktop.
-- Home says "Explore over 50 roles" where the launcher, Explore and the skill card say 56: take the count from the data.
-- Know the role's round-end lines still say "decoy" (`web/games/know-the-role.js`); its help line no longer does.
-- The role rail after a read: "change" goes to `#/you?step=3` with no way back, and "Nothing important missing" sits
-  right after "11 skills in all still need evidence".
-- Networking's Company box keeps "· N open" in its value after a pick: show the name alone.
-- Two small rules in `network.js`: "Analytics tools" keeps its capital mid-sentence (`Network.sentenceCase` reads the
-  long taxonomy name as a proper noun), and on the VP row a listed employer's one posting abroad wins over a US one.
-- The feedback box's email field gets `aria-invalid` when a bad address stops Send.
-- The theme button: a third state that goes back to "follow the device".
-- Guide steps for the screens the guide leaves out: the course screen and the games (their links landed with the
-  usability fixes), the professor and the event screen, and the map once a real sign-in lets its targets be checked.
-  The sign-in gets none: its own copy now says what a tip would.
-- The role picker (`web/pick.js`) opens its list on focus, and the open list has three axe violations
-  (`aria-input-field-name`, `scrollable-region-focusable`, `aria-required-attr`). It also ends every guide run on
-  Find classes with the list open.
-- `guide.seen` accepts a digit string as a version (`"1"` for 1); read only whole numbers.
+- Form controls drawn with `--border` edges (`.wait input`, `.ctx select`, `.sm-plan select`, `.cls-select`, `.cls-email`,
+  `.jsearch input`, `.jsort select`, `.fb textarea`) sit near 1.4:1 against their surface; `--input` holds 3:1. Move
+  them to `--input` (some are on frozen screens).
+- `tests/ui/resume.spec.mjs`'s "the résumé line names the AI reader only when it answered (200)" fails on `main`:
+  the stubbed 200 answers `{}` and the line never says "AI reader". The stub, or the line's rule, wants a look.
+- `tests/ui/chrome.spec.mjs`'s "About: a late class count keeps the scroll and the open employer list" fails on
+  `main` in most local runs (seen 2026-11-08 on 733401d, both viewports): the page moves about 200px when the count
+  lands. CI does not run the UI suite, so nothing flags it; the About screen's late redraw wants a look.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 
 **The pipeline**

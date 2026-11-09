@@ -66,7 +66,7 @@ test("ctx reads the fit's core rows; leads with craft skills only; the craft ask
   assert.deepEqual(C.lead.map(s => s.id), ["a"], "Stakeholder management is shown but generic: not a lead");
   assert.equal(C.lead[0].said, "forecasting", "a method reads lower case mid-sentence");
   assert.deepEqual(C.craft.map(a => a.id), ["a", "b", "d", "e"], "defining first; no behaviour, generic skill or credential");
-  assert.equal(C.craft.find(a => a.id === "d").said, "Modeling", "a tool keeps its capital; the brackets go");
+  assert.equal(C.craft.find(a => a.id === "d").said, "modeling", "a tool named with examples in brackets is a category: lower case, the brackets go");
   assert.deepEqual(C.craftGaps.map(g => g.id), ["b", "d"]);
   assert.equal(C.read, true);
   assert.ok(C.shownAll.includes("a") && C.shownAll.includes("c"));
@@ -123,10 +123,11 @@ test("jobsHref opens Find jobs with the field and the role set, in the order job
   assert.equal("#/jobs?" + J.stateQuery(s), N.jobsHref(C), "the jobs screen keeps the link as it is");
 });
 
-test("targetsOf: the employers by open postings ('Acme · 2 open') for the employer types, the professors for faculty", () => {
+test("targetsOf: the employers by open postings for the employer types, the name as the label and '2 open' as the hint (a pick left '· 2 open' in the box), the professors for faculty", () => {
   const C = N.ctx(IX, R, FIT, O({ flag: "cornell", roster: true, profs: PROFS }));
   assert.deepEqual(N.targetsOf("hm", C).map(t => t.key), ["Acme", "Globex", "Initech"]);
-  assert.equal(N.targetsOf("recruiter", C)[0].label, "Acme · 2 open");
+  assert.equal(N.targetsOf("recruiter", C)[0].label, "Acme");
+  assert.equal(N.targetsOf("recruiter", C)[0].hint, "2 open");
   assert.deepEqual(N.targetsOf("hm", C)[0].row, { company: "Acme" });
   const f = N.targetsOf("faculty", C);
   assert.deepEqual(f.map(t => t.key), ["pat-example", "sam-roster"]);
@@ -217,7 +218,7 @@ test("say: lead with, the ask, three specific questions; the words come from the
   assert.equal(hm.ask, "Could I have 20 minutes to hear what Acme looks for in an FP&A Manager hire?");
   assert.equal(hm.questions[0], "Your FP&A Manager posting asks for budgeting & planning, rolling forecasts in particular. How does that show up in a first year?", "the company's posting, its sub-skill");
   assert.match(hm.questions[1], /^My résumé shows forecasting; your FP&A Manager postings stress variance analysis\./);
-  assert.match(hm.questions[2], /^I am still building Modeling\. Which of your 2 open FP&A Manager roles/);
+  assert.match(hm.questions[2], /^I am still building modeling\. Which of your 2 open FP&A Manager roles/);
   const rec = N.say("recruiter", C, { company: "Acme" });
   assert.equal(rec.questions[0], "Acme has 2 open FP&A Manager postings. Which teams take new grads first?");
   assert.equal(rec.questions[1], "Of those, one sits at the Manager level. What gets a résumé past your first screen there?");
@@ -323,6 +324,17 @@ test("who: the level rows' titles come from the employers the list shows, most o
   for (const l of N.who("hm", C).levels) assert.equal(l.titles[0].company, "Zeta", `${l.label}: the top employer's title leads`);
 });
 
+test("who: a listed employer's one posting abroad at a level sits behind a US title, rank order holding within each group", () => {
+  // Zeta (the top employer) has only a posting in India at staff; Yotta's US staff posting leads the row, Zeta's follows
+  const abroad = { ...R2, jobs: R2.jobs.map(j => j.id === 10 ? { ...j, country: "India" } : j) };
+  const C = N.ctx(IX2, abroad, null, {});
+  assert.equal(C.employers[0].company, "Zeta");
+  const staff = N.who("hm", C).levels.find(l => l.level === "staff");
+  assert.deepEqual(staff.titles.map(x => x.company), ["Yotta", "Zeta"], "the US title first, then the one abroad");
+  const senior = C.levels.find(l => l.level === "senior");
+  assert.deepEqual(senior.titles.map(x => x.company).slice(0, 3), ["Zeta", "Yotta", "Acme"], "a level with US postings keeps the rank order");
+});
+
 test("where: the recruiter's posting links are at the person's level, the entry level when none is given; no link twice (C-16, senior postings for a new grad)", () => {
   const C = N.ctx(IX2, R2, null, {});
   const links = o => N.where("recruiter", C, null, o).filter(r => r.href.startsWith("https://example.com/")).map(r => r.label);
@@ -346,6 +358,8 @@ test("a level row is never labelled with another role's name: the product ladder
 test("a professor's row names the skills as the middle of a sentence says them; an acronym keeps its capitals (C-19)", () => {
   assert.deepEqual(N.sentenceCase(["Process design & operational rigor", "Metrics & KPIs", "AI / machine learning", "Python / R / scripting", "Prioritization & trade-offs"]), ["process design & operational rigor", "metrics & KPIs", "AI / machine learning", "Python / R / scripting", "prioritization & trade-offs"]);
   assert.deepEqual(N.sentenceCase(["Excel modeling"], "tool"), ["Excel modeling"], "a tool keeps its capital");
+  assert.deepEqual(N.sentenceCase(["Analytics tools (Amplitude, Mixpanel)"], "tool"), ["analytics tools"], "a tool named with examples in brackets is a category: lower case");
+  assert.equal(N.inText("Tableau", "tool"), "Tableau");
   const profs = [{ slug: "p", name: "Pat", title: "Lecturer", codes: ["T 1"], gaps: [{ id: "a", name: "Process design & operational rigor" }, { id: "k", name: "Metrics & KPIs" }, { id: "ai", name: "AI / machine learning" }, { id: "zz", name: "Unknown Skill" }] }];
   const C = N.ctx(IX2, R2, null, { roster: true, profs, shown: [] });
   const P = N.who("faculty", C).profs[0];

@@ -140,14 +140,18 @@ test("the current mark follows the crumb's origin: a professor opened from Netwo
   assert.deepEqual(Crumbs.trail("professor", [["Networking", from], ["Ada Lovelace", null]]), { section: "network", items: [[BAR.network, from], ["Ada Lovelace", null]] });
 });
 
-test("C-21, one press in three changed nothing: from the device's theme a press goes to the other, then light and dark take turns; the name says the state", () => {
+test("C-21 and the way back to the device (2026-11-08): every press changes the screen, and the second press follows the device again; the name says what a press does", () => {
   assert.equal(Theme.next("system", false), "dark", "a light device: the first press shows dark");
   assert.equal(Theme.next("system", true), "light", "a dark device: the first press shows light");
-  assert.equal(Theme.next("dark", true), "light");
-  assert.equal(Theme.next("light", true), "dark");
+  assert.equal(Theme.next("dark", false), "system", "the second press follows the device again");
+  assert.equal(Theme.next("light", true), "system");
   for (const dark of [true, false]) {
-    let t = "system", shown = dark ? "dark" : "light";
-    for (let i = 0; i < 5; i++) { t = Theme.next(t, dark); assert.notEqual(t, shown, `press ${i + 1} changes the screen`); shown = t; }
+    const device = dark ? "dark" : "light", shows = t => t === "system" ? device : t;
+    let t = "system";
+    for (let i = 0; i < 5; i++) { const was = shows(t); t = Theme.next(t, dark); assert.notEqual(shows(t), was, `press ${i + 1} changes the screen`); }
   }
-  assert.deepEqual(Theme.STATES.map(Theme.label), ["Theme: device", "Theme: light", "Theme: dark"]);
+  assert.equal(Theme.label("system", false), "Switch to the dark theme");
+  assert.equal(Theme.label("system", true), "Switch to the light theme");
+  assert.equal(Theme.label("dark", false), "Follow your device's theme");
+  assert.equal(Theme.label("light", true), "Follow your device's theme");
 });

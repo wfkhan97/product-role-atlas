@@ -18,8 +18,5 @@
    "ORIE 7590",
    "LAW 7591"
   ]
- },
- "known_failures": {
-  "must_top INFO 5305": "The product management course names six of the gaps (A/B testing, positioning, roadmapping: product asks in UX research postings); the UX research course names user research and surveys, which the résumé already shows."
  }
 }

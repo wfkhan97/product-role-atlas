@@ -57,6 +57,7 @@ Browser scripts load in node the way the evals load them: each exports itself wh
 |---|---|
 | `routes.test.mjs`, `door.test.mjs`, `doors.test.mjs`, `intake.test.mjs`, `launcher.test.mjs`, `pick.test.mjs`, `role_filters.test.mjs`, `network.test.mjs`, `jobs.test.mjs`, `field_chart.test.mjs`, `skillmap.test.mjs` | The pure parts of the screens. |
 | `atlas.test.mjs`, `match.test.mjs`, `evidence_text.test.mjs`, `infer.test.mjs` | The data layer, the matcher, the sentences, the model read's merge and the function's validation. |
+| `tokens.test.mjs` | Every drawn token pair in `web/tokens/colors.css` (and the `style.css` overrides) holds 4.5:1 in both themes, `--input` 3:1; the light blocks agree. |
 | `keyboard.test.mjs`, `resume_return.test.mjs`, `fit_course.test.mjs` | The pure parts of the usability fixes: the drop zone's, the heart's and the view buttons' names; the résumé step's way back (`You.back`, `resumeHref`, `after`); the rail's and the fit screen's counts (`FitCounts`), the course screen's count (`CourseCore`), the first game card, the skill card's role count. |
 | `guide.test.mjs` | The guide: the step table against the copy and the routes, the steps a state gets, the due rule, the seen-state with bad values, the cta ids, the run, the card's place; the script order, the flag shipped off, the one hook in `app.js`. |
 | `copy.test.mjs`, `assets.test.mjs` | Every string against the writing rule; every script `index.html` names exists. |

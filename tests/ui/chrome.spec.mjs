@@ -167,19 +167,22 @@ test("the chrome links share one style: Feedback in the top bar as the other lin
   expect(await style(page.locator("#foot-feedback"))).toEqual(await style(page.locator("footer.foot a[href='#/about']")));
 });
 
-test("the theme button names the theme now, and every press changes the page", async ({ visitor }) => {
+test("the theme button names what a press does, every press changes the page, and the second follows the device again", async ({ visitor }) => {
   for (const scheme of ["light", "dark"]) {
     const page = await visit(visitor, { hash: "#/jobs" });
     await page.emulateMedia({ colorScheme: scheme });
     const btn = page.locator("#theme");
     const read = () => page.evaluate(() => ({ label: document.querySelector("#theme").getAttribute("aria-label"), bg: getComputedStyle(document.body).backgroundColor }));
     let was = await read();
-    expect(was.label, "the first state is the device's").toBe(Copy.fill(Copy.common.themeLabel, { theme: Copy.common.themeNames.system }));
+    const other = scheme === "light" ? "dark" : "light";
+    expect(was.label, "from the device's theme a press shows the other").toBe(Copy.fill(Copy.common.themeTo, { theme: Copy.common.themeNames[other] }));
+    const first = was.bg;
     for (let i = 1; i <= 3; i++) {
       await btn.click();
       const now = await read();
       expect(now.label, `${scheme} press ${i}: the name changes`).not.toBe(was.label);
       expect(now.bg, `${scheme} press ${i}: the page changes`).not.toBe(was.bg);
+      if (i % 2 === 0) expect(now.bg, `${scheme} press ${i}: back to the device's theme`).toBe(first);
       was = now;
     }
   }

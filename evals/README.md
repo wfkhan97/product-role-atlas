@@ -438,9 +438,9 @@ The expectation files are `evals/classes/<resume>+<roleId>.json` and `<resume>+a
 A check named under `known_failures` is a failure the spec keeps on purpose: the reader's expectation stands, the
 matching does not meet it yet, and the reason says why. The runner reports it as KNOWN, counts it apart from the
 failures, and stays green on it; a known failure that starts to pass fails the run until its line is dropped. The
-known failures share one shape: one small gap, such as the Office suite, carries a class the role does not need. The
-next lever is a per-line score or a cap on small gaps; a floor on the relevance band was tried and sank a right
-answer, so it is not the fix (PLAN.md, Later).
+gaps sort orders by one line score per card: the shares of the gaps it covers, halved for a low-band class, plus 0.75
+times its relevance. The known failures left are tag problems: a class whose tags do not name the role's asks or the
+person's gaps. They are fixed in the tags file (`pipeline/catalog_tags.mjs`), not in the sort.
 
 `must_top`: each code sits in the top n. `must_not_top`: none of the codes does. `must_cover`: each listed code
 covers that gap of the case (optional). `no_cover`: whether the case must be one no class covers (optional). A

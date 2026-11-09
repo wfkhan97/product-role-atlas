@@ -1,8 +1,8 @@
 /* Role atlas — Explore as a skill map. The 11 fields sit on a ring, neighbours by what their postings ask for; every
    skill of both role sets (the MBA index carries all 278, the 98 product skills under the same ids) sits near the
    fields that ask for it most, so a field's own skills gather beside it and the skills every field asks for gather in
-   the middle. Lines join skills that postings ask for together (graph_mba.json edges, Jaccard). Hover a field to light
-   up its skills; click a skill for a short card whose roles and fields are links.
+   the middle. Lines join skills that postings ask for together (graph_mba.json edges, Jaccard). Hover (or tap once) a
+   field to light up its skills; click a skill for a short card whose roles and fields are links.
    Colours keep their meaning: blue = the postings' numbers (a lit field's skills; with a resume, the gaps your roles
    require); green = you (already on your resume); skill areas are text. Desktop only, like the rest.
    Owner's decisions (2026-10-24): every skill is on the map by default; the 35 most-asked skills are solid and
@@ -263,10 +263,32 @@
     const r = c.getBoundingClientRect(); t.textContent = data.byId[c.dataset.sk].name; t.style.left = (r.right + 6) + "px"; t.style.top = (r.top - 8) + "px"; t.hidden = false;
   }
 
+  // ---------- a tap has no hover (2026-11-08) ----------
+  // The pointer of the press under way: pointerdown records its type; every click (after its own handlers) and every
+  // key clear it, so a click from the keyboard (Enter on a link) has none. A touch, or any press on a screen that
+  // cannot hover, is a tap: the first tap on a field or a role lights it, the second follows its link.
+  let pressed = "";
+  if (typeof document !== "undefined") {
+    document.addEventListener("pointerdown", e => { pressed = e.pointerType || "mouse"; }, true);
+    document.addEventListener("click", () => { pressed = ""; });
+    document.addEventListener("keydown", () => { pressed = ""; }, true);
+  }
+  const tapped = () => pressed === "touch" || (!!pressed && typeof matchMedia === "function" && matchMedia("(hover: none)").matches);
+
   function wireStage(stage) {
     if (window.ResizeObserver) new ResizeObserver(() => draw()).observe(stage);   // the side panel opening narrows it
-    stage.addEventListener("click", e => { const c = e.target.closest("circle[data-sk]"); if (c) select(c.dataset.sk === ui.selected ? null : c.dataset.sk); else if (!e.target.closest("a")) select(null); });
-    stage.addEventListener("mouseover", e => {
+    stage.addEventListener("click", e => {
+      const b = e.target.closest("a[data-g]");
+      if (b && tapped()) {   // a tap: the first lights the field, the second (on the lit one) opens it
+        if (ui.hover !== b.dataset.g) { e.preventDefault(); ui.hover = b.dataset.g; if (!ui.selected) draw(); }
+        return;
+      }
+      if (tapped() && ui.hover && !e.target.closest("a")) { ui.hover = null; if (!ui.selected) draw(); }   // a tap elsewhere puts the light out
+      const c = e.target.closest("circle[data-sk]"); if (c) select(c.dataset.sk === ui.selected ? null : c.dataset.sk); else if (!e.target.closest("a")) select(null);
+    });
+    // pointerover, not mouseover: a touch lights on the click above, not on the mouse events a tap also sends
+    stage.addEventListener("pointerover", e => {
+      if (e.pointerType === "touch") return;
       const c = e.target.closest("circle[data-sk]"); tip(c);
       if (c) return;                                   // a dot keeps the field that is lit
       const b = e.target.closest("a[data-g]"), g = b ? b.dataset.g : null;
@@ -429,5 +451,5 @@
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner, thinNames, roleShare, cardShare };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner, thinNames, roleShare, cardShare, tapped };
 })();

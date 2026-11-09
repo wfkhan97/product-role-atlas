@@ -32,9 +32,10 @@
   // a skill name as a sentence says it: the examples in brackets dropped ("ERP & finance systems (SAP, Oracle)")
   const short = name => String(name || "").replace(/\s*\(.*?\)/g, "").trim();
   // mid-sentence, a skill or sub-skill name starts lower case ("roadmapping", "systems & architecture"); a tool keeps
-  // its capital (Salesforce, Tableau), and so do an acronym (SQL, APIs) and the few proper nouns a name starts with
+  // its capital (Salesforce, Tableau), and so do an acronym (SQL, APIs) and the few proper nouns a name starts with. A
+  // tool named with examples in brackets is a category ("Analytics tools (Amplitude, …)") and goes lower case
   const PROPER = /^(Python|Excel|Salesforce|Google|Microsoft|Amazon|Adobe|Oracle|Apple|Medicare|Medicaid|Agile)\b/;
-  const inText = (name, kind) => { const n = short(name); return kind !== "tool" && /^[A-Z][a-z]/.test(n) && !PROPER.test(n) ? n[0].toLowerCase() + n.slice(1) : n; };
+  const inText = (name, kind) => { const n = short(name), named = kind === "tool" && !/\(/.test(String(name || "")); return !named && /^[A-Z][a-z]/.test(n) && !PROPER.test(n) ? n[0].toLowerCase() + n.slice(1) : n; };
   // a list of skill names as the middle of a sentence says it ("teaches process design & operational rigor, metrics &
   // KPIs"): each name through inText, so an acronym (AI, KPIs) and a proper noun keep their capitals (2026-11-06)
   const sentenceCase = (names, kind) => (names || []).map(x => inText(x, kind));
@@ -65,6 +66,7 @@
 
   // ---------- the context: one role, the person's fit, the employers, the titles, the professors ----------
   const LEVELS = ["associate", "mid", "senior", "staff", "group", "director", "vp", "cpo"];
+  const LISTED = 5;   // the employers who() lists
   const SENIOR = new Set(["staff", "group", "director", "vp", "cpo"]);   // the lead step, as Atlas.stepOf reads it
   const SHOWN = new Set(["evidenced", "transferable", "through", "inferred"]);   // inferred: the model read (web/infer.js)
   const skill = (ix, id) => (ix.skillById || {})[id] || null;
@@ -128,12 +130,14 @@
     for (const j of postings) (byLevel[j.level] ||= { level: j.level, label: levelLabel(ix, R, j), n: 0, titles: [] }).n++;
     // the sample titles of a level come from the employers the list shows (2026-11-06: they came from the companies
     // first in the alphabet): the employers by open postings, one title per company first, a US posting before
-    // another; then more titles of the same employers, in the same order
-    const rank = Object.fromEntries(employers.map((e, i) => [e.company, i])), us = usFirst;
+    // another; then more titles of the same employers, in the same order. The one-per-company pass puts the employers
+    // who() lists (the top LISTED) first, and within them and within the rest the US titles first, rank order holding
+    // in each group: a top employer whose only posting at a level is abroad no longer leads the row
+    const rank = Object.fromEntries(employers.map((e, i) => [e.company, i])), us = usFirst, listed = j => (rank[j.company] ?? 1e9) < LISTED ? 0 : 1;
     const ordered = postings.map((j, i) => [j, i]).sort((a, b) => (rank[a[0].company] ?? 1e9) - (rank[b[0].company] ?? 1e9) || us(a[0]) - us(b[0]) || a[1] - b[1]).map(x => x[0]);
     for (const l of Object.values(byLevel)) {
       const at = ordered.filter(j => j.level === l.level), add = j => { if (l.titles.length < 5 && !l.titles.some(t => t.title === j.title)) l.titles.push({ title: j.title, company: j.company }); };
-      at.filter((j, i) => at.findIndex(x => x.company === j.company) === i).forEach(add);
+      at.filter((j, i) => at.findIndex(x => x.company === j.company) === i).map((j, i) => [j, i]).sort((a, b) => listed(a[0]) - listed(b[0]) || us(a[0]) - us(b[0]) || a[1] - b[1]).forEach(x => add(x[0]));
       at.forEach(add);
     }
     const levels = Object.values(byLevel).sort((a, b) => lv(a.level) - lv(b.level));
@@ -181,7 +185,7 @@
   // (owner's feedback 2026-11-01); `lead` is the one line that stands in for the hiring manager's titles when no senior
   // posting is open, else ""
   function who(type, C) {
-    const v = { role: C.role.label }, top = C.employers.slice(0, 5);
+    const v = { role: C.role.label }, top = C.employers.slice(0, LISTED);
     const rows = levels => levels.map(l => ({ level: l.level, label: l.label, n: l.n, titles: l.titles.slice(0, 3) }));
     if (type === "hm") return { lead: C.senior.length ? "" : fill(WHO.hmNone, { ...v, next: nextLevel(C) }), levels: rows(C.senior), employers: top };
     if (type === "inrole") return { lead: "", levels: rows(C.junior), employers: top };
@@ -344,11 +348,12 @@
     const pasteText = [head, "", `${AP.leadWith}: ${leadWith}`, "", `${AP.ask}: ${ask}`, "", `${AP.questions}:`, ...questions.map((q, i) => `${i + 1}. ${q}`)].join("\n");
     return { leadWith, leadSkills: names, ask, questions, mins, pasteText };
   }
-  // the targets a type can pick (the Pick options): the employers by open postings for the employer types, the
-  // professors (the most gaps covered first) for faculty
+  // the targets a type can pick (the Pick options): the employers by open postings for the employer types (the name
+  // as the label, so a pick leaves the bare name in the box; the count as the hint), the professors (the most gaps
+  // covered first) for faculty
   const targetsOf = (type, C) => type === "faculty"
     ? C.profs.map(p => ({ key: p.slug, label: p.name, hint: C.read ? (p.covers.length ? fill(COPY.coversHint, { n: p.covers.length }) : p.codes.slice(0, 2).join(", ")) : p.asks.length ? fill(COPY.teachesOf, { n: p.asks.length, m: C.asks.length }) : p.codes.slice(0, 2).join(", "), row: p }))
-    : C.employers.map(e => ({ key: e.company, label: fill(COPY.openLabel, { company: e.company, n: fmt(e.nOpen) }), row: { company: e.company } }));
+    : C.employers.map(e => ({ key: e.company, label: e.company, hint: fill(COPY.openHint, { n: fmt(e.nOpen) }), row: { company: e.company } }));
 
   return { TYPES, COPY, SCHOOLS, CORNELL_SCHOOLS, LEVELS, schoolsOf, schoolOf, types, typeOf, ctx, askRows, who, where, say, approach: say, companyOf, targetsOf, jobsHref, askable, liPeople, liAlumni, fill, an, join, short, inText, sentenceCase, levelLabel };
 });
