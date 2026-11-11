@@ -1,7 +1,8 @@
-// web/map.js, the apprentice map's pure parts (the build plan's B3): the class tree, the T4 layout, "asked together
-// with", the worlds with their k of n, the Q1 layout, the quests of a skill, the D1 read, the shipped look and the date
-// in words, on a small synthetic map built here; then the tracked example (pipeline/apprentice/examples/pmm-nyc/): it
-// parses as version 2 with 19 nodes and three on the trunk, and every mission is a card.
+// web/map.js, the apprentice map's pure parts: the class tree, the T4 layout, "asked together with", the levels with
+// their k of n and the person's own marks (start, shipped, skip; the old shapes read too), up next and the now quest,
+// the "You ship" line, the quests of a skill, the read, the shipped look and the date in words, on a small synthetic
+// map built here; then the tracked example (pipeline/apprentice/examples/pmm-nyc/): it parses as version 2 with 19
+// nodes and three on the trunk, and every quest is a card.
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "fs";
@@ -14,7 +15,7 @@ const MC = Copy.map;
 
 // ---------- the synthetic map: a class of two roles, six nodes, two behaviors, four cards over three worlds ----------
 const node = (id, place, roles, state, extra = {}) => ({ id, name: id.toUpperCase(), area: "gtm", area_label: "Go-to-market", place, roles, state, grows: false, posting_names: false, ...extra });
-const card = (id, level, skills, extra = {}) => ({ id, level, track: "gtm", title: `Mission ${id}`, ship: "A page.", hours: 3, window: "an evening", why_role: { text: "R.", posting_quote: "q" }, why_company: { text: "C.", research_file: "x.md", url: "https://example.test/c" }, why_person: { text: "P.", profile_quote: "p" }, atlas_skills: skills, classes: [], sources: [{ title: "S", url: "https://example.test/s", read: "2026-10-26" }], ...extra });
+const card = (id, level, skills, extra = {}) => ({ id, level, track: "gtm", title: `Quest ${id}`, ship: "A page.", hours: 3, window: "an evening", why_role: { text: "R.", posting_quote: "q" }, why_company: { text: "C.", research_file: "x.md", url: "https://example.test/c" }, why_person: { text: "P.", profile_quote: "p" }, atlas_skills: skills, classes: [], sources: [{ title: "S", url: "https://example.test/s", read: "2026-10-26" }], ...extra });
 function synth() {
   return {
     version: 2, published: "2026-11-03",
@@ -89,7 +90,7 @@ test("classTree: the trunk, shared and own nodes with their places and states; t
   assert.ok(t.nodes.find(n => n.id === "t1").posting_names && t.nodes.find(n => n.id === "t1").grows);
 });
 
-test("shippedLook: a shipped mission's skills read 'shows, shipped <date>' in words; others have none", () => {
+test("shippedLook: a shipped quest's skills read 'shows, shipped <date>' in words; others have none", () => {
   const map = synth();
   const look = M.shippedLook({ id: "o1" }, map);
   assert.equal(look.state, "shows");
@@ -98,7 +99,13 @@ test("shippedLook: a shipped mission's skills read 'shows, shipped <date>' in wo
   assert.equal(look.label, Copy.fill(MC.shippedState, { date: "November 14, 2026" }));
   assert.equal(M.shippedLook({ id: "s1" }, map), null, "s1's missions have not shipped");
   const t = M.classTree(map);
-  assert.deepEqual(t.nodes.filter(n => n.shipped).map(n => n.id), ["t1", "o1"], "the tree carries the fifth look on the shipped mission's skills");
+  assert.deepEqual(t.nodes.filter(n => n.shipped).map(n => n.id), ["t1", "o1"], "the tree carries the fifth look on the shipped quest's skills");
+  // a self-marked shipped quest gives its skills the fifth look too, with its own date
+  const own = { "c-open": { card: "c-open", choice: "shipped", link: "https://x.example", date: "2026-11-10" } };
+  assert.equal(M.shippedLook({ id: "t2" }, map, own).words, "November 10, 2026");
+  assert.deepEqual(M.classTree(map, own).nodes.filter(n => n.shipped).map(n => n.id), ["t1", "t2", "s1", "o1"]);
+  assert.equal(M.shippedLook({ id: "t2" }, map, { "c-open": { choice: "start" } }), null, "a start is not a shipment");
+  assert.ok(M.skillInfo(map, index, "t2", own).shipped);
   // two shipped missions: the earliest date
   map.cards[1].shipped = "2026-11-02";
   assert.equal(M.shippedLook({ id: "o1" }, map).words, "November 2, 2026");
@@ -144,82 +151,98 @@ test("coAsked: the strongest co-asked skills among the tree's nodes, three at mo
   assert.deepEqual(M.coAsked(map, {}, "t1"), []);
 });
 
-test("worlds: k of n, a declined mission leaves n, the progress line in words, and you are here", () => {
+test("worlds: each level's head and name, its quests with their states, and you are here; nothing gated, nothing clears", () => {
   const W = M.worlds(synth());
   const [w1, w2, w3] = W.worlds;
   assert.deepEqual(w1.missions.map(m => [m.id, m.state, m.i]), [["c-ship", "shipped", 1], ["c-open", "open", 2]]);
-  assert.equal(w1.n, 2); assert.equal(w1.clear, 2); assert.equal(w1.shipped, 1); assert.equal(w1.cleared, false);
-  assert.equal(w1.progress, "One shipped. One more clears this world.");
-  assert.equal(w1.clearLine, Copy.fill(MC.clearAll, { n: 2 }));
-  assert.equal(w2.missions[0].state, "declined");
-  assert.equal(w2.n, 0, "the declined mission leaves n");
-  assert.equal(w2.clear, 0, "k is at most n");
-  assert.equal(w2.clearLine, MC.clearNone);
-  assert.equal(w2.progress, "Nothing shipped yet.");
-  assert.equal(w3.missions[0].state, "changed");
-  assert.equal(w3.clearLine, MC.clearOne);
-  assert.equal(W.here, "c-open", "you are here moves past the shipped mission");
-  // the same world without the decline: n counts it
-  const undeclined = synth(); delete undeclined.cards[2].declined;
-  assert.equal(M.worlds(undeclined).worlds[1].n, 1);
-  // a second shipment clears World 1, and "you are here" moves on past the declined and changed missions
+  assert.equal(w1.head, "Level 1"); assert.equal(w1.label, MC.levels[1], "the copy's level name, never the file's label");
+  assert.equal(w2.missions[0].state, "skipped", "the owner's declined reads as skipped");
+  assert.ok(w2.missions[0].locked, "a file mark has no own controls");
+  assert.equal(w3.missions[0].state, "open", "changed and reply draw nothing of their own");
+  assert.equal(W.here, "c-open", "you are here moves past the shipped quest");
+  for (const k of ["clear", "n", "shipped", "cleared", "clearLine", "progress", "who"]) assert.ok(!(k in w1), `no ${k}: no level clears (2026-11-10)`);
   const both = synth(); both.cards[1].shipped = "2026-11-20";
-  const B = M.worlds(both);
-  assert.equal(B.worlds[0].cleared, true);
-  assert.equal(B.worlds[0].progress, "Cleared.");
-  assert.equal(B.worlds[0].clearLine, MC.clearedLine);
-  assert.equal(B.here, null, "nothing open or chosen is left");
-  // the k of n line with k below n, and "two more"
-  const six = synth(); six.worlds[0].missions = ["c-ship", "c-open", "a", "b", "c", "d"]; six.cards.push(...["a", "b", "c", "d"].map(id => card(id, 1, [])));
-  six.cards[0].shipped = null;
-  const S = M.worlds(six).worlds[0];
-  assert.equal(S.clearLine, "Ship 2 of these 6 to clear this world.");
-  assert.equal(S.progress, "Nothing shipped yet.");
-  six.worlds[0].clear = 3; six.cards[0].shipped = "2026-11-14";
-  assert.equal(M.worlds(six).worlds[0].progress, "One shipped. Two more clear this world.");
-  for (const w of [...W.worlds, ...B.worlds, S]) assert.ok(!/\d/.test(w.progress), `the progress line is in words: ${w.progress}`);
+  assert.equal(M.worlds(both).here, "c-reply", "past the shipped and the skipped; the changed quest is still open");
+  const done = synth(); done.cards[1].shipped = "2026-11-20"; done.cards[3].shipped = "2026-11-21";
+  assert.equal(M.worlds(done).here, null, "nothing open or started is left");
+  const reach = synth(); reach.worlds.push({ n: "reach", label: "Reach", who: "No deadline.", clear: 0, optional: true, missions: ["c-r"] }); reach.cards.push(card("c-r", "reach", ["o1"]));
+  const R = M.worlds(reach).worlds[3];
+  assert.ok(R.optional); assert.equal(R.head, MC.reachHead); assert.equal(R.label, MC.levels.reach);
+  const v1 = synth(); delete v1.worlds;
+  assert.deepEqual(M.worlds(v1).worlds.map(w => w.missions.map(m => m.id)), [["c-ship", "c-open"], ["c-decl"], ["c-reply"]], "a file without worlds: one level per card level");
 });
 
-test("worlds: the person's own answer marks a mission; the counts follow the file", () => {
+test("ownChoice and questState: the new shape, the old shapes, and the file first", () => {
+  assert.deepEqual(M.ownChoice({ card: "x", choice: "shipped", link: "https://a.example/b", date: "2026-11-10" }), { choice: "shipped", link: "https://a.example/b", date: "2026-11-10" });
+  assert.deepEqual(M.ownChoice({ card: "x", choice: "start", date: "2026-11-10" }), { choice: "start", link: null, date: "2026-11-10" });
+  assert.equal(M.ownChoice({ card: "x", choice: "build", note: "Yes.", date: "2026-11-04" }).choice, "start", "the old build reads as start");
+  assert.equal(M.ownChoice({ card: "x", choice: "not", note: "", date: "2026-11-04" }).choice, "skip", "the old not reads as skip");
+  for (const o of [{ choice: "change", note: "Shorter." }, { choice: "open" }, { choice: "maybe" }, null, "x", {}]) assert.equal(M.ownChoice(o), null, JSON.stringify(o));
+  assert.equal(M.ownChoice({ choice: "start", link: "https://x.example" }).link, null, "a link only on shipped");
+  const c = card("q", 1, []);
+  assert.equal(M.questState(c, null), "open");
+  assert.equal(M.questState(c, { choice: "start" }), "started");
+  assert.equal(M.questState(c, { choice: "shipped", link: "https://x.example" }), "shipped");
+  assert.equal(M.questState(c, { choice: "skip" }), "skipped");
+  assert.equal(M.questState(c, { choice: "change" }), "open");
+  assert.equal(M.questState({ ...c, shipped: "2026-11-01" }, { choice: "skip" }), "shipped", "the file's shipped wins over a mark");
+  assert.equal(M.questState({ ...c, declined: true }, { choice: "start" }), "skipped", "the file's declined wins over a mark");
+  assert.deepEqual(M.QUEST_STATES, ["open", "started", "shipped", "skipped"]);
+});
+
+test("worlds: the person's own marks set the state at once; the old shapes read too", () => {
   const map = synth();
-  const chosen = M.worlds(map, { "c-open": { card: "c-open", choice: "build", note: "", date: "2026-11-04" } });
-  assert.equal(chosen.worlds[0].missions[1].state, "chosen");
-  assert.equal(chosen.worlds[0].missions[1].sent.choice, "build");
-  assert.equal(chosen.here, "c-open", "a chosen mission is still where you are");
-  const not = M.worlds(map, { "c-open": { card: "c-open", choice: "not", note: "", date: "2026-11-04" } });
-  assert.equal(not.worlds[0].missions[1].state, "declined");
-  assert.equal(not.worlds[0].n, 2, "n changes only when Wally republishes");
-  assert.equal(not.here, null);
-  const ship = M.worlds(map, { "c-ship": { card: "c-ship", choice: "not" } });
-  assert.equal(ship.worlds[0].missions[0].state, "shipped", "the file's shipped wins over an answer");
-  assert.deepEqual(M.MISSION_STATES, ["open", "chosen", "shipped", "declined", "changed"]);
+  const started = M.worlds(map, { "c-open": { card: "c-open", choice: "start", date: "2026-11-10" } });
+  assert.equal(started.worlds[0].missions[1].state, "started");
+  assert.equal(started.here, "c-open", "a started quest is still where you are");
+  const shipped = M.worlds(map, { "c-open": { card: "c-open", choice: "shipped", link: "https://x.example/p", date: "2026-11-10" } });
+  const m = shipped.worlds[0].missions[1];
+  assert.equal(m.state, "shipped"); assert.equal(m.link, "https://x.example/p"); assert.equal(m.shippedOn, "2026-11-10"); assert.equal(m.locked, false);
+  assert.equal(shipped.here, "c-reply");
+  const skipped = M.worlds(map, { "c-open": { card: "c-open", choice: "skip", date: "2026-11-10" } });
+  assert.equal(skipped.worlds[0].missions[1].state, "skipped");
+  assert.equal(skipped.here, "c-reply", "you are here moves past a skipped quest");
+  assert.equal(M.worlds(map, { "c-open": { choice: "not", note: "" } }).worlds[0].missions[1].state, "skipped", "an old not reads as skip");
+  assert.equal(M.worlds(map, { "c-open": { choice: "build", note: "" } }).worlds[0].missions[1].state, "started", "an old build reads as start");
+  assert.equal(M.worlds(map, { "c-open": { choice: "change", note: "x" } }).worlds[0].missions[1].state, "open", "an old change reads as nothing");
+  assert.equal(M.worlds(map, { "c-ship": { choice: "skip" } }).worlds[0].missions[0].state, "shipped", "the file's shipped wins over a mark");
 });
 
-test("questLayout: the worlds left to right, one stop per mission, a flag per world but the Reach, no arrow", () => {
-  const map = synth();
-  map.worlds.push({ n: "reach", label: "Reach", who: "No deadline.", clear: 0, optional: true, missions: ["c-r"] });
-  map.cards.push(card("c-r", "reach", ["o1"]));
-  const W = M.worlds(map), L = M.questLayout(W);
-  assert.deepEqual(M.questLayout(W), L, "deterministic");
-  assert.equal(L.stops.length, 5);
-  assert.equal(L.flags.length, 3, "the Reach has no flag");
-  assert.ok(W.worlds[3].optional);
-  assert.equal(W.worlds[3].clearLine, MC.clearReach);
-  for (let i = 1; i < L.columns.length; i++) assert.ok(L.columns[i].x > L.columns[i - 1].x + L.columns[i - 1].width, "columns in order, apart");
-  for (const s of L.stops) { const c = L.columns[s.world]; assert.ok(s.x > c.x && s.x < c.x + c.width, `${s.id} inside its world`); }
-  assert.ok(L.road.startsWith("M") && L.reach.startsWith("M"));
-  assert.ok(!/marker|arrow/i.test(JSON.stringify(L)));
+test("upNext and nowQuest: the quests still to do after this one, around to the start; the asked quest or you are here", () => {
+  const map = synth(), W = M.worlds(map);
+  assert.deepEqual(M.upNext(W, "c-open").map(m => m.id), ["c-reply"], "shipped and skipped quests drop out");
+  assert.deepEqual(M.upNext(W, "c-reply").map(m => m.id), ["c-open"], "around to the start");
+  assert.deepEqual(M.upNext(W, "c-open", 0), []);
+  assert.equal(M.nowQuest(W, null).id, "c-open");
+  assert.equal(M.nowQuest(W, "c-ship").id, "c-ship", "an asked quest, even a shipped one");
+  assert.equal(M.nowQuest(W, "nope").id, "c-open");
+  assert.equal(M.nowQuest(M.worlds({ cards: [], worlds: [] }), null), null, "no quest: the empty page");
 });
 
-test("questsOf: the cards that name a skill, in world order", () => {
+test("shipLine: the first sentence, cut at a clause or a word to at most 16 words", () => {
+  assert.equal(M.shipLine("A page."), "A page.");
+  assert.equal(M.shipLine("A one-page read of Agentio in the atlas's terms: to whom (performance marketers at brands), against what alternative, and why."), "A one-page read of Agentio in the atlas's terms.");
+  assert.equal(M.shipLine("A plain account of what the models do (match, price, review) and which claims are company-reported, with one sentence per claim."), "A plain account of what the models do.");
+  assert.equal(M.shipLine("Six weekly issues, published on a public page with an email list, each turning one public fact into something a marketer can use."), "Six weekly issues, published on a public page with an email list.");
+  assert.equal(M.shipLine("One two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen."), "One two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen…");
+  assert.equal(M.shipLine("One line, rewritten so it shows. Paste it on the card: the read runs here."), "One line, rewritten so it shows.", "the first sentence only");
+  assert.equal(M.shipLine(""), "");
+  assert.equal(M.firstSentence("The posting names it twice. Most postings ask for it."), "The posting names it twice.");
+  assert.equal(M.firstSentence("No full stop"), "No full stop");
+  const ex = JSON.parse(fs.readFileSync(path.join(root, "pipeline", "apprentice", "examples", "pmm-nyc", "map.json"), "utf8"));
+  for (const c of ex.cards) { const l = M.shipLine(c.ship); assert.ok(l.split(" ").length <= M.SHIP_WORDS, `${c.id}: ${l}`); assert.ok(!/[(:;]$/.test(l.replace(/[.…]$/, "")), `${c.id} ends cleanly: ${l}`); }
+});
+
+test("questsOf: the cards that name a skill, in level order", () => {
   const map = synth();
   assert.deepEqual(M.questsOf(map, "o1").map(c => c.id), ["c-ship", "c-open"]);
   assert.deepEqual(M.questsOf(map, "s1").map(c => c.id), ["c-open", "c-reply"]);
   assert.deepEqual(M.questsOf(map, "zz"), []);
 });
 
-test("readLines: the band headline, what you bring grouped by its line, the gaps with the mission that builds each", () => {
+test("readLines: the band headline, what you bring grouped by its line, the gaps with the quest that builds each", () => {
   const R = M.readLines(synth(), index);
+  assert.equal(M.readLines(synth(), index, { "c-open": { choice: "skip" } }).gaps.find(g => g.id === "s1").mission.id, "c-reply", "a skipped quest builds nothing");
   assert.equal(R.headline, "Relevant foundation for Role One.");
   assert.equal(R.band, "Relevant foundation");
   assert.deepEqual(R.groups.map(g => [g.line, g.skills.map(s => s.id)]), [["Ran the launch.", ["t2", "x9"]], ["Built a deck.", ["o2"]]]);
@@ -229,15 +252,15 @@ test("readLines: the band headline, what you bring grouped by its line, the gaps
   assert.equal(g.s1.mission.id, "c-open", "each gap prefers a mission not named yet");
   assert.equal(g.o1.mission.id, "c-ship", "then the first that builds it");
   assert.equal(g.zz.mission, null);
-  assert.equal(g.zz.none, MC.noMission);
-  assert.equal(g.t1.world, "World 1");
+  assert.equal(g.zz.none, MC.noQuest);
+  assert.equal(g.t1.world, "Level 1");
   assert.equal(g.t1.sentence, "T1 in marketing.", "what it means in the first role's field");
   assert.equal(g.s1.sentence, "S1 for role one.", "the role's own reading first");
   assert.equal(g.o1.sentence, "What o1 is.", "else the definition");
   assert.equal(g.t1.name, "T1", "the map's name wins: a node draws even when the taxonomy renames it");
   const noBand = synth(); noBand.read.band_label = "";
   assert.equal(M.readLines(noBand, index).band, Copy.common.bands.related || "", "the band from the atlas's words when the file has only the id");
-  // a declined mission builds nothing
+  // a declined quest builds nothing
   const decl = synth(); decl.read.marked_gaps = ["s2"];
   assert.equal(M.readLines(decl, index).gaps[0].mission, null);
 });
@@ -259,7 +282,7 @@ test("skillInfo: a skill from the tree, the more list, what you bring or the ind
 
 // ---------- the tracked example ----------
 const EXAMPLE = path.join(root, "pipeline", "apprentice", "examples", "pmm-nyc", "map.json");
-test("the example map: version 2, 19 nodes, three on the trunk, every mission a card", () => {
+test("the example map: version 2, 19 nodes, three on the trunk, every quest a card", () => {
   const map = JSON.parse(fs.readFileSync(EXAMPLE, "utf8"));
   assert.equal(map.version, 2);
   const t = M.classTree(map);
@@ -272,8 +295,9 @@ test("the example map: version 2, 19 nodes, three on the trunk, every mission a 
   const W = M.worlds(map);
   for (const w of W.worlds) for (const m of w.missions) assert.ok(ids.has(m.id), `${m.id} is a card`);
   for (const w of map.worlds) for (const id of w.missions) assert.ok(ids.has(id), `${id} is a card`);
-  assert.equal(W.worlds[0].clearLine, "Ship 2 of these 8 to clear this world.", "two story cards and six build cards");
-  assert.deepEqual(W.worlds[0].missions.slice(0, 2).map(m => m.kind), ["story", "story"], "World 1 opens with the story cards");
+  assert.equal(W.worlds[0].missions.length, 8, "two story cards and six build cards");
+  assert.deepEqual(W.worlds.map(w => `${w.head} · ${w.label}`), ["Level 1 · Fundamentals", "Level 2 · Demos", "Level 3 · One real project", "Reach · Optional"]);
+  assert.deepEqual(W.worlds[0].missions.slice(0, 2).map(m => m.kind), ["story", "story"], "Level 1 opens with the story cards");
   assert.ok(M.storyOf(W.worlds[0].missions[0].card).prompt.includes("[ ]"));
   assert.ok(W.here);
   const L = M.treeLayout(t, 816);
@@ -286,7 +310,7 @@ test("the example map: version 2, 19 nodes, three on the trunk, every mission a 
 });
 
 // ---------- the story cards ----------
-test("storyOf reads a story card's parts and null for a build card; lineState maps the matcher's status; a mission carries its kind", () => {
+test("storyOf reads a story card's parts and null for a build card; lineState maps the matcher's status; a quest carries its kind", () => {
   const map = synth();
   const story = { id: "s1-s1", kind: "story", level: 1, track: "gtm", title: "S1, said so it shows", ship: "One line.", hours: 1, window: "an hour", skill: "s1", state: "must evidence better", line: "Wrote a page.", what: "W.", reads_as: "R.", shown_by: { artefacts: ["plan"], verbs: [], measures: ["users"], counterparts: ["sales"] }, prompt: "P [ ]", why_role: { text: "R." }, why_person: { text: "P.", profile_quote: "Wrote a page." }, atlas_skills: ["s1"], classes: [], sources: [] };
   map.cards.unshift(story); map.worlds[0].missions.unshift("s1-s1");
@@ -298,7 +322,16 @@ test("storyOf reads a story card's parts and null for a build card; lineState ma
   assert.deepEqual(["evidenced", "through", "transferable", "thin", "presumed", "gap", "zz"].map(M.lineState), ["shows", "shows", "shows in other words", "must evidence better", "must evidence better", "must build", "must build"]);
   const W = M.worlds(map);
   assert.deepEqual(W.worlds[0].missions.map(m => [m.id, m.kind]), [["s1-s1", "story"], ["c-ship", "build"], ["c-open", "build"]]);
-  assert.equal(W.worlds[0].n, 3, "a story card counts toward the world like any mission");
   assert.ok(!("release" in W.worlds[0]), "no release label");
+  assert.ok(!("who" in W.worlds[0]), "no duration line on the screen's model");
   assert.equal(W.here, "s1-s1", "you are here: the first open mission, the story card");
+});
+
+// the owner's words of 2026-11-10: no "mission", no "Wally", no "World", no clearing and no time estimate on the map
+test("the map's copy: no mission, no Wally, no World, no clear, no duration word", () => {
+  const walk = (v, p, out) => { if (typeof v === "string") out.push([p, v]); else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walk(x, `${p}.${k}`, out); return out; };
+  for (const [p, t] of walk(MC, "map", [])) {
+    assert.doesNotMatch(t, /\bmissions?\b|\bWally\b|\bWorld\b/i, `${p}: ${t}`);
+    if (!p.startsWith("map.tree.")) assert.doesNotMatch(t, /\bclear(s|ed)?\b|\b(hour|hours|evening|morning|week|weeks|day|days)\b/i, `${p}: ${t}`);
+  }
 });

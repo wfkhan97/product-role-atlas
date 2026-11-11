@@ -65,21 +65,34 @@ test("refusedMessage: an address with no invite reads as the refused copy; too m
   for (const b of [{ error_code: "over_email_send_rate_limit" }, { msg: "boom" }, "", null]) assert.notEqual(Pure.refusedMessage(b), Copy.signin.failed, "the connection line is for a network failure alone");
 });
 
-test("feedbackPath: <uid>/feedback/<card>.json; a card id is lower-case letters, digits and hyphens", () => {
+test("feedbackPath: <uid>/feedback/<card>.json; a card id is lower-case letters, digits, hyphens and underscores", () => {
   assert.equal(Pure.feedbackPath(UID, "l2-battlecard"), `${UID}/feedback/l2-battlecard.json`);
+  // 2026-11-10: a story card's id carries its skill id's underscores, which the bucket's policy refuses in a file name
+  // (name ~ '^[0-9a-f-]+/feedback/[a-z0-9-]+\.json$'): the name writes them as hyphens
+  assert.equal(Pure.feedbackPath(UID, "s1-positioning_messaging"), `${UID}/feedback/s1-positioning-messaging.json`);
+  const policy = /^[0-9a-f-]+\/feedback\/[a-z0-9-]+\.json$/;
+  for (const id of ["l2-battlecard", "s1-customer_facing_exec", "l4-library"]) assert.match(Pure.feedbackPath(UID, id), policy, id);
   for (const bad of ["", "L2", "../map", "a/b", "a.json", "a b", null]) assert.throws(() => Pure.feedbackPath(UID, bad), /card id/, String(bad));
   assert.throws(() => Pure.feedbackPath("", "l1-gtm"), /user id/);
   assert.throws(() => Pure.feedbackPath("../x", "l1-gtm"), /user id/);
 });
 
-test("feedbackObject: { card, choice, note, date }; the choice one of three; the note trimmed and cut at 500", () => {
-  assert.deepEqual(Pure.feedbackObject("l1-gtm", "build", "  Yes.  ", "2026-11-04"), { card: "l1-gtm", choice: "build", note: "Yes.", date: "2026-11-04" });
-  assert.deepEqual(Object.keys(Pure.feedbackObject("l1-gtm", "not", null, new Date(NOW))), ["card", "choice", "note", "date"]);
-  assert.equal(Pure.feedbackObject("l1-gtm", "not", null, new Date(NOW)).date, "2026-11-03");
-  assert.equal(Pure.feedbackObject("l1-gtm", "change", "x".repeat(900), "2026-11-04").note.length, 500);
-  assert.deepEqual(Pure.CHOICES, ["build", "not", "change"]);
-  assert.throws(() => Pure.feedbackObject("l1-gtm", "maybe", "", "2026-11-04"), /choice/);
-  assert.throws(() => Pure.feedbackObject("../x", "build", "", "2026-11-04"), /card id/);
+test("feedbackObject: { card, choice, link (shipped only), date }; the choice one of four; a shipped mark needs a link", () => {
+  assert.deepEqual(Pure.feedbackObject("l1-gtm", "start", null, "2026-11-10"), { card: "l1-gtm", choice: "start", date: "2026-11-10" });
+  assert.deepEqual(Pure.feedbackObject("l1-gtm", "shipped", "  agentio-read.notion.site/page  ", "2026-11-10"), { card: "l1-gtm", choice: "shipped", link: "https://agentio-read.notion.site/page", date: "2026-11-10" });
+  assert.deepEqual(Object.keys(Pure.feedbackObject("l1-gtm", "skip", "https://x.example", new Date(NOW))), ["card", "choice", "date"], "a link only goes up with shipped");
+  assert.equal(Pure.feedbackObject("l1-gtm", "open", null, new Date(NOW)).date, "2026-11-03");
+  assert.deepEqual(Pure.CHOICES, ["start", "shipped", "skip", "open"]);
+  for (const bad of ["", "not a link", "javascript:alert(1)", "https://nohost", "https://a b.com", "ftp://x.example/f", "https://x.example/" + "a".repeat(600)]) assert.throws(() => Pure.feedbackObject("l1-gtm", "shipped", bad, "2026-11-10"), /link/, bad);
+  for (const old of ["build", "not", "change", "maybe"]) assert.throws(() => Pure.feedbackObject("l1-gtm", old, "", "2026-11-04"), /choice/, `${old}: old shapes are read, never written`);
+  assert.throws(() => Pure.feedbackObject("../x", "start", "", "2026-11-04"), /card id/);
+});
+
+test("cleanLink: an http(s) link with a host, a bare host made https, anything else null", () => {
+  assert.equal(Pure.cleanLink("https://claude.ai/public/artifacts/abc"), "https://claude.ai/public/artifacts/abc");
+  assert.equal(Pure.cleanLink("http://example.com"), "http://example.com");
+  assert.equal(Pure.cleanLink("me.github.io/battlecard"), "https://me.github.io/battlecard");
+  for (const bad of [null, "", "   ", "foo", "http://x", "https://x y.com", "mailto:a@b.com", "javascript:alert(1)//x.com"]) assert.equal(Pure.cleanLink(bad), null, String(bad));
 });
 
 test("MapGate.next: off, the launcher; no session, the sign-in; a session and a map, the map; no map yet, waiting", () => {
@@ -98,7 +111,9 @@ test("MapGate.signinHash and landing: the map's own address goes to the sign-in 
   const G = Pure.MapGate;
   assert.equal(G.signinHash("#/map?build=1&role=product.pm"), "#/signin?next=" + encodeURIComponent("#/map?build=1&role=product.pm"));
   assert.equal(G.signinHash("#/map"), "#/signin", "the plain map needs no next: the link lands there anyway");
-  for (const h of ["", null, "#/jobs", "#/signin?next=x", "https://evil.example/#/map", "#/map?x=<script>", "#/mapx"]) assert.equal(G.signinHash(h), "#/signin", String(h));
+  for (const h of ["", null, "#/jobs", "#/signin?next=x", "https://evil.example/#/map", "#/map?x=<script>", "#/mapx", "#/map/other", "#/map/tree/x"]) assert.equal(G.signinHash(h), "#/signin", String(h));
+  // the map's two pages (2026-11-10) keep their place through the sign-in
+  for (const h of ["#/map/tree", "#/map/quests?q=l2-battlecard", "#/map/tree?view=list"]) { assert.equal(G.signinHash(h), "#/signin?next=" + encodeURIComponent(h), h); assert.equal(G.landing(h), h, h); }
   assert.equal(G.landing("#/map?build=1&role=product.pm"), "#/map?build=1&role=product.pm");
   for (const h of ["", null, undefined, "#/jobs", "javascript:alert(1)", "#/map#access_token=x"]) assert.equal(G.landing(h), "#/map", String(h));
   const back = new URLSearchParams(G.signinHash("#/map?build=1&role=product.pm").split("?").slice(1).join("?")).get("next");
@@ -207,7 +222,7 @@ test("readMap and readFeedback: the person's folder with their token; null when 
 test("writeFeedback posts the object to maps/<uid>/feedback/<card>.json with x-upsert", async () => {
   const S = { access_token: TOKEN, uid: UID };
   const w = makeAuth(() => reply(200, { Key: "x" }));
-  const obj = Pure.feedbackObject("l2-battlecard", "change", "Shorter.", "2026-11-05");
+  const obj = Pure.feedbackObject("l2-battlecard", "shipped", "https://me.github.io/battlecard", "2026-11-05");
   assert.equal(await w.A.writeFeedback(S, "l2-battlecard", obj), true);
   assert.equal(w.calls[0].url, `https://x.supabase.co/storage/v1/object/maps/${UID}/feedback/l2-battlecard.json`);
   assert.equal(w.calls[0].init.method, "POST");
@@ -256,7 +271,7 @@ test("config.js turns the maps on; index.html loads auth.js after capture.js and
 
 test("the copy: every string the two screens and the launcher's slot draw is in Copy.signin and Copy.map", () => {
   for (const k of ["heading", "lead", "email", "emailPlaceholder", "button", "sent", "sentTo", "refused", "failed", "expired", "note", "explore"]) assert.ok(Copy.signin[k], `signin.${k}`);
-  for (const k of ["title", "roleAt", "band", "world", "waiting", "others", "back", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
+  for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "others", "back", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
   assert.equal(Copy.signin.sent, "Check your email for the link. It works once.");
   assert.equal(Copy.map.back, "← Back to your map");
   // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
@@ -277,4 +292,13 @@ test("the migration: a private bucket `maps`, the person's own folder to read, o
   assert.equal((code.match(/\(storage\.foldername\(name\)\)\[1\] = auth\.uid\(\)::text/g) || []).length, 4, "every check is the person's own folder");
   assert.equal((code.match(/\(storage\.foldername\(name\)\)\[2\] = 'feedback'/g) || []).length, 3, "writes only under feedback/");
   for (const step of ["Allow new users to sign up", "localhost:8002", "Invite user", "pipeline.map_publish"]) assert.ok(sql.includes(step), step);
+});
+
+test("readFeedback: a story card's file under its hyphen name, and an object that names another card reads as none", async () => {
+  const S = { access_token: TOKEN, uid: UID };
+  const hit = makeAuth(() => reply(200, { card: "s1-a_b", choice: "start", date: "2026-11-10" }));
+  assert.deepEqual(await hit.A.readFeedback(S, "s1-a_b"), { card: "s1-a_b", choice: "start", date: "2026-11-10" });
+  assert.equal(hit.calls[0].url, `https://x.supabase.co/storage/v1/object/authenticated/maps/${UID}/feedback/s1-a-b.json`);
+  assert.equal(await makeAuth(() => reply(200, { card: "s1-a-b", choice: "skip" })).A.readFeedback(S, "s1-a_b"), null, "the other id's file");
+  await assert.rejects(makeAuth(() => reply(200, {})).A.readFeedback(S, "../x"), /card id/, "a bad id rejects, never throws");
 });

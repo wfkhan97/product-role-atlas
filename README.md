@@ -27,7 +27,7 @@ Four verbs behind a door, on a hash router. Every route is in `web/app.js` unles
 | `#/network`, `#/field/<id>/event` | Networking: who to meet for a role, where, what to say, a prep card per chat; Prepare for an event (a networking event, a roundtable, a hackathon) for one field. | `web/network.js`; the events in `app.js` |
 | `#/you` | About you: three questions, the résumé, the saved roles. | `app.js` |
 | `#/play/<slug>` | The games, from the role pages. | `web/games/`, `web/gameshell.js` |
-| `#/signin`, `#/map` | The sign-in and the apprentice map (the skill tree, the read, the quests). | `web/auth.js`, `web/map.js`, `web/state.js` |
+| `#/signin`, `#/map/quests`, `#/map/tree` | The sign-in and the apprentice map's two pages: Quests (one quest at a time, the path, the person's own Start, Mark shipped and Skip) and Skill tree (the tree or its list, How you work). `#/map` opens Quests. | `web/auth.js`, `web/map.js`, `web/state.js` |
 | `#/about` | About GradBuddy (the footer's link): the counts, the data, privacy. | `app.js` |
 
 Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.mjs`. The tips per screen are

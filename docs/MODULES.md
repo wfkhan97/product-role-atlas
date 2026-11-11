@@ -245,15 +245,16 @@ and evals run the code the site runs.
 - `auth.js` — the sign-in with no library: `Auth.sendLink(email)` (an invited address only, `create_user: false`),
   `Auth.sendCode` and `verifyCode` (the six-digit code for anyone; `create_user: true`, so the catalog project's
   "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
-  `readMap`, `writeFeedback`, `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
+  `readMap`, `readFeedback`, `writeFeedback` (the person's own mark on a quest: `feedbackObject`, `cleanLink`), `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
   the route table for `#/skills` and `#/map`; `MapGate.signinHash` and `landing` carry the map's own address through
   the sign-in and back.
 - `state.js` — a signed-in person's saved state in `profiles`, `hearts` and `reads` (own rows under row-level
   security): `State.hash(text)` (a SHA-256 of the normalized résumé, never the text), `readRows(fit)`, `saveProfile`,
   `saveRead`, `heart`, `load`, `forget`, `merge` (the browser's answers win; hearts are a union). Runs only with
   `CONFIG.ACCOUNTS_ENABLED` and a session.
-- `map.js` — `MapModel`, the pure part of `#/map`: the class tree's places and layout, the worlds, the read's lines,
-  the co-asked skills. `apprentice.js` — the generator's pure part (above).
+- `map.js` — `MapModel`, the pure part of `#/map/quests` and `#/map/tree`: the class tree's places and layout, the
+  levels and each quest's state from the file and the person's own marks (`worlds`, `ownChoice`, `questState`), the now
+  quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills. `apprentice.js` — the generator's pure part (above).
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).

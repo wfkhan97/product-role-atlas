@@ -6,19 +6,22 @@
      treeLayout(tree, width)      coordinates for T4: the trunk as a bar, trunk nodes on it, shared nodes on ticks beside
                                   it, a stem per role with its own nodes on short ticks; nothing threaded on a stroke
      coAsked(map, index, id, n)   the strongest co-asked skills among the tree's nodes, from the index's edges (R25)
-     worlds(map, mine)            per world: the missions with their states, clear (k), n (declined missions off it),
-                                  shipped, cleared, the progress line in words; and "you are here" (R27 to R29)
-     questLayout(ws)              coordinates for Q1: the worlds left to right, the stops, the flags, the road
-     questsOf(map, id)            the cards whose atlas_skills name the skill, in world order
-     readLines(map, index)        D1: the band headline, what you bring with its lines, the marked gaps with the mission
-                                  that builds each (R31)
+     worlds(map, mine)            per level: its head and name, the quests with their states (open, started, shipped,
+                                  skipped); "you are here", the first quest neither shipped nor skipped
+     ownChoice(obj)               the person's own mark from a feedback file, old shapes read too; questState(card, mine)
+     upNext(ws, id, n), nowQuest(ws, asked)   the quests after this one still to do; the quest the now card shows
+     shipLine(ship), firstSentence(text)      "You ship" in one line of at most 16 words; a why line's first sentence
+     questsOf(map, id)            the cards whose atlas_skills name the skill, in level order
+     readLines(map, index, mine)  the read (the Skill tree page's List): the band headline, what you bring with its
+                                  lines, the marked gaps with the quest that builds each (R31)
      storyOf(card)                a story card's parts (the skill, its state, the line as it stands, what it means here,
                                   the slots a line that shows it fills, the practice prompt), or null for a build card
      lineState(status)            the matcher's status of one line read on its own, as one of the four states
-     shippedLook(node, map)       the fifth look for a node a shipped mission built, with the date in words (R30)
+     shippedLook(node, map, mine) the fifth look for a node a shipped quest built, with the date in words (R30)
      dateWords("2026-11-14")      "November 14, 2026"
-   The map is read, never written: the owner's republish sets shipped, changed, declined and reply. The person's own
-   feedback (`mine`, one object per card the screen has read) only marks a stop; the counts follow the file. */
+   The map is read, never written: the owner's republish sets shipped and declined (changed and reply draw nothing).
+   The person's own marks (`mine`, one feedback object per card) count as the file's do: a self-marked shipped quest
+   gives its skills the fifth look; a skipped one builds nothing. No level is gated, so none clears. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));
   else root.MapModel = factory(root.Copy);
@@ -27,8 +30,7 @@
   const fill = Copy.fill, C = () => Copy.map;
   const STATES = ["shows", "shows in other words", "must evidence better", "must build"];
   const RANK = { "shows": 0, "shows in other words": 1, "must evidence better": 2, "must build": 3 };
-  const MISSION_STATES = ["open", "chosen", "shipped", "declined", "changed"];
-  const CHOICE_STATE = { build: "chosen", not: "declined", change: "changed" };
+  const QUEST_STATES = ["open", "started", "shipped", "skipped"];
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const list = x => Array.isArray(x) ? x : [];
@@ -40,8 +42,6 @@
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ""));
     return m && +m[2] >= 1 && +m[2] <= 12 ? `${MONTHS[+m[2] - 1]} ${+m[3]}, ${m[1]}` : String(iso || "");
   }
-  // a small count in words at the start of a sentence ("One", "Two"), the digit past ten
-  const numWord = n => (C().numbers || [])[n] || String(n);
 
   // ---------- the cards and the worlds they sit in ----------
   const cardsById = map => byId((map || {}).cards);
@@ -49,7 +49,7 @@
   function worldList(map) {
     if (list(map.worlds).length) return map.worlds;
     const levels = [...new Set(list(map.cards).map(c => c.level))];
-    return levels.map(l => ({ n: l, label: l === "reach" ? C().reachHead : "", who: "", clear: l === "reach" ? 0 : 1, optional: l === "reach", missions: list(map.cards).filter(c => c.level === l).map(c => c.id) }));
+    return levels.map(l => ({ n: l, label: l === "reach" ? C().reachHead : "", optional: l === "reach", missions: list(map.cards).filter(c => c.level === l).map(c => c.id) }));
   }
   const missionOrder = map => worldList(map).flatMap(w => list(w.missions));
   function worldOfCard(map, cardId) { return worldList(map).find(w => list(w.missions).includes(cardId)) || null; }
@@ -57,8 +57,8 @@
   // ---------- the class tree ----------
   // The trunk (every role in the class asks), the shared nodes (two or more) and each role's own (one). The roles keep
   // the class's order with the first role first; a node's state is the file's, which is already the best across the
-  // class (R26); a node a shipped mission built carries the fifth look as `shipped`.
-  function classTree(map) {
+  // class (R26); a node a shipped quest built carries the fifth look as `shipped`.
+  function classTree(map, mine) {
     const rc = map.role_class || {}, t = map.tree || {};
     let roles = list(rc.roles).map(r => ({ id: r.id, label: r.label || r.id, first: !!r.first }));
     if (!roles.length && map.role) roles = [{ id: map.role.id, label: map.role.label || map.role.id, first: true }];
@@ -73,7 +73,7 @@
         roles: list(n.roles).filter(r => roles.some(x => x.id === r)), state: STATES.includes(n.state) ? n.state : "must build",
         line: n.line || null, through: n.through || null, grows: !!n.grows, posting_names: !!n.posting_names,
       };
-      node.shipped = shippedLook(node, map);
+      node.shipped = shippedLook(node, map, mine);
       return node;
     };
     const nodes = list(t.nodes).map(n => shape(n, "skill"));
@@ -145,106 +145,94 @@
   }
 
   // ---------- the quests ----------
-  // the cards whose atlas_skills name the skill, in world order (a card in no world last, in the file's order)
+  // the cards whose atlas_skills name the skill, in level order (a card in no level last, in the file's order)
   function questsOf(map, skillId) {
     const order = missionOrder(map), at = id => { const i = order.indexOf(id); return i < 0 ? order.length : i; };
     return list(map.cards).filter(c => list(c.atlas_skills).includes(skillId)).sort((a, b) => at(a.id) - at(b.id));
   }
-  // one mission's state: the file first (shipped, declined, changed), then the person's own last answer, else open
-  function missionState(card, sent) {
+  // The person's own mark on a quest, from their feedback file: { choice: "start" | "shipped" | "skip", link, date },
+  // or null. The files written before 2026-11-10 read too: "build" as start, "not" as skip, "change" as nothing; "open"
+  // is the undo, and reads as nothing.
+  const OLD_CHOICE = { build: "start", not: "skip" };
+  function ownChoice(obj) {
+    if (!obj || typeof obj !== "object") return null;
+    const c = OLD_CHOICE[obj.choice] || obj.choice;
+    if (!["start", "shipped", "skip"].includes(c)) return null;
+    return { choice: c, link: c === "shipped" && typeof obj.link === "string" && obj.link ? obj.link : null, date: typeof obj.date === "string" ? obj.date : null };
+  }
+  // one quest's state: the file first (the owner's shipped, and declined as skipped), then the person's own mark
+  const OWN_STATE = { start: "started", shipped: "shipped", skip: "skipped" };
+  function questState(card, mine) {
     if (card.shipped) return "shipped";
-    if (card.declined) return "declined";
-    if (card.changed) return "changed";
-    if (sent && CHOICE_STATE[sent.choice]) return CHOICE_STATE[sent.choice];
-    return "open";
+    if (card.declined) return "skipped";
+    const o = ownChoice(mine);
+    return o ? OWN_STATE[o.choice] : "open";
   }
-  // the clear line and the progress line, in words (R28, R31: the only numbers are "Ship 2 of these 6")
-  function clearLine(w) {
-    const M = C();
-    if (w.optional) return M.clearReach;
-    if (w.cleared) return M.clearedLine;
-    if (w.n === 0) return M.clearNone;
-    if (w.n === 1) return M.clearOne;
-    if (w.clear >= w.n) return fill(M.clearAll, { n: w.n });
-    return fill(M.clearSome, { k: w.clear, n: w.n });
+  // the date a quest shipped on: the file's, else the person's own mark
+  function shippedOn(card, mine) {
+    if (card.shipped) return String(card.shipped);
+    const o = ownChoice(mine);
+    return o && o.choice === "shipped" ? o.date || "" : null;
   }
-  function progressLine(w) {
-    const M = C();
-    if (w.optional) return w.shipped ? M.reachDone : M.reachNone;
-    if (w.cleared) return M.cleared;
-    if (!w.shipped) return M.nothingYet;
-    const left = w.clear - w.shipped;
-    return fill(left === 1 ? M.moreOne : M.moreMany, { shipped: numWord(w.shipped), left: numWord(left) });
-  }
-  // Per world: the missions in order with their states, clear (k, at most n), n (the missions the file has not
-  // declined), shipped, cleared; then "you are here": the first open or chosen mission across the worlds. `mine` is
-  // the person's own feedback by card id, as the screen read it; it marks a stop and never moves a count.
+  // Per level: the quests in order with their states; then "you are here": the first quest neither shipped nor skipped,
+  // across the levels in order. `mine` is the person's own feedback by card id. No level is gated and none clears
+  // (2026-11-10): a file's worlds[].clear is read past.
   function worlds(map, mine) {
     const cards = cardsById(map), own = mine || {};
     const ws = worldList(map).map(w => {
       const optional = !!w.optional || w.n === "reach";
       const missions = list(w.missions).filter(id => cards[id]).map((id, i) => {
-        const card = cards[id], sent = own[id] && own[id].choice ? own[id] : null;
-        return { id, i: i + 1, card, kind: card.kind === "story" ? "story" : "build", state: missionState(card, sent), sent };
+        const card = cards[id], m = own[id] || null, o = ownChoice(m);
+        return { id, i: i + 1, card, kind: card.kind === "story" ? "story" : "build", state: questState(card, m), own: o, locked: !!(card.shipped || card.declined), shippedOn: shippedOn(card, m), link: (o || {}).link || null };
       });
-      const live = missions.filter(m => !m.card.declined);
-      const n = live.length, shipped = live.filter(m => m.card.shipped).length;
-      const clear = optional ? 0 : Math.min(Math.max(0, Number(w.clear) || 0), n);
-      const world = { num: w.n, label: w.label || "", who: w.who || "", optional, missions, n, clear, shipped, cleared: !optional && n > 0 && shipped >= clear };
-      world.head = optional ? C().reachHead : fill(C().worldHead, { n: w.n });
-      world.clearLine = clearLine(world);
-      world.progress = progressLine(world);
-      return world;
+      return { num: w.n, head: optional ? C().reachHead : fill(C().levelHead, { n: w.n }), label: levelName(w, optional), optional, missions };
     });
-    const here = (ws.flatMap(w => w.missions).find(m => m.state === "open" || m.state === "chosen") || {}).id || null;
+    const here = (ws.flatMap(w => w.missions).find(m => m.state === "open" || m.state === "started") || {}).id || null;
     return { worlds: ws, here };
+  }
+  // A level's name on screen: the copy's for the four levels (2026-11-10: the file's labels carry durations, and the
+  // screen shows none), else the file's label.
+  function levelName(w, optional) {
+    const L = C().levels || {};
+    return (optional ? L.reach : L[w.n]) || w.label || "";
   }
   function missionOf(ws, cardId) {
     for (const w of ws.worlds) { const m = w.missions.find(x => x.id === cardId); if (m) return { world: w, mission: m }; }
     return null;
   }
-
-  // ---------- Q1: the overworld's coordinates ----------
-  // The worlds left to right along one road; a world is as wide as its missions need (the mock's 430 for six, 210 for
-  // one). Stops zigzag inside their world; a world with one mission holds it in the middle. A flag ends each world but
-  // the Reach, and the road runs dashed into the Reach.
-  const Q = { gap: 14, mid: 112, hi: 74, lo: 150, r: 18, min: 210, max: 460, per: 50, base: 130, top: 100, svgH: 214, h: 384 };
-  function questLayout(ws) {
-    const cols = [];
-    let x = 0;
-    for (const w of ws.worlds) {
-      const width = Math.max(Q.min, Math.min(Q.max, Q.base + Q.per * w.missions.length));
-      cols.push({ x, width }); x += width + Q.gap;
-    }
-    const width = Math.max(0, x - Q.gap), stops = [], flags = [];
-    ws.worlds.forEach((w, ci) => {
-      const c = cols[ci], n = w.missions.length;
-      w.missions.forEach((m, i) => {
-        const sx = n === 1 ? c.x + (c.width - 40) / 2 : c.x + 44 + i * ((c.width - 110) / (n - 1));
-        stops.push({ id: m.id, world: ci, i: m.i, x: Math.round(sx), y: n === 1 ? Q.mid : (i % 2 ? Q.lo : Q.hi), r: Q.r });
-      });
-      if (!w.optional) flags.push({ world: ci, x: c.x + c.width - 26, y: Q.mid });
-    });
-    const road = [], reach = [];
-    ws.worlds.forEach((w, ci) => {
-      const pts = stops.filter(s => s.world === ci).map(s => [s.x, s.y]);
-      if (w.optional) { reach.push(...pts); return; }
-      road.push(...pts);
-      const f = flags.find(f => f.world === ci); if (f) road.push([f.x, f.y]);
-    });
-    const lastFlag = flags[flags.length - 1];
-    return { width, height: Q.h, top: Q.top, svgHeight: Q.svgH, columns: cols, stops, flags, road: smooth(road), reach: reach.length && lastFlag ? smooth([[lastFlag.x, lastFlag.y], ...reach]) : "" };
+  const flatQuests = ws => ws.worlds.flatMap(w => w.missions);
+  // the quests after this one that are still open or started, in order and around to the start, at most n
+  function upNext(ws, fromId, n = 3) {
+    const all = flatQuests(ws), i = all.findIndex(m => m.id === fromId);
+    const order = i < 0 ? all : all.slice(i + 1).concat(all.slice(0, i));
+    return order.filter(m => m.state === "open" || m.state === "started").slice(0, n);
   }
-  // a smooth line through the points (Catmull-Rom as cubic curves)
-  function smooth(pts) {
-    if (!pts.length) return "";
-    let d = `M${pts[0][0]},${pts[0][1]}`;
-    for (let i = 0; i < pts.length - 1; i++) {
-      const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
-      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-      d += ` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0]},${p2[1]}`;
-    }
-    return d;
+  // the quest the now card shows: the asked one if it is on the map, else "you are here", else the first
+  function nowQuest(ws, asked) {
+    const all = flatQuests(ws);
+    return (asked && all.find(m => m.id === asked)) || all.find(m => m.id === ws.here) || all[0] || null;
+  }
+
+  // ---------- the words of a quest card, cut short ----------
+  // "You ship" in one line: the first sentence of `ship`, cut at a clause (a colon, a semicolon, a dash, an opening
+  // bracket or a comma after six words) or else at a word, so it holds at most 16 words; a cut mid-clause ends in "…"
+  const SHIP_WORDS = 16;
+  function firstSentence(text) {
+    const t = String(text || "").replace(/\s+/g, " ").trim();
+    const m = /^(.+?[.?!])(?=\s+[A-Z“"(]|$)/.exec(t);
+    return m ? m[1] : t;
+  }
+  function shipLine(ship) {
+    const s = firstSentence(ship).replace(/[.?!]+$/, "");
+    if (!s) return "";
+    const words = s.split(" ");
+    if (words.length <= SHIP_WORDS) return s + ".";
+    const head = words.slice(0, SHIP_WORDS).join(" ");
+    const hard = /^(.*?)\s*(?::|;| — | – | \()/.exec(head);
+    if (hard && hard[1].split(" ").length >= 3) return hard[1].replace(/[,.]+$/, "") + ".";
+    const comma = head.lastIndexOf(",");
+    if (comma > 0 && head.slice(0, comma).split(" ").length >= 6) return head.slice(0, comma) + ".";
+    return head.replace(/[,;:.]+$/, "") + "…";
   }
 
   // ---------- one skill, wherever it comes from ----------
@@ -262,7 +250,7 @@
     for (const k of keys) if (f[k] && f[k].reads_as) return f[k].reads_as;
     return null;
   }
-  function skillInfo(map, index, id) {
+  function skillInfo(map, index, id, mine) {
     const t = map.tree || {}, rec = byId(list(t.nodes).concat(list(t.behaviours)))[id], more = byId(t.more)[id], bring = byId((map.read || {}).brings)[id];
     const sk = index && index.skillById ? index.skillById[id] || null : null;
     const clusters = index && (index.clusters || (index.M && index.M.clusters)) || {};
@@ -277,34 +265,34 @@
       grows: !!(rec && rec.grows), posting_names: !!(rec && rec.posting_names) || list((map.posting || {}).names).includes(id),
       what: readsOf(index, sk, fieldKeys(map)) || (sk && sk.what) || null,
     };
-    info.shipped = shippedLook(info, map);
+    info.shipped = shippedLook(info, map, mine);
     return info;
   }
 
   // ---------- D1: the read (R31) ----------
   // The band in words as the headline; what you bring, grouped under the résumé line that showed it; the marked gaps,
-  // each with the mission that builds it (the first in world order not already named for an earlier gap, so the gaps
-  // do not all point at one mission; a mission the file declined builds nothing) or "No mission builds it yet".
-  function readLines(map, index) {
+  // each with the quest that builds it (the first in level order not already named for an earlier gap, so the gaps
+  // do not all point at one quest; a skipped quest builds nothing) or "No quest builds it yet".
+  function readLines(map, index, mine) {
     const rd = map.read || {}, M = C();
     const role = (map.role || {}).label || "";
     const band = rd.band_label || ((Copy.common || {}).bands || {})[rd.band] || "";
     const brings = list(rd.brings).map(b => ({ id: b.id, name: b.name || b.id, state: STATES.includes(b.state) ? b.state : "shows", line: b.line || "" }));
     const groups = [];
     for (const b of brings) { let g = groups.find(x => x.line === b.line); if (!g) groups.push(g = { line: b.line, skills: [] }); g.skills.push(b); }
-    const cards = cardsById(map), order = missionOrder(map).filter(id => cards[id] && !cards[id].declined), used = new Set();
+    const own = mine || {}, cards = cardsById(map), order = missionOrder(map).filter(id => cards[id] && questState(cards[id], own[id]) !== "skipped"), used = new Set();
     const gaps = list(rd.marked_gaps).slice(0, 8).map(id => {
       const s = skillInfo(map, index, id);
       const ms = order.filter(cid => list(cards[cid].atlas_skills).includes(id));
       const m = ms.find(cid => !used.has(cid)) || ms[0] || null;
       if (m) used.add(m);
       const w = m ? worldOfCard(map, m) : null;
-      return { id, name: s.name, state: s.state, sentence: s.what, mission: m ? cards[m] : null, world: w ? (w.n === "reach" || w.optional ? M.reachHead : fill(M.worldHead, { n: w.n })) : null, none: m ? null : M.noMission };
+      return { id, name: s.name, state: s.state, sentence: s.what, mission: m ? cards[m] : null, world: w ? (w.n === "reach" || w.optional ? M.reachHead : fill(M.levelHead, { n: w.n })) : null, none: m ? null : M.noQuest };
     });
     return { band, role, headline: band && role ? fill(M.band, { band, role }) : band, brings, groups, gaps };
   }
 
-  // ---------- the story cards (World 1): one line of the résumé, rewritten so the skill shows ----------
+  // ---------- the story cards (Level 1): one line of the résumé, rewritten so the skill shows ----------
   // The generator writes them (pipeline/apprentice/assemble.mjs); the screen draws the line as it stands, the slots
   // and the prompt, and reads a new line live with the matcher. The matcher's status of a line read on its own maps
   // to the four states the way the generator maps a résumé's (ground.mjs, STATE).
@@ -323,14 +311,16 @@
   }
 
   // ---------- P1: the fifth look (R30) ----------
-  // a node a shipped mission built reads "shows, shipped <date>": the earliest shipped card that names it
-  function shippedLook(node, map) {
+  // a node a shipped quest built reads "shows, shipped <date>": the earliest shipped card that names it, shipped in the
+  // file or marked shipped by the person (mine)
+  function shippedLook(node, map, mine) {
     const id = node && node.id; if (!id) return null;
-    const hits = list((map || {}).cards).filter(c => c.shipped && list(c.atlas_skills).includes(id)).sort((a, b) => String(a.shipped).localeCompare(String(b.shipped)));
+    const own = mine || {};
+    const hits = list((map || {}).cards).map(c => ({ c, on: shippedOn(c, own[c.id]) })).filter(h => h.on != null && list(h.c.atlas_skills).includes(id)).sort((a, b) => a.on.localeCompare(b.on));
     if (!hits.length) return null;
-    const c = hits[0];
-    return { state: "shows", look: "shipped", date: c.shipped, words: dateWords(c.shipped), card: c.id, title: c.title || "", label: fill(C().shippedState, { date: dateWords(c.shipped) }) };
+    const { c, on } = hits[0];
+    return { state: "shows", look: "shipped", date: on, words: dateWords(on), card: c.id, title: c.title || "", label: on ? fill(C().shippedState, { date: dateWords(on) }) : C().shippedLegend };
   }
 
-  return { STATES, RANK, MISSION_STATES, CHOICE_STATE, rankOf, dateWords, numWord, classTree, treeLayout, coAsked, worlds, missionOf, missionState, questLayout, questsOf, readLines, shippedLook, skillInfo, fieldKeys, worldOfCard, worldList, cardsById, storyOf, lineState, SLOT_KEYS };
+  return { STATES, RANK, QUEST_STATES, rankOf, dateWords, classTree, treeLayout, coAsked, worlds, missionOf, ownChoice, questState, shippedOn, upNext, nowQuest, shipLine, firstSentence, SHIP_WORDS, questsOf, readLines, shippedLook, skillInfo, fieldKeys, worldOfCard, worldList, cardsById, storyOf, lineState, SLOT_KEYS };
 });
