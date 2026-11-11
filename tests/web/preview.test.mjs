@@ -102,9 +102,9 @@ test("the booking link: Tally's page with the hidden fields, and null without a 
   assert.deepEqual(Object.fromEntries(u.searchParams), { surface: "build", source: "open_tree", role: "pmm", email: "a+b@school.edu" });
 });
 
-test("the open tree is on with a booking form id (owner, 2026-11-11); the quest flow stays off", () => {
+test("the open tree is on with a booking form id (owner, 2026-11-11), and so is the side-project flow", () => {
   globalThis.window = {}; require(path.join(web, "config.js")); const C = globalThis.window.CONFIG; delete globalThis.window;
   assert.equal(C.OPEN_TREE_ENABLED, true);
   assert.ok(Preview.bookingHref(C.BOOKING_TALLY, {}), "the id reads as a Tally form id");
-  assert.equal(C.QUESTS_ENABLED, false);
+  assert.equal(C.QUESTS_ENABLED, true);
 });
