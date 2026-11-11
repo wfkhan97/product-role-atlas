@@ -3709,12 +3709,56 @@ so the card does not promise what the sign-in then refuses. Home draws five card
 address (`.verbs.n5`), four for any other. The click is a `cta_click` with the id `home_build`: a `home_build` event
 would need a migration to the events check, and the `map` screen event already counts arrivals.
 
+## The open tree: Build skills without a sign-in, two projects and a booking card (`feat/open-tree-preview`, 2026-11-11)
+
+The owner's change of plan on the gate. Build skills stayed behind a sign-in that cannot open to the public until a
+custom SMTP sender exists (Supabase's own mailer sends about two emails an hour). Behind `OPEN_TREE_ENABLED` (off),
+a visitor with no session gets the tree on `#/map` from an email, a résumé and the roles they pick.
+
+- **The tree runs in the browser.** `Apprentice.ground` and `selfServeMap` are pure and already load there, so the
+  form calls them with the page's own `Atlas`, `Matcher` and `EvidenceText` (`web/apprentice.js`, loaded on the
+  build). The map is kept in `localStorage` under `open.tree` with the email. No function, no key, no bucket write;
+  `/api/tree` is unchanged and stays a session's. The price: the tree does not follow the person to another browser,
+  and the email is unverified.
+- **The email** goes to the `waitlist` table under its existing `build` source, with the role. No migration.
+- **One page.** The visitor sees the Skill tree page alone. The quest pages, `#/map/start` and `/api/quests` need a
+  session as before; their addresses come back to the tree, and the map is drawn without its cards, so nothing on
+  the page links to a quest. A person with a session sees their map as before. An invited person finds "Sign in"
+  under the form.
+- **Two projects, no model** (`web/preview.js`). The alternative was a cheap model with short output, one preview
+  per email and per browser, a rate limit and the spend cap. It was not chosen: a per-email limit means nothing
+  while emails are unverified, a real limit needs a table, a migration and a cap before the flag could flip, and a
+  new model answer needs its own eval. The picker takes the shows of the tree's role from the published standards
+  file, ranks them by how much of what the person still has to build or evidence each practises (the sum of those
+  skills' posting shares; a `build` show before a `foundation` one on a tie), and shows the first artifact as the
+  title and `means` as the line. A role with no entry (24 of the 62 MBA roles today) takes its options from the
+  tree: a skill to build whose evidence form is an artifact, titled by that artifact, with what the skill means. No
+  option states a length of time (`hasDuration`), and none carries steps, tools or a prompt: the plan is what the
+  session sells.
+- **This revises the standards index's rule** ("grounding only, nothing shown on a quest card", 2026-11-10) in one
+  place: the preview shows a show's first artifact and its `means`. Both are the index's own words with no source
+  and no quotation, and `web/data/standards.json` is already a public file. Quest cards still show nothing from it.
+- **The booking card** under the two projects: "Get a personalized project plan and a 90-minute session to get
+  started", $60, a link to the owner's Tally form in a new tab with the hidden fields `surface`, `source`, `role`
+  and `email`. `BOOKING_TALLY` holds the form id and is null: no card is drawn. No sale wording; a "through <date>,
+  then <price>" line waits for a regular price from the owner.
+- **Doors.** With the flag on, the home card drops "It opens by invite today." and the fit screen's "Get your tree"
+  shows to every visitor and goes straight to the form with the role picked.
+- **Counts.** `cta` rows `open_tree` (shown, click, done), `open_preview` (shown) and `open_book` (shown, click).
+
+No eval applies: the matcher, the taxonomy, the model read and the standards file are untouched.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
+- The open tree's flip (`OPEN_TREE_ENABLED`): the owner makes the Tally booking form (payment, then the calendar
+  link) and sets `BOOKING_TALLY`; decides whether either campus limits paid services to its students; then the
+  one-line flag PR. A regular price, if the $60 is to read as an offer with an end date.
+- The open tree, after accounts open: carry `open.tree` into the person's folder at their first sign-in, and decide
+  whether the open path stays.
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
   the catalog project's Auth settings; then "Allow new users to sign up" back on there (off since 2026-11-06, so only
   invited addresses get a session), the rate limits, a code email template that carries `{{ .Token }}` and no link

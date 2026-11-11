@@ -267,7 +267,7 @@ test("decision K (2026-11-10): Explore careers never sends a map owner to the ma
   assert.match(bar, /Door\.withBuild\(Door\.verbs\([^;]*\.filter\(v => v\.open\), buildBar\(\)\)/);
   // home draws the same entry as a card (owner, 2026-11-11), with the invite line for a visitor who cannot sign in yet
   const home = src.slice(src.indexOf("async function home()"), src.indexOf("async function matchRole"));
-  assert.match(home, /Door\.withBuild\([^;]*buildBar\(\), !accountsOn\(\) && !Auth\.stored\(\)\)/);
+  assert.match(home, /Door\.withBuild\([^;]*buildBar\(\), !accountsOn\(\) && !Auth\.stored\(\) && !openOn\(\)\)/);
 });
 
 test("config.js turns the maps on; index.html loads auth.js after capture.js and no remote auth library", () => {

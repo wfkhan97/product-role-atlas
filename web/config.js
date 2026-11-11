@@ -29,6 +29,17 @@ window.CONFIG = {
   // ANTHROPIC_API_KEY and CATALOG_SERVICE_ROLE_KEY in the Vercel project; flip only after the spend cap, the rate
   // limit on the key and a recorded evals/quests.mjs baseline (PLAN.md, Later).
   QUESTS_ENABLED: false,
+  // The open tree (2026-11-11; app.js openScreen, web/preview.js): on, with TREE_ENABLED, a visitor with no session
+  // gets the tree on #/map from an email, a résumé and the roles they pick. The tree is grounded in the browser
+  // (web/apprentice.js) and kept in its localStorage; the email goes to the waitlist table (source `build`); no magic
+  // link, no function, no model. Under the tree: two projects picked from the tree and data/standards.json (a title
+  // and a line each) and the booking card. A person with a session sees their map as before, and the quest pages,
+  // #/map/start and /api/quests stay a session's (QUESTS_ENABLED). Needs no migration and no key. Off: #/map with no
+  // session is the invited sign-in.
+  OPEN_TREE_ENABLED: false,
+  // The booking card under the open tree's two projects: the id of the owner's Tally form (the part after
+  // tally.so/r/), opened in a new tab with the hidden fields surface, source, role and email. null: no card is drawn.
+  BOOKING_TALLY: null,
   /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). On since the
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */

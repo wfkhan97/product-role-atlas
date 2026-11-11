@@ -46,7 +46,8 @@
   tagged at extraction). A source record changes only through `pipeline.build_sources verify` (hashes) or by hand
   with its `date_read` and `terms_note` updated.
 - The standards index (`pipeline/standards.json`) is grounding for the quest generator's prompt only: nothing in it is
-  shown or linked on a quest card. A record changes by hand, after a person re-reads the page, with its `date_read`
+  shown or linked on a quest card. The one exception (owner, 2026-11-11): the open tree's two projects
+  (`web/preview.js`) show a show's first artifact and its `means` from `web/data/standards.json`, never a source. A record changes by hand, after a person re-reads the page, with its `date_read`
   updated and no quotation kept; `pipeline.standards verify` writes only its check fields. A change to the file or to
   `pipeline/standards.py` means `.venv/bin/python evals/run_standards.py --baseline` and committing
   `evals/standards_baseline.md`, then `node pipeline/standards_publish.mjs` and committing `web/data/standards.json`

@@ -1,0 +1,110 @@
+// The open tree (2026-11-11, behind CONFIG.OPEN_TREE_ENABLED): a visitor with no session gives an email, a résumé and
+// a role and gets the tree on #/map, two projects under it and, with a form id, the booking card. The flag and the
+// form id are turned on in the page only (an init script, as quests.spec.mjs does), never in web/config.js. Nothing
+// here calls a function: the tree is grounded in the browser. OPEN_SHOTS=1 saves the screens under
+// data/experiments/scratch/open-tree/shots/ (gitignored).
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+import { test, expect, unexpected } from "./fixtures.mjs";
+
+const require = createRequire(import.meta.url);
+const Copy = require("../../web/copy.js"), MC = Copy.map, O = MC.open;
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+const SHOTS = path.join(ROOT, "data", "experiments", "scratch", "open-tree", "shots");
+const TEXT = fs.readFileSync(path.join(ROOT, "pipeline", "apprentice", "examples", "pmm-nyc", "profile.md"), "utf8").replace(/<!--[\s\S]*?-->/g, "");
+const RESUME = JSON.stringify({ name: "resume.pdf", text: TEXT, words: TEXT.split(/\s+/).length, inferred: [], aiRead: false });
+const EMAIL = "ui-harness@gmail.com";
+const hashOf = page => page.evaluate(() => location.hash);
+const flags = extra => [x => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) Object.assign(c, x); } }); }, extra];
+const shot = async (page, name) => { if (process.env.OPEN_SHOTS) { fs.mkdirSync(SHOTS, { recursive: true }); await page.screenshot({ path: path.join(SHOTS, `${name}-${test.info().project.name}.png`), fullPage: true }); } };
+
+async function visitorAt(visitor, hash, config = { OPEN_TREE_ENABLED: true }, storage = {}) {
+  const page = await visitor.open({ storage: { "door.email": "", "door.where": "", "door.seen": "1", resume: RESUME, ...storage } });
+  page.posts = []; page.api = [];
+  const ctx = page.context();
+  if (config) await ctx.addInitScript(...flags(config));
+  await ctx.route("**/api/**", r => { page.api.push(new URL(r.request().url()).pathname); return r.fulfill({ status: 503, contentType: "application/json", body: "{}" }); });
+  await ctx.route(/\.supabase\.co\/rest\/v1\//, r => { if (r.request().method() === "POST") { page.posts.push({ table: new URL(r.request().url()).pathname.split("/").pop(), row: r.request().postDataJSON() }); return r.fulfill({ status: 201, body: "" }); } return r.continue(); });
+  await page.goto("/" + hash);
+  await page.locator("#main .page h1").first().waitFor({ state: "visible" });
+  return page;
+}
+async function build(page) {
+  await page.fill("#tr-email", EMAIL);
+  await page.click("#tr-build");
+  await page.locator("#open-preview .op-card").first().waitFor({ state: "visible" });
+}
+
+test("flag off: #/map with no session is the invited sign-in, as before", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map", null);
+  await expect.poll(() => hashOf(page)).toMatch(/^#\/signin/);
+});
+
+test("an email, a résumé and a role give the tree, two projects and no booking card without a form id", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm");
+  await expect(page.locator("#main h1")).toHaveText(O.heading);
+  await expect(page.locator("#tr-role")).toHaveValue("pmm");
+  // no email: the form says so and nothing is built
+  await page.click("#tr-build");
+  await expect(page.locator("#tr-out")).toHaveText(O.badEmail);
+  await shot(page, "form");
+  await build(page);
+  expect(await hashOf(page)).toBe("#/map/tree");
+  await expect(page.locator("#main .map-head h1")).toHaveText(MC.treeHeading);
+  await expect(page.locator("#open-preview .op-card")).toHaveCount(2);
+  await expect(page.locator("#open-preview h2")).toHaveText(O.previewHeading);
+  for (const card of await page.locator("#open-preview .op-card").all()) {
+    await expect(card.locator("h3")).not.toBeEmpty();
+    expect(await card.locator("ol, ul, a, button, textarea").count(), "a title and a line, no plan").toBe(0);
+  }
+  await expect(page.locator("#open-book")).toHaveCount(0);
+  // the one page: no Quests link, no way into the side-project flow
+  await expect(page.locator(".mapnav a")).toHaveCount(0);
+  await expect(page.locator('a[href^="#/map/start"], a[href^="#/map/quests"]')).toHaveCount(0);
+  // the email went to the waitlist under `build`; the résumé and the tree went nowhere
+  const wait = page.posts.filter(p => p.table === "waitlist");
+  expect(wait.map(p => [p.row.email, p.row.source, p.row.role_id])).toEqual([[EMAIL, "build", "pmm"]]);
+  expect(JSON.stringify(page.posts)).not.toContain(TEXT.slice(200, 260));
+  expect(page.api, "no function is called").toEqual([]);
+  const kept = await page.evaluate(() => JSON.parse(localStorage.getItem("open.tree")));
+  expect(kept.email).toBe(EMAIL); expect(kept.map.role.id).toBe("pmm"); expect(kept.map.student.self_serve).toBe(true);
+  await shot(page, "tree");
+  expect(unexpected(page.consoleErrors)).toEqual([]);
+});
+
+test("the tree stays on a reload; the quest pages and #/map/start come back to it; Forget it clears it", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm");
+  await build(page);
+  await page.reload();
+  await page.locator("#open-preview .op-card").first().waitFor({ state: "visible" });
+  for (const h of ["#/map/start", "#/map/quests", "#/map/start/write", "#/map"]) {
+    await page.evaluate(x => { location.hash = x; }, h);
+    await expect.poll(() => hashOf(page)).toBe("#/map/tree");
+    await expect(page.locator("#main .map-head h1")).toHaveText(MC.treeHeading);
+  }
+  expect(page.api.filter(p => /quests|tree/.test(p))).toEqual([]);
+  await page.click("#open-forget");
+  await expect(page.locator("#main h1")).toHaveText(O.heading);
+  expect(await page.evaluate(() => localStorage.getItem("open.tree"))).toBeNull();
+});
+
+test("with a form id the booking card follows the two projects and links to the Tally form", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", { OPEN_TREE_ENABLED: true, BOOKING_TALLY: "wA1b2C" });
+  await build(page);
+  await expect(page.locator("#open-book h2")).toHaveText(O.book.heading);
+  await expect(page.locator("#open-book")).toContainText("$60");
+  await expect(page.locator("#open-book")).not.toContainText(/black friday|sale|% off/i);
+  const u = new URL(await page.locator("#open-book-link").getAttribute("href"));
+  expect(u.origin + u.pathname).toBe("https://tally.so/r/wA1b2C");
+  expect(u.searchParams.get("email")).toBe(EMAIL); expect(u.searchParams.get("role")).toBe("pmm");
+  expect(await page.evaluate(() => { const a = document.querySelector("#open-preview"), b = document.querySelector("#open-book"), t = document.querySelector("#map-body"); return !!(t.compareDocumentPosition(a) & 4) && !!(a.compareDocumentPosition(b) & 4); }), "tree, then the projects, then the card").toBe(true);
+  await shot(page, "booking");
+});
+
+test("a role outside the standards file still gets two projects, from the tree", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=treasury");
+  await build(page);
+  await expect(page.locator("#open-preview .op-card")).toHaveCount(2);
+});

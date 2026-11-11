@@ -1004,6 +1004,29 @@
       self: "Built from your résumé on {date}.",
       again: "Build it again",
     },
+    // the open tree (2026-11-11, behind CONFIG.OPEN_TREE_ENABLED): the form for a visitor with no session, the line
+    // under their tree, the two projects (web/preview.js: a title and a line each, never a plan or a length of time)
+    // and the booking card (drawn only when CONFIG.BOOKING_TALLY holds a form id). The price is the owner's.
+    open: {
+      heading: "Get your skill tree",
+      lead: "Give us your email, add your résumé and pick the roles you want. Your tree shows every skill those roles ask for and how your résumé reads for each.",
+      email: "Your email",
+      emailHint: "you@school.edu",
+      badEmail: "Enter your email first.",
+      keeps: "Your email reaches us. Your tree stays in this browser.",
+      kept: "Your tree lives in this browser only.",
+      postingHint: "Paste its text. Your tree marks the skills it names.",
+      forget: "Forget it",
+      previewHeading: "Two projects you could build",
+      previewOne: "A project you could build",
+      previewLead: "Picked from what {role} hiring asks people to show and what your tree says to build. A title and a line each, not a plan.",
+      builds: "Builds: {skills}",
+      book: {
+        heading: "Get a personalized project plan and a 90-minute session to get started",
+        line: "A 1:1 session. We pick your project and plan it around your résumé and your roles. Then we start it together. $60.",
+        button: "Book a session · $60",
+      },
+    },
     // the map screen (web/map.js, app.js drawMap), two pages since 2026-11-10: Quests (one quest at a time, the slim
     // path, up next) and Skill tree (the legend bar, the tree or its list, the node panel). No time estimate shows.
     print: "Print",
