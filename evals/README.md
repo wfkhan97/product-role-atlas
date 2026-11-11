@@ -628,7 +628,7 @@ Still to build, in this order:
 What `/api/quests` writes, held to the rules `web/quests.js` `validate` checks in code: the skills on the class
 tree, a kind and a host from `web/data/build_kit.json` that the answers allow, a database only with Supabase, the
 word limits (title nine, "You ship" sixteen, three to six steps of fourteen, a prompt of eighty), no duration word,
-no "mission", no duplicate, and a résumé quote only when the résumé holds it. A direct run builds each case's map
+no "mission", a why line that speaks to the person as "you", no duplicate, and a résumé quote only when the résumé holds it. A direct run builds each case's map
 the way `/api/tree` does and sends the function's own body; `--url` goes through a deploy signed in as a test
 account (`QUESTS_TOKEN`; the deploy's `QUESTS_DAILY_CAP` raised for the run). Saved answers sit in
 `data/experiments/quests/` and are validated again on every run, so `--reuse` rescores a rule change for free.

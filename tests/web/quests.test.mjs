@@ -116,6 +116,7 @@ const BAD = {
   prompt_words: { prompt: Array.from({ length: 81 }, (_, i) => "w" + i).join(" ") },
   no_duration: { steps: ["Spend two hours on research.", "Write the page.", "Publish it."] },
   no_mission: { ship: "A page for your mission to win buyers." },
+  why_voice: { why_person: { text: "They sold logistics software and know these buyers.", resume_quote: "" } },
 };
 for (const [rule, edit] of Object.entries(BAD)) {
   test(`validate drops a project that breaks ${rule}`, () => {
@@ -308,4 +309,10 @@ test("the person block carries <standards> when the index has a list for one of 
   const without = Q.personBlock({ map: example(), resume: RESUME, answers: {}, kit: KIT, standards: null });
   assert.ok(withIt.includes("<standards>") && withIt.includes("## Product Marketing Manager") && !without.includes("<standards>"));
   assert.ok(withIt.indexOf("<standards>") < withIt.indexOf("<resume>"), "before the résumé, after the answers");
+});
+
+test("the why line speaks to the person: a sentence opening in the third person is refused, a third party in mid-sentence is not", () => {
+  for (const bad of ["They built an agent-facing tool.", "You led AI strategy. She knows the buyer.", "The candidate cut vendor costs."]) assert.ok(Q.THIRD.test(bad), bad);
+  for (const ok of ["You built an agent-facing tool.", "Your sellers log objections, and they get approved replies.", "You know what the buyer values and how they decide."]) assert.ok(!Q.THIRD.test(ok), ok);
+  assert.match(Q.PROMPT, /Speak to the person as "you"/);
 });

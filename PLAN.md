@@ -3576,6 +3576,11 @@ goes as a flag and reads "thinly backed: an idea, not a requirement". The 22 cas
 After the index's second pass merged (47 roles), the copy was published again and a class of four roles fits whole
 (`LIMITS.standards`, cut on a line); the cases it touched were asked again: 93 of 96 kept, about $0.056 a write.
 
+**The why line says "you" (2026-11-11).** The owner's own résumé through three roles showed "They built…" on some
+cards and "You set…" on others. The prompt now says to speak to the person as "you", and a rule, `why_voice`, refuses
+a why line with a sentence that opens in the third person. All 32 cases were asked again: 94 of 96 projects kept, no
+`why_voice` failure, about $0.055 a write.
+
 ## A standards index: what the industry treats as the way into a role (`feat/standards-index`, 2026-11-10)
 
 The quest generator of the apprentice map writes side projects from the role and the posting. It had nothing that
