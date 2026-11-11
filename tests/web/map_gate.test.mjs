@@ -257,14 +257,14 @@ test("the routes: #/map is a screen, #/signin stays one, #/skills keeps its quer
   assert.ok(take > r && take < parse, "route() takes the landing hash before it parses");
 });
 
-test("decision K (2026-11-10): Explore careers never sends a map owner to the map; Build skills follows it in the top bar behind buildOn", () => {
+test("decision K (2026-11-10): Explore careers never sends a map owner to the map; Build skills follows it in the top bar for every visitor (buildBar)", () => {
   const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
   const launcher = src.slice(src.indexOf("async function skillsScreen()"), src.indexOf("let mapHeld = null"));
   assert.ok(!/toHash\("#\/map/.test(launcher), "no redirect to the map");
   assert.ok(!/mapGate\(\)/.test(launcher) && !/\ball\b === "1"|query\.all/.test(launcher), "no gate read and no ?all=1");
   assert.match(launcher, /const slot = mapsOn\(\) && !accountsOn\(\) && !Auth\.stored\(\) \?/, "the invite line: only for a person who sees no Build skills");
   const bar = src.slice(src.indexOf("function topBar(name)"), src.indexOf("function markVerb"));
-  assert.match(bar, /if \(buildOn\(\)\) verbs\.splice\(verbs\.findIndex\(v => v\.key === "skills"\) \+ 1, 0, \{ key: "build", href: "#\/map"/);
+  assert.match(bar, /if \(buildBar\(\)\) verbs\.splice\(verbs\.findIndex\(v => v\.key === "skills"\) \+ 1, 0, \{ key: "build", href: "#\/map"/);
 });
 
 test("config.js turns the maps on; index.html loads auth.js after capture.js and no remote auth library", () => {
@@ -291,7 +291,7 @@ test("the copy: every string the two screens and the launcher's slot draw is in 
   // decision K (2026-11-10): the top bar's Build skills does the job of the map's own links to the launcher and back
   for (const k of ["others", "back", "crumb"]) assert.ok(!(k in Copy.map), `map.${k} is gone`);
   // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
-  assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite to an apprentice map, a private plan for one role? Sign in.");
+  assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite to Build skills, your private quests and skill tree? Sign in.");
   // C-02, the sign-in gave a visitor without an invite no way forward: what the map is, and a way to ask
   for (const k of ["mapLine", "askInvite", "rateLimited", "rateWait", "serviceFailed"]) assert.ok(Copy.signin[k], `signin.${k}`);
   assert.match(Copy.signin.mapLine, /invite/);
@@ -317,4 +317,11 @@ test("readFeedback: a story card's file under its hyphen name, and an object tha
   assert.equal(hit.calls[0].url, `https://x.supabase.co/storage/v1/object/authenticated/maps/${UID}/feedback/s1-a-b.json`);
   assert.equal(await makeAuth(() => reply(200, { card: "s1-a-b", choice: "skip" })).A.readFeedback(S, "s1-a_b"), null, "the other id's file");
   await assert.rejects(makeAuth(() => reply(200, {})).A.readFeedback(S, "../x"), /card id/, "a bad id rejects, never throws");
+});
+
+test("2026-11-11: an invited person finds the way in before a session: the top bar for every visitor, and a line on the welcome screen", () => {
+  const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  assert.match(src, /const buildBar = \(\) => treeOn\(\);/);
+  assert.match(src, /id="door-invited">\$\{esc\(C\.invited\)\} <a href="\$\{esc\(MapGate\.signinHash\("#\/map"\)\)\}"/);
+  assert.ok(Copy.door.invited && Copy.door.invitedLink);
 });

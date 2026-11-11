@@ -501,12 +501,13 @@
   // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
-  // Build skills (#/map, decision K of 2026-11-10) follows Explore careers for whoever can open it (buildOn); it is no
-  // home card.
+  // Build skills (#/map, decision K of 2026-11-10) follows Explore careers for every visitor (buildBar, 2026-11-11: an
+  // invited person with no session saw no door at all); a click with no session lands on the sign-in, which says the
+  // section opens by invite and how to ask for one. It is no home card.
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const verbs = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open);
-    if (buildOn()) verbs.splice(verbs.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: Door.COPY.bar.build });
+    if (buildBar()) verbs.splice(verbs.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: Door.COPY.bar.build });
     el.innerHTML = verbs.map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
     markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
@@ -762,6 +763,7 @@
         <div class="door-slot" id="door-slot">${tally ? "" : nativeForm()}</div>${tally ? `<p class="small muted door-loading" id="door-loading">${esc(CM.loadingForm)}</p>
         <p class="door-acts door-tally-acts" id="door-tally-acts"><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-tally-skip">${esc(C.skip)}</a></p>` : ""}
         ${tally ? "" : `<p class="small muted door-privacy">${esc(C.privacy)}</p>`}
+        ${mapsOn() && !accountsOn() && !Auth.stored() ? `<p class="small door-invited" id="door-invited">${esc(C.invited)} <a href="${esc(MapGate.signinHash("#/map"))}">${esc(C.invitedLink)}</a></p>` : ""}
       </section>`, true);
     const go = () => { const next = Door.next(location.hash); if (location.hash === next) route(); else location.hash = next; };
     const passed = where => track("door_passed", doorCtx(where));
@@ -870,10 +872,10 @@
     page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const here = () => Routes.parseRoute(location.hash).name === "skills";
     // The launcher opens for everyone; the map has its own section, Build skills (decision K, 2026-11-10, revising
-    // E1). The one map line left: an invited person with no session on this browser, who sees no Build skills in the
-    // top bar while accounts are off (buildOn), reads the way to the sign-in above the field tiles.
+    // E1). The one map line left: an invited person with no session on this browser reads the way to the sign-in
+    // above the field tiles (the top bar's Build skills leads there too).
     const MC = Copy.map;
-    const slot = mapsOn() && !accountsOn() && !Auth.stored() ? `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>` : "";
+    const slot = mapsOn() && !accountsOn() && !Auth.stored() ? `<p class="lf-slot">${esc(MC.invite)} <a href="${esc(MapGate.signinHash("#/map"))}">${esc(MC.inviteLink)}</a></p>` : "";
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     if (!here()) return;
     const F = Launcher.fields(ix), q0 = Routes.parseRoute(location.hash).query;
@@ -1092,6 +1094,8 @@
   // 2026-11-10). The tree must be on, and the person must be able to sign in: anyone with accounts on, else only a
   // session on this browser (the invited map users). A visitor who cannot sign in never sees a door that refuses them.
   const buildOn = () => treeOn() && (accountsOn() || !!Auth.stored());
+  // the top bar's entry: shown to every visitor while the tree is on, so an invited person finds the way in
+  const buildBar = () => treeOn();
   const selfServe = map => !!(map && map.student && map.student.self_serve);
   const treeRoles = ix => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
   // `first`: the person has no map yet, so the form is Build skills' first step and says what comes after it; with a

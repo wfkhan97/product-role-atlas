@@ -912,6 +912,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .dlabel { display: grid; gap: 6px; font-size: var(--text-sm); color: var(--muted-foreground); }
 .dlabel input, .dlabel select { font: inherit; font-size: var(--text-base); color: var(--foreground); background: var(--background); border: 1px solid var(--input); border-radius: var(--radius-sm); padding: 9px 10px; width: 100%; max-width: none; margin: 0; }
 .door-acts { display: flex; align-items: center; gap: 18px; margin: 4px 0 0; }
+.door-invited { margin: 14px 0 0; }
 .door-skip { color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; } .door-skip:hover { color: var(--foreground); }
 .door-privacy { margin-top: 18px; }
 .door-tally-acts { margin-top: 12px; }   /* the site's own Skip under the Tally slot, outside the iframe */

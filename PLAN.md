@@ -3690,9 +3690,13 @@ signs in with `Auth.verifyCode`, landing on the page the person came from; the e
 `#/map` as before. The button reads "Email me a code". The page's first line names Build skills (quests and a skill
 tree), where it still said "apprentice map… a private plan for one role". No Supabase setting changed.
 
-Not done here: the welcome screen still meets an invited person first and asks for an email that is not the
-sign-in, and "Build skills" shows in the top bar only after a sign-in, so an invited person needs the address
-`#/map`. Both are under Later.
+**The way in, the same day (`fix/invite-door`).** Two more snags from the same walk. The top bar showed "Build
+skills" only to a session (decision K's rule, so no visitor met a door that refuses them), which left an invited
+person with no door at all: the bar now shows it to every visitor while the tree is on (`buildBar`), and a click
+with no session lands on the sign-in, which says the section opens by invite and how to ask for one. The fit box's
+"Get your tree" keeps `buildOn`. And the welcome screen, which asks for an email and is not the way in, now ends with
+"Invited to Build skills? Open it with your invite →" (the door's copy never says "sign in"). The launcher's invite
+line names Build skills. This revises K's "who sees it".
 
 ## Later
 
@@ -3700,8 +3704,6 @@ The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what 
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
-- The invited person's way in: the welcome screen asks for an email before the sign-in and is not the sign-in, and
-  the top bar shows "Build skills" only to a session. An invite needs a door a signed-out person can see.
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
   the catalog project's Auth settings; then "Allow new users to sign up" back on there (off since 2026-11-06, so only
   invited addresses get a session), the rate limits, a code email template that carries `{{ .Token }}` and no link

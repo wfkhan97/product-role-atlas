@@ -109,6 +109,9 @@
     // addresses that open Find classes; no line when no campus has one
     school: "A {schools} email also opens Find classes.",
     button: "Continue", skip: "Skip for now",
+    // an invited person meets this screen first and it is not the way in (2026-11-11); the door's copy never says
+    // "sign in" (tests/web/door.test.mjs), so the link names the invite
+    invited: "Invited to Build skills?", invitedLink: "Open it with your invite →",
     privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
 
@@ -967,7 +970,7 @@
     waiting: "We are writing your map. It opens here when it is ready.",
     only: "Only you can open it.",
     signOut: "Sign out",
-    invite: "Have an invite to an apprentice map, a private plan for one role?",
+    invite: "Have an invite to Build skills, your private quests and skill tree?",
     inviteLink: "Sign in.",
     // the self-serve tree (step 4, 2026-11-05): the form on #/map for a signed-in person with no map, and the line
     // under a map the site built
