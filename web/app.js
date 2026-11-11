@@ -233,9 +233,12 @@
   // verb (About, About you, the sign-in) is the screen alone; the door and home have none (the brand is home). The
   // section is where the person came from when the screen's first crumb links to another section's screen (a professor
   // opened from Networking): that crumb keeps its own hash, so the tab and the role come back. The top bar's current
-  // mark is the same section. `items` are the screen's own crumbs ([label, href or null]); a leading Home is dropped.
-  const SECTION_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
-  const SECTIONS = new Set(["jobs", "skills", "network", "classes"]);
+  // mark is the same section. `items` are the screen's own crumbs ([label, href or null]); a leading Home is dropped. A
+  // screen with no crumbs of its own under a section shows the section alone. Build skills (2026-11-10, decision K) is
+  // the map's own section: its key is `build`, its address #/map (SECTION_HREF).
+  const SECTION_OF = { jobs: "jobs", skills: "skills", map: "build", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  const SECTIONS = new Set(["jobs", "skills", "build", "network", "classes"]);
+  const SECTION_HREF = { build: "#/map" };
   const Crumbs = {
     SECTION_OF,
     trail(name, items) {
@@ -245,8 +248,8 @@
       const section = SECTIONS.has(from) ? from : SECTION_OF[name] || null;
       if (!section) return { section: null, items: rest };
       const label = Copy.common.bar[section];
-      if (name === section) return { section, items: [[label, null]] };
-      let href = "#/" + section;
+      if (name === section || !rest.length) return { section, items: [[label, null]] };
+      let href = SECTION_HREF[section] || "#/" + section;
       if (SECTIONS.has(from)) { href = rest[0][1]; rest = rest.slice(1); }
       return { section, items: [[label, href], ...rest] };
     },
@@ -498,9 +501,13 @@
   // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
+  // Build skills (#/map, decision K of 2026-11-10) follows Explore careers for whoever can open it (buildOn); it is no
+  // home card.
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
+    const verbs = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open);
+    if (buildOn()) verbs.splice(verbs.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: Door.COPY.bar.build });
+    el.innerHTML = verbs.map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
     markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
     const fb = el.querySelector("[data-feedback]"); if (fb) fb.onclick = () => openFeedback({ prompted: false });
@@ -862,20 +869,16 @@
     crumbs([[CM.home, "#/home"], [C.heading, null]]); showAside(null);
     page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const here = () => Routes.parseRoute(location.hash).name === "skills";
-    // E1 (the build plan's B2): a signed-in person with a map opens it first; #/skills?all=1 is the launcher behind
-    // it, with the way back in the slot above the field tiles. No session: one line to the sign-in. A session and no
-    // map file yet: the waiting line. MAPS_ENABLED off: the launcher as it was.
-    const all = Routes.parseRoute(location.hash).query.all === "1";
-    const gate = mapsOn() ? (await mapGate()).gate : "launcher";
-    if (!here()) return;
-    if (gate === "map" && !all) { toHash("#/map"); return; }
+    // The launcher opens for everyone; the map has its own section, Build skills (decision K, 2026-11-10, revising
+    // E1). The one map line left: an invited person with no session on this browser, who sees no Build skills in the
+    // top bar while accounts are off (buildOn), reads the way to the sign-in above the field tiles.
     const MC = Copy.map;
-    const slot = { map: `<p class="lf-slot"><a href="#/map">${esc(MC.back)}</a></p>`, signin: `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>`, waiting: `<p class="lf-slot">${esc(MC.waiting)}</p>` }[gate] || "";
+    const slot = mapsOn() && !accountsOn() && !Auth.stored() ? `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>` : "";
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     if (!here()) return;
     const F = Launcher.fields(ix), q0 = Routes.parseRoute(location.hash).query;
     const s = { q: q0.q || "", field: F.some(f => f.id === q0.field) ? q0.field : null, change: false };
-    const writeHash = () => { const p = new URLSearchParams(); if (all) p.set("all", "1"); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
+    const writeHash = () => { const p = new URLSearchParams(); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     // ---- the left two thirds: the search, the tiles, a field's roles ----
     const row = (r, withField) => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(Launcher.fill(C.open, { open: fmt(r.nOpen) }))}</span><span class="m">${withField && r.field ? esc(r.field.label) + " · " : ""}${r.asks.length ? esc(Launcher.fill(C.asks, { asks: r.asks.join(", ") })) : ""}</span></a>`;
     const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(f.roles.length === 1 ? C.tileOne : C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
@@ -959,7 +962,7 @@
       e.preventDefault();
       const email = $("#si-email").value.trim();
       send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
-      if (next !== "#/map") try { localStorage.setItem("maps.next", next); } catch { }
+      try { if (next !== "#/map") localStorage.setItem("maps.next", next); else localStorage.removeItem("maps.next"); } catch { }   // no stale page from an earlier send
       const r = await Auth.sendLink(email);
       send.disabled = false;
       if (Routes.parseRoute(location.hash).name !== "signin") return;
@@ -1018,28 +1021,36 @@
     };
     draw("email");
   }
-  // #/map: with a session and a map, the map (B3, below); with a session and no map file, the waiting line and the
-  // launcher link; without a session, the sign-in; with MAPS_ENABLED off, the launcher
+  // #/map, the Build skills section (decision K, 2026-11-10): it walks a person through what is missing, in order.
+  // Without a session, the sign-in, which comes back to the same address (MapGate.signinHash); with a session and no
+  // map file, the tree form as the section's first step (with TREE_ENABLED off, the waiting line); with a map, its two
+  // pages (below; #/map and the old #/map?tab=tree become #/map/quests and #/map/tree in place). MAPS_ENABLED off: the
+  // launcher. The top bar holds the way to the other sections, so no screen here repeats it.
   async function mapScreen() {
     const MC = Copy.map;
-    crumbs([[MC.crumb, null]]); showAside(null);
+    crumbs([]); showAside(null);
     if (!mapsOn()) { toHash("#/skills"); return; }
     page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(MC.loading)}</p>`, true);
     const g = await mapGate();
     if (Routes.parseRoute(location.hash).name !== "map") return;
     if (g.gate === "signin") { toHash(MapGate.signinHash(location.hash)); return; }   // the map's own address goes with it
-    const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
+    const out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
     const build = Routes.parseRoute(location.hash).query.build === "1";
     if (g.gate === "map" && !(build && treeOn() && selfServe(g.map))) {
       const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
-      if (Routes.parseRoute(location.hash).name !== "map") return;
-      drawMap(g.map, ix, others, out);
+      const R0 = Routes.parseRoute(location.hash);
+      if (R0.name !== "map") return;
+      const sub = R0.parts[1] === "tree" || (R0.parts[1] !== "quests" && R0.query.tab === "tree") ? "tree" : "quests";
+      const p = new URLSearchParams(R0.search); p.delete("tab");
+      const want = `#/map/${sub}` + (p.toString() ? "?" + p : "");
+      if (location.hash !== want) history.replaceState(null, "", location.pathname + location.search + want);
+      drawMap(g.map, ix, out);
       if (selfServe(g.map)) setTimeout(() => { if (Routes.parseRoute(location.hash).name === "map") maybePrompt("map", { treeOpened: true }); }, 1500);
     } else if (treeOn() && (g.gate === "waiting" || g.gate === "map")) {
-      await treeForm(others, out);
+      await treeForm(out, !g.map);
       if (Routes.parseRoute(location.hash).name !== "map") return;
     } else {
-      page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
+      page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
     }
     $("#map-out").onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
@@ -1051,9 +1062,15 @@
   // the owner wrote by hand is never overwritten (409): the form says so. The site's own map carries
   // student.self_serve, and its screen gets the line "Built from your résumé on …" with the way back here (?build=1).
   const treeOn = () => mapsOn() && !!(window.CONFIG || {}).TREE_ENABLED;
+  // who sees a door into the map: the top bar's Build skills and the fit screen's "Get your tree" (decision K,
+  // 2026-11-10). The tree must be on, and the person must be able to sign in: anyone with accounts on, else only a
+  // session on this browser (the invited map users). A visitor who cannot sign in never sees a door that refuses them.
+  const buildOn = () => treeOn() && (accountsOn() || !!Auth.stored());
   const selfServe = map => !!(map && map.student && map.student.self_serve);
   const treeRoles = ix => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
-  async function treeForm(others, out) {
+  // `first`: the person has no map yet, so the form is Build skills' first step and says what comes after it; with a
+  // map (?build=1), it builds the tree again
+  async function treeForm(out, first) {
     const T = Copy.map.tree, here = () => Routes.parseRoute(location.hash).name === "map";
     const ix = await Atlas.index(); if (!here()) return;
     const F = treeRoles(ix);
@@ -1066,7 +1083,7 @@
         : `${resumeForm()}<p><button type="button" class="btn" id="tr-read">${esc(T.read)}</button></p>`;
       const roles = f ? `<label class="tr-lab">${esc(T.role)}<select id="tr-role"><option value="">${esc(T.pickRole)}</option>${f.roles.map(x => `<option value="${esc(x.id)}"${s.role === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
         ${s.role ? `<fieldset class="tr-also"><legend>${esc(T.also)}</legend>${f.roles.filter(x => x.id !== s.role).map(x => `<label><input type="checkbox" value="${esc(x.id)}"${s.also.includes(x.id) ? " checked" : ""}${!s.also.includes(x.id) && s.also.length >= 3 ? " disabled" : ""}> ${esc(x.label)}</label>`).join("")}</fieldset>` : ""}` : "";
-      page(`<h1>${esc(T.heading)}</h1><p class="lead">${esc(T.lead)}</p>
+      page(`<h1>${esc(first ? T.firstHeading : T.heading)}</h1><p class="lead">${esc(first ? T.firstLead : T.lead)}</p>
         <section class="tr-form">
           <h2>${esc(T.resume)}</h2>${resume}
           <label class="tr-lab">${esc(T.field)}<select id="tr-field"><option value="">${esc(T.pickField)}</option>${F.map(x => `<option value="${esc(x.id)}"${s.field === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
@@ -1075,7 +1092,7 @@
           <p><button type="button" class="btn primary" id="tr-build"${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
           <p class="small tr-out" id="tr-out" aria-live="polite"></p>
         </section>
-        <p>${others}</p><p class="small muted">${out}</p>`, true);
+        <p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
       if ($("#drop")) { wireResumeForm(); $("#tr-read").onclick = async () => { if (await takeResume()) { s.change = false; draw(); } else $("#file-status").textContent = RF.nothing; }; }
       const ch = $("#tr-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
@@ -1098,7 +1115,7 @@
       if (r && r.ok) {
         if (window.Capture) Capture.cta("tree", "done");
         mapHeld = null; outEl.textContent = T.built;
-        toHash("#/map"); if (location.hash === "#/map") route();
+        toHash("#/map/quests"); if (location.hash === "#/map/quests") route();
         return;
       }
       outEl.textContent = r && r.status === 409 ? T.byHand : r && r.status === 401 ? T.signedOut : T.failed;
@@ -1108,25 +1125,24 @@
     if (window.Capture) Capture.cta("tree", "shown");
   }
 
-  // ---------- 1b''. The map screen (the build plan's B3; the pure parts are web/map.js) ----------
-  // D1 the read at the top; the legend bar; two tabs, "Your quests" (Q1 on <svg>) first and "Your skill tree" (T4 on
-  // <svg>); the "How you work" line and the more skills under the tree; a stop or a mission title opens the card (K1)
-  // in the side panel with the feedback control (F1) at its foot; a node opens the node panel with its "asked together
-  // with" lines drawn on the tree while it is open; a shipped mission's skills take the fifth look (P1); Print draws
-  // the one-page sheet (@media print). The map file is the truth: the screen never rewrites it, and the person's own
-  // answers (read once per card, Auth.readFeedback) only mark a stop until the owner republishes.
-  let mapUi = null;   // { map, M (the index as map.js reads it), tab, mine, asked, panel, catalog }
+  // ---------- 1b''. The map screen (the pure parts are web/map.js), two pages since 2026-11-10 ----------
+  // #/map/quests (the default; #/map and the old #/map?tab=tree come here or to the tree): one quest at a time in the
+  // now card, which opens in place; the slim path (a line of numbered dots per level, nothing gated); up next. Its
+  // controls are the person's own: Start, Mark shipped (with the link to the live thing), Skip with Undo, written to
+  // maps/<uid>/feedback/<card>.json (web/auth.js), and they count at once (MapModel.worlds). #/map/tree: the legend
+  // bar with How you work at its right end, Tree · List (the trunk and branches, or the read in words), the node
+  // panel in the aside. No time estimate shows anywhere (the owner, 2026-11-10: the estimates are not verified). The
+  // map file is the truth for the owner's marks (shipped, declined); the screen never rewrites it. Print draws the
+  // one-page sheet (@media print).
+  let mapUi = null;   // { map, M (the index as map.js reads it), tree, page, view, mine, now, open, shipping, skipped, … }
   const SVG_NS = "http://www.w3.org/2000/svg";
   const stCls = s => ({ "shows": "st-shows", "shows in other words": "st-other", "must evidence better": "st-half", "must build": "st-build" })[s] || "st-build";
   const lookCls = n => n.shipped ? "st-built" : stCls(n.state);
   const lookWords = n => n.shipped ? n.shipped.label : Copy.map.states[n.state] || n.state;
-  const hoursWords = h => Number(h) === 1 ? Copy.map.card.hourOne : fill(Copy.map.card.hoursValue, { hours: h });
   const sdot = n => `<span class="sdot ${lookCls(n)}" aria-hidden="true"></span>`;
-  const msMark = (st, extra) => `<span class="mk ms-${st}${extra ? " " + extra : ""}" aria-hidden="true"></span>`;
   const diamond = `<svg class="mk-p" width="9" height="9" viewBox="0 0 8 8" aria-hidden="true"><path d="M4 0 8 4 4 8 0 4Z"/></svg>`;
   const chevron = `<svg class="mk-s" width="11" height="8" viewBox="0 0 11 8" aria-hidden="true"><path d="M1.5 6.5 5.5 2.5 9.5 6.5"/></svg>`;
   const hostOf = url => { try { return new URL(url).host.replace(/^www\./, ""); } catch { return String(url || ""); } };
-  const researchWords = f => String(f || "").replace(/\.md$/, "").replace(/[_-]+/g, " ");
   const todayIso = () => { const d = new Date(), p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
   const safeUrl = u => /^https?:\/\//i.test(String(u || "")) ? String(u) : "#";
   function svgEl(tag, attrs, parent, text) {
@@ -1147,122 +1163,300 @@
   const mapWorlds = () => MapModel.worlds(mapUi.map, mapUi.mine);
   const roleLabel = id => ((mapUi.tree.roles.find(r => r.id === id) || {}).label) || id;
   const trackLabel = id => { const t = (mapUi.map.tracks || []).find(x => x.id === id); return t ? t.label : ""; };
+  const levelWords = w => `${w.head} · ${w.label}`;
+  const questHref = id => `#/map/quests?q=${encodeURIComponent(id)}`;
+  // the quest the now card shows goes in the address (replaced, so Back leaves the map as it came)
+  const keepNow = id => { const p = new URLSearchParams(Routes.parseRoute(location.hash).search); p.set("q", id); history.replaceState(null, "", location.pathname + location.search + "#/map/quests?" + p); };
+  // the steps ticked on a card, kept in this browser only (a convenience; nothing goes up)
+  const stepsKey = id => "map.steps." + id;
+  const ticksOf = id => { try { const v = JSON.parse(localStorage.getItem(stepsKey(id))); return Array.isArray(v) ? v : []; } catch { return []; } };
+  const keepTicks = (id, v) => { try { localStorage.setItem(stepsKey(id), JSON.stringify(v)); } catch { } };
 
-  function drawMap(map, ix, others, out) {
+  // The person's own marks, one feedback file per card, read once per page load and kept beside the map (mapHeld)
+  async function readMine(map) {
+    const s = await Auth.session(); if (!s) return {};
+    const out = {};
+    await Promise.all((map.cards || []).map(c => Auth.readFeedback(s, c.id).then(o => { if (o) out[c.id] = o; }).catch(e => console.error(e))));
+    return out;
+  }
+
+  function drawMap(map, ix, out) {
     const MC = Copy.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
     const M = ix ? { skillById: ix.skillById, edges: ix.M.edges, clusters: ix.M.clusters, reads: (s, keys) => textOf(ix.M.meta.kinds).reads(s, keys) } : {};
-    const q = Routes.parseRoute(location.hash).query;
-    mapUi = { map, M, tree: MapModel.classTree(map), tab: q.tab === "tree" ? "tree" : "quests", mine: {}, asked: new Set(), panel: null, catalog: null };
-    const R = MapModel.readLines(map, M);
-    const groups = R.groups.map(g => `<div class="rd-group">${g.line ? `<q class="rd-line" title="${esc(g.line)}">${esc(g.line)}</q>` : ""}<ul class="rd-skills">${g.skills.map(s => `<li><button type="button" class="linkish" data-node="${esc(s.id)}">${sdot(s)}${esc(s.name)}${s.state === "shows in other words" ? ` <span class="muted rd-st">${esc(MC.inOtherWords)}</span>` : ""}</button></li>`).join("")}</ul></div>`).join("");
-    const gaps = R.gaps.map(g => `<li class="rd-gap"><p class="rd-gname"><button type="button" class="linkish" data-node="${esc(g.id)}">${sdot(g)}${esc(g.name)}</button> <span class="muted rd-st">${esc((MC.states[g.state] || "").toLowerCase())}</span></p>
-      ${g.sentence ? `<p class="rd-gsent">${esc(g.sentence)}</p>` : ""}<p class="rd-gm">${g.mission ? `<span class="rd-world">${esc(g.world)}</span><button type="button" class="rd-mission" data-card="${esc(g.mission.id)}">${esc(g.mission.title)}</button>` : `<span class="muted">${esc(g.none)}</span>`}</p></li>`).join("");
-    page(`<div class="map-head"><h1>${esc(st.name_on_page ? fill(MC.title, { name: st.name_on_page }) : MC.heading)}</h1><p class="map-top">${others}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></p></div>
-      ${role ? `<p class="lead map-lead">${esc(company ? fill(MC.roleAt, { role, company }) : role + ".")}</p>` : ""}
-      <section class="rd">
-        ${R.headline ? `<p class="rd-band">${fill(esc(MC.band), { band: `<b>${esc(R.band)}</b>`, role: esc(role) })}</p>` : ""}
-        ${role ? `<p class="small muted rd-sub">${esc(fill(MC.readSub, { role }))}</p>` : ""}
-        <div class="rd-cols">
-          <div><h2>${esc(MC.brings)}</h2><p class="small muted rd-hint">${esc(MC.bringsHint)}</p>${groups}</div>
-          <div><h2>${esc(MC.gaps)}</h2><p class="small muted rd-hint">${esc(MC.gapsHint)}</p><ul class="rd-gaps">${gaps}</ul></div>
-        </div>
-        <p class="rd-quiet">${esc(MC.quiet)}</p>
-      </section>
-      <div class="legend-bar" id="map-legend" role="note"></div>
-      <div class="map-tabs" role="tablist" aria-label="${esc(MC.tabsAria)}">${["quests", "tree"].map(t => `<button type="button" role="tab" class="map-tab" data-tab="${t}">${esc(MC.tabs[t])}</button>`).join("")}</div>
-      <div id="map-body" role="tabpanel"></div>
+    const R0 = Routes.parseRoute(location.hash), sub = R0.parts[1] === "tree" ? "tree" : "quests";
+    const held = mapHeld && mapHeld.map === map ? mapHeld : null;
+    if (held && !held.mine) held.mine = {};
+    mapUi = { map, M, page: sub, view: R0.query.view === "list" ? "list" : "tree", mine: held ? held.mine : {}, now: R0.query.q || null, open: !!R0.query.q, shipping: null, draft: "", linkErr: false, saveErr: null, busy: false, skipped: null, panel: null, catalog: null, why: {}, lines: {} };
+    mapUi.tree = MapModel.classTree(map, mapUi.mine);
+    crumbs([[MC.nav[sub], null]]);   // Build skills / Quests, or Build skills / Skill tree
+    const name = st.name_on_page;
+    const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
+    const lead = sub === "tree" ? (role ? (mapUi.tree.roles.length > 1 ? fill(MC.treeSub, { role }) : role + ".") : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
+    page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${["quests", "tree"].map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top"><button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <div id="map-body"></div>
       <p class="small muted map-only">${esc(MC.only)} ${out}</p>
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
-      ${printSheet()}`);
+      <div id="map-print-sheet"></div>`);
     main.firstElementChild.classList.add("wide", "map-page");
-    main.querySelectorAll(".map-tab").forEach(b => b.onclick = () => { mapUi.tab = b.dataset.tab; const p = new URLSearchParams(Routes.parseRoute(location.hash).search); if (mapUi.tab === "tree") p.set("tab", "tree"); else p.delete("tab"); history.replaceState(null, "", location.pathname + location.search + "#/map" + (p.toString() ? "?" + p : "")); closePanel(); drawTab(); });
-    main.querySelectorAll(".rd [data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
-    main.querySelectorAll(".rd [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
     $("#map-print").onclick = () => window.print();
-    drawTab();
+    drawBody();
+    if (held && !held.mineRead) {
+      held.mineRead = true;
+      readMine(map).then(mine => { for (const k in mine) if (!(k in held.mine)) held.mine[k] = mine[k]; if (onMap() && mapUi.map === map) { mapUi.tree = MapModel.classTree(map, mapUi.mine); drawBody(); } });
+    }
+  }
+  function drawBody() {
+    if (!onMap()) return;
+    if (mapUi.page === "tree") drawTreePage(); else drawQuests();
+    const sheet = $("#map-print-sheet"); if (sheet) sheet.innerHTML = printSheet();
   }
 
-  function drawTab() {
-    const MC = Copy.map, tab = mapUi.tab;
-    main.querySelectorAll(".map-tab").forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle("on", on); b.setAttribute("aria-selected", String(on)); });
-    // the legend bar, one line: the mission marks on the quests, the skill states and the two marks on the tree
-    $("#map-legend").innerHTML = tab === "quests"
-      ? `<span class="lb">${esc(MC.missionsLabel)}</span>` + MapModel.MISSION_STATES.map(s => `<span>${msMark(s)}${esc(MC.missionStates[s])}</span>`).join("")
-      : MapModel.STATES.map(s => `<span class="${stCls(s)}"><span class="sdot"></span>${esc(MC.states[s])}</span>`).join("") + `<span class="st-built"><span class="sdot"></span>${esc(MC.shippedLegend)}</span><span>${diamond} ${esc(MC.postingNames)}</span><span>${chevron} ${esc(MC.senior)}</span>`;
-    if (tab === "quests") drawQuests(); else drawTree();
-  }
-
-  // ---------- Q1, the quests: the worlds left to right on one road ----------
+  // ---------- the Quests page: the now card, the slim path, up next ----------
   function drawQuests() {
-    const MC = Copy.map, W = mapWorlds(), L = MapModel.questLayout(W), body = $("#map-body");
-    const sel = mapUi.panel && mapUi.panel.kind === "card" ? mapUi.panel.id : null;
-    let h = `<p class="q-how">${esc(MC.walk)}</p><div class="ow-scroll"><div class="ow" style="width:${L.width}px;height:${L.height}px">`;
-    W.worlds.forEach((w, i) => {
-      const c = L.columns[i];
-      const pips = w.optional || !w.clear ? "" : `<span class="pips" aria-hidden="true">${Array.from({ length: w.clear }, (_, k) => `<span class="pip${k < w.shipped ? " on" : ""}"></span>`).join("")}</span>`;
-      h += `<div class="cl${w.cleared ? " cleared" : ""}${w.optional ? " optional" : ""}" style="left:${c.x}px;width:${c.width}px">
-        <div class="ch"><div class="eyebrow">${esc(w.optional ? MC.optional : w.head)}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
-        <div class="cf"><p class="clr">${esc(w.clearLine)}</p>${w.optional ? `<p class="prog">${esc(w.progress)}</p>` : `<p class="prog">${w.cleared ? `<span class="cleared-tag">${esc(w.progress)}</span>` : pips + esc(w.progress)}</p>`}</div></div>`;
+    const MC = Copy.map, W = mapWorlds(), body = $("#map-body");
+    const m = MapModel.nowQuest(W, mapUi.now);
+    if (!m) {
+      // a self-serve map with no story card has no quest yet; PR 2 puts "Start a side project" in this box
+      body.innerHTML = `<section class="q-empty" id="q-empty"><p>${esc(MC.empty)}</p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`;
+      return;
+    }
+    mapUi.now = m.id;
+    const w = MapModel.missionOf(W, m.id).world;
+    const sk = mapUi.skipped && MapModel.cardsById(mapUi.map)[mapUi.skipped];
+    const note = sk ? `<p class="q-note" aria-live="polite">${esc(fill(MC.skippedNote, { title: sk.title }))} <button type="button" class="linkish link" data-undo>${esc(MC.undo)}</button></p>` : "";
+    body.innerHTML = note + nowCard(m, w, W) + `<div class="q-below">${pathHtml(W, m.id)}${upNextHtml(W, m.id)}</div>`;
+    wireQuests(m, W);
+  }
+  function skillChip(id) {
+    const s = MapModel.skillInfo(mapUi.map, mapUi.M, id, mapUi.mine);
+    return `<span class="chip q-skill" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</span>`;
+  }
+  function nowCard(m, w, W) {
+    const MC = Copy.map, K = MC.card, c = m.card, st = m.state, story = MapModel.storyOf(c);
+    const open = mapUi.open || st === "started" || mapUi.shipping === c.id;
+    const one = MapModel.shipLine(c.ship);
+    const tag = st === "open" ? "" : `<span class="q-tag q-${st}">${esc(MC.questStates[st])}</span>`;
+    let h = `<article class="q-now q-${st}${open ? " open" : ""}" aria-label="${esc(MC.nowAria)}" data-card="${esc(c.id)}">
+      <div class="q-top"><span class="eyebrow">${esc(fill(MC.now, { level: levelWords(w) }))}</span>${tag}</div>
+      <h2>${esc(c.title)}</h2>
+      ${one ? `<p class="q-ship"><b>${esc(MC.youShip)}</b>${esc(one)}</p>` : ""}
+      ${(c.atlas_skills || []).length ? `<div class="q-chips">${c.atlas_skills.slice(0, 3).map(skillChip).join("")}</div>` : ""}`;
+    if (st === "shipped") {
+      const when = m.shippedOn ? fill(MC.shippedOn, { date: MapModel.dateWords(m.shippedOn) }) : "";
+      h += `<p class="q-live">${m.link ? `${esc(MC.liveAt)} <a href="${esc(safeUrl(m.link))}" target="_blank" rel="noopener">${esc(m.link.replace(/^https?:\/\//, ""))}</a> · ` : ""}${esc(when)}</p>`;
+    }
+    if (open) h += openedHtml(m, story, one);
+    h += actionsHtml(m, W, open);
+    return h + `</article>`;
+  }
+  // the opened quest: the full ship text when the line cut it; the new optional fields when the card has them (steps,
+  // prompt, build_with, live_on); a story card's working parts; then one closed "Why this quest"
+  function openedHtml(m, story, one) {
+    const MC = Copy.map, K = MC.card, S = K.story, c = m.card, map = mapUi.map, company = (map.company || {}).name || "";
+    const full = String(c.ship || "").trim();
+    let h = `<div class="q-open">`;
+    if (full && full !== one) h += `<p class="q-full">${esc(full)}</p>`;
+    if (story) {
+      h += `<div class="q-line"><p class="k">${esc(S.lineToday)}</p><q>${esc(story.line)}</q><p class="k">${esc(fill(S.todayState, { state: (MC.states[story.state] || story.state).toLowerCase() }))}</p></div>`;
+      if (story.slots.length) h += `<section class="q-sect"><h3>${esc(S.shows)}</h3><ul class="slots">${story.slots.map(x => `<li><b>${esc(S.slots[x.key] || x.key)}</b> ${esc(x.items.join(", "))}</li>`).join("")}</ul></section>`;
+      h += `<section class="q-sect q-try"><h3>${esc(S.tryIt)}</h3><p class="small muted">${esc(S.tryHint)}</p><textarea id="story-line" maxlength="400" aria-label="${esc(S.tryAria)}" placeholder="${esc(S.tryPlaceholder)}">${esc(mapUi.lines[c.id] || "")}</textarea><p class="story-read" id="story-read" aria-live="polite"></p></section>`;
+    }
+    if (Array.isArray(c.steps) && c.steps.length) {
+      const t = ticksOf(c.id);
+      h += `<section class="q-sect"><h3>${esc(K.steps)}</h3><ul class="q-checks">${c.steps.map((x, i) => `<li><label class="${t[i] ? "done" : ""}"><input type="checkbox" data-step="${i}"${t[i] ? " checked" : ""}><span>${esc(x)}</span></label></li>`).join("")}</ul></section>`;
+    }
+    const tools = (head, xs) => Array.isArray(xs) && xs.length ? `<section class="q-sect"><h3>${esc(head)}</h3><ul class="q-tools">${xs.map(x => `<li><b>${esc(x.name || "")}</b>${x.note ? ` <span class="muted">${esc(x.note)}</span>` : ""}</li>`).join("")}</ul></section>` : "";
+    h += tools(K.buildWith, c.build_with) + tools(K.liveOn, c.live_on);
+    if (typeof c.prompt === "string" && c.prompt) h += `<section class="q-sect"><h3>${esc(story ? S.practice : K.prompt)}</h3><pre class="prompt" id="q-prompt">${esc(c.prompt)}</pre><p class="q-copy"><button type="button" class="btn" id="q-copy">${esc(story ? S.copy : K.copy)}</button><span class="small muted" id="q-copied"></span></p></section>`;
+    // the why, folded: each line cut to its first sentence, with its quote; then what the card cites
+    const first = MapModel.firstSentence;
+    const rows = [];
+    if (story && (story.reads_as || story.what)) { const field = ((map.role_class || {}).label || "").replace(/ roles$/, ""); rows.push([field ? fill(S.means, { field }) : S.meansPlain, esc(first(story.reads_as || story.what))]); }
+    if (c.why_role && c.why_role.text) rows.push([K.whyRole, esc(first(c.why_role.text)) + (c.why_role.posting_quote ? ` <q>${esc(c.why_role.posting_quote)}</q>` : "")]);
+    if (c.why_company && c.why_company.text) rows.push([company || K.whyCompany, esc(first(c.why_company.text)) + (c.why_company.url ? ` <a href="${esc(safeUrl(c.why_company.url))}" target="_blank" rel="noopener">${esc(hostOf(c.why_company.url))}</a>` : "")]);
+    if (c.why_person && c.why_person.text) rows.push([K.whyYou, esc(first(c.why_person.text)) + (c.why_person.profile_quote && !story ? ` <q>${esc(c.why_person.profile_quote)}</q>` : "")]);
+    if ((c.classes || []).length) rows.push([K.classes, `<span id="map-classes">${classList(c)}</span>`]);
+    if (c.users) rows.push([K.users, esc(c.users)]);
+    if (story) rows.push([K.sources, `<a href="#/role/${esc((map.role || {}).id || "")}">${esc(fill(S.fromAtlas, { role: (map.role || {}).label || "" }))}</a>`]);
+    else if ((c.sources || []).length) rows.push([K.sources, `<ul class="src">${c.sources.map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="subtle">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>`]);
+    if (rows.length) h += `<details class="q-why" id="q-why"${mapUi.why[c.id] ? " open" : ""}><summary>${esc(K.why)}</summary><dl>${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("")}</dl></details>`;
+    return h + `</div>`;
+  }
+  function actionsHtml(m, W, open) {
+    const MC = Copy.map, c = m.card, st = m.state, next = MapModel.upNext(W, m.id, 1)[0];
+    const busy = mapUi.busy ? " disabled" : "";
+    const err = mapUi.saveErr === c.id ? `<p class="small q-err" role="alert">${esc(MC.saveFailed)}</p>` : "";
+    const fold = st === "started" ? "" : `<button type="button" class="linkish link" data-act="fold">${esc(open ? MC.hide : MC.details)}</button>`;
+    const nextBtn = cls => next ? `<button type="button" class="btn${cls}" data-q="${esc(next.id)}">${esc(MC.nextQuest)}</button>` : "";
+    if (mapUi.shipping === c.id) {
+      return `<form class="q-shipform" id="q-ship" novalidate><label for="q-link">${esc(m.kind === "story" ? MC.linkStory : MC.linkLabel)}</label>
+        <div class="r"><input id="q-link" type="url" inputmode="url" autocomplete="url" maxlength="500" placeholder="${esc(MC.linkHint)}" value="${esc(mapUi.draft)}"${mapUi.linkErr ? ` aria-invalid="true" aria-describedby="q-linkerr"` : ""}>
+        <button class="btn primary" type="submit"${busy}>${esc(mapUi.busy ? MC.saving : MC.markShipped)}</button><button type="button" class="linkish link" data-act="notyet">${esc(MC.notYet)}</button></div>
+        ${mapUi.linkErr ? `<p class="small q-err" id="q-linkerr">${esc(MC.linkBad)}</p>` : ""}${err}</form>`;
+    }
+    let a;
+    if (m.locked) a = nextBtn(" primary") + fold;
+    else if (st === "open") a = `<button type="button" class="btn primary big" data-act="start"${busy}>${esc(MC.start)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>${fold}`;
+    else if (st === "started") a = `<button type="button" class="btn primary big" data-act="ship"${busy}>${esc(MC.markShipped)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>`;
+    else if (st === "shipped") a = nextBtn(" primary") + fold + `<button type="button" class="linkish link" data-act="unship"${busy}>${esc(MC.notShipped)}</button>`;
+    else a = `<button type="button" class="btn primary" data-act="back"${busy}>${esc(MC.bringBack)}</button>${nextBtn("")}`;
+    return `<div class="q-actions">${a}</div>${err}`;
+  }
+  function pathHtml(W, nowId) {
+    const MC = Copy.map;
+    return `<nav class="q-path" aria-label="${esc(MC.pathAria)}">${W.worlds.map(w => `<div class="lvl">
+      <div class="lvl-name"><span class="nm">${w.optional ? "" : `<i>${esc(String(w.num))}</i>`}${esc(w.optional ? levelWords(w) : w.label)}</span></div>
+      <div class="line${w.optional ? " reach" : ""}${w.missions.length < 3 ? " few" : ""}">${w.missions.map(m => `<button type="button" class="dot q-${m.state}${m.id === nowId ? " cur" : ""}${m.kind === "story" ? " story" : ""}" data-q="${esc(m.id)}" title="${esc(m.card.title)}" aria-label="${esc(m.card.title + ". " + MC.questStates[m.state] + ".")}"${m.id === nowId ? ` aria-current="step"` : ""}>${m.state === "shipped" ? `<span aria-hidden="true">✓</span>` : m.i}</button>`).join("")}</div>
+    </div>`).join("")}</nav>`;
+  }
+  function upNextHtml(W, nowId) {
+    const MC = Copy.map, next = MapModel.upNext(W, nowId, 3);
+    return `<section class="q-next"><h3>${esc(MC.upNext)}</h3>${next.length ? `<ul>${next.map(m => `<li><button type="button" data-q="${esc(m.id)}">${esc(m.card.title)}</button></li>`).join("")}</ul>` : `<p class="small muted">${esc(MC.allDone)}</p>`}</section>`;
+  }
+  function wireQuests(m, W) {
+    const body = $("#map-body"), c = m.card, story = MapModel.storyOf(c);
+    const go = id => { mapUi.now = id; mapUi.open = false; mapUi.shipping = null; mapUi.linkErr = false; mapUi.saveErr = null; keepNow(id); drawQuests(); const card = main.querySelector(".q-now"); if (card && card.getBoundingClientRect().top < 0) card.scrollIntoView({ block: "start" }); };
+    body.querySelectorAll("[data-q]").forEach(b => b.onclick = () => go(b.dataset.q));
+    const undo = body.querySelector("[data-undo]");
+    if (undo) undo.onclick = async () => { const id = mapUi.skipped, prev = mapUi.skipPrev; mapUi.skipped = null; await mark(id, prev === "start" ? "start" : "open"); mapUi.now = id; keepNow(id); drawQuests(); };
+    const act = (k, f) => { const b = body.querySelector(`[data-act="${k}"]`); if (b) b.onclick = f; };
+    act("fold", () => { mapUi.open = !mapUi.open; drawQuests(); });
+    act("start", async () => { mapUi.open = true; await mark(c.id, "start"); drawQuests(); });
+    act("ship", () => { mapUi.shipping = c.id; mapUi.draft = ""; mapUi.linkErr = false; drawQuests(); const i = $("#q-link"); if (i) i.focus(); });
+    act("notyet", () => { mapUi.shipping = null; mapUi.linkErr = false; drawQuests(); });
+    act("unship", async () => { await mark(c.id, "start"); mapUi.open = true; drawQuests(); });
+    act("back", async () => { await mark(c.id, "open"); drawQuests(); });
+    act("skip", async () => {
+      const prev = (MapModel.ownChoice(mapUi.mine[c.id]) || {}).choice || null;
+      if (!(await mark(c.id, "skip"))) { drawQuests(); return; }
+      mapUi.skipped = c.id; mapUi.skipPrev = prev; mapUi.open = false;
+      const next = MapModel.upNext(mapWorlds(), c.id, 1)[0];
+      if (next) { mapUi.now = next.id; keepNow(next.id); }
+      drawQuests();
     });
-    h += `</div></div><div class="ow-cap" id="ow-cap" aria-live="polite"></div><p class="ow-note">${esc(MC.stopHint)}</p>`;
-    body.innerHTML = h;
-    const svg = svgEl("svg", { class: "ow-path", width: L.width, height: L.svgHeight, viewBox: `0 0 ${L.width} ${L.svgHeight}`, role: "group", "aria-label": MC.questAria, style: `top:${L.top}px` }, body.querySelector(".ow"));
-    svgEl("path", { class: "road", d: L.road }, svg);
-    if (L.reach) svgEl("path", { class: "road reach", d: L.reach }, svg);
-    for (const f of L.flags) {
-      const w = W.worlds[f.world], g = svgEl("g", { class: "flag" + (w.cleared ? " up" : "") }, svg);
-      svgEl("title", {}, g, fill(w.cleared ? MC.flagUp : MC.flagDown, { world: w.head }));
-      svgEl("line", { class: "pole", x1: f.x, y1: f.y + 12, x2: f.x, y2: f.y - 34 }, g);
-      svgEl("path", { class: "cloth", d: `M${f.x},${f.y - 34} L${f.x + 20},${f.y - 27} L${f.x},${f.y - 20} Z` }, g);
+    const form = $("#q-ship");
+    if (form) {
+      const input = $("#q-link");
+      input.oninput = () => { mapUi.draft = input.value; };
+      form.onsubmit = async e => {
+        e.preventDefault();
+        const link = Auth.cleanLink(input.value);
+        if (!link) { mapUi.linkErr = true; drawQuests(); const i = $("#q-link"); if (i) i.focus(); return; }
+        mapUi.linkErr = false;
+        if (await mark(c.id, "shipped", link)) { mapUi.shipping = null; mapUi.open = false; }
+        drawQuests();
+      };
     }
-    let hover = null;
-    const cap = () => {
-      const id = hover || W.here, el = $("#ow-cap"); if (!el) return;
-      const hit = id && MapModel.missionOf(W, id);
-      if (!hit) { el.innerHTML = `<span class="st">${esc(MC.allClear)}</span>`; return; }
-      const { world: w, mission: m } = hit, lead = hover && hover !== W.here ? `${w.head} · ${m.i}` : MC.here;
-      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(hoursWords(m.card.hours))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
-      el.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
+    body.querySelectorAll(".q-checks input[data-step]").forEach(b => b.onchange = () => { const t = ticksOf(c.id); t[+b.dataset.step] = b.checked; keepTicks(c.id, t); b.closest("label").classList.toggle("done", b.checked); });
+    const why = $("#q-why"); if (why) why.ontoggle = () => { mapUi.why[c.id] = why.open; };
+    const copy = $("#q-copy"), pre = $("#q-prompt"), said = $("#q-copied");
+    if (copy && pre) copy.onclick = async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); if (said) said.textContent = story ? Copy.map.card.story.copied : Copy.map.card.copied; }
+      catch { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
     };
-    for (const s of L.stops) {
-      const m = MapModel.missionOf(W, s.id).mission;
-      const g = svgEl("g", { class: `stop ms-${m.state}${m.kind === "story" ? " story" : ""}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
-      svgEl("title", {}, g, `${m.card.title} · ${MC.missionStates[m.state]}`);
-      svgEl("circle", { class: "halo", cx: s.x, cy: s.y, r: s.r + 5 }, g);
-      svgEl("circle", { class: "base", cx: s.x, cy: s.y, r: s.r }, g);
-      svgEl("circle", { class: "disc", cx: s.x, cy: s.y, r: s.r }, g);
-      if (m.state === "chosen") svgEl("circle", { class: "inner", cx: s.x, cy: s.y, r: s.r - 4.5 }, g);
-      svgEl("text", { x: s.x, y: s.y + 1 }, g, String(s.i));
-      if (m.state === "changed") svgEl("circle", { class: "corner", cx: s.x + s.r * 0.72, cy: s.y - s.r * 0.72, r: 5.5 }, g);
-      if (m.state === "declined") svgEl("line", { class: "cross", x1: s.x - s.r - 3, y1: s.y + s.r + 3, x2: s.x + s.r + 3, y2: s.y - s.r - 3 }, g);
-      // the person's own answer, sent from this page or read back: a small mark under the stop until the republish
-      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: (m.kind === "story" ? MC.feedback.storyChoices : MC.feedback.choices)[m.sent.choice] || m.sent.choice })); }
-      g.addEventListener("click", () => openCard(m.id));
-      g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(m.id); } });
-      g.addEventListener("mouseenter", () => { hover = m.id; cap(); });
-      g.addEventListener("mouseleave", () => { hover = null; cap(); });
-      g.addEventListener("focus", () => { hover = m.id; cap(); });
-      g.addEventListener("blur", () => { hover = null; cap(); });
+    if (story) storyControls(c, story);
+    // the class titles from the class roster (Catalog), once per page; the codes stand until they load
+    if (!story && (c.classes || []).length && $("#map-classes") && window.Catalog) {
+      if (!mapUi.catalog) mapUi.catalog = Catalog.loadCatalog().then(d => Object.fromEntries(d.classes.map(k => [k.code, k.title || ""]))).catch(e => { console.error(e); return {}; });
+      mapUi.catalog.then(t => { mapUi.titles = t; const el = $("#map-classes"); if (el && mapUi.now === c.id) el.innerHTML = classList(c); });
     }
-    const here = L.stops.find(s => s.id === W.here);
-    if (here) {
-      const top = here.y - here.r - 30, g = svgEl("g", { class: "you" }, svg);
-      svgEl("line", { x1: here.x, y1: here.y - here.r - 4, x2: here.x, y2: top + 6 }, g);
-      svgEl("circle", { cx: here.x, cy: top, r: 6 }, g);
-      svgEl("text", { x: Math.max(here.x, 48), y: top - 12 }, g, MC.here);
+  }
+  // one mark written to the person's own folder, then kept here; true when it went up
+  async function mark(cardId, choice, link) {
+    mapUi.busy = true; mapUi.saveErr = null;
+    let ok = false;
+    try {
+      const s = await Auth.session(); if (!s) throw new Error("No session");
+      const obj = Auth.feedbackObject(cardId, choice, link, todayIso());
+      await Auth.writeFeedback(s, cardId, obj);
+      mapUi.mine[cardId] = obj; ok = true;
+      mapUi.tree = MapModel.classTree(mapUi.map, mapUi.mine);
+    } catch (e) { console.error(e); mapUi.saveErr = cardId; }
+    mapUi.busy = false;
+    return ok;
+  }
+  // The story card's two controls. The box reads the new line with the matcher of the map's role, the way the fit
+  // page read the résumé (Atlas.matcher), on its own: the row's status for the card's skill becomes one of the four
+  // states (MapModel.lineState). Nothing is stored and nothing is sent.
+  const storyMatcher = async () => { const R = await Atlas.role(mapUi.map.role.id); const { M } = await Atlas.matcher(R); return { R, M }; };
+  function storyControls(c, story) {
+    const S = Copy.map.card.story, box = $("#story-line"), out = $("#story-read");
+    let timer = null, seq = 0;
+    const show = (state, text) => { if (!out) return; out.innerHTML = state ? `<span class="sdot ${stCls(state)}" aria-hidden="true"></span><span>${esc(text)}</span>` : `<span>${esc(text)}</span>`; };
+    const readLine = async text => {
+      const my = ++seq;
+      if (!text.trim()) { show(null, ""); return; }
+      show(null, S.reading);
+      try {
+        const { R, M } = await storyMatcher();
+        const r = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
+        const row = (r.rows || []).find(x => x.id === story.skill);
+        const state = MapModel.lineState(row ? row.status : "gap");
+        if (my === seq && mapUi && mapUi.now === c.id && $("#story-read") === out) show(state, S.result[state] || "");
+      } catch (e) { console.error(e); if (my === seq) show(null, ""); }
+    };
+    if (box) {
+      box.oninput = () => { mapUi.lines[c.id] = box.value; clearTimeout(timer); timer = setTimeout(() => readLine(box.value), 450); };
+      if (box.value) readLine(box.value);
     }
-    cap();
-    if (sel) { const s = L.stops.find(x => x.id === sel), sc = body.querySelector(".ow-scroll"); if (s && sc && (s.x < sc.scrollLeft + 40 || s.x > sc.scrollLeft + sc.clientWidth - 40)) sc.scrollLeft = Math.max(0, s.x - sc.clientWidth / 2); }
+  }
+  function classList(c) {
+    const codes = c.classes || [], t = mapUi.titles || {};
+    return codes.map(code => `<span class="q-class"><code>${esc(code)}</code> ${esc(t[code] || "")}</span>`).join("");
+  }
+
+  // ---------- the Skill tree page: the legend bar, How you work, Tree · List ----------
+  function drawTreePage() {
+    const MC = Copy.map, T = mapUi.tree, body = $("#map-body");
+    const how = T.behaviours.slice().sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
+    const howRow = n => { const qs = MapModel.questsOf(mapUi.map, n.id), q = qs[0];
+      return `<li>${sdot(n)}<span><button type="button" class="linkish" data-node="${esc(n.id)}">${esc(n.name)}</button><small>${esc(lookWords(n))}${q ? ` · <a href="${esc(questHref(q.id))}">${esc(q.title)}</a>` : n.state === "shows" ? "" : ` · ${esc(MC.howNone)}`}</small></span></li>`; };
+    body.innerHTML = `<div class="lgwrap"><div class="legend-bar" role="note">${MapModel.STATES.map(s => `<span class="${stCls(s)}"><span class="sdot"></span>${esc(MC.states[s])}</span>`).join("")}<span class="st-built"><span class="sdot"></span>${esc(MC.shippedLegend)}</span><span>${diamond} ${esc(MC.postingNames)}</span><span>${chevron} ${esc(MC.senior)}</span>${how.length ? `<span class="sp"></span><button type="button" class="linkish link lb-how" id="map-how" aria-expanded="false" aria-controls="map-howpop">${esc(MC.how)}</button>` : ""}</div>
+      ${how.length ? `<div class="how-pop" id="map-howpop" role="dialog" aria-label="${esc(MC.how)}" hidden><h3>${esc(MC.how)}</h3><p>${esc(MC.howLead)}</p><ul>${how.map(howRow).join("")}</ul></div>` : ""}</div>
+      <div class="seg" role="group" aria-label="${esc(MC.viewAria)}">${["tree", "list"].map(v => `<button type="button" data-view="${v}" aria-pressed="${mapUi.view === v}"${mapUi.view === v ? ` class="on"` : ""}>${esc(MC.view[v])}</button>`).join("")}</div>
+      <div id="map-view"></div>`;
+    const btn = $("#map-how"), pop = $("#map-howpop");
+    if (btn && pop) {
+      btn.onclick = e => { e.stopPropagation(); howOpen(pop.hidden); };
+      pop.querySelectorAll("[data-node]").forEach(b => b.onclick = () => { howOpen(false); openNode(b.dataset.node); });
+    }
+    body.querySelectorAll("[data-view]").forEach(b => b.onclick = () => {
+      mapUi.view = b.dataset.view; closePanel();
+      const p = new URLSearchParams(Routes.parseRoute(location.hash).search); if (mapUi.view === "list") p.set("view", "list"); else p.delete("view");
+      history.replaceState(null, "", location.pathname + location.search + "#/map/tree" + (p.toString() ? "?" + p : ""));
+      drawTreePage();
+    });
+    if (mapUi.view === "list") drawList(); else drawTree();
+  }
+  function howOpen(on) {
+    const btn = $("#map-how"), pop = $("#map-howpop"); if (!btn || !pop) return;
+    pop.hidden = !on; btn.setAttribute("aria-expanded", String(on));
+  }
+  document.addEventListener("click", e => { const pop = $("#map-howpop"); if (pop && !pop.hidden && !pop.contains(e.target)) howOpen(false); });
+  // List: the read in words (R31), the band as its headline, what you bring under its lines, the posting's gaps with
+  // the quest that builds each; no gaps column when the posting named none
+  function drawList() {
+    const MC = Copy.map, role = (mapUi.map.role || {}).label || "", R = MapModel.readLines(mapUi.map, mapUi.M, mapUi.mine), view = $("#map-view");
+    const skill = s => { const n = MapModel.skillInfo(mapUi.map, mapUi.M, s.id, mapUi.mine); return `<button type="button" class="linkish" data-node="${esc(s.id)}" title="${esc(lookWords(n))}">${sdot(n)}${esc(s.name)}</button>`; };
+    const groups = R.groups.map(g => `<li>${g.line ? `<q class="rd-line">${esc(g.line)}</q>` : ""}<span class="rd-skills">${g.skills.map(skill).join("")}</span></li>`).join("");
+    const gaps = R.gaps.map(g => `<li>${skill(g)}<small>${esc(MC.states[g.state] || "")} · ${g.mission ? `<a href="${esc(questHref(g.mission.id))}">${esc(g.mission.title)}</a>` : esc(g.none)}</small></li>`).join("");
+    view.innerHTML = `<section class="rd">
+      ${R.headline ? `<p class="rd-band">${fill(esc(MC.band), { band: `<b>${esc(R.band)}</b>`, role: esc(role) })}</p>` : ""}
+      ${role ? `<p class="small muted rd-sub">${esc(fill(MC.readSub, { role }))}</p>` : ""}
+      <div class="rd-cols${gaps ? "" : " one"}">
+        <div><h2>${esc(MC.brings)}</h2><ul class="rd-list">${groups}</ul></div>
+        ${gaps ? `<div><h2>${esc(MC.gaps)}</h2><p class="small muted rd-hint">${esc(MC.gapsHint)}</p><ul class="rd-list rd-gaps">${gaps}</ul></div>` : ""}
+      </div></section>`;
+    view.querySelectorAll("[data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
   }
 
   // ---------- T4, the tree: the trunk and its branches ----------
   function drawTree() {
-    const MC = Copy.map, T = mapUi.tree, L = MapModel.treeLayout(T, 816), body = $("#map-body");
-    const how = T.behaviours.slice().sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
-    body.innerHTML = `<div class="t4-scroll"><div class="t4-host"></div></div><p class="t2-cap">${esc(MC.treeCap)}</p>
-      <div class="t2-how"><span class="lbl">${esc(MC.how)}</span>${how.map(n => `<button class="t2n ${lookCls(n)}" type="button" data-node="${esc(n.id)}" title="${esc(n.name + ". " + lookWords(n) + ".")}"><span class="nd" aria-hidden="true"></span><span class="nm">${esc(n.name)}</span></button>`).join("")}</div>
+    const MC = Copy.map, T = mapUi.tree, L = MapModel.treeLayout(T, 816), view = $("#map-view");
+    view.innerHTML = `<div class="t4-scroll"><div class="t4-host"></div></div><p class="t2-cap">${esc(MC.treeCap)}</p>
       <div class="t2-links"><button type="button" id="map-more">${esc(MC.more)}</button></div>`;
-    const svg = svgEl("svg", { class: "t4", width: L.width, height: L.height, viewBox: `0 0 ${L.width} ${L.height}`, role: "group", "aria-label": fill(MC.treeAria, { label: T.label.toLowerCase() || "" }) }, body.querySelector(".t4-host"));
+    const svg = svgEl("svg", { class: "t4", width: L.width, height: L.height, viewBox: `0 0 ${L.width} ${L.height}`, role: "group", "aria-label": fill(MC.treeAria, { label: T.label.toLowerCase() || "" }) }, view.querySelector(".t4-host"));
     svgEl("line", { class: "ground", x1: L.ground.x1, y1: L.ground.y, x2: L.ground.x2, y2: L.ground.y }, svg);
     for (const b of L.branches) {
       const cls = "branch" + (b.first ? " first" : "");
@@ -1298,7 +1492,6 @@
       g.addEventListener("click", () => openNode(n.id));
       g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openNode(n.id); } });
     }
-    body.querySelectorAll(".t2-how [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
     $("#map-more").onclick = openMore;
     markTree();
   }
@@ -1306,10 +1499,10 @@
   function markTree() {
     const svg = main.querySelector("svg.t4"); if (!svg) return;
     const co = $("#map-co"); co.innerHTML = "";
-    main.querySelectorAll(".t4 .node, .t2-how .t2n").forEach(x => x.classList.remove("sel", "co"));
+    main.querySelectorAll(".t4 .node").forEach(x => x.classList.remove("sel", "co"));
     const id = mapUi.panel && mapUi.panel.kind === "node" ? mapUi.panel.id : null; if (!id) return;
     const L = MapModel.treeLayout(mapUi.tree, 816), at = Object.fromEntries(L.nodes.map(n => [n.id, n]));
-    const self = main.querySelector(`.t4 [data-node="${CSS.escape(id)}"], .t2-how [data-node="${CSS.escape(id)}"]`); if (self) self.classList.add("sel");
+    const self = main.querySelector(`.t4 [data-node="${CSS.escape(id)}"]`); if (self) self.classList.add("sel");
     for (const o of MapModel.coAsked(mapUi.map, mapUi.M, id)) {
       const el = main.querySelector(`.t4 [data-node="${CSS.escape(o)}"]`); if (el) el.classList.add("co");
       const a = at[id], b = at[o]; if (!a || !b) continue;
@@ -1320,202 +1513,69 @@
     }
   }
 
-  // ---------- the side panel ----------
+  // ---------- the side panel (the Skill tree page) ----------
   function panel(html, p) {
     mapUi.panel = p;
     showAside(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>${html}`);
     aside.querySelector(".close").onclick = closePanel;
-    if (mapUi.tab === "tree") markTree(); else drawQuests();
+    markTree();
   }
   function closePanel() {
     if (!mapUi) return;
     const had = mapUi.panel; mapUi.panel = null; showAside(null);
-    if (had && $("#map-body")) { if (mapUi.tab === "tree") markTree(); else drawQuests(); }
+    if (had && $("#map-body")) markTree();
   }
   // the node panel: name, state in words, the line that showed it, what it is, the roles that ask, "asked together
-  // with" (three, drawn on the tree while open), the missions that build it
+  // with" (three, drawn on the tree while open), the quests that build it (each a link to the Quests page)
   function openNode(id, fromMore) {
     if (!mapUi) return;
-    const MC = Copy.map, N = MC.node, s = MapModel.skillInfo(mapUi.map, mapUi.M, id), company = (mapUi.map.company || {}).name || "";
+    const MC = Copy.map, N = MC.node, s = MapModel.skillInfo(mapUi.map, mapUi.M, id, mapUi.mine), company = (mapUi.map.company || {}).name || "";
     const co = MapModel.coAsked(mapUi.map, mapUi.M, id), cards = MapModel.questsOf(mapUi.map, id), W = mapWorlds();
     const lineHead = s.state === "must evidence better" ? N.lineHalf : s.state === "shows in other words" ? N.lineOther : N.lineShows;
     const mk = [s.posting_names && company ? `<span>${diamond} ${esc(fill(N.postingNames, { company }))}</span>` : "", s.grows ? `<span>${chevron} ${esc(N.senior)}</span>` : ""].join("");
     const roles = s.roles.map(roleLabel);
-    const row = c => { const hit = MapModel.missionOf(W, c.id); return `<button type="button" class="r" data-card="${esc(c.id)}"><span class="t">${esc(c.title)}</span><span class="m">${esc(hit ? (hit.world.optional ? MC.reachHead : fill(MC.world, { n: hit.world.num, label: hit.world.label })) : "")}</span>${hit ? `<span class="n">${msMark(hit.mission.state)}</span>` : ""}</button>`; };
+    const row = c => { const hit = MapModel.missionOf(W, c.id); return `<a class="r" href="${esc(questHref(c.id))}"><span class="t">${esc(c.title)}</span><span class="m">${esc(hit ? levelWords(hit.world) : "")}</span>${hit ? `<span class="n">${esc(MC.questStates[hit.mission.state])}</span>` : ""}</a>`; };
     panel((fromMore ? `<button type="button" class="backlink" data-back="more">${esc(MC.moreBack)}</button>` : "") +
       (s.area_label ? `<p class="eyebrow">${esc(s.area_label)}</p>` : "") +
       `<h2 class="t2p">${esc(s.name)}</h2><p class="t2-state ${lookCls(s)}"><span class="nd" aria-hidden="true"></span>${esc(lookWords(s))}</p>` +
       (mk ? `<div class="t2-mk">${mk}</div>` : "") +
-      (s.shipped ? `<p class="t2-since">${esc(fill(N.since, { date: s.shipped.words, title: s.shipped.title }))}</p>` : "") +
+      (s.shipped && s.shipped.date ? `<p class="t2-since">${esc(fill(N.since, { date: s.shipped.words, title: s.shipped.title }))}</p>` : "") +
       (s.line ? `<div class="rs"><h3 class="rh">${esc(lineHead)}</h3><q>${esc(s.line)}</q>${s.through ? `<p class="small muted">${esc(fill(N.through, { name: s.through }))}</p>` : ""}</div>` : "") +
       (s.what ? `<div class="rs"><h3 class="rh">${esc(N.what)}</h3><p class="what">${esc(s.what)}</p></div>` : "") +
       (roles.length ? `<div class="rs"><h3 class="rh">${esc(N.roles)}</h3><div class="chips">${roles.map(r => `<span class="chip">${esc(r)}</span>`).join("")}</div></div>` : "") +
       (co.length ? `<div class="rs"><h3 class="rh">${esc(N.together)}</h3><div class="co-l">${co.map(c => `<button type="button" data-node="${esc(c)}"><span class="ln" aria-hidden="true"></span>${esc(MapModel.skillInfo(mapUi.map, mapUi.M, c).name)}</button>`).join("")}</div></div>` : "") +
-      `<div class="rs"><h3 class="rh">${esc(N.missions)}</h3>${cards.length ? `<div class="list">${cards.map(row).join("")}</div>` : `<p>${esc(MC.noMission)}</p>`}</div>`,
+      `<div class="rs"><h3 class="rh">${esc(N.quests)}</h3>${cards.length ? `<div class="list">${cards.map(row).join("")}</div>` : `<p>${esc(MC.noQuest)}</p>`}</div>`,
       { kind: "node", id });
     aside.querySelectorAll("[data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
-    aside.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card, id));
     const back = aside.querySelector("[data-back]"); if (back) back.onclick = openMore;
   }
   function openMore() {
-    const MC = Copy.map, list = mapUi.tree.more.map(m => MapModel.skillInfo(mapUi.map, mapUi.M, m.id)).sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
+    const MC = Copy.map, list = mapUi.tree.more.map(m => MapModel.skillInfo(mapUi.map, mapUi.M, m.id, mapUi.mine)).sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
     const first = mapUi.tree.roles[0];
     panel(`<h2 class="t2p">${esc(MC.more)}</h2>${first ? `<p class="empty">${esc(fill(MC.moreLead, { role: first.label }))}</p>` : ""}
       <div class="list more-l">${list.map(n => `<button class="r" type="button" data-node="${esc(n.id)}"><span class="t">${sdot(n)}${esc(n.name)}</span><span class="m">${esc(lookWords(n))}</span></button>`).join("")}</div>`, { kind: "more" });
     aside.querySelectorAll("[data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node, true));
   }
-
-  // ---------- K1, the card, with F1 at its foot ----------
-  function openCard(cardId, fromNode) {
-    if (!mapUi) return;
-    const MC = Copy.map, K = MC.card, map = mapUi.map, c = MapModel.cardsById(map)[cardId]; if (!c) return;
-    const W = mapWorlds(), hit = MapModel.missionOf(W, cardId), w = hit ? hit.world : null, m = hit ? hit.mission : { state: MapModel.missionState(c, mapUi.mine[cardId]), sent: mapUi.mine[cardId] || null };
-    const posting = map.posting || {}, company = (map.company || {}).name || "";
-    const stateLine = m.state === "shipped" ? fill(K.state.shipped, { date: MapModel.dateWords(c.shipped) })
-      : m.state === "declined" ? (c.declined ? K.state.declined : K.state.declinedSent)
-      : m.state === "changed" ? (c.changed ? fill(K.state.changed, { date: MapModel.dateWords(c.changed) }) : K.state.changedSent)
-      : m.state === "open" && c.kind === "story" ? K.state.openStory
-      : K.state[m.state];
-    const story = MapModel.storyOf(c), S = K.story;
-    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : fill(MC.world, { n: w.num, label: w.label })) + (story ? ` · ${S.eyebrow}` : "") : (story ? S.eyebrow : "");
-    const skills = (c.atlas_skills || []).map(id => MapModel.skillInfo(map, mapUi.M, id));
-    const back = fromNode ? fill(K.backTo, { name: MapModel.skillInfo(map, mapUi.M, fromNode).name }) : K.back;
-    const chips = `<h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>`;
-    // a story card: the line as it stands, what the skill means here, the slots, a box that reads a new line live,
-    // the practice prompt with Copy, the two why lines; a build card: the three why lines, the classes, the sources
-    const field = ((map.role_class || {}).label || "").replace(/ roles$/, "");
-    const body = story ? `
-        <section class="why"><h3>${esc(S.lineToday)}</h3><q>“${esc(story.line)}”</q><p class="from">${esc(fill(S.todayState, { state: (MC.states[story.state] || story.state).toLowerCase() }))}</p></section>
-        ${story.reads_as || story.what ? `<section class="why"><h3>${esc(field ? fill(S.means, { field }) : S.meansPlain)}</h3><p>${esc(story.reads_as || story.what)}</p></section>` : ""}
-        ${story.slots.length ? `<section class="why"><h3>${esc(S.shows)}</h3><ul class="slots">${story.slots.map(x => `<li><b>${esc(S.slots[x.key] || x.key)}</b> ${esc(x.items.join(", "))}</li>`).join("")}</ul></section>` : ""}
-        <section class="why try"><h3>${esc(S.tryIt)}</h3><p class="small muted">${esc(S.tryHint)}</p><textarea id="story-line" maxlength="400" aria-label="${esc(S.tryAria)}" placeholder="${esc(S.tryPlaceholder)}"></textarea><p class="story-read" id="story-read" aria-live="polite"></p></section>
-        ${story.prompt ? `<section class="why"><h3>${esc(S.practice)}</h3><p class="small muted">${esc(S.practiceHint)}</p><pre class="prompt" id="story-prompt">${esc(story.prompt)}</pre><p><button type="button" class="btn" id="story-copy">${esc(S.copy)}</button><span class="copied" id="story-copied"></span></p></section>` : ""}
-        ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p></section>` : ""}
-        ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p></section>` : ""}
-        ${chips}
-        <p class="from"><a href="#/role/${esc((map.role || {}).id || "")}">${esc(fill(S.fromAtlas, { role: (map.role || {}).label || "" }))}</a></p>` : `
-        ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p>${c.why_role.posting_quote ? `<q>“${esc(c.why_role.posting_quote)}”</q>` : ""}<p class="from">${esc(K.fromPosting)} <a href="${esc(safeUrl(posting.url))}" target="_blank" rel="noopener">${esc(posting.title || "")}</a>${company ? ", " + esc(company) : ""}</p></section>` : ""}
-        ${c.why_company ? `<section class="why"><h3>${esc(K.whyCompany)}</h3><p>${esc(c.why_company.text)}</p><p class="from">${esc(fill(K.fromResearch, { topic: researchWords(c.why_company.research_file) }))}${c.why_company.url ? ` · <a href="${esc(safeUrl(c.why_company.url))}" target="_blank" rel="noopener">${esc(hostOf(c.why_company.url))}</a>` : ""}</p></section>` : ""}
-        ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p>${c.why_person.profile_quote ? `<q>“${esc(c.why_person.profile_quote)}”</q>` : ""}<p class="from">${esc(K.fromProfile)}</p></section>` : ""}
-        ${chips}
-        <h3>${esc(K.classes)}</h3><div id="map-classes">${classList(c)}</div>
-        ${c.users ? `<h3>${esc(K.users)}</h3><p class="users">${esc(c.users)}</p>` : ""}
-        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>`;
-    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
-      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
-      <div class="qcard${story ? " story" : ""}" data-card="${esc(c.id)}">
-        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
-        <h2>${esc(c.title)}</h2>
-        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(hoursWords(c.hours))}</dd></dl>
-        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>${body}
-        <div class="fb" id="map-fb"></div>
-      </div>`, { kind: "card", id: c.id, from: fromNode || null });
-    aside.querySelector("[data-back]").onclick = () => fromNode ? openNode(fromNode) : closePanel();
-    aside.querySelectorAll(".qcard [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
-    if (story) storyControls(c, story);
-    // the class titles from the class roster (Catalog), once per page; the codes stand until they load
-    if (!story && (c.classes || []).length && window.Catalog && !mapUi.catalog) {
-      mapUi.catalog = Catalog.loadCatalog().then(d => Object.fromEntries(d.classes.map(k => [k.code, k.title || ""]))).catch(e => { console.error(e); return {}; });
-    }
-    if (mapUi.catalog) mapUi.catalog.then(t => { mapUi.titles = t; const el = $("#map-classes"); if (el && mapUi.panel && mapUi.panel.id === c.id) el.innerHTML = classList(c); });
-    drawFeedback(c.id, { choice: null, note: "" });
-    // the person's last answer on this card, read once per page from the private folder
-    if (!mapUi.asked.has(c.id)) {
-      mapUi.asked.add(c.id);
-      const fb = $("#map-fb"); if (fb) fb.innerHTML = `<h3>${esc(MC.feedback.heading)}</h3><p class="small muted">${esc(MC.feedback.reading)}</p>`;
-      (async () => { const s = await Auth.session(); return s ? Auth.readFeedback(s, c.id) : null; })()
-        .then(obj => { if (obj && obj.choice && mapUi) mapUi.mine[c.id] = obj; })
-        .catch(e => console.error(e))
-        .then(() => { if (!mapUi || !mapUi.panel || mapUi.panel.id !== c.id) return; if (mapUi.mine[c.id]) openCard(c.id, fromNode); else drawFeedback(c.id, { choice: null, note: "" }); });
-    }
-  }
-  // The story card's two controls. The box reads the new line with the matcher of the map's role, the way the fit
-  // page read the résumé (Atlas.matcher), on its own: the row's status for the card's skill becomes one of the four
-  // states (MapModel.lineState). Nothing is stored and nothing is sent; the person tells the owner with F1 below.
-  // Copy puts the practice prompt on the clipboard (a selection when the clipboard is closed to the page).
-  const storyMatcher = async () => { const R = await Atlas.role(mapUi.map.role.id); const { M } = await Atlas.matcher(R); return { R, M }; };
-  function storyControls(c, story) {
-    const S = Copy.map.card.story, box = $("#story-line"), out = $("#story-read");
-    let timer = null, seq = 0;
-    const show = (state, text) => { if (!out) return; out.innerHTML = state ? `<span class="sdot ${stCls(state)}" aria-hidden="true"></span><span>${esc(text)}</span>` : `<span>${esc(text)}</span>`; };
-    const readLine = async text => {
-      const my = ++seq;
-      if (!text.trim()) { show(null, ""); return; }
-      show(null, S.reading);
-      try {
-        const { R, M } = await storyMatcher();
-        const r = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
-        const row = (r.rows || []).find(x => x.id === story.skill);
-        const state = MapModel.lineState(row ? row.status : "gap");
-        if (my === seq && mapUi && mapUi.panel && mapUi.panel.id === c.id) show(state, S.result[state] || "");
-      } catch (e) { console.error(e); if (my === seq) show(null, ""); }
-    };
-    if (box) box.oninput = () => { clearTimeout(timer); timer = setTimeout(() => readLine(box.value), 450); };
-    const copy = $("#story-copy"), pre = $("#story-prompt"), said = $("#story-copied");
-    if (copy && pre) copy.onclick = async () => {
-      try { await navigator.clipboard.writeText(pre.textContent); if (said) said.textContent = S.copied; }
-      catch { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
-    };
-  }
-  function classList(c) {
-    const K = Copy.map.card, codes = c.classes || [], t = mapUi.titles || {};
-    if (!codes.length) return `<p class="none small muted">${esc(K.noClass)}</p>`;
-    return `<ul class="k-classes">${codes.map(code => `<li><code>${esc(code)}</code>${esc(t[code] || "")}</li>`).join("")}</ul>`;
-  }
-  // F1: "I'll build this" · "Not this one" · "Change it", a note, Send; the sent state with the choice and the date;
-  // the owner's reply from the map when the republish carries one
-  function drawFeedback(cardId, draft, err) {
-    const box = $("#map-fb"); if (!box) return;
-    const MC = Copy.map, F = MC.feedback, c = MapModel.cardsById(mapUi.map)[cardId], mine = mapUi.mine[cardId], editing = draft.editing;
-    const choices = c.kind === "story" ? F.storyChoices : F.choices;   // "I'll rewrite it" on a story card
-    let h = `<h3>${esc(F.heading)}</h3>`;
-    if (c.shipped) h += `<div class="sent"><b>${esc(MC.missionStates.shipped)}</b> <span class="when">· ${esc(MapModel.dateWords(c.shipped))}</span><p class="small ok">${esc(F.shipped)}</p></div>`;
-    else if (mine && !editing) {
-      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
-      h += `<div class="again"><button type="button" class="linkish link" data-again>${esc(F.again)}</button></div>`;
-    } else {
-      h += `<div class="row">${Object.entries(choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
-        <textarea id="map-note" maxlength="500" aria-label="${esc(F.noteAria)}" placeholder="${esc(F.note)}">${esc(draft.note)}</textarea>
-        <div class="send"><button class="btn primary" type="button" data-send${draft.choice && !draft.busy ? "" : " disabled"}>${esc(draft.busy ? F.sending : F.send)}</button><span class="small muted">${esc(F.saved)}</span></div>
-        ${err ? `<p class="small fb-err">${esc(F.failed)}</p>` : ""}`;
-    }
-    if (c.reply && c.reply.text) h += `<div class="reply"><b>${esc(F.reply)}</b>${c.reply.date ? ` <span class="from">· ${esc(MapModel.dateWords(c.reply.date))}</span>` : ""}<p>${esc(c.reply.text)}</p><p class="from">${esc(F.replyFrom)}</p></div>`;
-    h += `<p class="up">${esc(F.up)}</p>`;
-    box.innerHTML = h;
-    const ta = $("#map-note"); if (ta) ta.oninput = () => { draft.note = ta.value; };
-    box.querySelectorAll("[data-choice]").forEach(b => b.onclick = () => { draft.choice = b.dataset.choice; drawFeedback(cardId, draft); });
-    const again = box.querySelector("[data-again]"); if (again) again.onclick = () => drawFeedback(cardId, { choice: mine.choice, note: mine.note || "", editing: true });
-    const send = box.querySelector("[data-send]");
-    if (send) send.onclick = async () => {
-      if (!draft.choice || draft.busy) return;
-      draft.busy = true; drawFeedback(cardId, draft);
-      try {
-        const s = await Auth.session(); if (!s) throw new Error("No session");
-        const obj = Auth.feedbackObject(cardId, draft.choice, draft.note, todayIso());
-        await Auth.writeFeedback(s, cardId, obj);
-        mapUi.mine[cardId] = obj;
-        if (mapUi.panel && mapUi.panel.id === cardId) openCard(cardId, mapUi.panel.from);   // the state line, the stop's mark
-      } catch (e) {
-        console.error(e); draft.busy = false;
-        if (mapUi.panel && mapUi.panel.id === cardId) drawFeedback(cardId, draft, true);
-      }
-    };
-  }
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && mapUi && mapUi.panel && Routes.parseRoute(location.hash).name === "map" && !aside.hidden) closePanel(); });
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape" || !mapUi || Routes.parseRoute(location.hash).name !== "map") return;
+    const pop = $("#map-howpop"); if (pop && !pop.hidden) { howOpen(false); const b = $("#map-how"); if (b) b.focus(); return; }
+    if (mapUi.panel && !aside.hidden) closePanel();
+  });
 
   // ---------- the print page: one landscape sheet (@media print in style.css) ----------
-  // The four worlds as columns, each mission's title, track, window, hours and three lines of what ships; the tree's
-  // states as a row of dots. On screen it stays hidden; it carries the light tokens so any printer reads it.
+  // The levels as columns, each quest's title, track, state and three lines of what ships (no time estimate); the
+  // tree's states as a row of dots. On screen it stays hidden; it carries the light tokens so any printer reads it.
   function printSheet() {
     const MC = Copy.map, P = MC.printPage, map = mapUi.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
-    const R = MapModel.readLines(map, mapUi.M), W = mapWorlds(), T = mapUi.tree;
-    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}</h2><p class="who">${esc(w.clearLine)}</p>
-      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, hoursWords(m.card.hours), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
+    const R = MapModel.readLines(map, mapUi.M, mapUi.mine), W = mapWorlds(), T = mapUi.tree;
+    const cols = W.worlds.map(w => `<section><h2>${esc(levelWords(w))}</h2>
+      ${w.missions.map(m => `<div class="pr-card q-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.state === "open" ? "" : MC.questStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
     const dots = (label, nodes) => nodes.length ? `<div class="pr-grp"><h3>${esc(label)}</h3>${nodes.map(n => `<span class="pr-node">${sdot(n)}${esc(n.name)}</span>`).join("")}</div>` : "";
     const tree = dots(P.trunk, T.trunk) + dots(P.shared, T.shared) + T.branches.map(b => dots(b.role.label, b.own)).join("") + dots(MC.how, T.behaviours);
+    const who = role ? (company ? fill(P.role, { role, company }) : role) : "";
     return `<section class="map-print light" aria-hidden="true">
-      <header><h1>${esc(st.name_on_page || MC.heading)}</h1><p>${esc(fill(P.role, { role, company }))}${R.band ? " · " + esc(fill(P.band, { band: R.band })) : ""}</p>${map.gap_sentence ? `<p class="pr-gap">${esc(map.gap_sentence)}</p>` : ""}</header>
-      <div class="pr-cols">${cols}</div>
+      <header><h1>${esc(st.name_on_page || MC.heading)}</h1><p>${esc(who)}${R.band ? (who ? " · " : "") + esc(fill(P.band, { band: R.band })) : ""}</p>${map.gap_sentence ? `<p class="pr-gap">${esc(map.gap_sentence)}</p>` : ""}</header>
+      ${cols ? `<div class="pr-cols">${cols}</div>` : ""}
       <div class="pr-tree"><h2>${esc(P.tree)}</h2><div class="pr-row">${tree}</div>
       <p class="pr-note">${MapModel.STATES.map(s => `<span class="sdot ${stCls(s)}"></span>${esc(MC.states[s])}`).join(" ")} <span class="sdot st-built"></span>${esc(MC.shippedLegend)}. ${esc(P.note)} ${esc(fill(P.printed, { date: MapModel.dateWords(todayIso()) }))}</p></div>
     </section>`;
@@ -3018,7 +3078,7 @@
     // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
     // visit, click on the press; its done is the tree form's own.
     const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
-    const treeCta = treeOn() && (accountsOn() || Auth.stored()) ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
+    const treeCta = buildOn() ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${core.length ? `<p class="small muted" data-fit-note>${esc(fill(FT.colsNote, { m: core.length }))}</p>` : ""}${standing}${postingBox}
       ${fitTabs}${fitBody}

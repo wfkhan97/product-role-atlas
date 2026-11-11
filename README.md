@@ -11,7 +11,9 @@ says what another program may read from the atlas. [CLAUDE.md](CLAUDE.md) is the
 
 ## The site
 
-Four verbs behind a door, on a hash router. Every route is in `web/app.js` unless named.
+Four verbs behind a door, on a hash router, plus Build skills (the apprentice map) in the top bar for a person who can
+sign in: with `TREE_ENABLED`, a session on this browser, or anyone while `ACCOUNTS_ENABLED`. Every route is in
+`web/app.js` unless named.
 
 | Route | What it is | Code |
 |---|---|---|
@@ -27,7 +29,7 @@ Four verbs behind a door, on a hash router. Every route is in `web/app.js` unles
 | `#/network`, `#/field/<id>/event` | Networking: who to meet for a role, where, what to say, a prep card per chat; Prepare for an event (a networking event, a roundtable, a hackathon) for one field. | `web/network.js`; the events in `app.js` |
 | `#/you` | About you: three questions, the résumé, the saved roles. | `app.js` |
 | `#/play/<slug>` | The games, from the role pages. | `web/games/`, `web/gameshell.js` |
-| `#/signin`, `#/map` | The sign-in and the apprentice map (the skill tree, the read, the quests). | `web/auth.js`, `web/map.js`, `web/state.js` |
+| `#/signin`, `#/map/quests`, `#/map/tree` | The sign-in and Build skills, the apprentice map's section: `#/map` walks through what is missing (the sign-in, then the tree form for the résumé and roles, then the map) and opens Quests (one quest at a time, the path, the person's own Start, Mark shipped and Skip); Skill tree has the tree or its list and How you work. Crumbs: "Build skills / Quests". | `web/auth.js`, `web/map.js`, `web/state.js` |
 | `#/about` | About GradBuddy (the footer's link): the counts, the data, privacy. | `app.js` |
 
 Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.mjs`. The tips per screen are

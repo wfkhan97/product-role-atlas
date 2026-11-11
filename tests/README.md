@@ -98,6 +98,7 @@ build did not go through. `npm run test:ui` starts the server itself, or uses on
 | `network.spec.mjs` | The Role box with no match; "Who to look for" from the listed employers; entry-level links for a recruiter; the level rows' names; skill names mid-sentence. |
 | `chrome.spec.mjs` | The feedback box's email (empty, one press to use the address on file, checked on Send); the sign-in's invite line, rate-limit line and `next`; About's counts and one draw; the top bar's links, the theme button, the breadcrumbs. |
 | `guide.spec.mjs` | The guide with the flag forced on in the page (never in `config.js`): every screen's tips in the state the step table names, the phone sheet, Esc and focus, the cta rows caught. |
+| `map.spec.mjs` | The map's two pages signed in with no real session: a made-up `maps.session` and every request to the Supabase project answered in the spec (the tracked example as the map, the feedback files in a dict). The now card, opening in place, Start, Mark shipped with a link, Skip and Undo, the tree with How you work and Tree · List, the old `?tab=tree`, the empty self-serve page; Build skills in the top bar for a session and not for a visitor, its crumbs, `#/skills` with no redirect, the sign-in with the page as `next`, the no-map form as the first step with the résumé on file; no "mission", "Wally", "World", clear or duration word. `MAP_SHOTS=1` saves screenshots under `data/experiments/scratch/map-redesign/shots/`. |
 
 The `visitor` fixture gives a page in one state:
 
@@ -112,7 +113,7 @@ API, so no funnel row, waitlist row or feedback row leaves the machine. Reads, s
 (Tally, cdnjs) go through. `axe(page, name)` runs the WCAG 2.1 A and AA rules and returns the violations; it never
 fails a test. The count goes in the test's annotations.
 
-No `.session.json` has been captured yet, so the signed-in tests skip. The one try (2026-11-06) ended in
+No `.session.json` has been captured yet, so the signed-in tests skip (`map.spec.mjs` needs none: it stubs the network). The one try (2026-11-06) ended in
 `otp_expired`: Outlook's Safe Links opened the magic link first, and the code shares the link's token.
 
 `serve.mjs` reads the shell's environment and `.env`. Where either holds `CATALOG_SERVICE_ROLE_KEY`, a signed-in tree

@@ -152,7 +152,9 @@ writes the rest, the story cards included, and keeps every part the skill or the
 
 The worlds are the levels in order. A world clears after k of its n missions: World 1 at 2, World 2 at 2, World 3 at
 1; the Reach is optional and never clears or blocks. `assemble.mjs` writes these defaults, never above the count; a
-`clear` the owner set by hand stays. A declined card leaves its world's n.
+`clear` the owner set by hand stays. A declined card leaves its world's n. The atlas's screen reads none of this since 2026-11-10: it
+gates no quest and shows no `clear`, `who`, `window` or `hours` (`docs/GRADBUDDY_CONTRACT.md`); the person marks a
+quest started, shipped (with a link) or skipped in their own feedback file.
 
 **The story cards** (2026-11-05). World 1 opens with up to two cards `assemble.mjs` writes from the grounding, never
 the skill: each takes one skill the first role's read half shows (`must evidence better`: named, not shown; `shows in

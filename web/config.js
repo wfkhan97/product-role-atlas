@@ -11,9 +11,9 @@ window.CONFIG = {
   CATALOG_SOURCE: "files",
   AUTH_ENABLED: false,
   // The apprentice maps (the build plan's B2, 2026-11-03): on, #/signin sends a magic link to an invited address,
-  // #/map reads the person's own maps/<uid>/map.json with their session (web/auth.js), and Build skills (#/skills)
-  // opens the map first for a signed-in person who has one. Off, #/signin is the one line it was and #/map goes to
-  // the launcher. The owner's steps are in pipeline/sql/2026-11-03_maps.sql.
+  // #/map reads the person's own maps/<uid>/map.json with their session (web/auth.js). #/map is Build skills, the top
+  // bar's own section, shown with TREE_ENABLED to whoever can sign in (app.js buildOn). Off, #/signin is the one line
+  // it was and #/map goes to the launcher. The owner's steps are in pipeline/sql/2026-11-03_maps.sql.
   MAPS_ENABLED: true,
   // The self-serve tree (the visitor journey, step 4, 2026-11-05): on, a signed-in person with no map builds one on
   // #/map from their résumé and the roles they pick (POST /api/tree, web/api/tree.js: the class tree, the read and the

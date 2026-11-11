@@ -1,4 +1,5 @@
-/* Explore roles & build skills: the pure parts of the launcher (owner's pick S5, 2026-10-31). The prefix search over
+/* Explore careers (#/skills; "Explore roles & build skills" until 2026-11-01): the pure parts of the launcher (owner's
+   pick S5, 2026-10-31). The prefix search over
    every role, the fields with their roles by open postings, the three skills most of a role's postings ask for, the
    closest roles for a résumé on file and the light match lines. No DOM, no fetch: every function takes the index
    (`ix` from Atlas.index(), with Atlas.product() loaded when the Product field should carry its roles) or plain

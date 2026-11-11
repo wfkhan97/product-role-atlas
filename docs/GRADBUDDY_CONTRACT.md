@@ -304,31 +304,41 @@ folder from it, once, and never overwrites a folder here. Nothing in the atlas w
   absent), `through`, `grows`, `posting_names`), `behaviours[]` (the same shape), `more[]` (`id`, `name`, `state`).
 - `read`: `band` (the matcher's band id), `band_label` (its words), `brings[]` (`id`, `name`, `state`, `line`),
   `marked_gaps` (skill ids, at most eight).
+- The screen ignores three keys the generator still writes: `worlds[].who`, `worlds[].clear` and a card's `window`
+  and `hours`. No quest is gated and no time estimate shows (2026-11-10).
 - `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `who`, `clear` (k), `missions` (card ids). A `release` label in an
   older file is ignored (2026-11-05).
 - `cards[]`: `id`, `level` (1, 2, 3 or `"reach"`), `track`, `title`, `ship`, `hours`, `window`, `why_role` (`text`,
   `posting_quote`), `why_company` (`text`, `research_file`, `url`), `why_person` (`text`, `profile_quote`),
   `atlas_skills` (skill ids), `classes` (roster codes), `users`, `sources[]` (`title`, `url`, `read`), and, set by the
-  owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`).
+  owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`). The screen
+  draws the owner's `shipped` as shipped and `declined` as skipped; `changed` and `reply` draw nothing.
+- optional on any card (2026-11-10; none is written yet), drawn only when present: `steps` (short strings, a
+  checklist the person ticks; the ticks stay in the browser), `prompt` (plain text with a Copy button), `build_with`
+  and `live_on` (each a list of `name`, `note`).
 - a **story card** (`kind: "story"`, World 1, at most two, written by the generator): the keys above without
   `why_company`, `posting_quote`, `classes` and `users`, plus `skill` (one id on the tree), `state` (`must evidence
   better` or `shows in other words`), `line` (the résumé line as it stands), `what`, `reads_as`, `shown_by`
   (`artefacts`, `verbs`, `measures`, `counterparts`: lists of words) and `prompt` (the practice prompt, plain text).
   The atlas draws the line, the slots and the prompt, and reads a new line the person types with the matcher of the
-  map's role, in the browser; nothing of it goes up but the F1 feedback.
+  map's role, in the browser; nothing of it goes up but the person's own mark (below).
 
 The atlas resolves a skill's `what` and what it means in the field, an area's label and a class's title from its
 own index by id; a node carries `name` so an id the taxonomy no longer has still draws.
 
 **Stable**: the key names above, the four states, the three places, the world ids, the card id form (lower-case
-letters, digits and hyphens), the bucket path `maps/<uid>/map.json` and the feedback path
-`maps/<uid>/feedback/<card id>.json`, the feedback object (`card`, `choice` one of `build` · `not` · `change`, `note`
-at most 500 characters, `date`). **Not stable**: every value, the k defaults, the example's cards.
+letters, digits, hyphens and underscores; a story card is `s1-<skill id>`), the bucket path `maps/<uid>/map.json` and
+the feedback path `maps/<uid>/feedback/<card id>.json` with each underscore of the id written as a hyphen (the
+bucket's policy takes `[a-z0-9-]` in a file name; the object's `card` keeps the id), the feedback object. Since
+2026-11-10 the site writes `card`, `choice` one of `start` · `shipped` · `skip` · `open` (the undo), `link` (with
+`shipped` only: an http or https link to the live thing, at most 500 characters) and `date`. It still reads the
+objects written before: `build` as start, `not` as skip, `change` as nothing; their `note` is ignored. **Not stable**:
+every value, the k defaults, the example's cards.
 
 **The privacy rule for maps.** A map quotes one person's résumé and names their target company; only that person
 reads it, with their own session, from their own folder; the owner writes it with the service role. What goes up
-from the atlas is one feedback file per card: the card id, the choice, the note, the date. Never the résumé, a skill
-list or a file. The policies are `pipeline/sql/2026-11-03_maps.sql`; the two scripts need the service-role key of the
+from the atlas is one feedback file per card: the card id, the choice, the link the person typed for a shipped quest,
+the date. Never the résumé, a skill list or a file. The policies are `pipeline/sql/2026-11-03_maps.sql`; the two scripts need the service-role key of the
 project the site points at and never run without it.
 
 ## The privacy rule

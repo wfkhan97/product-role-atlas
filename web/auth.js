@@ -21,8 +21,9 @@
      Auth.writeFeedback(session, cardId, obj) writes it (x-upsert); resolves true, rejects on an error
      Auth.signOut()                           forgets the session here and tells GoTrue, best effort
    The pure parts load in node (tests/web/map_gate.test.mjs): sessionFromHash, errorFromHash, redirectTo, feedbackPath,
-   feedbackObject, refusedMessage, codeMessage, MapGate.next, MapGate.signinHash and MapGate.landing. Nothing a person types leaves the browser but the email on #/signin
-   and a feedback file: the card id, the choice, the note, the date. */
+   cleanLink, feedbackObject, refusedMessage, codeMessage, MapGate.next, MapGate.signinHash and MapGate.landing. Nothing a
+   person types leaves the browser but the email on #/signin and a feedback file: the card id, the choice, the link to
+   the live thing (shipped only), the date. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = deps => factory(Object.assign({ copy: () => require("./copy.js") }, deps || {}));   // node: require("web/auth.js")({ fetch, config, storage, now })
   else { root.Auth = factory({ fetch: (...a) => root.fetch(...a), config: () => root.CONFIG || {}, storage: () => root.localStorage, now: () => Date.now(), copy: () => root.Copy }); root.MapGate = root.Auth.MapGate; }
@@ -35,10 +36,15 @@
   const KEY = "maps.session";
   const BUCKET = "maps";
   const REFRESH_S = 5 * 60;   // refresh when the token ends within five minutes
-  const CARD_RE = /^[a-z0-9-]+$/;
+  // a card id: lower-case letters, digits, hyphens and underscores (a story card is s1-<skill id>, and skill ids carry
+  // underscores). The bucket's policy takes [a-z0-9-] in a file name, so the name writes each underscore as a hyphen;
+  // the object's own `card` keeps the id, and a read checks it.
+  const CARD_RE = /^[a-z0-9_-]+$/;
   const UID_RE = /^[0-9a-f-]{8,64}$/i;
-  const CHOICES = ["build", "not", "change"];
-  const NOTE_MAX = 500;
+  // the person's own mark on a quest (2026-11-10): start, shipped (with the link to the live thing), skip, and open,
+  // the undo (the bucket lets a person write and overwrite, never delete)
+  const CHOICES = ["start", "shipped", "skip", "open"];
+  const LINK_MAX = 500;
 
   // ---------- the pure parts ----------
   // the payload of a JWT, or {} when it is not one
@@ -77,18 +83,30 @@
   }
   // where the link lands: the site's own address, its query and hash dropped, then #/map
   const redirectTo = loc => `${loc.origin}${loc.pathname}#/map`;
-  // the object path of one card's feedback; a card id is lower-case letters, digits and hyphens, nothing else
+  // the object path of one card's feedback
   function feedbackPath(uid, cardId) {
     if (!UID_RE.test(String(uid || ""))) throw new Error("No user id");
     if (!CARD_RE.test(String(cardId || ""))) throw new Error(`Not a card id: ${cardId}`);
-    return `${uid}/feedback/${cardId}.json`;
+    return `${uid}/feedback/${String(cardId).replace(/_/g, "-")}.json`;
   }
-  // the one object a card's control writes: { card, choice, note, date }; the note cut at 500 characters
-  function feedbackObject(cardId, choice, note, date) {
+  // a link to a live thing: http(s), a host with a dot, no space, at most 500 characters; a bare host gets https://.
+  // The cleaned link, or null.
+  function cleanLink(text) {
+    let t = String(text == null ? "" : text).trim();
+    if (!t || /\s/.test(t)) return null;
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(t)) t = "https://" + t;
+    if (!/^https?:\/\/[^/?#\s]+\.[^/?#\s.]{2,}([/?#]\S*)?$/i.test(t) || t.length > LINK_MAX) return null;
+    return t;
+  }
+  // the one object a quest's controls write: { card, choice, link (shipped only, required), date }
+  function feedbackObject(cardId, choice, link, date) {
     if (!CARD_RE.test(String(cardId || ""))) throw new Error(`Not a card id: ${cardId}`);
     if (!CHOICES.includes(choice)) throw new Error(`Not a choice: ${choice}`);
     const d = date instanceof Date ? date.toISOString().slice(0, 10) : /^\d{4}-\d{2}-\d{2}$/.test(String(date || "")) ? String(date) : new Date(now()).toISOString().slice(0, 10);
-    return { card: cardId, choice, note: String(note == null ? "" : note).trim().slice(0, NOTE_MAX), date: d };
+    if (choice !== "shipped") return { card: cardId, choice, date: d };
+    const url = cleanLink(link);
+    if (!url) throw new Error("Not a link");
+    return { card: cardId, choice, link: url, date: d };
   }
   // What #/signin says when GoTrue answers no (2026-11-06: the connection line is for a network failure alone, which
   // sendLink and sendCode catch themselves). The answer's text, any shape, read three ways:
@@ -115,18 +133,20 @@
     if (verifying) return /invalid|expired|not found|otp/i.test(text) ? S.codeWrong : S.serviceFailed;
     return /signups not allowed|not allowed|otp_disabled/i.test(text) ? S.codeRefused : S.serviceFailed;
   }
-  // E1: where Build skills and #/map lead. Off: the launcher as before. No session: the sign-in. A session and a map:
-  // the map. A session and no map file yet: the waiting line.
+  // Where Build skills (#/map, the top bar's own section since decision K of 2026-11-10) leads. Off: the launcher. No
+  // session: the sign-in. A session and a map: the map. A session and no map file yet: "waiting" (the tree form when
+  // TREE_ENABLED is on, else the waiting line).
   // signinHash(from) and landing(next) (2026-11-06): the map's own address goes to the sign-in as `next` and comes back
-  // after it, so #/map?build=1&role=<id> keeps its form and its role; anything but a #/map hash is dropped
-  const MAP_HASH = /^#\/map(\?[a-z0-9_=&.%+-]*)?$/i;
+  // after it, so #/map?build=1&role=<id> keeps its form and its role, and #/map/quests and #/map/tree their page; the
+  // plain #/map goes too, since the code sign-in returns to `next` alone; anything but a #/map hash is dropped
+  const MAP_HASH = /^#\/map(\/(quests|tree))?(\?[a-z0-9_=&.%+-]*)?$/i;
   const MapGate = {
     next({ enabled, session, hasMap } = {}) {
       if (!enabled) return "launcher";
       if (!session) return "signin";
       return hasMap ? "map" : "waiting";
     },
-    signinHash: from => MAP_HASH.test(String(from || "")) && String(from) !== "#/map" ? "#/signin?next=" + encodeURIComponent(String(from)) : "#/signin",
+    signinHash: from => MAP_HASH.test(String(from || "")) ? "#/signin?next=" + encodeURIComponent(String(from)) : "#/signin",
     landing: next => MAP_HASH.test(String(next || "")) ? String(next) : "#/map",
   };
 
@@ -218,7 +238,8 @@
     throw new Error(`Storage answered ${r.status}`);
   }
   const readMap = sess => readObject(sess, `${sess && sess.uid}/map.json`);
-  const readFeedback = (sess, cardId) => readObject(sess, feedbackPath(sess && sess.uid, cardId));
+  // the object, or null when there is none or it names another card (two ids that differ only by _ and - share a name)
+  const readFeedback = (sess, cardId) => Promise.resolve().then(() => readObject(sess, feedbackPath(sess && sess.uid, cardId))).then(o => o && (o.card == null || o.card === cardId) ? o : null);
   async function writeFeedback(sess, cardId, obj) {
     if (!sess) throw new Error("No session");
     const path = feedbackPath(sess.uid, cardId);
@@ -232,6 +253,6 @@
     try { await deps.fetch(`${base()}/auth/v1/logout`, { method: "POST", headers: headers(s.access_token) }); } catch { }
   }
 
-  return { KEY, BUCKET, CHOICES, NOTE_MAX, sessionFromHash, errorFromHash, redirectTo, feedbackPath, feedbackObject, refusedMessage, codeMessage, MapGate,
+  return { KEY, BUCKET, CHOICES, LINK_MAX, sessionFromHash, errorFromHash, redirectTo, feedbackPath, cleanLink, feedbackObject, refusedMessage, codeMessage, MapGate,
     takeHash, stored, session, sendLink, sendCode, verifyCode, readMap, readFeedback, writeFeedback, signOut };
 });
