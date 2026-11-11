@@ -1109,8 +1109,18 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 /* the self-serve tree form on #/map (step 4) */
 .tr-form { max-width: 560px; } .tr-form h2 { margin-top: 20px; }
 .tr-lab { display: block; margin: 14px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); }
-.tr-lab select, .tr-lab textarea { display: block; width: 100%; margin-top: 6px; font: inherit; color: var(--foreground); background: var(--background); border: 1px solid var(--input); border-radius: var(--radius-md); padding: 8px 10px; }
+.tr-lab select, .tr-lab textarea, .tr-lab input[type=email] { display: block; width: 100%; margin-top: 6px; font: inherit; color: var(--foreground); background: var(--background); border: 1px solid var(--input); border-radius: var(--radius-md); padding: 8px 10px; }
 .tr-lab textarea { min-height: 96px; resize: vertical; }
+/* the open tree (2026-11-11): the two projects and the booking card under the tree */
+.tr-keeps { margin: 8px 0 0; }
+.op-prev, .op-book { margin: 32px 0 0; max-width: 880px; }
+.op-prev h2, .op-book h2 { margin: 0 0 6px; }
+.op-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px; }
+.op-card { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; }
+.op-card h3 { margin: 0 0 6px; font-size: var(--text-md); } .op-card p { margin: 0 0 6px; } .op-card p:last-child { margin-bottom: 0; }
+.op-book { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; }
+.op-book p { margin: 0 0 12px; } .op-book p:last-child { margin-bottom: 0; }
+@media print { .op-prev, .op-book { display: none; } }
 .tr-also { border: 0; padding: 0; margin: 10px 0 0; } .tr-also legend { font-size: var(--text-sm); color: var(--muted-foreground); padding: 0; margin-bottom: 4px; }
 .tr-also label { display: block; padding: 2px 0; }
 .tr-out { min-height: 1.4em; } .map-self { margin-top: 4px; } .map-self a { color: var(--primary); }

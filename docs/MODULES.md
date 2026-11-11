@@ -284,6 +284,11 @@ and evals run the code the site runs.
   levels and each quest's state from the file and the person's own marks (`worlds`, `ownChoice`, `questState`), the now
   quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills; the level `side`
   (the side projects picked) has a head and no number. `apprentice.js` — the generator's pure part (above).
+- `preview.js` — `Preview`, the pure part of the open tree's foot (`app.js` `openScreen`, `drawOpenNext`; behind
+  `OPEN_TREE_ENABLED`): `pick(map, { standards, skillById })` gives up to two projects, a title and a line each, from
+  the role's shows in `data/standards.json` ranked by the tree's unshown skills, then from the tree's own artifact
+  skills; `hasDuration` keeps out any line that states a length of time; `bookingHref` builds the Tally link from
+  `BOOKING_TALLY`. No model, no network.
 - `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`) and of
   `/api/quests`: the answers' lists and what they allow (`allowedKinds`, `allowedHosts`, `dbAllowed`), the class tree
   the projects aim at (`treeOf`), the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint
