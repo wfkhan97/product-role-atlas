@@ -3476,10 +3476,12 @@ need a browser, 7 refusals), 11 unreachable:
   `atlassian_apm` (postings mirrored on The Muse, HTTP 410) and `cma_category_certification` (404). All five were
   search-snippet entries; they want a first-party page or removal at the next re-read.
 None of the eleven backs a `shows` item.
-**A known limit: some pages hash differently with no real change.** A second fetch minutes after the first was
-started on the 114 readable sources; of the first 16, two (both careers.bcg.com pages) hashed differently. Such a
-page will be flagged `changed` every month. The flag costs a person a look and changes nothing by itself; a rule that
-quiets it (hash twice and keep only stable pages, or hash the main content alone) is under "Later".
+**A known limit: some pages hash differently with no real change.** The 114 readable sources were fetched a second
+time minutes after the first: 102 hashed the same and 12 did not (careers.bcg.com twice, pgcareers.com five times
+including `gap_business_intelligence`, careers.geaerospace.com twice, one Google careers posting,
+`stripe_engineering_interview`, `owasp_top_10`). Those pages will be flagged `changed` every month. The flag costs a
+person a look and changes nothing by itself; a rule that quiets it (hash twice and keep only stable pages, or hash the
+main content alone) is under "Later".
 
 **The eval** (`evals/run_standards.py`, baseline `evals/standards_baseline.md`): structure, `shows`, skill ids,
 freshness. CI runs it without freshness, which the date decides; the monthly workflow runs all of it. It found one
@@ -3624,8 +3626,8 @@ done). One line per item; the section that explains it is named where it helps.
   page for the 38 search-snippet sources (five are already gone: the Muse mirrors and `cma_category_certification`);
   PE has no MBA-route source since the blocked vendor's entry was dropped; the judged sample of generated quests
   ("Evals to build", item 10) once the generator reads the file.
-- `pipeline.standards verify`: pages whose text hash moves between two fetches minutes apart (two of the first 16
-  tried, both careers.bcg.com) are flagged `changed` each month; measure it on all readable sources and quiet it.
+- `pipeline.standards verify`: pages whose text hash moves between two fetches minutes apart (12 of the 114 readable
+  sources on 2026-11-10, mostly careers sites of BCG, P&G and GE Aerospace) are flagged `changed` each month; quiet it.
 
 **Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
 work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the
