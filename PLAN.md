@@ -3788,6 +3788,16 @@ No migration. The flip needs a spend cap on the Anthropic key and `GET /api/open
 answered `key: true`, `storage: true`; `OPEN_QUESTS_ENABLED` is true. The spend cap on the key is still the owner's
 to set (Later).
 
+## "Start a side project" is on for signed-in people (`feat/quests-on`, 2026-11-11)
+
+The owner heard from invited people that they saw no quests: a tree built for a session holds at most two résumé
+story cards, and the flow that writes build quests was off. `QUESTS_ENABLED` is true. A signed-in person now finds
+"Start a side project" on the Quests page and its empty state, and a person with no map starts there; Opus writes
+three projects, the one picked joins Quests. Checked before the flip: `evals/quests_baseline.md` is recorded (32 of
+32 cases), production's `GET /api/quests` answered `key: true`, `storage: true`, and `/api/open`, on the same key and
+generator, wrote three projects on production the same day. Not done: the key's spend cap and a real sign-in through
+the flow (Later). The cap is five writes a day per person.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3796,8 +3806,8 @@ done). One line per item; the section that explains it is named where it helps.
 **The owner's items**
 - The open tree's build quests (on since 2026-11-11): a spend cap on the Anthropic key, the hard stop behind the
   daily counts; read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
-- The signed-in tree still opens with two résumé story cards (2026-11-11, the owner: quests are build items):
-  drop them from `Apprentice.selfServeMap` or flip `QUESTS_ENABLED`; the owner's hand-written maps keep theirs.
+- The signed-in tree still opens with two résumé story cards beside the side project (2026-11-11, the owner:
+  quests are build items): drop them from `Apprentice.selfServeMap`; the owner's hand-written maps keep theirs.
 - The booking card's heading, now that the plan is free on the page.
 - The open tree (on since 2026-11-11): whether either campus limits paid services to its students; a regular price,
   if the $60 is to read as an offer with an end date.
@@ -3886,9 +3896,8 @@ done). One line per item; the section that explains it is named where it helps.
   if the owner wants them kept; today they are sent once and stored nowhere.
 - The side-project eval's first run: `node evals/quests.mjs --baseline` (a key, or `--url` with a test account and a
   raised `QUESTS_DAILY_CAP`), committed as `evals/quests_baseline.md`; then a judged half (does a project fit).
-- The `QUESTS_ENABLED` flip checklist: a spend cap and a rate limit on the Anthropic key, the eval baseline, the
-  Vercel plan's function limit (the route asks for 90 s), one real sign-in through the flow end to end, then the
-  one-line pull request.
+- "Start a side project" (on since 2026-11-11): a spend cap and a rate limit on the Anthropic key, and one real
+  sign-in through the flow end to end.
 - A side project on a map the owner wrote is lost at the owner's next republish (`map_publish` writes the file
   whole): carry `kind: "side_project"` cards over in `assemble.mjs` from the published map, or keep the flow to
   self-serve maps.

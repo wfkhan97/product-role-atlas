@@ -1,6 +1,6 @@
 // "Start a side project" (#/map/start, 2026-11-11), signed in without a real session as map.spec.mjs is: a made-up
 // session in localStorage and the Supabase project stubbed here. The flag is turned on in the page only (an init
-// script adds QUESTS_ENABLED as config.js assigns CONFIG), never in web/config.js. /api/tree and /api/quests are
+// script sets QUESTS_ENABLED as config.js assigns CONFIG, on or off, whatever web/config.js holds). /api/tree and /api/quests are
 // stubbed with fixtures: no model is called. MAP_SHOTS=1 saves the screens under
 // data/experiments/scratch/map-redesign/shots-flow/ (gitignored).
 import fs from "node:fs";
@@ -37,13 +37,14 @@ const PROJECTS = [
   project(2, "A launch brief for a partner program", "chat_pages", "claude_artifact", ["gtm", "cross_functional"]),
   project(3, "A buyer persona page for freight forwarders", "app_builders", "vercel", ["enterprise_saas"]),
 ];
+const FLAG_OFF = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.QUESTS_ENABLED = false; } }); };
 const FLAG_ON = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.QUESTS_ENABLED = true; } }); };
 
 async function signedIn(visitor, hash, { map = null, flag = true, ready = "#main h1", extra = {} } = {}) {
   const page = await visitor.open({ storage: { "maps.session": JSON.stringify(SESSION), "door.email": SESSION.email, "door.where": "", "door.seen": "1", ...extra } });
   page.map = map; page.files = {}; page.calls = [];
   const ctx = page.context();
-  if (flag) await ctx.addInitScript(FLAG_ON);
+  await ctx.addInitScript(flag ? FLAG_ON : FLAG_OFF);
   await ctx.route(/\.supabase\.co\//, route => {
     const req = route.request(), url = new URL(req.url());
     const m = /\/storage\/v1\/object\/(?:authenticated\/)?maps\/(.+)$/.exec(url.pathname);

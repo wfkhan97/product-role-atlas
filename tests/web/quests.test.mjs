@@ -226,10 +226,10 @@ const post = (body, token = "good") => ({ method: "POST", headers: { host: "h", 
 const deps = (p, extra = {}) => ({ fetchImpl: p.fetchImpl, cfg, key: "svc", apiKey: "ak", enabled: true, kit: KIT, call: async () => ({ answer: { projects: [good(), good({ title: "A partner program teardown page" })] }, model: "claude-opus-5-5", usage: { input_tokens: 9000, output_tokens: 3000 }, stop: "end_turn" }), ...extra });
 const WRITE = { mode: "write", text: RESUME, extras: "My essay on freight.", answers: ANSWERS };
 
-test("the function: off is 404 and the flag ships off; no keys 503; no session 401; no map 409; a bad mode 400", async () => {
+test("the function: off is 404 and the flag is on in web/config.js (owner, 2026-11-11); no keys 503; no session 401; no map 409; a bad mode 400", async () => {
   const p = project();
   let r = res(); await API.handler(post(WRITE), r, deps(p, { enabled: false })); assert.deepEqual([r.statusCode, r.body.error], [404, "off"]);
-  assert.equal(API.enabled(), false, "QUESTS_ENABLED ships off in web/config.js");
+  assert.equal(API.enabled(), true, "QUESTS_ENABLED is on in web/config.js");
   r = res(); await API.handler(post(WRITE), r, deps(p, { apiKey: "" })); assert.equal(r.statusCode, 503);
   r = res(); await API.handler(post(WRITE, "bad"), r, deps(p)); assert.equal(r.statusCode, 401);
   r = res(); await API.handler(post(WRITE), r, deps(p)); assert.deepEqual([r.statusCode, r.body.error], [409, "no_map"]);

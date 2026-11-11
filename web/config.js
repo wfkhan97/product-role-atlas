@@ -27,8 +27,10 @@ window.CONFIG = {
   // from the person's tree, résumé and answers; one picked becomes a card under "Your side project". Off, no entry
   // point draws, #/map/start lands on the Quests page and the function answers 404 (it reads this line). It needs
   // ANTHROPIC_API_KEY and CATALOG_SERVICE_ROLE_KEY in the Vercel project; flip only after the spend cap, the rate
-  // limit on the key and a recorded evals/quests.mjs baseline (PLAN.md, Later).
-  QUESTS_ENABLED: false,
+  // limit on the key and a recorded evals/quests.mjs baseline (PLAN.md, Later). On since 2026-11-11 (owner): the
+  // baseline is recorded and production's GET /api/quests answered key: true, storage: true; the key's spend cap
+  // is the owner's to set.
+  QUESTS_ENABLED: true,
   // The open tree (2026-11-11; app.js openScreen, web/preview.js): on, with TREE_ENABLED, a visitor with no session
   // gets the tree on #/map from an email, a résumé and the roles they pick. The tree is grounded in the browser
   // (web/apprentice.js) and kept in its localStorage; the email goes to the waitlist table (source `build`); no magic

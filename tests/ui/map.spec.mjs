@@ -25,6 +25,9 @@ const hashOf = page => page.evaluate(() => location.hash);
 async function signedIn(visitor, hash = "#/map", map = EXAMPLE, { ready = "#map-body > *", extra = {} } = {}) {
   const page = await visitor.open({ storage: { "maps.session": JSON.stringify(SESSION), "door.email": SESSION.email, "door.where": "", "door.seen": "1", ...extra } });
   page.files = {}; page.writes = [];
+  // the map's two pages without "Start a side project" (QUESTS_ENABLED is on in web/config.js since 2026-11-11;
+  // tests/ui/quests.spec.mjs has the flow): the flag is off in the page
+  await page.context().addInitScript(() => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) c.QUESTS_ENABLED = false; } }); });
   await page.context().route(/\.supabase\.co\//, route => {
     const req = route.request(), url = new URL(req.url());
     const m = /\/storage\/v1\/object\/(?:authenticated\/)?maps\/(.+)$/.exec(url.pathname);
