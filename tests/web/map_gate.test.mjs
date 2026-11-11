@@ -284,7 +284,10 @@ test("the copy: every string the two screens and the launcher's slot draw is in 
   for (const k of ["heading", "lead", "email", "emailPlaceholder", "button", "sent", "sentTo", "refused", "failed", "expired", "note", "explore"]) assert.ok(Copy.signin[k], `signin.${k}`);
   for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
   for (const k of ["firstHeading", "firstLead"]) assert.ok(Copy.map.tree[k], `map.tree.${k}`);
-  assert.equal(Copy.signin.sent, "Check your email for the link. It works once.");
+  assert.equal(Copy.signin.sent, "Check your email for a six-digit code. It works once.");
+  // 2026-11-11: the email leads with a code, so the invited page asks for one; the link in it still works
+  for (const k of ["sentLink", "code", "codePlaceholder", "verify", "verifying", "codeWrong"]) assert.ok(Copy.signin[k], `signin.${k}`);
+  assert.match(fs.readFileSync(path.join(web, "app.js"), "utf8"), /id="si-codeform"[\s\S]{0,1200}Auth\.verifyCode\(email/);
   // decision K (2026-11-10): the top bar's Build skills does the job of the map's own links to the launcher and back
   for (const k of ["others", "back", "crumb"]) assert.ok(!(k in Copy.map), `map.${k} is gone`);
   // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
