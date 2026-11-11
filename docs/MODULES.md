@@ -271,7 +271,7 @@ and evals run the code the site runs.
   "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
   `readMap`, `readFeedback`, `writeFeedback` (the person's own mark on a quest: `feedbackObject`, `cleanLink`), `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
   the route table for `#/map` (Build skills); `MapGate.signinHash` and `landing` carry the map's own address through
-  the sign-in and back. `app.js` `buildOn` decides who sees a door into the map (the top bar's Build skills, the fit
+  the sign-in and back. `app.js` `buildBar` shows the top bar's Build skills to every visitor while the tree is on; `buildOn` decides who sees the other door into the map (the fit
   screen's "Get your tree"): `TREE_ENABLED`, and accounts on or a session on this browser.
 - `state.js` — a signed-in person's saved state in `profiles`, `hearts` and `reads` (own rows under row-level
   security): `State.hash(text)` (a SHA-256 of the normalized résumé, never the text), `readRows(fit)`, `saveProfile`,
