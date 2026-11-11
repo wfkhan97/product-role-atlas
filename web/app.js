@@ -1036,6 +1036,14 @@
     if (g.gate === "signin") { toHash(MapGate.signinHash(location.hash)); return; }   // the map's own address goes with it
     const out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
     const build = Routes.parseRoute(location.hash).query.build === "1";
+    // "Start a side project" (2026-11-11): #/map/start with the flag on, and the first step for a person with no map
+    // yet; with the flag off #/map/start lands on the Quests page below (or the tree form when there is no map)
+    const startAsked = Routes.parseRoute(location.hash).parts[1] === "start";
+    if (questsOn() && (g.gate === "map" || g.gate === "waiting") && (startAsked || (g.gate === "waiting" && !build))) {
+      if (!startAsked) history.replaceState(null, "", location.pathname + location.search + "#/map/start");
+      await startScreen(g.map, out);
+      return;
+    }
     if (g.gate === "map" && !(build && treeOn() && selfServe(g.map))) {
       const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
       const R0 = Routes.parseRoute(location.hash);
@@ -1125,6 +1133,246 @@
     if (window.Capture) Capture.cta("tree", "shown");
   }
 
+  // ---------- "Start a side project" (#/map/start/<step>, 2026-11-11; the pure parts are web/quests.js) ----------
+  // One question per screen: the roles (a), what you bring (b: the résumé and its band in words, the extras), how
+  // technical (c), the kinds of AI tools (d), the accounts (e), then three side projects a model writes (f). A person
+  // with no map gets the tree first (POST /api/tree, unchanged), from a and b; a self-serve map whose roles changed is
+  // built again. The answers stay in this browser (quests.flow) so a reload keeps the place; the extras stay in this
+  // page only. Nothing leaves the browser but the final request: the résumé text, the extras and the answers go once
+  // to POST /api/quests, which keeps neither the résumé nor the extras. A pick adds the card to the map, and the person
+  // lands on it as the now card, opened.
+  const questsOn = () => treeOn() && !!(window.CONFIG || {}).QUESTS_ENABLED;
+  const START_STEPS = ["aim", "bring", "tech", "tools", "accounts", "pick"];
+  const FLOW_KEY = "quests.flow", OPTS_KEY = "quests.options";
+  // the extras, [{ name, text }]: kept in this tab only (sessionStorage, so a reload keeps them and closing the tab
+  // drops them), never in localStorage and never on a server
+  const EXTRAS_KEY = "quests.extras";
+  let startExtras = (() => { try { const v = JSON.parse(sessionStorage.getItem(EXTRAS_KEY)); return Array.isArray(v) ? v.filter(x => x && typeof x.text === "string") : []; } catch { return []; } })();
+  const keepExtras = () => { try { sessionStorage.setItem(EXTRAS_KEY, JSON.stringify(startExtras)); } catch { } };
+  let kitP = null;
+  const buildKit = () => kitP ||= Atlas.fetchJson("data/build_kit.json");
+  const flowOf = () => { const f = store.get(FLOW_KEY); return f && typeof f === "object" ? { roles: Array.isArray(f.roles) ? f.roles.slice(0, 4) : [], tech: f.tech || null, tools: f.tools || {}, accounts: f.accounts || {} } : { roles: [], tech: null, tools: {}, accounts: {} }; };
+  const byHandMap = map => !!map && (map.cards || []).some(c => c && c.kind !== "story" && c.kind !== "side_project");
+  const mapRoles = map => ((map && map.role_class && map.role_class.roles) || []).map(r => r.id);
+  async function startScreen(map, out) {
+    const S = Copy.map.flow, MC = Copy.map, here = () => Routes.parseRoute(location.hash).parts[1] === "start" && Routes.parseRoute(location.hash).name === "map";
+    const [ix, kit] = await Promise.all([Atlas.index(), buildKit()]);
+    if (!here()) return;
+    const roles = [], seen = new Set();
+    for (const f of treeRoles(ix)) for (const r of f.roles) if (!seen.has(r.id)) { seen.add(r.id); const g = (ix.roles[r.id] || {}).group || f.id; roles.push({ id: r.id, label: r.label, field: g, fieldLabel: ((ix.groups.find(x => x.id === g) || {}).label) || f.label }); }
+    const roleOf = id => roles.find(r => r.id === id) || { id, label: (ix.roles[id] || {}).label || id, field: (ix.roles[id] || {}).group || null, fieldLabel: "" };
+    const flow = flowOf();
+    const fixed = byHandMap(map);
+    if (map && (fixed || !flow.roles.length)) flow.roles = mapRoles(map).slice(0, 4);
+    const save = () => store.set(FLOW_KEY, flow);
+    save();
+    const s = { q: "", err: "", band: null, bandFor: null, busy: false, msg: "", change: false };
+    const stepNow = () => { const p = Routes.parseRoute(location.hash).parts[2]; return START_STEPS.includes(p) ? p : "aim"; };
+    const go = step => { history.pushState(null, "", location.pathname + location.search + "#/map/start/" + step); s.err = ""; s.msg = ""; draw(); window.scrollTo(0, 0); };
+    const canGo = step => step === "aim" || ((flow.roles.length > 0) && (step === "bring" || !!state.resume));
+    const frame = (step, inner, nextOk = true, nextLabel = S.next) => {
+      const i = START_STEPS.indexOf(step), m = START_STEPS.length;
+      const back = i > 0 ? `<button type="button" class="linkish link" id="sp-back">${esc(S.back)}</button>` : "<span></span>";
+      const next = step === "pick" ? "" : `<div class="sp-next"><button type="button" class="btn primary big" id="sp-go"${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${s.err ? `<span class="sp-err" role="alert">${esc(s.err)}</span>` : ""}</div>`;
+      return `<div class="sp${step === "pick" ? " wide" : ""}"><div class="sp-prog" role="progressbar" aria-label="${esc(S.progressAria)}" aria-valuemin="1" aria-valuemax="${m}" aria-valuenow="${i + 1}"><i style="width:${Math.round((i + 1) / m * 100)}%"></i></div>
+        <div class="sp-nav">${back}<span class="small muted">${esc(fill(S.stepOf, { n: i + 1, m }))}</span></div>${inner}${next}<p class="small muted sp-out">${out}</p></div>`;
+    };
+    const draw = () => {
+      if (!here()) return;
+      let step = stepNow();
+      if (!canGo(step)) { step = flow.roles.length ? "bring" : "aim"; history.replaceState(null, "", location.pathname + location.search + "#/map/start/" + step); }
+      crumbs([[S.heading, null]]); showAside(null);
+      const html = ({ aim: aimHtml, bring: bringHtml, tech: techHtml, tools: toolsHtml, accounts: accountsHtml, pick: pickHtml })[step]();
+      page(html, true);
+      main.firstElementChild.classList.add("roomy", "sp-page");
+      const o = $("#map-out"); if (o) o.onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
+      const back = $("#sp-back"); if (back) back.onclick = () => go(START_STEPS[START_STEPS.indexOf(step) - 1]);
+      const nx = $("#sp-go"); if (nx) nx.onclick = () => { if (step === "bring" && !state.resume) { s.err = S.bring.noResume; draw(); return; } go(START_STEPS[START_STEPS.indexOf(step) + 1]); };
+      ({ aim: wireAim, bring: wireBring, tech: wireTech, tools: wireTools, accounts: wireAccounts, pick: wirePick })[step]();
+    };
+
+    // ---------- a. the roles ----------
+    const field0 = () => flow.roles.length ? roleOf(flow.roles[0]).field : null;
+    const chip = id => `<span class="chip on sp-role">${esc(roleOf(id).label)}${fixed ? "" : `<button type="button" data-drop="${esc(id)}" aria-label="${esc(fill(S.aim.remove, { role: roleOf(id).label }))}">×</button>`}</span>`;
+    function hits() {
+      const q = s.q.trim().toLowerCase(); if (!q) return [];
+      const ws = q.split(/\s+/);
+      return roles.filter(r => !flow.roles.includes(r.id) && ws.every(w => r.label.toLowerCase().includes(w))).slice(0, 6);
+    }
+    function aimHtml() {
+      const A = S.aim;
+      if (fixed) return frame("aim", `<h1>${esc(A.title)}</h1><p class="sp-hint">${esc(A.fixed)}</p><div class="sp-picked">${flow.roles.map(chip).join("")}</div>`);
+      const hearted = hearts().filter(id => roles.some(r => r.id === id) && !flow.roles.includes(id));
+      const f0 = field0();
+      const quick = hearted.length ? `<p class="sp-or">${esc(A.hearted)}</p><div class="sp-quick">${hearted.map(id => { const r = roleOf(id), off = (f0 && r.field !== f0) || flow.roles.length >= 4; return `<button type="button" class="chip" data-add="${esc(id)}"${off ? " disabled" : ""}>${esc(r.label)}</button>`; }).join("")}</div>` : "";
+      // a seam: the person's saved jobs join the quick picks here once a saved-jobs store exists (PLAN.md, Later)
+      return frame("aim", `<h1>${esc(A.title)}</h1><p class="sp-hint">${esc(A.lead)}</p>
+        <div class="sp-ta"><input type="search" id="sp-q" value="${esc(s.q)}" placeholder="${esc(A.search)}" aria-label="${esc(A.searchLabel)}" autocomplete="off"${flow.roles.length >= 4 ? " disabled" : ""}><div id="sp-hits"></div></div>
+        <div class="sp-picked">${flow.roles.map(chip).join("")}</div>${flow.roles.length >= 4 ? `<p class="small muted">${esc(A.full)}</p>` : ""}${quick}`, flow.roles.length > 0);
+    }
+    function drawHits() {
+      const box = $("#sp-hits"); if (!box) return;
+      const h = hits(), f0 = field0();
+      box.innerHTML = !s.q.trim() ? "" : h.length ? `<ul role="listbox">${h.map(r => `<li><button type="button" data-add="${esc(r.id)}"${f0 && r.field !== f0 ? ` disabled title="${esc(fill(Copy.map.flow.aim.otherField, { field: roleOf(flow.roles[0]).fieldLabel }))}"` : ""}>${esc(r.label)} <span class="small muted">${esc(r.fieldLabel)}</span></button></li>`).join("")}</ul>` : `<p class="small muted">${esc(Copy.map.flow.aim.none)}</p>`;
+      box.querySelectorAll("[data-add]").forEach(b => b.onclick = () => add(b.dataset.add));
+    }
+    function add(id) {
+      const r = roleOf(id), f0 = field0();
+      if (flow.roles.includes(id) || flow.roles.length >= 4) return;
+      if (f0 && r.field !== f0) { s.err = fill(S.aim.otherField, { field: roleOf(flow.roles[0]).fieldLabel }); draw(); return; }
+      flow.roles.push(id); save(); s.q = ""; s.err = ""; s.band = null; store.set(OPTS_KEY, null); draw();
+      const i = $("#sp-q"); if (i) i.focus();
+    }
+    function wireAim() {
+      const i = $("#sp-q");
+      if (i) { i.oninput = () => { s.q = i.value; drawHits(); }; i.onkeydown = e => { if (e.key === "Enter") { const h = hits().filter(r => !field0() || r.field === field0()); if (h[0]) add(h[0].id); } }; drawHits(); }
+      main.querySelectorAll(".sp-quick [data-add]").forEach(b => b.onclick = () => add(b.dataset.add));
+      main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { flow.roles = flow.roles.filter(x => x !== b.dataset.drop); save(); s.band = null; store.set(OPTS_KEY, null); draw(); });
+    }
+
+    // ---------- b. what you bring ----------
+    const extrasClip = () => Quests.clipExtras(startExtras.map(x => x.text));
+    function bringHtml() {
+      const B = S.bring, r = state.resume, first = flow.roles[0] ? roleOf(flow.roles[0]) : null;
+      const band = s.band && s.bandFor === (r ? r.text.length + ":" + flow.roles[0] : null) ? `<p class="sp-band">${fill(esc(B.band), { band: `<b>${esc(s.band)}</b>`, role: esc(first ? first.label : "") })}</p>` : "";
+      const resume = r && !s.change ? `<p class="sp-file"><span>${esc(fill(B.onFile, { name: r.name }))}</span> <button type="button" class="linkish link" id="sp-change">${esc(B.replace)}</button></p>`
+        : `${resumeForm()}<p><button type="button" class="btn" id="sp-read">${esc(B.read)}</button></p>`;
+      const ex = extrasClip();
+      const extras = `<section class="sp-more"><h2>${esc(B.more)}</h2><p class="small muted">${esc(B.moreLead)}</p>
+        <p><button type="button" class="btn" id="sp-xpick">${esc(B.choose)}</button><input type="file" id="sp-xfile" accept=".pdf,.docx,.txt,.md" multiple hidden tabindex="-1"></p>
+        <ul class="sp-xlist">${startExtras.map((x, i) => `<li>${esc(fill(B.added, { name: x.name, chars: fmt(x.text.length) }))} <button type="button" class="linkish link" data-xdrop="${i}">${esc(B.drop)}</button></li>`).join("")}</ul>
+        <p class="small sp-xstatus" id="sp-xstatus" aria-live="polite">${ex.cut ? esc(fill(B.cut, { cap: fmt(Quests.LIMITS.extras) })) : ""}</p>
+        <p class="small sp-privacy">${esc(B.privacy)}</p></section>`;
+      return frame("bring", `<h1>${esc(B.title)}</h1><h2 class="sp-sub">${esc(B.resume)}</h2>${band}${resume}${extras}`, !!state.resume);
+    }
+    async function readBand() {
+      const r = state.resume, rid = flow.roles[0]; if (!r || !rid) return;
+      const key = r.text.length + ":" + rid; if (s.bandFor === key) return;
+      try {
+        if (map && map.read && map.read.band_label && mapRoles(map)[0] === rid) s.band = map.read.band_label;
+        else {
+          const R = await Atlas.role(rid); const { M, bands, group } = await Atlas.matcher(R);
+          const fit = M.match(r.text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
+          s.band = (CM.bands || {})[Matcher.bandOf(fit.overall, bands, group)] || null;
+        }
+        s.bandFor = key;
+        if (here() && stepNow() === "bring" && s.band) draw();
+      } catch (e) { console.error(e); }
+    }
+    function wireBring() {
+      if ($("#drop")) { wireResumeForm(); $("#sp-read").onclick = async () => { if (await takeResume()) { s.change = false; s.band = null; s.bandFor = null; store.set(OPTS_KEY, null); draw(); } else $("#file-status").textContent = RF.nothing; }; }
+      const ch = $("#sp-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
+      const pick = $("#sp-xpick"), input = $("#sp-xfile"), st = $("#sp-xstatus");
+      pick.onclick = () => input.click();
+      input.onchange = async () => {
+        for (const f of [...input.files]) {
+          st.textContent = fill(S.bring.reading, { name: f.name });
+          try { const t = (await fileText(f)).trim(); if (t) { startExtras.push({ name: f.name, text: t }); keepExtras(); } else throw new Error("empty"); }
+          catch (e) { console.error(e); st.textContent = fill(S.bring.cantRead, { name: f.name }); return; }
+        }
+        draw();
+      };
+      main.querySelectorAll("[data-xdrop]").forEach(b => b.onclick = () => { startExtras.splice(+b.dataset.xdrop, 1); keepExtras(); draw(); });
+      readBand();
+    }
+
+    // ---------- c. how technical ----------
+    function techHtml() {
+      const C = S.tech;
+      return frame("tech", `<h1>${esc(C.title)}</h1><div class="sp-opts" role="radiogroup" aria-label="${esc(C.title)}">${Quests.TECH.map(t => `<button type="button" role="radio" class="sp-opt radio${flow.tech === t ? " on" : ""}" aria-checked="${flow.tech === t}" data-tech="${t}"><span class="box" aria-hidden="true"></span><b>${esc(C.options[t])}</b></button>`).join("")}</div>`, !!flow.tech);
+    }
+    function wireTech() { main.querySelectorAll("[data-tech]").forEach(b => b.onclick = () => { flow.tech = b.dataset.tech; save(); store.set(OPTS_KEY, null); go("tools"); }); }
+
+    // ---------- d. the kinds of AI tools ----------
+    function toolsHtml() {
+      const T = S.tools;
+      return frame("tools", `<h1>${esc(T.title)}</h1><p class="sp-hint">${esc(T.lead)}</p><ul class="sp-rows">${kit.kinds.map(k => `<li><div><b>${esc(k.label)}</b><small>${esc(k.examples.map(e => e.name).join(", "))}</small></div>
+        <div class="seg sp-seg" role="group" aria-label="${esc(k.label)}">${["use", "learn"].map(v => `<button type="button" data-kind="${esc(k.id)}" data-v="${v}" aria-pressed="${flow.tools[k.id] === v}"${flow.tools[k.id] === v ? ` class="on"` : ""}>${esc(T[v])}</button>`).join("")}</div></li>`).join("")}</ul>`);
+    }
+    function wireTools() { main.querySelectorAll("[data-kind]").forEach(b => b.onclick = () => { const k = b.dataset.kind, v = b.dataset.v; if (flow.tools[k] === v) delete flow.tools[k]; else flow.tools[k] = v; save(); store.set(OPTS_KEY, null); draw(); }); }
+
+    // ---------- e. the accounts ----------
+    function accountsHtml() {
+      const A = S.accounts;
+      return frame("accounts", `<h1>${esc(A.title)}</h1><p class="sp-hint">${esc(A.lead)}</p><ul class="sp-rows">${kit.accounts.map(a => `<li><div><b>${esc(a.label)}</b></div>
+        <div class="seg sp-seg" role="group" aria-label="${esc(a.label)}">${Quests.ACCOUNT_STATES.map(v => `<button type="button" data-acc="${esc(a.id)}" data-v="${v}" aria-pressed="${flow.accounts[a.id] === v}"${flow.accounts[a.id] === v ? ` class="on"` : ""}>${esc(A[v])}</button>`).join("")}</div></li>`).join("")}</ul>`);
+    }
+    function wireAccounts() { main.querySelectorAll("[data-acc]").forEach(b => b.onclick = () => { const k = b.dataset.acc, v = b.dataset.v; if (flow.accounts[k] === v) delete flow.accounts[k]; else flow.accounts[k] = v; save(); store.set(OPTS_KEY, null); draw(); }); }
+
+    // ---------- f. the three side projects ----------
+    const nodeOf = id => { const t = (map && map.tree) || {}; return [...(t.nodes || []), ...(t.behaviours || [])].find(n => n.id === id) || null; };
+    const optionChip = id => { const n = nodeOf(id) || { name: id, state: "must build" }; return `<span class="chip q-skill" title="${esc(MC.states[n.state] || n.state)}"><span class="sdot ${stCls(n.state)}" aria-hidden="true"></span>${esc(n.name || id)}</span>`; };
+    function pickHtml() {
+      const P = S.pick, o = store.get(OPTS_KEY);
+      const projects = o && Array.isArray(o.projects) ? o.projects : [];
+      let inner = `<h1>${esc(P.title)}</h1>`;
+      if (s.busy) inner += `<div class="wait sp-wait" role="status"><b>${esc(s.msg)}</b><p class="small muted">${esc(P.writingNote)}</p></div>`;
+      else if (projects.length) {
+        inner += `<p class="sp-hint">${esc(P.lead)}</p><div class="sp-choices">${projects.map(p => {
+          const kind = kit.kinds.find(k => k.id === p.build_with.kind) || { label: p.build_with.kind }, host = kit.hosts.find(h => h.id === p.live_on.host) || { label: p.live_on.host };
+          return `<article class="sp-choice" data-project="${esc(p.id)}"><h2>${esc(p.title)}</h2><p class="q-ship"><b>${esc(MC.youShip)}</b>${esc(p.ship)}</p>
+            <div class="q-chips">${p.atlas_skills.map(optionChip).join("")}</div>
+            <dl class="sp-recipe"><div><dt>${esc(P.buildWith)}</dt><dd>${esc(kind.label)}<small>${esc(p.build_with.examples.join(", "))}</small></dd></div><div><dt>${esc(P.liveOn)}</dt><dd>${esc(host.label)}</dd></div></dl>
+            <p><button type="button" class="btn primary" data-pick="${esc(p.id)}">${esc(P.choose)}</button></p></article>`;
+        }).join("")}</div>
+        <p class="sp-again"><button type="button" class="btn" id="sp-more">${esc(P.more)}</button>${o.left != null ? ` <span class="small muted">${esc(fill(P.left, { left: o.left }))}</span>` : ""}</p>`;
+      }
+      if (s.msg && !s.busy) inner += `<p class="sp-err" role="alert">${esc(s.msg)}</p>${projects.length ? "" : `<p><button type="button" class="btn primary" id="sp-more">${esc(P.more)}</button></p>`}`;
+      return frame("pick", inner);
+    }
+    const post = async (url, sess, payload) => { try { return await fetch(url, { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${sess.access_token}` }, body: JSON.stringify(payload) }); } catch (e) { console.error(e); return null; } };
+    async function writeProjects() {
+      const P = S.pick;
+      if (!state.resume) { s.msg = P.noResume; draw(); return; }
+      if (!flow.roles.length) { s.msg = P.noRoles; draw(); return; }
+      const sess = await Auth.session(); if (!sess) { toHash(signinHref()); return; }
+      s.busy = true; s.msg = "";
+      // the tree first: no map yet, or a self-serve map whose roles changed (POST /api/tree, unchanged)
+      const same = map && mapRoles(map).join(",") === flow.roles.join(",");
+      if (!map || (!fixed && !same)) {
+        s.msg = P.building; draw();
+        const r = await post("api/tree", sess, { text: state.resume.text, roles: flow.roles, campus: (campusGate().campus || {}).label || undefined });
+        if (!here()) return;
+        if (!r || !r.ok) { s.busy = false; s.msg = r && r.status === 409 ? P.byHand : r && r.status === 401 ? P.signedOut : P.failed; draw(); return; }
+        mapHeld = null;
+        try { map = await Auth.readMap(sess); if (map) mapHeld = { uid: sess.uid, map }; } catch (e) { console.error(e); }
+        if (!here()) return;
+        if (!map) { s.busy = false; s.msg = P.failed; draw(); return; }
+      }
+      s.msg = P.writing; draw();
+      const r = await post("api/quests", sess, { mode: "write", text: state.resume.text, extras: extrasClip().text, answers: { tech: flow.tech, tools: flow.tools, accounts: flow.accounts } });
+      let j = null; try { j = r ? await r.json() : null; } catch { j = null; }
+      if (!here()) return;
+      s.busy = false;
+      if (r && r.ok && j && Array.isArray(j.projects)) { store.set(OPTS_KEY, { projects: j.projects, left: j.left, date: todayIso() }); s.msg = ""; }
+      else s.msg = !r ? P.failed : r.status === 429 ? fill(P.capped, { cap: (j && j.cap) || Quests.CAP }) : r.status === 422 ? P.noValid : r.status === 401 ? P.signedOut : P.failed;
+      draw();
+    }
+    async function pickProject(id) {
+      const P = S.pick, sess = await Auth.session(); if (!sess) { toHash(signinHref()); return; }
+      main.querySelectorAll("[data-pick]").forEach(b => { b.disabled = true; if (b.dataset.pick === id) b.textContent = P.picking; });
+      const r = await post("api/quests", sess, { mode: "pick", id });
+      let j = null; try { j = r ? await r.json() : null; } catch { j = null; }
+      if (!here()) return;
+      if (r && r.ok && j && j.card) {
+        mapHeld = null; mapUi = null; store.set(OPTS_KEY, null); startExtras = []; keepExtras();
+        const h = `#/map/quests?q=${encodeURIComponent(j.card)}`;
+        toHash(h); if (location.hash === h) route();
+        return;
+      }
+      if (r && r.status === 410) store.set(OPTS_KEY, null);
+      s.msg = !r ? P.failed : r.status === 410 ? P.expired : r.status === 409 ? P.full : r.status === 401 ? P.signedOut : P.failed;
+      draw();
+    }
+    function wirePick() {
+      const o = store.get(OPTS_KEY);
+      main.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => pickProject(b.dataset.pick));
+      const more = $("#sp-more"); if (more) more.onclick = () => { store.set(OPTS_KEY, null); writeProjects(); };
+      if (!s.busy && !s.msg && !(o && Array.isArray(o.projects) && o.projects.length)) writeProjects();
+    }
+    draw();
+  }
+
   // ---------- 1b''. The map screen (the pure parts are web/map.js), two pages since 2026-11-10 ----------
   // #/map/quests (the default; #/map and the old #/map?tab=tree come here or to the tree): one quest at a time in the
   // now card, which opens in place; the slim path (a line of numbered dots per level, nothing gated); up next. Its
@@ -1163,7 +1411,7 @@
   const mapWorlds = () => MapModel.worlds(mapUi.map, mapUi.mine);
   const roleLabel = id => ((mapUi.tree.roles.find(r => r.id === id) || {}).label) || id;
   const trackLabel = id => { const t = (mapUi.map.tracks || []).find(x => x.id === id); return t ? t.label : ""; };
-  const levelWords = w => `${w.head} · ${w.label}`;
+  const levelWords = w => w.label ? `${w.head} · ${w.label}` : w.head;
   const questHref = id => `#/map/quests?q=${encodeURIComponent(id)}`;
   // the quest the now card shows goes in the address (replaced, so Back leaves the map as it came)
   const keepNow = id => { const p = new URLSearchParams(Routes.parseRoute(location.hash).search); p.set("q", id); history.replaceState(null, "", location.pathname + location.search + "#/map/quests?" + p); };
@@ -1193,7 +1441,7 @@
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
     const lead = sub === "tree" ? (role ? (mapUi.tree.roles.length > 1 ? fill(MC.treeSub, { role }) : role + ".") : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
-      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${["quests", "tree"].map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top"><button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${["quests", "tree"].map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       <div id="map-body"></div>
       <p class="small muted map-only">${esc(MC.only)} ${out}</p>
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
@@ -1217,8 +1465,9 @@
     const MC = Copy.map, W = mapWorlds(), body = $("#map-body");
     const m = MapModel.nowQuest(W, mapUi.now);
     if (!m) {
-      // a self-serve map with no story card has no quest yet; PR 2 puts "Start a side project" in this box
-      body.innerHTML = `<section class="q-empty" id="q-empty"><p>${esc(MC.empty)}</p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`;
+      // a self-serve map with no story card has no quest yet; with the flag on, the box offers a side project
+      body.innerHTML = questsOn() ? `<section class="q-empty" id="q-empty"><p>${esc(MC.emptySide)}</p><p><a class="btn primary" href="#/map/start">${esc(MC.startSide)}</a></p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`
+        : `<section class="q-empty" id="q-empty"><p>${esc(MC.empty)}</p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`;
       return;
     }
     mapUi.now = m.id;
@@ -1236,7 +1485,7 @@
     const MC = Copy.map, K = MC.card, c = m.card, st = m.state, story = MapModel.storyOf(c);
     const open = mapUi.open || st === "started" || mapUi.shipping === c.id;
     const one = MapModel.shipLine(c.ship);
-    const tag = st === "open" ? "" : `<span class="q-tag q-${st}">${esc(MC.questStates[st])}</span>`;
+    const tag = (st === "open" ? "" : `<span class="q-tag q-${st}">${esc(MC.questStates[st])}</span>`) + (c.kind === "side_project" ? `<span class="small muted q-by">${esc(MC.sideTag)}</span>` : "");
     let h = `<article class="q-now q-${st}${open ? " open" : ""}" aria-label="${esc(MC.nowAria)}" data-card="${esc(c.id)}">
       <div class="q-top"><span class="eyebrow">${esc(fill(MC.now, { level: levelWords(w) }))}</span>${tag}</div>
       <h2>${esc(c.title)}</h2>
@@ -1306,7 +1555,7 @@
   function pathHtml(W, nowId) {
     const MC = Copy.map;
     return `<nav class="q-path" aria-label="${esc(MC.pathAria)}">${W.worlds.map(w => `<div class="lvl">
-      <div class="lvl-name"><span class="nm">${w.optional ? "" : `<i>${esc(String(w.num))}</i>`}${esc(w.optional ? levelWords(w) : w.label)}</span></div>
+      <div class="lvl-name"><span class="nm">${w.optional || w.side ? "" : `<i>${esc(String(w.num))}</i>`}${esc(w.optional || w.side ? levelWords(w) : w.label)}</span></div>
       <div class="line${w.optional ? " reach" : ""}${w.missions.length < 3 ? " few" : ""}">${w.missions.map(m => `<button type="button" class="dot q-${m.state}${m.id === nowId ? " cur" : ""}${m.kind === "story" ? " story" : ""}" data-q="${esc(m.id)}" title="${esc(m.card.title)}" aria-label="${esc(m.card.title + ". " + MC.questStates[m.state] + ".")}"${m.id === nowId ? ` aria-current="step"` : ""}>${m.state === "shipped" ? `<span aria-hidden="true">✓</span>` : m.i}</button>`).join("")}</div>
     </div>`).join("")}</nav>`;
   }
@@ -1959,6 +2208,18 @@
   function dropZone(heading, status = "") {
     return `<div class="drop" id="drop"><p><b>${esc(heading)}</b> ${esc(RF.or)} <button type="button" class="linkish link" id="file-pick" aria-controls="file">${esc(RF.choose)}</button></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden tabindex="-1"><p class="small muted" id="file-status">${status}</p></div>`;
   }
+  // a file's text, read in the browser: a PDF with pdf.js, a .docx with mammoth, anything else as text. The résumé
+  // form and the side-project flow's "Add more about you" both read files with it; nothing leaves the browser here.
+  async function fileText(file) {
+    if (/\.pdf$/i.test(file.name)) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise; const t = [];
+      for (let p = 1; p <= pdf.numPages; p++) { const pg = await pdf.getPage(p); const c = await pg.getTextContent(); t.push(c.items.map(i => i.str + (i.hasEOL ? "\n" : " ")).join("").replace(/[ \t]+\n/g, "\n")); }
+      return t.join("\n");
+    }
+    if (/\.docx$/i.test(file.name)) return (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
+    return await file.text();
+  }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
     if (!drop) return;   // the sign-in's door stands in its place
@@ -1966,14 +2227,7 @@
       status.textContent = fill(RF.reading, { name: file.name });
       processing("file");
       try {
-        let text;
-        if (/\.pdf$/i.test(file.name)) {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-          const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise; const t = [];
-          for (let p = 1; p <= pdf.numPages; p++) { const pg = await pdf.getPage(p); const c = await pg.getTextContent(); t.push(c.items.map(i => i.str + (i.hasEOL ? "\n" : " ")).join("").replace(/[ \t]+\n/g, "\n")); }
-          text = t.join("\n");
-        } else if (/\.docx$/i.test(file.name)) text = (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
-        else text = await file.text();
+        const text = await fileText(file);
         const words = text.trim() ? text.trim().split(/\s+/).length : 0;
         pending = { text, name: file.name, words };
         processing(null);

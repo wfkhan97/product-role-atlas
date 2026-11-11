@@ -1,5 +1,5 @@
-// The local site with its two functions: web/ as static files, web/api/tree.js at /api/tree and web/api/infer.js at
-// /api/infer, called as Vercel calls them, handler(req, res). The repo's .env fills process.env first (a key already
+// The local site with its three functions: web/ as static files, web/api/tree.js at /api/tree, web/api/infer.js at
+// /api/infer and web/api/quests.js at /api/quests, called as Vercel calls them, handler(req, res). The repo's .env fills process.env first (a key already
 // set wins). Port 8787, PORT overrides. Node only: `node tests/ui/serve.mjs`.
 import http from "node:http";
 import fs from "node:fs";
@@ -16,7 +16,7 @@ try {
   }
 } catch { /* no .env: the functions answer as on a host without keys */ }
 const require = createRequire(import.meta.url);
-const API = { "/api/tree": require(path.join(WEB, "api", "tree.js")), "/api/infer": require(path.join(WEB, "api", "infer.js")) };
+const API = { "/api/tree": require(path.join(WEB, "api", "tree.js")), "/api/infer": require(path.join(WEB, "api", "infer.js")), "/api/quests": require(path.join(WEB, "api", "quests.js")) };
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon", ".woff2": "font/woff2", ".woff": "font/woff", ".txt": "text/plain; charset=utf-8", ".gz": "application/gzip" };
 
 const server = http.createServer(async (req, res) => {
@@ -39,4 +39,4 @@ const server = http.createServer(async (req, res) => {
   });
 });
 const PORT = +process.env.PORT || 8787;
-server.listen(PORT, () => console.log(`serve.mjs: http://localhost:${PORT} (web/ and /api/tree, /api/infer)`));
+server.listen(PORT, () => console.log(`serve.mjs: http://localhost:${PORT} (web/ and /api/tree, /api/infer, /api/quests)`));

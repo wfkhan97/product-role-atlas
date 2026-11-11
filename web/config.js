@@ -22,6 +22,13 @@ window.CONFIG = {
   // the key is set (a new-style secret key) and production's GET /api/tree says it opens the bucket. With accounts
   // off, only a person with a session (the invited map users) reaches the form or the fit screen's "Get your tree".
   TREE_ENABLED: true,
+  // "Start a side project" (2026-11-11; web/quests.js, POST /api/quests): on, with TREE_ENABLED, the Quests page and its
+  // empty state offer #/map/start, a person with no map starts there, and Claude Opus 5.5 writes three side projects
+  // from the person's tree, résumé and answers; one picked becomes a card under "Your side project". Off, no entry
+  // point draws, #/map/start lands on the Quests page and the function answers 404 (it reads this line). It needs
+  // ANTHROPIC_API_KEY and CATALOG_SERVICE_ROLE_KEY in the Vercel project; flip only after the spend cap, the rate
+  // limit on the key and a recorded evals/quests.mjs baseline (PLAN.md, Later).
+  QUESTS_ENABLED: false,
   /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). On since the
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */

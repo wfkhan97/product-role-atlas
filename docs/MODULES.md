@@ -256,11 +256,20 @@ and evals run the code the site runs.
   `CONFIG.ACCOUNTS_ENABLED` and a session.
 - `map.js` — `MapModel`, the pure part of `#/map/quests` and `#/map/tree`: the class tree's places and layout, the
   levels and each quest's state from the file and the person's own marks (`worlds`, `ownChoice`, `questState`), the now
-  quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills. `apprentice.js` — the generator's pure part (above).
+  quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills; the level `side`
+  (the side projects picked) has a head and no number. `apprentice.js` — the generator's pure part (above).
+- `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`) and of
+  `/api/quests`: the answers' lists and what they allow (`allowedKinds`, `allowedHosts`, `dbAllowed`), the class tree
+  the projects aim at (`treeOf`), the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint
+  after the kit, `personBlock` the person's material, `request`, `SCHEMA`), `validate` (every rule by id in `RULES`;
+  a failing project is dropped, a quote the résumé lacks is cut), `cardOf` and `addSide` (the card, kind
+  `side_project`, in the world `side` first on the path), `keepSide` (a rebuild keeps them), the daily cap. The kit
+  is `data/build_kit.json`, the one file that names products, each with `checked` and `url`.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
-- `api/infer.js`, `api/tree.js` — the two functions (README, "Hosting"). `tree.js` identifies the caller through
+- `api/infer.js`, `api/tree.js`, `api/quests.js` — the three functions (README, "Hosting"). `quests.js` authenticates
+  as `tree.js` does and reuses its Storage calls; raw `fetch` to the Messages API, as `infer.js`. `tree.js` identifies the caller through
   GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
   overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`
   alone. Limits: 40,000 characters of text, four roles, 8 s upstream.

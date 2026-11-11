@@ -1488,3 +1488,69 @@ body.guide-room { padding-bottom: 50vh; }
 .confirm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
 .confirm-row[hidden] { display: none; }
 .confirm-row p { margin: 0; flex: 1 1 260px; }
+/* "Start a side project" (#/map/start, 2026-11-11): one question per screen, big tap targets, a thin progress bar
+   (the approved mock, data/experiments/scratch/map-redesign/option-c.html, screens a to g) */
+.sp { max-width: 620px; margin: 0 auto; padding-top: 8px; }
+.sp.wide { max-width: 760px; }
+.sp-prog { height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; margin-bottom: 18px; }
+.sp-prog i { display: block; height: 100%; background: var(--primary); transition: width .25s; }
+.sp-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; min-height: 24px; }
+.sp h1 { font-size: var(--text-3xl); margin: 0 0 8px; }
+.sp-hint { color: var(--muted-foreground); font-size: var(--text-md); margin: 0 0 20px; }
+.sp-sub { font-size: var(--text-lg); margin: 18px 0 6px; }
+.sp-band { font-size: var(--text-2xl); letter-spacing: var(--tracking-tighter); color: var(--heading-foreground); margin: 4px 0 10px; line-height: 1.25; }
+.sp-band b { color: var(--accent-foreground); font-weight: var(--weight-medium); }
+.sp-file { margin: 6px 0; color: var(--muted-foreground); }
+.sp-ta { position: relative; }
+.sp-ta input { width: 100%; min-height: 48px; padding: 10px 14px; font: inherit; font-size: var(--text-md); border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); }
+.sp-ta ul { list-style: none; margin: 4px 0 0; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--popover); }
+.sp-ta li button { width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; min-height: 44px; cursor: pointer; border-radius: var(--radius-sm); font-size: var(--text-md); color: var(--foreground); }
+.sp-ta li button:hover:not(:disabled) { background: var(--muted); }
+.sp-ta li button:disabled { opacity: .5; cursor: not-allowed; }
+.sp-picked { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.sp-role { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; font-size: var(--text-base); }
+.sp-role button { border: 0; background: none; cursor: pointer; color: inherit; padding: 0 0 0 6px; font-size: var(--text-md); min-width: 24px; min-height: 24px; }
+.sp-or { margin: 22px 0 8px; color: var(--muted-foreground); }
+.sp-quick { display: flex; gap: 8px; flex-wrap: wrap; }
+.sp-quick .chip { cursor: pointer; padding: 8px 12px; font-size: var(--text-base); min-height: 40px; }
+.sp-quick .chip:disabled { opacity: .5; cursor: not-allowed; }
+.sp-next { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
+.sp-next .btn { min-height: 48px; padding: 10px 22px; }
+.sp-err { color: var(--warning); font-size: var(--text-base); }
+.sp-out { margin-top: 36px; }
+.sp-opts { display: grid; gap: 10px; }
+.sp-opt { display: grid; grid-template-columns: 22px 1fr; gap: 14px; align-items: center; text-align: left; width: 100%; min-height: 60px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); cursor: pointer; font-size: var(--text-md); color: var(--foreground); }
+.sp-opt:hover { border-color: var(--input); }
+.sp-opt.on { border-color: var(--primary); background: var(--primary-tint); }
+.sp-opt .box { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--input); }
+.sp-opt.on .box { background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 3px var(--card); }
+.sp-opt b { font-weight: var(--weight-medium); color: var(--heading-foreground); }
+.sp-rows { list-style: none; margin: 0; padding: 0; }
+.sp-rows li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 0; border-top: 1px solid var(--border); }
+.sp-rows li b { display: block; font-weight: var(--weight-medium); color: var(--heading-foreground); }
+.sp-rows li small { display: block; color: var(--muted-foreground); font-size: var(--text-sm); margin-top: 2px; }
+.seg.sp-seg { margin: 0; }
+.sp-seg button { min-height: 40px; padding: 6px 14px; }
+.sp-more { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); }
+.sp-more h2 { font-size: var(--text-lg); margin: 0 0 4px; }
+.sp-xlist { list-style: none; margin: 8px 0 0; padding: 0; } .sp-xlist li { padding: 4px 0; font-size: var(--text-base); }
+.sp-privacy { color: var(--accent-foreground); margin-top: 10px; }
+.sp-wait { margin-top: 12px; }
+.sp-choices { display: grid; gap: 14px; }
+.sp-choice { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 18px 20px; }
+.sp-choice h2 { font-size: var(--text-xl, 20px); letter-spacing: var(--tracking-tighter); margin: 0; }
+.sp-recipe { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 14px 0; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.sp-recipe > div { padding: 10px 12px; } .sp-recipe > div + div { border-left: 1px solid var(--border); }
+.sp-recipe dt { font-family: var(--font-mono); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--subtle-foreground); }
+.sp-recipe dd { margin: 4px 0 0; font-size: var(--text-base); color: var(--heading-foreground); }
+.sp-recipe dd small { display: block; color: var(--muted-foreground); font-size: var(--text-sm); }
+.sp-choice .btn { min-height: 44px; }
+.sp-again { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.map-top .btn.primary { color: var(--primary-foreground); }
+.q-by { margin-left: 10px; }
+@media (max-width: 640px) {
+  .sp h1 { font-size: var(--text-2xl); }
+  .sp-recipe { grid-template-columns: 1fr; } .sp-recipe > div + div { border-left: 0; border-top: 1px solid var(--border); }
+  .sp-rows li { flex-direction: column; align-items: stretch; } .sp-seg { width: 100%; } .sp-seg button { flex: 1; }
+}
+.sp-seg button.on { background: var(--primary-tint); color: var(--accent-foreground); box-shadow: inset 0 0 0 1px var(--primary); font-weight: var(--weight-medium); }

@@ -17,6 +17,7 @@ moves it. Scratch (a draft baseline, a one-off report) goes under `data/experime
 | `node evals/copy.mjs` | Every string the screens own against the writing rule (gated by `tests/web/copy.test.mjs`) | via the test | |
 | `node evals/run_classes.mjs` | The class picker's matching on the test résumés | | |
 | `node evals/infer.mjs` | The model read over the whole résumé set | | `ANTHROPIC_API_KEY` or `--url`; `store pull evals` |
+| `node evals/quests.mjs` | The side-project writer (`/api/quests`) over 32 fixed cases: validity per rule, drops, tokens, cost per person → `quests_baseline.md` (not yet run) | | `ANTHROPIC_API_KEY`, or `--url` with `QUESTS_TOKEN` |
 | `node evals/lines_judged.mjs` | A model reader on 50 generated sentences | | `OPENROUTER_API_KEY` |
 | The game evals (below) | Each game's pools and deals over every role | | |
 
@@ -588,4 +589,18 @@ Still to build, in this order:
 9. **The apprentice map's layout against a hand-placed example.** `MapModel.treeLayout` and `questLayout` are
    deterministic; the eval holds them to a hand-placed layout of the example map
    (`pipeline/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
-   stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order.
+   stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order.10. **The side-project writer's first run.** `node evals/quests.mjs` is written and has not run: no key is in a
+    worktree. The run records `quests_baseline.md` (validity per rule, drops, tokens and the cost per person at
+    Claude Opus 5.5's prices) before `QUESTS_ENABLED` flips. The 32 cases are the eight samples, two MBA-set roles
+    each (`ROLES` in the script) and two answer profiles (`PROFILES`: a person who does not code, and a builder).
+    A judged half comes later: whether a project fits the person and the role, read by a second model or by hand.
+
+## The side-project writer (`evals/quests.mjs`)
+
+What `/api/quests` writes, held to the rules `web/quests.js` `validate` checks in code: the skills on the class
+tree, a kind and a host from `web/data/build_kit.json` that the answers allow, a database only with Supabase, the
+word limits (title nine, "You ship" sixteen, three to six steps of fourteen, a prompt of eighty), no duration word,
+no "mission", no duplicate, and a résumé quote only when the résumé holds it. A direct run builds each case's map
+the way `/api/tree` does and sends the function's own body; `--url` goes through a deploy signed in as a test
+account (`QUESTS_TOKEN`; the deploy's `QUESTS_DAILY_CAP` raised for the run). Saved answers sit in
+`data/experiments/quests/` and are validated again on every run, so `--reuse` rescores a rule change for free.

@@ -7,7 +7,8 @@
                                   it, a stem per role with its own nodes on short ticks; nothing threaded on a stroke
      coAsked(map, index, id, n)   the strongest co-asked skills among the tree's nodes, from the index's edges (R25)
      worlds(map, mine)            per level: its head and name, the quests with their states (open, started, shipped,
-                                  skipped); "you are here", the first quest neither shipped nor skipped
+                                  skipped); "you are here", the first quest neither shipped nor skipped; the level
+                                  "side" (the side projects a person picked, web/quests.js) has a head and no number
      ownChoice(obj)               the person's own mark from a feedback file, old shapes read too; questState(card, mine)
      upNext(ws, id, n), nowQuest(ws, asked)   the quests after this one still to do; the quest the now card shows
      shipLine(ship), firstSentence(text)      "You ship" in one line of at most 16 words; a why line's first sentence
@@ -180,12 +181,13 @@
   function worlds(map, mine) {
     const cards = cardsById(map), own = mine || {};
     const ws = worldList(map).map(w => {
-      const optional = !!w.optional || w.n === "reach";
+      const side = w.n === "side";   // the side projects the person picked (2026-11-11): no number, first on the path
+      const optional = !side && (!!w.optional || w.n === "reach");
       const missions = list(w.missions).filter(id => cards[id]).map((id, i) => {
         const card = cards[id], m = own[id] || null, o = ownChoice(m);
         return { id, i: i + 1, card, kind: card.kind === "story" ? "story" : "build", state: questState(card, m), own: o, locked: !!(card.shipped || card.declined), shippedOn: shippedOn(card, m), link: (o || {}).link || null };
       });
-      return { num: w.n, head: optional ? C().reachHead : fill(C().levelHead, { n: w.n }), label: levelName(w, optional), optional, missions };
+      return { num: w.n, head: side ? C().sideHead : optional ? C().reachHead : fill(C().levelHead, { n: w.n }), label: side ? "" : levelName(w, optional), optional, side, missions };
     });
     const here = (ws.flatMap(w => w.missions).find(m => m.state === "open" || m.state === "started") || {}).id || null;
     return { worlds: ws, here };
@@ -287,7 +289,7 @@
       const m = ms.find(cid => !used.has(cid)) || ms[0] || null;
       if (m) used.add(m);
       const w = m ? worldOfCard(map, m) : null;
-      return { id, name: s.name, state: s.state, sentence: s.what, mission: m ? cards[m] : null, world: w ? (w.n === "reach" || w.optional ? M.reachHead : fill(M.levelHead, { n: w.n })) : null, none: m ? null : M.noQuest };
+      return { id, name: s.name, state: s.state, sentence: s.what, mission: m ? cards[m] : null, world: w ? (w.n === "side" ? M.sideHead : w.n === "reach" || w.optional ? M.reachHead : fill(M.levelHead, { n: w.n })) : null, none: m ? null : M.noQuest };
     });
     return { band, role, headline: band && role ? fill(M.band, { band, role }) : band, brings, groups, gaps };
   }

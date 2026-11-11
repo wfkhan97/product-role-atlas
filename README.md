@@ -30,6 +30,7 @@ sign in: with `TREE_ENABLED`, a session on this browser, or anyone while `ACCOUN
 | `#/you` | About you: three questions, the résumé, the saved roles. | `app.js` |
 | `#/play/<slug>` | The games, from the role pages. | `web/games/`, `web/gameshell.js` |
 | `#/signin`, `#/map/quests`, `#/map/tree` | The sign-in and Build skills, the apprentice map's section: `#/map` walks through what is missing (the sign-in, then the tree form for the résumé and roles, then the map) and opens Quests (one quest at a time, the path, the person's own Start, Mark shipped and Skip); Skill tree has the tree or its list and How you work. Crumbs: "Build skills / Quests". | `web/auth.js`, `web/map.js`, `web/state.js` |
+| `#/map/start/<step>` | Start a side project, behind `QUESTS_ENABLED`: one question per screen (the roles, the résumé and its band with optional extra files, how technical, the kinds of AI tools, the accounts), then three side projects Claude Opus 5.5 writes; the one picked joins Quests as the now card under "Your side project". A person with no map starts here, and the flow builds the tree first. Off: no entry point, and the address lands on Quests. | `web/quests.js`, `web/api/quests.js`, `web/data/build_kit.json` |
 | `#/about` | About GradBuddy (the footer's link): the counts, the data, privacy. | `app.js` |
 
 Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.mjs`. The tips per screen are
@@ -38,7 +39,9 @@ Every string a screen owns is in `web/copy.js` and checked by `node evals/copy.m
 ### What leaves the browser
 
 - **A résumé's text** goes to `/api/infer` once per upload (the model read, stored nowhere) and to `/api/tree` once per
-  build (grounded and dropped). A syllabus or a pasted posting never leaves.
+  build (grounded and dropped). With `QUESTS_ENABLED`, it goes with the answers and any extra files' text (cut at
+  20,000 characters) to `/api/quests` once per "write three", sent to the model and kept by neither the function nor
+  its log. A syllabus or a pasted posting never leaves.
 - **Counts**, never text: `web/capture.js` posts screens, calls to action and a heartbeat to `events` with a random
   session id and a random per-browser id; a stage, a program, a role or field id; the signed-in id when there is one.
   The guide's tips send `cta` events like the other calls to action, with the screen and never any text.
@@ -59,6 +62,7 @@ flips in a one-line pull request once what it needs is in place.
 | `INFER_ENABLED` | on | The model read of a résumé (`/api/infer`). | `ANTHROPIC_API_KEY` in the Vercel project. |
 | `MAPS_ENABLED` | on | `#/map`, the invited magic-link sign-in, the private `maps` bucket. | The maps migration (applied). |
 | `TREE_ENABLED` | on | The self-serve tree form on `#/map` and "Get your tree" on the fit screen (`/api/tree`). | `CATALOG_SERVICE_ROLE_KEY` in the Vercel project (set); `GET /api/tree` must answer `storage: true`. |
+| `QUESTS_ENABLED` | off | "Start a side project" (`#/map/start`, `/api/quests`): the Quests page's button and empty state, the flow, and the first step for a person with no map. The function reads this line and answers 404 while it is off. | `ANTHROPIC_API_KEY` and `CATALOG_SERVICE_ROLE_KEY` in the Vercel project; a spend cap and a rate limit on the key; a recorded `evals/quests.mjs` baseline; one real sign-in through the flow (PLAN.md, Later). |
 | `FEEDBACK_ENABLED` | on | The feedback link, box and prompt. | The feedback migration (applied). |
 | `GUIDE_ENABLED` | off | The tips per screen on a first visit, and the "Show me around" link in the top bar and the footer. | Nothing but the owner's call once the usability fixes are merged; no migration (its rows are the journey's `cta` rows). |
 | `ACCOUNTS_ENABLED` | off | The six-digit-code sign-in for anyone, saved state, the heart's sign-in nudge. | A sender domain and its SMTP password in the catalog project's Auth settings (Supabase's own mailer sends a few an hour); "Allow new users to sign up" back on there (off today, so only invited addresses get a session); a code email template that carries `{{ .Token }}` and no link (a mail scanner such as Outlook's Safe Links opens a link first and spends the code with it); the state migration (applied). |
@@ -143,12 +147,13 @@ The site is the `web/` folder as it is: no build step, relative paths, a hash ro
 build command. Production deploys from `main`; every pull request gets a preview URL behind Vercel's sign-in.
 `web/data/local/` (gitignored) is never hosted.
 
-Two serverless functions ride along under `web/api/`, bundled with the data files `web/vercel.json` names:
+Three serverless functions ride along under `web/api/`, bundled with the data files `web/vercel.json` names:
 
 | Function | What it does | Needs | Health |
 |---|---|---|---|
 | `infer.js` (`POST /api/infer`) | Sends a résumé's text once to Claude Haiku 5.5 for the skills it shows without naming them. Stores nothing. | `ANTHROPIC_API_KEY` | `GET /api/infer` → `{ ok, key }` |
-| `tree.js` (`POST /api/tree`) | Builds a signed-in person's map from their résumé and one to four roles of one field, no model, and writes `maps/<uid>/map.json`. Refuses to overwrite a map written by hand. | `CATALOG_SERVICE_ROLE_KEY` (a new-style `sb_secret_` key goes in `apikey` alone) | `GET /api/tree` → `{ ok, key, storage }` |
+| `tree.js` (`POST /api/tree`) | Builds a signed-in person's map from their résumé and one to four roles of one field, no model, and writes `maps/<uid>/map.json`. Refuses to overwrite a map written by hand; a rebuild keeps the side projects picked. | `CATALOG_SERVICE_ROLE_KEY` (a new-style `sb_secret_` key goes in `apikey` alone) | `GET /api/tree` → `{ ok, key, storage }` |
+| `quests.js` (`POST /api/quests`) | Behind `QUESTS_ENABLED`. `write`: asks Claude Opus 5.5 (effort medium, structured outputs, the server-side refusal fallback) for three side projects from the person's map, résumé, extras and answers, checks each in code, keeps them in `maps/<uid>/quests/pending.json`; five writes a day per person (`quests/count.json`). `pick`: adds one to the map as a card. Logs the usage and rule counts, never text. 90 s at most. | `ANTHROPIC_API_KEY`, `CATALOG_SERVICE_ROLE_KEY`; optional `QUESTS_MODEL`, `QUESTS_DAILY_CAP` | `GET /api/quests` → `{ ok, enabled, key, storage }` |
 
 The local python server has no `/api`, so a local run reads the patterns alone and the tree form says the build
 did not go through.
@@ -173,7 +178,7 @@ Two Supabase projects. **GradBuddy** (`joanndudsiqrfoemwogm`) holds the pipeline
 
 `.env.example` names every key the code reads and the command that needs it. Values live in three places: the
 owner's password manager (copied into `.env` by hand), each repository's GitHub Actions secrets (the jobs), and the
-Vercel project's environment (`ANTHROPIC_API_KEY`, `CATALOG_SERVICE_ROLE_KEY`, for the two functions). Never in a
+Vercel project's environment (`ANTHROPIC_API_KEY`, `CATALOG_SERVICE_ROLE_KEY`, for the three functions). Never in a
 commit, a doc, a log (`pipeline/log.py` masks them) or a chat. `push` never deletes a remote file; `pull` never
 overwrites a newer local one.
 
@@ -182,7 +187,7 @@ overwrites a newer local one.
 | Folder | What is in it |
 |---|---|
 | `pipeline/` | The stages, the role sets (`roles.py`, `roles_mba.py`, `roles_tech.py`), the taxonomy (`taxonomy.json`, `evidence.json`, `fields.json`, `tax.py`), the depth (`depth/`, `depth_gen.py`, `build_steps.py`, `depth_publish.py`), the stores (`backlog.py`, `store.py`), the adapters (`adapters/`), the catalog export, the funnel, the apprentice generator (`apprentice/`), the migrations (`sql/`), taxonomy tooling (`experiments/`). |
-| `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the two functions; `tokens/` the design tokens. |
+| `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the three functions; `tokens/` the design tokens. |
 | `data/` | `registry.json` (every employer's ATS config, merged from `raw/registry_*.json`), `raw/` (the Fortune list, funds, portfolios, employer lists; the postings backlog is not in git), `processed/` (the tagged postings). |
 | `evals/` | Every eval runner, the expectation files and the committed baselines (`evals/README.md`). |
 | `tests/` | Unit tests, web and python, and the UI harness in `tests/ui/` (`tests/README.md`). |
