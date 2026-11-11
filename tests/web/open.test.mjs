@@ -41,12 +41,12 @@ function deps(s, extra = {}) {
 }
 const run = async (body, d, headers) => { const r = res(); await API.handler(post(body, headers), r, d); return r; };
 
-test("both flags gate it, and the build quests ship off", async () => {
+test("both flags gate it; web/config.js has both on (owner, 2026-11-11)", async () => {
   const s = storage();
   const r = await run(BODY, deps(s, { enabled: false }));
   assert.deepEqual([r.statusCode, r.body.error], [404, "off"]);
   assert.equal(s.calls.length, 0, "off: nothing is read, counted or asked");
-  assert.equal(API.enabled(), false, "OPEN_QUESTS_ENABLED ships off in web/config.js");
+  assert.equal(API.enabled(), true, "OPEN_TREE_ENABLED and OPEN_QUESTS_ENABLED are on in web/config.js");
   const tmp = path.join(fs.mkdtempSync(path.join(require("os").tmpdir(), "open-")), "config.js");
   for (const [text, want] of [["OPEN_TREE_ENABLED: true,\nOPEN_QUESTS_ENABLED: true,", true], ["OPEN_TREE_ENABLED: false,\nOPEN_QUESTS_ENABLED: true,", false], ["OPEN_TREE_ENABLED: true,\nOPEN_QUESTS_ENABLED: false,", false]]) { fs.writeFileSync(tmp, text); assert.equal(API.enabled(tmp), want, text); }
 });

@@ -3784,14 +3784,18 @@ funnel"). This revises the section above, which chose no model for the preview. 
 No migration. The flip needs a spend cap on the Anthropic key and `GET /api/open` answering `key: true`,
 `storage: true` on the deploy.
 
+**On the same day (`feat/open-quests-on`).** The owner asked for the merge and the flip. Production's `GET /api/open`
+answered `key: true`, `storage: true`; `OPEN_QUESTS_ENABLED` is true. The spend cap on the key is still the owner's
+to set (Later).
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
-- The open tree's build quests (`OPEN_QUESTS_ENABLED`): a spend cap on the Anthropic key, then the one-line flip;
-  after it, read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
+- The open tree's build quests (on since 2026-11-11): a spend cap on the Anthropic key, the hard stop behind the
+  daily counts; read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
 - The signed-in tree still opens with two résumé story cards (2026-11-11, the owner: quests are build items):
   drop them from `Apprentice.selfServeMap` or flip `QUESTS_ENABLED`; the owner's hand-written maps keep theirs.
 - The booking card's heading, now that the plan is free on the page.

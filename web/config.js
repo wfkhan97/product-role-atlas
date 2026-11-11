@@ -43,8 +43,9 @@ window.CONFIG = {
   // function reads this line and answers 404 while it is off; it caps the writes per email, per network address and
   // per day (OPEN_QUESTS_EMAIL_CAP 2, OPEN_QUESTS_IP_CAP 8, OPEN_QUESTS_DAILY_CAP 150) with counts under open/ in the
   // maps bucket. Needs ANTHROPIC_API_KEY and CATALOG_SERVICE_ROLE_KEY in the Vercel project, and a spend cap on the
-  // key. Off, or when the function refuses: the two projects of web/preview.js, no model.
-  OPEN_QUESTS_ENABLED: false,
+  // key. Off, or when the function refuses: the two projects of web/preview.js, no model. On since 2026-11-11
+  // (owner), after production's GET /api/open answered key: true, storage: true.
+  OPEN_QUESTS_ENABLED: true,
   // The booking card under the open tree's two projects: the id of the owner's Tally form (the part after
   // tally.so/r/), opened in a new tab with the hidden fields surface, source, role and email. null: no card is drawn.
   // "Book your project session" (the owner's form, 2026-11-11: the four hidden fields and a payment block).
