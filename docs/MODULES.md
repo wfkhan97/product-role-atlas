@@ -299,7 +299,10 @@ and evals run the code the site runs.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
-- `api/infer.js`, `api/tree.js`, `api/quests.js` — the three functions (README, "Hosting"). `quests.js` authenticates
+- `api/open.js` — the open tree's build quests with no session (README, "Hosting"): `checkInput`, `count` (the
+  three daily caps as counts under `open/` in the `maps` bucket, hashed names), then `tree.js` `buildMap` and
+  `quests.js` `write`. It adds no prompt and no rule of its own.
+- `api/infer.js`, `api/tree.js`, `api/quests.js` — the other three functions (README, "Hosting"). `quests.js` authenticates
   as `tree.js` does and reuses its Storage calls; raw `fetch` to the Messages API, as `infer.js`. `tree.js` identifies the caller through
   GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
   overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`

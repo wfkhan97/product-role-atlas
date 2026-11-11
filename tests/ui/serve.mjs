@@ -16,7 +16,7 @@ try {
   }
 } catch { /* no .env: the functions answer as on a host without keys */ }
 const require = createRequire(import.meta.url);
-const API = { "/api/tree": require(path.join(WEB, "api", "tree.js")), "/api/infer": require(path.join(WEB, "api", "infer.js")), "/api/quests": require(path.join(WEB, "api", "quests.js")) };
+const API = { "/api/tree": require(path.join(WEB, "api", "tree.js")), "/api/infer": require(path.join(WEB, "api", "infer.js")), "/api/quests": require(path.join(WEB, "api", "quests.js")), "/api/open": require(path.join(WEB, "api", "open.js")) };
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon", ".woff2": "font/woff2", ".woff": "font/woff", ".txt": "text/plain; charset=utf-8", ".gz": "application/gzip" };
 
 const server = http.createServer(async (req, res) => {
