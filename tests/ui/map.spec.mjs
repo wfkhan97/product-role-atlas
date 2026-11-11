@@ -266,3 +266,39 @@ test("Build skills: a session with no map lands on the tree form as the first st
   await shot(page, "first-step-form", info);
   expect(unexpected(page.consoleErrors)).toEqual([]);
 });
+
+// 2026-11-11: the sign-in email leads with a six-digit code, so the invited page asks for it (the link still works)
+test("Sign in: an invited address gets the code box; a wrong code says so, the right one lands on the page it came from", async ({ visitor }, info) => {
+  const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  const token = ["x", Buffer.from(JSON.stringify({ sub: UID, email: SESSION.email })).toString("base64url"), "y"].join(".");
+  const calls = [];
+  await page.context().route(/\.supabase\.co\//, route => {
+    const req = route.request(), url = new URL(req.url());
+    if (url.pathname.endsWith("/auth/v1/otp")) { calls.push(["otp", JSON.parse(req.postData())]); return route.fulfill({ status: 200, contentType: "application/json", body: "{}" }); }
+    if (url.pathname.endsWith("/auth/v1/verify")) {
+      const b = JSON.parse(req.postData()); calls.push(["verify", b]);
+      return b.token === "919061" ? route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ access_token: token, refresh_token: "r", expires_in: 3600, user: { id: UID, email: SESSION.email } }) })
+        : route.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ error_code: "otp_expired", msg: "Token has expired or is invalid" }) });
+    }
+    const m = /\/storage\/v1\/object\/(?:authenticated\/)?maps\/(.+)$/.exec(url.pathname);
+    if (m && req.method() === "GET") return m[1] === `${UID}/map.json` ? route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(EXAMPLE) }) : route.fulfill({ status: 404, contentType: "application/json", body: "{}" });
+    return route.fulfill({ status: 200, contentType: "application/json", body: req.method() === "GET" ? "[]" : "{}" });
+  });
+  await page.goto("/#/map/tree");
+  await page.locator("#main #si").waitFor();
+  await expect(page.locator("#main")).toContainText(Copy.signin.mapLine);
+  await expect(page.locator("#si-send")).toHaveText(Copy.signin.button);
+  await page.fill("#si-email", SESSION.email);
+  await page.click("#si-send");
+  await expect(page.locator("#si-out .wait b")).toHaveText(Copy.signin.sent);
+  await expect(page.locator("#si-code")).toBeFocused();
+  await shot(page, "signin-code", info);
+  expect(calls[0]).toEqual(["otp", { email: SESSION.email, create_user: false }]);
+  await page.fill("#si-code", "000000");
+  await page.click("#si-verify");
+  await expect(page.locator("#si-codeout .si-no")).toBeVisible();
+  await page.fill("#si-code", "919061");
+  await page.click("#si-verify");
+  await expect.poll(() => hashOf(page)).toBe("#/map/tree");
+  await page.locator("#map-body > *").first().waitFor();
+});
