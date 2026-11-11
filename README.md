@@ -11,8 +11,8 @@ says what another program may read from the atlas. [CLAUDE.md](CLAUDE.md) is the
 
 ## The site
 
-Four verbs behind a door, on a hash router, plus Build skills (the apprentice map) in the top bar for a person who can
-sign in: with `TREE_ENABLED`, a session on this browser, or anyone while `ACCOUNTS_ENABLED`. Every route is in
+Four verbs behind a door, on a hash router, plus Build skills (the apprentice map) in the top bar and as a home card for
+every visitor while `TREE_ENABLED` is on; it opens for a person with a session (invited today). Every route is in
 `web/app.js` unless named.
 
 | Route | What it is | Code |

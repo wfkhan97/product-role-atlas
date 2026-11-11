@@ -157,6 +157,14 @@
         { key: "network", href: "#/network", title: V.network.title, line: V.network.line, open: true },
       ];
     },
+    // Build skills (#/map) put after Explore careers, in the top bar and on home (owner, 2026-11-11), when `on`; with
+    // `invite` the card's line ends by saying the section opens by invite. The list itself is not changed.
+    withBuild(verbs, on, invite) {
+      const out = [...(verbs || [])]; if (!on) return out;
+      const B = Copy.home.verbs.build;
+      out.splice(out.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: B.title, line: invite ? `${B.line} ${B.invite}` : B.line, open: true });
+      return out;
+    },
   };
   // The role page's filters (the level control, the Says-it-sponsors chip and the drawer: employer type, graduates and
   // interns, industry, employer, location, remote): their defaults in one place, so a new role and "Reset filters" set
@@ -503,11 +511,10 @@
   // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
   // Build skills (#/map, decision K of 2026-11-10) follows Explore careers for every visitor (buildBar, 2026-11-11: an
   // invited person with no session saw no door at all); a click with no session lands on the sign-in, which says the
-  // section opens by invite and how to ask for one. It is no home card.
+  // section opens by invite and how to ask for one. Home draws the same entry as a card (Door.withBuild).
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
-    const verbs = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open);
-    if (buildBar()) verbs.splice(verbs.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: Door.COPY.bar.build });
+    const verbs = Door.withBuild(Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open), buildBar());
     el.innerHTML = verbs.map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
     markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
@@ -819,12 +826,13 @@
       else youInline(body, { onDone: () => { doneHere = true; drawYou(); } }).catch(console.error);
     };
     const render = () => {
-      const cards = Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).filter(v => v.open)
+      // Build skills is a card too (owner, 2026-11-11); a visitor who cannot sign in yet reads that it opens by invite
+      const cards = Door.withBuild(Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).filter(v => v.open), buildBar(), !accountsOn() && !Auth.stored())
         .map(v => `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`);
       page(`<h1>${esc(C.home)}</h1>${bounceLine ? `<p class="notice home-bounce" role="status">${esc(bounceLine)} <a href="#/">${esc(Copy.home.changeEmail)}</a></p>` : ""}<div class="verbs n${cards.length}">${cards.join("")}</div>
         <section class="home-you" aria-labelledby="home-you-h"><h2 id="home-you-h">${esc(YOU.inline.heading)}</h2><div id="home-you-body"></div></section>`);
       main.firstElementChild.classList.add("home-page");
-      main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
+      main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => a.dataset.verb === "build" ? (window.Capture && Capture.cta("home_build", "click")) : track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
       drawYou();
     };
     render();

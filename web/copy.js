@@ -115,7 +115,7 @@
     privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
 
-  // ---------- home (#/home): the four verbs, one data-built line each ----------
+  // ---------- home (#/home): the four verbs and Build skills, one line each ----------
   const home = {
     heading: "What do you want to do?",
     // {jobs} and {companies} are counts in words, rounded down (Door.thousands, hundreds); {roles} is the exact count the
@@ -123,6 +123,9 @@
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
       skills: { title: "Explore careers", line: "Explore {roles} roles and see how your experience and skills match up.", lineAll: "Explore every role and see how your experience and skills match up." },
+      // the map's card (owner, 2026-11-11), after Explore careers while the tree is on; `invite` follows the line for a
+      // visitor with no session while accounts are off, who meets the invited sign-in on a click
+      build: { title: "Build skills", line: "Plan portfolio projects that build the skills your target roles ask for. Share what you ship to network and get referrals.", invite: "It opens by invite today." },
       classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want." },
       network: { title: "Networking", line: "Find the hiring managers, recruiters, alumni and faculty to meet for a role, and what to say." },
     },

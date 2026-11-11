@@ -264,7 +264,10 @@ test("decision K (2026-11-10): Explore careers never sends a map owner to the ma
   assert.ok(!/mapGate\(\)/.test(launcher) && !/\ball\b === "1"|query\.all/.test(launcher), "no gate read and no ?all=1");
   assert.match(launcher, /const slot = mapsOn\(\) && !accountsOn\(\) && !Auth\.stored\(\) \?/, "the invite line: only for a person who sees no Build skills");
   const bar = src.slice(src.indexOf("function topBar(name)"), src.indexOf("function markVerb"));
-  assert.match(bar, /if \(buildBar\(\)\) verbs\.splice\(verbs\.findIndex\(v => v\.key === "skills"\) \+ 1, 0, \{ key: "build", href: "#\/map"/);
+  assert.match(bar, /Door\.withBuild\(Door\.verbs\([^;]*\.filter\(v => v\.open\), buildBar\(\)\)/);
+  // home draws the same entry as a card (owner, 2026-11-11), with the invite line for a visitor who cannot sign in yet
+  const home = src.slice(src.indexOf("async function home()"), src.indexOf("async function matchRole"));
+  assert.match(home, /Door\.withBuild\([^;]*buildBar\(\), !accountsOn\(\) && !Auth\.stored\(\)\)/);
 });
 
 test("config.js turns the maps on; index.html loads auth.js after capture.js and no remote auth library", () => {
