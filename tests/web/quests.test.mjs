@@ -132,7 +132,9 @@ test("validate drops a quote the résumé does not hold, and keeps the project; 
   assert.deepEqual(v.projects.map(p => p.title), [good().title, "A second idea", "A third idea"]);
   assert.deepEqual(v.dropped.map(d => d.rules), [["duplicate"], ["over_three"]]);
   assert.deepEqual(Q.validate(null, ctx()).projects, []);
-  assert.ok(Q.DURATION.test("in an evening") && Q.DURATION.test("6 weeks") && !Q.DURATION.test("Write today's brief") && !Q.DURATION.test("a daily digest"));
+  assert.ok(Q.DURATION.test("in an evening") && Q.DURATION.test("takes 6 weeks") && Q.DURATION.test("Spend two hours on research.") && Q.DURATION.test("5 hours a week") && !Q.DURATION.test("Write today's brief") && !Q.DURATION.test("a daily digest"));
+  // a time word in the project's own subject is not an estimate (the first eval run dropped these)
+  for (const ok of ["A weekly business review kit", "Compute monthly KPIs like cost per lead", "A first ninety days playbook for new GMs", "Add filters by device and week", "week-over-week change", "twelve months of data", "a five-minute spoken briefing", "this week, target, trend"]) assert.ok(!Q.DURATION.test(ok), ok);
 });
 
 test("write asks once more when nothing passed, then gives up; usage sums over the calls", async () => {

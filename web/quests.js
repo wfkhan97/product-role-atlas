@@ -161,8 +161,17 @@ Answer with JSON only, in the schema given.`;
 
   // ---------- the answer: every rule in code ----------
   const norm = s => String(s || "").toLowerCase().replace(/[‘’]/g, "'").replace(/[^a-z0-9%$&+']+/g, " ").trim();
-  // a duration in any form the owner ruled out (2026-11-10): no time estimate anywhere
-  const DURATION = /\b(\d+\s*-?\s*)?(minutes?|mins?|hours?|hrs?|days?|weeks?|weekends?|months?|evenings?|afternoons?|mornings?|overnight|tonight|sittings?|deadlines?|in no time)\b/i;
+  // An estimate of how long the quest takes, which the owner ruled out (2026-11-10). It is the estimate that is
+  // refused, never a time word in the project's own subject: "a weekly business review", "monthly KPIs" and "a first
+  // ninety days plan" are what the person builds (the first eval run, 2026-11-11, lost 18 of 102 projects to those).
+  const UNIT = "(?:minutes?|mins?|hours?|hrs?|days?|weeks?|weekends?|months?|evenings?|afternoons?|mornings?|sittings?)";
+  const COUNT = "(?:an?|one|two|three|four|five|six|a few|a couple of|several|\\d+)";
+  const DURATION = new RegExp([
+    `\\b(?:takes?|in|within|under|about|around|roughly|spend|spends|over|for)\\s+(?:just\\s+|only\\s+|about\\s+)?${COUNT}\\s*(?:-\\s*)?${UNIT}\\b`,
+    `\\b(?:an?|one)\\s+(?:evening|afternoon|morning|weekend|sitting)\\b`,
+    `\\b${COUNT}\\s*(?:hours?|hrs?)\\s+(?:a|per|each)\\s+(?:day|week)\\b`,
+    `\\b(?:overnight|tonight|in no time|deadlines?)\\b`,
+  ].join("|"), "i");
   const MISSION = /\bmissions?\b/i;
   const SENT = s => str(s).split(/(?<=[.?!])\s+/).filter(Boolean);
   const RULES = ["schema", "skills_on_tree", "kind_in_kit", "kind_allowed", "host_in_kit", "host_allowed", "database_allowed", "title_words", "ship_words", "steps_count", "step_words", "prompt_words", "no_duration", "no_mission", "duplicate", "quote_dropped"];
