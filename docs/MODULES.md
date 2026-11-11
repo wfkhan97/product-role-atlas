@@ -152,6 +152,27 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   says so. `yello.py` reads Yello (recsolu.com) boards: the search URL from the board page, 25 cards a page, then each
   job page; `posted` is approximate. Configs in `data/raw/registry_mba_employers_talnet_yello.json`.
 
+### The standards index
+
+- `pipeline/standards.json` — what the industry treats as the standard path into each role, as grounding for the
+  quest generator's prompt; nothing in it is shown or linked on a quest card. `sources`: one record per page a
+  person read (`kind`: program, loop, guide, credential, gap; `publisher_class`: employer, practitioner, book,
+  certification_body, prep_vendor; `verified`, `access`, `first_party`, `status` on programs; `why_standard`,
+  `what_they_test`, `artifacts` and `notes` in our own words, no quotations). Publishers on the blocked-vendor list of
+  `data/raw/build_sources.json` are left out. `roles`: per first-cut role (`pm`, `software_engineer`, `pmm`,
+  `growth_manager`, `product_designer`, `data_scientist`, `account_executive`, `bizops`; `also_serves` names the
+  roles that read the same list) a `shows` list: `stage` (foundation or build), `means`, `artifacts`, `sources`
+  (ids), `skills` (taxonomy ids), `weak`, a note, when no fetched source other than a prep vendor backs the item or the backing is thin for a stated reason. A reader
+  takes `roles`; `sources` is there to weigh an item (first-party, fetched, fresh).
+- `pipeline/standards.py` — `verify`: one GET per source, two seconds apart, a generic user agent. Writes only
+  `check` (date, outcome, HTTP status, hash of the page's words, note), `read_sha256` and `read_sha256_date` on a
+  source; never a summary. Outcomes: `ok`, `changed` (the hash differs from the read's), `unreachable`,
+  `needs_signed_in_read` (paywalled, a book, a site that refuses scripts, a page that needs a browser; not a
+  failure). The report also flags sources read more than 12 months ago and programs not re-read since the last
+  1 August. After a re-read a person edits the record and `date_read`; the next verify takes the new hash.
+  `citable` is the freshness rule the eval shares. `evals/run_standards.py` checks the file;
+  `.github/workflows/verify-standards.yml` runs both monthly and opens an issue.
+
 ### The apprentice map
 
 `pipeline/apprentice/` (its own README), `.claude/skills/apprentice-map/SKILL.md`, `data/apprentice/` (gitignored).

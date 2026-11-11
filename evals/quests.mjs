@@ -1,4 +1,4 @@
-// The side-project eval (2026-11-11; written, not yet run): what the model behind /api/quests writes, held to the
+// The side-project eval (2026-11-11): what the model behind /api/quests writes, held to the
 // rules web/quests.js validate checks, over a small fixed set: the eight sample résumés of evals/resumes/ × two MBA
 // roles each × two answer profiles (32 cases). It reports the validity rate per rule, how often a project was dropped,
 // the token usage and the cost per person at Claude Opus 5.5's prices, and writes evals/quests_baseline.md.
