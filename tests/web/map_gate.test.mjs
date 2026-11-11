@@ -110,7 +110,8 @@ test("MapGate.next: off, the launcher; no session, the sign-in; a session and a 
 test("MapGate.signinHash and landing: the map's own address goes to the sign-in as next and comes back; nothing else does", () => {
   const G = Pure.MapGate;
   assert.equal(G.signinHash("#/map?build=1&role=product.pm"), "#/signin?next=" + encodeURIComponent("#/map?build=1&role=product.pm"));
-  assert.equal(G.signinHash("#/map"), "#/signin", "the plain map needs no next: the link lands there anyway");
+  // the plain map goes as next too (2026-11-10): the code sign-in returns to `next` alone, and Build skills is #/map
+  assert.equal(G.signinHash("#/map"), "#/signin?next=" + encodeURIComponent("#/map"));
   for (const h of ["", null, "#/jobs", "#/signin?next=x", "https://evil.example/#/map", "#/map?x=<script>", "#/mapx", "#/map/other", "#/map/tree/x"]) assert.equal(G.signinHash(h), "#/signin", String(h));
   // the map's two pages (2026-11-10) keep their place through the sign-in
   for (const h of ["#/map/tree", "#/map/quests?q=l2-battlecard", "#/map/tree?view=list"]) { assert.equal(G.signinHash(h), "#/signin?next=" + encodeURIComponent(h), h); assert.equal(G.landing(h), h, h); }
@@ -241,12 +242,12 @@ test("signOut forgets the session here and tells GoTrue", async () => {
   assert.equal(o.calls[0].url, "https://x.supabase.co/auth/v1/logout");
 });
 
-test("the routes: #/map is a screen, #/signin stays one, #/skills?all=1 keeps its query, and route() dispatches both", () => {
+test("the routes: #/map is a screen, #/signin stays one, #/skills keeps its query, and route() dispatches both", () => {
   assert.equal(parseRoute("#/map").name, "map");
   assert.equal(parseRoute("#/signin").name, "signin");
   assert.equal(parseRoute("#/signin?expired=1").query.expired, "1");
-  const all = parseRoute("#/skills?all=1&field=marketing");
-  assert.equal(all.name, "skills"); assert.equal(all.query.all, "1"); assert.equal(all.query.field, "marketing");
+  const all = parseRoute("#/skills?field=marketing");
+  assert.equal(all.name, "skills"); assert.equal(all.query.field, "marketing");
   assert.equal(parseRoute("#access_token=abc&type=magiclink").name, "home", "a landing hash is caught by route() before it gets here");
   const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
   const table = src.match(/const go = \{([^}]*)\}\[name\]/)[1];
@@ -254,6 +255,16 @@ test("the routes: #/map is a screen, #/signin stays one, #/skills?all=1 keeps it
   assert.match(table, /signin: \(\) => mapsOn\(\) \? signinScreen\(\) : ClassScreens\.signin\(shellCtx\)/);
   const r = src.indexOf("function route()"), take = src.indexOf("Auth.takeHash(location.hash)", r), parse = src.indexOf("Routes.parseRoute(location.hash)", r);
   assert.ok(take > r && take < parse, "route() takes the landing hash before it parses");
+});
+
+test("decision K (2026-11-10): Explore careers never sends a map owner to the map; Build skills follows it in the top bar behind buildOn", () => {
+  const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  const launcher = src.slice(src.indexOf("async function skillsScreen()"), src.indexOf("let mapHeld = null"));
+  assert.ok(!/toHash\("#\/map/.test(launcher), "no redirect to the map");
+  assert.ok(!/mapGate\(\)/.test(launcher) && !/\ball\b === "1"|query\.all/.test(launcher), "no gate read and no ?all=1");
+  assert.match(launcher, /const slot = mapsOn\(\) && !accountsOn\(\) && !Auth\.stored\(\) \?/, "the invite line: only for a person who sees no Build skills");
+  const bar = src.slice(src.indexOf("function topBar(name)"), src.indexOf("function markVerb"));
+  assert.match(bar, /if \(buildOn\(\)\) verbs\.splice\(verbs\.findIndex\(v => v\.key === "skills"\) \+ 1, 0, \{ key: "build", href: "#\/map"/);
 });
 
 test("config.js turns the maps on; index.html loads auth.js after capture.js and no remote auth library", () => {
@@ -271,9 +282,11 @@ test("config.js turns the maps on; index.html loads auth.js after capture.js and
 
 test("the copy: every string the two screens and the launcher's slot draw is in Copy.signin and Copy.map", () => {
   for (const k of ["heading", "lead", "email", "emailPlaceholder", "button", "sent", "sentTo", "refused", "failed", "expired", "note", "explore"]) assert.ok(Copy.signin[k], `signin.${k}`);
-  for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "others", "back", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
+  for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
+  for (const k of ["firstHeading", "firstLead"]) assert.ok(Copy.map.tree[k], `map.tree.${k}`);
   assert.equal(Copy.signin.sent, "Check your email for the link. It works once.");
-  assert.equal(Copy.map.back, "← Back to your map");
+  // decision K (2026-11-10): the top bar's Build skills does the job of the map's own links to the launcher and back
+  for (const k of ["others", "back", "crumb"]) assert.ok(!(k in Copy.map), `map.${k} is gone`);
   // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
   assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite to an apprentice map, a private plan for one role? Sign in.");
   // C-02, the sign-in gave a visitor without an invite no way forward: what the map is, and a way to ask

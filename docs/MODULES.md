@@ -194,7 +194,8 @@ and evals run the code the site runs.
   `Intake` (the one call to action), `Door` (the door's copy and rules: `campus`, `opens`, `reach`, `bounce`; `pass`,
   so a click on the door's own chrome counts as Skip), `You` (`You.back`: a `next` is a hash of this site, never the
   sign-in; the résumé step returns to it), `FitCounts` (the rail's "N of M" and the fit screen's lists from one fit),
-  `CourseCore`, `Crumbs` (one breadcrumb rule: the section as the top bar names it, then the screen), `Theme`,
+  `CourseCore`, `Crumbs` (one breadcrumb rule: the section as the top bar names it, then the screen; Build skills is
+  the section `build` at `#/map`), `Theme`,
   `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
   screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
   one drop zone with a real "choose a file" button. `route()` calls `Guide.after` once a screen draws (the feedback
@@ -246,8 +247,9 @@ and evals run the code the site runs.
   `Auth.sendCode` and `verifyCode` (the six-digit code for anyone; `create_user: true`, so the catalog project's
   "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
   `readMap`, `readFeedback`, `writeFeedback` (the person's own mark on a quest: `feedbackObject`, `cleanLink`), `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
-  the route table for `#/skills` and `#/map`; `MapGate.signinHash` and `landing` carry the map's own address through
-  the sign-in and back.
+  the route table for `#/map` (Build skills); `MapGate.signinHash` and `landing` carry the map's own address through
+  the sign-in and back. `app.js` `buildOn` decides who sees a door into the map (the top bar's Build skills, the fit
+  screen's "Get your tree"): `TREE_ENABLED`, and accounts on or a session on this browser.
 - `state.js` — a signed-in person's saved state in `profiles`, `hearts` and `reads` (own rows under row-level
   security): `State.hash(text)` (a SHA-256 of the normalized résumé, never the text), `readRows(fit)`, `saveProfile`,
   `saveRead`, `heart`, `load`, `forget`, `merge` (the browser's answers win; hearts are a union). Runs only with

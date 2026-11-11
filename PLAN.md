@@ -3436,7 +3436,7 @@ others. This is the first of two pull requests; the second adds the side-project
   under the title. The old `#/map?tab=tree` lands on `#/map/tree`; `?build=1` and `?role=` work as before; `?q=<card>`
   names the quest the now card shows and `?view=list` the tree's list. `MapGate`'s address rule takes the two pages,
   so a sub-page survives the sign-in. E1 and the tree form land on `#/map/quests`. The crumbs read "Explore careers /
-  Your map / Quests" (or "Skill tree").
+  Your map / Quests" (or "Skill tree"); K below revises both.
 - **B. The Quests page is Option C.** One now card (the level, the title, one "You ship" line, up to three skill chips
   with the tree's dot, Start), the slim path (a line of numbered dots per level; a dot swaps the now card) and "Up
   next". No legend here. The overworld (`questLayout`, the flags, the zigzag road) is gone, code and tests.
@@ -3471,10 +3471,29 @@ others. This is the first of two pull requests; the second adds the side-project
   line, no cleared tag, pips or flags. A dot shows its own state; "you are here" is the first quest neither shipped nor
   skipped. The file keeps `worlds[].clear`; the screen reads past it.
 
+- **K. Build skills is its own section** (the owner, after A: "the fact that this is nested under explore careers, I
+  don't like that"; and a person with no résumé should be walked through it and pick roles). The top bar gets "Build
+  skills" after Explore careers, at `#/map`; the crumbs read "Build skills / Quests" and "Build skills / Skill tree"
+  (they read "Explore careers / Your map / Quests" under A), and the map marks Build skills, never Explore careers.
+  `Crumbs` has the section `build` with its address `#/map`; a screen with no crumbs of its own shows the section alone.
+  Who sees it: the fit box's rule, now one function, `buildOn` (`TREE_ENABLED`, and accounts on or a session on this
+  browser), so a visitor who cannot sign in never sees a door that refuses them; the map stays invite-only while
+  accounts are off. It is no home card: home and About keep the four verbs. A click walks through what is missing:
+  no session, the sign-in, which now carries even the plain `#/map` as `next` (the code sign-in returns to `next`
+  alone), so the page survives it; a session and no map, the tree form as the first step, headed "Build skills" with
+  one line on what comes after; a map, Quests. The form reuses a résumé already in the browser (`state.resume`, kept
+  by the fit flow); nothing in the form, `/api/tree`, the generator or the matcher changed. **E1 goes**: `#/skills`
+  opens the launcher for everyone, `?all=1` is read nowhere, and the launcher's slot keeps one line, the invite, for a
+  person with no session while accounts are off (the one who sees no Build skills). The map's "Explore other roles →"
+  and the launcher's "← Back to your map" go: the top bar does both jobs. Why one name: "Build skills" named the
+  launcher (`#/skills`) until 2026-11-01 ("Explore roles & build skills") and code comments still said so; they now
+  say Explore careers for `#/skills`, and Build skills means the map alone.
+
 **What it revises.** Q1 (the overworld) and K1 (the card in the side panel, for quests; the node panel stays) go. F1
 (three buttons, a note, Send) becomes D. D1's place moves from above both tabs to the tree page's List. R23's "How you
 work" line under the tree moves to the legend bar. Owner-marked shipping is no longer the only way a quest counts.
-R28 (a world clears after k of n) and R29 (a declined mission leaves n) no longer show on screen.
+R28 (a world clears after k of n) and R29 (a declined mission leaves n) no longer show on screen. K revises E1 (Build
+skills, then the launcher, opened the map first for an invited person) and A's crumbs.
 
 **A bug the new spec found.** A story card's id (`s1-<skill id>`) carries underscores, which the bucket's policy
 refuses in a file name, so no choice on a story card could ever be saved. The file name now writes each underscore

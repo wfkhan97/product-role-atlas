@@ -41,7 +41,9 @@ test("a press keeps the role in this browser at once, goes to the person's row o
 });
 
 test("Get your tree sits on the fit screen behind the tree flag and a sign-in anyone can use; without a session it goes through the sign-in and back to the form with the role picked", () => {
-  assert.match(app, /const treeCta = treeOn\(\) && \(accountsOn\(\) \|\| Auth\.stored\(\)\) \?/);
+  // one rule for every door into the map (decision K, 2026-11-10): this box and the top bar's Build skills
+  assert.match(app, /const buildOn = \(\) => treeOn\(\) && \(accountsOn\(\) \|\| !!Auth\.stored\(\)\);/);
+  assert.match(app, /const treeCta = buildOn\(\) \?/);
   assert.match(app, /const treeHref = `#\/map\?build=1&role=\$\{encodeURIComponent\(role\.id\)\}`/);
   assert.match(app, /Auth\.stored\(\) \? treeHref : `#\/signin\?next=\$\{encodeURIComponent\(treeHref\)\}`/);
   assert.match(app, /Capture\.cta\("get_tree", "click", \{ role_id: role\.id \}\)/);

@@ -133,7 +133,10 @@ test("the copy holds every string the two screens draw", () => {
   assert.equal(C.emailPlaceholder, "user@school.edu");
   assert.equal(C.skip, "Skip for now");
   assert.equal(C.intro.length, 2);
-  assert.deepEqual(Object.keys(C.bar), ["jobs", "skills", "classes", "network"]);
+  // Build skills (the map's section, 2026-11-10) is a top-bar label only: the four home cards stay four
+  assert.deepEqual(Object.keys(C.bar), ["jobs", "skills", "build", "classes", "network"]);
+  assert.equal(C.bar.build, "Build skills");
+  assert.deepEqual(Door.verbs("", {}, null, []).map(v => v.key), ["jobs", "skills", "classes", "network"]);
 });
 
 test("the Tally return: #/home?email=…&where=… is home, reads once as the door keeps it, and the hash ends clean", () => {

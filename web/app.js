@@ -233,9 +233,12 @@
   // verb (About, About you, the sign-in) is the screen alone; the door and home have none (the brand is home). The
   // section is where the person came from when the screen's first crumb links to another section's screen (a professor
   // opened from Networking): that crumb keeps its own hash, so the tab and the role come back. The top bar's current
-  // mark is the same section. `items` are the screen's own crumbs ([label, href or null]); a leading Home is dropped.
-  const SECTION_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
-  const SECTIONS = new Set(["jobs", "skills", "network", "classes"]);
+  // mark is the same section. `items` are the screen's own crumbs ([label, href or null]); a leading Home is dropped. A
+  // screen with no crumbs of its own under a section shows the section alone. Build skills (2026-11-10, decision K) is
+  // the map's own section: its key is `build`, its address #/map (SECTION_HREF).
+  const SECTION_OF = { jobs: "jobs", skills: "skills", map: "build", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  const SECTIONS = new Set(["jobs", "skills", "build", "network", "classes"]);
+  const SECTION_HREF = { build: "#/map" };
   const Crumbs = {
     SECTION_OF,
     trail(name, items) {
@@ -245,8 +248,8 @@
       const section = SECTIONS.has(from) ? from : SECTION_OF[name] || null;
       if (!section) return { section: null, items: rest };
       const label = Copy.common.bar[section];
-      if (name === section) return { section, items: [[label, null]] };
-      let href = "#/" + section;
+      if (name === section || !rest.length) return { section, items: [[label, null]] };
+      let href = SECTION_HREF[section] || "#/" + section;
       if (SECTIONS.has(from)) { href = rest[0][1]; rest = rest.slice(1); }
       return { section, items: [[label, href], ...rest] };
     },
@@ -498,9 +501,13 @@
   // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   // (Routes.Crumbs.SECTION_OF; the crumbs move the mark when the screen came from another section, markVerb)
+  // Build skills (#/map, decision K of 2026-11-10) follows Explore careers for whoever can open it (buildOn); it is no
+  // home card.
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
+    const verbs = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open);
+    if (buildOn()) verbs.splice(verbs.findIndex(v => v.key === "skills") + 1, 0, { key: "build", href: "#/map", title: Door.COPY.bar.build });
+    el.innerHTML = verbs.map(v => `<a class="toplink" href="${esc(v.href)}" data-verb="${esc(v.key)}">${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + feedbackLink(name) + guideLink(name) + whoHtml(name);
     markVerb(Routes.Crumbs.SECTION_OF[name] || null);
     const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
     const fb = el.querySelector("[data-feedback]"); if (fb) fb.onclick = () => openFeedback({ prompted: false });
@@ -862,20 +869,16 @@
     crumbs([[CM.home, "#/home"], [C.heading, null]]); showAside(null);
     page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const here = () => Routes.parseRoute(location.hash).name === "skills";
-    // E1 (the build plan's B2): a signed-in person with a map opens it first; #/skills?all=1 is the launcher behind
-    // it, with the way back in the slot above the field tiles. No session: one line to the sign-in. A session and no
-    // map file yet: the waiting line. MAPS_ENABLED off: the launcher as it was.
-    const all = Routes.parseRoute(location.hash).query.all === "1";
-    const gate = mapsOn() ? (await mapGate()).gate : "launcher";
-    if (!here()) return;
-    if (gate === "map" && !all) { toHash("#/map/quests"); return; }
+    // The launcher opens for everyone; the map has its own section, Build skills (decision K, 2026-11-10, revising
+    // E1). The one map line left: an invited person with no session on this browser, who sees no Build skills in the
+    // top bar while accounts are off (buildOn), reads the way to the sign-in above the field tiles.
     const MC = Copy.map;
-    const slot = { map: `<p class="lf-slot"><a href="#/map">${esc(MC.back)}</a></p>`, signin: `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>`, waiting: `<p class="lf-slot">${esc(MC.waiting)}</p>` }[gate] || "";
+    const slot = mapsOn() && !accountsOn() && !Auth.stored() ? `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>` : "";
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     if (!here()) return;
     const F = Launcher.fields(ix), q0 = Routes.parseRoute(location.hash).query;
     const s = { q: q0.q || "", field: F.some(f => f.id === q0.field) ? q0.field : null, change: false };
-    const writeHash = () => { const p = new URLSearchParams(); if (all) p.set("all", "1"); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
+    const writeHash = () => { const p = new URLSearchParams(); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     // ---- the left two thirds: the search, the tiles, a field's roles ----
     const row = (r, withField) => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(Launcher.fill(C.open, { open: fmt(r.nOpen) }))}</span><span class="m">${withField && r.field ? esc(r.field.label) + " · " : ""}${r.asks.length ? esc(Launcher.fill(C.asks, { asks: r.asks.join(", ") })) : ""}</span></a>`;
     const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(f.roles.length === 1 ? C.tileOne : C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
@@ -959,7 +962,7 @@
       e.preventDefault();
       const email = $("#si-email").value.trim();
       send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
-      if (next !== "#/map") try { localStorage.setItem("maps.next", next); } catch { }
+      try { if (next !== "#/map") localStorage.setItem("maps.next", next); else localStorage.removeItem("maps.next"); } catch { }   // no stale page from an earlier send
       const r = await Auth.sendLink(email);
       send.disabled = false;
       if (Routes.parseRoute(location.hash).name !== "signin") return;
@@ -1018,18 +1021,20 @@
     };
     draw("email");
   }
-  // #/map: with a session and a map, the map's two pages (below; #/map and the old #/map?tab=tree become #/map/quests and
-  // #/map/tree in place); with a session and no map file, the waiting line and the launcher link; without a session,
-  // the sign-in; with MAPS_ENABLED off, the launcher
+  // #/map, the Build skills section (decision K, 2026-11-10): it walks a person through what is missing, in order.
+  // Without a session, the sign-in, which comes back to the same address (MapGate.signinHash); with a session and no
+  // map file, the tree form as the section's first step (with TREE_ENABLED off, the waiting line); with a map, its two
+  // pages (below; #/map and the old #/map?tab=tree become #/map/quests and #/map/tree in place). MAPS_ENABLED off: the
+  // launcher. The top bar holds the way to the other sections, so no screen here repeats it.
   async function mapScreen() {
     const MC = Copy.map;
-    crumbs([[MC.crumb, null]]); showAside(null);
+    crumbs([]); showAside(null);
     if (!mapsOn()) { toHash("#/skills"); return; }
     page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(MC.loading)}</p>`, true);
     const g = await mapGate();
     if (Routes.parseRoute(location.hash).name !== "map") return;
     if (g.gate === "signin") { toHash(MapGate.signinHash(location.hash)); return; }   // the map's own address goes with it
-    const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
+    const out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
     const build = Routes.parseRoute(location.hash).query.build === "1";
     if (g.gate === "map" && !(build && treeOn() && selfServe(g.map))) {
       const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
@@ -1039,13 +1044,13 @@
       const p = new URLSearchParams(R0.search); p.delete("tab");
       const want = `#/map/${sub}` + (p.toString() ? "?" + p : "");
       if (location.hash !== want) history.replaceState(null, "", location.pathname + location.search + want);
-      drawMap(g.map, ix, others, out);
+      drawMap(g.map, ix, out);
       if (selfServe(g.map)) setTimeout(() => { if (Routes.parseRoute(location.hash).name === "map") maybePrompt("map", { treeOpened: true }); }, 1500);
     } else if (treeOn() && (g.gate === "waiting" || g.gate === "map")) {
-      await treeForm(others, out);
+      await treeForm(out, !g.map);
       if (Routes.parseRoute(location.hash).name !== "map") return;
     } else {
-      page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
+      page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
     }
     $("#map-out").onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
@@ -1057,9 +1062,15 @@
   // the owner wrote by hand is never overwritten (409): the form says so. The site's own map carries
   // student.self_serve, and its screen gets the line "Built from your résumé on …" with the way back here (?build=1).
   const treeOn = () => mapsOn() && !!(window.CONFIG || {}).TREE_ENABLED;
+  // who sees a door into the map: the top bar's Build skills and the fit screen's "Get your tree" (decision K,
+  // 2026-11-10). The tree must be on, and the person must be able to sign in: anyone with accounts on, else only a
+  // session on this browser (the invited map users). A visitor who cannot sign in never sees a door that refuses them.
+  const buildOn = () => treeOn() && (accountsOn() || !!Auth.stored());
   const selfServe = map => !!(map && map.student && map.student.self_serve);
   const treeRoles = ix => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
-  async function treeForm(others, out) {
+  // `first`: the person has no map yet, so the form is Build skills' first step and says what comes after it; with a
+  // map (?build=1), it builds the tree again
+  async function treeForm(out, first) {
     const T = Copy.map.tree, here = () => Routes.parseRoute(location.hash).name === "map";
     const ix = await Atlas.index(); if (!here()) return;
     const F = treeRoles(ix);
@@ -1072,7 +1083,7 @@
         : `${resumeForm()}<p><button type="button" class="btn" id="tr-read">${esc(T.read)}</button></p>`;
       const roles = f ? `<label class="tr-lab">${esc(T.role)}<select id="tr-role"><option value="">${esc(T.pickRole)}</option>${f.roles.map(x => `<option value="${esc(x.id)}"${s.role === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
         ${s.role ? `<fieldset class="tr-also"><legend>${esc(T.also)}</legend>${f.roles.filter(x => x.id !== s.role).map(x => `<label><input type="checkbox" value="${esc(x.id)}"${s.also.includes(x.id) ? " checked" : ""}${!s.also.includes(x.id) && s.also.length >= 3 ? " disabled" : ""}> ${esc(x.label)}</label>`).join("")}</fieldset>` : ""}` : "";
-      page(`<h1>${esc(T.heading)}</h1><p class="lead">${esc(T.lead)}</p>
+      page(`<h1>${esc(first ? T.firstHeading : T.heading)}</h1><p class="lead">${esc(first ? T.firstLead : T.lead)}</p>
         <section class="tr-form">
           <h2>${esc(T.resume)}</h2>${resume}
           <label class="tr-lab">${esc(T.field)}<select id="tr-field"><option value="">${esc(T.pickField)}</option>${F.map(x => `<option value="${esc(x.id)}"${s.field === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
@@ -1081,7 +1092,7 @@
           <p><button type="button" class="btn primary" id="tr-build"${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
           <p class="small tr-out" id="tr-out" aria-live="polite"></p>
         </section>
-        <p>${others}</p><p class="small muted">${out}</p>`, true);
+        <p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
       if ($("#drop")) { wireResumeForm(); $("#tr-read").onclick = async () => { if (await takeResume()) { s.change = false; draw(); } else $("#file-status").textContent = RF.nothing; }; }
       const ch = $("#tr-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
@@ -1169,7 +1180,7 @@
     return out;
   }
 
-  function drawMap(map, ix, others, out) {
+  function drawMap(map, ix, out) {
     const MC = Copy.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
     const M = ix ? { skillById: ix.skillById, edges: ix.M.edges, clusters: ix.M.clusters, reads: (s, keys) => textOf(ix.M.meta.kinds).reads(s, keys) } : {};
     const R0 = Routes.parseRoute(location.hash), sub = R0.parts[1] === "tree" ? "tree" : "quests";
@@ -1177,12 +1188,12 @@
     if (held && !held.mine) held.mine = {};
     mapUi = { map, M, page: sub, view: R0.query.view === "list" ? "list" : "tree", mine: held ? held.mine : {}, now: R0.query.q || null, open: !!R0.query.q, shipping: null, draft: "", linkErr: false, saveErr: null, busy: false, skipped: null, panel: null, catalog: null, why: {}, lines: {} };
     mapUi.tree = MapModel.classTree(map, mapUi.mine);
-    crumbs([[MC.crumb, "#/map/quests"], [MC.nav[sub], null]]);
+    crumbs([[MC.nav[sub], null]]);   // Build skills / Quests, or Build skills / Skill tree
     const name = st.name_on_page;
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
     const lead = sub === "tree" ? (role ? (mapUi.tree.roles.length > 1 ? fill(MC.treeSub, { role }) : role + ".") : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
-      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${["quests", "tree"].map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${others}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${["quests", "tree"].map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top"><button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       <div id="map-body"></div>
       <p class="small muted map-only">${esc(MC.only)} ${out}</p>
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
@@ -3067,7 +3078,7 @@
     // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
     // visit, click on the press; its done is the tree form's own.
     const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
-    const treeCta = treeOn() && (accountsOn() || Auth.stored()) ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
+    const treeCta = buildOn() ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${core.length ? `<p class="small muted" data-fit-note>${esc(fill(FT.colsNote, { m: core.length }))}</p>` : ""}${standing}${postingBox}
       ${fitTabs}${fitBody}

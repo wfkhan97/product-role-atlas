@@ -20,8 +20,10 @@ const SESSION = { access_token: "ui-harness-token", refresh_token: "", expires_a
 const TITLES = EXAMPLE.cards.map(c => c.title);
 const hashOf = page => page.evaluate(() => location.hash);
 
-async function signedIn(visitor, hash = "#/map", map = EXAMPLE) {
-  const page = await visitor.open({ storage: { "maps.session": JSON.stringify(SESSION), "door.email": SESSION.email, "door.where": "", "door.seen": "1" } });
+// `map` null: no map file yet (a 404 from the bucket). `ready`: what the screen draws when it is done. `extra`: more
+// localStorage keys (a résumé on file).
+async function signedIn(visitor, hash = "#/map", map = EXAMPLE, { ready = "#map-body > *", extra = {} } = {}) {
+  const page = await visitor.open({ storage: { "maps.session": JSON.stringify(SESSION), "door.email": SESSION.email, "door.where": "", "door.seen": "1", ...extra } });
   page.files = {}; page.writes = [];
   await page.context().route(/\.supabase\.co\//, route => {
     const req = route.request(), url = new URL(req.url());
@@ -35,7 +37,7 @@ async function signedIn(visitor, hash = "#/map", map = EXAMPLE) {
     return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
   });
   await page.goto("/" + hash);
-  await page.locator("#map-body > *").first().waitFor();
+  await page.locator(ready).first().waitFor();
   return page;
 }
 const visible = page => page.locator("body").innerText();
@@ -196,4 +198,71 @@ test("a self-serve map with no quest and no posting: a calm empty Quests page, a
   // the print sheet names the role alone, never "{role} at "
   expect(await page.locator(".map-print header p").first().evaluate(p => p.textContent)).toBe(`${EXAMPLE.role.label} · ${Copy.fill(MC.printPage.band, { band: EXAMPLE.read.band_label })}`);
   await noBannedWords(page);
+});
+
+// ---------- Build skills, the map's own section (decision K, 2026-11-10) ----------
+const BAR = Copy.common.bar;
+const crumbsOf = page => page.locator("#crumbs a, #crumbs .here").allInnerTexts();
+const barShot = async (page, name, info) => { if (!process.env.MAP_SHOTS) return; fs.mkdirSync(SHOTS, { recursive: true }); await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-${name}.png`), clip: { x: 0, y: 0, width: page.viewportSize().width, height: 140 } }); };
+
+test("Build skills: the top bar shows it after Explore careers for a session, marked on the map, with the crumbs Build skills / Quests and / Skill tree", async ({ visitor }, info) => {
+  const page = await signedIn(visitor);
+  const verbs = page.locator("#verbs a.toplink[data-verb]");
+  await expect(verbs).toHaveText([BAR.jobs, BAR.skills, BAR.build, BAR.classes, BAR.network]);
+  const build = page.locator("#verbs a[data-verb='build']");
+  await expect(build).toHaveAttribute("href", "#/map");
+  await expect(page.locator("#verbs [aria-current='page']")).toHaveText(BAR.build);
+  await expect.poll(() => crumbsOf(page)).toEqual([BAR.build, MC.nav.quests]);
+  await expect(page.locator("#crumbs a").first()).toHaveAttribute("href", "#/map");
+  await expect(page.locator(".map-top a"), "no link to the launcher on the map head").toHaveCount(0);
+  await barShot(page, "topbar", info);
+  await page.locator(".mapnav a", { hasText: MC.nav.tree }).click();
+  await expect.poll(() => crumbsOf(page)).toEqual([BAR.build, MC.nav.tree]);
+  await expect(page.locator("#verbs [aria-current='page']")).toHaveText(BAR.build);
+  // the launcher marks Explore careers, not Build skills
+  await page.locator("#verbs a[data-verb='skills']").click();
+  await page.locator("#lf-body").waitFor();
+  await expect(page.locator("#verbs [aria-current='page']")).toHaveText(BAR.skills);
+  expect(unexpected(page.consoleErrors)).toEqual([]);
+});
+
+test("Build skills: a visitor with no session sees no Build skills (accounts are off), and the launcher keeps the invite line", async ({ visitor }) => {
+  const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  await page.goto("/#/skills");
+  await page.locator("#lf-body").waitFor();
+  await expect(page.locator("#verbs a.toplink[data-verb]")).toHaveText([BAR.jobs, BAR.skills, BAR.network]);
+  await expect(page.locator("#verbs a[href='#/map']")).toHaveCount(0);
+  await expect(page.locator("#main .lf-slot")).toContainText(MC.invite);
+});
+
+test("Build skills: no session goes to the sign-in with the map's page as next, so it comes back there", async ({ visitor }) => {
+  const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  await page.goto("/#/map/tree?view=list");
+  await expect.poll(() => hashOf(page)).toBe("#/signin?next=" + encodeURIComponent("#/map/tree?view=list"));
+  await page.locator("#main #si").waitFor();
+});
+
+test("Build skills: #/skills no longer sends a map owner to the map, and draws no map line", async ({ visitor }) => {
+  const page = await signedIn(visitor);
+  await page.evaluate(() => { location.hash = "#/skills"; });
+  await page.locator("#lf-body .lf-tiles").waitFor();
+  await page.waitForTimeout(500);   // a redirect would come after the map read
+  expect(await hashOf(page)).toBe("#/skills");
+  await expect(page.locator("#main .lf-slot")).toHaveCount(0);
+  await expect(page.locator("#main h1")).toHaveText(Copy.skills.heading);
+});
+
+test("Build skills: a session with no map lands on the tree form as the first step, and reuses the résumé already on file", async ({ visitor }, info) => {
+  const resume = { name: "resume.pdf", text: "Product marketing manager. Ran positioning and launches." };
+  const page = await signedIn(visitor, "#/map", null, { ready: "#main .tr-form", extra: { resume: JSON.stringify(resume) } });
+  await expect(page.locator("#main h1")).toHaveText(MC.tree.firstHeading);
+  await expect(page.locator("#main .lead")).toHaveText(MC.tree.firstLead);
+  await expect.poll(() => crumbsOf(page)).toEqual([BAR.build]);
+  await expect(page.locator("#verbs [aria-current='page']")).toHaveText(BAR.build);
+  await expect(page.locator(".tr-form")).toContainText(Copy.fill(MC.tree.onFile, { name: resume.name }));
+  await expect(page.locator(".tr-form #drop")).toHaveCount(0);
+  await expect(page.locator("#tr-field")).toBeVisible();
+  await expect(page.locator("#main a[href^='#/skills']"), "no link to the launcher: the top bar has it").toHaveCount(0);
+  await shot(page, "first-step-form", info);
+  expect(unexpected(page.consoleErrors)).toEqual([]);
 });

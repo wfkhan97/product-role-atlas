@@ -124,7 +124,9 @@ test("C-22, the crumbs changed shape and names: one rule on the route table, the
     ["explore", [["All fields", null]], "skills", [[BAR.skills, "#/skills"], ["All fields", null]]],
     ["role", [["All fields", "#/explore"], ["Finance", "#/field/finance"], ["Analyst", null]], "skills", [[BAR.skills, "#/skills"], ["All fields", "#/explore"], ["Finance", "#/field/finance"], ["Analyst", null]]],
     ["play", [H, ["A game", null]], "skills", [[BAR.skills, "#/skills"], ["A game", null]]],
-    ["map", [["Your map", null]], "skills", [[BAR.skills, "#/skills"], ["Your map", null]]],
+    // Build skills is the map's own section (decision K, 2026-11-10): its address is #/map, and the form alone shows it
+    ["map", [["Quests", null]], "build", [[BAR.build, "#/map"], ["Quests", null]]],
+    ["map", [], "build", [[BAR.build, null]]],
     ["professor", [["Classes", "#/classes"], ["Ada Lovelace", null]], "classes", [[BAR.classes, "#/classes"], ["Ada Lovelace", null]]],
     ["about", [["About GradBuddy", null]], null, [["About GradBuddy", null]]],
     ["you", [["About you", null]], null, [["About you", null]]],

@@ -133,11 +133,12 @@
     if (verifying) return /invalid|expired|not found|otp/i.test(text) ? S.codeWrong : S.serviceFailed;
     return /signups not allowed|not allowed|otp_disabled/i.test(text) ? S.codeRefused : S.serviceFailed;
   }
-  // E1: where Build skills and #/map lead. Off: the launcher as before. No session: the sign-in. A session and a map:
-  // the map. A session and no map file yet: the waiting line.
+  // Where Build skills (#/map, the top bar's own section since decision K of 2026-11-10) leads. Off: the launcher. No
+  // session: the sign-in. A session and a map: the map. A session and no map file yet: "waiting" (the tree form when
+  // TREE_ENABLED is on, else the waiting line).
   // signinHash(from) and landing(next) (2026-11-06): the map's own address goes to the sign-in as `next` and comes back
-  // after it, so #/map?build=1&role=<id> keeps its form and its role; anything but a #/map hash is dropped
-  // (2026-11-10: the map's two pages, #/map/quests and #/map/tree, come back too)
+  // after it, so #/map?build=1&role=<id> keeps its form and its role, and #/map/quests and #/map/tree their page; the
+  // plain #/map goes too, since the code sign-in returns to `next` alone; anything but a #/map hash is dropped
   const MAP_HASH = /^#\/map(\/(quests|tree))?(\?[a-z0-9_=&.%+-]*)?$/i;
   const MapGate = {
     next({ enabled, session, hasMap } = {}) {
@@ -145,7 +146,7 @@
       if (!session) return "signin";
       return hasMap ? "map" : "waiting";
     },
-    signinHash: from => MAP_HASH.test(String(from || "")) && String(from) !== "#/map" ? "#/signin?next=" + encodeURIComponent(String(from)) : "#/signin",
+    signinHash: from => MAP_HASH.test(String(from || "")) ? "#/signin?next=" + encodeURIComponent(String(from)) : "#/signin",
     landing: next => MAP_HASH.test(String(next || "")) ? String(next) : "#/map",
   };
 

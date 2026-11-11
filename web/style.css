@@ -1036,7 +1036,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 }
 
 /* ---------- B5 launcher ---------- */
-/* Explore roles & build skills (owner's pick S5): the roles two thirds of the page, the résumé the right third, sticky;
+/* Explore careers, the launcher (owner's pick S5): the roles two thirds of the page, the résumé the right third, sticky;
    four field tiles per row from 1280 px, three from 900, two below; one column under 900 px. Tokens only. */
 .main > .page.lf-page { max-width: none; }   /* the full main width (it was 1200 px); five tiles a row from 1680 px */
 .lf-lead { max-width: 720px; }

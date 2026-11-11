@@ -1,4 +1,4 @@
-// web/launcher.js: the pure parts of Explore roles & build skills (owner's pick S5), on a synthetic index and on the
+// web/launcher.js: the pure parts of Explore careers, the launcher (owner's pick S5), on a synthetic index and on the
 // real one. The prefix search, the fields with their roles by open postings, the closest roles and the match lines.
 import test from "node:test";
 import assert from "node:assert/strict";

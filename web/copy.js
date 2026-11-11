@@ -35,7 +35,8 @@
     notNow: "Not now",
     loading: "Loading…",
     loadingRoles: "Loading the roles…",
-    bar: { jobs: "Find jobs", skills: "Explore careers", classes: "Find classes", network: "Networking" },   // the top bar's short labels
+    // the top bar's short labels; Build skills is the map's section (#/map, 2026-11-10), shown to whoever can sign in
+    bar: { jobs: "Find jobs", skills: "Explore careers", build: "Build skills", classes: "Find classes", network: "Networking" },
     // the theme button's name (2026-11-08): what a press does. From the device's theme it shows the other one, and
     // the next press follows the device again (Routes.Theme)
     themeTo: "Switch to the {theme} theme",
@@ -955,9 +956,8 @@
     signIn: "Sign in to keep it on your account.",
   };
 
-  // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
+  // ---------- the apprentice map (#/map, the Build skills section) and its one line on the launcher (#/skills) ----------
   const map = {
-    crumb: "Your map",
     heading: "Your map",
     roleAt: "{role} at {company}.",
     loading: "Loading your map…",
@@ -965,13 +965,14 @@
     waiting: "We are writing your map. It opens here when it is ready.",
     only: "Only you can open it.",
     signOut: "Sign out",
-    others: "Explore other roles →",
-    back: "← Back to your map",
     invite: "Have an invite to an apprentice map, a private plan for one role?",
     inviteLink: "Sign in.",
     // the self-serve tree (step 4, 2026-11-05): the form on #/map for a signed-in person with no map, and the line
     // under a map the site built
     tree: {
+      // Build skills' first step, for a person with no map yet (2026-11-10): what comes after the form
+      firstHeading: "Build skills",
+      firstLead: "Start with your résumé and the roles you want. We then build your quests and your skill tree.",
       heading: "Build your tree",
       lead: "Your tree comes from your résumé and the roles you pick. It shows what every role asks for and how your résumé reads for each. Two lines of your own come first.",
       resume: "Your résumé",
