@@ -942,7 +942,8 @@
     }
     return { gate: MapGate.next({ enabled: true, session, hasMap: !!map }), map };
   }
-  // #/signin, invited mode: what the map is, an email, Send me a link, then the sent state, the refused line (with a way
+  // #/signin, invited mode: what Build skills is, an email, Email me a code, then the sent state with the code box (the
+  // email's link works too), the refused line (with a way
   // to ask for an invite and the way back to Explore careers) or the failure. A session already on file goes to the
   // map, or to the map's own address the sign-in came from (?next=, MapGate.landing). GoTrue sends the link to an
   // existing user only (web/auth.js), and always to #/map: the next hash waits in maps.next until the link lands.
@@ -968,10 +969,27 @@
       if (Routes.parseRoute(location.hash).name !== "signin") return;
       const refused = !r.ok && r.message === S.refused;
       const ask = refused && feedbackOn() ? `<button type="button" class="linkish link" id="si-ask">${esc(S.askInvite)}</button> · ` : "";
-      out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>`
+      // sent: the email carries a code and a link, so the page takes the code here (the link lands on #/map as before)
+      out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))} ${esc(S.sentLink)}</p></div>
+          <form class="si" id="si-codeform" novalidate><input type="text" id="si-code" class="si-code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="${esc(S.codePlaceholder)}" aria-label="${esc(S.code)}"><button class="btn primary" type="submit" id="si-verify">${esc(S.verify)}</button></form>
+          <div class="si-out" id="si-codeout" aria-live="polite"></div>`
         : `<p class="si-no">${esc(r.message || S.failed)}</p>${refused ? `<p class="small si-ask">${ask}<a href="#/skills">${esc(S.explore)}</a></p>` : ""}`;
       const ex = $("#si-explore"); if (ex) ex.hidden = refused;   // the way back once: under the refused line when it shows
       const b = $("#si-ask"); if (b) b.onclick = () => openFeedback({ prompted: false, lead: FB.inviteLead, email });
+      const cf = $("#si-codeform");
+      if (cf) {
+        const cout = $("#si-codeout"), vb = $("#si-verify");
+        cf.onsubmit = async ev => {
+          ev.preventDefault();
+          vb.disabled = true; cout.innerHTML = `<p class="small muted">${esc(S.verifying)}</p>`;
+          const v = await Auth.verifyCode(email, $("#si-code").value);
+          if (Routes.parseRoute(location.hash).name !== "signin") return;
+          if (!v.ok) { vb.disabled = false; cout.innerHTML = `<p class="si-no">${esc(v.message || S.codeWrong)}</p>`; return; }
+          try { localStorage.removeItem("maps.next"); } catch { }   // the code lands here; no link will read it
+          toHash(next); if (location.hash === next) route();
+        };
+        setTimeout(() => { const i = $("#si-code"); if (i) i.focus(); }, 0);
+      }
     };
   }
   // the code flow (step 2): the email, then the six-digit code, then back to where the person came from (?next=);

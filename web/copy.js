@@ -869,29 +869,31 @@
   };
 
   // ---------- the sign-in for the apprentice maps (#/signin with CONFIG.MAPS_ENABLED; web/auth.js) ----------
-  // A magic link to an invited address only. The maps are the one private thing on the site; nothing else asks for it.
+  // An email to an invited address only. It carries a six-digit code and a link (one GoTrue template serves both), so
+  // the page takes the code and the link still works (2026-11-11: the email led with a code the page never asked for).
   const signin = {
     crumb: "Sign in",
     heading: "Sign in",
     lead: "Have an invite? Enter the email it came to.",
     // what the map is, on the invited sign-in (2026-11-06): a visitor without an invite reads this first
-    mapLine: "Your apprentice map is a private plan of what to build for one role. It opens by invite today.",
+    mapLine: "Build skills is your private plan: quests to build and a skill tree for the roles you want. It opens by invite today.",
     askInvite: "Ask for an invite",
     email: "Email",
     emailPlaceholder: "The email on the invite",
-    button: "Send me a link",
+    button: "Email me a code",
     sending: "Sending…",
-    sent: "Check your email for the link. It works once.",
+    sent: "Check your email for a six-digit code. It works once.",
+    sentLink: "The link in the email works too.",
     sentTo: "Sent to {email}.",
     refused: "This email has no invite.",
-    failed: "The link did not go out. Check your connection and try again.",   // a network failure alone
+    failed: "The email did not go out. Check your connection and try again.",   // a network failure alone
     // GoTrue answered, and said no (2026-11-06): too many emails, or another refusal; never the connection line
     rateLimited: "Too many emails sent. Try again in an hour.",
     rateWait: "Too many emails in a short time. Try again in {n} seconds.",
     serviceFailed: "The email service did not send it. Try again in a few minutes.",
     invalid: "Enter the email address on your invite.",
-    expired: "That link no longer works. Send yourself a new one.",
-    note: "The link opens your map. Nothing else here needs a sign-in.",
+    expired: "That link no longer works. Send yourself a new code.",
+    note: "The code signs you in on this browser. Nothing else here needs a sign-in.",
     explore: "Explore careers without one →",
     // the code flow (the visitor journey, step 2, 2026-11-05): anyone, email plus a six-digit code, no password
     codeLead: "Enter your email. We send a six-digit code; no password.",

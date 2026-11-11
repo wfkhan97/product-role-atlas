@@ -3681,12 +3681,27 @@ story pages (application process, common APM skills, preparation materials) and 
 the five interview types and the written assignment done at home, and name side projects as resume evidence.
 Other Google records (`google_apmm`, the loops) are still second-hand; the same method would upgrade them.
 
+## The invited sign-in takes the emailed code (`fix/invite-signin-code`, 2026-11-11)
+
+The owner signed in with an invited address and the email led with "Your code: ……", while the page said "Check your
+email for the link" and had no place to type a code. One GoTrue template serves the invited link and the code of the
+open sign-in, and it leads with the code. The invited page now shows the six-digit box once the email is sent and
+signs in with `Auth.verifyCode`, landing on the page the person came from; the email's link still works and lands on
+`#/map` as before. The button reads "Email me a code". The page's first line names Build skills (quests and a skill
+tree), where it still said "apprentice map… a private plan for one role". No Supabase setting changed.
+
+Not done here: the welcome screen still meets an invited person first and asks for an email that is not the
+sign-in, and "Build skills" shows in the top bar only after a sign-in, so an invited person needs the address
+`#/map`. Both are under Later.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
+- The invited person's way in: the welcome screen asks for an email before the sign-in and is not the sign-in, and
+  the top bar shows "Build skills" only to a session. An invite needs a door a signed-out person can see.
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
   the catalog project's Auth settings; then "Allow new users to sign up" back on there (off since 2026-11-06, so only
   invited addresses get a session), the rate limits, a code email template that carries `{{ .Token }}` and no link
