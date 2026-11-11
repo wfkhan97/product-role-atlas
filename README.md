@@ -105,6 +105,7 @@ the evals.
 node pipeline/catalog_tags.mjs                              # skill tags per class -> cornell_tech_tags.json (rerun after a taxonomy change)
 .venv/bin/python -m pipeline.funnel --from 2026-11-01       # screens reached, calls to action, returns, visible time, feedback counts
 .venv/bin/python -m pipeline.experiments.postings_read status   # the model read of the backlog: batches and spend (cache in data/experiments/postings_read/)
+.venv/bin/python -m pipeline.standards verify               # the standards index: fetch every source, flag what a person must re-read (about 15 minutes; --no-fetch for the date rules alone)
 .venv/bin/python -m pipeline.runs --last 20                 # the last recorded runs of every stage
 ```
 
@@ -128,11 +129,16 @@ request, which it merges itself when every check passes (a failing run leaves a 
 | `refresh-mba.yml` | Sunday 03:17 New York | `REFRESH_MBA_SCHEDULE=on` |
 | `refresh-product.yml` | first Sunday of the month, 05:17 | `REFRESH_PRODUCT_SCHEDULE=on` |
 | `refresh-tech.yml` | second Sunday of the month | `REFRESH_TECH_SCHEDULE=on` |
+| `verify-standards.yml` | the 3rd of the month, 09:23 UTC | |
 | `ci.yml` | every pull request and push to `main` | |
 
 By hand: `gh workflow run refresh-mba.yml [-f ats=workday] [-f only="Accenture"] [-f dry_run=true]`. A job board
 that blocks GitHub's runners can run on a self-hosted runner (`docs/SELF_HOSTED_RUNNER.md`). Every stage run writes
 one row to the `runs` table (`pipeline/log.py`, `PIPELINE_RUNS=off` turns it off).
+
+`verify-standards.yml` is not a refresh: it runs `pipeline.standards verify` and the standards eval, and opens an
+issue listing the sources of `pipeline/standards.json` a person must re-read (unreachable, changed, read more than
+12 months ago, programs not re-read since 1 August). It reads no secret, commits nothing and merges nothing.
 
 ## Hosting
 
@@ -179,14 +185,14 @@ overwrites a newer local one.
 
 | Folder | What is in it |
 |---|---|
-| `pipeline/` | The stages, the role sets (`roles.py`, `roles_mba.py`, `roles_tech.py`), the taxonomy (`taxonomy.json`, `evidence.json`, `fields.json`, `tax.py`), the depth (`depth/`, `depth_gen.py`, `build_steps.py`, `depth_publish.py`), the stores (`backlog.py`, `store.py`), the adapters (`adapters/`), the catalog export, the funnel, the apprentice generator (`apprentice/`), the migrations (`sql/`), taxonomy tooling (`experiments/`). |
+| `pipeline/` | The stages, the role sets (`roles.py`, `roles_mba.py`, `roles_tech.py`), the taxonomy (`taxonomy.json`, `evidence.json`, `fields.json`, `tax.py`), the depth (`depth/`, `depth_gen.py`, `build_steps.py`, `depth_publish.py`), the standards index (`standards.json`, `standards.py`), the stores (`backlog.py`, `store.py`), the adapters (`adapters/`), the catalog export, the funnel, the apprentice generator (`apprentice/`), the migrations (`sql/`), taxonomy tooling (`experiments/`). |
 | `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the two functions; `tokens/` the design tokens. |
 | `data/` | `registry.json` (every employer's ATS config, merged from `raw/registry_*.json`), `raw/` (the Fortune list, funds, portfolios, employer lists; the postings backlog is not in git), `processed/` (the tagged postings). |
 | `evals/` | Every eval runner, the expectation files and the committed baselines (`evals/README.md`). |
 | `tests/` | Unit tests, web and python, and the UI harness in `tests/ui/` (`tests/README.md`). |
 | `games/` | The design packages of the games (`games/README.md`). |
 | `docs/` | The module reference, the GradBuddy contract, the self-hosted runner. |
-| `.github/workflows/` | CI and the three refresh jobs. |
+| `.github/workflows/` | CI, the three refresh jobs and the monthly check of the standards index. |
 
 ## Writing and scratch
 

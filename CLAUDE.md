@@ -45,6 +45,11 @@
   `evals/depth_baseline_mba.md`; a change to the sub-skills also means the MBA extract chain above (sub-skills are
   tagged at extraction). A source record changes only through `pipeline.build_sources verify` (hashes) or by hand
   with its `date_read` and `terms_note` updated.
+- The standards index (`pipeline/standards.json`) is grounding for the quest generator's prompt only: nothing in it is
+  shown or linked on a quest card. A record changes by hand, after a person re-reads the page, with its `date_read`
+  updated and no quotation kept; `pipeline.standards verify` writes only its check fields. A change to the file or to
+  `pipeline/standards.py` means `.venv/bin/python evals/run_standards.py --baseline` and committing
+  `evals/standards_baseline.md`. No source from the blocked-vendor list of `data/raw/build_sources.json`.
 - The raw posting files are a backlog. Never replace one with a fresh scrape and never delete postings from it:
   `pipeline.scrape --refresh` merges. A change to `pipeline.scrape.merge` needs `evals/run_pipeline.py --only backlog`.
   The files are not in git: the Supabase backlog (`pipeline/backlog.py`) is the store, and a fresh checkout runs
