@@ -273,6 +273,9 @@
       const byHand = prev && Number.isInteger(prev.clear) && prev.clear !== w.clear && prev.clear !== lastAuto;
       worlds.push({ n: w.n, label: w.label, who: w.who, clear: byHand ? prev.clear : Math.min(w.clear, live), ...(w.optional ? { optional: true } : {}), missions });
     }
+    // the side projects the person picked (web/quests.js, 2026-11-11) keep their own level, first on the path
+    const sides = cards.filter(c => c && c.kind === "side_project").map(c => c.id);
+    if (sides.length) worlds.unshift({ n: "side", label: (before.side || {}).label || "Your side project", missions: sides });
 
     // The deterministic parts first, then what the skill and the owner wrote, then anything else the file holds.
     const out = {
@@ -305,8 +308,8 @@
     out.map.worlds = out.map.worlds.filter(w => w.missions.length);
     return out;
   }
-  // a map the owner wrote: any card that is not a story card
-  const byHand = map => !!map && Array.isArray(map.cards) && map.cards.some(c => c && c.kind !== "story");
+  // a map the owner wrote: any card that is neither a story card nor a side project the person picked (2026-11-11)
+  const byHand = map => !!map && Array.isArray(map.cards) && map.cards.some(c => c && c.kind !== "story" && c.kind !== "side_project");
 
   return { ground, storyCards, storyPrompt, assembleMap, selfServeMap, byHand, WORLDS, STORY_STATES, STORY_MAX, BAND_LABEL, STATE, isWorkLine };
 });

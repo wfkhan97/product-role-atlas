@@ -2,8 +2,8 @@
 
 One page for another program (GradBuddy, its jobs back end, an agent) that reads the atlas's files and functions.
 The frame: **the atlas states facts and matches; GradBuddy synthesizes and acts.** Everything below is a fact or a
-match. The files and functions here run no model; the site's two functions (`/api/infer`, `/api/tree`) and what a
-person's text or counts leave the browser for are in the privacy rule at the end.
+match. The files and functions here run no model; the site's three functions (`/api/infer`, `/api/tree`,
+`/api/quests`) and what a person's text or counts leave the browser for are in the privacy rule at the end.
 
 ## Stable and not
 
@@ -313,9 +313,20 @@ folder from it, once, and never overwrites a folder here. Nothing in the atlas w
   `atlas_skills` (skill ids), `classes` (roster codes), `users`, `sources[]` (`title`, `url`, `read`), and, set by the
   owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`). The screen
   draws the owner's `shipped` as shipped and `declined` as skipped; `changed` and `reply` draw nothing.
-- optional on any card (2026-11-10; none is written yet), drawn only when present: `steps` (short strings, a
-  checklist the person ticks; the ticks stay in the browser), `prompt` (plain text with a Copy button), `build_with`
-  and `live_on` (each a list of `name`, `note`).
+- optional on any card (2026-11-10), drawn only when present: `steps` (short strings, a checklist the person ticks;
+  the ticks stay in the browser), `prompt` (plain text with a Copy button), `build_with` and `live_on` (each a list of
+  `name`, `note`). A side project fills all four.
+- a **side project** (2026-11-11; `kind: "side_project"`, `source: "model"`, written by `/api/quests` when the person
+  picks one of three; three at most per map): `id` (`side-<title words>`), `level` `"side"`, `track`, `title` (nine
+  words at most), `ship` (sixteen), `steps` (three to six), `prompt` (eighty words), `build_with` (the kit's kind
+  label as `name`, its examples as `note`), `live_on` (the host, and Supabase when the project stores data),
+  `why_role` (`text`, `posting_quote` null), `why_person` (`text`, `profile_quote`: a phrase the résumé holds, or
+  null), `atlas_skills` (ids on the class tree), `classes` (empty), `users` (null), `sources`, `model`, `written` (a
+  date). No `hours`, `window` or `why_company`. They sit in the world `{ n: "side", label: "Your side project",
+  missions }`, first in `worlds`; the screen draws it as "Your side project" with no number. `check.mjs` checks them
+  by these rules; `assembleMap` and a rebuild by `/api/tree` keep them; `byHand` does not count them as the owner's.
+  The kinds and hosts are `web/data/build_kit.json` (`kinds[]` of `id`, `label`, `examples[]` of `name`, `url`,
+  `checked`; `hosts[]` of `id`, `label`, `needs` (an account id or null), `note`; `accounts[]`).
 - a **story card** (`kind: "story"`, World 1, at most two, written by the generator): the keys above without
   `why_company`, `posting_quote`, `classes` and `users`, plus `skill` (one id on the tree), `state` (`must evidence
   better` or `shows in other words`), `line` (the résumé line as it stands), `what`, `reads_as`, `shown_by`
@@ -328,7 +339,9 @@ own index by id; a node carries `name` so an id the taxonomy no longer has still
 
 **Stable**: the key names above, the four states, the three places, the world ids, the card id form (lower-case
 letters, digits, hyphens and underscores; a story card is `s1-<skill id>`), the bucket path `maps/<uid>/map.json` and
-the feedback path `maps/<uid>/feedback/<card id>.json` with each underscore of the id written as a hyphen (the
+the side-project files `maps/<uid>/quests/count.json` (`{ date, n }`, the daily cap) and `quests/pending.json` (the
+last three projects written, so a pick names one by `id`; never the résumé or the extras), written by the function
+with the service role and readable by the person alone, the feedback path `maps/<uid>/feedback/<card id>.json` with each underscore of the id written as a hyphen (the
 bucket's policy takes `[a-z0-9-]` in a file name; the object's `card` keeps the id), the feedback object. Since
 2026-11-10 the site writes `card`, `choice` one of `start` · `shipped` · `skip` · `open` (the undo), `link` (with
 `shipped` only: an http or https link to the live thing, at most 500 characters) and `date`. It still reads the
@@ -338,7 +351,7 @@ every value, the k defaults, the example's cards.
 **The privacy rule for maps.** A map quotes one person's résumé and names their target company; only that person
 reads it, with their own session, from their own folder; the owner writes it with the service role. What goes up
 from the atlas is one feedback file per card: the card id, the choice, the link the person typed for a shipped quest,
-the date. Never the résumé, a skill list or a file. The policies are `pipeline/sql/2026-11-03_maps.sql`; the two scripts need the service-role key of the
+the date. Never the résumé, a skill list or a file. A side project picked goes into the map through `/api/quests`, which writes it with the service role; the extras that helped write it are never in the map or the bucket. The policies are `pipeline/sql/2026-11-03_maps.sql`; the two scripts need the service-role key of the
 project the site points at and never run without it.
 
 ## The privacy rule
@@ -349,9 +362,17 @@ code.
 
 What leaves it, and only this:
 
-- **A résumé's text**, twice at most and stored by neither: to `/api/infer` once per upload (the model read; the
-  function sends it to the model and keeps nothing) and to `/api/tree` once per build (grounded in the function and
-  dropped). The map that comes back holds the lines the read found, never the file.
+- **A résumé's text**, stored by none of the functions: to `/api/infer` once per upload (the model read; the
+  function sends it to the model and keeps nothing), to `/api/tree` once per build (grounded in the function and
+  dropped) and, with `CONFIG.QUESTS_ENABLED`, to `/api/quests` once per "write three" (sent to the model and dropped).
+  The map that comes back holds the lines the read found, never the file.
+- **The side-project request** (`/api/quests`, `mode: "write"`): the résumé text, the answers (`tech` one of
+  `no_code` · `ai_tools` · `read_code` · `write_code`; `tools` a kind id to `use` or `learn`; `accounts` an account id
+  to `have` · `would` · `no`) and `extras`, the text of the files a person added under "Add more about you" (a
+  LinkedIn PDF, essays, other PDFs or text), read in the browser and cut at 20,000 characters. **The extras are sent
+  once to write the quests and stored nowhere**: no bucket file, no log line, no saved state; in the browser they live
+  in the tab's sessionStorage until the pick or the tab closes. The function's log holds the model, the stop reason,
+  the token usage and the rule counts. `mode: "pick"` sends one id (`p1` to `p3`).
 - **The door email and the intake email**, one `waitlist` row each: the email, the `source` (`door`, `intake_<surface>`,
   the six older sources), the `surface`, the role on screen, and the stage and program group when the screen knows
   them. A second click with the same email and source is not a second row.

@@ -89,10 +89,27 @@ export function checkMap(slug, dir, mapFile = path.join(dir, "map.json")) {
   const ids = new Set();
   const perLevel = { 1: [], 2: [], 3: [], reach: [] };
   const stories = cards.filter(c => c && c.kind === "story");
+  const sides = cards.filter(c => c && c.kind === "side_project");
+  if (sides.length > 3) fail("side", `${sides.length} side projects; three at most`);
   if (stories.length > STORY_MAX) fail("level 1", `${stories.length} story cards; ${STORY_MAX} at most`);
   for (const c of cards) {
     const w = `card ${c.id || "(no id)"}`;
     if (!c.id) fail(w, "missing id"); else if (ids.has(c.id)) fail(w, "duplicate id"); else ids.add(c.id);
+    // a side project the person picked (kind "side_project", level "side", written by /api/quests, 2026-11-11): its
+    // own rules, since it carries no time estimate, no company and no posting quote
+    if (c.kind === "side_project") {
+      if (c.level !== "side") fail(w, `a side project sits in the level "side", not ${JSON.stringify(c.level)}`);
+      if (c.source !== "model") fail(w, `a side project's source is "model"`);
+      for (const k of ["title", "ship", "prompt"]) if (!c[k]) fail(w, `missing "${k}"`);
+      if (!Array.isArray(c.steps) || c.steps.length < 3 || c.steps.length > 6) fail(w, "a side project has three to six steps");
+      for (const k of ["build_with", "live_on"]) if (!Array.isArray(c[k]) || !c[k].length || c[k].some(x => !x || !x.name)) fail(w, `"${k}" is a list of { name, note }`);
+      if (c.hours != null || c.window != null) fail(w, "a side project carries no time estimate");
+      if (!Array.isArray(c.atlas_skills) || !c.atlas_skills.length) fail(w, "atlas_skills is empty");
+      else for (const id of c.atlas_skills) { if (!skillIds.has(id)) fail(w, `atlas skill "${id}" is not in the ${setName} taxonomy`); else if (map.tree && !onTree.has(id) && !offTree.has(id)) fail(w, `"${id}" is not on the class tree`); }
+      if (c.why_person && c.why_person.profile_quote && !profile.includes(norm(c.why_person.profile_quote))) fail(w, `why_person.profile_quote is not in profile.md: "${c.why_person.profile_quote.slice(0, 60)}"`);
+      if (/\bmissions?\b/i.test([c.title, c.ship, c.prompt, ...(c.steps || [])].join(" "))) fail(w, `says "mission"; the word is "quest"`);
+      continue;
+    }
     if (![1, 2, 3, "reach"].includes(c.level)) fail(w, `level ${JSON.stringify(c.level)} is not 1, 2, 3 or "reach"`); else if (c.kind !== "story") perLevel[c.level].push(c);
     if (!trackIds.has(c.track)) fail(w, `track "${c.track}" is not in tracks`);
     for (const k of ["title", "ship", "window"]) if (!c[k]) fail(w, `missing "${k}"`);
@@ -156,15 +173,16 @@ export function checkMap(slug, dir, mapFile = path.join(dir, "map.json")) {
 
   // ---------- the worlds: one per level in order, the Reach only with its card, k of n with k at most n ----------
   const worlds = Array.isArray(map.worlds) ? map.worlds : [];
-  const expect = ["1", "2", "3", ...(perLevel.reach.length ? ["reach"] : [])];
+  const expect = [...(sides.length ? ["side"] : []), "1", "2", "3", ...(perLevel.reach.length ? ["reach"] : [])];
   if (map.worlds && worlds.map(x => String(x.n)).join(",") !== expect.join(",")) fail("worlds", `the worlds read ${worlds.map(x => x.n).join(", ") || "none"}; the map needs ${expect.join(", ")}. Run assemble.mjs.`);
   const byId = Object.fromEntries(cards.map(c => [c.id, c]));
   for (const x of worlds) {
     const w = `world ${x.n}`;
     const missions = Array.isArray(x.missions) ? x.missions : [];
     for (const id of missions) { if (!byId[id]) fail(w, `mission "${id}" is not a card`); else if (String(byId[id].level) !== String(x.n)) fail(w, `mission "${id}" is a level ${byId[id].level} card`); }
-    for (const c of perLevel[x.n] || []) if (!missions.includes(c.id)) fail(w, `card "${c.id}" is missing from its world. Run assemble.mjs.`);
+    for (const c of (x.n === "side" ? sides : perLevel[x.n] || [])) if (!missions.includes(c.id)) fail(w, `card "${c.id}" is missing from its world. Run assemble.mjs.`);
     const n = missions.filter(id => byId[id] && !byId[id].declined).length;
+    if (x.n === "side") { if (!x.label) fail(w, "missing label"); continue; }   // the side projects: nothing to clear
     if (!Number.isInteger(x.clear) || x.clear < 0) fail(w, "clear must be a whole number, zero or more");
     else if (x.clear > n) fail(w, `clear is ${x.clear}, above its ${n} mission${n === 1 ? "" : "s"}`);
     if (!x.label) fail(w, "missing label");

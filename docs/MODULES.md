@@ -164,6 +164,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   (ids), `skills` (taxonomy ids), `weak`, a note, when no fetched source other than a prep vendor backs the item or the backing is thin for a stated reason. `no_list`: the roles whose
   sources do not say what a candidate must show, each with the reason; a reader gives those roles no grounding from
   this file. A reader takes `roles`; `sources` is there to weigh an item (first-party, fetched, fresh).
+- `pipeline/standards_publish.mjs` — writes `web/data/standards.json` (the roles and their `shows`, no sources) for
+  `/api/quests`; `--check` exits 1 when it is behind. `Quests.standardsFor` (`web/quests.js`) renders the lists of a
+  person's roles into the prompt.
 - `pipeline/standards.py` — `verify`: one GET per source, two seconds apart, a generic user agent. Writes only
   `check` (date, outcome, HTTP status, hash of the page's words, note), `read_sha256`, `read_sha256_date` and
   `read_sketch` (64 short hashes of the text's five-word runs) on a source; never a summary. Outcomes: `ok`,
@@ -279,11 +282,20 @@ and evals run the code the site runs.
   `CONFIG.ACCOUNTS_ENABLED` and a session.
 - `map.js` — `MapModel`, the pure part of `#/map/quests` and `#/map/tree`: the class tree's places and layout, the
   levels and each quest's state from the file and the person's own marks (`worlds`, `ownChoice`, `questState`), the now
-  quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills. `apprentice.js` — the generator's pure part (above).
+  quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills; the level `side`
+  (the side projects picked) has a head and no number. `apprentice.js` — the generator's pure part (above).
+- `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`) and of
+  `/api/quests`: the answers' lists and what they allow (`allowedKinds`, `allowedHosts`, `dbAllowed`), the class tree
+  the projects aim at (`treeOf`), the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint
+  after the kit, `personBlock` the person's material, `request`, `SCHEMA`), `validate` (every rule by id in `RULES`;
+  a failing project is dropped, a quote the résumé lacks is cut), `cardOf` and `addSide` (the card, kind
+  `side_project`, in the world `side` first on the path), `keepSide` (a rebuild keeps them), the daily cap. The kit
+  is `data/build_kit.json`, the one file that names products, each with `checked` and `url`.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
-- `api/infer.js`, `api/tree.js` — the two functions (README, "Hosting"). `tree.js` identifies the caller through
+- `api/infer.js`, `api/tree.js`, `api/quests.js` — the three functions (README, "Hosting"). `quests.js` authenticates
+  as `tree.js` does and reuses its Storage calls; raw `fetch` to the Messages API, as `infer.js`. `tree.js` identifies the caller through
   GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
   overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`
   alone. Limits: 40,000 characters of text, four roles, 8 s upstream.

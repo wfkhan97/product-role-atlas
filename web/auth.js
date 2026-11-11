@@ -139,7 +139,7 @@
   // signinHash(from) and landing(next) (2026-11-06): the map's own address goes to the sign-in as `next` and comes back
   // after it, so #/map?build=1&role=<id> keeps its form and its role, and #/map/quests and #/map/tree their page; the
   // plain #/map goes too, since the code sign-in returns to `next` alone; anything but a #/map hash is dropped
-  const MAP_HASH = /^#\/map(\/(quests|tree))?(\?[a-z0-9_=&.%+-]*)?$/i;
+  const MAP_HASH = /^#\/map(\/(quests|tree|start(\/[a-z]+)?))?(\?[a-z0-9_=&.%+-]*)?$/i;   // the side-project flow too (2026-11-11)
   const MapGate = {
     next({ enabled, session, hasMap } = {}) {
       if (!enabled) return "launcher";

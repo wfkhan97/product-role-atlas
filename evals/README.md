@@ -18,6 +18,7 @@ moves it. Scratch (a draft baseline, a one-off report) goes under `data/experime
 | `node evals/copy.mjs` | Every string the screens own against the writing rule (gated by `tests/web/copy.test.mjs`) | via the test | |
 | `node evals/run_classes.mjs` | The class picker's matching on the test résumés | | |
 | `node evals/infer.mjs` | The model read over the whole résumé set | | `ANTHROPIC_API_KEY` or `--url`; `store pull evals` |
+| `node evals/quests.mjs` | The side-project writer (`/api/quests`) over 32 fixed cases: validity per rule, drops, tokens, cost per person → `quests_baseline.md` | | `ANTHROPIC_API_KEY`, or `--url` with `QUESTS_TOKEN` |
 | `node evals/lines_judged.mjs` | A model reader on 50 generated sentences | | `OPENROUTER_API_KEY` |
 | The game evals (below) | Each game's pools and deals over every role | | |
 
@@ -618,3 +619,19 @@ Still to build, in this order:
 10. **Generated quests against the standards index.** A sample of 30 generated quests for roles with a list, each
    judged by the owner: does this project show something the role's `shows` list asks for, or lay a foundation for
    one? No rule ties a quest to one item, so this is a judged sample, not a code check.
+11. **A judged half for the side-project writer.** `evals/quests.mjs` checks the rules in code and has a baseline
+    (`quests_baseline.md`). Whether a project fits the person and the role is not judged yet: a second model or the
+    owner reads a sample.
+
+## The side-project writer (`evals/quests.mjs`)
+
+What `/api/quests` writes, held to the rules `web/quests.js` `validate` checks in code: the skills on the class
+tree, a kind and a host from `web/data/build_kit.json` that the answers allow, a database only with Supabase, the
+word limits (title nine, "You ship" sixteen, three to six steps of fourteen, a prompt of eighty), no duration word,
+no "mission", a why line that speaks to the person as "you", no duplicate, and a résumé quote only when the résumé holds it. A direct run builds each case's map
+the way `/api/tree` does and sends the function's own body; `--url` goes through a deploy signed in as a test
+account (`QUESTS_TOKEN`; the deploy's `QUESTS_DAILY_CAP` raised for the run). Saved answers sit in
+`data/experiments/quests/` and are validated again on every run, so `--reuse` rescores a rule change for free.
+The first run (2026-11-11, direct) dropped 18 of 102 projects for a time word in the project's own subject ("a weekly
+business review", "a first ninety days plan"). The rule now refuses an estimate of how long the quest takes, never a
+time word in what the person builds; the saved answers rescored to 2 dropped of 96.

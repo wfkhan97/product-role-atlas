@@ -19,7 +19,7 @@
    Who the person is: GoTrue says (GET /auth/v1/user with the token), never the request body. The résumé text is read
    once, grounded and dropped: the map keeps the lines the read found, as the saved read does (step 3), never the file.
    The service role writes one object, the caller's own; it reads the same object first and refuses to overwrite a map
-   the owner made by hand (any build card). */
+   the owner made by hand (any build card; a side project the person picked is not one, and a rebuild keeps it). */
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -27,6 +27,7 @@ const Matcher = require("../match.js");
 const EvidenceText = require("../evidence_text.js");
 const atlasFactory = require("../atlas.js");
 const Apprentice = require("../apprentice.js");
+const Quests = require("../quests.js");
 const { sameOrigin, send, readBody } = require("./infer.js");
 
 const WEB = path.join(__dirname, "..");
@@ -127,6 +128,7 @@ async function handler(req, res, deps = {}) {
     let built;
     try { built = await buildMap(input, { A: deps.A, campus: input.campus }); }
     catch (e) { if (e.code) return send(res, 400, { error: e.code }); throw e; }
+    built.map = Quests.keepSide(before, built.map);   // a rebuild keeps the side projects the person picked (2026-11-11)
     await writeMap(user.uid, built.map, { fetchImpl, cfg, key, signal: ctl.signal });
     return send(res, 200, summary(built.map, built.stories));
   } catch (e) {

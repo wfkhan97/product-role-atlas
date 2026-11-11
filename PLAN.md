@@ -3503,6 +3503,84 @@ as a hyphen and the object keeps the id (`Auth.feedbackPath`, the contract); no 
 localStorage and the Supabase project stubbed in the spec, the example map as the file. `tests/web/map.test.mjs`
 holds the new pure parts.
 
+## Start a side project: quests a model writes (`feat/side-project-flow`, 2026-11-11)
+
+The second pull request of "The map as two pages" (stacked on #207). The owner wants project ideas a template cannot
+write, specific to one person's background and roles, so the map gets a model after all. Ships dark behind
+`QUESTS_ENABLED`.
+
+**Decisions.**
+- **L. A model writes side projects.** Claude Opus 5.5 (`claude-opus-5-5`; the owner chose it over Sonnet), through
+  `POST /api/quests`. Thinking stays at the model's default (it cannot be turned off), effort is set to `medium`, the
+  answer comes by structured outputs (a forced `tool_choice` is refused by this model), `stop_reason` is read before
+  the content (a refusal or `max_tokens` is no answer), no prefill, and the server-side refusal fallback is on
+  (`fallbacks: "default"`). Raw `fetch`, as `/api/infer`: the site has no dependency. The log line records the token
+  usage, so the real cost can be measured. **This reverses "no model in the map"** (2026-11-05: `/api/tree` is the
+  deterministic half, "nothing here calls a model"); the tree, the read and the story cards stay model-free.
+- **M. One question per screen** (`#/map/start/<step>`, the approved mock's feel): the roles (one to four of one field,
+  typed over the tree form's roles, with the hearted ones as quick picks and a marked seam for saved jobs); what you
+  bring (the résumé on file and its band in words, "Use another", and "Add more about you" for PDFs and text files
+  read in the browser with the résumé's reader); how technical (four plain options); the kinds of AI tools (use it ·
+  want to learn, per kind, with two or three products as plain text); the accounts (have it · would set it up ·
+  rather not); then three choice cards. A pick lands on the project as the now card, opened. The answers stay in
+  localStorage so a reload keeps the place.
+- **N. The extras are sent once and stored nowhere.** Cut at 20,000 characters with a visible line; no bucket file,
+  no log, no saved state; in the browser they sit in the tab's sessionStorage until the pick (a reload keeps them,
+  closing the tab drops them). The prompt tells the model to use them only to aim the projects, and the validator
+  keeps a quote only when the résumé holds it, so no extra text is quoted onto the map. The privacy rule and the
+  screen say so ("Sent once to write your quests. Not stored.").
+- **O. One file names products.** `web/data/build_kit.json`: nine kinds with their examples, six hosts, each with a
+  `checked` date and a `url`, every one looked up on 2026-11-10. Sora is not listed (OpenAI closed the app in April
+  2026). A host is offered only when its account is had or wanted; a database only with Supabase.
+- **P. Every rule in code.** `Quests.validate`: the skills on the person's class tree, the kind and host from the kit
+  and allowed by the answers, the word limits (title nine, "You ship" sixteen, three to six steps of fourteen, a
+  prompt of eighty), no duration word, no "mission", no duplicate; a failing project is dropped, and none left means
+  one retry, then a calm error. The pick sends an id only: the function keeps the last three in
+  `maps/<uid>/quests/pending.json`, so a pick can never write a project the rules did not pass.
+- **Q. The side project is the person's card.** `kind: "side_project"`, `source: "model"`, level `"side"`, drawn as
+  "Your side project" first on the path, with "Written for you by a model" on the now card. Three at most. No hours
+  and no window (decision I). `byHand` does not count it, so `/api/tree` still rebuilds a self-serve map, and the
+  rebuild keeps it; `check.mjs` and `assembleMap` know it.
+- **R. A daily cap.** Five writes per person per day (`quests/count.json`, counted before the call, a retry inside
+  the same write); the copy says the cap when it is hit. `QUESTS_DAILY_CAP` raises it for an eval run.
+- **S. The flow leads Build skills when it is on.** A person with no map starts at `#/map/start`; the roles and the
+  résumé feed `/api/tree` (unchanged), then the projects. A self-serve map whose roles changed is built again first; a
+  map the owner wrote keeps its roles. With the flag off, today's tree form is exactly as it was.
+- **T. A seam for standards.** The function reads `pipeline/standards.json` (or `web/data/standards.json`) when it
+  exists and sends it after the kit; nothing creates it here, and Vercel bundles neither path yet.
+
+**What it revises.** "No model in the map" (2026-11-05) for the side projects (L). G's empty box now offers "Start a
+side project". The contract's optional card fields are written for the first time. `MapGate`'s address rule takes
+`#/map/start/<step>`, so the flow survives the sign-in.
+
+**Proof.** `tests/web/quests.test.mjs` (the kit, the answers, the request, each rule with a bad sample, the card,
+the cap, the function with stand-ins); `tests/ui/quests.spec.mjs` walks the flow on a phone and a desktop with
+`/api/quests` stubbed. The model call had not run when this was written; the next paragraph records its first run.
+
+**The first run of the eval (2026-11-11).** `node evals/quests.mjs --baseline`, direct, with the owner's key: 32 of
+32 cases answered, every stop `end_turn`, no schema failure, no skill off the tree, no tool or host the answers ruled
+out. The duration rule was too blunt: it dropped 18 of 102 projects for a time word in the project's own subject ("a
+weekly business review", "monthly KPIs", "a first ninety days plan"). It now refuses an estimate of how long the quest
+takes and nothing else; the saved answers rescore to 2 dropped of 96. Measured cost: about $0.05 a write at Opus 5.5's
+prices (about 1,350 tokens in, 2,300 out, most of the prefix read from cache), below the estimate. Still not judged:
+whether a project fits the person (`evals/README.md`, "Evals to build").
+
+**The standards index as grounding (2026-11-11).** `/api/quests` now reads `web/data/standards.json`, which
+`pipeline/standards_publish.mjs` writes from `pipeline/standards.json`: the roles and what each must show, with no
+source and no address, so nothing of a source can reach a card. `Quests.standardsFor` puts the lists of the person's
+roles (by id or `also_serves`) in the person's block, after the answers, with one line telling the model to aim a
+project at one where it fits and never to name a source or an employer. The stable prefix did not change. A role
+with no list adds nothing. A test fails when the published file is behind the index. An item the index marks `weak`
+goes as a flag and reads "thinly backed: an idea, not a requirement". The 22 cases the lists touch were asked again:
+94 of 96 projects kept, about $0.054 a write.
+After the index's second pass merged (47 roles), the copy was published again and a class of four roles fits whole
+(`LIMITS.standards`, cut on a line); the cases it touched were asked again: 93 of 96 kept, about $0.056 a write.
+
+**The why line says "you" (2026-11-11).** The owner's own résumé through three roles showed "They built…" on some
+cards and "You set…" on others. The prompt now says to speak to the person as "you", and a rule, `why_voice`, refuses
+a why line with a sentence that opens in the third person. All 32 cases were asked again: 94 of 96 projects kept, no
+`why_voice` failure, about $0.055 a write.
+
 ## A standards index: what the industry treats as the way into a role (`feat/standards-index`, 2026-11-10)
 
 The quest generator of the apprentice map writes side projects from the role and the posting. It had nothing that
@@ -3701,9 +3779,20 @@ done). One line per item; the section that explains it is named where it helps.
   ("The visitor journey", step 4). Uploads of more context to `maps/<uid>/context/` with a storage policy, read into
   `profile.md`. Missions that cover a whole class's gaps (R16); the layout eval (`evals/README.md`, "Evals to
   build").
-- The map's second pull request: "Start a side project" on the Quests page (the empty box first), quests a model
-  writes from the person's roles, filling `steps`, `prompt`, `build_with` and `live_on`; saved jobs feeding it once a
-  saved-jobs store exists (none today). It needs the spend cap and a flag ("The map as two pages", 2026-11-10).
+- Saved jobs feeding the side-project flow's first step, once a saved-jobs store exists (none today; the seam is
+  marked in `app.js` `aimHtml`) ("Start a side project", 2026-11-11).
+- The standards index grounds the quests of the 47 roles with a list (51 ids); a role in `no_list` gets none. Whether a
+  grounded project is better is not judged yet (`evals/README.md`, "Evals to build", 10).
+- Storing the extras of "Add more about you" (under `maps/<uid>/context/`, with a storage policy and a delete), only
+  if the owner wants them kept; today they are sent once and stored nowhere.
+- The side-project eval's first run: `node evals/quests.mjs --baseline` (a key, or `--url` with a test account and a
+  raised `QUESTS_DAILY_CAP`), committed as `evals/quests_baseline.md`; then a judged half (does a project fit).
+- The `QUESTS_ENABLED` flip checklist: a spend cap and a rate limit on the Anthropic key, the eval baseline, the
+  Vercel plan's function limit (the route asks for 90 s), one real sign-in through the flow end to end, then the
+  one-line pull request.
+- A side project on a map the owner wrote is lost at the owner's next republish (`map_publish` writes the file
+  whole): carry `kind: "side_project"` cards over in `assemble.mjs` from the published map, or keep the flow to
+  self-serve maps.
 - Decide whether the generator keeps writing `worlds[].clear`, `worlds[].who`, and a card's `window` and `hours`,
   which the map screen no longer shows (2026-11-10); `check.mjs` and the contract still hold them.
 - `pipeline.map_feedback` lists the old note column and not the link of a shipped quest (2026-11-10); a stale answer
