@@ -3495,6 +3495,35 @@ its "needs a signed-in read" list will be longer than a local run's.
 **What we did not do.** No generator reads the file yet. No summary was re-checked against its page in this change.
 The proposal's card-citation check is dropped with the citation line.
 
+## The standards index, second pass: lists for the other roles, a quieter verify, Google first-party (`feat/standards-later`, 2026-11-10)
+
+**Lists past the first eight.** 39 more roles have a `shows` list (47 in all, serving 51 role ids with
+`also_serves`; 168 items). Each was written from the role's own source records and nothing else: no new research, no
+item from general knowledge. An item is something a person can do before having the job; a credential's outline
+gives the work it names, never the exam. 84 of the 168 items carry a `weak` note, 80 of them in the new lists:
+outside consulting, product, engineering, design and data, most roles rest on one book, one credential outline or
+one employer page. The owner's rule holds: this is grounding, a quest need not match an item, and nothing is shown.
+
+**`no_list`.** 26 roles have no list and say why: their sources (ignoring gap records) do not say what a candidate
+must show. Three lists that were drafted were dropped for the same reason (`product_strategy`, `tech_strategy`,
+`communications`). `commercial_banking_rm` reads `corporate_banking`'s list; the two drew the same items from the
+same sources. The eval now holds the file to it: every role id has a list, is served by one, or is in `no_list`.
+A reader gives a `no_list` role no grounding from this file and falls back on the role's postings.
+
+**Verify and pages that move.** When a hash differs from the read, verify fetches once more. Two fetches that agree
+are a real change. Two that differ are a page that moves; it is compared by `read_sketch` (the 64 smallest hashes of
+the text's five-word runs) and is `changed` only under 0.8 alike. Rejected: comparing every page by sketch, which
+would miss a one-line change ("applications have closed") on a stable page. The run of 2026-11-10 quieted ten pages
+(BCG, P&G, GE Aerospace, one paywalled) and flagged three whose two fetches agreed: `google_apmm`,
+`google_product_data_scientist`, `ctf_competitions`. Known limits: a small edit on a page that moves is missed until
+the date rules bring it back; a page that changes daily but not within seconds is still flagged.
+
+**Google APM, first-party.** Google's careers pages put their text in an embedded frame that no fetcher or text
+reader reaches; a script sees a title. `google_apm` was re-read from screenshots of the program page and its three
+story pages (application process, common APM skills, preparation materials) and is now `fetched`. The pages confirm
+the five interview types and the written assignment done at home, and name side projects as resume evidence.
+Other Google records (`google_apmm`, the loops) are still second-hand; the same method would upgrade them.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3622,12 +3651,14 @@ done). One line per item; the section that explains it is named where it helps.
   `postings_read submit --roles all --variant haiku`, then `collect` (about $0.60 per thousand postings; needs
   `ANTHROPIC_API_KEY`, and the cap in `CAP_USD` raised past what is spent). No workflow does this.
 - An eval for the cache itself (the labelled set through `compare --pilot` as a baseline file) before any stage reads it.
-- The standards index (`pipeline/standards.json`): `shows` lists for the roles past the first eight; a first-party
-  page for the 38 search-snippet sources (five are already gone: the Muse mirrors and `cma_category_certification`);
-  PE has no MBA-route source since the blocked vendor's entry was dropped; the judged sample of generated quests
-  ("Evals to build", item 10) once the generator reads the file.
-- `pipeline.standards verify`: pages whose text hash moves between two fetches minutes apart (12 of the 114 readable
-  sources on 2026-11-10, mostly careers sites of BCG, P&G and GE Aerospace) are flagged `changed` each month; quiet it.
+- The standards index (`pipeline/standards.json`): sources for the 26 `no_list` roles and for the 84 `weak` items
+  (most MBA-set roles rest on one book or one credential outline); a first-party page for the search-snippet sources
+  (five are already gone: the Muse mirrors and `cma_category_certification`); Google's other records re-read from
+  screenshots as `google_apm` was; PE has no MBA-route source since the blocked vendor's entry was dropped; a re-read
+  of the three sources verify flagged on 2026-11-10 (`google_apmm`, `google_product_data_scientist`,
+  `ctf_competitions`); the judged sample of generated quests ("Evals to build", item 10) once the generator reads
+  the file. The generator does not read the file yet: that is the map thread's (`feat/map-quests-tree-pages`).
+- `pipeline.standards verify`: a page that changes daily but not within seconds is still flagged `changed`.
 
 **Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
 work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the

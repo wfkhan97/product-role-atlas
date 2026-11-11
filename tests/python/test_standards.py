@@ -98,7 +98,35 @@ def test_a_paywalled_page_whose_public_part_changes_is_flagged_but_stays_a_signe
     assert [f for f, _ in standards.flags(s, D(2026, 12, 1))] == ["changed"]
 
 
-def test_verify_writes_only_its_three_fields():
+def test_a_sketch_measures_how_much_of_a_text_is_still_there():
+    base = " ".join(f"word{i}" for i in range(600))
+    assert standards.similarity(standards.sketch(base), standards.sketch(base)) == 1.0
+    assert standards.similarity(standards.sketch(base), standards.sketch(base + " ten new jobs were posted today in this list")) > 0.9
+    assert standards.similarity(standards.sketch(base), standards.sketch(" ".join(f"other{i}" for i in range(600)))) == 0.0
+    assert len(standards.sketch(base)) == 12 * standards.SKETCH_K
+
+
+def test_a_page_that_moves_between_fetches_is_compared_by_sketch_not_by_hash():
+    base = " ".join(f"word{i}" for i in range(600))
+    s = src()
+    assert standards.apply_check(s, 200, base, D(2026, 11, 10)) == "ok"
+    a, b = base + " jobs today 41", base + " jobs today 42"
+    assert standards.apply_check(s, 200, a, D(2026, 12, 3), second=b) == "ok", "two fetches differ: the page moves, and nearly all of it is as read"
+    assert "moves between two fetches" in s["check"]["note"] and standards.flags(s, D(2026, 12, 3)) == []
+    assert standards.apply_check(s, 200, a, D(2026, 12, 3), second=a) == "changed", "two fetches agree: a real change, however small"
+    other = " ".join(f"other{i}" for i in range(600))
+    assert standards.apply_check(s, 200, other + " 1", D(2027, 1, 3), second=other + " 2") == "changed", "a page that moves and is mostly new"
+    assert s["read_sha256"] == standards.content_hash(base)
+
+
+def test_a_moving_page_read_before_sketches_existed_takes_one_and_is_not_flagged():
+    base = " ".join(f"word{i}" for i in range(600))
+    s = src(read_sha256=standards.content_hash(base), read_sha256_date="2026-11-10")
+    assert standards.apply_check(s, 200, base + " 1", D(2026, 12, 3), second=base + " 2") == "ok"
+    assert s["read_sketch"] == standards.sketch(base + " 1") and standards.flags(s, D(2026, 12, 3)) == []
+
+
+def test_verify_writes_only_its_four_fields():
     s = src(why_standard="w", what_they_test=[{"dimension": "d", "summary": "s"}], notes="n")
     before = copy.deepcopy(s)
     standards.apply_check(s, 200, LONG, D(2026, 11, 10))

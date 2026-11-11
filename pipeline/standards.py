@@ -6,12 +6,17 @@
     .venv/bin/python -m pipeline.standards verify --report out.md  # also write the report as Markdown (the monthly workflow posts it)
 
 `sources` holds one record per page a person read on `date_read`; `roles` holds what a candidate must show per
-first-cut role, the layer the quest generator reads as grounding. verify writes three things on a source and nothing
-else: `check` (date, outcome, HTTP status, the hash of the page's text, a note), and `read_sha256` with
-`read_sha256_date`, the hash that stands for the page as it was read. The first check after a read takes it; a later
-check that hashes differently is `changed`. A person re-reads a changed or stale source, edits the record and its
-`date_read`, and the next verify takes a new hash (date_read is later than read_sha256_date). verify never edits a
-summary.
+role, the layer the quest generator reads as grounding. verify writes four things on a source and nothing else:
+`check` (date, outcome, HTTP status, the hash of the page's text, a note), `read_sha256` with `read_sha256_date`, the
+hash that stands for the page as it was read, and `read_sketch`, 64 short hashes of that text's five-word runs. The
+first check after a read takes them; a later check that hashes differently is `changed`. A person re-reads a changed
+or stale source, edits the record and its `date_read`, and the next verify takes a new hash (date_read is later than
+read_sha256_date). verify never edits a summary.
+
+Some pages never hash the same twice (a rotating list of jobs, a date, a counter). So when a hash differs from the
+read, verify fetches the page once more. Two fetches that agree with each other are a real change. Two that differ
+are a page that moves: it is then compared by its sketch, and is `changed` only when less than NOISE_SIM of the
+five-word runs are still there. A small edit on a page that moves is missed; the date rules still bring it back.
 
 Outcomes: ok, changed, unreachable (404, 410, a server error, no answer), needs_signed_in_read (the source is
 paywalled or a book, the site refuses a script with 401, 403 or 429, or the page is an empty shell that needs a
@@ -44,7 +49,9 @@ VERIFIED = ("fetched", "search_snippet", "unverified")
 ACCESS = ("free", "paywalled", "book")
 STATUS = ("open", "paused", "closed", "unknown")
 OUTCOMES = ("ok", "changed", "unreachable", "needs_signed_in_read")
-WRITTEN = ("check", "read_sha256", "read_sha256_date")   # the only fields verify writes
+WRITTEN = ("check", "read_sha256", "read_sha256_date", "read_sketch")   # the only fields verify writes
+SKETCH_K, SHINGLE = 64, 5                                # the sketch: the 64 smallest hashes of five-word runs
+NOISE_SIM = 0.8                                          # a page that moves is unchanged while this much of it stays
 REFUSED = (401, 403, 405, 406, 429, 451, 999)            # the site answers, but not to a script
 SHELL_CHARS = 400                                        # less text than this is a page that needs a browser
 CHALLENGE = ("just a moment", "enable javascript", "verify you are human", "captcha", "access denied", "are you a robot")
@@ -88,6 +95,21 @@ def content_hash(text):
     return hashlib.sha256(build_sources.norm(text).encode()).hexdigest()
 
 
+def sketch(text):
+    """The SKETCH_K smallest 48-bit hashes of the text's SHINGLE-word runs, as one hex string. Two texts that share
+    most of their words share most of their sketch; no text can be read back from it."""
+    w = build_sources.norm(text).split()
+    runs = {" ".join(w[i:i + SHINGLE]) for i in range(max(1, len(w) - SHINGLE + 1))}
+    return "".join(sorted(hashlib.sha256(r.encode()).hexdigest()[:12] for r in runs)[:SKETCH_K])
+
+
+def similarity(a, b):
+    """The share of five-word runs two sketched texts have in common (an estimate, 0 to 1)."""
+    A, B = ({x[i:i + 12] for i in range(0, len(x), 12)} for x in (a, b))
+    low = set(sorted(A | B)[:SKETCH_K])
+    return len(low & A & B) / len(low) if low else 1.0
+
+
 def classify(src, status, text, error=None):
     """(outcome, note) for one fetch. `status` is the HTTP status or None when there was no answer; `text` the page's
     visible text."""
@@ -108,8 +130,10 @@ def classify(src, status, text, error=None):
     return "ok", "HTTP 200"
 
 
-def apply_check(src, status, text, today, error=None):
-    """Write `check` (and the read hash, when this is the first check after a read) on a source. Returns the outcome."""
+def apply_check(src, status, text, today, error=None, second=None):
+    """Write `check` (and the read hash and sketch, when this is the first check after a read) on a source. Returns
+    the outcome. `second` is the text of a second fetch, made when the first hashed differently from the read: with
+    it, a page whose two fetches differ from each other is compared by sketch, not by hash."""
     outcome, note = classify(src, status, text, error)
     check = {"date": today.isoformat(), "outcome": outcome, "http_status": status, "content_sha256": None, "note": note}
     readable = status == 200 and "no readable text" not in note
@@ -117,8 +141,15 @@ def apply_check(src, status, text, today, error=None):
         h = check["content_sha256"] = content_hash(text)
         reread = src.get("read_sha256_date") and day(src["date_read"]) > day(src["read_sha256_date"])
         if not src.get("read_sha256") or reread:
-            src["read_sha256"], src["read_sha256_date"] = h, today.isoformat()
-        elif h != src["read_sha256"]:
+            src["read_sha256"], src["read_sha256_date"], src["read_sketch"] = h, today.isoformat(), sketch(text)
+        elif h == src["read_sha256"]:
+            src.setdefault("read_sketch", sketch(text))
+        elif second is not None and content_hash(second) != h and not src.get("read_sketch"):
+            src["read_sketch"] = sketch(text)
+            check["note"] = note + "; the page's text moves between two fetches: a sketch was taken to compare by from now on"
+        elif second is not None and content_hash(second) != h and similarity(sketch(text), src["read_sketch"]) >= NOISE_SIM:
+            check["note"] = note + f"; the page's text moves between two fetches; {similarity(sketch(text), src['read_sketch']):.2f} of it is as read"
+        else:
             check["note"] = note + f"; the text differs from the read of {src['read_sha256_date']}"
             if outcome == "ok":
                 check["outcome"] = outcome = "changed"
@@ -214,6 +245,11 @@ def verify(args):
                 time.sleep(PAUSE)
             status, text, error = fetch(s["url"])
             outcome = apply_check(s, status, text, today, error)
+            if "the text differs" in s["check"]["note"]:      # fetch once more: a real change, or a page that moves?
+                time.sleep(PAUSE)
+                status2, text2, _ = fetch(s["url"])
+                if status2 == 200 and text2:
+                    outcome = apply_check(s, status, text, today, error, second=text2)
             print(f"{s['id']:44} {outcome:22} {s['check']['note']}", flush=True)
         save(d)
         print("wrote", STANDARDS)
