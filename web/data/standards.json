@@ -1,0 +1,758 @@
+{
+ "_doc": "Published by pipeline/standards_publish.mjs from pipeline/standards.json. Never edited by hand.",
+ "date_read": "2026-11-10",
+ "roles": {
+  "account_executive": {
+   "label": "Account Executive or SDR",
+   "also_serves": [],
+   "summary": "Sales loops are live role-plays and small written or recorded pieces: a mock cold call or discovery call, often run twice to see how you take feedback, a cold email, a voicemail, a mock demo. Several employers publish theirs.",
+   "shows": [
+    {
+     "id": "cold_call",
+     "label": "A cold call",
+     "stage": "foundation",
+     "means": "Open, state the problem you solve, handle the first objection, ask for the meeting.",
+     "artifacts": [
+      "A call script: opener, problem statement, objection responses",
+      "A recording of yourself running it",
+      "A 30-second voicemail pitch"
+     ],
+     "skills": [
+      "prospecting",
+      "consultative_selling",
+      "communication"
+     ]
+    },
+    {
+     "id": "discovery",
+     "label": "A discovery call",
+     "stage": "foundation",
+     "means": "Plan the questions that surface the buyer's problem and what it costs them. Ask them in order.",
+     "artifacts": [
+      "A discovery call plan for one real company"
+     ],
+     "skills": [
+      "consultative_selling",
+      "customer_facing_exec"
+     ]
+    },
+    {
+     "id": "coachability",
+     "label": "Taking feedback",
+     "stage": "foundation",
+     "means": "Run the call, critique it yourself, take one note and run it again better.",
+     "artifacts": [
+      "Two recordings of the same call with what you changed"
+     ],
+     "skills": [
+      "adaptability",
+      "communication"
+     ]
+    },
+    {
+     "id": "outbound",
+     "label": "An outbound sequence",
+     "stage": "build",
+     "means": "Pick a real prospect. Research them, write the cold email, and say why this account, this person and these words.",
+     "artifacts": [
+      "A cold email to a researched prospect with a short rationale",
+      "A target account list with a sequence of short emails",
+      "The reply and meeting numbers, if you send them"
+     ],
+     "skills": [
+      "prospecting",
+      "territory_account_planning",
+      "crm_tools",
+      "pipeline_forecasting"
+     ]
+    },
+    {
+     "id": "qualification",
+     "label": "A qualified deal",
+     "stage": "build",
+     "means": "Take one real or realistic opportunity and say who decides, on what, by when and why.",
+     "artifacts": [
+      "A deal sheet filled in for one opportunity"
+     ],
+     "skills": [
+      "sales_process",
+      "deal_negotiation",
+      "business_case"
+     ]
+    },
+    {
+     "id": "insight_pitch",
+     "label": "A pitch that teaches the buyer something",
+     "stage": "build",
+     "means": "Reframe one buyer's problem with a fact they did not know. Tailor it to one person.",
+     "artifacts": [
+      "A short insight pitch for a named role at a real company"
+     ],
+     "skills": [
+      "consultative_selling",
+      "exec_communication",
+      "market_research"
+     ]
+    },
+    {
+     "id": "demo",
+     "label": "A product demo",
+     "stage": "build",
+     "means": "Demo a real product to a pretend buyer. Fit it to their problem, then send the follow-up email with next steps.",
+     "artifacts": [
+      "A short recorded demo of a product you know",
+      "A follow-up proposal email"
+     ],
+     "skills": [
+      "technical_demos_poc",
+      "consultative_selling",
+      "communication",
+      "proposals_capture"
+     ]
+    },
+    {
+     "id": "territory_plan",
+     "label": "A plan for your first months",
+     "stage": "build",
+     "means": "Say which accounts you would go after first, how you would build pipeline, and what you expect by when.",
+     "artifacts": [
+      "A short pipeline and ramp plan for one real company's product"
+     ],
+     "skills": [
+      "territory_account_planning",
+      "pipeline_forecasting",
+      "prospecting"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "bizops": {
+   "label": "Business Operations Manager",
+   "also_serves": [],
+   "summary": "BizOps and Strategy & Operations loops centre on a take-home: a dataset, a day or two, then slides or a memo defended live. Startups add a paid work trial. Big tech companies do not publish their loops; the detail comes from two startups' own pages, DoorDash's careers blog and practitioners.",
+   "shows": [
+    {
+     "id": "case",
+     "label": "A structured answer to a business problem",
+     "stage": "foundation",
+     "means": "Break a company's problem into parts. Size each and commit to a recommendation.",
+     "artifacts": [
+      "A written answer to a case about a real company"
+     ],
+     "skills": [
+      "problem_solving",
+      "hypothesis_driven",
+      "strategy_development"
+     ]
+    },
+    {
+     "id": "analysis",
+     "label": "An analysis that ends in a recommendation",
+     "stage": "build",
+     "means": "Take a real dataset and a business question. Do the analysis, rank what to do with the expected return, state your assumptions, and defend it live.",
+     "artifacts": [
+      "A deck or memo from a dataset: ranked recommendations, expected return, assumptions, a plan with milestones",
+      "A recorded walk-through answering hard questions on it"
+     ],
+     "skills": [
+      "sql",
+      "advanced_excel",
+      "financial_analysis",
+      "reporting_adhoc_analysis",
+      "metrics_kpis"
+     ]
+    },
+    {
+     "id": "answer_first",
+     "label": "Answer-first writing",
+     "stage": "foundation",
+     "means": "Lead with the answer. Put each supporting point under it.",
+     "artifacts": [
+      "A one-page memo or short deck with one governing point"
+     ],
+     "skills": [
+      "synthesis_recommendations",
+      "exec_decks",
+      "exec_communication"
+     ]
+    },
+    {
+     "id": "operating_cadence",
+     "label": "A metric and a rhythm to run it by",
+     "stage": "build",
+     "means": "Pick the few numbers a team should watch and the meeting where they are read.",
+     "artifacts": [
+      "A small dashboard and a one-page operating review for a real or student organisation"
+     ],
+     "skills": [
+      "operating_cadence",
+      "dashboards_dataviz",
+      "okrs",
+      "process_improvement"
+     ]
+    },
+    {
+     "id": "built_tool",
+     "label": "A working tool built with AI",
+     "stage": "build",
+     "means": "Build a small internal tool on real or synthetic data, such as a customer-health view, and use it to do one piece of work.",
+     "artifacts": [
+      "A demo of a self-built app or workflow",
+      "The work it produced, such as outreach drafted from the view"
+     ],
+     "skills": [
+      "ai_tools",
+      "dashboards_dataviz",
+      "process_improvement",
+      "sql"
+     ],
+     "weak": true
+    },
+    {
+     "id": "impact_story",
+     "label": "An impact story with numbers",
+     "stage": "foundation",
+     "means": "Write up one piece of work: the problem, what you did, the number that moved.",
+     "artifacts": [
+      "One project write-up with a measured result"
+     ],
+     "skills": [
+      "communication",
+      "ownership",
+      "metrics_kpis"
+     ]
+    }
+   ]
+  },
+  "data_scientist": {
+   "label": "Data Scientist",
+   "also_serves": [
+    "data_analyst",
+    "product_analyst"
+   ],
+   "summary": "Product data loops test SQL written live, a product-metrics case and experiment design. Take-homes are an analysis of a dataset with a written answer.",
+   "shows": [
+    {
+     "id": "sql",
+     "label": "SQL on real data",
+     "stage": "foundation",
+     "means": "Answer product questions with queries you write yourself.",
+     "artifacts": [
+      "A set of queries on a public dataset, each with the question it answers"
+     ],
+     "skills": [
+      "sql",
+      "data_modeling"
+     ]
+    },
+    {
+     "id": "metrics_case",
+     "label": "A product-metrics case",
+     "stage": "foundation",
+     "means": "Define success for a product. Pick the metrics, say how each could mislead, and add guardrails.",
+     "artifacts": [
+      "A metric framework for a product you use"
+     ],
+     "skills": [
+      "metrics_kpis",
+      "data_driven",
+      "product_sense"
+     ]
+    },
+    {
+     "id": "experiment",
+     "label": "An experiment, designed and read",
+     "stage": "foundation",
+     "means": "Write the hypothesis, the unit, the metric, the sample size and the guardrails. Read a result and decide.",
+     "artifacts": [
+      "An experiment design and a readout"
+     ],
+     "skills": [
+      "ab_testing",
+      "statistics"
+     ]
+    },
+    {
+     "id": "analysis_project",
+     "label": "An analysis of a dataset, written up",
+     "stage": "build",
+     "means": "Take a dataset and a question. Do the analysis and write an answer a manager could act on.",
+     "artifacts": [
+      "A notebook or report with the question, the method, the answer and its limits"
+     ],
+     "skills": [
+      "python_r",
+      "reporting_adhoc_analysis",
+      "synthesis_recommendations",
+      "communication"
+     ],
+     "weak": true
+    },
+    {
+     "id": "root_cause",
+     "label": "A metric drop, diagnosed",
+     "stage": "build",
+     "means": "Given a metric that fell, list the causes, check each against data, and say which it is.",
+     "artifacts": [
+      "A short diagnosis write-up with the checks you ran"
+     ],
+     "skills": [
+      "problem_solving",
+      "data_driven",
+      "dashboards_dataviz"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "growth_manager": {
+   "label": "Growth Manager",
+   "also_serves": [],
+   "summary": "No company publishes a growth manager loop. Practitioners say the same thing: show applied growth work on real products.",
+   "shows": [
+    {
+     "id": "growth_model",
+     "label": "How a product grows",
+     "stage": "foundation",
+     "means": "Draw the loop that brings a real product its users. Name the weak step.",
+     "artifacts": [
+      "A drawn growth loop with each step and what feeds the next",
+      "A write-up of one company's main growth engine"
+     ],
+     "skills": [
+      "growth_loops",
+      "product_strategy",
+      "metrics_kpis"
+     ]
+    },
+    {
+     "id": "experiment",
+     "label": "An experiment, designed and read",
+     "stage": "foundation",
+     "means": "Write the hypothesis, the metric, the guardrails and the sample size. Then run it and say what you decided.",
+     "artifacts": [
+      "An experiment write-up: hypothesis, metrics, design, result, decision"
+     ],
+     "skills": [
+      "ab_testing",
+      "statistics",
+      "experimentation_tools"
+     ]
+    },
+    {
+     "id": "teardown",
+     "label": "A growth teardown, published",
+     "stage": "build",
+     "means": "Take a real product. Show its loop, a problem in it, and the experiment you would run.",
+     "artifacts": [
+      "A public teardown; several make a portfolio"
+     ],
+     "skills": [
+      "growth_loops",
+      "data_driven",
+      "content_social"
+     ]
+    },
+    {
+     "id": "channel_work",
+     "label": "Real channel work",
+     "stage": "build",
+     "means": "Run one paid ad on a social network and one on search. Audit a real site's SEO. Report what happened.",
+     "artifacts": [
+      "An ad you ran with its numbers",
+      "An SEO health check of a real site"
+     ],
+     "skills": [
+      "performance_marketing",
+      "seo_web_conversion",
+      "ad_platforms",
+      "marketing_analytics"
+     ]
+    },
+    {
+     "id": "funnel_analysis",
+     "label": "A funnel, measured",
+     "stage": "build",
+     "means": "Set up tracking on a real funnel. Find where people drop and propose a fix.",
+     "artifacts": [
+      "A funnel analysis with the query or dashboard behind it"
+     ],
+     "skills": [
+      "sql",
+      "analytics_tools",
+      "seo_web_conversion",
+      "lifecycle_marketing"
+     ]
+    }
+   ]
+  },
+  "pm": {
+   "label": "Product Manager",
+   "also_serves": [
+    "product_manager"
+   ],
+   "summary": "PM loops test product sense, analytical thinking and leadership. The newer programs and startup work trials ask for something shipped.",
+   "shows": [
+    {
+     "id": "product_sense",
+     "label": "Product sense",
+     "stage": "foundation",
+     "means": "Pick a user. Name their problem. Choose what to build and say what you cut.",
+     "artifacts": [
+      "A written teardown of a real product",
+      "A redesign of one feature with the trade-offs stated"
+     ],
+     "skills": [
+      "product_sense",
+      "personas_jtbd",
+      "prioritization",
+      "feature_definition"
+     ]
+    },
+    {
+     "id": "analytical_thinking",
+     "label": "Analytical thinking",
+     "stage": "foundation",
+     "means": "Say why the product exists. Define metrics someone could query. Pick one North Star metric, add guardrails, and set one team goal.",
+     "artifacts": [
+      "A product rationale for a product you use",
+      "A metric framework with a North Star metric and guardrails",
+      "One team goal with the options you weighed",
+      "A trade-off decision with what would change your mind"
+     ],
+     "skills": [
+      "metrics_kpis",
+      "data_driven",
+      "okrs",
+      "product_strategy"
+     ]
+    },
+    {
+     "id": "take_home_plan",
+     "label": "A plan for an open product problem",
+     "stage": "build",
+     "means": "Size the problem. Name who is affected. List solutions, put them in order, and say how you would measure success.",
+     "artifacts": [
+      "A short deck: what you would build, in what order, and why",
+      "Ranked experiment ideas for a real product's new-user flow, three worked out"
+     ],
+     "skills": [
+      "prioritization",
+      "roadmap",
+      "ab_testing",
+      "business_case",
+      "exec_communication"
+     ]
+    },
+    {
+     "id": "customer_evidence",
+     "label": "Evidence from real users",
+     "stage": "build",
+     "means": "Talk to real users before you propose anything. Tie each idea to what they said.",
+     "artifacts": [
+      "Notes from five user conversations with what changed in your plan"
+     ],
+     "skills": [
+      "customer_interviews",
+      "user_research",
+      "discovery"
+     ]
+    },
+    {
+     "id": "shipped_product",
+     "label": "Something shipped",
+     "stage": "build",
+     "means": "Build a small product, put it in front of users, and say what you learned from them.",
+     "artifacts": [
+      "A working product with a 60-second demo",
+      "Short answers: the problem, what you built, your part, the result, what users taught you"
+     ],
+     "skills": [
+      "launch",
+      "execution",
+      "ai_tools",
+      "ownership"
+     ]
+    },
+    {
+     "id": "stories",
+     "label": "Leadership stories",
+     "stage": "foundation",
+     "means": "Write up your largest projects with context and results. Include a failure, a disagreement you resolved, and research that changed your plan.",
+     "artifacts": [
+      "Three to five project write-ups with numbers"
+     ],
+     "skills": [
+      "communication",
+      "influence",
+      "cross_functional",
+      "ownership"
+     ]
+    }
+   ]
+  },
+  "pmm": {
+   "label": "Product Marketing Manager",
+   "also_serves": [],
+   "summary": "PMM loops test positioning and a go-to-market case, often as a take-home deck presented to a panel, plus a small portfolio of written pieces.",
+   "shows": [
+    {
+     "id": "positioning",
+     "label": "Positioning",
+     "stage": "foundation",
+     "means": "Say who the product is for, what they would use instead, what only it does, and why that matters to them.",
+     "artifacts": [
+      "A positioning document for a real product",
+      "A sales pitch outline built from it"
+     ],
+     "skills": [
+      "positioning_messaging",
+      "market_research",
+      "personas_jtbd"
+     ]
+    },
+    {
+     "id": "gtm_plan",
+     "label": "A go-to-market or launch plan",
+     "stage": "build",
+     "means": "Plan a launch for a real product: the audience, the message, the channels, the measures.",
+     "artifacts": [
+      "A launch plan as a deck or document you can present"
+     ],
+     "skills": [
+      "gtm",
+      "launch",
+      "metrics_kpis",
+      "pricing_packaging"
+     ]
+    },
+    {
+     "id": "launch_writing",
+     "label": "Launch writing",
+     "stage": "build",
+     "means": "Write the piece a launch needs: a blog post, a press release or a one-page data sheet.",
+     "artifacts": [
+      "Two or three published pieces for real or imagined launches"
+     ],
+     "skills": [
+      "editorial_writing",
+      "content_social",
+      "communication"
+     ]
+    },
+    {
+     "id": "marketing_case",
+     "label": "A marketing case with a point of view",
+     "stage": "foundation",
+     "means": "Take a brand or product problem. Structure it, weigh the options and commit to one recommendation.",
+     "artifacts": [
+      "A written answer to a marketing case with a clear recommendation"
+     ],
+     "skills": [
+      "problem_solving",
+      "synthesis_recommendations",
+      "consumer_insights"
+     ]
+    },
+    {
+     "id": "sales_enablement",
+     "label": "Material a seller can use",
+     "stage": "build",
+     "means": "Turn the positioning into something a salesperson would use on a call.",
+     "artifacts": [
+      "A one-page battle card or pitch outline"
+     ],
+     "skills": [
+      "sales_enablement",
+      "customer_proof",
+      "cross_functional"
+     ]
+    }
+   ]
+  },
+  "product_designer": {
+   "label": "Product / UX Designer",
+   "also_serves": [],
+   "summary": "Design loops rest on the portfolio: three to five case studies that show process, not only the final screens. Then a live design exercise and a critique of a shipped app.",
+   "shows": [
+    {
+     "id": "case_study",
+     "label": "A case study that shows process",
+     "stage": "build",
+     "means": "State the user problem. Show the sketches, the directions you rejected, the final design, your part and the result.",
+     "artifacts": [
+      "One case study in a consistent template; three to five make the portfolio"
+     ],
+     "skills": [
+      "design_portfolio",
+      "interaction_design",
+      "prototyping",
+      "user_research"
+     ]
+    },
+    {
+     "id": "design_exercise",
+     "label": "A design exercise, worked end to end",
+     "stage": "foundation",
+     "means": "From a one-line prompt: the goal, the audience, their needs, ranked ideas, a sketched solution, how you would measure it.",
+     "artifacts": [
+      "A written-up design exercise with sketches of several directions"
+     ],
+     "skills": [
+      "problem_solving",
+      "interaction_design",
+      "product_sense"
+     ]
+    },
+    {
+     "id": "app_critique",
+     "label": "A critique of a shipped app",
+     "stage": "foundation",
+     "means": "Pick an app you use. Say what works, what does not, and why the team likely chose it.",
+     "artifacts": [
+      "A written or recorded critique of one app"
+     ],
+     "skills": [
+      "design_critique",
+      "visual_design",
+      "product_sense"
+     ]
+    },
+    {
+     "id": "one_interaction",
+     "label": "One interaction, designed for a real product",
+     "stage": "build",
+     "means": "Design one named interaction in a real product, in its own design language.",
+     "artifacts": [
+      "A prototype of the interaction with the states and edge cases"
+     ],
+     "skills": [
+      "interaction_design",
+      "prototyping",
+      "figma",
+      "design_systems",
+      "accessibility"
+     ]
+    },
+    {
+     "id": "research",
+     "label": "Research that feeds a decision",
+     "stage": "foundation",
+     "means": "Write the questions, talk to a few users, and say what the findings change.",
+     "artifacts": [
+      "A research plan, an interview guide and a one-page findings summary"
+     ],
+     "skills": [
+      "user_research",
+      "customer_interviews"
+     ]
+    }
+   ]
+  },
+  "software_engineer": {
+   "label": "Software Engineer",
+   "also_serves": [],
+   "summary": "Big Tech still tests algorithms and system design, now with an AI assistant in the room. Startups hire on real work: a bug fixed in an unfamiliar codebase, an API integrated from its docs, a trial project.",
+   "shows": [
+    {
+     "id": "coding_fundamentals",
+     "label": "Coding fundamentals",
+     "stage": "foundation",
+     "means": "Solve problems with the core data structures and algorithms. Explain your approach and its cost as you go.",
+     "artifacts": [
+      "A tracked set of solved problems with notes on the pattern each uses"
+     ],
+     "skills": [
+      "algorithms_ds",
+      "code_quality",
+      "problem_solving"
+     ]
+    },
+    {
+     "id": "real_codebase",
+     "label": "Work in a codebase you did not write",
+     "stage": "build",
+     "means": "Find and fix a real bug in an open-source project. Explain how you found it.",
+     "artifacts": [
+      "A merged or open pull request with the reasoning written up"
+     ],
+     "skills": [
+      "code_quality",
+      "quality_testing",
+      "collaboration"
+     ]
+    },
+    {
+     "id": "integration",
+     "label": "Build against an API from its docs",
+     "stage": "build",
+     "means": "Read the documentation of a real API and ship something small that uses it.",
+     "artifacts": [
+      "A working integration with a short README"
+     ],
+     "skills": [
+      "apis",
+      "backend_services",
+      "technical_fluency"
+     ]
+    },
+    {
+     "id": "system_design",
+     "label": "System design",
+     "stage": "foundation",
+     "means": "State the requirements. Estimate the load. Draw the parts and say what you traded away.",
+     "artifacts": [
+      "A design write-up with a diagram, estimates and trade-offs for a system you built or use"
+     ],
+     "skills": [
+      "system_architecture",
+      "databases",
+      "performance_concurrency"
+     ]
+    },
+    {
+     "id": "ai_assisted",
+     "label": "Work with an AI assistant and judge its output",
+     "stage": "build",
+     "means": "Build with an AI tool. Review what it wrote, find what is wrong, and say why.",
+     "artifacts": [
+      "A project log showing where you corrected or rejected the assistant's code"
+     ],
+     "skills": [
+      "ai_tools",
+      "code_quality",
+      "genai_llm"
+     ]
+    },
+    {
+     "id": "shipped_project",
+     "label": "A shipped project with other people",
+     "stage": "build",
+     "means": "Ship a small feature that real users touch, ideally with at least one other person.",
+     "artifacts": [
+      "A deployed project, its repository, and a note on who did what"
+     ],
+     "skills": [
+      "execution",
+      "collaboration",
+      "devops_sdlc"
+     ]
+    },
+    {
+     "id": "stories",
+     "label": "Stories with results",
+     "stage": "foundation",
+     "means": "Write up past work with numbers. Include a failure and what you learned.",
+     "artifacts": [
+      "A bank of stories in situation, action, result form"
+     ],
+     "skills": [
+      "communication",
+      "ownership"
+     ]
+    }
+   ]
+  }
+ }
+}

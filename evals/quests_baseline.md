@@ -11,7 +11,7 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 - experienced_pm · pmm · builder: 3 asked, 3 kept; stop end_turn
 - experienced_pm · general_manager · no_code: 3 asked, 3 kept; stop end_turn
 - experienced_pm · general_manager · builder: 3 asked, 3 kept; stop end_turn
-- experienced_with_coursework · pmm · no_code: 3 asked, 2 kept; dropped: title_words; stop end_turn
+- experienced_with_coursework · pmm · no_code: 3 asked, 3 kept; stop end_turn
 - experienced_with_coursework · pmm · builder: 3 asked, 3 kept; stop end_turn
 - experienced_with_coursework · bizops · no_code: 3 asked, 3 kept; stop end_turn
 - experienced_with_coursework · bizops · builder: 3 asked, 3 kept; stop end_turn
@@ -22,7 +22,7 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 - pivot_phd_hci · market_research · no_code: 3 asked, 3 kept; stop end_turn
 - pivot_phd_hci · market_research · builder: 3 asked, 3 kept; stop end_turn
 - pivot_phd_hci · pmm · no_code: 3 asked, 3 kept; stop end_turn
-- pivot_phd_hci · pmm · builder: 3 asked, 3 kept; stop end_turn
+- pivot_phd_hci · pmm · builder: 3 asked, 2 kept; dropped: title_words; stop end_turn
 - senior_pm_pdf_layout · general_manager · no_code: 3 asked, 2 kept; dropped: no_duration; stop end_turn
 - senior_pm_pdf_layout · general_manager · builder: 3 asked, 3 kept; stop end_turn
 - senior_pm_pdf_layout · strategy_manager · no_code: 3 asked, 3 kept; stop end_turn
@@ -57,7 +57,7 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 | quote_dropped | 0 | 0% |
 
 ## Drops and cost
-- cases read: 32 of 32; asked this run: 0
+- cases read: 32 of 32; asked this run: 6
 - projects dropped: 2 of 96 (2%); cases with no project kept after the retry: 0; retries: 0
-- tokens: 42976 in, 74201 out, 65131 cache read, 2101 cache written
-- cost at Opus 5.5 ($4 / $20 per million in / out): $1.68 in all, $0.052 per person (one write)
+- tokens: 52598 in, 74810 out, 65131 cache read, 2101 cache written
+- cost at Opus 5.5 ($4 / $20 per million in / out): $1.73 in all, $0.054 per person (one write)

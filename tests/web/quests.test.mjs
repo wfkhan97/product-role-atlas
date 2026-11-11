@@ -280,3 +280,30 @@ test("the copy has the flow's lines, and no line says mission or names a duratio
   assert.ok(!/\bmissions?\b/i.test(text));
   assert.ok(!Q.DURATION.test(text.replace(/today/g, "")), "no duration words (\"today\" names the cap's day)");
 });
+
+// ---------- the standards index as grounding (2026-11-11) ----------
+test("standardsFor: a role matches by its id or also_serves, carries no source or address, and a role with no list adds nothing", async () => {
+  const index = JSON.parse(fs.readFileSync(path.join(root, "web/data/standards.json"), "utf8"));
+  const t = Q.standardsFor(index, ["pmm", "data_analyst", "general_manager"]);
+  assert.ok(/## Product Marketing Manager/.test(t) && /## Data Scientist/.test(t), "pmm by id, data_analyst through also_serves");
+  assert.ok(!/https?:|lenny|meta_|google_/i.test(t), "no source id and no address");
+  assert.ok(/Never name a source/.test(t));
+  assert.equal(Q.standardsFor(index, ["general_manager"]), "");
+  assert.equal(Q.standardsFor(null, ["pmm"]), "");
+  assert.ok(t.length <= 6000);
+});
+
+test("the published standards file is what pipeline/standards_publish.mjs writes from pipeline/standards.json", async () => {
+  const { render } = await import(path.join(root, "pipeline/standards_publish.mjs"));
+  const want = render(JSON.parse(fs.readFileSync(path.join(root, "pipeline/standards.json"), "utf8")));
+  assert.equal(fs.readFileSync(path.join(root, "web/data/standards.json"), "utf8"), want, "run node pipeline/standards_publish.mjs");
+  assert.ok(!/"sources"|https?:/.test(want), "no sources and no addresses reach the site");
+});
+
+test("the person block carries <standards> when the index has a list for one of the map's roles, and none without the index", () => {
+  const index = JSON.parse(fs.readFileSync(path.join(root, "web/data/standards.json"), "utf8"));
+  const withIt = Q.personBlock({ map: example(), resume: RESUME, answers: {}, kit: KIT, standards: index });
+  const without = Q.personBlock({ map: example(), resume: RESUME, answers: {}, kit: KIT, standards: null });
+  assert.ok(withIt.includes("<standards>") && withIt.includes("## Product Marketing Manager") && !without.includes("<standards>"));
+  assert.ok(withIt.indexOf("<standards>") < withIt.indexOf("<resume>"), "before the résumé, after the answers");
+});

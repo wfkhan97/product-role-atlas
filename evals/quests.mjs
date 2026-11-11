@@ -36,6 +36,8 @@ const Matcher = require(path.join(root, "web/match.js"));
 const EvidenceText = require(path.join(root, "web/evidence_text.js"));
 const atlas = require(path.join(root, "web/atlas.js"))({ load: u => JSON.parse(fs.readFileSync(path.join(root, "web", u), "utf8")), Matcher });
 const KIT = JSON.parse(fs.readFileSync(path.join(root, "web/data/build_kit.json"), "utf8"));
+// the published standards index, as the deployed function reads it
+const STANDARDS = API.standards();
 
 const args = process.argv.slice(2);
 const reuse = args.includes("--reuse"), baseline = args.includes("--baseline");
@@ -99,7 +101,7 @@ for (const f of samples) {
     const id = `${name} · ${role} · ${pname}`;
     if (only && !id.includes(only)) continue;
     const map = await mapFor(text, role);
-    const input = { map, resume: text, extras: "", answers, kit: KIT, standards: null };
+    const input = { map, resume: text, extras: "", answers, kit: KIT, standards: STANDARDS };
     const body = API.body(input);
     const k = sha(JSON.stringify([url ? "route" : "direct", body])).slice(0, 24), file = path.join(CACHE, k + ".json");
     let rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;

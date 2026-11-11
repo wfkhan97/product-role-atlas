@@ -9,7 +9,7 @@
       "maxDuration": 30
     },
     "api/quests.js": {
-      "includeFiles": "{config.js,data/build_kit.json}",
+      "includeFiles": "{config.js,data/build_kit.json,data/standards.json}",
       "maxDuration": 90
     }
   }

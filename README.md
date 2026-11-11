@@ -112,6 +112,7 @@ node pipeline/catalog_tags.mjs                              # skill tags per cla
 .venv/bin/python -m pipeline.funnel --from 2026-11-01       # screens reached, calls to action, returns, visible time, feedback counts
 .venv/bin/python -m pipeline.experiments.postings_read status   # the model read of the backlog: batches and spend (cache in data/experiments/postings_read/)
 .venv/bin/python -m pipeline.standards verify               # the standards index: fetch every source, flag what a person must re-read (about 15 minutes; --no-fetch for the date rules alone)
+node pipeline/standards_publish.mjs                         # after a change to the standards index: the copy the quest writer reads (web/data/standards.json)
 .venv/bin/python -m pipeline.runs --last 20                 # the last recorded runs of every stage
 ```
 

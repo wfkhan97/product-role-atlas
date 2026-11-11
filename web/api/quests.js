@@ -44,12 +44,15 @@ function enabled(file = path.join(WEB, "config.js")) {
 }
 let KIT = null;
 const theKit = () => KIT ||= JSON.parse(fs.readFileSync(path.join(WEB, "data", "build_kit.json"), "utf8"));
-// The standards index another thread drafts (a seam): read when the file exists, else nothing. Never created here.
-function standards() {
-  for (const f of [path.join(WEB, "..", "pipeline", "standards.json"), path.join(WEB, "data", "standards.json")]) {
-    try { if (fs.existsSync(f)) return fs.readFileSync(f, "utf8"); } catch { }
-  }
-  return null;
+// The standards index, as published for the site (web/data/standards.json: the roles and what each must show, no
+// sources). Read once; a deploy without the file writes quests without it.
+let STANDARDS;
+function standards(file = path.join(WEB, "data", "standards.json")) {
+  if (STANDARDS !== undefined && arguments.length === 0) return STANDARDS;
+  let v = null;
+  try { v = JSON.parse(fs.readFileSync(file, "utf8")); } catch { v = null; }
+  if (arguments.length === 0) STANDARDS = v;
+  return v;
 }
 
 // ---------- the request: checked before anything runs ----------

@@ -3565,6 +3565,15 @@ takes and nothing else; the saved answers rescore to 2 dropped of 96. Measured c
 prices (about 1,350 tokens in, 2,300 out, most of the prefix read from cache), below the estimate. Still not judged:
 whether a project fits the person (`evals/README.md`, "Evals to build").
 
+**The standards index as grounding (2026-11-11).** `/api/quests` now reads `web/data/standards.json`, which
+`pipeline/standards_publish.mjs` writes from `pipeline/standards.json`: the roles and what each must show, with no
+source and no address, so nothing of a source can reach a card. `Quests.standardsFor` puts the lists of the person's
+roles (by id or `also_serves`) in the person's block, after the answers, with one line telling the model to aim a
+project at one where it fits and never to name a source or an employer. The stable prefix did not change. A role
+with no list adds nothing. A test fails when the published file is behind the index. An item the index marks `weak`
+goes as a flag and reads "thinly backed: an idea, not a requirement". The 22 cases the lists touch were asked again:
+94 of 96 projects kept, about $0.054 a write.
+
 ## A standards index: what the industry treats as the way into a role (`feat/standards-index`, 2026-11-10)
 
 The quest generator of the apprentice map writes side projects from the role and the posting. It had nothing that
@@ -3719,8 +3728,8 @@ done). One line per item; the section that explains it is named where it helps.
   build").
 - Saved jobs feeding the side-project flow's first step, once a saved-jobs store exists (none today; the seam is
   marked in `app.js` `aimHtml`) ("Start a side project", 2026-11-11).
-- The standards index as grounding for `/api/quests`: the file another thread drafts, then its path in
-  `web/vercel.json`'s `includeFiles` (the function reads it when present).
+- The standards index grounds the quests of eight roles only; the rest wait for `shows` lists (below). Whether a
+  grounded project is better is not judged yet (`evals/README.md`, "Evals to build", 10).
 - Storing the extras of "Add more about you" (under `maps/<uid>/context/`, with a storage policy and a delete), only
   if the owner wants them kept; today they are sent once and stored nowhere.
 - The side-project eval's first run: `node evals/quests.mjs --baseline` (a key, or `--url` with a test account and a

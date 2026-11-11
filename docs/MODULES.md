@@ -164,6 +164,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   roles that read the same list) a `shows` list: `stage` (foundation or build), `means`, `artifacts`, `sources`
   (ids), `skills` (taxonomy ids), `weak`, a note, when no fetched source other than a prep vendor backs the item or the backing is thin for a stated reason. A reader
   takes `roles`; `sources` is there to weigh an item (first-party, fetched, fresh).
+- `pipeline/standards_publish.mjs` — writes `web/data/standards.json` (the roles and their `shows`, no sources) for
+  `/api/quests`; `--check` exits 1 when it is behind. `Quests.standardsFor` (`web/quests.js`) renders the lists of a
+  person's roles into the prompt.
 - `pipeline/standards.py` — `verify`: one GET per source, two seconds apart, a generic user agent. Writes only
   `check` (date, outcome, HTTP status, hash of the page's words, note), `read_sha256` and `read_sha256_date` on a
   source; never a summary. Outcomes: `ok`, `changed` (the hash differs from the read's), `unreachable`,

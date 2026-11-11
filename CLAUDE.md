@@ -49,7 +49,9 @@
   shown or linked on a quest card. A record changes by hand, after a person re-reads the page, with its `date_read`
   updated and no quotation kept; `pipeline.standards verify` writes only its check fields. A change to the file or to
   `pipeline/standards.py` means `.venv/bin/python evals/run_standards.py --baseline` and committing
-  `evals/standards_baseline.md`. No source from the blocked-vendor list of `data/raw/build_sources.json`.
+  `evals/standards_baseline.md`, then `node pipeline/standards_publish.mjs` and committing `web/data/standards.json`
+  (the roles and their `shows`, no sources: what `/api/quests` reads). No source from the blocked-vendor list of
+  `data/raw/build_sources.json`.
 - The raw posting files are a backlog. Never replace one with a fresh scrape and never delete postings from it:
   `pipeline.scrape --refresh` merges. A change to `pipeline.scrape.merge` needs `evals/run_pipeline.py --only backlog`.
   The files are not in git: the Supabase backlog (`pipeline/backlog.py`) is the store, and a fresh checkout runs

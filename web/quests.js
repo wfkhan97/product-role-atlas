@@ -98,6 +98,24 @@ Answer with JSON only, in the schema given.`;
     return `<kit>\n# kinds (id | what | examples)\n${kinds}\n# hosts (id | what | the account it needs | note)\n${hosts}\n# a database needs: supabase\n</kit>`;
   }
 
+  // What employers test for the person's roles, from the published standards index (web/data/standards.json, written
+  // by pipeline/standards_publish.mjs from pipeline/standards.json). Grounding only: it aims the projects and puts no
+  // text on a card, so the lines carry no source and no employer. A role matches by its id or the index's also_serves;
+  // a role the index has no list for adds nothing. The instruction rides in the block, so the stable prefix is the
+  // same with and without it.
+  function standardsFor(index, roleIds) {
+    const roles = (index && index.roles) || {}, want = new Set(list(roleIds));
+    const hit = Object.keys(roles).sort().filter(id => want.has(id) || list(roles[id].also_serves).some(a => want.has(a)));
+    if (!hit.length) return "";
+    const out = ["# What employers test for these roles. Aim each project at one of these where it fits the person.", "# Never name a source, a program or an employer."];
+    for (const id of hit) {
+      const r = roles[id];
+      out.push(`## ${r.label || id}${r.summary ? `: ${r.summary}` : ""}`);
+      for (const x of list(r.shows)) out.push(`- ${x.label} (${x.stage || "any stage"}): ${x.means || ""} Shown by: ${list(x.artifacts).join("; ")}. Skills: ${list(x.skills).join(", ")}${x.weak ? " (thinly backed: an idea, not a requirement)" : ""}`);
+    }
+    return out.join("\n").slice(0, LIMITS.standards || 6000);
+  }
+
   const STATE_WORDS = { shows: "shows", "shows in other words": "shows in other words", "must evidence better": "named, not shown", "must build": "a gap" };
   const TECH_WORDS = { no_code: "I don't code", ai_tools: "I build with AI tools", read_code: "I can read and edit code", write_code: "I write code" };
   // The person's material: roles, the tree, the read, the answers, then the résumé and the extras. Every part is
@@ -113,7 +131,8 @@ Answer with JSON only, in the schema given.`;
       `<read>\nband: ${T.band || "unknown"}\n${T.brings.map(b => `brings ${b.id}${b.line ? `: "${b.line}"` : ""}`).join("\n")}\n</read>`,
       `<answers>\ncomfort with code: ${TECH_WORDS[A.tech] || "not answered"}\n${tools}\n${accounts}\nkinds allowed: ${kindsOk.join(", ")}\nhosts allowed: ${hostsOk.join(", ")}\ndatabase allowed: ${dbAllowed(A) ? "yes" : "no"}\n</answers>`,
     ];
-    if (standards) parts.push(`<standards>\n${String(standards).slice(0, 8000)}\n</standards>`);
+    const st = standardsFor(standards, T.roles.map(r => r.id));
+    if (st) parts.push(`<standards>\n${st}\n</standards>`);
     parts.push(`<resume>\n${str(resume) ? String(resume).trim().slice(0, LIMITS.resume) : "none"}\n</resume>`);
     const ex = clipExtras([extras]);
     parts.push(`<extra>\n${ex.text || "none"}\n</extra>`);
@@ -281,5 +300,5 @@ Answer with JSON only, in the schema given.`;
   const dayCount = (obj, today) => obj && obj.date === today && Number.isInteger(obj.n) ? obj.n : 0;
   const bump = (obj, today) => ({ date: today, n: dayCount(obj, today) + 1 });
 
-  return { TECH, TOOL_STATES, ACCOUNT_STATES, LIMITS, CAP, RULES, MODEL, SIDE, cleanAnswers, allowedKinds, allowedHosts, dbAllowed, treeOf, clipExtras, PROMPT, kitBlock, personBlock, request, SCHEMA, norm, DURATION, MISSION, checkProject, validate, cardOf, isSide, addSide, sideCount, keepSide, dayCount, bump, words };
+  return { TECH, TOOL_STATES, ACCOUNT_STATES, LIMITS, CAP, RULES, MODEL, SIDE, cleanAnswers, allowedKinds, allowedHosts, dbAllowed, treeOf, clipExtras, PROMPT, kitBlock, personBlock, standardsFor, request, SCHEMA, norm, DURATION, MISSION, checkProject, validate, cardOf, isSide, addSide, sideCount, keepSide, dayCount, bump, words };
 });
