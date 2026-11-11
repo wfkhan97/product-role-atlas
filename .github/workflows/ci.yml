@@ -41,6 +41,8 @@ jobs:
         run: node evals/run_tech.mjs
       - name: Taxonomy evals
         run: python evals/run_taxonomy.py
+      - name: Standards index eval (freshness is the monthly workflow's)
+        run: python evals/run_standards.py --skip freshness
       - name: Adaptive evals
         run: node evals/adaptive.mjs
       - name: Stage eval
