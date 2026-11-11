@@ -330,7 +330,7 @@ generator. The eval checks the file with no model and no network:
 | part | what it guards |
 |---|---|
 | structure | Source ids are unique; every record has its fields and known values for `kind`, `publisher_class`, `verified`, `access` and, on a program only, `status`; every role id exists in a role set; a prep vendor or a gap is never first-party; no record keeps a quotation; no publisher or URL is on the blocked-vendor list of `data/raw/build_sources.json`; verify's fields are well formed. |
-| shows | Every role in `roles` exists in the role sets it names, under the set's label; every first-cut role has a `shows` list; every source id resolves and serves that role or one in `also_serves`; an item with no fetched source other than a prep vendor carries a `weak` note (an item may carry one for another stated reason, such as a single employer's page). |
+| shows | Every role in `roles` exists in the role sets it names, under the set's label; every role has a list, is served by another role's, or is in `no_list` with its reason; every source id resolves and serves that role or one in `also_serves`; an item with no fetched source other than a prep vendor carries a `weak` note (an item may carry one for another stated reason, such as a single employer's page). |
 | skills | Every skill id is in `pipeline/taxonomy.json` and in the taxonomy of one of the role's sets. |
 | freshness | No `shows` item rests only on sources read more than 12 months ago, programs not re-read since the last 1 August, or closed programs. The date decides it, so the monthly workflow runs it and CI does not. |
 
@@ -615,6 +615,6 @@ Still to build, in this order:
    deterministic; the eval holds them to a hand-placed layout of the example map
    (`pipeline/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
    stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order.
-10. **Generated quests against the standards index.** A sample of 30 generated quests for the first-cut roles, each
+10. **Generated quests against the standards index.** A sample of 30 generated quests for roles with a list, each
    judged by the owner: does this project show something the role's `shows` list asks for, or lay a foundation for
    one? No rule ties a quest to one item, so this is a judged sample, not a code check.
