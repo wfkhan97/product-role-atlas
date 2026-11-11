@@ -133,10 +133,24 @@ test("the copy holds every string the two screens draw", () => {
   assert.equal(C.emailPlaceholder, "user@school.edu");
   assert.equal(C.skip, "Skip for now");
   assert.equal(C.intro.length, 2);
-  // Build skills (the map's section, 2026-11-10) is a top-bar label only: the four home cards stay four
+  // Build skills (the map's section, 2026-11-10) is not one of Door.verbs: Door.withBuild adds it (below)
   assert.deepEqual(Object.keys(C.bar), ["jobs", "skills", "build", "classes", "network"]);
   assert.equal(C.bar.build, "Build skills");
   assert.deepEqual(Door.verbs("", {}, null, []).map(v => v.key), ["jobs", "skills", "classes", "network"]);
+});
+
+test("Build skills joins the bar and the home cards after Explore careers", () => {
+  const open = Door.verbs("", {}, null, []).filter(v => v.open);
+  assert.deepEqual(Door.withBuild(open, false).map(v => v.key), ["jobs", "skills", "network"], "tree off: no card");
+  const withB = Door.withBuild(open, true), b = withB[2];
+  assert.deepEqual(withB.map(v => v.key), ["jobs", "skills", "build", "network"]);
+  assert.equal(open.length, 3, "the list passed in is not changed");
+  assert.equal(b.href, "#/map"); assert.equal(b.title, "Build skills");
+  assert.match(b.line, /portfolio projects/); assert.match(b.line, /referrals\.$/);
+  const inv = Door.withBuild(open, true, true)[2].line;
+  assert.ok(inv.startsWith(b.line) && /by invite today\.$/.test(inv), inv);
+  for (const s of inv.split(/(?<=\.)\s+/)) assert.ok(s.split(/\s+/).length <= 20, s);
+  assert.ok(!/sign in/i.test(inv));
 });
 
 test("the Tally return: #/home?email=…&where=… is home, reads once as the door keeps it, and the hash ends clean", () => {

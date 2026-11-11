@@ -3,7 +3,8 @@
 import { test, expect, axe, unexpected, gotoHash, waitForScreen } from "./fixtures.mjs";
 
 // the home cards each state draws: Find classes only for an address whose campus has a roster (app.js Door.verbs)
-const CARDS = { campus: ["jobs", "skills", "classes", "network"], general: ["jobs", "skills", "network"], signedIn: null };
+// and Build skills after Explore careers while the tree is on (Door.withBuild)
+const CARDS = { campus: ["jobs", "skills", "build", "classes", "network"], general: ["jobs", "skills", "build", "network"], signedIn: null };
 
 for (const state of ["fresh", "campus", "general", "signedIn"]) {
   test(`${state}: #/home draws`, async ({ visitor }) => {

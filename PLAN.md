@@ -3698,6 +3698,17 @@ with no session lands on the sign-in, which says the section opens by invite and
 "Invited to Build skills? Open it with your invite →" (the door's copy never says "sign in"). The launcher's invite
 line names Build skills. This revises K's "who sees it".
 
+## Build skills is a home card (`feat/home-build-skills`, 2026-11-11)
+
+The owner asked for Build skills on home, framed as portfolio projects that build relevant skills and produce
+shareable work for networking and referrals. This revises K's "it is no home card". The card sits after Explore
+careers, opens `#/map`, and shows while `TREE_ENABLED` is on, as the top bar's entry does (`Door.withBuild` serves
+both). Its line: "Plan portfolio projects that build the skills your target roles ask for. Share what you ship to
+network and get referrals." A visitor with no session while accounts are off also reads "It opens by invite today.",
+so the card does not promise what the sign-in then refuses. Home draws five cards on one row from 1280 px for a campus
+address (`.verbs.n5`), four for any other. The click is a `cta_click` with the id `home_build`: a `home_build` event
+would need a migration to the events check, and the `map` screen event already counts arrivals.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as

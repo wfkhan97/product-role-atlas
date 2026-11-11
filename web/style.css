@@ -917,10 +917,10 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .door-privacy { margin-top: 18px; }
 .door-tally-acts { margin-top: 12px; }   /* the site's own Skip under the Tally slot, outside the iframe */
 .verbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
-/* home: the verbs on one row from 1280 px, in a page up to 1440 px (it was the 880 px column, two by two): four for an
-   address that opens a roster, three (n3, no Find classes) for any other (2026-11-04); under 1280 px they wrap by two */
+/* home: the verbs on one row from 1280 px, in a page up to 1440 px (it was the 880 px column, two by two): five with Build skills (n5,
+   2026-11-11) for an address that opens a roster, four for any other, three (n3) with the tree off; under 1280 px they wrap by two */
 .main > .page.home-page { max-width: 1440px; }
-@media (min-width: 1280px) { .home-page .verbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } .home-page .verbs.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .home-page .verbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } .home-page .verbs.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .home-page .verbs.n5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .verb { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; background: var(--card); color: inherit; display: block; }
 a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .verb .t { font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); margin-bottom: 6px; display: block; }
