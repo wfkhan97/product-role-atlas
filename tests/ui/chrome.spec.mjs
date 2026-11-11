@@ -83,8 +83,11 @@ test("the launcher's invite line says what the invite is for", async ({ visitor 
   expect(Copy.map.invite).toMatch(/Build skills/);
 });
 
-test("the map gate: #/map?build=1&role=… as a visitor lands on the sign-in with next carried", async ({ visitor }) => {
+// with the open tree off in the page (on in web/config.js since 2026-11-11: tests/ui/open_tree.spec.mjs has the on case)
+test("the map gate, open tree off: #/map?build=1&role=… as a visitor lands on the sign-in with next carried", async ({ visitor }) => {
   const page = await visit(visitor);
+  await page.context().addInitScript(() => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) c.OPEN_TREE_ENABLED = false; } }); });
+  await page.reload();
   await gotoHash(page, "#/map?build=1&role=product.pm");
   await expect.poll(() => hashOf(page)).toBe("#/signin?next=" + encodeURIComponent("#/map?build=1&role=product.pm"));
   await waitForScreen(page, "signin");

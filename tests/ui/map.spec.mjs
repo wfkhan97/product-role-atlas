@@ -226,8 +226,12 @@ test("Build skills: the top bar shows it after Explore careers for a session, ma
   expect(unexpected(page.consoleErrors)).toEqual([]);
 });
 
+// The invited path, with the open tree off in the page (2026-11-11: OPEN_TREE_ENABLED is on in web/config.js, and with
+// it #/map with no session is the open tree's form, tests/ui/open_tree.spec.mjs). These three keep the flag-off rule.
+const OPEN_OFF = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) c.OPEN_TREE_ENABLED = false; } }); };
 test("Build skills: a visitor with no session sees Build skills in the top bar; it leads to the sign-in, and the launcher keeps the invite line", async ({ visitor }) => {
   const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  await page.context().addInitScript(OPEN_OFF);
   await page.goto("/#/skills");
   await page.locator("#lf-body").waitFor();
   await expect(page.locator("#verbs a.toplink[data-verb]")).toHaveText([BAR.jobs, BAR.skills, BAR.build, BAR.network]);
@@ -250,6 +254,7 @@ test("The welcome screen tells an invited person where to sign in", async ({ vis
 
 test("Build skills: no session goes to the sign-in with the map's page as next, so it comes back there", async ({ visitor }) => {
   const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  await page.context().addInitScript(OPEN_OFF);
   await page.goto("/#/map/tree?view=list");
   await expect.poll(() => hashOf(page)).toBe("#/signin?next=" + encodeURIComponent("#/map/tree?view=list"));
   await page.locator("#main #si").waitFor();
@@ -283,6 +288,7 @@ test("Build skills: a session with no map lands on the tree form as the first st
 // 2026-11-11: the sign-in email leads with a six-digit code, so the invited page asks for it (the link still works)
 test("Sign in: an invited address gets the code box; a wrong code says so, the right one lands on the page it came from", async ({ visitor }, info) => {
   const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
+  await page.context().addInitScript(OPEN_OFF);
   const token = ["x", Buffer.from(JSON.stringify({ sub: UID, email: SESSION.email })).toString("base64url"), "y"].join(".");
   const calls = [];
   await page.context().route(/\.supabase\.co\//, route => {

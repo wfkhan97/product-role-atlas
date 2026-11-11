@@ -35,11 +35,12 @@ window.CONFIG = {
   // link, no function, no model. Under the tree: two projects picked from the tree and data/standards.json (a title
   // and a line each) and the booking card. A person with a session sees their map as before, and the quest pages,
   // #/map/start and /api/quests stay a session's (QUESTS_ENABLED). Needs no migration and no key. Off: #/map with no
-  // session is the invited sign-in.
-  OPEN_TREE_ENABLED: false,
+  // session is the invited sign-in. On since 2026-11-11 (owner).
+  OPEN_TREE_ENABLED: true,
   // The booking card under the open tree's two projects: the id of the owner's Tally form (the part after
   // tally.so/r/), opened in a new tab with the hidden fields surface, source, role and email. null: no card is drawn.
-  BOOKING_TALLY: null,
+  // "Book your project session" (the owner's form, 2026-11-11: the four hidden fields and a payment block).
+  BOOKING_TALLY: "6Djx8o",
   /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). On since the
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it
      lacks, so the flag never runs ahead of the migration. Needs no sign-in and no tree. */
