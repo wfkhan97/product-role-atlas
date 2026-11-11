@@ -80,7 +80,7 @@ test("sign-in: one line says what the map is; a refused send shows a way to ask 
 test("the launcher's invite line says what the invite is for", async ({ visitor }) => {
   const page = await visit(visitor, { hash: "#/skills" });
   await expect(page.locator("#main .lf-slot")).toContainText(Copy.map.invite);
-  expect(Copy.map.invite).toMatch(/map/i);
+  expect(Copy.map.invite).toMatch(/Build skills/);
 });
 
 test("the map gate: #/map?build=1&role=… as a visitor lands on the sign-in with next carried", async ({ visitor }) => {

@@ -211,7 +211,7 @@ for (const hash of ["#/classes", "#/network?role=product.pm"]) {
     const top = await box(page, ".top");
     expect(top.h, `the bar's height (two rows: ${TWO_ROWS} px)`).toBeLessThanOrEqual(TWO_ROWS);
     const verbs = page.locator("#verbs a.toplink[href^='#/']:not([href^='#/signin'])");
-    await expect(verbs).toHaveCount(4);
+    await expect(verbs).toHaveCount(5);   // with Build skills, shown to every visitor since 2026-11-11
     for (const v of await verbs.all()) await expect(v).toBeVisible();
     // a verb past the edge is one swipe away: the strip scrolls, it never clips
     const strip = await page.evaluate(() => { const n = document.querySelector("#verbs"); return { sw: n.scrollWidth, cw: n.clientWidth, ox: getComputedStyle(n).overflowX }; });
