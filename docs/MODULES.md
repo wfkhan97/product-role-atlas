@@ -269,7 +269,7 @@ and evals run the code the site runs.
   is higher. Calls to action: `guide_<screen>` shown, click, done; `guide_skip` done; `guide_relaunch` click. On a
   phone (640 px and under) the card is a bottom sheet and the target gets a ring. The card is a non-modal dialog:
   focus moves in, Tab stays among its buttons, Esc skips. Off with `CONFIG.GUIDE_ENABLED`: nothing draws.
-- `auth.js` — the sign-in with no library: `Auth.sendLink(email)` (an invited address only, `create_user: false`),
+- `auth.js` — the sign-in with no library: `Auth.sendLink(email)` (an invited address only, `create_user: false`; the email carries a code and a link, and the invited page takes the code with `verifyCode`),
   `Auth.sendCode` and `verifyCode` (the six-digit code for anyone; `create_user: true`, so the catalog project's
   "Allow new users to sign up" must be on), `takeHash` (a magic link's landing), `stored`, `session` (refreshes),
   `readMap`, `readFeedback`, `writeFeedback` (the person's own mark on a quest: `feedbackObject`, `cleanLink`), `signOut`. The session lives in `localStorage` under `maps.session`. `MapGate.next` is
