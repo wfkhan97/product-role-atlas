@@ -225,6 +225,608 @@
     }
    ]
   },
+  "brand_manager": {
+   "label": "Brand Manager",
+   "also_serves": [],
+   "summary": "Brand hiring asks for a short brand case answered from the consumer, and stories of leading people. No employer publishes its marketing case; the case detail comes from student accounts on one school's site, and the planning steps from a course and a book.",
+   "shows": [
+    {
+     "id": "brand_case",
+     "label": "A brand case answered from the consumer",
+     "stage": "foundation",
+     "means": "Take a short brand problem. Start from the consumer, look at the company and its competitors, then work through product, price, place and promotion. State your assumptions and commit to one recommendation tied to a consumer insight.",
+     "artifacts": [
+      "A one-page written answer to a brand problem for a real product",
+      "A recorded spoken answer to the same case"
+     ],
+     "skills": [
+      "brand_strategy",
+      "consumer_insights",
+      "problem_solving",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    },
+    {
+     "id": "brand_plan",
+     "label": "A brand plan for one product",
+     "stage": "build",
+     "means": "Pick a real brand. Research its buyers, segment them, choose a target and write the positioning. Set objectives, then plan product, packaging, communication, price and retail execution.",
+     "artifacts": [
+      "A brand plan: research, segments, target, positioning, objectives and the mix",
+      "A one-page summary of the plan's main decisions"
+     ],
+     "skills": [
+      "brand_strategy",
+      "positioning_messaging",
+      "market_research",
+      "pricing_packaging",
+      "campaign_management"
+     ]
+    },
+    {
+     "id": "growth_argument",
+     "label": "A growth argument from buying evidence",
+     "stage": "foundation",
+     "means": "Say how a brand will grow. Argue from reaching more buyers, and from making the brand easier to think of and easier to buy. Say what the evidence is.",
+     "artifacts": [
+      "A short memo on where one brand's next buyers come from"
+     ],
+     "skills": [
+      "brand_strategy",
+      "consumer_insights",
+      "data_driven"
+     ],
+     "weak": true
+    },
+    {
+     "id": "leadership_stories",
+     "label": "Stories of leading and getting results",
+     "stage": "foundation",
+     "means": "Write up times you led people, made a timely decision and got a result through others. Keep each story to the situation, what you did and what changed.",
+     "artifacts": [
+      "Three written behavioral stories from real projects, clubs or jobs"
+     ],
+     "skills": [
+      "people_management",
+      "ownership",
+      "communication",
+      "collaboration"
+     ]
+    }
+   ]
+  },
+  "business_analytics": {
+   "label": "Business Analytics Manager",
+   "also_serves": [],
+   "summary": "Analytics loops test SQL and a product-metrics case: define the metrics, plan the experiment, read the result. Meta publishes its first screen and P&G describes its analytics function; no source read names a dashboard or report as the work sample.",
+   "shows": [
+    {
+     "id": "sql",
+     "label": "SQL on a business question",
+     "stage": "foundation",
+     "means": "Take a question about a product or a business. Write the SQL that answers it and explain the result.",
+     "artifacts": [
+      "A set of solved SQL problems, each tied to a business question"
+     ],
+     "skills": [
+      "sql",
+      "reporting_adhoc_analysis",
+      "data_driven"
+     ]
+    },
+    {
+     "id": "metrics_case",
+     "label": "A product-metrics case",
+     "stage": "foundation",
+     "means": "Pick a product. Define what success means in metrics. Say how you would test a change and what result would make you ship it.",
+     "artifacts": [
+      "A written metrics case for one product: success metrics, the experiment, how to read the result"
+     ],
+     "skills": [
+      "metrics_kpis",
+      "ab_testing",
+      "statistics",
+      "communication"
+     ]
+    },
+    {
+     "id": "experiment",
+     "label": "An experiment design and readout",
+     "stage": "build",
+     "means": "Design an experiment: the hypothesis, the metric, the unit, the sample size and the guardrails. Analyse a real or public result and write the decision.",
+     "artifacts": [
+      "An experiment design document",
+      "An experiment readout with a recommendation"
+     ],
+     "skills": [
+      "ab_testing",
+      "statistics",
+      "metrics_kpis",
+      "experimentation_tools"
+     ]
+    },
+    {
+     "id": "business_drivers",
+     "label": "An analysis of what drives a business",
+     "stage": "build",
+     "means": "Combine sales or purchase data with what consumers say. Find what drives the result, measure the effect of one promotion or campaign, and recommend a change to pricing, media or product.",
+     "artifacts": [
+      "An analysis that joins a public sales dataset with consumer research",
+      "A recommendation with the measured effect behind it"
+     ],
+     "skills": [
+      "marketing_analytics",
+      "consumer_insights",
+      "reporting_adhoc_analysis",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "business_intelligence": {
+   "label": "Business Intelligence Manager",
+   "also_serves": [],
+   "summary": "No employer publishes a BI loop. Job-posting snippets and two paid prep sites point to SQL and a take-home analysis that ends in a recommendation. No source read names a dashboard as the work sample.",
+   "shows": [
+    {
+     "id": "sql",
+     "label": "SQL for analytics questions",
+     "stage": "foundation",
+     "means": "Frame a product or business question. Pull the data with SQL and use basic statistics to reach an answer.",
+     "artifacts": [
+      "A set of solved SQL and analytics problems with your reasoning"
+     ],
+     "skills": [
+      "sql",
+      "statistics",
+      "reporting_adhoc_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "take_home_analysis",
+     "label": "A take-home analysis",
+     "stage": "build",
+     "means": "Take a dataset and a question. Do the analysis in SQL or Python and write up the answer as a business recommendation.",
+     "artifacts": [
+      "A written-up analysis of one dataset that ends in a recommendation",
+      "The queries or notebook behind it"
+     ],
+     "skills": [
+      "sql",
+      "python_r",
+      "reporting_adhoc_analysis",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "chief_of_staff": {
+   "label": "Chief of Staff",
+   "also_serves": [],
+   "summary": "Chief of staff hiring leans on a work sample: a real assignment that mimics the job, presented and defended. The sources are a practitioner article and two startups' pages; most other writing defines the role and says nothing about hiring.",
+   "shows": [
+    {
+     "id": "trial_project",
+     "label": "A trial project for a principal",
+     "stage": "build",
+     "means": "Take a real problem a company's leader faces. Write the plan or the analysis, then present it and take questions.",
+     "artifacts": [
+      "A written plan or analysis on one real company problem",
+      "Priority or board materials drafted for a leader, real or from a student organization",
+      "A recorded presentation of it"
+     ],
+     "skills": [
+      "special_projects",
+      "exec_partnership",
+      "strategic_planning",
+      "synthesis_recommendations"
+     ]
+    },
+    {
+     "id": "answer_first",
+     "label": "Answer-first writing",
+     "stage": "foundation",
+     "means": "Lead with the answer. Put each supporting point under it.",
+     "artifacts": [
+      "A one-page memo with one governing point"
+     ],
+     "skills": [
+      "synthesis_recommendations",
+      "exec_communication",
+      "exec_decks"
+     ],
+     "weak": true
+    },
+    {
+     "id": "judgment_stories",
+     "label": "Stories about hard calls",
+     "stage": "foundation",
+     "means": "Write up a hard decision you made, a time you moved people who did not want to move, and how you weighed a proposal.",
+     "artifacts": [
+      "Three short write-ups, each with the decision and your reasoning"
+     ],
+     "skills": [
+      "communication",
+      "influence",
+      "ownership",
+      "prioritization"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "comp_benefits": {
+   "label": "Compensation and Benefits Manager",
+   "also_serves": [],
+   "summary": "No employer source says what a compensation candidate must show. The compensation credential's outline does say what the work is: price jobs against the market, build a base pay structure, design variable pay.",
+   "shows": [
+    {
+     "id": "market_pricing",
+     "label": "Jobs priced against the market",
+     "stage": "foundation",
+     "means": "Take a handful of jobs and public pay data. Match each job, bring the data to one date, blend the sources and set a market rate for each.",
+     "artifacts": [
+      "A spreadsheet pricing five to ten jobs, with the sources and each adjustment shown"
+     ],
+     "skills": [
+      "market_pricing_job_arch",
+      "advanced_excel",
+      "people_analytics"
+     ],
+     "weak": true
+    },
+    {
+     "id": "pay_structure",
+     "label": "A base pay structure",
+     "stage": "build",
+     "means": "Build grades and pay ranges for a small company from your market rates. Place each job in a grade and say which rules you checked.",
+     "artifacts": [
+      "A pay structure: grades, ranges and where each job sits",
+      "A one-page note on the approach and the rules checked"
+     ],
+     "skills": [
+      "comp_design",
+      "market_pricing_job_arch",
+      "hr_compliance",
+      "advanced_excel"
+     ],
+     "weak": true
+    },
+    {
+     "id": "variable_pay",
+     "label": "A variable pay plan with its cost",
+     "stage": "build",
+     "means": "Design a bonus or incentive plan for one team. Say what it pays for, model what it costs under a few outcomes, and write the note that explains it to employees.",
+     "artifacts": [
+      "A plan design with a cost model",
+      "A one-page employee note"
+     ],
+     "skills": [
+      "comp_design",
+      "scenario_modeling",
+      "people_analytics",
+      "communication"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "compliance": {
+   "label": "Compliance Manager",
+   "also_serves": [],
+   "summary": "No employer program or loop was found for compliance. Four credential outlines name the work: program design, due diligence and investigations, and testing controls. Two of the four were read only from search results.",
+   "shows": [
+    {
+     "id": "compliance_program",
+     "label": "A compliance risk assessment and program",
+     "stage": "build",
+     "means": "Pick a small company in a regulated field. Assess where it could break the rules, then outline the program: policies, training, monitoring and how concerns get investigated.",
+     "artifacts": [
+      "A compliance risk assessment",
+      "A one-page program outline with the training plan"
+     ],
+     "skills": [
+      "compliance_program",
+      "policy_management",
+      "compliance_monitoring",
+      "erm_framework"
+     ],
+     "weak": true
+    },
+    {
+     "id": "due_diligence_case",
+     "label": "A due diligence and investigation write-up",
+     "stage": "foundation",
+     "means": "Take a public financial crime case or a synthetic set of transactions. Do the customer due diligence, find the transactions that look wrong and write up the case.",
+     "artifacts": [
+      "A case write-up: the customer, the red flags, the transactions and the decision"
+     ],
+     "skills": [
+      "financial_crime",
+      "compliance_monitoring",
+      "fraud_prevention"
+     ],
+     "weak": true
+    },
+    {
+     "id": "control_test",
+     "label": "A test of one control",
+     "stage": "foundation",
+     "means": "Pick one rule a process must follow. Plan how to test it, test a sample and report what failed and what to fix.",
+     "artifacts": [
+      "A test plan and a findings memo for one control"
+     ],
+     "skills": [
+      "controls_testing",
+      "internal_audit_sox",
+      "issue_remediation"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "corp_dev": {
+   "label": "Corporate Development Manager",
+   "also_serves": [],
+   "summary": "No corporate development loop is published. A valuation textbook covers the models and a venture firm's published memos show the written recommendation; neither is a hiring source.",
+   "shows": [
+    {
+     "id": "valuation",
+     "label": "A valuation of a real company",
+     "stage": "foundation",
+     "means": "Value one public company three ways: comparable companies, precedent transactions and discounted cash flow. Say why the answers differ.",
+     "artifacts": [
+      "A comparable companies table and a precedents table",
+      "A discounted cash flow model",
+      "A one-page summary of the value range"
+     ],
+     "skills": [
+      "valuation",
+      "financial_statements",
+      "advanced_excel",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "merger_model",
+     "label": "A merger analysis",
+     "stage": "build",
+     "means": "Pick a real or plausible deal. Model what the buyer pays, how it is financed and what it does to the buyer's earnings.",
+     "artifacts": [
+      "A merger model for one deal with a short read-out"
+     ],
+     "skills": [
+      "ma_execution",
+      "valuation",
+      "deal_structuring",
+      "scenario_modeling"
+     ],
+     "weak": true
+    },
+    {
+     "id": "deal_memo",
+     "label": "A recommendation memo for a deal",
+     "stage": "build",
+     "means": "Pick a target for a real acquirer. Write the recommendation: the business, the market, the diligence you did, the risks and the terms you would propose.",
+     "artifacts": [
+      "A written memo recommending one acquisition or investment"
+     ],
+     "skills": [
+      "due_diligence",
+      "market_research",
+      "ma_execution",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "corp_strategy_analyst": {
+   "label": "Corporate Strategy Analyst or Associate",
+   "also_serves": [],
+   "summary": "No employer publishes a loop for this role. A job posting names the work, a vendor guide describes the case and a book covers the writing.",
+   "shows": [
+    {
+     "id": "case",
+     "label": "A structured answer to a company's own problem",
+     "stage": "foundation",
+     "means": "Take a real question a company faces, such as build, buy or partner. Lay out the options, put them in order and commit to one.",
+     "artifacts": [
+      "A written answer to a case about a real company"
+     ],
+     "skills": [
+      "problem_solving",
+      "prioritization",
+      "strategy_development",
+      "hypothesis_driven"
+     ]
+    },
+    {
+     "id": "analysis",
+     "label": "An analysis that ends in a recommendation",
+     "stage": "build",
+     "means": "Define the problem. Run the analysis on real data, build the model and recommend what to do, as you would to an executive.",
+     "artifacts": [
+      "A deck or memo from a dataset with a model behind it",
+      "A recorded walk-through of the recommendation"
+     ],
+     "skills": [
+      "financial_analysis",
+      "advanced_excel",
+      "scenario_modeling",
+      "reporting_adhoc_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "answer_first",
+     "label": "Answer-first writing",
+     "stage": "foundation",
+     "means": "Lead with the answer. Put each supporting point under it.",
+     "artifacts": [
+      "A one-page memo or short deck with one governing point"
+     ],
+     "skills": [
+      "synthesis_recommendations",
+      "exec_decks",
+      "exec_communication"
+     ]
+    }
+   ]
+  },
+  "corporate_banking": {
+   "label": "Corporate Banking Associate",
+   "also_serves": [
+    "commercial_banking_rm"
+   ],
+   "summary": "No bank publishes a loop for this role. One credential's outline lists seven areas of credit work, which together read as a credit memo; job postings seen only in search ask for formal credit training. Both items are thin.",
+   "shows": [
+    {
+     "id": "financial_assessment",
+     "label": "A financial and cash flow assessment of a borrower",
+     "stage": "foundation",
+     "means": "Pick a company with public filings. Read its statements, work out its cash flow and say whether it can repay.",
+     "artifacts": [
+      "A financial statement and cash flow analysis of one company"
+     ],
+     "skills": [
+      "credit_analysis",
+      "financial_statements",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "credit_memo",
+     "label": "A credit memo",
+     "stage": "build",
+     "means": "Write up one borrower: its industry and competitors, its management, its finances, the collateral, where repayment comes from and how you would structure the loan. Name the signs that would tell you the loan is going wrong.",
+     "artifacts": [
+      "A credit memo on one real company with a proposed loan structure"
+     ],
+     "skills": [
+      "credit_analysis",
+      "deal_structuring",
+      "market_research",
+      "financial_risk"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "customer_success": {
+   "label": "Customer Success Leader",
+   "also_serves": [],
+   "summary": "No source read describes a customer success loop: Salesforce's hiring page is general and names no step for this role. One book defines the work, so both items rest on it alone.",
+   "shows": [
+    {
+     "id": "health_score",
+     "label": "A customer health score",
+     "stage": "foundation",
+     "means": "Pick a product. Say which signals show a customer is drifting, how you would score them and which retention numbers you would watch.",
+     "artifacts": [
+      "A customer health score definition with the metrics behind it"
+     ],
+     "skills": [
+      "customer_health",
+      "metrics_kpis",
+      "renewals_expansion"
+     ],
+     "weak": true
+    },
+    {
+     "id": "success_plan",
+     "label": "An onboarding playbook for one segment",
+     "stage": "build",
+     "means": "Choose one customer segment of a real product. Write how you get them to the promised result fast, who does what across teams, and how much contact that segment gets.",
+     "artifacts": [
+      "A success plan or onboarding playbook for one segment"
+     ],
+     "skills": [
+      "onboarding_adoption",
+      "customer_success",
+      "customer_health",
+      "cross_functional"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "data_engineer": {
+   "label": "Data Engineer",
+   "also_serves": [],
+   "summary": "Data engineer loops test SQL, Python and data modeling on a product scenario; a public course and two books describe the pipeline work behind them. Meta confirms only its format; the round content is from prep vendors.",
+   "shows": [
+    {
+     "id": "sql_python",
+     "label": "SQL and Python on data",
+     "stage": "foundation",
+     "means": "Write the SQL queries and the Python that transform raw data into the tables a question needs. Write them without help and explain each step.",
+     "artifacts": [
+      "A set of solved SQL problems with your reasoning",
+      "A Python data-transformation script with tests"
+     ],
+     "skills": [
+      "sql",
+      "python_r",
+      "databases"
+     ]
+    },
+    {
+     "id": "data_model",
+     "label": "A data model for a product",
+     "stage": "foundation",
+     "means": "Pick a product. Define the metrics someone would ask for. Design the tables that serve them and say why you shaped them that way.",
+     "artifacts": [
+      "Metric definitions for one product scenario",
+      "A dimensional data model sketched for it"
+     ],
+     "skills": [
+      "data_modeling",
+      "metrics_kpis",
+      "sql"
+     ],
+     "weak": true
+    },
+    {
+     "id": "pipeline",
+     "label": "An end-to-end pipeline",
+     "stage": "build",
+     "means": "Take a real dataset. Ingest it, orchestrate the runs, load a warehouse, transform it and serve a result. Write a README another person can reproduce it from.",
+     "artifacts": [
+      "A public repository with ingestion, orchestration, a warehouse, transformations with tests and a dashboard",
+      "A README that lets someone else run it"
+     ],
+     "skills": [
+      "data_orchestration",
+      "cloud",
+      "sql",
+      "infra_as_code",
+      "data_modeling"
+     ]
+    },
+    {
+     "id": "design_tradeoffs",
+     "label": "A design write-up with the trade-offs",
+     "stage": "foundation",
+     "means": "For one data system, say how it stores and processes data. Explain what you chose for reliability, scale and upkeep, and what each choice costs.",
+     "artifacts": [
+      "A short design document for a data system: storage, batch or stream processing, and the trade-offs"
+     ],
+     "skills": [
+      "system_architecture",
+      "databases",
+      "streaming",
+      "lakehouse"
+     ]
+    }
+   ]
+  },
   "data_scientist": {
    "label": "Data Scientist",
    "also_serves": [
@@ -301,6 +903,197 @@
       "problem_solving",
       "data_driven",
       "dashboards_dataviz"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "digital_transformation": {
+   "label": "Digital Transformation Manager",
+   "also_serves": [],
+   "summary": "No employer source describes this loop. Two credentials describe the work: a change plan for a live project and a record of projects led. Both items are thin.",
+   "shows": [
+    {
+     "id": "change_plan",
+     "label": "A change plan for a real project",
+     "stage": "build",
+     "means": "Pick a change under way in an organization you know, such as a new system. Assess the risk and how ready people are, then plan sponsors, stakeholders and communication.",
+     "artifacts": [
+      "A risk and readiness assessment for one change",
+      "A change management strategy with its core plans"
+     ],
+     "skills": [
+      "change_management",
+      "stakeholder_mgmt",
+      "risk_mgmt",
+      "transformation_programs"
+     ],
+     "weak": true
+    },
+    {
+     "id": "project_record",
+     "label": "A record of projects you led",
+     "stage": "foundation",
+     "means": "For each project, say what you were responsible for: the plan, the decisions, the delivery and the outcome.",
+     "artifacts": [
+      "A write-up per project with your responsibility and the result"
+     ],
+     "skills": [
+      "program_mgmt",
+      "execution",
+      "ownership",
+      "agile_scrum"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "enterprise_risk": {
+   "label": "Enterprise Risk Manager",
+   "also_serves": [],
+   "summary": "No employer program or loop was found for enterprise risk. Three credential outlines say what the work is: assess an organization's risks from its business model, measure financial risk, and review controls.",
+   "shows": [
+    {
+     "id": "risk_assessment",
+     "label": "A risk assessment of one organization",
+     "stage": "build",
+     "means": "Pick a real company. Analyze how it makes money, list the risks to that, rate them and say how each should be handled.",
+     "artifacts": [
+      "A risk register built from the company's business model",
+      "A one-page risk strategy for its leaders"
+     ],
+     "skills": [
+      "erm_framework",
+      "operational_risk",
+      "risk_mgmt",
+      "exec_communication"
+     ],
+     "weak": true
+    },
+    {
+     "id": "financial_risk_measure",
+     "label": "A measure of market or credit risk",
+     "stage": "build",
+     "means": "Take a small portfolio or loan book with public data. Measure its market or credit risk with a standard model and state the model's limits.",
+     "artifacts": [
+      "A workbook or notebook with the risk calculation",
+      "A short note on the result and what the model misses"
+     ],
+     "skills": [
+      "financial_risk",
+      "statistics",
+      "valuation",
+      "python_r"
+     ],
+     "weak": true
+    },
+    {
+     "id": "control_review",
+     "label": "A review of one process and its controls",
+     "stage": "foundation",
+     "means": "Take one process, such as paying expenses in a club. Plan the review, find where it can go wrong, test the controls and report what you found.",
+     "artifacts": [
+      "A short audit plan and a findings memo for one process"
+     ],
+     "skills": [
+      "controls_testing",
+      "internal_audit_sox",
+      "issue_remediation"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "fpa": {
+   "label": "FP&A Manager",
+   "also_serves": [],
+   "summary": "No employer source describes an FP&A loop. The profession's own exam outline names the work: build a model, project revenue, explain variances, test sensitivities. A practitioner newsletter supplies the metrics and planning formats.",
+   "shows": [
+    {
+     "id": "forecast_model",
+     "label": "A forecast model with sensitivities",
+     "stage": "build",
+     "means": "Build a model for a real company. Project revenue, state the drivers, and show how the result moves when they change.",
+     "artifacts": [
+      "A spreadsheet model with a revenue projection and a sensitivity table",
+      "A one-page chart summary for a business partner"
+     ],
+     "skills": [
+      "budgeting_forecasting",
+      "scenario_modeling",
+      "advanced_excel",
+      "dashboards_dataviz"
+     ],
+     "weak": true
+    },
+    {
+     "id": "variance_analysis",
+     "label": "A variance analysis",
+     "stage": "foundation",
+     "means": "Compare plan to actual for one period. Say which lines moved, by how much and why.",
+     "artifacts": [
+      "A variance table with a short commentary",
+      "A ratio analysis from a public company's filings"
+     ],
+     "skills": [
+      "variance_analysis",
+      "financial_statements",
+      "financial_analysis",
+      "finance_partnering"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "fraud_risk": {
+   "label": "Fraud and Credit Risk Analyst",
+   "also_serves": [],
+   "summary": "The only sources are two credential outlines, and they cover the investigation side: fraud schemes, investigations and prevention. No credential or published loop was found for fraud analytics roles at fintechs.",
+   "shows": [
+    {
+     "id": "scheme_teardown",
+     "label": "A teardown of a real fraud scheme",
+     "stage": "foundation",
+     "means": "Take a public fraud case. Explain how the scheme worked, how it showed in the transactions and which control would have caught it.",
+     "artifacts": [
+      "A written teardown of one fraud case with the red flags listed"
+     ],
+     "skills": [
+      "fraud_prevention",
+      "financial_crime",
+      "controls_testing"
+     ],
+     "weak": true
+    },
+    {
+     "id": "transaction_investigation",
+     "label": "An investigation of suspect transactions",
+     "stage": "build",
+     "means": "Take a public or synthetic set of transactions. Find the ones that look wrong, gather the evidence and write the case up for a decision.",
+     "artifacts": [
+      "A case file: the method, the flagged transactions, the evidence and a recommendation",
+      "The analysis file or notebook behind it"
+     ],
+     "skills": [
+      "fraud_prevention",
+      "financial_crime",
+      "compliance_monitoring",
+      "sql"
+     ],
+     "weak": true
+    },
+    {
+     "id": "prevention_plan",
+     "label": "A fraud prevention plan",
+     "stage": "build",
+     "means": "Pick a small organization. List how it could be defrauded and design the controls that prevent or deter each way.",
+     "artifacts": [
+      "A fraud risk assessment with a control for each risk"
+     ],
+     "skills": [
+      "fraud_prevention",
+      "controls_testing",
+      "operational_risk"
      ],
      "weak": true
     }
@@ -384,6 +1177,553 @@
       "seo_web_conversion",
       "lifecycle_marketing"
      ]
+    }
+   ]
+  },
+  "hr_manager": {
+   "label": "Human Resources Manager",
+   "also_serves": [],
+   "summary": "The HR leadership programs publish their rotations but not how they select. What the work is comes from two credential outlines, which weigh employee relations, engagement and pay most and test judgment in workplace situations.",
+   "shows": [
+    {
+     "id": "hr_scenarios",
+     "label": "Judgment in workplace situations",
+     "stage": "foundation",
+     "means": "Take common workplace situations, such as a complaint against a manager or a policy applied unevenly. Write what you would do, in what order, and which policy or rule applies.",
+     "artifacts": [
+      "Written answers to five HR situations, each with the steps and the reasoning"
+     ],
+     "skills": [
+      "employee_relations",
+      "hr_compliance",
+      "hr_operations",
+      "hr_business_partnering"
+     ],
+     "weak": true
+    },
+    {
+     "id": "people_project",
+     "label": "A project in one HR area",
+     "stage": "build",
+     "means": "Pick one area the programs rotate through: employee relations, engagement, pay, hiring or learning. Do a small project in it for a club, a team or a small business, and say what should change.",
+     "artifacts": [
+      "A project write-up for a real group, such as an engagement survey with findings and actions or a hiring plan"
+     ],
+     "skills": [
+      "engagement_culture",
+      "succession_workforce_planning",
+      "talent_acquisition",
+      "people_analytics",
+      "hr_business_partnering"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "ib_associate": {
+   "label": "Investment Banking Associate",
+   "also_serves": [],
+   "summary": "The banks' program pages give eligibility and format and say nothing about interviews. The one usable source is the standard valuation textbook, so every item rests on it alone.",
+   "shows": [
+    {
+     "id": "valuation",
+     "label": "A valuation of a real company",
+     "stage": "foundation",
+     "means": "Value one public company three ways: comparable companies, precedent transactions and discounted cash flow. Say why the answers differ.",
+     "artifacts": [
+      "A comparable companies table and a precedents table",
+      "A discounted cash flow model",
+      "A one-page summary of the value range"
+     ],
+     "skills": [
+      "valuation",
+      "financial_statements",
+      "advanced_excel",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "lbo_model",
+     "label": "A leveraged buyout model",
+     "stage": "build",
+     "means": "Pick a company a buyer could take private. Model the purchase, the debt and the return at exit.",
+     "artifacts": [
+      "A leveraged buyout model for one company with the returns under a few cases"
+     ],
+     "skills": [
+      "valuation",
+      "debt_capital_structure",
+      "deal_structuring",
+      "scenario_modeling"
+     ],
+     "weak": true
+    },
+    {
+     "id": "merger_model",
+     "label": "A merger analysis",
+     "stage": "build",
+     "means": "Pick a real or plausible deal. Model what the buyer pays, how it is financed and what it does to the buyer's earnings.",
+     "artifacts": [
+      "A merger model for one deal with a short read-out"
+     ],
+     "skills": [
+      "ma_execution",
+      "valuation",
+      "deal_structuring",
+      "scenario_modeling"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "investment_manager": {
+   "label": "Investment Manager",
+   "also_serves": [],
+   "summary": "No investment firm's hiring page was found. The closest published form is a student competition run by the CFA Institute: an equity research report on one listed company and a short presentation to judges.",
+   "shows": [
+    {
+     "id": "research_report",
+     "label": "An equity research report",
+     "stage": "build",
+     "means": "Pick one listed company. Analyze its financials, value it, and write a report that ends in a recommendation.",
+     "artifacts": [
+      "A written equity research report on one public company"
+     ],
+     "skills": [
+      "investment_research",
+      "valuation",
+      "financial_statements",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "pitch",
+     "label": "A short presentation of the recommendation",
+     "stage": "foundation",
+     "means": "Present your recommendation in ten minutes with slides. Take questions on it.",
+     "artifacts": [
+      "A recorded ten-minute presentation with slides"
+     ],
+     "skills": [
+      "pitch_materials",
+      "exec_communication",
+      "investment_research"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "management_consultant": {
+   "label": "Management Consultant",
+   "also_serves": [],
+   "summary": "Consulting loops are a spoken case and a conversation about your own experience, after an online screen. The three large firms publish their own pages and practice cases, so the backing is strong.",
+   "shows": [
+    {
+     "id": "case",
+     "label": "A structured answer to a client case",
+     "stage": "foundation",
+     "means": "Clarify the objective. Break the problem into parts that fit this case, not a stock framework. Think aloud, work the data and commit to an answer.",
+     "artifacts": [
+      "A written issue tree for a published practice case",
+      "A recording of yourself answering one of the firms' practice cases"
+     ],
+     "skills": [
+      "problem_solving",
+      "hypothesis_driven",
+      "strategy_development",
+      "synthesis_recommendations"
+     ]
+    },
+    {
+     "id": "case_maths",
+     "label": "Quick sums and market sizing",
+     "stage": "foundation",
+     "means": "Size a market from a few stated assumptions. Do the arithmetic by hand and say what the number means.",
+     "artifacts": [
+      "A one-page market sizing with every assumption written down",
+      "A log of timed mental-maths drills"
+     ],
+     "skills": [
+      "problem_solving",
+      "financial_analysis",
+      "data_driven"
+     ]
+    },
+    {
+     "id": "answer_first",
+     "label": "An answer-first recommendation",
+     "stage": "foundation",
+     "means": "Lead with the answer. Put each supporting point under it. Close a case with a short recommendation.",
+     "artifacts": [
+      "A one-page memo with one governing point",
+      "A one-minute recorded recommendation for a practice case"
+     ],
+     "skills": [
+      "synthesis_recommendations",
+      "exec_communication",
+      "exec_decks"
+     ]
+    },
+    {
+     "id": "stories",
+     "label": "Stories from your own experience",
+     "stage": "foundation",
+     "means": "Pick a few experiences that mattered. Say what your own part was and why you did what you did. Tell them as a conversation, not a script.",
+     "artifacts": [
+      "Short write-ups of several experiences, each with your role and your reasoning"
+     ],
+     "skills": [
+      "communication",
+      "ownership",
+      "influence",
+      "collaboration"
+     ]
+    },
+    {
+     "id": "written_case",
+     "label": "A written case you present",
+     "stage": "build",
+     "means": "Take a business challenge. Write up your recommendation over a few days, then present it and take questions.",
+     "artifacts": [
+      "A short written recommendation on one company's problem",
+      "A recorded presentation of it"
+     ],
+     "skills": [
+      "exec_decks",
+      "synthesis_recommendations",
+      "exec_communication"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "market_research": {
+   "label": "Market Research and Insights Manager",
+   "also_serves": [],
+   "summary": "The one employer source, P&G's consumer insights page, describes the work: purchase data joined with qualitative research to find what drives a business. It does not publish a research work sample, and the only credential found is weak.",
+   "shows": [
+    {
+     "id": "insight_study",
+     "label": "A study that joins numbers and interviews",
+     "stage": "build",
+     "means": "Pick a product category. Analyze sales or purchase data, talk to real buyers, and name what drives the business. End with what the brand should do.",
+     "artifacts": [
+      "A research report: the question, the design, the data analysis, the interview findings and a recommendation",
+      "The analysis file or notebook behind it"
+     ],
+     "skills": [
+      "consumer_insights",
+      "research_design",
+      "market_research",
+      "customer_interviews",
+      "sql"
+     ],
+     "weak": true
+    },
+    {
+     "id": "effect_read",
+     "label": "A read of what an ad or promotion did",
+     "stage": "build",
+     "means": "Take one campaign or price promotion with public or synthetic data. Measure what it changed and say whether it brought new buyers.",
+     "artifacts": [
+      "A short analysis of one campaign or promotion with the method and its limits stated"
+     ],
+     "skills": [
+      "marketing_analytics",
+      "statistics",
+      "consumer_insights",
+      "data_driven"
+     ],
+     "weak": true
+    },
+    {
+     "id": "project_stories",
+     "label": "Stories of leading a project",
+     "stage": "foundation",
+     "means": "Write up times you led a project across teams and solved a problem. Keep each story to the situation, what you did and what changed.",
+     "artifacts": [
+      "Three written behavioral stories from real projects"
+     ],
+     "skills": [
+      "cross_functional",
+      "ownership",
+      "communication",
+      "problem_solving"
+     ]
+    }
+   ]
+  },
+  "marketing_manager": {
+   "label": "Marketing Manager",
+   "also_serves": [],
+   "summary": "The sources for marketing managers are the brand ones: a short marketing case, a plan built in a fixed order, and behavioral interviews. Employers describe their process but not a marketing work sample, so the detail comes from student accounts, a course and practitioner writing.",
+   "shows": [
+    {
+     "id": "marketing_case",
+     "label": "A marketing case with a firm recommendation",
+     "stage": "foundation",
+     "means": "Take a short marketing problem for a real product. Start from the consumer, cover the company, the competitors and the mix, state your assumptions and decide.",
+     "artifacts": [
+      "A one-page written answer to a marketing case",
+      "A recorded spoken answer to the same case"
+     ],
+     "skills": [
+      "consumer_insights",
+      "problem_solving",
+      "synthesis_recommendations",
+      "brand_strategy"
+     ],
+     "weak": true
+    },
+    {
+     "id": "marketing_plan",
+     "label": "A marketing plan built in order",
+     "stage": "build",
+     "means": "Pick a real product. Do the research first. Then segment, target and position, set objectives, and only then choose the tactics. Say how the plan reaches more buyers.",
+     "artifacts": [
+      "A marketing plan: research, segments, target, positioning, objectives, tactics",
+      "A one-page summary of the plan's main decisions"
+     ],
+     "skills": [
+      "market_research",
+      "positioning_messaging",
+      "brand_strategy",
+      "campaign_management",
+      "pricing_packaging"
+     ],
+     "weak": true
+    },
+    {
+     "id": "growth_loop",
+     "label": "A growth loop for one product",
+     "stage": "build",
+     "means": "Draw how one product grows as a closed loop: each step, and how its output feeds the next round. Model how the loop compounds against a one-off win.",
+     "artifacts": [
+      "A drawn growth loop for a real product",
+      "A simple spreadsheet model comparing a loop with a one-off win"
+     ],
+     "skills": [
+      "growth_loops",
+      "marketing_analytics",
+      "metrics_kpis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "leadership_stories",
+     "label": "Stories of leading and getting results",
+     "stage": "foundation",
+     "means": "Write up times you led people, solved a problem and got a result. Keep each story to the situation, what you did and what changed.",
+     "artifacts": [
+      "Three written behavioral stories from real projects, clubs or jobs"
+     ],
+     "skills": [
+      "people_management",
+      "ownership",
+      "communication",
+      "problem_solving"
+     ]
+    }
+   ]
+  },
+  "ml_engineer": {
+   "label": "ML / AI Engineer",
+   "also_serves": [],
+   "summary": "ML engineer loops test coding, now often beside an AI assistant, and ML system design. One open fellowship asks for evidence you can ship empirical work. No employer page says what an ML take-home or portfolio project must contain, so the build items lean on books.",
+   "shows": [
+    {
+     "id": "ml_fundamentals",
+     "label": "ML fundamentals",
+     "stage": "foundation",
+     "means": "Work through knowledge questions on maths, computer science, ML workflows and algorithms. Write your answers out in full.",
+     "artifacts": [
+      "Worked answers to a set of ML knowledge questions"
+     ],
+     "skills": [
+      "ai_ml",
+      "statistics",
+      "algorithms_ds",
+      "python_r"
+     ]
+    },
+    {
+     "id": "ml_system_design",
+     "label": "An ML system design",
+     "stage": "foundation",
+     "means": "Design an ML system for one product problem. Cover the training data, the features, how you evaluate, how it deploys, what you monitor and when you retrain. Draw it.",
+     "artifacts": [
+      "A design document for an ML system with a diagram"
+     ],
+     "skills": [
+      "system_architecture",
+      "ml_evaluation",
+      "mlops_serving",
+      "model_training"
+     ]
+    },
+    {
+     "id": "assisted_coding",
+     "label": "Coding with an AI assistant",
+     "stage": "foundation",
+     "means": "Solve a coding problem with an AI assistant on screen. Read what it writes, say what is wrong with it and fix it.",
+     "artifacts": [
+      "A solved problem with your notes on what the assistant got wrong and how you corrected it"
+     ],
+     "skills": [
+      "ai_tools",
+      "code_quality",
+      "algorithms_ds",
+      "problem_solving"
+     ]
+    },
+    {
+     "id": "empirical_project",
+     "label": "An empirical ML project, written up",
+     "stage": "build",
+     "means": "Ask one question about a model. Run the experiments, report what you found and publish the write-up with the code. Know it well enough to discuss in depth.",
+     "artifacts": [
+      "A public write-up or short paper of an empirical ML experiment",
+      "The code and results behind it"
+     ],
+     "skills": [
+      "model_training",
+      "ml_evaluation",
+      "dl_frameworks",
+      "python_r",
+      "communication"
+     ]
+    },
+    {
+     "id": "llm_app_evals",
+     "label": "An application on a foundation model with an evaluation set",
+     "stage": "build",
+     "means": "Build a small application on a foundation model. Write an evaluation set for it and report how it scores before and after your changes.",
+     "artifacts": [
+      "A working application built on a foundation model",
+      "An evaluation set with results"
+     ],
+     "skills": [
+      "genai_llm",
+      "llm_frameworks",
+      "ml_evaluation",
+      "mlops_serving"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "operations_manager": {
+   "label": "Operations Manager",
+   "also_serves": [],
+   "summary": "One employer program says it screens on leadership judgment and problem solving. The rest comes from candidate reports and a credential's project requirement, so every item is thin.",
+   "shows": [
+    {
+     "id": "leadership_stories",
+     "label": "Leadership stories",
+     "stage": "foundation",
+     "means": "Write up times you led people and owned a result. Tie each one to the employer's stated leadership principles.",
+     "artifacts": [
+      "Several short write-ups, each with your part and the outcome"
+     ],
+     "skills": [
+      "people_management",
+      "ownership",
+      "problem_solving",
+      "communication"
+     ],
+     "weak": true
+    },
+    {
+     "id": "analysis",
+     "label": "An operations analysis you present",
+     "stage": "build",
+     "means": "Take a dataset and an operations question. Work it in SQL or a spreadsheet, then present what you would do.",
+     "artifacts": [
+      "A short deck from a dataset with a recommendation",
+      "The queries or the spreadsheet behind it"
+     ],
+     "skills": [
+      "sql",
+      "advanced_excel",
+      "reporting_adhoc_analysis",
+      "ops_performance_mgmt"
+     ],
+     "weak": true
+    },
+    {
+     "id": "improvement_project",
+     "label": "A finished process improvement project",
+     "stage": "build",
+     "means": "Pick a process you can measure. Define the problem, measure it, find the cause, fix it and show it held.",
+     "artifacts": [
+      "A project report that follows define, measure, analyze, improve, control",
+      "A sign-off from the person who owns the process"
+     ],
+     "skills": [
+      "lean_six_sigma",
+      "process_improvement",
+      "root_cause_corrective_action"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "pe_associate": {
+   "label": "Private Equity Associate",
+   "also_serves": [],
+   "summary": "No private equity firm's hiring page was found. A valuation textbook covers the models and one venture firm's published memos show what an investment recommendation looks like.",
+   "shows": [
+    {
+     "id": "valuation",
+     "label": "A valuation of a real company",
+     "stage": "foundation",
+     "means": "Value one public company three ways: comparable companies, precedent transactions and discounted cash flow. Say why the answers differ.",
+     "artifacts": [
+      "A comparable companies table and a precedents table",
+      "A discounted cash flow model",
+      "A one-page summary of the value range"
+     ],
+     "skills": [
+      "valuation",
+      "financial_statements",
+      "advanced_excel",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "lbo_model",
+     "label": "A leveraged buyout model",
+     "stage": "build",
+     "means": "Pick a company a buyer could take private. Model the purchase, the debt and the return at exit.",
+     "artifacts": [
+      "A leveraged buyout model for one company with the returns under a few cases"
+     ],
+     "skills": [
+      "valuation",
+      "debt_capital_structure",
+      "deal_structuring",
+      "scenario_modeling"
+     ],
+     "weak": true
+    },
+    {
+     "id": "investment_memo",
+     "label": "An investment memo",
+     "stage": "build",
+     "means": "Pick a company. Write the recommendation: the business, the market, the diligence you did, the risks and the terms you would propose.",
+     "artifacts": [
+      "A written investment memo on one real company"
+     ],
+     "skills": [
+      "investment_committee",
+      "due_diligence",
+      "market_research",
+      "investment_research"
+     ],
+     "weak": true
     }
    ]
   },
@@ -650,6 +1990,319 @@
     }
    ]
   },
+  "product_engineer": {
+   "label": "Product Engineer",
+   "also_serves": [],
+   "summary": "Product engineer hiring asks for something built and shipped, then a small version of the job: a paid trial day or a real feature. The detail comes from PostHog's own pages, a practitioner survey of startup work trials and a secondary account of one LinkedIn program; this is startup practice.",
+   "shows": [
+    {
+     "id": "shipped_product",
+     "label": "A product real people used",
+     "stage": "build",
+     "means": "Build a product or feature and ship it. Get real people to use it. Link it where a reader can try it.",
+     "artifacts": [
+      "A live side project with a public link and public code",
+      "A 60-second demo video of it"
+     ],
+     "skills": [
+      "ownership",
+      "execution",
+      "product_sense"
+     ]
+    },
+    {
+     "id": "build_reflection",
+     "label": "A short account of what you built",
+     "stage": "foundation",
+     "means": "Answer in a few lines each: the problem, what you built, your role, the impact, the stack and how you used AI, and the main thing you learned from users.",
+     "artifacts": [
+      "Six short written answers about one shipped project"
+     ],
+     "skills": [
+      "communication",
+      "customer_obsession",
+      "ai_tools"
+     ],
+     "weak": true
+    },
+    {
+     "id": "trial_feature",
+     "label": "A small feature in a real codebase",
+     "stage": "build",
+     "means": "Take an open-source or forked codebase. Build one small feature or fix real bugs in a set time. Write down what you put first and why, then take feedback on it.",
+     "artifacts": [
+      "A small shipped feature or bug fix in a real or forked codebase",
+      "A short written note on what you chose to do first and what you left out"
+     ],
+     "skills": [
+      "prioritization",
+      "execution",
+      "communication",
+      "adaptability"
+     ]
+    },
+    {
+     "id": "public_contribution",
+     "label": "A contribution to the company's product",
+     "stage": "build",
+     "means": "Pick a company with a public repository or docs. Fix something, or file an issue that helps. Do it before you apply.",
+     "artifacts": [
+      "A merged pull request, a docs fix or a useful issue on the target company's product"
+     ],
+     "skills": [
+      "ownership",
+      "developer_tools"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "product_ops": {
+   "label": "Product Operations",
+   "also_serves": [],
+   "summary": "No employer publishes a product ops loop. One practitioner's hiring article says past process, OKR or data work is the evidence; a vendor glossary and a book site describe the function. The backing is thin throughout.",
+   "shows": [
+    {
+     "id": "process_design",
+     "label": "A process you designed",
+     "stage": "foundation",
+     "means": "Pick one way a product team works that wastes time. Say who is involved and what goes wrong. Design the new process and say how you would get the teams to use it.",
+     "artifacts": [
+      "A one-page process write-up: the problem, the new steps, who does what",
+      "A short write-up of a process or OKR cycle you ran for a team or student group"
+     ],
+     "skills": [
+      "process_improvement",
+      "okrs",
+      "cross_functional",
+      "communication"
+     ],
+     "weak": true
+    },
+    {
+     "id": "product_data_analysis",
+     "label": "Product data turned into a decision",
+     "stage": "build",
+     "means": "Take product usage data and one question a product leader has. Pull the data, analyse it and say what the team should do.",
+     "artifacts": [
+      "A short analysis of a product dataset with the SQL behind it",
+      "A one-page recommendation for a product leader"
+     ],
+     "skills": [
+      "sql",
+      "data_driven",
+      "analytics_tools"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "product_owner": {
+   "label": "Product Owner",
+   "also_serves": [],
+   "summary": "No employer loop or early-career program is on record for product owners. The Scrum Guide defines the work and one certification outline lists the knowledge; neither is a hiring process.",
+   "shows": [
+    {
+     "id": "product_goal_backlog",
+     "label": "A product goal and an ordered backlog",
+     "stage": "foundation",
+     "means": "Write the goal for a product. Write the backlog items so a team could pick them up. Put them in order and say why the top ones give the most value.",
+     "artifacts": [
+      "A product goal",
+      "An ordered product backlog with clearly written items and the reason for the order"
+     ],
+     "skills": [
+      "agile_scrum",
+      "prioritization",
+      "feature_definition",
+      "product_vision"
+     ]
+    },
+    {
+     "id": "release_plan",
+     "label": "A vision and a release plan",
+     "stage": "foundation",
+     "means": "State the product vision. Forecast what ships in which release. Say which stakeholders and customers you would keep informed and how.",
+     "artifacts": [
+      "A one-page product vision with a release forecast"
+     ],
+     "skills": [
+      "product_vision",
+      "roadmap",
+      "stakeholder_mgmt",
+      "agile_scrum"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "re_acquisitions": {
+   "label": "Real Estate Acquisitions Associate",
+   "also_serves": [],
+   "summary": "No real estate employer's hiring page was found. A software certification, a modelling site and a student competition all point at the same work: a property cash-flow model and a proposal with financials that hold up.",
+   "shows": [
+    {
+     "id": "acquisition_model",
+     "label": "An acquisition model for one property",
+     "stage": "build",
+     "means": "Pick a real property. Build its cash flows in a spreadsheet and say what you would pay.",
+     "artifacts": [
+      "An acquisition pro forma in Excel for one property type"
+     ],
+     "skills": [
+      "re_underwriting",
+      "re_acquisitions_dispositions",
+      "advanced_excel",
+      "re_property_types"
+     ],
+     "weak": true
+    },
+    {
+     "id": "site_proposal",
+     "label": "A proposal for a real site",
+     "stage": "build",
+     "means": "Take a real site. Say what should be built or bought there, back it with market data and financials, and present it.",
+     "artifacts": [
+      "A narrative and a pro forma for one site",
+      "A recorded presentation of the proposal"
+     ],
+     "skills": [
+      "re_underwriting",
+      "market_research",
+      "re_development_entitlements",
+      "exec_communication"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "re_development": {
+   "label": "Real Estate Development Manager",
+   "also_serves": [],
+   "summary": "No developer's hiring page was found. A graduate student competition sets the clearest standard: a development proposal for a real site with financials that hold up, presented to a jury. A modelling site and a software certification cover the pro forma.",
+   "shows": [
+    {
+     "id": "development_pro_forma",
+     "label": "A development pro forma",
+     "stage": "foundation",
+     "means": "Pick a site and a building program. Model the costs, the cash flows and the return in a spreadsheet.",
+     "artifacts": [
+      "A development pro forma in Excel with market-based assumptions"
+     ],
+     "skills": [
+      "re_underwriting",
+      "re_development_entitlements",
+      "advanced_excel",
+      "scenario_modeling"
+     ]
+    },
+    {
+     "id": "development_proposal",
+     "label": "A development proposal for a real site",
+     "stage": "build",
+     "means": "Take a large real site. Decide what to build, show the design, back it with market-feasible financials and present it. Work with people from another discipline if you can.",
+     "artifacts": [
+      "Boards and a narrative for the proposal",
+      "The pro forma behind it",
+      "A recorded presentation"
+     ],
+     "skills": [
+      "re_development_entitlements",
+      "re_underwriting",
+      "market_research",
+      "cross_functional"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "security_engineer": {
+   "label": "Security Engineer",
+   "also_serves": [],
+   "summary": "No employer publishes a security engineer loop. One Google engineer's study notes, the OWASP Top 10, one penetration-testing credential and the public CTF record describe the work; most items rest on a single one of these.",
+   "shows": [
+    {
+     "id": "security_tools",
+     "label": "Small security tools",
+     "stage": "foundation",
+     "means": "Write small tools in Python: a log parser, a port scanner, a cipher. Explain what each one does and where it fails.",
+     "artifacts": [
+      "A repository of small security tools with a README for each"
+     ],
+     "skills": [
+      "python_r",
+      "networking",
+      "cryptography",
+      "code_quality"
+     ],
+     "weak": true
+    },
+    {
+     "id": "threat_model",
+     "label": "A threat model",
+     "stage": "foundation",
+     "means": "Pick a system. Draw how data flows through it and mark the trust boundaries. List what could go wrong and what you would fix first.",
+     "artifacts": [
+      "A threat model of one system with a data-flow diagram and trust boundaries"
+     ],
+     "skills": [
+      "threat_modeling",
+      "security_privacy",
+      "system_architecture"
+     ],
+     "weak": true
+    },
+    {
+     "id": "web_app_findings",
+     "label": "Web vulnerabilities found, exploited and fixed",
+     "stage": "build",
+     "means": "Take a deliberately vulnerable application or your own. Find the common web risks in it, exploit each one, then fix it and say how.",
+     "artifacts": [
+      "A write-up that finds, exploits and fixes web application issues by risk category",
+      "A code review mapped to the same categories"
+     ],
+     "skills": [
+      "appsec",
+      "vuln_mgmt",
+      "offensive_security",
+      "security_privacy"
+     ]
+    },
+    {
+     "id": "pentest_report",
+     "label": "A penetration test of a lab network",
+     "stage": "build",
+     "means": "Work through practice lab machines. Enumerate, get initial access, escalate privileges and pivot. Write the report a client would read.",
+     "artifacts": [
+      "Proof of compromise for each lab machine",
+      "A written penetration-test report"
+     ],
+     "skills": [
+      "offensive_security",
+      "networking",
+      "linux_systems",
+      "vuln_mgmt"
+     ],
+     "weak": true
+    },
+    {
+     "id": "ctf_writeups",
+     "label": "CTF write-ups",
+     "stage": "build",
+     "means": "Enter capture-the-flag events. Publish how you solved each challenge.",
+     "artifacts": [
+      "Published write-ups of solved challenges",
+      "A team profile with placements"
+     ],
+     "skills": [
+      "offensive_security",
+      "cryptography",
+      "appsec"
+     ],
+     "weak": true
+    }
+   ]
+  },
   "software_engineer": {
    "label": "Software Engineer",
    "also_serves": [],
@@ -751,6 +2404,554 @@
       "communication",
       "ownership"
      ]
+    }
+   ]
+  },
+  "solutions_engineer": {
+   "label": "Solutions Engineer",
+   "also_serves": [],
+   "summary": "Solutions engineer loops end in a demo to a panel playing the customer, built on discovery. One book sets out the craft; the loop itself comes from candidate reports and prep vendors, and no employer page describes it.",
+   "shows": [
+    {
+     "id": "discovery",
+     "label": "A discovery call",
+     "stage": "foundation",
+     "means": "Before you show anything, find out what the customer's business needs. Plan the questions and run the call with someone playing the buyer.",
+     "artifacts": [
+      "A discovery plan for one real company",
+      "A recorded mock discovery call"
+     ],
+     "skills": [
+      "consultative_selling",
+      "customer_facing_exec",
+      "communication"
+     ]
+    },
+    {
+     "id": "whiteboard",
+     "label": "A whiteboard explanation",
+     "stage": "foundation",
+     "means": "Explain a technical solution on a whiteboard to someone who is not technical. Tell it as a story and take questions as you go.",
+     "artifacts": [
+      "A recorded whiteboard walk-through of one solution"
+     ],
+     "skills": [
+      "technical_fluency",
+      "system_architecture",
+      "communication"
+     ],
+     "weak": true
+    },
+    {
+     "id": "tailored_demo",
+     "label": "A demo fitted to one customer",
+     "stage": "build",
+     "means": "Take a scenario about one customer. Build a demo of a real product around their problem, present it to people playing the customer, and answer their hard questions accurately.",
+     "artifacts": [
+      "A recorded demo of a real product tailored to a written customer scenario",
+      "Your answers to the hard questions you expect"
+     ],
+     "skills": [
+      "technical_demos_poc",
+      "consultative_selling",
+      "technical_fluency",
+      "communication"
+     ]
+    },
+    {
+     "id": "qualification",
+     "label": "A qualified opportunity",
+     "stage": "foundation",
+     "means": "Take one realistic opportunity. Say who decides, on what criteria, by what process, what the pain costs and who is on your side.",
+     "artifacts": [
+      "A deal sheet filled in for one opportunity"
+     ],
+     "skills": [
+      "sales_process",
+      "business_case",
+      "consultative_selling"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "strategic_finance": {
+   "label": "Strategic Finance Manager",
+   "also_serves": [],
+   "summary": "No source describes a strategic finance loop. An exam outline names the modelling work and a practitioner newsletter supplies the metrics, benchmarks and planning formats; neither says what an interview asks.",
+   "shows": [
+    {
+     "id": "forecast_model",
+     "label": "A forecast model with sensitivities",
+     "stage": "build",
+     "means": "Build a model for a real software company. Project revenue, state the drivers, and show how the result moves when they change.",
+     "artifacts": [
+      "A spreadsheet model with a revenue projection and a sensitivity table"
+     ],
+     "skills": [
+      "scenario_modeling",
+      "budgeting_forecasting",
+      "advanced_excel",
+      "financial_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "metrics_benchmark",
+     "label": "A metrics and benchmark view of one company",
+     "stage": "foundation",
+     "means": "Pick a public software company. Work out its main metrics and set them against benchmarks.",
+     "artifacts": [
+      "A one-page metrics sheet with benchmarks and what they say about the plan"
+     ],
+     "skills": [
+      "metrics_kpis",
+      "financial_analysis",
+      "strategic_planning",
+      "enterprise_saas"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "strategy_manager": {
+   "label": "Strategy Manager",
+   "also_serves": [],
+   "summary": "In-house strategy teams do not publish their loops. A job posting, a vendor guide and candidate reports point to a case on the company's own problem and a take-home analysis that you present.",
+   "shows": [
+    {
+     "id": "case",
+     "label": "A structured answer to a company's own problem",
+     "stage": "foundation",
+     "means": "Take a real question a company faces, such as build, buy or partner. Lay out the options, put them in order and commit to one.",
+     "artifacts": [
+      "A written answer to a case about a real company"
+     ],
+     "skills": [
+      "problem_solving",
+      "prioritization",
+      "strategy_development",
+      "hypothesis_driven"
+     ]
+    },
+    {
+     "id": "analysis",
+     "label": "An analysis that ends in a recommendation",
+     "stage": "build",
+     "means": "Define the problem. Run the analysis on real data, build the model and recommend what to do, as you would to an executive.",
+     "artifacts": [
+      "A deck or memo from a dataset with a model behind it",
+      "A recorded walk-through of the recommendation"
+     ],
+     "skills": [
+      "sql",
+      "advanced_excel",
+      "financial_analysis",
+      "scenario_modeling",
+      "reporting_adhoc_analysis"
+     ],
+     "weak": true
+    },
+    {
+     "id": "answer_first",
+     "label": "Answer-first writing",
+     "stage": "foundation",
+     "means": "Lead with the answer. Put each supporting point under it.",
+     "artifacts": [
+      "A one-page memo or short deck with one governing point"
+     ],
+     "skills": [
+      "synthesis_recommendations",
+      "exec_decks",
+      "exec_communication"
+     ]
+    }
+   ]
+  },
+  "supply_chain": {
+   "label": "Supply Chain Manager",
+   "also_serves": [],
+   "summary": "Employer programs here test leadership judgment and behavioral examples, not supply chain technique. The technique comes from the supply chain credentials' outlines: forecasting, sales and operations planning, inventory, logistics and risk.",
+   "shows": [
+    {
+     "id": "leadership_stories",
+     "label": "Stories of leading and owning an outcome",
+     "stage": "foundation",
+     "means": "Write up times you led people, used judgment under pressure and owned a result. Keep each story to the situation, what you did and what changed.",
+     "artifacts": [
+      "Three written behavioral stories from real projects, clubs or jobs"
+     ],
+     "skills": [
+      "people_management",
+      "ownership",
+      "problem_solving",
+      "communication"
+     ]
+    },
+    {
+     "id": "demand_inventory_plan",
+     "label": "A demand forecast and an inventory plan",
+     "stage": "build",
+     "means": "Take sales history for a few products. Forecast demand, set inventory levels, and write the supply plan a monthly planning meeting would agree.",
+     "artifacts": [
+      "A spreadsheet with the forecast, its error and the inventory levels",
+      "A one-page plan matching supply to demand"
+     ],
+     "skills": [
+      "demand_supply_planning",
+      "inventory_mgmt",
+      "capacity_production_planning",
+      "advanced_excel"
+     ],
+     "weak": true
+    },
+    {
+     "id": "supply_chain_map",
+     "label": "A supply chain mapped with its risks",
+     "stage": "foundation",
+     "means": "Map one product's chain from suppliers to customer. Mark where it can break and say what you would do about each risk.",
+     "artifacts": [
+      "A supply chain map for one product with a short list of risks and responses"
+     ],
+     "skills": [
+      "supply_risk_continuity",
+      "logistics_transportation",
+      "supplier_relationship_mgmt",
+      "process_improvement"
+     ],
+     "weak": true
+    },
+    {
+     "id": "emissions_inventory",
+     "label": "An emissions inventory for a supply chain",
+     "stage": "build",
+     "means": "Set the boundary for one organization. Gather activity data, apply emission factors and total the emissions by scope, including the value chain.",
+     "artifacts": [
+      "A greenhouse gas inventory: boundaries, activity data, emission factors, totals by scope"
+     ],
+     "skills": [
+      "carbon_accounting",
+      "esg_reporting",
+      "supply_chain"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "sustainability": {
+   "label": "Sustainability and ESG Manager",
+   "also_serves": [],
+   "summary": "No employer program or loop was found for sustainability. The standard-setters' own pages say what the work is: a greenhouse gas inventory, a materiality assessment and a link from sustainability issues to the financial statements.",
+   "shows": [
+    {
+     "id": "ghg_inventory",
+     "label": "A greenhouse gas inventory",
+     "stage": "build",
+     "means": "Pick an organization. Set the boundary, gather activity data, apply emission factors and total the emissions for scopes 1, 2 and 3.",
+     "artifacts": [
+      "An inventory workbook: boundaries, activity data, emission factors, totals by scope",
+      "A short note on the method and the gaps in the data"
+     ],
+     "skills": [
+      "carbon_accounting",
+      "esg_reporting",
+      "advanced_excel"
+     ],
+     "weak": true
+    },
+    {
+     "id": "materiality_assessment",
+     "label": "A materiality assessment",
+     "stage": "foundation",
+     "means": "Pick a public company. Decide which sustainability topics matter most to it and its investors, and map each to the reporting standard that covers it.",
+     "artifacts": [
+      "A materiality assessment for one company",
+      "A content index mapping its disclosures to a reporting standard"
+     ],
+     "skills": [
+      "esg_reporting",
+      "stakeholder_mgmt",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    },
+    {
+     "id": "financial_link",
+     "label": "A sustainability issue traced to the financials",
+     "stage": "build",
+     "means": "Take one company. Find the sustainability risks and opportunities that move its financial performance, and show where each lands in the statements and the valuation.",
+     "artifacts": [
+      "A case memo linking two or three sustainability issues to revenue, cost or asset values"
+     ],
+     "skills": [
+      "esg_reporting",
+      "financial_statements",
+      "valuation",
+      "financial_analysis"
+     ],
+     "weak": true
+    }
+   ]
+  },
+  "tpm": {
+   "label": "Technical Program Manager",
+   "also_serves": [],
+   "summary": "TPM loops test system design, program sense and stories from past programs told with numbers. Amazon publishes its loop in detail; Meta's and Google's round names come from third-party summaries. Nothing is handed in except Amazon's written piece.",
+   "shows": [
+    {
+     "id": "system_design",
+     "label": "A system design",
+     "stage": "foundation",
+     "means": "Design a software system for a stated need. Ask what it must do first. Say how it stays reliable and how it scales, and name the trade-offs.",
+     "artifacts": [
+      "A design write-up with a diagram for one system",
+      "The questions you asked and the trade-offs you chose"
+     ],
+     "skills": [
+      "system_architecture",
+      "technical_fluency",
+      "apis",
+      "problem_solving"
+     ]
+    },
+    {
+     "id": "program_plan",
+     "label": "A program plan",
+     "stage": "foundation",
+     "means": "Plan a program that spans several teams. List the milestones, the dependencies and the technical risks. Say who hears what, how often, and when you escalate.",
+     "artifacts": [
+      "A program plan: milestones, dependencies, risks, an escalation path",
+      "A one-page status report for it"
+     ],
+     "skills": [
+      "program_mgmt",
+      "risk_mgmt",
+      "stakeholder_mgmt",
+      "prioritization",
+      "execution"
+     ]
+    },
+    {
+     "id": "technical_project",
+     "label": "A technical project you can defend in depth",
+     "stage": "build",
+     "means": "Run a technical project with other people from start to finish. Write up what was built, how it works, what went wrong and the result in numbers. Be ready for an engineer to dig into any part.",
+     "artifacts": [
+      "A written retrospective of one technical project with quantified results",
+      "A walk-through of its design that holds up to follow-up questions"
+     ],
+     "skills": [
+      "technical_fluency",
+      "program_mgmt",
+      "communication",
+      "cross_functional"
+     ]
+    },
+    {
+     "id": "impact_stories",
+     "label": "Stories with numbers",
+     "stage": "foundation",
+     "means": "Write up a few past wins and difficulties. Give the situation, what you did, the result in numbers and what you learned. Include one about a conflict and one about moving people you did not manage.",
+     "artifacts": [
+      "Three to five project stories with quantified results and learnings"
+     ],
+     "skills": [
+      "communication",
+      "influence",
+      "ownership",
+      "stakeholder_mgmt"
+     ]
+    }
+   ]
+  },
+  "transformation": {
+   "label": "Transformation Manager",
+   "also_serves": [],
+   "summary": "No employer publishes a transformation loop. One consulting firm's interview page lists this role, and three credentials describe the work: a change plan, an improvement project and a record of projects led.",
+   "shows": [
+    {
+     "id": "case",
+     "label": "A structured answer to a client case",
+     "stage": "foundation",
+     "means": "Take a typical client problem. Build an approach that fits this case, not a stock framework, and commit to an answer.",
+     "artifacts": [
+      "A recording of yourself answering a published practice case"
+     ],
+     "skills": [
+      "problem_solving",
+      "hypothesis_driven",
+      "synthesis_recommendations"
+     ],
+     "weak": true
+    },
+    {
+     "id": "change_plan",
+     "label": "A change plan for a real project",
+     "stage": "build",
+     "means": "Pick a change under way in an organization you know. Assess the risk and how ready people are, then plan sponsors, stakeholders and communication.",
+     "artifacts": [
+      "A risk and readiness assessment for one change",
+      "A change management strategy with its core plans"
+     ],
+     "skills": [
+      "change_management",
+      "stakeholder_mgmt",
+      "risk_mgmt",
+      "transformation_programs"
+     ],
+     "weak": true
+    },
+    {
+     "id": "improvement_project",
+     "label": "A finished process improvement project",
+     "stage": "build",
+     "means": "Pick a process you can measure. Define the problem, measure it, find the cause, fix it and show it held.",
+     "artifacts": [
+      "A project report that follows define, measure, analyze, improve, control",
+      "A sign-off from the person who owns the process"
+     ],
+     "skills": [
+      "lean_six_sigma",
+      "process_improvement",
+      "root_cause_corrective_action",
+      "performance_improvement"
+     ],
+     "weak": true
+    },
+    {
+     "id": "project_record",
+     "label": "A record of projects you led",
+     "stage": "foundation",
+     "means": "For each project, say what you were responsible for: the plan, the decisions, the delivery and the outcome. Be ready to talk through your own part in detail.",
+     "artifacts": [
+      "A write-up per project with your responsibility and the result"
+     ],
+     "skills": [
+      "program_mgmt",
+      "execution",
+      "ownership",
+      "communication"
+     ]
+    }
+   ]
+  },
+  "ux_researcher": {
+   "label": "UX Researcher",
+   "also_serves": [],
+   "summary": "UX research loops ask you to design a study on the spot and to present a past study, ending on what it changed. Google's own article and Nielsen Norman Group's portfolio guide are first-hand; Meta's loop comes from a prep vendor.",
+   "shows": [
+    {
+     "id": "study_design",
+     "label": "A study design",
+     "stage": "foundation",
+     "means": "Take a product question. State the research questions, choose the method and the people to recruit, and say what each choice trades off.",
+     "artifacts": [
+      "A research plan with questions, method and sampling",
+      "A screener and an interview or usability-test guide"
+     ],
+     "skills": [
+      "user_research",
+      "discovery",
+      "customer_interviews"
+     ]
+    },
+    {
+     "id": "survey",
+     "label": "A survey, designed and analysed",
+     "stage": "foundation",
+     "means": "Write a survey for one research question. Field it, analyse the answers and say what they do and do not show.",
+     "artifacts": [
+      "A survey instrument with the analysis of its results"
+     ],
+     "skills": [
+      "surveys_feedback",
+      "statistics"
+     ]
+    },
+    {
+     "id": "run_study",
+     "label": "A study run from plan to findings",
+     "stage": "build",
+     "means": "Run a real study on a product. Plan it, talk to users or test with them, synthesise what you saw and report a few key findings in plain language.",
+     "artifacts": [
+      "A study plan and the test tasks or interview guide",
+      "An affinity diagram or other synthesis",
+      "A short findings report that feeds one decision"
+     ],
+     "skills": [
+      "user_research",
+      "customer_interviews",
+      "personas_jtbd"
+     ]
+    },
+    {
+     "id": "case_presentation",
+     "label": "A case study presentation",
+     "stage": "build",
+     "means": "Present one study to a panel inside a time limit. Tell it as a story, show your decisions and end on what changed because of the research. Cut it and rehearse it.",
+     "artifacts": [
+      "A timed deck on one study that ends on its impact",
+      "A recording of yourself giving it"
+     ],
+     "skills": [
+      "communication",
+      "stakeholder_mgmt",
+      "user_research"
+     ]
+    },
+    {
+     "id": "portfolio",
+     "label": "A research portfolio",
+     "stage": "build",
+     "means": "Choose three to five projects that show a range of methods. For each, give the context, your role, the key findings and the impact. Credit your teammates.",
+     "artifacts": [
+      "A portfolio of three to five studies with their artifacts: plans, reports, personas, journey maps",
+      "An impact line for each: a metric or a before-and-after"
+     ],
+     "skills": [
+      "user_research",
+      "personas_jtbd",
+      "communication",
+      "collaboration"
+     ]
+    }
+   ]
+  },
+  "vc_associate": {
+   "label": "Venture Capital Associate",
+   "also_serves": [],
+   "summary": "No venture firm's hiring page was found. One firm publishes its investment memos and one book covers how deals are put together, so both items are thin.",
+   "shows": [
+    {
+     "id": "investment_memo",
+     "label": "An investment memo",
+     "stage": "build",
+     "means": "Pick a startup. Write the recommendation to a partnership: the company, the market, the diligence you did, the risks and the terms you would propose.",
+     "artifacts": [
+      "A written investment memo on one real startup"
+     ],
+     "skills": [
+      "investment_committee",
+      "due_diligence",
+      "market_research",
+      "investment_research"
+     ],
+     "weak": true
+    },
+    {
+     "id": "deal_terms",
+     "label": "How a venture deal is put together",
+     "stage": "foundation",
+     "means": "Take one financing. Set out its structure and say what each main term does for the founder and the investor.",
+     "artifacts": [
+      "A one-page plain-words summary of one deal's structure"
+     ],
+     "skills": [
+      "deal_structuring",
+      "valuation",
+      "capital_markets"
+     ],
+     "weak": true
     }
    ]
   }

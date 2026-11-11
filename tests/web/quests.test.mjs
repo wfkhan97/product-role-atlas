@@ -290,7 +290,9 @@ test("standardsFor: a role matches by its id or also_serves, carries no source o
   assert.ok(/Never name a source/.test(t));
   assert.equal(Q.standardsFor(index, ["general_manager"]), "");
   assert.equal(Q.standardsFor(null, ["pmm"]), "");
-  assert.ok(t.length <= 6000);
+  assert.ok(t.length <= Q.LIMITS.standards);
+  const four = Q.standardsFor(index, ["pmm", "marketing_manager", "growth_manager", "brand_manager"]);
+  assert.ok(four.length <= Q.LIMITS.standards && four.split("\n").every(l => /^#|^- .*Skills: /.test(l)), "a long class ends on a whole line");
 });
 
 test("the published standards file is what pipeline/standards_publish.mjs writes from pipeline/standards.json", async () => {

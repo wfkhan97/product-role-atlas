@@ -32,7 +32,7 @@
   const TECH = ["no_code", "ai_tools", "read_code", "write_code"];
   const TOOL_STATES = ["use", "learn"];
   const ACCOUNT_STATES = ["have", "would", "no"];
-  const LIMITS = { extras: 20000, resume: 40000, steps: [3, 6], stepWords: 14, titleWords: 9, shipWords: 16, promptWords: 80, whyChars: 300, quote: 240, skills: 3, examples: 3, projects: 3, cardsMax: 3 };
+  const LIMITS = { extras: 20000, resume: 40000, steps: [3, 6], stepWords: 14, titleWords: 9, shipWords: 16, promptWords: 80, whyChars: 300, quote: 240, skills: 3, examples: 3, projects: 3, cardsMax: 3, standards: 12000 };
   const CAP = 5;   // generations a day for one person (each one call to the model, a retry included)
 
   function cleanAnswers(a, kit) {
@@ -113,7 +113,9 @@ Answer with JSON only, in the schema given.`;
       out.push(`## ${r.label || id}${r.summary ? `: ${r.summary}` : ""}`);
       for (const x of list(r.shows)) out.push(`- ${x.label} (${x.stage || "any stage"}): ${x.means || ""} Shown by: ${list(x.artifacts).join("; ")}. Skills: ${list(x.skills).join(", ")}${x.weak ? " (thinly backed: an idea, not a requirement)" : ""}`);
     }
-    return out.join("\n").slice(0, LIMITS.standards || 6000);
+    // whole lines only, so a long class never ends mid-item; four roles' lists fit under the limit today
+    const max = LIMITS.standards; let n = 0;
+    return out.filter(line => (n += line.length + 1) <= max).join("\n");
   }
 
   const STATE_WORDS = { shows: "shows", "shows in other words": "shows in other words", "must evidence better": "named, not shown", "must build": "a gap" };
