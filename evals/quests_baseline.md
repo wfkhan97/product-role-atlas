@@ -18,12 +18,12 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 - grad_student_new · pmm · no_code: 3 asked, 3 kept; stop end_turn
 - grad_student_new · pmm · builder: 3 asked, 3 kept; stop end_turn
 - grad_student_new · data_analyst · no_code: 3 asked, 3 kept; stop end_turn
-- grad_student_new · data_analyst · builder: 3 asked, 3 kept; stop end_turn
+- grad_student_new · data_analyst · builder: 3 asked, 2 kept; dropped: no_duration; stop end_turn
 - pivot_phd_hci · market_research · no_code: 3 asked, 3 kept; stop end_turn
 - pivot_phd_hci · market_research · builder: 3 asked, 2 kept; dropped: no_duration; stop end_turn
 - pivot_phd_hci · pmm · no_code: 3 asked, 3 kept; stop end_turn
-- pivot_phd_hci · pmm · builder: 3 asked, 2 kept; dropped: title_words; stop end_turn
-- senior_pm_pdf_layout · general_manager · no_code: 3 asked, 2 kept; dropped: no_duration; stop end_turn
+- pivot_phd_hci · pmm · builder: 3 asked, 3 kept; stop end_turn
+- senior_pm_pdf_layout · general_manager · no_code: 3 asked, 3 kept; stop end_turn
 - senior_pm_pdf_layout · general_manager · builder: 3 asked, 3 kept; stop end_turn
 - senior_pm_pdf_layout · strategy_manager · no_code: 3 asked, 3 kept; stop end_turn
 - senior_pm_pdf_layout · strategy_manager · builder: 3 asked, 3 kept; stop end_turn
@@ -36,7 +36,7 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 - template_placeholder_years · business_analytics · no_code: 3 asked, 3 kept; stop end_turn
 - template_placeholder_years · business_analytics · builder: 3 asked, 3 kept; stop end_turn
 
-## Validity per rule (96 projects asked, 93 kept)
+## Validity per rule (96 projects asked, 94 kept)
 | rule | projects failing | share of projects |
 |---|---|---|
 | schema | 0 | 0% |
@@ -46,18 +46,19 @@ Written by `node evals/quests.mjs --baseline` on 2026-11-11: 32 of 32 cases, mod
 | host_in_kit | 0 | 0% |
 | host_allowed | 0 | 0% |
 | database_allowed | 0 | 0% |
-| title_words | 1 | 1% |
+| title_words | 0 | 0% |
 | ship_words | 0 | 0% |
 | steps_count | 0 | 0% |
 | step_words | 0 | 0% |
 | prompt_words | 0 | 0% |
 | no_duration | 2 | 2% |
 | no_mission | 0 | 0% |
+| why_voice | 0 | 0% |
 | duplicate | 0 | 0% |
 | quote_dropped | 0 | 0% |
 
 ## Drops and cost
-- cases read: 32 of 32; asked this run: 10
-- projects dropped: 3 of 96 (3%); cases with no project kept after the retry: 0; retries: 0
-- tokens: 58350 in, 76034 out, 63030 cache read, 4202 cache written
-- cost at Opus 5.5 ($4 / $20 per million in / out): $1.79 in all, $0.056 per person (one write)
+- cases read: 32 of 32; asked this run: 32
+- projects dropped: 2 of 96 (2%); cases with no project kept after the retry: 0; retries: 0
+- tokens: 58350 in, 75404 out, 68576 cache read, 0 cache written
+- cost at Opus 5.5 ($4 / $20 per million in / out): $1.76 in all, $0.055 per person (one write)
