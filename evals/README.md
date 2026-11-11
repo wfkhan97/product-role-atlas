@@ -13,6 +13,7 @@ moves it. Scratch (a draft baseline, a one-off report) goes under `data/experime
 | `python evals/run_pipeline.py [--roles tech]` | Titles, levels, entry marks, countries, golden postings, sponsorship, integrity, graph, js, matcher | yes | |
 | `python evals/run_taxonomy.py` | Kinds, evidence and field entries against the postings | yes | |
 | `python evals/run_depth.py` | The published MBA skill depth | | |
+| `python evals/run_standards.py` | The standards index: structure, `shows`, skill ids, freshness | yes, `--skip freshness` | |
 | `node evals/adaptive.mjs`, `stage.mjs`, `posting.mjs` | The sentences and carriers over every role; what each stage leads with; the pasted posting | yes | |
 | `node evals/copy.mjs` | Every string the screens own against the writing rule (gated by `tests/web/copy.test.mjs`) | via the test | |
 | `node evals/run_classes.mjs` | The class picker's matching on the test résumés | | |
@@ -315,6 +316,31 @@ fails, and `games_guess_the_role.mjs` warns; update the game's README and the ev
 a refresh of the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: the scorer in
 `web/games/spot-the-real-ask.js` and the band in the eval are then retuned together.
 
+## The standards index
+
+`pipeline/standards.json` (`docs/MODULES.md`, "The standards index") is hand-checked grounding for the quest
+generator. The eval checks the file with no model and no network:
+
+```bash
+.venv/bin/python evals/run_standards.py                  # all parts; exit 1 when a check fails
+.venv/bin/python evals/run_standards.py --skip freshness # what CI runs
+.venv/bin/python evals/run_standards.py --baseline       # also rewrite standards_baseline.md (commit it with the change)
+```
+
+| part | what it guards |
+|---|---|
+| structure | Source ids are unique; every record has its fields and known values for `kind`, `publisher_class`, `verified`, `access` and, on a program only, `status`; every role id exists in a role set; a prep vendor or a gap is never first-party; no record keeps a quotation; no publisher or URL is on the blocked-vendor list of `data/raw/build_sources.json`; verify's fields are well formed. |
+| shows | Every role in `roles` exists in the role sets it names, under the set's label; every first-cut role has a `shows` list; every source id resolves and serves that role or one in `also_serves`; an item with no fetched source other than a prep vendor carries a `weak` note (an item may carry one for another stated reason, such as a single employer's page). |
+| skills | Every skill id is in `pipeline/taxonomy.json` and in the taxonomy of one of the role's sets. |
+| freshness | No `shows` item rests only on sources read more than 12 months ago, programs not re-read since the last 1 August, or closed programs. The date decides it, so the monthly workflow runs it and CI does not. |
+
+**When a check fails.** The file is the label. A person re-reads the page, edits the record and its `date_read`,
+runs `pipeline.standards verify --only <id>` and rewrites the baseline. `verify` never edits a summary.
+
+**What this eval does not show.** Whether a summary is true to its page (each was read once, by one reader, and 38
+were seen in a search result only), and whether a generated quest matches what a role's loops ask for. The second is
+"Evals to build", item 10.
+
 ## Taxonomy evals
 
 The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to every skill, an evidence entry per skill
@@ -589,3 +615,6 @@ Still to build, in this order:
    deterministic; the eval holds them to a hand-placed layout of the example map
    (`pipeline/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
    stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order.
+10. **Generated quests against the standards index.** A sample of 30 generated quests for the first-cut roles, each
+   judged by the owner: does this project show something the role's `shows` list asks for, or lay a foundation for
+   one? No rule ties a quest to one item, so this is a judged sample, not a code check.

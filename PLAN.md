@@ -3424,6 +3424,77 @@ and nothing reaches it except through `pipeline.depth_publish` from a checked ru
 into `extract`, the sponsorship reader or the new-graduate mark: each is a decision for the data thread, with its own
 eval chain. No eval was added for the cache itself; `compare --pilot` is the nearest thing and needs no key.
 
+## A standards index: what the industry treats as the way into a role (`feat/standards-index`, 2026-11-10)
+
+The quest generator of the apprentice map writes side projects from the role and the posting. It had nothing that
+says what employers themselves test for the role. A research thread read programs, published interview loops, the
+guides practitioners cite and credentials, per role id, and distilled a "what you must show" list for eight first-cut
+roles. This change makes that a tracked file with a refresh command. The generator that reads it is the map thread's.
+
+**Decisions (owner, 2026-11-10).**
+- **Grounding only.** The index goes into the generator's prompt. It adds no text to a quest card: no citation line,
+  no link. The card already explains itself through the role and the posting.
+- **No one-item rule.** A quest need not show one item of the role's list; some quests are foundations for later
+  ones. So nothing in code ties a quest to an item, and the check on quests is a judged sample
+  (`evals/README.md`, "Evals to build", item 10).
+- **Second-hand sources and prep vendors are allowed**, since nothing is shown or linked. The file records
+  `publisher_class` and `first_party` so the generator can weigh them. Publishers on the blocked-vendor list of
+  `data/raw/build_sources.json` stay out: three draft entries were dropped (Breaking Into Wall Street, Mergers &
+  Inquisitions, a Wall Street Oasis thread). `build_sources.json` keeps its own, stricter rule.
+- **No quotations.** Every quote in the draft came through a summarising fetch and none was checked word for word, so
+  the `quote` field is gone and the eval refuses it. Summaries are in our own words.
+- **First cut:** `pm` (also `product_manager`), `software_engineer`, `pmm`, `growth_manager`, `product_designer`,
+  `data_scientist` (also `data_analyst`, `product_analyst`), `account_executive`, `bizops`. Sources exist for all 77
+  role ids; the other roles get a `shows` list when the cohort picks them.
+- **Kept fresh on a schedule**, by a person: the command flags, a person re-reads.
+
+**Why a file and not a table.** 208 records, read by hand, changed a few at a time. A tracked JSON file is reviewed
+by diff and needs no key; it follows `data/raw/build_sources.json` and its `verify`.
+
+**The file** (`pipeline/standards.json`; fields in `docs/MODULES.md`). 208 sources: 86 guides, 42 loops, 38
+programs, 30 credentials, 12 recorded gaps (a role with no program or published loop; the record says what was looked
+for). 169 were opened and say what is recorded, 38 were seen in a search result only, 1 is from memory. 152 are
+first-party: the page is published by the party that sets the standard it describes. A prep vendor, a mirror, a review
+and a gap are never first-party. `publisher_class` was set by hand in this change (employer 77, practitioner 47,
+certification body 34, book 26, prep vendor 24); the draft's `vendor` flag missed Aced (formerly Exponent) and one
+RocketBlocks page, which are prep vendors here. `roles` holds 47 items for the eight roles; four carry a `weak` note
+(no fetched source other than a prep vendor, or one employer's page).
+
+**`pipeline.standards verify`.** One GET per source, two seconds apart, a generic user agent, no page text stored.
+It writes `check`, `read_sha256` and `read_sha256_date` and nothing else. The hash is of the page's words (lower
+case, letters and digits), so markup does not count. The first check after a read takes the hash; a later check that
+differs is `changed`; a person re-reads, edits the record and `date_read`, and the next check takes the new hash.
+A paywalled source, a book, a site that answers 401, 403 or 429 and a page that is an empty shell without a browser
+are `needs_signed_in_read`, not failures. The report flags four things: unreachable, changed, read more than 12
+months ago, and programs not re-read since the last 1 August (recruiting pages turn over each summer).
+
+**The first run (2026-11-10, a laptop).** 114 ok, 83 need a signed-in read (66 paywalled or books, 10 pages that
+need a browser, 7 refusals), 11 unreachable:
+- no answer to a script, though the pages open in a browser: `mckinsey_interview`, `mckinsey_solve`,
+  `mckinsey_chief_of_staff`, `transformation_gap` (mckinsey.com times out), `general_mills_abm`, `how_brands_grow`;
+- gone: `jpmorgan_ib_summer_associate`, `morgan_stanley_ib_summer_associate`, `bank_credit_training_loop`,
+  `atlassian_apm` (postings mirrored on The Muse, HTTP 410) and `cma_category_certification` (404). All five were
+  search-snippet entries; they want a first-party page or removal at the next re-read.
+None of the eleven backs a `shows` item.
+**A known limit: some pages hash differently with no real change.** The 114 readable sources were fetched a second
+time minutes after the first: 102 hashed the same and 12 did not (careers.bcg.com twice, pgcareers.com five times
+including `gap_business_intelligence`, careers.geaerospace.com twice, one Google careers posting,
+`stripe_engineering_interview`, `owasp_top_10`). Those pages will be flagged `changed` every month. The flag costs a
+person a look and changes nothing by itself; a rule that quiets it (hash twice and keep only stable pages, or hash the
+main content alone) is under "Later".
+
+**The eval** (`evals/run_standards.py`, baseline `evals/standards_baseline.md`): structure, `shows`, skill ids,
+freshness. CI runs it without freshness, which the date decides; the monthly workflow runs all of it. It found one
+error in the draft: `research_design` on a product designer item is an MBA-only skill, removed.
+
+**The workflow** (`.github/workflows/verify-standards.yml`): the 3rd of each month, verify and the full eval, then
+an issue with the report when anything is flagged. It has read access to the contents and write access to issues
+only, so it cannot commit, open a pull request or merge. Hosted runners are refused by more sites than a laptop, so
+its "needs a signed-in read" list will be longer than a local run's.
+
+**What we did not do.** No generator reads the file yet. No summary was re-checked against its page in this change.
+The proposal's card-citation check is dropped with the citation line.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3551,6 +3622,12 @@ done). One line per item; the section that explains it is named where it helps.
   `postings_read submit --roles all --variant haiku`, then `collect` (about $0.60 per thousand postings; needs
   `ANTHROPIC_API_KEY`, and the cap in `CAP_USD` raised past what is spent). No workflow does this.
 - An eval for the cache itself (the labelled set through `compare --pilot` as a baseline file) before any stage reads it.
+- The standards index (`pipeline/standards.json`): `shows` lists for the roles past the first eight; a first-party
+  page for the 38 search-snippet sources (five are already gone: the Muse mirrors and `cma_category_certification`);
+  PE has no MBA-route source since the blocked vendor's entry was dropped; the judged sample of generated quests
+  ("Evals to build", item 10) once the generator reads the file.
+- `pipeline.standards verify`: pages whose text hash moves between two fetches minutes apart (12 of the 114 readable
+  sources on 2026-11-10, mostly careers sites of BCG, P&G and GE Aerospace) are flagged `changed` each month; quiet it.
 
 **Frozen with the fit flow** (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
 work. Kept for the reasoning, not as work to pick up: the field chart's second axis from `kind`; behaviours in the
