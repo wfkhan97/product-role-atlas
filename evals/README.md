@@ -622,6 +622,9 @@ Still to build, in this order:
 11. **A judged half for the side-project writer.** `evals/quests.mjs` checks the rules in code and has a baseline
     (`quests_baseline.md`). Whether a project fits the person and the role is not judged yet: a second model or the
     owner reads a sample.
+12. **The open tree's answer profile for the side-project writer.** `/api/open` sends the generator one answer (how
+    technical the person feels) and no tools or accounts, a profile `evals/quests.mjs` does not run: add it as a
+    third profile, so the kept rate and the cost per write are measured for the public path.
 
 ## The side-project writer (`evals/quests.mjs`)
 

@@ -3752,12 +3752,49 @@ No eval applies: the matcher, the taxonomy, the model read and the standards fil
 hidden fields and a $60 payment block) and asked for the flip: `OPEN_TREE_ENABLED` is true and `BOOKING_TALLY` holds
 the form's id. `QUESTS_ENABLED` stays off.
 
+## The open tree's quests are build projects Opus writes (`feat/open-quests-opus`, 2026-11-11)
+
+The owner, the same day: the quests should be actual build items, not the résumé ones, for the open tree too, and
+every one of them written by Opus, the two under the tree included ("I have the credits and this is a worthwhile
+funnel"). This revises the section above, which chose no model for the preview. Behind `OPEN_QUESTS_ENABLED` (off).
+
+- **A function with no session**, `POST /api/open` (`web/api/open.js`). The visitor's browser sends the email, the
+  résumé text, the tree's roles, a posting if one was pasted, and one answer the form now asks ("How technical do you
+  feel?", optional). The function builds the map as `/api/tree` does and writes nothing; it then calls the generator
+  of `/api/quests` unchanged (`Quests.request`, `validate`, one retry when nothing passed): the same prompt, kit,
+  standards block and rules, so `evals/quests_baseline.md` stands for it. It returns the projects that pass.
+- **The limits are the gate**, since nobody is signed in and an email is unverified. Three daily counts in the
+  private `maps` bucket under `open/`, a folder no person's policy reaches: one email 2 writes, one network address
+  8, everyone 150 (`OPEN_QUESTS_EMAIL_CAP`, `OPEN_QUESTS_IP_CAP`, `OPEN_QUESTS_DAILY_CAP`). Counted before the call.
+  A write costs about $0.06 (the baseline's $0.055; one real call here: 28 seconds, 2 of 3 projects kept), so the
+  day's cap bounds a day near $9. Two requests at once can both pass a count; the key's own spend cap is the hard
+  stop. The function stores no project, no résumé, no email and no address: the counts hold a cut SHA-256.
+- **The visitor gets the Quests page.** The projects become `side_project` cards of the map held in the browser
+  (`Quests.cardOf`, `addSide`), so the open tree has Quests and Skill tree as a signed-in map does: the now card, its
+  steps, the starter prompt, Start, Mark shipped, Skip. A mark is kept in `open.tree` beside the cards. The tree page
+  lists the quests above the booking card. No résumé story card: the open map never had one, and has none now.
+- **When the function refuses or fails**, the two no-model projects of `web/preview.js` show, with a line that says
+  why (the limit, or a failure with "Try again"). One automatic ask a day per browser.
+- **The form's line** says what now leaves the browser: the email, and the résumé once for the model.
+- **Not changed:** the signed-in path. A tree the site builds for a session still opens with its two résumé story
+  cards, and `QUESTS_ENABLED` is off. Sign-ups are off, so the open tree is the public path.
+- **The booking card's heading** still offers "a personalized project plan"; the page now gives a plan free, so
+  the session sells the hour and a half together. The owner's words; left as they are.
+
+No migration. The flip needs a spend cap on the Anthropic key and `GET /api/open` answering `key: true`,
+`storage: true` on the deploy.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
+- The open tree's build quests (`OPEN_QUESTS_ENABLED`): a spend cap on the Anthropic key, then the one-line flip;
+  after it, read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
+- The signed-in tree still opens with two résumé story cards (2026-11-11, the owner: quests are build items):
+  drop them from `Apprentice.selfServeMap` or flip `QUESTS_ENABLED`; the owner's hand-written maps keep theirs.
+- The booking card's heading, now that the plan is free on the page.
 - The open tree (on since 2026-11-11): whether either campus limits paid services to its students; a regular price,
   if the $60 is to read as an offer with an end date.
 - The open tree, after accounts open: carry `open.tree` into the person's folder at their first sign-in, and decide

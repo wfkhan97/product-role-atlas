@@ -1110,7 +1110,33 @@
   // model) and the booking card (CONFIG.BOOKING_TALLY). The quest pages and #/map/start stay a session's.
   const openOn = () => treeOn() && !!(window.CONFIG || {}).OPEN_TREE_ENABLED;
   const OPEN_KEY = "open.tree";
-  let openHeld = null, apprenticeP = null, standardsP = null;
+  // The open tree's build quests (2026-11-11, CONFIG.OPEN_QUESTS_ENABLED): once the tree is built, POST /api/open asks
+  // Claude Opus 5.5 for three side projects (the generator of /api/quests, no session; web/api/open.js holds the caps).
+  // They become cards of the map held in this browser (Quests.cardOf, addSide), so the visitor gets the Quests page a
+  // signed-in person has, with Start, Mark shipped and Skip kept in open.tree. One automatic ask a day per browser;
+  // when the function refuses or fails, the two projects of web/preview.js show instead.
+  const openQuestsOn = () => openOn() && !!(window.CONFIG || {}).OPEN_QUESTS_ENABLED;
+  let openHeld = null, apprenticeP = null, standardsP = null, openWriting = null;
+  const openKeep = held => { if (openHeld === held) store.set(OPEN_KEY, held); };   // never a tree the visitor forgot
+  const openMap = held => { let m = { ...held.map, cards: [], worlds: [] }; for (const c of (openQuestsOn() && held.cards) || []) m = Quests.addSide(m, c); return m; };
+  function writeOpen(held) {
+    return openWriting ||= (async () => {
+      held.asked = todayIso(); held.why = null; openKeep(held);
+      if (window.Capture) Capture.cta("open_quests", "click");
+      try {
+        const body = { email: held.email, text: state.resume.text, roles: held.roles || [held.map.role.id], posting: held.posting || "", tech: held.tech || null };
+        const [r, kit] = await Promise.all([fetch("api/open", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }), buildKit()]);
+        if (!r.ok) throw Object.assign(new Error(`open ${r.status}`), { limited: r.status === 429 });
+        const j = await r.json(), cards = [];
+        let m = { ...held.map, cards: [], worlds: [] };
+        for (const p of j.projects || []) { const c = Quests.cardOf(p, m, { kit, date: todayIso(), model: j.model }); cards.push(c); m = Quests.addSide(m, c); }
+        if (!cards.length) throw new Error("open: no project");
+        held.cards = cards; openKeep(held);
+        if (window.Capture) Capture.cta("open_quests", "done");
+        return "ok";
+      } catch (e) { console.error(e); held.why = e.limited ? "limited" : "failed"; openKeep(held); return held.why; }
+    })().finally(() => { openWriting = null; });
+  }
   const loadApprentice = () => window.Apprentice ? Promise.resolve() : (apprenticeP ||= new Promise((res, rej) => {
     const el = document.createElement("script"); el.src = "apprentice.js"; el.onload = () => res();
     el.onerror = () => { apprenticeP = null; el.remove(); rej(new Error("apprentice.js did not load")); };
@@ -1123,27 +1149,50 @@
     if (!held || R0.query.build === "1") { await treeForm(invited, !held, true); return; }
     const ix = await Atlas.index().catch(e => { console.error(e); return null; });
     if (Routes.parseRoute(location.hash).name !== "map") return;
-    // one page, the tree: the quest pages and the side-project flow need a session, so their addresses come here
-    const p = new URLSearchParams(R0.search); p.delete("tab"); p.delete("q");
-    const want = "#/map/tree" + (p.toString() ? "?" + p : "");
+    // The tree, and the Quests page once the build quests are written (their marks live in this browser). The
+    // side-project flow needs a session, so #/map/start comes to the tree, as the Quests page does with no quest.
+    const map = openMap(held), sub = map.cards.length && R0.parts[1] === "quests" ? "quests" : "tree";
+    const p = new URLSearchParams(R0.search); p.delete("tab"); if (sub === "tree") p.delete("q");
+    const want = `#/map/${sub}` + (p.toString() ? "?" + p : "");
     if (location.hash !== want) history.replaceState(null, "", location.pathname + location.search + want);
-    drawMap({ ...held.map, cards: [], worlds: [] }, ix, "", true);   // no card: a card's marks are a session's
+    drawMap(map, ix, "", true);
     drawOpenNext(held, ix);
   }
   // under the open tree: the two projects, then the booking card (drawn only with a form id)
   async function drawOpenNext(held, ix) {
     const O = Copy.map.open, el = $("#open-next"); if (!el) return;
+    const bookHref = Preview.bookingHref((window.CONFIG || {}).BOOKING_TALLY, { email: held.email, role: held.map.role.id });
+    const bookHtml = bookHref ? `<section class="op-book" id="open-book"><h2>${esc(O.book.heading)}</h2><p>${esc(O.book.line)}</p><p><a class="btn primary" id="open-book-link" href="${esc(bookHref)}" target="_blank" rel="noopener">${esc(O.book.button)}</a></p></section>` : "";
+    const wireBook = () => { const b = $("#open-book-link"); if (b) { if (window.Capture) Capture.cta("open_book", "shown"); b.onclick = () => { if (window.Capture) Capture.cta("open_book", "click"); }; } };
+    let note = "";
+    if (openQuestsOn()) {
+      const cards = held.cards || [];
+      if (cards.length) {
+        // the tree page lists the quests (each opens on the Quests page); the Quests page shows them itself
+        const names = Object.fromEntries([...(held.map.tree.nodes || []), ...(held.map.tree.behaviours || [])].map(n => [n.id, n.name]));
+        const row = c => `<a class="op-card op-quest" href="${esc(questHref(c.id))}"><h3>${esc(c.title)}</h3><p>${esc(c.ship)}</p><p class="small muted">${esc(fill(O.builds, { skills: (c.atlas_skills || []).map(id => names[id] || id).join(", ") }))}</p></a>`;
+        el.innerHTML = (mapUi && mapUi.page === "tree" ? `<section class="op-prev" id="open-quests"><h2>${esc(O.questsHeading)}</h2><p class="small muted">${esc(O.questsLead)}</p><div class="op-grid">${cards.map(row).join("")}</div></section>` : "") + bookHtml;
+        wireBook(); return;
+      }
+      if (state.resume && (openWriting || held.asked !== todayIso())) {
+        el.innerHTML = `<section class="op-prev" id="open-writing" role="status"><h2>${esc(O.questsHeading)}</h2><p>${esc(O.writing)}</p></section>${bookHtml}`;
+        wireBook();
+        const r = await writeOpen(held);
+        if (r === "ok") { if (Routes.parseRoute(location.hash).name === "map" && openHeld === held) route(); return; }
+        if ($("#open-next") !== el) return;
+      }
+      if (held.why) note = `<p class="small muted" id="open-why">${esc(held.why === "limited" ? O.questsLimited : O.questsFailed)}${held.why === "failed" && state.resume ? ` <button type="button" class="linkish link" id="open-retry">${esc(O.retry)}</button>` : ""}</p>`;
+    }
     let standards = null;
     try { standards = await (standardsP ||= fetch("data/standards.json").then(r => r.ok ? r.json() : null)); } catch (e) { console.error(e); standardsP = null; }
     if ($("#open-next") !== el) return;
     const opts = Preview.pick(held.map, { standards, skillById: ix ? ix.skillById : null });
-    const href = Preview.bookingHref((window.CONFIG || {}).BOOKING_TALLY, { email: held.email, role: held.map.role.id });
     const card = o => `<article class="op-card"><h3>${esc(o.title)}</h3><p>${esc(o.text)}</p>${o.skills.length ? `<p class="small muted">${esc(fill(O.builds, { skills: o.skills.join(", ") }))}</p>` : ""}</article>`;
-    el.innerHTML = (opts.length ? `<section class="op-prev" id="open-preview"><h2>${esc(opts.length > 1 ? O.previewHeading : O.previewOne)}</h2><p class="small muted">${esc(fill(O.previewLead, { role: held.map.role.label || "" }))}</p><div class="op-grid">${opts.map(card).join("")}</div></section>` : "")
-      + (href ? `<section class="op-book" id="open-book"><h2>${esc(O.book.heading)}</h2><p>${esc(O.book.line)}</p><p><a class="btn primary" id="open-book-link" href="${esc(href)}" target="_blank" rel="noopener">${esc(O.book.button)}</a></p></section>` : "");
+    el.innerHTML = (opts.length ? `<section class="op-prev" id="open-preview"><h2>${esc(opts.length > 1 ? O.previewHeading : O.previewOne)}</h2><p class="small muted">${esc(fill(O.previewLead, { role: held.map.role.label || "" }))}</p><div class="op-grid">${opts.map(card).join("")}</div>${note}</section>` : note)
+      + bookHtml;
     if (window.Capture && opts.length) Capture.cta("open_preview", "shown");
-    const book = $("#open-book-link");
-    if (book) { if (window.Capture) Capture.cta("open_book", "shown"); book.onclick = () => { if (window.Capture) Capture.cta("open_book", "click"); }; }
+    wireBook();
+    const retry = $("#open-retry"); if (retry) retry.onclick = () => { held.asked = null; held.why = null; openKeep(held); drawOpenNext(held, ix); };
   }
   // the top bar's entry: shown to every visitor while the tree is on, so an invited person finds the way in
   const buildBar = () => treeOn();
@@ -1157,7 +1206,7 @@
     const ix = await Atlas.index(); if (!here()) return;
     const F = treeRoles(ix);
     const picked = Routes.parseRoute(location.hash).query.role, pre = picked ? F.find(f => f.roles.some(r => r.id === picked)) : null;   // the fit screen's link names the role
-    const s = { field: pre ? pre.id : null, role: pre ? picked : null, also: [], change: false, email: open ? ((openTree() || {}).email || doorKept().email || "") : "" };
+    const s = { field: pre ? pre.id : null, role: pre ? picked : null, also: [], change: false, email: open ? ((openTree() || {}).email || doorKept().email || "") : "", tech: open ? ((openTree() || {}).tech || "") : "" };
     const draw = () => {
       const r = state.resume;
       const f = F.find(x => x.id === s.field);
@@ -1167,11 +1216,12 @@
         ${s.role ? `<fieldset class="tr-also"><legend>${esc(T.also)}</legend>${f.roles.filter(x => x.id !== s.role).map(x => `<label><input type="checkbox" value="${esc(x.id)}"${s.also.includes(x.id) ? " checked" : ""}${!s.also.includes(x.id) && s.also.length >= 3 ? " disabled" : ""}> ${esc(x.label)}</label>`).join("")}</fieldset>` : ""}` : "";
       page(`<h1>${esc(open ? O.heading : first ? T.firstHeading : T.heading)}</h1><p class="lead">${esc(open ? O.lead : first ? T.firstLead : T.lead)}</p>
         <section class="tr-form${open ? " tr-open" : ""}">
-          ${open ? `<label class="tr-lab">${esc(O.email)}<input type="email" id="tr-email" autocomplete="email" inputmode="email" maxlength="320" placeholder="${esc(O.emailHint)}" value="${esc(s.email)}"></label><p class="small muted tr-keeps">${esc(O.keeps)}</p>` : ""}
+          ${open ? `<label class="tr-lab">${esc(O.email)}<input type="email" id="tr-email" autocomplete="email" inputmode="email" maxlength="320" placeholder="${esc(O.emailHint)}" value="${esc(s.email)}"></label><p class="small muted tr-keeps">${esc(openQuestsOn() ? O.keepsQuests : O.keeps)}</p>` : ""}
           <h2>${esc(T.resume)}</h2>${resume}
           <label class="tr-lab">${esc(T.field)}<select id="tr-field"><option value="">${esc(T.pickField)}</option>${F.map(x => `<option value="${esc(x.id)}"${s.field === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
           <div id="tr-roles">${roles}</div>
           <label class="tr-lab">${esc(T.posting)}<textarea id="tr-posting" maxlength="20000" placeholder="${esc(open ? O.postingHint : T.postingHint)}"></textarea></label>
+          ${open && openQuestsOn() ? `<label class="tr-lab">${esc(Copy.map.flow.tech.title)}<select id="tr-tech"><option value="">${esc(O.pickTech)}</option>${Quests.TECH.map(id => `<option value="${esc(id)}"${s.tech === id ? " selected" : ""}>${esc(Copy.map.flow.tech.options[id])}</option>`).join("")}</select></label>` : ""}
           <p><button type="button" class="btn primary" id="tr-build"${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
           <p class="small tr-out" id="tr-out" aria-live="polite"></p>
         </section>
@@ -1183,6 +1233,7 @@
       const role = $("#tr-role"); if (role) role.onchange = e => { s.role = e.target.value || null; s.also = s.also.filter(id => id !== s.role); draw(); };
       main.querySelectorAll("#tr-roles input[type=checkbox]").forEach(b => b.onchange = () => { s.also = b.checked ? [...s.also, b.value].slice(0, 3) : s.also.filter(id => id !== b.value); draw(); });
       const em = $("#tr-email"); if (em) em.oninput = () => { s.email = em.value; };
+      const tech = $("#tr-tech"); if (tech) tech.onchange = () => { s.tech = tech.value; };
       $("#tr-build").onclick = open ? buildOpen : buildTree;
     };
     // the open build: the email is checked, the tree grounded here and kept here; the email alone leaves the browser
@@ -1196,7 +1247,7 @@
         await loadApprentice();
         const g = await Apprentice.ground({ A: Atlas, Matcher, EvidenceText }, { profile: state.resume.text, roles: [s.role, ...s.also], posting: ($("#tr-posting") || {}).value || "", today: todayIso() });
         const { map } = Apprentice.selfServeMap(g, { campus: (campusGate().campus || {}).label || null, date: todayIso() });
-        openHeld = { email, map }; store.set(OPEN_KEY, openHeld);   // a browser that refuses storage keeps it for this page
+        openHeld = { email, map, roles: [s.role, ...s.also], tech: s.tech || null, posting: (($("#tr-posting") || {}).value || "").slice(0, 20000), cards: null, mine: {}, asked: null, why: null }; store.set(OPEN_KEY, openHeld);   // a browser that refuses storage keeps it for this page
       } catch (e) { console.error(e); if (here() && $("#tr-out") === outEl) { outEl.textContent = T.failed; btn.disabled = false; } return; }
       if (window.Capture) { Capture.waitlist(email, "build", { role_id: s.role }); Capture.cta("open_tree", "done"); }
       if (!here()) return;
@@ -1529,16 +1580,16 @@
     const R0 = Routes.parseRoute(location.hash), sub = R0.parts[1] === "tree" ? "tree" : "quests";
     const held = mapHeld && mapHeld.map === map ? mapHeld : null;
     if (held && !held.mine) held.mine = {};
-    mapUi = { map, M, page: sub, view: R0.query.view === "list" ? "list" : "tree", mine: held ? held.mine : {}, now: R0.query.q || null, open: !!R0.query.q, shipping: null, draft: "", linkErr: false, saveErr: null, busy: false, skipped: null, panel: null, catalog: null, why: {}, lines: {} };
+    mapUi = { map, M, page: sub, view: R0.query.view === "list" ? "list" : "tree", anon: !!anon, mine: anon ? (openHeld.mine ||= {}) : held ? held.mine : {}, now: R0.query.q || null, open: !!R0.query.q, shipping: null, draft: "", linkErr: false, saveErr: null, busy: false, skipped: null, panel: null, catalog: null, why: {}, lines: {} };
     mapUi.tree = MapModel.classTree(map, mapUi.mine);
     crumbs([[MC.nav[sub], null]]);   // Build skills / Quests, or Build skills / Skill tree
     const name = st.name_on_page;
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
     const lead = sub === "tree" ? (role ? (mapUi.tree.roles.length > 1 ? fill(MC.treeSub, { role }) : role + ".") : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
-      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       <div id="map-body"></div>
-      ${anon ? `<div id="open-next"></div><p class="small muted map-only">${esc(MC.open.kept)} <button type="button" class="linkish link" id="open-forget">${esc(MC.open.forget)}</button></p>` : `<p class="small muted map-only">${esc(MC.only)} ${out}</p>`}
+      ${anon ? `<div id="open-next"></div><p class="small muted map-only">${esc((map.cards || []).length ? MC.open.keptQuests : MC.open.kept)} <button type="button" class="linkish link" id="open-forget">${esc(MC.open.forget)}</button></p>` : `<p class="small muted map-only">${esc(MC.only)} ${out}</p>`}
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
       <div id="map-print-sheet"></div>`);
     main.firstElementChild.classList.add("wide", "map-page");
@@ -1562,7 +1613,7 @@
     const m = MapModel.nowQuest(W, mapUi.now);
     if (!m) {
       // a self-serve map with no story card has no quest yet; with the flag on, the box offers a side project
-      body.innerHTML = questsOn() ? `<section class="q-empty" id="q-empty"><p>${esc(MC.emptySide)}</p><p><a class="btn primary" href="#/map/start">${esc(MC.startSide)}</a></p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`
+      body.innerHTML = questsOn() && !mapUi.anon ? `<section class="q-empty" id="q-empty"><p>${esc(MC.emptySide)}</p><p><a class="btn primary" href="#/map/start">${esc(MC.startSide)}</a></p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`
         : `<section class="q-empty" id="q-empty"><p>${esc(MC.empty)}</p><p><a href="#/map/tree">${esc(MC.emptyTree)}</a></p></section>`;
       return;
     }
@@ -1712,9 +1763,10 @@
     mapUi.busy = true; mapUi.saveErr = null;
     let ok = false;
     try {
-      const s = await Auth.session(); if (!s) throw new Error("No session");
       const obj = Auth.feedbackObject(cardId, choice, link, todayIso());
-      await Auth.writeFeedback(s, cardId, obj);
+      // the open tree keeps a mark in this browser (open.tree); a session writes it to the person's folder
+      if (mapUi.anon) { mapUi.mine[cardId] = obj; openKeep(openHeld); }
+      else { const s = await Auth.session(); if (!s) throw new Error("No session"); await Auth.writeFeedback(s, cardId, obj); }
       mapUi.mine[cardId] = obj; ok = true;
       mapUi.tree = MapModel.classTree(mapUi.map, mapUi.mine);
     } catch (e) { console.error(e); mapUi.saveErr = cardId; }

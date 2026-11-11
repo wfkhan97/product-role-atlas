@@ -37,6 +37,14 @@ window.CONFIG = {
   // #/map/start and /api/quests stay a session's (QUESTS_ENABLED). Needs no migration and no key. Off: #/map with no
   // session is the invited sign-in. On since 2026-11-11 (owner).
   OPEN_TREE_ENABLED: true,
+  // The open tree's build quests (2026-11-11; web/api/open.js, POST /api/open): on, with OPEN_TREE_ENABLED, the
+  // visitor's tree is followed by three side projects Claude Opus 5.5 writes from the résumé and the tree (the
+  // generator and the rules of /api/quests), kept in the browser as the cards of a Quests page with their marks. The
+  // function reads this line and answers 404 while it is off; it caps the writes per email, per network address and
+  // per day (OPEN_QUESTS_EMAIL_CAP 2, OPEN_QUESTS_IP_CAP 8, OPEN_QUESTS_DAILY_CAP 150) with counts under open/ in the
+  // maps bucket. Needs ANTHROPIC_API_KEY and CATALOG_SERVICE_ROLE_KEY in the Vercel project, and a spend cap on the
+  // key. Off, or when the function refuses: the two projects of web/preview.js, no model.
+  OPEN_QUESTS_ENABLED: false,
   // The booking card under the open tree's two projects: the id of the owner's Tally form (the part after
   // tally.so/r/), opened in a new tab with the hidden fields surface, source, role and email. null: no card is drawn.
   // "Book your project session" (the owner's form, 2026-11-11: the four hidden fields and a payment block).
