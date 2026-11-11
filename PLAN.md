@@ -3748,15 +3748,18 @@ a visitor with no session gets the tree on `#/map` from an email, a résumé and
 
 No eval applies: the matcher, the taxonomy, the model read and the standards file are untouched.
 
+**On the same day (`feat/open-tree-on`).** The owner made the booking form ("Book your project session": the four
+hidden fields and a $60 payment block) and asked for the flip: `OPEN_TREE_ENABLED` is true and `BOOKING_TALLY` holds
+the form's id. `QUESTS_ENABLED` stays off.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
 **The owner's items**
-- The open tree's flip (`OPEN_TREE_ENABLED`): the owner makes the Tally booking form (payment, then the calendar
-  link) and sets `BOOKING_TALLY`; decides whether either campus limits paid services to its students; then the
-  one-line flag PR. A regular price, if the $60 is to read as an offer with an end date.
+- The open tree (on since 2026-11-11): whether either campus limits paid services to its students; a regular price,
+  if the $60 is to read as an offer with an end date.
 - The open tree, after accounts open: carry `open.tree` into the person's folder at their first sign-in, and decide
   whether the open path stays.
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in

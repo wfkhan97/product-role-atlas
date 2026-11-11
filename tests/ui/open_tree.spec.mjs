@@ -1,6 +1,6 @@
 // The open tree (2026-11-11, behind CONFIG.OPEN_TREE_ENABLED): a visitor with no session gives an email, a résumé and
 // a role and gets the tree on #/map, two projects under it and, with a form id, the booking card. The flag and the
-// form id are turned on in the page only (an init script, as quests.spec.mjs does), never in web/config.js. Nothing
+// form id are set in the page by an init script (on, off, with and without an id), whatever web/config.js holds. Nothing
 // here calls a function: the tree is grounded in the browser. OPEN_SHOTS=1 saves the screens under
 // data/experiments/scratch/open-tree/shots/ (gitignored).
 import fs from "node:fs";
@@ -20,7 +20,7 @@ const hashOf = page => page.evaluate(() => location.hash);
 const flags = extra => [x => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) Object.assign(c, x); } }); }, extra];
 const shot = async (page, name) => { if (process.env.OPEN_SHOTS) { fs.mkdirSync(SHOTS, { recursive: true }); await page.screenshot({ path: path.join(SHOTS, `${name}-${test.info().project.name}.png`), fullPage: true }); } };
 
-async function visitorAt(visitor, hash, config = { OPEN_TREE_ENABLED: true }, storage = {}) {
+async function visitorAt(visitor, hash, config = { OPEN_TREE_ENABLED: true, BOOKING_TALLY: null }, storage = {}) {
   const page = await visitor.open({ storage: { "door.email": "", "door.where": "", "door.seen": "1", resume: RESUME, ...storage } });
   page.posts = []; page.api = [];
   const ctx = page.context();
@@ -38,7 +38,7 @@ async function build(page) {
 }
 
 test("flag off: #/map with no session is the invited sign-in, as before", async ({ visitor }) => {
-  const page = await visitorAt(visitor, "#/map", null);
+  const page = await visitorAt(visitor, "#/map", { OPEN_TREE_ENABLED: false });
   await expect.poll(() => hashOf(page)).toMatch(/^#\/signin/);
 });
 
@@ -107,4 +107,15 @@ test("a role outside the standards file still gets two projects, from the tree",
   const page = await visitorAt(visitor, "#/map?build=1&role=treasury");
   await build(page);
   await expect(page.locator("#open-preview .op-card")).toHaveCount(2);
+});
+
+test("as config.js ships: Build skills in the top bar opens the form, and an invited person finds the sign-in under it", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/skills", null);
+  await page.click("#verbs a[href='#/map']");
+  await expect(page.locator("#main h1")).toHaveText(O.heading);
+  expect(await hashOf(page)).toBe("#/map");
+  await page.click(`#main a[href="#/signin?next=${encodeURIComponent("#/map")}"]`);
+  await page.locator("#main #si").waitFor();
+  await page.goto("/#/home"); await page.locator("#main .home-page .verbs a.verb").first().waitFor();
+  await expect(page.locator("#main .home-page")).not.toContainText(Copy.home.verbs.build.invite);
 });
