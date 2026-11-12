@@ -32,7 +32,7 @@ const { sameOrigin, send, readBody } = require("./infer.js");
 
 const WEB = path.join(__dirname, "..");
 const LIMITS = { body: 200000, text: 40000, minText: 80, posting: 20000, roles: 4, timeoutMs: 8000 };
-const ROLE_RE = /^[a-z][a-z0-9_]{1,60}$/;
+const ROLE_RE = /^(product\.)?[a-z][a-z0-9_]{1,60}$/;   // product.<family>: the product set's roles (web/atlas.js productKey)
 const BUCKET = "maps";
 
 // the project the site talks to, from web/config.js (one source: the browser reads the same file)

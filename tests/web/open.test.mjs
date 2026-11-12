@@ -127,6 +127,8 @@ test("the hosting file bundles what the function reads, and the local server ser
   const inc = v["api/open.js"].includeFiles;
   for (const f of ["config.js", "build_kit.json", "standards.json", "graph_mba.json", "graph_mba/*.json"]) assert.ok(inc.includes(f), f);
   for (const f of v["api/tree.js"].includeFiles.match(/[a-z_]+\.json/g)) assert.ok(inc.includes(f), `the tree's ${f}`);
+  // the product set (2026-11-12: the open form offers the Product field): what web/atlas.js reads for a product role
+  for (const f of ["taxonomy.json", "graph.json", "subskills.json", "bands.json"]) assert.ok(new RegExp(`[{,]${f.replace(".", "\\.")}[,}]`).test(inc), `the product set's ${f}`);
   assert.ok(v["api/open.js"].maxDuration * 1000 > API.LIMITS.timeoutMs);
   assert.match(fs.readFileSync(path.join(root, "tests", "ui", "serve.mjs"), "utf8"), /"\/api\/open"/);
 });
