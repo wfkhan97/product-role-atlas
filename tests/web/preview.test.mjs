@@ -32,6 +32,13 @@ test("a role named under also_serves takes that entry", () => {
   assert.equal(Preview.pick(mapOf([node("x", "must build")]), { standards }).length, 2);
 });
 
+test("a product role (product.pm) takes the entry of its family (pm)", () => {
+  const standards = { roles: { pm: { shows: [show("a", "build", []), show("b", "build", [])] } } };
+  const map = mapOf([node("x", "must build")]); map.role = { ...map.role, id: "product.pm" };
+  assert.ok(Preview.pick(map, { standards }).every(o => o.from === "standards"));
+  assert.equal(Preview.pick(map, { standards }).length, 2);
+});
+
 test("a role with no entry gets its options from the tree: a skill to build that an artifact shows", () => {
   const skillById = {
     cash: { what: "Forecast the company's cash.", how_shown: { form: "artifact", artefacts: ["cash forecast"] } },

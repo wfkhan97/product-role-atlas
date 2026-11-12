@@ -1197,14 +1197,17 @@
   // the top bar's entry: shown to every visitor while the tree is on, so an invited person finds the way in
   const buildBar = () => treeOn();
   const selfServe = map => !!(map && map.student && map.student.self_serve);
-  const treeRoles = ix => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
+  // the open tree also offers the Product field (2026-11-12: its build runs in this browser and /api/open bundles the
+  // product set); the signed-in form and the side-project flow stay on the MBA set, the one /api/tree bundles
+  const treeRoles = (ix, product) => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !(product ? ["tech"] : ["product", "tech"]).includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
   // `first`: the person has no map yet, so the form is Build skills' first step and says what comes after it; with a
   // map (?build=1), it builds the tree again
   // `open`: the open tree's form (no session): an email first, and the build runs in this browser (buildOpen)
   async function treeForm(out, first, open) {
     const T = Copy.map.tree, O = Copy.map.open, here = () => Routes.parseRoute(location.hash).name === "map";
     const ix = await Atlas.index(); if (!here()) return;
-    const F = treeRoles(ix);
+    if (open) { await Atlas.product().catch(e => console.error(e)); if (!here()) return; }   // the Product field's roles; without the file the field is left out
+    const F = treeRoles(ix, open);
     const picked = Routes.parseRoute(location.hash).query.role, pre = picked ? F.find(f => f.roles.some(r => r.id === picked)) : null;   // the fit screen's link names the role
     const s = { field: pre ? pre.id : null, role: pre ? picked : null, also: [], change: false, email: open ? ((openTree() || {}).email || doorKept().email || "") : "", tech: open ? ((openTree() || {}).tech || "") : "" };
     const draw = () => {
