@@ -198,7 +198,7 @@
       // the résumé row (C1): with none on file, the shell's form under the filters; a read draws the picker again
       // With a résumé on file and no role, one line stands in the row's place, so a read never ends on nothing
       const hasResume = !!(ctx.hasResume && ctx.hasResume());
-      const resumeRow = !hasResume && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">${esc(CL.addResume)}</p>${ctx.resumeForm()}<div class="row"><button type="button" class="btn primary" id="cls-read">${esc(CL.readFit)}</button></div></div>`
+      const resumeRow = !hasResume && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">${esc(CL.addResume)}</p>${ctx.resumeForm()}</div>`
         : hasResume && !roles.length ? `<p class="small cls-norole" id="cls-norole" role="status">${esc(CL.resumeNoRole)}</p>` : "";
       // the application box at the foot (v18, step 1), from app.js, with the first role recorded as the role on screen;
       // over it, when the fit leaves gaps, the one data-built line naming them
@@ -244,7 +244,7 @@
       document.querySelectorAll("[data-facet]").forEach(d => d.ontoggle = () => { d.open ? S.open.add(d.dataset.facet) : S.open.delete(d.dataset.facet); });
       document.querySelectorAll("[data-facet-key]").forEach(b => b.onclick = () => { const k = b.dataset.facetKey, v = b.dataset.val; S[k] = S[k].includes(v) ? S[k].filter(x => x !== v) : [...S[k], v]; redraw(); });
       document.querySelectorAll("[data-drop-role]").forEach(b => b.onclick = () => { setRoles(S.roles.filter(id => id !== b.dataset.dropRole)); again(); });
-      if ($("#cls-resume")) { ctx.wireResume(); $("#cls-read").onclick = async () => { if (await ctx.takeResume()) again(); else $("#file-status").textContent = Copy.common.resume.nothing; }; }
+      if ($("#cls-resume")) ctx.wireResume(again);   // a chosen file is kept and draws the picker again
       const sc = $("#cls-sort"); if (sc) sc.onchange = e => { S.sort = e.target.value; render(); };
       const gc = $("#cls-gap"); if (gc) gc.onclick = () => { S.coversGap = !S.coversGap; render(); };
       const q = $("#cls-q"); let t = null; q.oninput = () => { S.q = q.value; clearTimeout(t); t = setTimeout(() => { const y = window.scrollY; render(); window.scrollTo(0, y); const q2 = $("#cls-q"); q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); }, 160); };

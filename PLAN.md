@@ -3815,6 +3815,25 @@ tree is grounded in the browser, so that reason never applied to it. Decisions:
   role are two fields), and the form, the tree and the two projects in a local browser. Not checked: Opus writing
   quests for a product tree (the eval has no product case, and the function does not run on the local server).
 
+## One choice of a résumé file is the whole act (`fix/resume-upload`, 2026-11-12)
+
+The owner: "Sometimes when I upload the résumé it takes an extra couple of clicks or it gets lost", on the open
+tree's form. Choosing a file only read it into a module-level `pending`; it became the résumé when the person then
+pressed the screen's own button (Read it, Read my fit, Next). Any redraw between the two (the tree form redraws on
+every field or role change) drew an empty drop zone over a file still held, so people chose it again. The
+processing state's fixed button list missed the side-project flow's, the file input was never emptied (the same
+file chosen again fired nothing), and a `pending` read on one screen could be taken on another (a course file as a
+résumé on the fit screen).
+
+Now a chosen or dropped file of 40 words or more is kept at once (`takeResume(r)`), and the screen's next step,
+passed to `wireResumeForm(after)`, runs as its button did: the launcher, the tree form, the side project's step b
+and the class picker draw again, the rail and the fit screen draw the fit, About you (the wizard and home's inline
+questions) moves on. Their Read buttons are gone, with their copy; Next, Done and Build stay and wait while a file
+is read (`data-reads`). Under 40 words the status says so and nothing is kept. A redraw mid-read draws the zone in
+its processing state, and the line about a file not kept stays until the screen changes. The posting and course
+forms keep their file for their own button, in their own closure. With accounts on and no session the zone is still
+the sign-in's door; Next on About you no longer sends to the sign-in when no file was chosen.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as

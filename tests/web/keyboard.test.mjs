@@ -11,7 +11,8 @@ const app = fs.readFileSync(path.join(web, "app.js"), "utf8");
 const css = fs.readFileSync(path.join(web, "style.css"), "utf8");
 
 test("every drop zone is the one dropZone, whose \"choose a file\" is a button and not a label (a label is no Tab stop)", () => {
-  assert.equal((app.match(/<div class="drop" id="drop">/g) || []).length, 1, "one drawing of the drop zone");
+  assert.equal((app.match(/<div class="drop\$\{busy \? " busy" : ""\}" id="drop">/g) || []).length, 1, "one drawing of the drop zone");
+  assert.equal((app.match(/class="drop[" $]/g) || []).length, 1, "and no other");
   assert.doesNotMatch(app, /<label class="link" for="file">/);
   assert.match(app, /<button type="button" class="linkish link" id="file-pick" aria-controls="file">\$\{esc\(RF\.choose\)\}<\/button>/);
   assert.match(app, /pick\.onclick = \(\) => \{ if \(!drop\.classList\.contains\("busy"\)\) \$\("#file"\)\.click\(\); \}/, "the button opens the file dialog, never while a read runs");
