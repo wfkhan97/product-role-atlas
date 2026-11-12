@@ -110,3 +110,18 @@ test("a new-style secret key (sb_secret_…) goes in apikey alone, never as a be
   const auth = p.calls.find(c => c.url.includes("/auth/v1/user"));
   assert.equal(auth.headers.authorization, "Bearer good", "the person's own token still identifies them");
 });
+
+// the product set (2026-11-12): the open tree's form offers the Product field, so the builder takes product.<family>
+test("a product role: the id passes the check, a class of product roles builds a tree, a product and an MBA role are two fields", async () => {
+  assert.deepEqual(T.checkInput({ text: profile, roles: ["product.pm", "product.pmm"] }).roles, ["product.pm", "product.pmm"]);
+  assert.equal(T.checkInput({ text: profile, roles: ["tech.swe"] }).error, "roles_required", "no other prefix");
+  assert.equal(T.checkInput({ text: profile, roles: ["product..pm"] }).error, "roles_required");
+  const { map } = await T.buildMap({ text: profile, roles: ["product.pm", "product.pmm", "product.product_owner"], posting: "" }, { date: "2026-11-12" });
+  assert.equal(map.role.id, "product.pm");
+  assert.equal(map.role.label, "Product Manager");
+  assert.equal(map.role_class.roles.length, 3);
+  assert.ok(map.tree.nodes.length >= 6 && map.tree.nodes.every(n => n.name && n.state && n.place), "every node has a name, a state and a place");
+  assert.ok(map.tree.nodes.some(n => n.place === "trunk") && map.read.band_label);
+  await assert.rejects(T.buildMap({ text: profile, roles: ["product.pm", "pmm"], posting: "" }, {}), e => e.code === "mixed_fields");
+  await assert.rejects(T.buildMap({ text: profile, roles: ["product.nope"], posting: "" }, {}), e => e.code === "unknown_role");
+});

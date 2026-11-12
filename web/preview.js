@@ -38,6 +38,7 @@
   // the standards entry of a role: its own, or the entry that names it under also_serves
   function entryFor(standards, roleId) {
     const R = (standards && standards.roles) || {};
+    roleId = String(roleId || "").replace(/^product\./, "");   // the product set's product.pm is the index's pm
     if (R[roleId]) return R[roleId];
     for (const k of Object.keys(R)) if ((R[k].also_serves || []).includes(roleId)) return R[k];
     return null;

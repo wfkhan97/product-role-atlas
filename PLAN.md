@@ -3798,10 +3798,29 @@ three projects, the one picked joins Quests. Checked before the flip: `evals/que
 generator, wrote three projects on production the same day. Not done: the key's spend cap and a real sign-in through
 the flow (Later). The cap is five writes a day per person.
 
+## The open tree offers the Product field (`feat/open-tree-product`, 2026-11-12)
+
+The owner asked why the open form's field list had no Product. The list was the signed-in form's, which leaves out the
+product and tech sets because `/api/tree` bundles the MBA role files only (step 4 of the visitor journey). The open
+tree is grounded in the browser, so that reason never applied to it. Decisions:
+
+- **The open form lists Product; the signed-in form and "Start a side project" do not.** `treeRoles(ix, product)` in
+  `app.js`; the form loads the product file before it draws. `/api/tree` still has no product files, so a signed-in
+  build of a product role would answer `unknown_role`. Tech roles stay out of both.
+- **`/api/open` takes `product.<family>`** (`tree.js` `ROLE_RE`) and bundles the product set (`taxonomy.json`,
+  `graph.json`, `subskills.json`, `bands.json`, about 11 MB more), since it builds the same map before it asks the model.
+- **A product role reads the standards index by its family**: `product.pm` is the index's `pm`, in `Preview.pick` and
+  `Quests.standardsFor`. The prompt for an MBA role is unchanged, so `evals/quests_baseline.md` stands.
+- Checked: `Apprentice.ground` over the product set in node (one role, and a class of three; a product and an MBA
+  role are two fields), and the form, the tree and the two projects in a local browser. Not checked: Opus writing
+  quests for a product tree (the eval has no product case, and the function does not run on the local server).
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
+
+- **The Product field for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle the product set for `api/tree.js`, pass `true` to `treeRoles`, and add a product case to `evals/quests.mjs`. Tech roles after that.
 
 **The owner's items**
 - The open tree's build quests (on since 2026-11-11): a spend cap on the Anthropic key, the hard stop behind the

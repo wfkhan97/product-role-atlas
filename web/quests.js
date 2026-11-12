@@ -100,11 +100,11 @@ Answer with JSON only, in the schema given.`;
 
   // What employers test for the person's roles, from the published standards index (web/data/standards.json, written
   // by pipeline/standards_publish.mjs from pipeline/standards.json). Grounding only: it aims the projects and puts no
-  // text on a card, so the lines carry no source and no employer. A role matches by its id or the index's also_serves;
+  // text on a card, so the lines carry no source and no employer. A role matches by its id (a product role by its family: product.pm is pm) or the index's also_serves;
   // a role the index has no list for adds nothing. The instruction rides in the block, so the stable prefix is the
   // same with and without it.
   function standardsFor(index, roleIds) {
-    const roles = (index && index.roles) || {}, want = new Set(list(roleIds));
+    const roles = (index && index.roles) || {}, want = new Set(list(roleIds).map(id => String(id).replace(/^product\./, "")));   // product.pm is the index's pm
     const hit = Object.keys(roles).sort().filter(id => want.has(id) || list(roles[id].also_serves).some(a => want.has(a)));
     if (!hit.length) return "";
     const out = ["# What employers test for these roles. Aim each project at one of these where it fits the person.", "# Never name a source, a program or an employer."];
