@@ -78,6 +78,73 @@ test("an email, a résumé and a role give the tree, two projects and no booking
   expect(unexpected(page.consoleErrors)).toEqual([]);
 });
 
+// ---------- the résumé on the form: one choice is the whole act (fix/resume-upload, 2026-11-12) ----------
+const T = MC.tree;
+const FILE = path.join(ROOT, "evals", "resumes", "grad_student_new.txt");
+const SHORT = { name: "short.txt", mimeType: "text/plain", buffer: Buffer.from("Product marketing intern, two summers.") };
+const NONE = { resume: "null" };   // no résumé on file
+const onFile = page => page.locator("#main .tr-form p.small.muted", { hasText: Copy.fill(T.onFile, { name: "grad_student_new.txt" }) });
+const kept = page => page.evaluate(() => (JSON.parse(localStorage.getItem("resume")) || {}).name || null);
+// another field in the form's field box, then the first one again: two redraws of the form
+async function redraw(page) {
+  const was = await page.locator("#tr-field").inputValue();
+  const other = await page.locator("#tr-field option").evaluateAll((os, w) => os.map(o => o.value).find(v => v && v !== w), was);
+  await page.locator("#tr-field").selectOption(other);
+  await page.locator("#tr-field").selectOption(was);
+  await page.locator("#tr-role").selectOption("pmm");
+}
+
+test("one choice of a file keeps the résumé: no Read button, the form says it is on file and Build is ready", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", undefined, NONE);
+  await expect(page.locator("#tr-build")).toBeDisabled();
+  await expect(page.locator("#tr-read")).toHaveCount(0);
+  await page.locator("#main #drop #file").setInputFiles(FILE);
+  await expect(onFile(page)).toBeVisible();
+  expect(await kept(page)).toBe("grad_student_new.txt");
+  await expect(page.locator("#tr-build")).toBeEnabled();
+  await build(page);
+  expect(await hashOf(page)).toBe("#/map/tree");
+  expect(unexpected(page.consoleErrors)).toEqual([]);
+});
+
+test("a redraw of the form between the choice and Build keeps the file, during the read and after it", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", undefined, NONE);
+  // the model read held open, so the form is drawn again while the read runs
+  let release; const held = new Promise(r => { release = r; });
+  await page.route(/\/api\/infer$/, async r => { await held; return r.fulfill({ status: 503, contentType: "application/json", body: "{}" }); });
+  await page.locator("#main #drop #file").setInputFiles(FILE);
+  await expect(page.locator("#main #drop.busy .proc")).toBeVisible();
+  await redraw(page);
+  // never an empty drop zone: the read's steps, or the file on file once the patterns kept it
+  await expect(page.locator("#main #drop:not(.busy)")).toHaveCount(0);
+  await expect(onFile(page).or(page.locator("#main #drop.busy .proc"))).toBeVisible();
+  release();
+  await expect(onFile(page)).toBeVisible();
+  await redraw(page);
+  await expect(onFile(page)).toBeVisible();
+  await expect(page.locator("#main #drop")).toHaveCount(0);
+  await build(page);
+  expect(await hashOf(page)).toBe("#/map/tree");
+});
+
+test("the same file can be chosen twice: the input is emptied after each choice, and a short file keeps nothing", async ({ visitor }) => {
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", undefined, NONE);
+  const input = page.locator("#main #drop #file");
+  await input.setInputFiles(SHORT);
+  await expect(page.locator("#file-status")).toHaveText(Copy.fill(Copy.common.resume.fewWords, { name: "short.txt", words: 5 }));
+  expect(await input.inputValue(), "emptied: choosing short.txt again fires a change").toBe("");
+  expect(await kept(page)).toBeNull();
+  await redraw(page);   // the line about the short file stays through a redraw
+  await expect(page.locator("#file-status")).toHaveText(Copy.fill(Copy.common.resume.fewWords, { name: "short.txt", words: 5 }));
+  await page.locator("#main #drop #file").setInputFiles(FILE);
+  await expect(onFile(page)).toBeVisible();
+  // "Use another", then the same file again: kept again
+  await page.locator("#tr-change").click();
+  await page.locator("#main #drop #file").setInputFiles(FILE);
+  await expect(onFile(page)).toBeVisible();
+  expect(await kept(page)).toBe("grad_student_new.txt");
+});
+
 test("the tree stays on a reload; the quest pages and #/map/start come back to it; Forget it clears it", async ({ visitor }) => {
   const page = await visitorAt(visitor, "#/map?build=1&role=pmm");
   await build(page);

@@ -60,16 +60,13 @@
       // the processing state (owner, 2026-11-01): the drop zone turns into a short list of steps while the file is read,
       // matched and sent once to the model; nothing else on the screen moves until it is done
       steps: { file: "Reading your file", match: "Matching it to the postings", infer: "Finding the skills it shows without naming them" },
-      working: "Reading…",
       wait: "This takes a few seconds. The screen updates on its own.",
       reading: "Reading {name}…",
       fewWords: "{name}: we read only {words} words. If this is a scan, try a text or DOCX export.",
       read: "{name}: {words} words read.",
       cantRead: "Could not read that file: {message}",
-      nothing: "Add a file first.",
       // the posting and course forms, which keep their paste box (wireFileDrop)
       nothingText: "Add a file or paste some text first.",
-      readFit: "Read my fit →",
       pastedName: "pasted text",   // a pasted posting or course text
     },
     // the bands of fit, in order; never a score
@@ -179,8 +176,9 @@
     addResume: "Add your résumé",
     resumeLead: "We read it in your browser to find the roles that fit what you have done. Its text also goes once to our AI reader; we do not store it.",
     showRoles: "Show my roles →",
-    // the résumé step opened from a screen that wants its place back (Find jobs, Networking): it reads and goes back there
-    readBack: "Read it and go back →",
+    // the résumé step opened from a screen that wants its place back (Find jobs, Networking): a chosen file is kept and
+    // the step goes back there; this button goes back with what is on file
+    readBack: "Go back →",
     skip: "Skip for now",
     // the summary
     lead: "What you told us and what your résumé shows. Change any answer; the fields below follow.",
@@ -649,7 +647,6 @@
     resume: {
       heading: "Your résumé",
       privacy: "We read it in your browser against what each role's postings ask for. Its text goes once to our AI reader, and we do not store it.",
-      read: "Read my fit →",
       onFile: "read in your browser and once by our AI reader",
       onFileLocal: "read in your browser",   // when the AI reader did not answer
       inferred: "{n} of them inferred from your experience; your fit shows the lines that suggested them.",
@@ -828,7 +825,6 @@
     coversGap: "Covers a gap",
     sort: "Sort", sorts: { relevance: "Relevance", gaps: "Gaps covered" },
     addResume: "Add your résumé and each card says which of your gaps it covers.",
-    readFit: "Read my fit →",
     gapLine: "Your fit for {roles} leaves {gaps}. Each card says which it covers, read from the course text by kind. A course can show craft, not how you work.",
     gap: "1 gap", gaps: "{n} gaps",
     // the gaps by name under the gap line: the first few, then "and N more" (Catalog.namesLine)
@@ -986,8 +982,7 @@
       resume: "Your résumé",
       onFile: "{name} is on file.",
       change: "Use another",
-      read: "Read it",
-      noResume: "Read a résumé first.",
+      noResume: "Add your résumé first.",
       field: "The field",
       pickField: "Pick a field",
       role: "The role the tree builds on",
@@ -1082,7 +1077,6 @@
         onFile: "{name} is on file.",
         band: "It reads as {band} for {role}.",
         replace: "Use another",
-        read: "Read it",
         noResume: "Add your résumé to go on.",
         more: "Add more about you",
         choose: "Add a file",
@@ -1339,7 +1333,7 @@
       classes: {
         role: { title: "Start with a role", body: "Pick a role here. Each class then shows how well it fits that role." },
         band: { title: "What high, medium and low mean", body: "The band shows how many of the role's main skills the course description names. The Gaps covered sort puts the classes that cover your gaps and fit the role first." },
-        resume: { title: "Add your résumé for gaps", body: "Choose your résumé, then press Read my fit. Each card then says which of your gaps it covers." },
+        resume: { title: "Add your résumé for gaps", body: "Choose your résumé. Each card then says which of your gaps it covers." },
         gaps: { title: "How we count your gaps", body: "A gap is a skill the role asks for that your résumé does not show yet. Your study answer sets the level, so it can change this count." },
         subjects: { title: "Subject codes", body: "Each chip is a subject code, the first part of a class number. CS 5304 is a CS class." },
       },
@@ -1359,7 +1353,7 @@
       role: {
         level: { title: "Pick your level", body: "Each level shows what its postings ask for. Entry covers postings for new graduates." },
         areas: { title: "Skills sit in groups", body: "Each row is a group of skills. Open a row to see them, or press Expand all." },
-        rail: { title: "See your fit", body: "Add your résumé in the fit box, then press Read my fit. You then see which top skills you show." },
+        rail: { title: "See your fit", body: "Add your résumé in the fit box. You then see which top skills you show." },
         railFit: { title: "Your fit at a glance", body: "This line counts the top skills your résumé shows. The See all link opens every skill in two lists." },
       },
       fit: {

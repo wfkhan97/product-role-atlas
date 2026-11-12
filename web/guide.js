@@ -66,7 +66,7 @@
     { screen: "skills", id: "resumeFit", target: ["#lf-side"], when: resume },
     { screen: "role", id: "level", target: [".filters .seg"] },
     { screen: "role", id: "areas", target: ["details.areabox"] },
-    { screen: "role", id: "rail", target: ["#rail-read", ".rail-tab"], when: noResume },
+    { screen: "role", id: "rail", target: ["#rail-drop", ".rail-tab"], when: noResume },
     { screen: "role", id: "railFit", target: ["#aside.rail .lead-rail", ".rail-tab"], when: resume },
     { screen: "fit", id: "level", target: ["#fit-level"] },
     { screen: "fit", id: "counts", target: [".fitcols"] },
