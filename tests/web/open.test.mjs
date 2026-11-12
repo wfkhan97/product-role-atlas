@@ -71,7 +71,7 @@ test("a write: the map is built here, the model is asked with the generator's in
   assert.equal(d.asked.length, 1);
   const input = d.asked[0];
   assert.equal(input.map.role.id, "pmm"); assert.equal(input.map.student.self_serve, true);
-  assert.equal(input.resume, RESUME.trim()); assert.equal(input.extras, ""); assert.deepEqual(input.answers, { tech: "no_code" });
+  assert.equal(input.resume, RESUME.trim()); assert.equal(input.extras, ""); assert.deepEqual(input.answers, { tech: "no_code", tools: {}, accounts: {} }, "a bare tech, as an older page sends it");
   // the counts: the email lowercased and hashed, the address hashed, the day; nothing else
   const day = new Date().toISOString().slice(0, 10);
   assert.deepEqual(Object.keys(s.objects).sort(), [`open/day.json`, `open/email/${API.hash("someone@school.edu")}.json`, `open/ip/${API.hash("203.0.113.7")}.json`].sort());
@@ -79,6 +79,21 @@ test("a write: the map is built here, the model is asked with the generator's in
   const stored = JSON.stringify(s.objects);
   assert.ok(!stored.includes("someone@school.edu") && !stored.includes("203.0.113.7") && !stored.includes("freight"), "no email, no address, no project is stored");
   assert.ok(s.calls.every(([, url]) => /\/storage\/v1\/object\/maps\/open\//.test(url)), "the service role touches open/ only: no person's folder, no map written");
+});
+
+test("the answers (2026-11-12): tools and accounts are cleaned as /api/quests cleans them, and a bare tech is still taken", async () => {
+  const answers = { tech: "write_code", tools: { chat_pages: "use", image: "learn", sora: "use", coding_agents: "maybe" }, accounts: { github: "have", supabase: "would", vercel: "no", myspace: "have", notion: "sure" } };
+  const clean = { tech: "write_code", tools: { chat_pages: "use", image: "learn" }, accounts: { github: "have", supabase: "would", vercel: "no" } };
+  assert.deepEqual(API.answersOf({ answers }, KIT), clean, "anything outside the kit's lists is dropped");
+  assert.deepEqual(API.answersOf({ answers }, KIT), require(path.join(web, "quests.js")).cleanAnswers(answers, KIT), "the same cleaning as /api/quests");
+  assert.deepEqual(API.answersOf({ tech: "no_code" }, KIT), { tech: "no_code", tools: {}, accounts: {} }, "an older page: tech alone");
+  assert.deepEqual(API.answersOf({ tech: "no_code", answers: { tools: { image: "use" } } }, KIT), { tech: "no_code", tools: { image: "use" }, accounts: {} }, "answers without a tech fall back to the bare one");
+  assert.equal(API.answersOf({ tech: "no_code", answers: { tech: "read_code" } }, KIT).tech, "read_code", "the answers' own tech wins");
+  for (const b of [{}, { tech: "hacker" }, { answers: "x" }, { answers: [1] }, { answers: null }]) assert.deepEqual(API.answersOf(b, KIT), { tech: null, tools: {}, accounts: {} }, JSON.stringify(b));
+  const s = storage(), d = deps(s);
+  const r = await run({ email: BODY.email, text: RESUME, roles: ["pmm"], answers }, d);
+  assert.equal(r.statusCode, 200);
+  assert.deepEqual(d.asked[0].answers, clean, "the generator gets the cleaned answers");
 });
 
 test("the caps: the third write of one email in a day, the ninth from one address and the day's cap all answer 429 without asking the model", async () => {

@@ -1,5 +1,6 @@
 /* POST /api/open: the open tree's build quests (2026-11-11, behind CONFIG.OPEN_QUESTS_ENABLED with OPEN_TREE_ENABLED).
-   A visitor with no session sends an email, their résumé text, the roles of their tree and how technical they feel; the
+   A visitor with no session sends an email, their résumé text, the roles of their tree and the answers of the form's
+   steps (how technical they feel, the kinds of AI tools, the accounts); the
    function builds the map the way /api/tree does (web/apprentice.js over the bundled atlas; nothing is written), asks
    Claude Opus 5.5 for three side projects with the request and the rules of /api/quests (web/quests.js request and
    validate, web/api/quests.js write: one retry when nothing passed) and returns the ones that pass. The browser keeps
@@ -15,7 +16,9 @@
    both pass a count: the caps bound the spend to the order of the cap, not to the unit. The key's own spend cap is
    the hard stop (PLAN.md).
 
-     request   { email, text, roles: [role ids, the first is the tree's role], posting?: text, tech?: a Quests.TECH id }
+     request   { email, text, roles: [role ids, the first is the tree's role], posting?: text,
+                 answers?: { tech, tools, accounts } as /api/quests takes them (Quests.cleanAnswers over the kit) }
+               A bare `tech` (a Quests.TECH id, the request before 2026-11-12) is still taken when `answers` has none.
      response  { ok: true, projects: [...], model, dropped }
                404 off · 403 cross_origin · 400 email_required | text_required | text_too_short | roles_required |
                too_many_roles | dup_role | unknown_role | mixed_fields · 413 · 429 rate_limited { scope: "email" |
@@ -48,12 +51,18 @@ function enabled(file = path.join(WEB, "config.js")) {
 }
 
 // ---------- the request ----------
-function checkInput(body) {
+// the answers of the open form's steps c to e, cleaned as /api/quests cleans them; `tech` alone from an older page
+function answersOf(b, kit) {
+  const a = b.answers && typeof b.answers === "object" && !Array.isArray(b.answers) ? { ...b.answers } : {};
+  if (a.tech == null) a.tech = b.tech;
+  return Quests.cleanAnswers(a, kit);
+}
+function checkInput(body, kit) {
   const b = body && typeof body === "object" ? body : null;
   const email = b && typeof b.email === "string" ? b.email.trim().toLowerCase() : "";
   if (!EMAIL_RE.test(email) || email.length > 320) return { error: "email_required", status: 400 };
   const t = Tree.checkInput(b); if (t.error) return t;
-  return { email, text: t.text, roles: t.roles, posting: t.posting, tech: Quests.TECH.includes(b.tech) ? b.tech : null };
+  return { email, text: t.text, roles: t.roles, posting: t.posting, answers: answersOf(b, kit) };
 }
 // the caller's network address as the platform reports it (Vercel sets both headers); "unknown" shares one count
 function ipOf(req) {
@@ -99,7 +108,7 @@ async function handler(req, res, deps = {}) {
   if (+((req.headers || {})["content-length"] || 0) > LIMITS.body) return send(res, 413, { error: "body_too_large" });
   if (!key || !apiKey) return send(res, 503, { error: "not_configured" });
   let raw; try { raw = await readBody(req); } catch (e) { return send(res, e.status || 400, { error: e.status === 413 ? "body_too_large" : "bad_json" }); }
-  const input = checkInput(raw); if (input.error) return send(res, input.status, { error: input.error });
+  const input = checkInput(raw, kit); if (input.error) return send(res, input.status, { error: input.error });
   const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), LIMITS.timeoutMs);
   const io = { fetchImpl, cfg, key, signal: ctl.signal };
   const t0 = Date.now();
@@ -110,7 +119,7 @@ async function handler(req, res, deps = {}) {
     catch (e) { if (e.code) return send(res, 400, { error: e.code }); throw e; }
     const c = await count({ email: input.email, ip: ipOf(req) }, today(), cap, io);
     if (c.limited) return send(res, 429, { error: "rate_limited", scope: c.limited });
-    const out = await QuestsApi.write({ map: built.map, resume: input.text, extras: "", answers: { tech: input.tech }, kit, standards: deps.standards !== undefined ? deps.standards : QuestsApi.standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
+    const out = await QuestsApi.write({ map: built.map, resume: input.text, extras: "", answers: input.answers, kit, standards: deps.standards !== undefined ? deps.standards : QuestsApi.standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
     console.log(JSON.stringify({ fn: "open", model: out.model, stops: out.stops, calls: out.calls, usage: out.usage, kept: out.projects.length, dropped: out.dropped.map(d => d.rules), ms: Date.now() - t0 }));
     if (!out.projects.length) return send(res, 422, { error: "no_valid" });
     return send(res, 200, { ok: true, projects: out.projects, model: out.model, dropped: out.dropped.map(d => d.rules) });
@@ -121,4 +130,4 @@ async function handler(req, res, deps = {}) {
 }
 
 module.exports = handler;
-Object.assign(module.exports, { LIMITS, caps, enabled, checkInput, ipOf, hash, readCount, writeCount, count, handler });
+Object.assign(module.exports, { LIMITS, caps, enabled, answersOf, checkInput, ipOf, hash, readCount, writeCount, count, handler });
