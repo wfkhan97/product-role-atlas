@@ -124,16 +124,16 @@ test("stepsFor: the DOM-presence predicate drops a row with no present target an
   assert.deepEqual(ids(G.stepsFor("classes", { resume: false }, all)), ["role", "band", "resume", "subjects"], "no role: the table drops nothing by when");
   assert.deepEqual(ids(G.stepsFor("classes", { resume: false }, s => s !== ".cls-card .cls-rel")), ["role", "resume", "subjects"]);
   const both = G.stepsFor("role", { resume: false }, all).find(s => s.id === "rail");
-  assert.equal(both.target, "#rail-read");
-  const tabOnly = G.stepsFor("role", { resume: false }, s => s !== "#rail-read").find(s => s.id === "rail");
+  assert.equal(both.target, "#rail-drop");
+  const tabOnly = G.stepsFor("role", { resume: false }, s => s !== "#rail-drop").find(s => s.id === "rail");
   assert.equal(tabOnly.target, ".rail-tab");
   assert.deepEqual(G.stepsFor("home", {}, () => false), []);
 });
 
 test("stepsFor: the predicate is called with the row's selectors only, in order, and stops at the first true", () => {
   const calls = [];
-  G.stepsFor("role", { resume: false }, s => { calls.push(s); return s === "#rail-read" || s === ".filters .seg" || s === "details.areabox"; });
-  assert.deepEqual(calls, [".filters .seg", "details.areabox", "#rail-read"], "railFit is filtered by when before any selector; .rail-tab is never asked");
+  G.stepsFor("role", { resume: false }, s => { calls.push(s); return s === "#rail-drop" || s === ".filters .seg" || s === "details.areabox"; });
+  assert.deepEqual(calls, [".filters .seg", "details.areabox", "#rail-drop"], "railFit is filtered by when before any selector; .rail-tab is never asked");
   const calls2 = [];
   G.stepsFor("skills", { resume: true }, s => { calls2.push(s); return s === "#lf-body"; });
   assert.deepEqual(calls2, [".lf-tiles", "#lf-body", "#lf-q", "#lf-side"]);

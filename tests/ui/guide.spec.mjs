@@ -158,7 +158,7 @@ for (const resume of [false, true]) {
     const page = await visit(visitor, { resume, hash: `#/role/${ROLE}` });
     const steps = await walk(page, info, "role", C(resume), { min: 3 });
     expect(steps.map(s => s.id)).toEqual(["level", "areas", resume ? "railFit" : "rail"]);
-    expect(steps[2].sel).toBe(isPhone(info) ? ".rail-tab" : resume ? "#aside.rail .lead-rail" : "#rail-read");
+    expect(steps[2].sel).toBe(isPhone(info) ? ".rail-tab" : resume ? "#aside.rail .lead-rail" : "#rail-drop");
   });
 }
 

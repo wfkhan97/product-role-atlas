@@ -224,7 +224,8 @@ and evals run the code the site runs.
   the section `build` at `#/map`), `Theme`,
   `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
   screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
-  one drop zone with a real "choose a file" button. `route()` calls `Guide.after` once a screen draws (the feedback
+  one drop zone with a real "choose a file" button (a chosen résumé of 40 words or more is kept at once; each
+  screen passes the step that follows to `wireResumeForm`). `route()` calls `Guide.after` once a screen draws (the feedback
   prompt waits while a tip is due or open); `topBar` draws "Show me around" beside Feedback.
 - `launcher.js`, `network.js`, `jobs.js`, `pick.js`, `skillmap.js` — the pure parts of Explore careers, Networking
   (`Network.sentenceCase`: skill names in lower case mid-sentence, acronyms and proper nouns kept), Find jobs

@@ -22,11 +22,10 @@ async function picker(page, hash = "#/classes") {
 const roleBox = page => page.locator("#cls-add input");
 const focusIn = (page, sel) => page.evaluate(s => !!document.activeElement && !!document.activeElement.closest(s), sel);
 const focused = (page, sel) => page.evaluate(s => document.activeElement === document.querySelector(s), sel);
-// the résumé file on the picker's drop, then "Read my fit"
+// the résumé file on the picker's drop: the choice alone keeps it and draws the picker again
 async function readResume(page) {
   await page.locator("#cls-resume #file").setInputFiles(RESUME);
-  await expect(page.locator("#file-status")).toContainText(/words/);
-  await page.locator("#cls-read").click();
+  await expect(page.locator("#cls-resume")).toHaveCount(0);
 }
 // pick a role in the role box with the keyboard, as a person types it
 async function pickRole(page, text) {

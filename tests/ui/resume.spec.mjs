@@ -24,11 +24,9 @@ async function visit(visitor, { email = GENERAL_EMAIL, storage = {}, hash = "#/h
   return page;
 }
 const hashOf = page => page.evaluate(() => location.hash);
-// give the file to the résumé step's drop zone and press its main button
+// give the file to the résumé step's drop zone: the choice alone keeps it and moves on, as Next does
 async function giveResume(page) {
   await page.locator("#main #drop #file").setInputFiles(FILE);
-  await expect(page.locator("#main #file-status")).toContainText(/words/);
-  await page.locator("#main #next").click();
 }
 
 test("Find jobs: \"Add your résumé\" opens the résumé step and comes back to the same search with fit lines", async ({ visitor }) => {
@@ -116,9 +114,7 @@ test("the #/you wizard's label counts the same steps as its bar, on every step",
 for (const status of [503, 200]) {
   test(`the résumé line names the AI reader only when it answered (${status})`, async ({ visitor }) => {
     const page = await visit(visitor, { hash: "#/skills", infer: status });
-    await page.locator("#main #drop #file").setInputFiles(FILE);
-    await expect(page.locator("#main #file-status")).toContainText(/words/);
-    await page.locator("#lf-read").click();
+    await page.locator("#main #drop #file").setInputFiles(FILE);   // the choice alone reads it
     const line = page.locator("#lf-side p.small.muted").first();
     await expect(line).toContainText("read in your browser");
     expect(page.inferCalls).toBe(1);

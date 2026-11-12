@@ -60,13 +60,14 @@ for (const [name, hash] of DROPS) {
     expect(chooser.isMultiple()).toBe(false);
   });
 }
-test("drop zone: Space on \"choose a file\" opens the file dialog too, and the file it gives is read", async ({ visitor }, info) => {
+test("drop zone: Space on \"choose a file\" opens the file dialog too, and the file it gives is kept with no other press", async ({ visitor }, info) => {
   desktopOnly(info);
   const page = await visit(visitor, { hash: "#/role/pm/fit" });
   await page.locator("#drop #file-pick").focus();
   const [chooser] = await Promise.all([page.waitForEvent("filechooser", { timeout: 5000 }), page.keyboard.press("Space")]);
   await chooser.setFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "evals", "resumes", "grad_student_new.txt"));
-  await expect(page.locator("#file-status")).toContainText(/words/);
+  await expect.poll(() => page.evaluate(() => !!JSON.parse(localStorage.getItem("resume")))).toBe(true);
+  await expect(page.locator("#main .fitcols")).toBeVisible();   // the fit screen drew the fit, as "Read my fit" did
 });
 
 // ---------- Find jobs: the posting panel and the facets ----------

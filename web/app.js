@@ -493,8 +493,8 @@
   // what the Spring 2027 screens (classes.js) draw with; gapsFor hands them the person's gaps for a role (step 3 of the
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
   // applyBox, applyLine and wireApply draw the intake box at the picker's foot (v18 step 1, the intake since v19 B5);
-  // resumeForm, wireResume, takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume, flag: () => campusGate().flag };
+  // resumeForm, wireResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: after => wireResumeForm(after), hasResume: () => !!state.resume, flag: () => campusGate().flag };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
   // the door's answers; with a session (the code sign-in, 2026-11-05) the verified address wins over the typed one
   const doorKept = () => { try { const s = accountsOn() ? Auth.stored() : null; return { email: (s && s.email) || localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
@@ -903,7 +903,7 @@
     let light = null;   // closestFits for the résumé on file
     const you = `<p class="small muted lf-you"><a href="#/you">${esc(C.you)}</a></p>`;
     const right = () => {
-      if (!state.resume || s.change) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2><p class="small muted">${esc(C.resume.privacy)}</p>${resumeForm()}<p><button type="button" class="btn primary" id="lf-read">${esc(C.resume.read)}</button></p>${you}</section>`;
+      if (!state.resume || s.change) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2><p class="small muted">${esc(C.resume.privacy)}</p>${resumeForm()}${you}</section>`;
       const onFile = `<p class="small muted">${esc(state.resume.name)} · ${esc(Routes.You.aiRead(state.resume) ? C.resume.onFile : C.resume.onFileLocal)} · <button type="button" class="linkish link" id="lf-change">${esc(C.resume.change)}</button></p>`;
       if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(light && light.failed ? C.resume.failed : C.resume.reading)}</p>${you}</section>`;
       const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(C.resume.noClose)}</p>${you}</section>`;
@@ -923,7 +923,7 @@
     };
     const drawLeft = () => { $("#lf-body").innerHTML = left(); wireLeft(); writeHash(); };
     const wireRight = () => {
-      if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = RF.nothing; }; }
+      if ($("#drop")) wireResumeForm(() => { s.change = false; drawRight(); });
       const ch = $("#lf-change"); if (ch) ch.onclick = () => { s.change = true; drawRight(); const p = $("#file-pick"); if (p) p.focus(); };
     };
     const drawRight = () => {
@@ -1214,7 +1214,7 @@
       const r = state.resume;
       const f = F.find(x => x.id === s.field);
       const resume = r && !s.change ? `<p class="small muted">${esc(fill(T.onFile, { name: r.name }))} <button type="button" class="linkish link" id="tr-change">${esc(T.change)}</button></p>`
-        : `${resumeForm()}<p><button type="button" class="btn" id="tr-read">${esc(T.read)}</button></p>`;
+        : resumeForm();
       const roles = f ? `<label class="tr-lab">${esc(T.role)}<select id="tr-role"><option value="">${esc(T.pickRole)}</option>${f.roles.map(x => `<option value="${esc(x.id)}"${s.role === x.id ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select></label>
         ${s.role ? `<fieldset class="tr-also"><legend>${esc(T.also)}</legend>${f.roles.filter(x => x.id !== s.role).map(x => `<label><input type="checkbox" value="${esc(x.id)}"${s.also.includes(x.id) ? " checked" : ""}${!s.also.includes(x.id) && s.also.length >= 3 ? " disabled" : ""}> ${esc(x.label)}</label>`).join("")}</fieldset>` : ""}` : "";
       page(`<h1>${esc(open ? O.heading : first ? T.firstHeading : T.heading)}</h1><p class="lead">${esc(open ? O.lead : first ? T.firstLead : T.lead)}</p>
@@ -1225,12 +1225,12 @@
           <div id="tr-roles">${roles}</div>
           <label class="tr-lab">${esc(T.posting)}<textarea id="tr-posting" maxlength="20000" placeholder="${esc(open ? O.postingHint : T.postingHint)}"></textarea></label>
           ${open && openQuestsOn() ? `<label class="tr-lab">${esc(Copy.map.flow.tech.title)}<select id="tr-tech"><option value="">${esc(O.pickTech)}</option>${Quests.TECH.map(id => `<option value="${esc(id)}"${s.tech === id ? " selected" : ""}>${esc(Copy.map.flow.tech.options[id])}</option>`).join("")}</select></label>` : ""}
-          <p><button type="button" class="btn primary" id="tr-build"${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
+          <p><button type="button" class="btn primary" id="tr-build" data-reads${state.resume && s.role ? "" : " disabled"}>${esc(T.build)}</button></p>
           <p class="small tr-out" id="tr-out" aria-live="polite"></p>
         </section>
         <p class="small muted">${out}</p>`, true);
       main.firstElementChild.classList.add("roomy");
-      if ($("#drop")) { wireResumeForm(); $("#tr-read").onclick = async () => { if (await takeResume()) { s.change = false; draw(); } else $("#file-status").textContent = RF.nothing; }; }
+      if ($("#drop")) wireResumeForm(() => { s.change = false; draw(); });
       const ch = $("#tr-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
       $("#tr-field").onchange = e => { s.field = e.target.value || null; s.role = null; s.also = []; draw(); };
       const role = $("#tr-role"); if (role) role.onchange = e => { s.role = e.target.value || null; s.also = s.also.filter(id => id !== s.role); draw(); };
@@ -1320,7 +1320,7 @@
     const frame = (step, inner, nextOk = true, nextLabel = S.next) => {
       const i = START_STEPS.indexOf(step), m = START_STEPS.length;
       const back = i > 0 ? `<button type="button" class="linkish link" id="sp-back">${esc(S.back)}</button>` : "<span></span>";
-      const next = step === "pick" ? "" : `<div class="sp-next"><button type="button" class="btn primary big" id="sp-go"${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${s.err ? `<span class="sp-err" role="alert">${esc(s.err)}</span>` : ""}</div>`;
+      const next = step === "pick" ? "" : `<div class="sp-next"><button type="button" class="btn primary big" id="sp-go" data-reads${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${s.err ? `<span class="sp-err" role="alert">${esc(s.err)}</span>` : ""}</div>`;
       return `<div class="sp${step === "pick" ? " wide" : ""}"><div class="sp-prog" role="progressbar" aria-label="${esc(S.progressAria)}" aria-valuemin="1" aria-valuemax="${m}" aria-valuenow="${i + 1}"><i style="width:${Math.round((i + 1) / m * 100)}%"></i></div>
         <div class="sp-nav">${back}<span class="small muted">${esc(fill(S.stepOf, { n: i + 1, m }))}</span></div>${inner}${next}<p class="small muted sp-out">${out}</p></div>`;
     };
@@ -1383,7 +1383,7 @@
       const B = S.bring, r = state.resume, first = flow.roles[0] ? roleOf(flow.roles[0]) : null;
       const band = s.band && s.bandFor === (r ? r.text.length + ":" + flow.roles[0] : null) ? `<p class="sp-band">${fill(esc(B.band), { band: `<b>${esc(s.band)}</b>`, role: esc(first ? first.label : "") })}</p>` : "";
       const resume = r && !s.change ? `<p class="sp-file"><span>${esc(fill(B.onFile, { name: r.name }))}</span> <button type="button" class="linkish link" id="sp-change">${esc(B.replace)}</button></p>`
-        : `${resumeForm()}<p><button type="button" class="btn" id="sp-read">${esc(B.read)}</button></p>`;
+        : resumeForm();
       const ex = extrasClip();
       const extras = `<section class="sp-more"><h2>${esc(B.more)}</h2><p class="small muted">${esc(B.moreLead)}</p>
         <p><button type="button" class="btn" id="sp-xpick">${esc(B.choose)}</button><input type="file" id="sp-xfile" accept=".pdf,.docx,.txt,.md" multiple hidden tabindex="-1"></p>
@@ -1407,7 +1407,7 @@
       } catch (e) { console.error(e); }
     }
     function wireBring() {
-      if ($("#drop")) { wireResumeForm(); $("#sp-read").onclick = async () => { if (await takeResume()) { s.change = false; s.band = null; s.bandFor = null; store.set(OPTS_KEY, null); draw(); } else $("#file-status").textContent = RF.nothing; }; }
+      if ($("#drop")) wireResumeForm(() => { s.change = false; s.band = null; s.bandFor = null; store.set(OPTS_KEY, null); draw(); });
       const ch = $("#sp-change"); if (ch) ch.onclick = () => { s.change = true; draw(); };
       const pick = $("#sp-xpick"), input = $("#sp-xfile"), st = $("#sp-xstatus");
       pick.onclick = () => input.click();
@@ -2195,10 +2195,10 @@
   // questions of #/you (Copy.you.questions: where, stage, fields), then the optional résumé drop, one step at a time,
   // saved to the same state.you and localStorage "you" as #/you after every answer, so leaving halfway keeps what was
   // answered. It opens on the first question not answered yet (You.firstStep: the door's program answer skips the first);
-  // Back reaches the earlier ones. "Skip for now" on every step keeps what was answered and ends; Done on the résumé step
-  // reads a dropped file first. Either way the door's mark on the program goes (the person has seen it), you_done goes
-  // out as #/you sends it, and opts.onDone() runs. The résumé step is the shell's form (ids #drop, #file, #file-status),
-  // so a page holds one of these, or one résumé form, at a time. Returns a promise (the index loads first).
+  // Back reaches the earlier ones. "Skip for now" on every step keeps what was answered and ends; on the résumé step
+  // a chosen file is kept and ends it, and Done ends it with what is on file. Either way the door's mark on the
+  // program goes (the person has seen it), you_done goes out as #/you sends it, and opts.onDone() runs. The résumé step
+  // is the shell's form (ids #drop, #file, #file-status), so a page holds one of these, or one résumé form, at a time. Returns a promise (the index loads first).
   function youInline(el, opts) {
     const o = opts || {}, YI = YOU.inline;
     return Atlas.index().then(ix => {
@@ -2207,9 +2207,9 @@
       const a = { where: y0.where || null, stage: y0.stage || null, fields: new Set(y0.fields || []) };
       let i = Routes.You.firstStep(y0, Q.map(q => q.key)), seen = false;   // seen: the person picked a program here, or ended
       const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; syncProfile(); };
-      const finish = async read => {
-        if (read && pending && pending.words < 40) return;   // a file with too few words: its line stays on screen
-        if (read) await takeResume();
+      let ended = false;   // Skip, Done and a chosen file each end it, once
+      const finish = () => {
+        if (ended) return; ended = true;
         seen = true; save(); track("you_done");
         if (o.onDone) o.onDone();
       };
@@ -2218,7 +2218,7 @@
         const q = Q[i], last = i === Q.length;
         const S = Routes.You.steps(i, Q.length);
         const steps = `<div class="steps">${Array.from({ length: S.bars }, (_, k) => `<i class="${k < S.done ? "done" : ""}"></i>`).join("")}</div>`;
-        const nav = `<div class="row between yi-nav"><span>${i > 0 ? `<button type="button" class="btn quiet" data-yi="back">${esc(CM.back)}</button>` : ""}</span><span class="row"><button type="button" class="btn" data-yi="skip">${esc(YI.skip)}</button><button type="button" class="btn primary" data-yi="next">${esc(last ? YI.done : YOU.next)}</button></span></div>`;
+        const nav = `<div class="row between yi-nav"><span>${i > 0 ? `<button type="button" class="btn quiet" data-yi="back">${esc(CM.back)}</button>` : ""}</span><span class="row"><button type="button" class="btn" data-yi="skip">${esc(YI.skip)}</button><button type="button" class="btn primary" data-yi="next" data-reads>${esc(last ? YI.done : YOU.next)}</button></span></div>`;
         if (!last) {
           const on = id => q.multi ? a.fields.has(id) : a[q.key] === id;
           el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(S.label)}</p><h3>${esc(q.title)}</h3>${q.hint ? `<p class="small muted">${esc(q.hint)}</p>` : ""}
@@ -2230,12 +2230,12 @@
           });
         } else {
           el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(S.label)}</p><h3>${esc(YOU.addResume)}</h3><p class="small muted">${esc(YOU.resumeLead)}</p>${resumeForm()}${nav}`;
-          wireResumeForm();
+          wireResumeForm(finish);   // a chosen file is kept and ends it, as Done did
         }
         const btn = k => el.querySelector(`[data-yi="${k}"]`);
         if (btn("back")) btn("back").onclick = () => { i--; draw(); };
-        btn("skip").onclick = () => finish(false);
-        btn("next").onclick = () => { if (last) { finish(true); return; } if (!q.multi && !a[q.key]) return; i++; draw(); };
+        btn("skip").onclick = () => finish();
+        btn("next").onclick = () => { if (last) { finish(); return; } if (!q.multi && !a[q.key]) return; i++; draw(); };
       };
       draw();
     });
@@ -2261,7 +2261,7 @@
       const after = wiz.after;
       // Back from the step a return link opened goes back to that screen
       const leave = () => { if (wiz.next && i === wiz.first) { const n = wiz.next; wiz = null; location.hash = n; return true; } return false; };
-      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next">${esc(nextLabel)}</button></span></div>`;
+      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next" data-reads>${esc(nextLabel)}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
         // the options with their examples (questionOpts); all eleven fields sit above the fold in two columns
@@ -2278,10 +2278,12 @@
       page(`${steps}<p class="eyebrow">${esc(S.label)}</p><h1>${esc(YOU.addResume)}</h1>
         <p class="lead">${esc(YOU.resumeLead)}</p>
         ${resumeForm()}${nav(wiz.next ? YOU.readBack : YOU.showRoles)}`, true);
-      wireResumeForm();
+      // a chosen file is kept and moves on as Next does; Next moves on with the résumé on file, or none
+      const onward = () => { saveYou(); location.hash = after; if (location.hash === after) you(); };
+      wireResumeForm(onward);
       $("#back").onclick = () => { if (leave()) return; backward(); render(); };
       $("#skip").onclick = () => saveYou();
-      $("#next").onclick = async () => { if (!(await takeResume()) && location.hash.startsWith("#/signin")) return; saveYou(); location.hash = after; if (location.hash === after) you(); };
+      $("#next").onclick = onward;
     };
     const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); syncProfile(); };
     render();
@@ -2347,17 +2349,34 @@
   // the resume: a drop zone and what was read. A file only: the paste box went on 2026-11-01 (owner's feedback) from
   // every screen that draws this form (About you, home's inline questions, the fit screen, #/skills, the class picker)
   // and from the rail's own drop; the posting and course forms keep theirs (wireFileDrop)
-  let pending = null;   // { text, name, words } read from a file but not yet taken
+  // Choosing or dropping a file is the whole act (2026-11-12, the owner: "it takes an extra couple of clicks or it gets
+  // lost"): a résumé of 40 words or more is kept at once (takeResume) and the screen's `after()` runs, the step its
+  // "Read it" button used to take; under 40 words the status says so and nothing is kept. Nothing waits between the
+  // pick and the keep, so no other screen can take a file this one read. While a file is read a redraw draws the zone
+  // in its processing state (`reading`), and the line about a file it did not keep stays until the screen changes
+  // (`note`): a redraw never shows an empty zone for a file the person just chose.
+  let reading = null;   // { name, step } while a résumé file is read and kept
+  let note = null;      // { at, text }: the last pick's line when nothing was kept
+  const screenAt = () => location.hash.split("?")[0];
+  const wordsOf = text => text.trim() ? text.trim().split(/\s+/).length : 0;
+  const fileStatus = t => { const el = $("#file-status"); if (el) el.textContent = t; };
   function resumeForm() {
     const r = state.resume;
     // the first personal act (step 2): with accounts on and no session, the drop zone is the sign-in's door
     if (accountsOn() && !Auth.stored() && !r) { const S = Copy.signin; return `<div class="si-gate" id="drop-gate"><b>${esc(S.gateHeading)}</b><p class="small muted">${esc(S.gateLine)}</p><a class="btn primary" href="${esc(signinHref())}">${esc(S.gateButton)}</a></div>`; }
-    return dropZone(RF.drop, r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : "");
+    return resumeZone(RF.drop, r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : "");
+  }
+  // the résumé's drop zone as it stands: busy while a file is read, the last line about a file it did not keep
+  function resumeZone(heading, status = "") {
+    if (reading) return dropZone(heading, esc(fill(RF.reading, { name: reading.name })), reading.step);
+    if (note && note.at === screenAt()) return dropZone(heading, esc(note.text));
+    return dropZone(heading, status);
   }
   // The one drop zone (usability pass 2026-11-06, B-02): drag and drop, or "choose a file", a real button that opens the
-  // file dialog on Enter and Space (the input stays hidden; a label is not a Tab stop). `status` is HTML, already escaped.
-  function dropZone(heading, status = "") {
-    return `<div class="drop" id="drop"><p><b>${esc(heading)}</b> ${esc(RF.or)} <button type="button" class="linkish link" id="file-pick" aria-controls="file">${esc(RF.choose)}</button></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden tabindex="-1"><p class="small muted" id="file-status">${status}</p></div>`;
+  // file dialog on Enter and Space (the input stays hidden; a label is not a Tab stop). `status` is HTML, already escaped;
+  // `busy`, a step of STEPS, draws it in the processing state.
+  function dropZone(heading, status = "", busy = null) {
+    return `<div class="drop${busy ? " busy" : ""}" id="drop"><p><b>${esc(heading)}</b> ${esc(RF.or)} <button type="button" class="linkish link" id="file-pick" aria-controls="file">${esc(RF.choose)}</button></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden tabindex="-1"><p class="small muted" id="file-status">${status}</p>${busy ? `<div class="proc" role="status" aria-live="polite">${procHtml(busy)}</div>` : ""}</div>`;
   }
   // a file's text, read in the browser: a PDF with pdf.js, a .docx with mammoth, anything else as text. The résumé
   // form and the side-project flow's "Add more about you" both read files with it; nothing leaves the browser here.
@@ -2371,54 +2390,73 @@
     if (/\.docx$/i.test(file.name)) return (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
     return await file.text();
   }
-  function wireResumeForm() {
-    const drop = $("#drop"), status = $("#file-status");
-    if (!drop) return;   // the sign-in's door stands in its place
-    const read = async file => {
-      status.textContent = fill(RF.reading, { name: file.name });
-      processing("file");
-      try {
-        const text = await fileText(file);
-        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-        pending = { text, name: file.name, words };
-        processing(null);
-        status.textContent = words < 40 ? fill(RF.fewWords, { name: file.name, words }) : fill(RF.read, { name: file.name, words: fmt(words) });
-      } catch (e) { processing(null); status.textContent = fill(RF.cantRead, { message: e.message }); pending = null; }
-    };
+  // the zone's hands: a drop, "choose a file" and the input; `onFile(file)` gets each file while the zone is not busy.
+  // The input is emptied after each choice, so the same file chosen again is read again (a browser fires no change
+  // for an unchanged value).
+  function wireDrop(onFile) {
+    const drop = $("#drop"); if (!drop) return false;   // the sign-in's door stands in its place
+    const take = file => { if (file && !drop.classList.contains("busy")) onFile(file); };
     drop.ondragover = e => { e.preventDefault(); drop.classList.add("over"); };
     drop.ondragleave = () => drop.classList.remove("over");
-    drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0] && !drop.classList.contains("busy")) read(e.dataTransfer.files[0]); };
+    drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); take(e.dataTransfer.files[0]); };
     const pick = $("#file-pick"); if (pick) pick.onclick = () => { if (!drop.classList.contains("busy")) $("#file").click(); };
-    $("#file").onchange = e => { if (e.target.files[0] && !drop.classList.contains("busy")) read(e.target.files[0]); };
-    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); status.textContent = RF.forgotten; };
+    $("#file").onchange = e => { const f = e.target.files[0]; e.target.value = ""; take(f); };
+    return true;
   }
-  // keep the file the form read (40 words or more); nothing new keeps what was stored
+  // the résumé form: a chosen file is read and kept, then `after()` runs when the person is still on the same screen
+  function wireResumeForm(after) {
+    if (!wireDrop(async file => {
+      const at = screenAt(); note = null;
+      reading = { name: file.name, step: "file" };
+      fileStatus(fill(RF.reading, { name: file.name })); processing("file");
+      const end = line => { reading = null; processing(null); if (line) { note = { at, text: line }; fileStatus(line); } };
+      let r;
+      try { const text = await fileText(file); r = { text, name: file.name, words: wordsOf(text) }; }
+      catch (e) { end(fill(RF.cantRead, { message: e.message })); return; }
+      if (r.words < 40) { end(fill(RF.fewWords, { name: r.name, words: r.words })); return; }
+      const ok = await takeResume(r).catch(e => { console.error(e); return false; });
+      end(null);
+      if (!ok) return;
+      fileStatus(fill(RF.read, { name: r.name, words: fmt(r.words) }));
+      if (after && screenAt() === at) after();
+    })) return;
+    if (reading) processing(reading.step);   // drawn again mid-read: the buttons wait too
+    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); note = null; fileStatus(RF.forgotten); };
+  }
   // The processing state (owner, 2026-11-01: an upload that waits on the model read looked like it had not taken, so
-  // people uploaded again). The drop zone turns into the list of steps with the one running marked, the Read button
-  // reads "Reading…" and is disabled, and the zone takes no second file until the read is done; `step` null restores
-  // the zone. The steps: file (the reader), match (the patterns' read), infer (the model read, up to 20 s).
+  // people uploaded again). The drop zone turns into the list of steps with the one running marked, every button marked
+  // `data-reads` (the one that acts on what was read: Next, Done, Build) is disabled, and the zone takes no second file
+  // until the read is done; `step` null restores the zone and each button as it was. The steps: file (the reader),
+  // match (the patterns' read), infer (the model read, up to 20 s).
   const STEPS = ["file", "match", "infer"];
+  const procHtml = step => { const i = STEPS.indexOf(step); return `<ul>${STEPS.map((k, j) => `<li class="${j < i ? "done" : j === i ? "now" : ""}"><span class="pm" aria-hidden="true">${j < i ? "✓" : j === i ? "" : "·"}</span>${esc(RF.steps[k])}</li>`).join("")}</ul><p class="small muted">${esc(RF.wait)}</p>`; };
   function processing(step) {
-    const drop = $("#drop"); if (!drop) return;
-    const btn = document.querySelector("#rail-read, #lf-read, #tr-read, #go, #cls-read, #next");
-    let box = drop.querySelector(".proc");
-    if (!step) { drop.classList.remove("busy"); if (box) box.remove(); if (btn && btn.dataset.label) { btn.textContent = btn.dataset.label; btn.disabled = false; delete btn.dataset.label; } return; }
-    drop.classList.add("busy");
-    if (!box) { box = document.createElement("div"); box.className = "proc"; box.setAttribute("role", "status"); box.setAttribute("aria-live", "polite"); drop.appendChild(box); }
-    const i = STEPS.indexOf(step);
-    box.innerHTML = `<ul>${STEPS.map((k, j) => `<li class="${j < i ? "done" : j === i ? "now" : ""}"><span class="pm" aria-hidden="true">${j < i ? "✓" : j === i ? "" : "·"}</span>${esc(RF.steps[k])}</li>`).join("")}</ul><p class="small muted">${esc(RF.wait)}</p>`;
-    if (btn && !btn.dataset.label) { btn.dataset.label = btn.textContent; btn.textContent = RF.working; btn.disabled = true; }
+    if (reading && step) reading.step = step;
+    const drop = $("#drop"), btns = document.querySelectorAll("[data-reads]");
+    if (!step) {
+      if (drop) { drop.classList.remove("busy"); const box = drop.querySelector(".proc"); if (box) box.remove(); }
+      btns.forEach(b => { if (b.dataset.was) { b.disabled = b.dataset.was === "off"; delete b.dataset.was; } });
+      return;
+    }
+    if (drop) {
+      drop.classList.add("busy");
+      let box = drop.querySelector(".proc");
+      if (!box) { box = document.createElement("div"); box.className = "proc"; box.setAttribute("role", "status"); box.setAttribute("aria-live", "polite"); drop.appendChild(box); }
+      box.innerHTML = procHtml(step);
+    }
+    btns.forEach(b => { if (!b.dataset.was) { b.dataset.was = b.disabled ? "off" : "on"; b.disabled = true; } });
   }
-  let taking = null;   // the read in flight: a second click or drop joins it instead of starting over
-  function takeResume() {
-    if (accountsOn() && !Auth.stored() && !state.resume) { toHash(signinHref()); return Promise.resolve(false); }   // the read waits for the sign-in
-    return taking || (taking = takeResumeNow().finally(() => { taking = null; }));
+  let taking = null;   // the read in flight: a second call joins it instead of starting over
+  // keep `r` ({ text, name, words }, 40 words or more) as the résumé; false when nothing was kept. With accounts on and
+  // no session, the read waits for the sign-in (the zone is the sign-in's door then; the rail's own zone lands here).
+  function takeResume(r) {
+    if (!r || r.words < 40) return Promise.resolve(false);
+    if (accountsOn() && !Auth.stored() && !state.resume) { toHash(signinHref()); return Promise.resolve(false); }
+    return taking || (taking = takeResumeNow(r).finally(() => { taking = null; }));
   }
-  async function takeResumeNow() {
-    const r = pending && pending.words >= 40 ? pending : null;
-    if (!r) return false;
+  async function takeResumeNow(r) {
     processing("match");
-    state.resume = r; store.set("resume", r); pending = null; state.match = null; state.rough = null; state.fit = null;
+    state.resume = r; store.set("resume", r); state.match = null; state.rough = null; state.fit = null;
     Atlas.useInferred(r.text, []);
     track("resume_read");
     try {
@@ -3346,7 +3384,7 @@
     const classesOpen = !!window.ClassScreens && campusGate().open;
     // and a link to the course screen for everyone (2026-11-06: no link led there)
     const cta = `<section class="rs"><div class="acts">${classesOpen ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a>` : ""}<a href="#/role/${esc(role.id)}/course">${esc(RR.checkCourse)}</a></div></section>`;
-    const drop = `${dropZone(RF.dropShort)}<p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
+    const drop = `<div id="rail-drop">${resumeZone(RF.dropShort)}</div>`;
     if (!state.resume) {
       if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="${esc(Routes.You.resumeHref(0, location.hash))}" data-answer-link>${esc(fill(RR.orAnswer, { n: Q.length }))}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
       // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
@@ -3391,7 +3429,7 @@
     return legend + you + cta;
   }
   function wireRail() {
-    if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = RF.nothing; }; }
+    if ($("#drop")) wireResumeForm(() => { state.fit = null; keepScroll(renderRole); });
     aside.querySelectorAll("[data-gap]").forEach(b => b.onclick = () => { state.gapOpen = state.gapOpen === b.dataset.gap ? null : b.dataset.gap; showAside(null); });
     aside.querySelectorAll("[data-wait]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = state.wait === b.dataset.wait ? null : b.dataset.wait; showAside(null); });
     aside.querySelectorAll("[data-wait-close]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = null; showAside(null); });
@@ -3411,9 +3449,8 @@
     const g = await loadRole(id); const R = state.R, role = R.role;
     crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], [FT.crumb, null]]);
     if (!state.resume) {
-      page(`<p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}</p><h1>${esc(FT.addResume)}</h1><p class="lead">${esc(fill(FT.addLead, { role: role.label }))}</p>${resumeForm()}<div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="go">${esc(RF.readFit)}</button><a class="btn quiet" href="#/role/${esc(role.id)}">${esc(FT.backRole)}</a></div>`, true);
-      showAside(null); wireResumeForm();
-      $("#go").onclick = async () => { if (await takeResume()) fitScreen(id); else $("#file-status").textContent = RF.nothing; };
+      page(`<p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}</p><h1>${esc(FT.addResume)}</h1><p class="lead">${esc(fill(FT.addLead, { role: role.label }))}</p>${resumeForm()}<div class="row" style="margin-top:12px"><a class="btn quiet" href="#/role/${esc(role.id)}">${esc(FT.backRole)}</a></div>`, true);
+      showAside(null); wireResumeForm(() => fitScreen(id));
       return;
     }
     const level = state.fitLevel || state.level;
@@ -3477,7 +3514,7 @@
     const ctx = `<div class="row between fit-top"><h1 class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}${extra.length ? " · " + esc(extra.join(", ")) : ""}</h1><span class="small muted ctx"><select id="fit-level" aria-label="${esc(RL.levelAria)}">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${esc(s === "all" ? FT.allLevels : R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">${esc(CM.change)}</a></span></div>`;
     // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
     const pSum = asks ? postingSummary(asks, f) : null;
-    const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
+    const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go" data-reads>${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
     // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered where the read is; it needs a
     // session, so with none the link goes through the sign-in and back to the form with this role picked. Only with
     // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
@@ -3538,7 +3575,7 @@
     const split = c ? (c.teaches ? { teaches: c.teaches, named: c.named } : Atlas.courseSplit(c.found, R.skillById)) : null;
     const form = `${dropZone(CO.drop, c ? esc(fill(CO.read, { name: c.name })) : "")}
       <p class="small muted">${esc(CO.paste)}</p><textarea id="paste" rows="6" aria-label="${esc(CO.aria)}" placeholder="${esc(CO.placeholder)}">${c ? esc(c.text) : ""}</textarea>
-      <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
+      <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go" data-reads>${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
     // the level the count reads (2026-11-06: the role page's level carried over unseen), with a control to change it
     const seg = `<div class="seg course-level" role="group" aria-label="${esc(CO.level)}">${["all", ...Atlas.STEPS].map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-course-level="${s}">${esc(s === "all" ? RL.allLevels : R.stepLabels[s])}</button>`).join("")}</div>`;
     let result = "";
@@ -3567,14 +3604,24 @@
     main.querySelectorAll("[data-course-level]").forEach(b => b.onclick = () => { state.level = b.dataset.courseLevel; state.fitLevel = null; state.fit = null; keepScroll(() => courseScreen(id)); });
     renderAside();
   }
-  // a drop zone plus a paste box, for any text; `onText({ text, name })` runs when the person clicks the button
+  // a drop zone plus a paste box, for any text; `onText({ text, name })` runs when the person clicks the button. The
+  // file waits here for the button (a paste can stand in for it), in this form's own `held`: never a résumé, never
+  // another screen's.
   function wireFileDrop(onText) {
-    wireResumeForm();
+    let held = null;
+    wireDrop(async file => {
+      fileStatus(fill(RF.reading, { name: file.name })); processing("file");
+      try {
+        const text = await fileText(file), words = wordsOf(text);
+        held = { text, name: file.name, words }; processing(null);
+        fileStatus(words < 40 ? fill(RF.fewWords, { name: file.name, words }) : fill(RF.read, { name: file.name, words: fmt(words) }));
+      } catch (e) { processing(null); held = null; fileStatus(fill(RF.cantRead, { message: e.message })); }
+    });
     $("#go").onclick = async () => {
       const pasted = ($("#paste") || {}).value || "";
-      const r = pasted.trim().length >= 20 ? { text: pasted, name: RF.pastedName } : pending ? pending : null;
-      if (!r) { $("#file-status").textContent = RF.nothingText; return; }
-      pending = null; await onText(r);
+      const r = pasted.trim().length >= 20 ? { text: pasted, name: RF.pastedName } : held;
+      if (!r) { fileStatus(RF.nothingText); return; }
+      held = null; await onText(r);
     };
   }
 
