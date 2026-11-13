@@ -1058,6 +1058,7 @@
     treeTitle: "How {name}'s skills compare",
     treeHeading: "How your skills compare",
     treeSub: "Next to what {role} and the roles near it ask for.",
+    treeSubOne: "Next to what {role} asks for.",   // a comparison with one role
     nav: { quests: "Quests", tree: "Your skills" },
     navAria: "Your map",
     // the levels: the head and the copy's name for each (the file's labels carry durations)
