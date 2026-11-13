@@ -1773,7 +1773,7 @@
     crumbs([[MC.nav[sub], null]]);   // Build skills / Quests, or Build skills / Skill tree
     const name = st.name_on_page;
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
-    const lead = sub === "tree" ? (role ? (mapUi.tree.roles.length > 1 ? fill(MC.treeSub, { role }) : role + ".") : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
+    const lead = sub === "tree" ? (role ? fill(mapUi.tree.roles.length > 1 ? MC.treeSub : MC.treeSubOne, { role }) : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
       <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       ${anon && sub === "tree" ? `<div id="open-next"></div>` : ""}<div id="map-body"></div>

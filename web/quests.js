@@ -277,7 +277,7 @@ Answer with JSON only, in the schema given.`;
       why_role: { text: project.why_role.text, posting_quote: project.why_role.posting_quote || null },
       why_person: { text: project.why_person.text, profile_quote: project.why_person.resume_quote || null },
       atlas_skills: project.atlas_skills.slice(), classes: [], users: null,
-      sources: [{ title: "Your skill tree", url: "#/map/tree", read: date || null }],
+      sources: [{ title: "Your skills", url: "#/map/tree", read: date || null }],
     };
   }
   const isSide = c => !!c && c.kind === "side_project";

@@ -68,7 +68,7 @@ test("the words: the open form finds projects for a portfolio; the skill tree is
   for (const old of ["Build my tree", "Get your skill tree", "Building your tree", "Sign in", "sign in"]) assert.ok(!words.includes(old), old);
   const form = src.slice(src.indexOf("async function openForm("), src.indexOf("async function drawOpenNext"));
   assert.ok(!/T\.build\b|T\.building\b|signin/.test(form), "the form draws none of the signed-in form's build words and no sign-in");
-  assert.equal(Copy.map.tree.build, "Build my tree", "the signed-in form keeps its own words");
+  assert.equal(Copy.map.tree.build, "Compare my skills", "the signed-in form keeps its own words");
 });
 
 test("the answers leave with the résumé: writeOpen sends tech, tools and accounts as /api/open takes them", () => {

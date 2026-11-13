@@ -3875,6 +3875,27 @@ Checked: the web tests, the copy eval, and the open tree, map, quests, chrome, d
 a local browser with `/api/open` stubbed. Not checked: Opus writing projects with tools and accounts from the open form
 (the function does not run on the local server).
 
+## The tree is a comparison and a path, in words (`feat/skills-compare-copy`, 2026-11-12)
+
+The owner: "'Get your tree' doesn't make sense. Let's make it more about seeing how people's existing skills compare
+and giving them a path for progression to build it." A wording change in `web/copy.js` only (and the one source title
+a side-project card carries in `web/quests.js`); no route, key, flag or behaviour changed.
+
+- **The rule**: where the site offers "your tree" as the thing a person gets, it now says what it does: how the skills
+  they have compare with what their roles ask for, and a path to build the rest. "Tree" stays only where it names the
+  picture: the Tree · List toggle, the trunk-and-branches caption, the drawing's aria name, "They sit off the tree",
+  the print note. Internal names (`#/map/tree`, `open.tree`, `get_tree`, `Copy.map.tree`, function names, comments)
+  stay.
+- **The path promised is what the page draws**: each skill's state (shows, shows in other words, evidence better,
+  build), the senior mark, and the projects or quests aimed at the skills to build. No order, level or length of time.
+- **Words**: the fit screen's card "See how your skills compare" / "Compare my skills →"; the page "How your skills
+  compare" (tab and crumb "Your skills"); the signed-in form "Compare your skills" / "Compare my skills" / "Comparing
+  your skills…", and on the page "Compared with your résumé on … Compare again". The home card and top bar "Build
+  skills" are unchanged.
+
+Checked: the web tests, the copy eval (baseline unchanged), and the map, open tree, quests, chrome, keyboard, phone,
+resume and smoke specs.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
