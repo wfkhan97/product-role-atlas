@@ -232,27 +232,26 @@ test("Build skills: the top bar shows it after Explore careers for a session, ma
 // The invited path, with the open tree off in the page (2026-11-11: OPEN_TREE_ENABLED is on in web/config.js, and with
 // it #/map with no session is the open tree's form, tests/ui/open_tree.spec.mjs). These three keep the flag-off rule.
 const OPEN_OFF = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) c.OPEN_TREE_ENABLED = false; } }); };
-test("Build skills: a visitor with no session sees Build skills in the top bar; it leads to the sign-in, and the launcher keeps the invite line", async ({ visitor }) => {
+test("Build skills: a visitor with no session sees Build skills in the top bar; it leads to the sign-in, and the launcher draws no sign-in line", async ({ visitor }) => {
   const page = await visitor.open({ storage: { "door.email": "someone@example.com", "door.where": "", "door.seen": "1" } });
   await page.context().addInitScript(OPEN_OFF);
   await page.goto("/#/skills");
   await page.locator("#lf-body").waitFor();
   await expect(page.locator("#verbs a.toplink[data-verb]")).toHaveText([BAR.jobs, BAR.skills, BAR.build, BAR.network]);
-  await expect(page.locator("#main .lf-slot")).toContainText(MC.invite);
+  await expect(page.locator("#main .lf-slot")).toHaveCount(0);
   await page.click("#verbs a[href='#/map']");
   await expect.poll(() => hashOf(page)).toBe("#/signin?next=" + encodeURIComponent("#/map"));
   await expect(page.locator("#main")).toContainText(Copy.signin.mapLine);
 });
 
-test("The welcome screen tells an invited person where to sign in", async ({ visitor }, info) => {
+// 2026-11-12: the welcome screen's "Invited to Build skills?" line is gone (no visible sign-in while accounts are off)
+test("The welcome screen draws no sign-in line", async ({ visitor }, info) => {
   const page = await visitor.open({ storage: {} });
   await page.goto("/#/home");
-  const line = page.locator("#door-invited");
-  await expect(line).toContainText(Copy.door.invited);
-  await shot(page, "welcome-invited", info);
-  await line.locator("a").click();
-  await expect.poll(() => hashOf(page)).toBe("#/signin?next=" + encodeURIComponent("#/map"));
-  await page.locator("#main #si").waitFor();
+  await page.locator("#main section.door").waitFor();
+  await expect(page.locator("#door-invited")).toHaveCount(0);
+  await expect(page.locator('#main a[href^="#/signin"]')).toHaveCount(0);
+  await shot(page, "welcome", info);
 });
 
 test("Build skills: no session goes to the sign-in with the map's page as next, so it comes back there", async ({ visitor }) => {

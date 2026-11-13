@@ -106,9 +106,6 @@
     // addresses that open Find classes; no line when no campus has one
     school: "A {schools} email also opens Find classes.",
     button: "Continue", skip: "Skip for now",
-    // an invited person meets this screen first and it is not the way in (2026-11-11); the door's copy never says
-    // "sign in" (tests/web/door.test.mjs), so the link names the invite
-    invited: "Invited to Build skills?", invitedLink: "Open it with your invite →",
     privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
 
@@ -969,8 +966,6 @@
     waiting: "We are writing your map. It opens here when it is ready.",
     only: "Only you can open it.",
     signOut: "Sign out",
-    invite: "Have an invite to Build skills, your private quests and skill tree?",
-    inviteLink: "Sign in.",
     // the self-serve tree (step 4, 2026-11-05): the form on #/map for a signed-in person with no map, and the line
     // under a map the site built
     tree: {
@@ -1002,24 +997,48 @@
     // the open tree (2026-11-11, behind CONFIG.OPEN_TREE_ENABLED): the form for a visitor with no session, the line
     // under their tree, the two projects (web/preview.js: a title and a line each, never a plan or a length of time)
     // and the booking card (drawn only when CONFIG.BOOKING_TALLY holds a form id). The price is the owner's.
+    // Since 2026-11-12 the form asks one question per screen (#/map/find/<step>, app.js openForm): it finds projects
+    // for a portfolio, and the skill tree is what they come from. Steps c to e reuse flow.tech, flow.tools and
+    // flow.accounts; the rest is here.
     open: {
-      heading: "Get your skill tree",
-      lead: "Give us your email, add your résumé and pick the roles you want. Your tree shows every skill those roles ask for and how your résumé reads for each.",
+      heading: "Find projects for your portfolio",
+      lead: "A few questions, one per screen. We pick projects from what your target roles ask for and what your résumé shows.",
+      roles: {
+        title: "Which roles are you aiming at?",
+        lead: "Pick one to four roles of one field. Your projects aim at the first one.",
+        browse: "Or browse by field",
+        browseAria: "Fields",
+        fieldRoles: "Roles in {field}",
+        noRole: "Pick a role to go on.",
+      },
+      resume: {
+        title: "Your résumé",
+        lead: "Your projects build on what it already shows.",
+        posting: "Add a posting you have in mind (optional)",
+        noResume: "Add your résumé to go on.",
+      },
+      noTech: "Pick the one closest to you to go on.",
+      last: {
+        title: "Last, your email",
+        goThere: "Go to that step",
+      },
       email: "Your email",
       emailHint: "you@school.edu",
-      badEmail: "Enter your email first.",
+      badEmail: "Enter your email to go on.",
       keeps: "Your email reaches us. Your tree stays in this browser.",
       // with the build quests on (CONFIG.OPEN_QUESTS_ENABLED; web/api/open.js): the résumé goes once to the model
-      keepsQuests: "Your email reaches us. Our AI reads your résumé once to write your quests. We keep neither. Your tree and quests stay in this browser.",
-      pickTech: "Pick one (optional)",
-      questsHeading: "Your build quests",
-      questsLead: "Projects written for your résumé and these roles. Open one to see its steps.",
-      writing: "Writing your build quests from your résumé and your tree. Keep this page open while we write.",
-      questsLimited: "We reached today's limit on new quests. Come back tomorrow for yours.",
-      questsFailed: "We could not write your quests just now.",
+      keepsQuests: "Your email reaches us. Our AI reads your résumé once to write your projects. We keep neither. Your projects stay in this browser.",
+      find: "Find my projects",
+      finding: "Finding your projects…",
+      failed: "We could not find your projects just now. Try again in a minute.",
+      questsHeading: "Your projects",
+      questsLead: "Written for your résumé and these roles. Open one to see its steps.",
+      writing: "Writing your projects from your résumé and your roles. Keep this page open while we write.",
+      questsLimited: "We reached today's limit on new projects. Come back tomorrow for yours.",
+      questsFailed: "We could not write your projects just now.",
       retry: "Try again",
-      kept: "Your tree lives in this browser only.", keptQuests: "Your tree and quests live in this browser only.",
-      postingHint: "Paste its text. Your tree marks the skills it names.",
+      kept: "Your tree lives in this browser only.", keptQuests: "Your projects and tree live in this browser only.",
+      postingHint: "Paste its text. Your projects lean toward the skills it names.",
       forget: "Forget it",
       previewHeading: "Two projects you could build",
       previewOne: "A project you could build",

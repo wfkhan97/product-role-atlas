@@ -221,8 +221,8 @@ and evals run the code the site runs.
   so a click on the door's own chrome counts as Skip), `You` (`You.back`: a `next` is a hash of this site, never the
   sign-in; the résumé step returns to it), `FitCounts` (the rail's "N of M" and the fit screen's lists from one fit),
   `CourseCore`, `Crumbs` (one breadcrumb rule: the section as the top bar names it, then the screen; Build skills is
-  the section `build` at `#/map`), `Theme`,
-  `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
+  the section `build` at `#/map`), `Theme`, `OpenFlow` (the open form's steps, its stored answers, what a step lacks,
+  the fit screen's role put first), `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
   screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
   one drop zone with a real "choose a file" button (a chosen résumé of 40 words or more is kept at once; each
   screen passes the step that follows to `wireResumeForm`). `route()` calls `Guide.after` once a screen draws (the feedback
@@ -290,7 +290,8 @@ and evals run the code the site runs.
   the role's shows in `data/standards.json` ranked by the tree's unshown skills, then from the tree's own artifact
   skills; `hasDuration` keeps out any line that states a length of time; `bookingHref` builds the Tally link from
   `BOOKING_TALLY`. No model, no network.
-- `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`) and of
+- `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`, whose steps c
+  to e the open form `openForm` shares through `stepFrame`, `techStep`, `toolsStep`, `accountsStep`) and of
   `/api/quests`: the answers' lists and what they allow (`allowedKinds`, `allowedHosts`, `dbAllowed`), the class tree
   the projects aim at (`treeOf`), the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint
   after the kit, `personBlock` the person's material, `request`, `SCHEMA`), `validate` (every rule by id in `RULES`;
@@ -300,7 +301,8 @@ and evals run the code the site runs.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
-- `api/open.js` — the open tree's build quests with no session (README, "Hosting"): `checkInput`, `count` (the
+- `api/open.js` — the open tree's build quests with no session (README, "Hosting"): `checkInput` (with
+  `answersOf`: the answers cleaned by `Quests.cleanAnswers`, a bare `tech` taken from an older page), `count` (the
   three daily caps as counts under `open/` in the `maps` bucket, hashed names), then `tree.js` `buildMap` and
   `quests.js` `write`. It adds no prompt and no rule of its own.
 - `api/infer.js`, `api/tree.js`, `api/quests.js` — the other three functions (README, "Hosting"). `quests.js` authenticates

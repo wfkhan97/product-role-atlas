@@ -77,10 +77,12 @@ test("sign-in: one line says what the map is; a refused send shows a way to ask 
   await expect(page.locator("#fb-box")).toContainText(Copy.feedback.inviteLead);
 });
 
-test("the launcher's invite line says what the invite is for", async ({ visitor }) => {
+// 2026-11-12: the launcher's "Have an invite…? Sign in." is gone; the sign-in opens by its address only
+test("the launcher draws no sign-in line", async ({ visitor }) => {
   const page = await visit(visitor, { hash: "#/skills" });
-  await expect(page.locator("#main .lf-slot")).toContainText(Copy.map.invite);
-  expect(Copy.map.invite).toMatch(/Build skills/);
+  await page.locator("#lf-body").waitFor();
+  await expect(page.locator("#main .lf-slot")).toHaveCount(0);
+  await expect(page.locator('#main a[href^="#/signin"]')).toHaveCount(0);
 });
 
 // with the open tree off in the page (on in web/config.js since 2026-11-11: tests/ui/open_tree.spec.mjs has the on case)

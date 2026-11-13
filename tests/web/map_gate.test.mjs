@@ -262,7 +262,8 @@ test("decision K (2026-11-10): Explore careers never sends a map owner to the ma
   const launcher = src.slice(src.indexOf("async function skillsScreen()"), src.indexOf("let mapHeld = null"));
   assert.ok(!/toHash\("#\/map/.test(launcher), "no redirect to the map");
   assert.ok(!/mapGate\(\)/.test(launcher) && !/\ball\b === "1"|query\.all/.test(launcher), "no gate read and no ?all=1");
-  assert.match(launcher, /const slot = mapsOn\(\) && !accountsOn\(\) && !Auth\.stored\(\) \?/, "the invite line: only for a person who sees no Build skills");
+  // 2026-11-12: no sign-in line on the launcher (the owner: "remove the sign-in option from being visible")
+  assert.ok(!/lf-slot|signinHash/.test(launcher), "no invite line and no link to the sign-in");
   const bar = src.slice(src.indexOf("function topBar(name)"), src.indexOf("function markVerb"));
   assert.match(bar, /Door\.withBuild\(Door\.verbs\([^;]*\.filter\(v => v\.open\), buildBar\(\)\)/);
   // home draws the same entry as a card (owner, 2026-11-11), with the invite line for a visitor who cannot sign in yet
@@ -285,7 +286,7 @@ test("config.js turns the maps on; index.html loads auth.js after capture.js and
 
 test("the copy: every string the two screens and the launcher's slot draw is in Copy.signin and Copy.map", () => {
   for (const k of ["heading", "lead", "email", "emailPlaceholder", "button", "sent", "sentTo", "refused", "failed", "expired", "note", "explore"]) assert.ok(Copy.signin[k], `signin.${k}`);
-  for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "invite", "inviteLink", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
+  for (const k of ["questsTitle", "treeTitle", "roleAt", "band", "levelHead", "waiting", "signOut"]) assert.ok(Copy.map[k], `map.${k}`);
   for (const k of ["firstHeading", "firstLead"]) assert.ok(Copy.map.tree[k], `map.tree.${k}`);
   assert.equal(Copy.signin.sent, "Check your email for a six-digit code. It works once.");
   // 2026-11-11: the email leads with a code, so the invited page asks for one; the link in it still works
@@ -293,8 +294,8 @@ test("the copy: every string the two screens and the launcher's slot draw is in 
   assert.match(fs.readFileSync(path.join(web, "app.js"), "utf8"), /id="si-codeform"[\s\S]{0,1200}Auth\.verifyCode\(email/);
   // decision K (2026-11-10): the top bar's Build skills does the job of the map's own links to the launcher and back
   for (const k of ["others", "back", "crumb"]) assert.ok(!(k in Copy.map), `map.${k} is gone`);
-  // B-33, the launcher's "Have an invite? Sign in." read to every visitor: it says what the invite is for
-  assert.equal(`${Copy.map.invite} ${Copy.map.inviteLink}`, "Have an invite to Build skills, your private quests and skill tree? Sign in.");
+  // B-33's line, "Have an invite to Build skills…? Sign in.", is gone with the other visible sign-in lines (2026-11-12)
+  for (const k of ["invite", "inviteLink"]) assert.ok(!(k in Copy.map), `map.${k} is gone`);
   // C-02, the sign-in gave a visitor without an invite no way forward: what the map is, and a way to ask
   for (const k of ["mapLine", "askInvite", "rateLimited", "rateWait", "serviceFailed"]) assert.ok(Copy.signin[k], `signin.${k}`);
   assert.match(Copy.signin.mapLine, /invite/);
@@ -322,9 +323,13 @@ test("readFeedback: a story card's file under its hyphen name, and an object tha
   await assert.rejects(makeAuth(() => reply(200, {})).A.readFeedback(S, "../x"), /card id/, "a bad id rejects, never throws");
 });
 
-test("2026-11-11: an invited person finds the way in before a session: the top bar for every visitor, and a line on the welcome screen", () => {
+test("2026-11-12: no sign-in shows with accounts off: not on the welcome screen, the launcher or under the open form; #/signin stays by its address", () => {
   const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
-  assert.match(src, /const buildBar = \(\) => treeOn\(\);/);
-  assert.match(src, /id="door-invited">\$\{esc\(C\.invited\)\} <a href="\$\{esc\(MapGate\.signinHash\("#\/map"\)\)\}"/);
-  assert.ok(Copy.door.invited && Copy.door.invitedLink);
+  assert.match(src, /const buildBar = \(\) => treeOn\(\);/, "Build skills in the top bar for every visitor");
+  assert.ok(!/door-invited|lf-slot/.test(src), "the door's line and the launcher's slot are gone");
+  for (const k of ["invited", "invitedLink"]) assert.ok(!(k in Copy.door), `door.${k} is gone`);
+  const open = src.slice(src.indexOf("async function openScreen()"), src.indexOf("async function drawOpenNext"));
+  assert.ok(!/signinHash|signin/.test(open), "the open form names no sign-in");
+  assert.match(src, /signin: "signin"/, "the route table still has #/signin");
+  assert.match(src, /async function signinScreen|function signinScreen/, "and its screen");
 });

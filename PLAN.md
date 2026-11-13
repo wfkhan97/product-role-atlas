@@ -3834,6 +3834,47 @@ its processing state, and the line about a file not kept stays until the screen 
 forms keep their file for their own button, in their own closure. With accounts on and no session the zone is still
 the sign-in's door; Next on About you no longer sends to the sign-in when no file was chosen.
 
+## The open form asks one question per screen and finds projects (`feat/open-tree-steps`, 2026-11-12)
+
+The owner: "improve the experience for asking questions to generate the projects"; the form "shouldn't say 'Build my
+tree' because that makes no sense, it's about finding projects for your portfolio"; "remove the sign-in option from
+being visible". The open form was one long page (email first, then résumé, field, role, more roles, a posting, an
+optional "how technical", "Build my tree"). Decisions:
+
+- **One question per screen at `#/map/find/<step>`**: the roles, the résumé, how technical, the kinds of AI tools,
+  the accounts, then the email with the privacy line and "Find my projects". With `OPEN_QUESTS_ENABLED` off the three
+  middle steps are left out: they only steer the model. A path of its own, not `#/map/start`, so `#/map/start` with no
+  session still comes back to a held tree, and `?build=1` (the tree's "Build it again", the fit screen's link) opens
+  step one over it. Each step is pushed as an address (browser Back is one step back); the answers live in
+  `open.flow`, so a reload keeps both; an address past an unanswered step lands on that step (`Routes.OpenFlow`).
+- **The look and steps c to e are the side-project flow's**, shared rather than copied (`stepFrame`, `techStep`,
+  `toolsStep`, `accountsStep`, `roleIndex`, `roleHits`); "Start a side project" keeps its own steps and copy. How
+  technical moves on by itself; tools and accounts read "Skip this" until something is marked. The open form adds the
+  form's heading above each question (the question is the step's h2, focused after a step change).
+- **Roles for a stranger**: the type-ahead and, under it, the fields as chips; a field shows its roles as toggle chips.
+  One to four of one field (the MBA fields and Product, as before), the first is the one the projects aim at; a role of
+  another field says why. `?role=` puts the named role first.
+- **Never a dead button**: Next is always pressable; with something missing it says what beside itself. The final
+  button checks every step and offers the way back to the one that lacks an answer.
+- **The answers reach the model**: `/api/open` takes `answers: { tech, tools, accounts }`, cleaned by
+  `Quests.cleanAnswers` over the kit as `/api/quests` does, and still a bare `tech` from an older page. The held tree
+  keeps them, so the next day's automatic ask sends them again. `evals/quests_baseline.md` stands: the prompt and the
+  generator are unchanged, and answers only narrow what passes.
+- **The projects first**: on the open tree's page the slot for the writing line, the projects (or the two no-model
+  ones) and the booking card now sits above the tree, so they are what the visitor sees after the last step. On the
+  Quests page the slot (the booking card) still follows the quest.
+- **No visible sign-in with accounts off**: the door's "Invited to Build skills?", the launcher's "Have an invite…?
+  Sign in." and the same line under the open form are gone with their copy. `#/signin` works by its address; the
+  gates with `ACCOUNTS_ENABLED` on are unchanged.
+- **Words**: "Find projects for your portfolio", "Find my projects", "Finding your projects…"; the writing line and the
+  quests' heading say projects. Left as they are, since they are not this form's own: the home card and top bar
+  "Build skills", the fit screen's "Get your tree" card, the tree page's "Built from your résumé on … Build it again",
+  the signed-in form's "Build my tree", the booking card's heading.
+
+Checked: the web tests, the copy eval, and the open tree, map, quests, chrome, door, smoke, keyboard and phone specs in
+a local browser with `/api/open` stubbed. Not checked: Opus writing projects with tools and accounts from the open form
+(the function does not run on the local server).
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
