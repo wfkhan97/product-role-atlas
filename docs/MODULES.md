@@ -86,7 +86,10 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 
 - `pipeline/scrape.py`, `extract.py`, `build_graph.py` — the three stages. Scrape and extract share one path: title
   filter, cleaning, repost and repeated-URL dedupe, tagging in worker processes, evidence sentences per skill and
-  level. Build_graph carries each posting's board date as `posted` (`posted_day`: YYYY-MM-DD from each board's
+  level. Extract keeps what each skill's patterns find in each text (`TextCache`,
+  `data/experiments/extract_cache_<set>.json.gz`, in the caches store): a changed pattern reads that skill again, a
+  change to the tagging code (`code_hash`) reads everything again, and the file is written every ten minutes so a
+  stopped run leaves its work. Build_graph carries each posting's board date as `posted` (`posted_day`: YYYY-MM-DD from each board's
   shape, null when unreadable or not between 2000 and today), computes shares (company-balanced for the MBA set: `pipeline/balance.py`, one employer at most
   5% of a role), levels per ladder, the axis positions, and writes the index plus one file per role.
 - `data/raw/jobs*/` — the backlog, one file per employer, not in git. A refresh never drops a posting: one still shown

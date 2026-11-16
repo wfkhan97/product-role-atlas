@@ -159,26 +159,108 @@ def test_postings_keeps_the_row_seen_last_when_two_raw_files_hold_one_requisitio
     assert [(j["title"], j.get("last_seen")) for _, _, j, _, _ in rows] == [("Sr. Program Manager - Network Switching", "2026-10-18")]
 
 
+CACHED = ("You will own the roadmap and run A/B tests with SQL. Build financial models in Excel and present to the "
+          "board. 5+ years of product management experience required. Stakeholder management across teams.")
+
+
+def _cached_item(cached=None):
+    j = {"title": "Senior Product Manager", "description": CACHED, "url": "https://x/1", "external_id": "1",
+         "location": "New York, NY", "first_seen": "2026-10-01", "last_seen": "2026-10-28"}
+    return ("mba", "Acme", {"group": "g", "industry": "Software"}, j, "product", CACHED, cached)
+
+
 def test_a_cached_text_tags_the_same_as_a_fresh_one(tmp_path):
     """E.TextCache: a posting tagged from its cache entry gives the same row and evidence as one tagged fresh,
-    and a cache file with another fingerprint is not read."""
+    and a cache file written by other code is not read."""
     import json as _json
-    cleaned = ("You will own the roadmap and run A/B tests with SQL. Build financial models in Excel and present to the "
-               "board. 5+ years of product management experience required. Stakeholder management across teams.")
-    j = {"title": "Senior Product Manager", "description": cleaned, "url": "https://x/1", "external_id": "1",
-         "location": "New York, NY", "first_seen": "2026-10-01", "last_seen": "2026-10-28"}
-    r = {"group": "g", "industry": "Software"}
-    fresh = E.tag_posting(("mba", "Acme", r, j, "product", cleaned, None))
-    assert fresh[3] is not None and fresh[3]["marks"], "a fresh tag returns its text_tags for the cache"
-    cached = E.tag_posting(("mba", "Acme", r, j, "product", cleaned, _json.loads(_json.dumps(fresh[3]))))
+    fresh = E.tag_posting(_cached_item())
+    assert fresh[3] is not None and fresh[3]["k"], "a fresh tag returns its text_parts for the cache"
+    assert fresh[0]["skills"] and fresh[1], "the text tags skills and gives evidence sentences"
+    cached = E.tag_posting(_cached_item((_json.loads(_json.dumps(fresh[3])), None)))
     assert cached[:3] == fresh[:3] and cached[3] is None
-    c = E.TextCache("mba", path=str(tmp_path / "c.json.gz"))
-    c.entries["k"] = fresh[3]
+    path = str(tmp_path / "c.json.gz")
+    c = E.TextCache("mba", path=path)
+    c.put("k", fresh[3])
+    c.save(["k", "never tagged"])
+    again = E.TextCache("mba", path=path)
+    assert again.entries == {"k": fresh[3]} and again.get("k") == (fresh[3], None) and again.get("other") is None
+    c.code = "another"
     c.save(["k"])
-    assert E.TextCache("mba", path=str(tmp_path / "c.json.gz")).entries == {"k": fresh[3]}
-    c.fingerprint = "another"
+    assert E.TextCache("mba", path=path).entries == {}
+
+
+def _reword(monkeypatch, sid, patterns):
+    """The taxonomy with one skill's patterns changed, as a later run of the module would load it."""
+    skills = [dict(s, patterns=patterns) if s["id"] == sid else s for s in E.TAX["skills"]]
+    monkeypatch.setattr(E, "TAX", {**E.TAX, "skills": skills})
+    monkeypatch.setattr(E, "_SKILLS_FOR", {})
+    monkeypatch.setattr(E, "SKILL_RX", {**E.SKILL_RX, sid: re.compile("|".join(f"(?:{p})" for p in patterns), re.I)})
+
+
+def test_a_changed_pattern_reads_that_skill_again_and_no_other(tmp_path, monkeypatch):
+    """A taxonomy change keeps the cache: the entry is behind by the changed skill, which alone is read again."""
+    path = str(tmp_path / "c.json.gz")
+    c = E.TextCache("mba", path=path)
+    part = E.text_parts("mba", "Senior Product Manager", CACHED)
+    assert "sql" in part["k"] and "stakeholder_mgmt" in part["k"]
+    # a mark no pattern would give: if it is still there after the change, the skill was not read again
+    part["k"]["stakeholder_mgmt"] = [7, part["k"]["stakeholder_mgmt"][1]]
+    c.put("k", part)
     c.save(["k"])
-    assert E.TextCache("mba", path=str(tmp_path / "c.json.gz")).entries == {}
+    _reword(monkeypatch, "sql", ["zzz no posting says this"])
+    later = E.TextCache("mba", path=path)
+    old, gen = later.get("k")
+    assert gen == 0 and later.redo[0][0] == {"sql"} and later.fingerprint != c.fingerprint
+    assert all(E.SUB_RE[s][0] == "sql" for s in later.redo[0][1]), "only the sub-skills under the changed skill"
+    monkeypatch.setattr(E, "_REDO", later.redo)
+    job, _, _, new = E.tag_posting(_cached_item((old, gen)))
+    assert "sql" not in job["skills"] and job["skills"]["stakeholder_mgmt"] == 7
+    assert new is not None and "sql" not in new["k"], "the parts come back for the cache, up to date"
+    fresh = E.text_parts("mba", "Senior Product Manager", CACHED)
+    assert {k: v for k, v in new["k"].items() if k != "stakeholder_mgmt"} == {k: v for k, v in fresh["k"].items() if k != "stakeholder_mgmt"}
+    later.put("k", new)
+    later.save(["k"])
+    assert E.TextCache("mba", path=path).get("k") == (new, None)
+
+
+def test_a_save_during_the_run_keeps_what_is_not_reached_yet(tmp_path, monkeypatch):
+    """TextCache.save() with no list: the entries brought up to date and the ones still behind are both kept, each
+    under the patterns it was read with, so a run that is stopped leaves the next one both."""
+    path = str(tmp_path / "c.json.gz")
+    c = E.TextCache("mba", path=path)
+    part = E.text_parts("mba", "Senior Product Manager", CACHED)
+    c.put("reached", part)
+    c.put("not reached", part)
+    c.save(["reached", "not reached"])
+    _reword(monkeypatch, "sql", ["zzz no posting says this"])
+    run = E.TextCache("mba", path=path)
+    assert run.behind == {"reached": 0, "not reached": 0}
+    run.put("reached", E.text_parts("mba", "Senior Product Manager", CACHED, part, run.redo[0]))
+    run.put("new text", E.text_parts("mba", "Senior Product Manager", CACHED))
+    run.save()
+    nxt = E.TextCache("mba", path=path)
+    assert nxt.behind == {"not reached": 0} and nxt.redo == run.redo
+    assert nxt.get("reached")[1] is None and nxt.get("new text")[1] is None and nxt.get("not reached") == (part, 0)
+
+
+def test_the_code_hash_follows_what_tagging_runs_and_nothing_else(monkeypatch):
+    """E.code_hash: the sentence splitter is read by text_parts, the level table and the cleaner are not."""
+    before = E.code_hash()
+    monkeypatch.setattr(E, "LEVEL_GROUP", {**E.LEVEL_GROUP, "zz": "lead"})
+    monkeypatch.setattr(E, "ABOUT_RE", re.compile("zzz"))
+    assert E.code_hash() == before
+    monkeypatch.setattr(E, "SENT_RE", re.compile(r"\n+"))
+    assert E.code_hash() != before
+
+
+def test_parts_put_together_are_the_tags_in_the_taxonomy_order():
+    """E.assemble: hits in the role set's skill order with the years bucket last, marks by sentence then by skill."""
+    tags = E.text_tags("mba", "Senior Product Manager", CACHED)
+    order = [sid for sid, _ in E.skills_for("mba")]
+    ids = [sid for sid, _ in tags["hits"]]
+    assert ids[-1] == "yoe_5" and tags["yoe"] == 5
+    assert ids[:-1] == sorted(ids[:-1], key=order.index)
+    assert tags["marks"] == sorted(tags["marks"], key=lambda m: (m[0], ids.index(m[1])))
 
 
 def test_the_text_cache_survives_a_change_made_for_another_role_set(tmp_path, monkeypatch):
