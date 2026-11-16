@@ -218,8 +218,12 @@ jobs:
       - name: The text cache of the last extract
         run: python -m pipeline.store pull caches --only data/experiments/extract_cache_tech.json.gz || echo "no cache yet; tagging every text"
       - name: Extract
+        id: extract
         run: python -m pipeline.extract --roles tech
       - name: Keep the text cache for the next run
+        # also when the extract was stopped (the job's time limit) or failed: it writes the cache as it goes
+        # (pipeline.extract, CHECKPOINT_S), so the next run starts from the texts this one tagged
+        if: always() && steps.extract.conclusion != 'skipped'
         run: python -m pipeline.store push caches --only data/experiments/extract_cache_tech.json.gz
       - name: Build the graph and the extraction baseline
         run: |
