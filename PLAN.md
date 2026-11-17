@@ -3927,12 +3927,39 @@ Actions spending limit.) The owner: "can't we break them each into the smallest 
   limit a cold MBA extract now finishes over four scheduled runs on its own; one extract on a laptop and
   `pipeline.store push caches --only data/experiments/extract_cache_mba.json.gz` does it in one.
 
+## The scrape does not read a text it already holds (`feat/scrape-skip-known-details`, 2026-11-17)
+
+The second of the three changes. A refresh asked for the page of every listed posting: Workday shard 2 of the MBA run
+of 2026-11-15 made 15,469 such requests for 1,998 new postings, and in 44 Workday files of that day's snapshot 3,425
+of 3,924 open postings (87%) were already held from an earlier run, every one with a text and an id.
+
+- **The backlog answers first.** `scrape.run` hands the adapter the employer's open postings whose text was read
+  recently (`cfg["held"]`, `common.Held`, built by `scrape.fresh_texts`). Workday (by job path), Oracle and Apple (by
+  requisition id) and SuccessFactors (by URL) ask it before the posting's own request and return the stored posting
+  when the listing gives the same title. A changed title, a posting without a text and a count-only read go to the
+  site as before. `merge` is untouched: a posting returned as stored is seen today like any other.
+- **A text is read again about every four weeks.** `text_seen` is the day a posting's text was last read (a posting
+  from before this change counts from `last_seen`). It is due between half and one and a half times `REREAD_DAYS`
+  (28), at a point fixed by a hash of its key, so a board's re-reads spread over the weeks and do not all fall on one
+  run. `--reread-days N` changes it; 0 reads every text. The owner had not named a cadence: 28 is this thread's choice.
+  In three Workday boards read live on 2026-11-16, none of 166 held texts differed from the text stored a week before.
+- **What it saves, measured.** The same three boards, read with and without the held texts (nothing written):
+  posting requests 54 to 2, 74 to 2 and 45 to 1, the same postings both ways on two (the third lost listing pages to
+  429s in one of its reads). The seconds moved less: 717 to 689, 1,502 to 1,280, 1,218 to 996, because each of these
+  boards answers 117 to 123 searches whatever it holds (576 listing requests against 54 posting requests on the
+  first). The posting requests are about a fifth of a Workday shard's requests, so that fifth is what this removes
+  there; the listing is the larger cost and stays under Later. No scheduled run has used it yet: the first refresh
+  after the merge is the real measure (`texts not read again` in each employer's log line and in the totals).
+- **Not done.** Paradox lists without titles, so nothing can be matched before the request; Google has no request per
+  posting. Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters and Avature read a page per posting and could take
+  the same three lines each.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
-- **The scrape fetches only what is new** (2026-11-15, the second change after the text cache). A refresh reads the detail page of every listed posting: Workday shard 2 of the MBA run of 2026-11-15 fetched 15,469 details for 1,998 new postings. Skip the detail of a posting the backlog holds as open, in the adapters that list and then fetch one by one (Workday, Oracle, Apple, Google, Paradox), and re-read a known posting on a rotation so an edited description is not missed for good.
+- **The other adapters that read a page per posting** (Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters, Avature) ask the backlog first as Workday does (`common.Held`), once the first scheduled run shows what the change saved.
 - **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
 - **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).
 - **The tagger itself**: 0.3 s a posting for 283 patterns; time each pattern on a sample before splitting the extract across jobs.

@@ -1,6 +1,6 @@
 import re
 import time
-from .common import get, post, strip_html, job, SEARCH_QUERIES, listing_failed
+from .common import get, post, strip_html, job, SEARCH_QUERIES, listing_failed, held
 
 HDR = {"Accept": "application/json", "Content-Type": "application/json"}
 
@@ -9,7 +9,8 @@ def fetch(company, cfg, title_ok, max_pages=15):
     """A sampling role set (pipeline.scrape, the tech set) passes in cfg: max_pages (pages read per query),
     per_role (at most that many listing hits kept per value of title_ok, which then returns the role), keep_location
     (a test on the listing's location: a posting outside the set's country is never fetched) and count_only (return
-    the listing hits without fetching a detail page)."""
+    the listing hits without fetching a detail page). A listed posting the backlog holds under the same job path and
+    title, with a text read recently (cfg["held"], common.Held), is returned as stored: no detail request."""
     host, tenant, site = cfg["host"], cfg["tenant"], cfg["site"]
     base = f"https://{host}/wday/cxs/{tenant}/{site}"
     max_pages = cfg.get("max_pages", max_pages)
@@ -46,8 +47,12 @@ def fetch(company, cfg, title_ok, max_pages=15):
     if cfg.get("count_only"):
         return [job(company, p.get("title", ""), f"https://{host}/{site}{path}", "", location=p.get("locationsText", ""),
                     external_id=(p.get("bulletFields") or [None])[0]) for path, p in seen.items()]
-    out = []
+    out, known = [], held(cfg)
     for path, p in seen.items():
+        o = known.take(p.get("title"), path=path)
+        if o:
+            out.append(o)
+            continue
         r = get(f"{base}{path}", headers=HDR)
         if r.status_code != 200:
             continue

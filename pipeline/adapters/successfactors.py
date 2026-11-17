@@ -2,7 +2,7 @@
 import re
 import time
 from urllib.parse import quote, quote_plus
-from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed
+from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed, held
 
 LINK_RE = re.compile(r'<a[^>]+class="jobTitle-link[^"]*"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.S)
 DESC_RE = re.compile(r'<span[^>]+class="jobdescription"[^>]*>(.*?)</span>\s*<(?:/div|div|p|section|/section)', re.S)
@@ -39,9 +39,13 @@ def fetch(company, cfg, title_ok, max_pages=8):
                     title = strip_html(m.group(1)).strip(); href = m.group(2).strip()
                     if href not in seen and title_ok(title):
                         seen[href] = title
-    out = []
+    out, known = [], held(cfg)
     for href, title in seen.items():
         url = href if href.startswith("http") else f"https://{host}{href}"
+        o = known.take(title, url=url)  # held with a text read recently: the job page is not fetched
+        if o:
+            out.append(o)
+            continue
         r = get(url)
         if r.status_code != 200:
             continue
