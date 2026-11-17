@@ -1,6 +1,6 @@
 import re
 import time
-from .common import get, post, strip_html, job, listing_failed
+from .common import get, post, strip_html, job, listing_failed, held
 
 HDR = {"Content-Type": "application/json", "Accept": "application/json"}
 
@@ -24,8 +24,12 @@ def fetch(company, cfg, title_ok, max_pages=30):
             time.sleep(0.3)
         else:  # the page cap ended the search, not the results: what lies past it may be open
             listing_failed(f"apple: stopped at the page cap for {q!r}")
-    out = []
+    out, known = [], held(cfg)
     for pid, j in seen.items():
+        o = known.take(j.get("postingTitle"), external_id=pid)  # held with a text read recently: no detail request
+        if o:
+            out.append(o)
+            continue
         desc = None
         for url in (f"https://jobs.apple.com/api/v1/jobDetails/{pid}?locale=en-us",):
             r = get(url, headers=HDR)

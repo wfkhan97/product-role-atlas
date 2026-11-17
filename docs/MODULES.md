@@ -149,7 +149,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 - `pipeline/adapters/` — one module per ATS (27: Greenhouse, Lever, Ashby, Workday, Eightfold, Phenom, Oracle HCM,
   SmartRecruiters, SuccessFactors, iCIMS, Avature, Jibe, Radancy, Paradox, Amazon, Apple, Google, Meta, McKinsey,
   KPMG, Goldman Sachs, Bank of America, a JSON-LD reader, and others); `common.py` holds the session, the retry loop
-  and `strip_html`. `talnet.py` reads tal.net (Oleeo) boards from
+  and `strip_html`, and `Held`: the open postings of an employer's backlog whose text was read recently
+  (`scrape.fresh_texts`, `REREAD_DAYS`), which Workday, Oracle HCM, SuccessFactors and Apple ask before the one
+  request a posting costs, so a refresh reads the text of new, retitled and due postings only. `talnet.py` reads tal.net (Oleeo) boards from
   the public Atom feed (`…/candidate/jobboard/vacancy/<n>/feed/structured`); a firm names its boards in the config
   (`{"host": "lek.tal.net", "boards": [{"name", "path", "vacancy"}]}`); a board behind a captcha returns nothing and
   says so. `yello.py` reads Yello (recsolu.com) boards: the search URL from the board page, 25 cards a page, then each
