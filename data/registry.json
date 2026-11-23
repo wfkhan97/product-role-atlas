@@ -12986,7 +12986,7 @@
   "investor": "a16z",
   "ats": "ashby",
   "config": {
-   "board": "favorited"
+   "board": "fav"
   },
   "verified": true,
   "pm_postings": 1,
@@ -17474,7 +17474,7 @@
  {
   "company": "ClassPass",
   "group": "startup",
-  "ats": "greenhouse",
+  "ats": "ashby",
   "config": {
    "board": "classpass"
   },
@@ -20801,7 +20801,7 @@
   "group": "startup",
   "ats": "ashby",
   "config": {
-   "board": "beaconsoftware"
+   "board": "beaconholdings"
   },
   "verified": true,
   "pm_postings": 3,
@@ -21109,7 +21109,7 @@
  {
   "company": "Helsing",
   "group": "startup",
-  "ats": "ashby",
+  "ats": "greenhouse",
   "config": {
    "board": "helsing"
   },
@@ -25967,7 +25967,7 @@
  {
   "company": "Tavily",
   "group": "startup",
-  "ats": "ashby",
+  "ats": "greenhouse",
   "config": {
    "board": "tavily"
   },
@@ -28931,7 +28931,7 @@
  {
   "company": "Parloa",
   "group": "startup",
-  "ats": "greenhouse",
+  "ats": "ashby",
   "config": {
    "board": "parloa"
   },

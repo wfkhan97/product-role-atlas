@@ -3896,11 +3896,22 @@ a side-project card carries in `web/quests.js`); no route, key, flag or behaviou
 Checked: the web tests, the copy eval (baseline unchanged), and the map, open tree, quests, chrome, keyboard, phone,
 resume and smoke specs.
 
+## Six employers moved their boards (`fix/dead-board-addresses`, 2026-11-22)
+
+The MBA refresh of 2026-11-15 logged eleven employers whose board answered 404, every week since the board moved. Six
+have a new address, found on the employer's own careers page or under the same name at another vendor, and each was
+read through its adapter on 2026-11-22: ClassPass and Parloa (Greenhouse to Ashby, same name), Helsing and Tavily
+(Ashby to Greenhouse, same name), favorited (Ashby `fav`), Beacon Software (Ashby `beaconholdings`; the source row
+"Beacon" shares the board and moves with it). The change is in the source files (`registry_startups.json`,
+`registry_a16z.json`, the `startup_boards.json` cache) and `pipeline.merge_registry` gives the committed
+`data/registry.json`. The postings held under the old boards close by absence at the next refresh, as they should.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
+- **Five employers with no board the scrape can read** (2026-11-22): Riot is on Workable and Hilbert on Rippling (no adapter for either); no board was found for Nothing, Corridor or Formation. Each logs one error a refresh and closes nothing, so its held postings stay open: decide between an adapter and marking the row unverified, after checking what extract does with a file whose employer left the registry.
 - **The Product field for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle the product set for `api/tree.js`, pass `true` to `treeRoles`, and add a product case to `evals/quests.mjs`. Tech roles after that.
 
 **The owner's items**
