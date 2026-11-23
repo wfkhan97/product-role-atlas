@@ -123,3 +123,32 @@ def test_shards_split_a_family_into_disjoint_parts_that_cover_it():
     import pytest
     with pytest.raises(ValueError):
         scrape.shard(entries, "4/3")
+
+
+def test_a_posting_returned_as_stored_is_seen_today_and_keeps_the_day_its_text_was_read(tmp_path, monkeypatch):
+    path = tmp_path / "data" / "raw" / "jobs" / "acme.json"
+    path.parent.mkdir(parents=True)
+    old = [{"company": "Acme", "title": f"Product Manager {k}", "url": f"https://x/{k}", "external_id": k,
+            "description": f"text {k}", "first_seen": "2026-10-01", "last_seen": scrape.time.strftime("%Y-%m-%d")} for k in "ab"]
+    old[1]["title"] = "Product Manager, retitled since"
+    path.write_text(json.dumps({"company": "Acme", "scraped_at": "2026-10-20T00:00:00", "jobs": old}))
+    asked = []
+
+    def adapter(name, cfg, ok):
+        out = []
+        for k in "abc":
+            o = common.held(cfg).take(f"Product Manager {k}", external_id=k)
+            asked.append(k) if o is None else None
+            out.append(o or common.job("Acme", f"Product Manager {k}", f"https://x/{k}", f"read {k}", external_id=k))
+        return out
+    today = scrape.time.strftime("%Y-%m-%d")
+    monkeypatch.setattr(scrape, "text_due", lambda key, read, today, days: False)
+    jobs = {j["external_id"]: j for j in _run(tmp_path, monkeypatch, adapter)["jobs"]}
+    assert asked == ["b", "c"], "a is held; b was retitled on the board and c is new"
+    assert jobs["a"]["description"] == "text a" and jobs["a"]["last_seen"] == today and jobs["a"]["first_seen"] == "2026-10-01"
+    assert jobs["b"]["description"] == "read b" and jobs["b"]["title"] == "Product Manager b" and jobs["b"]["text_seen"] == today
+    assert jobs["c"]["text_seen"] == today and not any(j.get("closed") for j in jobs.values())
+    asked.clear()
+    monkeypatch.setattr(sys, "argv", ["scrape", "--refresh", "--no-db", "--only", "Acme", "--workers", "1", "--reread-days", "0"])
+    scrape.main()
+    assert asked == ["a", "b", "c"], "--reread-days 0 reads every text"

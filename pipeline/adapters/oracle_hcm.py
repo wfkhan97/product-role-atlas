@@ -1,7 +1,7 @@
 import time
 from datetime import datetime, timezone
 from urllib.parse import quote
-from .common import get, strip_html, job, listing_failed, SEARCH_QUERIES
+from .common import get, strip_html, job, listing_failed, held, SEARCH_QUERIES
 
 HDR = {"Accept": "application/json"}
 
@@ -36,8 +36,12 @@ def fetch(company, cfg, title_ok, max_pages=8):
             time.sleep(0.3)
         else:  # the page cap ended the search, not the results: what lies past it may be open
             listing_failed(f"oracle_hcm: stopped at the page cap for {q!r}")
-    out = []
+    out, known = [], held(cfg)
     for rid, p in seen.items():
+        o = known.take(p.get("Title"), external_id=rid)  # held with a text read recently: no detail request
+        if o:
+            out.append(o)
+            continue
         r = get(detail_url(host, site, rid), headers=HDR)
         if r.status_code != 200:
             continue

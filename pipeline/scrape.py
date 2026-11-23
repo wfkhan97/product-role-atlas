@@ -14,6 +14,10 @@ about one by one (the adapter's still_open), and only one the board says is gone
 check closes nothing. A posting is its requisition id (external_id), or its URL on a board that gives none:
 the URL alone is not stable (Bank of America puts a per-session token in every job URL; a retitled or moved
 requisition gets a new one). One that comes back takes the board's current title, URL and text.
+The text of a posting is not read on every refresh. On the boards that cost one request a posting for it (Workday,
+Oracle, SuccessFactors, Apple) a listed posting the backlog holds open under the same title keeps its stored text, and is
+read again once that text is about REREAD_DAYS old ("text_seen" is the day it was read; --reread-days N, 0 to read
+every text). The listing still says it is open: "last_seen" moves as before.
 The files are not in git: the Supabase backlog is the store. When SUPABASE_DB_URL is set (.env) each file is pushed
 as it is written and a full run ends with a storage snapshot (pipeline/backlog.py; --no-db to leave the database
 alone, --no-snapshot to push the files without the dated copy). Run pipeline.backlog pull before a scrape on a checkout whose files are behind the database.
@@ -29,7 +33,9 @@ detail fetch on Workday and nothing written to the backlog (Greenhouse, Lever, A
 """
 import argparse
 import collections
+import datetime
 import glob
+import hashlib
 import json
 import os
 import re
@@ -141,6 +147,30 @@ def few_came_back(old, fetched):
     back = {posting_key(j) for j in fetched}
     was_open = {posting_key(j) for j in old.get("jobs", []) if not j.get("closed")}
     return len(was_open) >= 10 and len(was_open & back) < FEW * len(was_open)
+
+
+REREAD_DAYS = 28  # a held posting's text is read from the board again when it is about this old
+
+
+def text_due(key, read, today, days=REREAD_DAYS):
+    """Whether a text read on `read` is read again on `today`: at an age between half of `days` and one and a half,
+    fixed per posting by its key, so the postings first read in one run do not all come due in one later run."""
+    spread = int(hashlib.sha256(str(key).encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
+    age = (datetime.date.fromisoformat(today) - datetime.date.fromisoformat(read[:10])).days
+    return age >= days * (0.5 + spread)
+
+
+def fresh_texts(old, today, days=REREAD_DAYS):
+    """The postings of a company's file an adapter may return as stored (adapters.common.Held): open, with a text,
+    and that text not due again. A posting from before "text_seen" existed had its text read on the day it was last
+    seen (every fetch read every text). days 0 or None: none."""
+    out = []
+    for j in (old or {}).get("jobs", []) if days else []:
+        read = j.get("text_seen") or j.get("last_seen")
+        if j.get("closed") or not j.get("description") or not read or text_due(posting_key(j), read, today, days):
+            continue
+        out.append(dict(j, text_seen=read))
+    return out
 
 
 def shard(entries, spec):
@@ -285,6 +315,8 @@ def main():
                     "(a refresh job too long for one runner: pipeline.backlog pull --ats takes the same --shard)")
     ap.add_argument("--recheck-closed", metavar="DATE", help="on an incomplete fetch, also ask about postings closed on "
                     "or after DATE and reopen the ones the board still shows (repairs closures made before 2026-10-29)")
+    ap.add_argument("--reread-days", type=int, default=REREAD_DAYS, help="read a held posting's text from the board again when it "
+                    "is about this many days old (Workday, Oracle, SuccessFactors, Apple); 0 reads every text on every refresh")
     ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
     args = ap.parse_args()
     count = {} if args.count_only else None
@@ -355,8 +387,14 @@ def main():
                 if not cfg.get("keep_queries"):
                     cfg = dict(cfg, queries=roles_tech.SEARCH_QUERIES)
                 cfg = dict(cfg, max_pages=PAGES[args.roles], per_role=cap + 10, keep_location=in_country, count_only=count is not None)
+            if old and count is None:  # what the backlog holds with a recent text is not asked for again
+                cfg = dict(cfg, held=common.Held(fresh_texts(old, today, args.reread_days)))
             common.start_fetch()
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
+            reused = common.texts_reused()
+            for j in jobs:
+                if j.get("description"):
+                    j.setdefault("text_seen", today)  # a posting returned as stored keeps the day its text was read
             sampled = None
             if cap:
                 jobs = [j for j in jobs if in_country(j.get("location"))]
@@ -403,11 +441,12 @@ def main():
                       "reopened": sum(1 for j in uniq if before.get(key(j)) and not j.get("closed")),
                       "closed": sum(1 for j in uniq if j.get("closed") == today and before.get(key(j)) is False),
                       "open": sum(1 for j in uniq if not j.get("closed")),
-                      "folded": len((old or {}).get("jobs", [])) - len(before)}  # rows of one requisition the file held twice
+                      "folded": len((old or {}).get("jobs", [])) - len(before),  # rows of one requisition the file held twice
+                      "reused": reused}
             with lock:
                 totals.update(counts)
-            logger.info("%s (%s): fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, folded %d, %s", name, entry["ats"], counts["fetched"],
-                        counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], counts["folded"], t)
+            logger.info("%s (%s): fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, folded %d, texts not read again %d, %s", name, entry["ats"], counts["fetched"],
+                        counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], counts["folded"], reused, t)
             if partial:
                 logger.warning("%s: partial fetch, %s", name, partial)
             if db:
@@ -425,9 +464,9 @@ def main():
     for s in summary:
         logger.debug("%s %s %s", s[0], s[1], s[2])
     logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, "
-                "folded %d, incomplete %d, checked one by one %d; %d requests, %d answered 429, %d answered a 5xx, %d retried after a network error", run_timer,
+                "folded %d, incomplete %d, checked one by one %d, texts not read again %d; %d requests, %d answered 429, %d answered a 5xx, %d retried after a network error", run_timer,
                 len(todo), len(failed), totals["fetched"], totals["kept"], totals["open"], totals["new"], totals["reopened"], totals["closed"],
-                totals["folded"], totals["incomplete"], totals["checked"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
+                totals["folded"], totals["incomplete"], totals["checked"], totals["reused"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
     if count is not None:

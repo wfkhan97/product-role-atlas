@@ -105,7 +105,7 @@ the evals.
 ```bash
 .venv/bin/python -m pipeline.backlog pull                   # the raw postings from the Supabase backlog -> data/raw/jobs*/ (always before extract or a scrape)
 ./run_all.sh [--refresh]                                    # product set: merge registry, scrape, extract, build graph, jobs_open, artifact; log in logs/
-.venv/bin/python -m pipeline.scrape --roles mba --refresh   # the MBA backlog (hours; --ats workday or --only "Name" narrows)
+.venv/bin/python -m pipeline.scrape --roles mba --refresh   # the MBA backlog (hours; --ats workday or --only "Name" narrows; --reread-days 0 reads every text again)
 .venv/bin/python -m pipeline.extract --roles mba            # tag the postings -> data/processed/jobs_mba.json.gz (about 20 minutes)
 .venv/bin/python -m pipeline.build_graph --roles mba        # the graph -> web/data/graph_mba.json + graph_mba/<role>.json
 .venv/bin/python -m pipeline.jobs_open                      # every open US posting of the three sets -> web/data/jobs_open.json + jobs_meta.json
