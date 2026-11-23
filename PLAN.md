@@ -3954,11 +3954,35 @@ of 3,924 open postings (87%) were already held from an earlier run, every one wi
   posting. Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters and Avature read a page per posting and could take
   the same three lines each.
 
+## The 2026-11-23 MBA refresh, and what its checks needed (`fix/mba-refresh-2026-11-23`, 2026-11-23)
+
+The refresh's draft (#226, run 45157615346) passed the pipeline evals and failed the job's CI checks; this branch sits
+on its data commit and makes them pass.
+
+- **A behaviour can define a role.** Market research got its first defining skill, `data_driven`, a behaviour. The
+  field chart's shared lane kept the three highest shares and dropped it, against the rule that a role's defining
+  skill is always drawn. `Atlas.fieldChart` now puts a shared skill that defines a role of the field first in the
+  lane; the lane still holds three.
+- **Field entries follow the postings** (`pipeline/fields.json`). Four carriers fell just under the 15% floor and were
+  changed, not the threshold: `prioritization.consulting_strategy` and `data_driven.consulting_strategy` now name
+  `business_case`, `people_management.analytics` names `synthesis_recommendations`, `program_mgmt.sales` names
+  `territory_account_planning`. Prioritization is now asked for by ten fields, so supply chain and people got entries.
+- **Only `web/data/graph_mba.json` was rebuilt here.** A local `build_graph` also moved `posted` back a day in the
+  role files (the Mac's time zone against the runner's UTC) and rebuilt the product graph from an older product file;
+  those files stay as the runner wrote them.
+- **Workday is not in this refresh.** Both Workday shards ran to the 340-minute limit on 2026-11-22 and again on
+  2026-11-23 with about 15,000 to 19,000 answers of 429 each; the same boards answered from a home address. The run
+  that produced this data scraped one small family so the extract could finish from the cache of the cut-off run.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
+- **Workday throttles the hosted runners** (2026-11-23): two runs in a row lost both shards to 429s. To try: a slower
+  pace with a longer wait on 429, or `"runner": ["self-hosted", "macOS"]` for the family (`docs/SELF_HOSTED_RUNNER.md`).
+- **`posted` depends on the machine's time zone** (2026-11-23): `build_graph` on a Mac writes dates a day earlier than
+  the runner does. Read the date in UTC so a local rebuild gives the runner's files.
 - **The other adapters that read a page per posting** (Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters, Avature) ask the backlog first as Workday does (`common.Held`), once the first scheduled run shows what the change saved.
 - **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
 - **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).

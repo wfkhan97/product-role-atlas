@@ -25,6 +25,13 @@ test("the skills asked in every field (generic or behaviour) keep three, in thei
   assert.deepEqual(rows.filter(r => r.lane === "own").map(r => r.id), ["m"]);
 });
 
+test("a behaviour that defines a role of the field takes a place in the lane before a higher share", () => {
+  const skillById = byId([sk("comm", "behaviour"), sk("collab", "behaviour"), sk("own", "behaviour"), sk("data", "behaviour"), sk("m", "method")]);
+  const rows = A.fieldChart({ shares: { comm: 0.9, collab: 0.8, own: 0.7, data: 0.4, m: 0.3 }, skillById, roles: [{ definingList: [{ id: "data" }] }], generic: new Set() });
+  assert.deepEqual(rows.filter(r => r.lane === "every").map(r => r.id), ["comm", "collab", "data"]);
+  assert.equal(rows.find(r => r.id === "data").defining, true);
+});
+
 test("industries and rule sets (kind knowledge) only when they define a role; the cap keeps the defining ones first", () => {
   const xs = [sk("fin", "knowledge"), sk("gov", "knowledge"), ...Array.from({ length: 30 }, (_, i) => sk("m" + i, "method"))];
   const shares = { fin: 0.6, gov: 0.6, ...Object.fromEntries(xs.slice(2).map((s, i) => [s.id, 0.5 - i * 0.01])) };

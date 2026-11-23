@@ -3,7 +3,7 @@
   "consulting_strategy": {
    "reads_as": "Choosing which analyses and workstreams matter for the answer, and cutting the rest.",
    "shown_by": [
-    "client_engagement",
+    "business_case",
     "synthesis_recommendations",
     "special_projects",
     "exec_decks"
@@ -144,6 +144,26 @@
     "stakeholder_mgmt"
    ],
    "line": "Ranked 30 policy issues by exposure and odds; the team dropped 12 and won 4 of the top 6."
+  },
+  "supply_chain": {
+   "reads_as": "Choosing which categories, suppliers and supply risks the team works first.",
+   "shown_by": [
+    "sourcing_category_strategy",
+    "supplier_relationship_mgmt",
+    "supply_risk_continuity",
+    "supplier_contract_negotiation"
+   ],
+   "line": "Ranked 30 spend categories by value and supply risk into a 3-wave sourcing plan; the first wave covered 60% of addressable spend."
+  },
+  "people": {
+   "reads_as": "Deciding which roles, programmes and manager requests the people team takes first.",
+   "shown_by": [
+    "hr_business_partnering",
+    "talent_acquisition",
+    "performance_mgmt",
+    "succession_workforce_planning"
+   ],
+   "line": "Sorted 45 open requisitions with business leaders into 3 tiers; the 12 critical roles were filled within a quarter."
   }
  },
  "problem_solving": {
@@ -719,7 +739,7 @@
    "shown_by": [
     "synthesis_recommendations",
     "financial_analysis",
-    "performance_improvement",
+    "business_case",
     "strategic_planning"
    ],
    "line": "Built the fact base of 15 analyses behind a growth strategy; the client's board approved it on the evidence in one session."
@@ -2066,7 +2086,7 @@
   "analytics": {
    "reads_as": "Leading analysts: hiring, code and analysis reviews, and growing their judgment.",
    "shown_by": [
-    "analytics_requirements",
+    "synthesis_recommendations",
     "dashboards_dataviz",
     "sql",
     "metrics_kpis"
@@ -2749,7 +2769,7 @@
   "sales": {
    "reads_as": "Running customer implementations and account programmes to the dates in the contract.",
    "shown_by": [
-    "onboarding_adoption",
+    "territory_account_planning",
     "customer_success",
     "key_account_mgmt",
     "sales_enablement"
