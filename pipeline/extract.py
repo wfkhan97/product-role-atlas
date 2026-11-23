@@ -8,6 +8,7 @@ import json
 import os
 import re
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline import log, roles, roles_mba, roles_tech, sponsorship
@@ -303,85 +304,205 @@ def postings(roleset):
             yield company, r, j, fam, cleaned
 
 
-def text_tags(roleset, title, cleaned):
-    """What a posting's title and cleaned text say, the costly part of tagging (the skill patterns): the skill hits in
-    order, the years asked, the sub-skills, and (sentence index, skill, matches) for each evidence sentence. It
-    depends on nothing else, so pipeline.extract keeps it in a cache keyed by the text (TextCache)."""
+def _own_skills(roleset):
+    """The role set's skills that are read off the text: every one but the years buckets, which years_required decides."""
+    return [(sid, rx) for sid, rx in skills_for(roleset) if not sid.startswith("yoe_")]
+
+
+def text_parts(roleset, title, cleaned, old=None, redo=((), ())):
+    """What a posting's title and cleaned text say, one skill at a time (the costly part of tagging: the skill
+    patterns): {"k": {skill: [matches in the text, [[sentence index, matches], ...]]}, "yoe": the years asked,
+    "subs": [sub-skills]}. A skill's part depends on its own patterns and the text, on nothing else, so pipeline.extract
+    keeps it in a cache keyed by the text (TextCache); with `old`, the text's parts under older patterns, only the
+    skills and sub-skills named in `redo` are read again."""
     text = norm(title + "\n" + cleaned)
-    hits = tag(text, skills_for(roleset))
-    # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
-    yoe = years_required(cleaned)
-    for k in list(hits):
-        if k.startswith("yoe_"):
-            del hits[k]
+    redo_skills, redo_subs = redo
+    k, sents = {}, None
+    for sid, rx in _own_skills(roleset):
+        if old is not None and sid not in redo_skills:
+            if sid in old["k"]:
+                k[sid] = old["k"][sid]
+            continue
+        n = len(rx.findall(text))
+        if n:
+            if sents is None:
+                sents = [norm(sent) for sent in sentences(cleaned)]
+            k[sid] = [n, [[i, m] for i, sent in enumerate(sents) for m in [len(SKILL_RX[sid].findall(sent))] if m]]
+    kept = () if old is None else set(old["subs"])
+    subs = sorted(sub for sub, (parent, rx) in SUB_RE.items()
+                  if parent in k and (rx.search(text) if old is None or sub in redo_subs else sub in kept))
+    return {"k": k, "yoe": years_required(cleaned) if old is None else old["yoe"], "subs": subs}
+
+
+def assemble(roleset, part):
+    """A text_parts result as tagging reads it: the skill hits in the taxonomy's order, the years asked and its bucket
+    (the one bucket consistent with the explicit ask, last), the sub-skills, and (sentence index, skill, matches) for
+    each evidence sentence. A skill the role set no longer has is left out."""
+    k, yoe = part["k"], part["yoe"]
+    order = [sid for sid, _ in _own_skills(roleset) if sid in k]
+    hits = [[sid, k[sid][0]] for sid in order]
     if yoe is not None:
-        bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
-        hits[bucket] = 1
-    subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
-    marks = []
-    for i, sent in enumerate(sentences(cleaned)):
-        for sid in hits:
-            if sid.startswith("yoe_"):
+        hits.append(["yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10", 1])
+    rank = {sid: n for n, sid in enumerate(order)}
+    marks = sorted(([i, sid, m] for sid in order for i, m in k[sid][1]), key=lambda x: (x[0], rank[x[1]]))
+    return {"hits": hits, "yoe": yoe, "subs": [sub for sub in part["subs"] if sub in SUB_RE], "marks": marks}
+
+
+def text_tags(roleset, title, cleaned):
+    """The skill hits in order, the years asked, the sub-skills and the evidence marks of one posting's text."""
+    return assemble(roleset, text_parts(roleset, title, cleaned))
+
+
+def _joined(patterns):
+    return "|".join(f"(?:{p})" for p in patterns)
+
+
+def _short(*parts):
+    return hashlib.sha256("\0".join(parts).encode()).hexdigest()[:16]
+
+
+def pattern_hashes(roleset):
+    """({skill: hash}, {sub-skill: hash}) of the patterns text_parts reads for a role set. A skill is read with the role
+    set's own wording for its hits and with the shared wording for its evidence sentences; a sub-skill is read only
+    where its parent hit, so its hash carries the parent's."""
+    shared = {s["id"]: _joined(s["patterns"]) for s in TAX["skills"]}
+    skills = {s["id"]: _short(_joined(s["patterns"]), shared[s["id"]])
+              for s in tax.for_roles(roleset, TAX)["skills"] if not s["id"].startswith("yoe_")}
+    subs = {sub: _short(parent, rx.pattern, skills.get(parent, "")) for sub, (parent, rx) in SUB_RE.items()}
+    return skills, subs
+
+
+# the patterns TextCache follows one by one (pattern_hashes), left out of the hash of the code
+_PER_PATTERN = ("TAX", "SKILL_RE", "SKILL_RX", "SUB_RE", "DEPTH", "_SKILLS_FOR")
+
+
+def code_hash(start="text_parts"):
+    """A hash of the code text_parts runs: its source and that of every function of this module it reaches, with the
+    patterns and tables those read (the sentence splitter, the years patterns, the boilerplate test). An edit anywhere
+    else in this module, to the title rules or to the cleaner leaves it as it was: the cleaned text is part of a
+    cache entry's key, and nothing else of the posting is read here."""
+    import inspect
+    g, found, todo = globals(), {}, [start]
+
+    def names(code):
+        yield from code.co_names
+        for c in code.co_consts:
+            if hasattr(c, "co_names"):
+                yield from names(c)
+
+    while todo:
+        name = todo.pop()
+        v = g.get(name)
+        if name in found or name in _PER_PATTERN or v is None or inspect.ismodule(v) or inspect.isclass(v):
+            continue
+        if inspect.isfunction(v):
+            if v.__globals__ is not g:   # another module's function: the title rules, the log
                 continue
-            m = SKILL_RX[sid].findall(norm(sent))
-            if m:
-                marks.append([i, sid, len(m)])
-    return {"hits": [[k, v] for k, v in hits.items()], "yoe": yoe, "subs": subs, "marks": marks}
+            found[name] = inspect.getsource(v)
+            todo.extend(names(v.__code__))
+        elif isinstance(v, re.Pattern):
+            found[name] = f"{v.pattern}\0{v.flags}"
+        elif isinstance(v, (dict, list, tuple, set, frozenset, str, int, float)):
+            found[name] = repr(sorted(v.items()) if isinstance(v, dict) else sorted(v) if isinstance(v, (set, frozenset)) else v)
+    return hashlib.sha256(json.dumps(sorted(found.items())).encode()).hexdigest()
 
 
 class TextCache:
-    """text_tags results kept between runs in data/experiments/ (the caches store: pipeline.store push caches), keyed
-    by a hash of the role set, the title and the cleaned text. The file carries a fingerprint of everything text_tags
-    reads (this module, pipeline/tax.py, the role set's part of the taxonomy and the depth files with the sub-skills); a different fingerprint
-    starts it empty, so a stale entry is never used. A weekly refresh changes a few thousand texts of ~60,000, so a
-    hosted runner (two cores) tags in minutes what takes hours without it."""
+    """text_parts results kept between runs in data/experiments/ (the caches store: pipeline.store push caches), keyed
+    by a hash of the role set, the title and the cleaned text. A weekly refresh changes a few thousand texts of
+    ~100,000, so a hosted runner (two cores) tags in minutes what takes ten hours without it.
+
+    The file says what its entries were read with: a hash of the code (code_hash) and, per generation of entries, a
+    hash of each skill's and sub-skill's patterns (pattern_hashes). Another code hash starts the cache empty. Another
+    pattern hash keeps the entries and names the skills to read again (`redo`): a taxonomy change that touches ten
+    skills reads ten patterns per text, not three hundred. So a stale part is never used, and a change costs what it
+    changed. `save()` during a run keeps the entries not reached yet under their own generation, so a job that is
+    stopped half way leaves the next one the texts it tagged."""
 
     def __init__(self, roleset, path=None):
         self.path = path or os.path.join(ROOT, "data", "experiments", f"extract_cache_{roleset}.json.gz")
-        h = hashlib.sha256(roleset.encode())
+        self.code = _short(roleset, code_hash())
         # the role set's own view of the taxonomy, not the whole file: a skill added for another set, or another set's
-        # wording of a shared skill, does not throw away this set's cache ("only" names the sets, not the patterns)
-        view = [{k: v for k, v in sk.items() if k != "only"} for sk in tax.for_roles(roleset, TAX)["skills"]]
-        h.update(json.dumps(view, sort_keys=True).encode())
-        for f in (__file__, tax.__file__):
-            h.update(os.path.basename(f).encode())
-            with open(f, "rb") as fh:
-                h.update(fh.read())
-        # of the depth files only the sub-skills are read here: a definition, a ladder rung or a build step leaves the cache valid
-        h.update(json.dumps({k: SUB_RE[k][0] + "\0" + SUB_RE[k][1].pattern for k in sorted(SUB_RE)}).encode())
-        self.fingerprint = h.hexdigest()
-        self.entries, self.hits, self.misses = {}, 0, 0
+        # wording of a shared skill, leaves this set's cache as it is; of the depth files only the sub-skills are read
+        self.skills, self.subs = pattern_hashes(roleset)
+        self.fingerprint = _short(self.code, json.dumps([self.skills, self.subs], sort_keys=True))
+        self.entries = {}   # key -> parts
+        self.behind = {}    # key -> index in self.gens, for an entry read with older patterns
+        self.gens = []      # the older generations met in the file: {"skills": hashes, "subs": hashes}
+        self.redo = []      # per older generation: (skills, sub-skills) to read again
+        self.hits = self.updated = self.misses = 0
         try:
             import gzip
             with gzip.open(self.path, "rt") as f:
                 blob = json.load(f)
-            if blob.get("fingerprint") == self.fingerprint:
-                self.entries = blob["entries"]
-        except (OSError, ValueError, KeyError):
-            pass
+            if blob.get("code") != self.code:
+                return
+            for gen in blob["gens"]:
+                redo = (frozenset(s for s, h in self.skills.items() if gen["skills"].get(s) != h),
+                        frozenset(s for s, h in self.subs.items() if gen["subs"].get(s) != h))
+                self.entries.update(gen["entries"])
+                if redo[0] or redo[1]:
+                    self.gens.append({"skills": gen["skills"], "subs": gen["subs"]})
+                    self.redo.append(redo)
+                    self.behind.update(dict.fromkeys(gen["entries"], len(self.gens) - 1))
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            self.entries, self.behind, self.gens, self.redo = {}, {}, [], []
 
     @staticmethod
     def key(roleset, title, cleaned):
         return hashlib.sha256(f"{roleset}\0{title}\0{cleaned}".encode()).hexdigest()[:32]
 
-    def save(self, used):
-        """Write the entries this run used (an entry no posting asked for is dropped, so the file does not grow)."""
+    def get(self, key):
+        """(parts, index of the generation they are behind by or None) for a text, or None."""
+        part = self.entries.get(key)
+        return None if part is None else (part, self.behind.get(key))
+
+    def put(self, key, part):
+        """A text's parts as read with today's patterns."""
+        self.entries[key] = part
+        self.behind.pop(key, None)
+
+    def save(self, used=None):
+        """Write the entries this run used (an entry no posting asked for is dropped, so the file does not grow), or
+        every entry when the run is still going."""
         import gzip
-        keep = {k: self.entries[k] for k in used if k in self.entries}
+        entries, behind = dict(self.entries), dict(self.behind)   # a worker thread may be reading them
+        keep = entries if used is None else {k: entries[k] for k in used if k in entries}
+        gens = [{"skills": self.skills, "subs": self.subs, "entries": {k: v for k, v in keep.items() if k not in behind}}]
+        for n, gen in enumerate(self.gens):
+            old = {k: v for k, v in keep.items() if behind.get(k) == n}
+            if old:
+                gens.append(dict(gen, entries=old))
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
-        with gzip.open(self.path + ".tmp", "wt") as f:
-            json.dump({"fingerprint": self.fingerprint, "entries": keep}, f, separators=(",", ":"))
+        with gzip.open(self.path + ".tmp", "wt", compresslevel=6) as f:
+            json.dump({"code": self.code, "gens": gens}, f, separators=(",", ":"))
         os.replace(self.path + ".tmp", self.path)
 
 
+CHECKPOINT_S = 600   # the text cache is written this often during a run (TextCache.save)
+_REDO = []           # TextCache.redo, as the worker processes see it
+
+
+def _worker(redo):
+    global _REDO
+    _REDO = redo
+
+
 def tag_posting(item):
-    """One posting -> (job row, evidence sentences, funding stage it mentions, text_tags result). Runs in worker
-    processes; `cached` is the posting's text_tags result from the cache, or None."""
+    """One posting -> (job row, evidence sentences, funding stage it mentions, text_parts result or None). Runs in
+    worker processes; `cached` is TextCache.get for the posting's text: None, or its parts and the generation they
+    are behind by. The parts come back when they were read or brought up to date here, for the cache."""
     roleset, company, r, j, fam, cleaned, cached = item
     cfg = ROLE_SETS[roleset]
     title = j["title"]
     desc = j.get("description") or ""
-    part = cached or text_tags(roleset, title, cleaned)
+    if cached is None:
+        parts = text_parts(roleset, title, cleaned)
+    elif cached[1] is None:
+        parts = cached[0]
+    else:
+        parts = text_parts(roleset, title, cleaned, cached[0], _REDO[cached[1]])
+    part = assemble(roleset, parts)
     hits, yoe, subs = dict(part["hits"]), part["yoe"], part["subs"]
     ctx = dict(j, company=company, industry=r.get("industry"), family=fam)
     lvl = cfg["level"](title, company, ctx)
@@ -420,7 +541,7 @@ def tag_posting(item):
         **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, norm(cleaned), yoe))) if "entry" in cfg else {}),
         **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
-    return job, found, stage_mentions(desc), (None if cached else part)
+    return job, found, stage_mentions(desc), (None if cached is not None and cached[1] is None else parts)
 
 
 def main():
@@ -439,27 +560,41 @@ def main():
     t = log.Timer()
     logger.info("extract --roles %s: %d skills, %d workers", args.roles, len(skills), args.workers)
     cache = None if args.no_cache else TextCache(args.roles)
-    keys = []
+    if cache is not None:
+        logger.info("text cache: %d texts kept, %d of them to bring up to date (%s)", len(cache.entries), len(cache.behind),
+                    "; ".join(f"{len(a)} skills, {len(b)} sub-skills" for a, b in cache.redo) or "no pattern changed")
+    keys, known = [], []
 
     def items():
         for company, r, j, fam, cleaned in postings(args.roles):
             cached = None
             if cache is not None:
                 k = TextCache.key(args.roles, j["title"], cleaned)
+                cached = cache.get(k)
                 keys.append(k)
-                cached = cache.entries.get(k)
+                known.append(cached is not None)
             yield args.roles, company, r, j, fam, cleaned, cached
 
     # results come back in posting order, so the output does not depend on the number of workers or on the cache. The
     # workers do not log (pipeline/log.py): the parent counts what comes back.
-    with multiprocessing.Pool(args.workers) as pool:
+    saved, unsaved = time.monotonic(), 0
+    with multiprocessing.Pool(args.workers, initializer=_worker, initargs=(cache.redo if cache is not None else [],)) as pool:
         for n, (job, found, st, part) in enumerate(pool.imap(tag_posting, items(), chunksize=40)):
             if cache is not None:
                 if part is None:
                     cache.hits += 1
                 else:
-                    cache.misses += 1
-                    cache.entries[keys[n]] = part
+                    if known[n]:
+                        cache.updated += 1
+                    else:
+                        cache.misses += 1
+                    cache.put(keys[n], part)
+                    unsaved += 1
+                if unsaved and time.monotonic() - saved > CHECKPOINT_S:
+                    # a job stopped before the end (the runner's time limit) leaves what it tagged to the next one
+                    cache.save()
+                    logger.info("text cache written at %d postings (%d tagged, %d brought up to date so far)", n + 1, cache.misses, cache.updated)
+                    saved, unsaved = time.monotonic(), 0
             if st:
                 cur = company_stage.get(job["company"])
                 company_stage[job["company"]] = max(cur, st) if cur else st
@@ -470,7 +605,7 @@ def main():
                 logger.info("%d postings tagged, %s", len(jobs), t)
     if cache is not None:
         cache.save(keys)
-        logger.info("text cache: %d reused, %d tagged -> %s", cache.hits, cache.misses, os.path.relpath(cache.path, ROOT))
+        logger.info("text cache: %d reused, %d brought up to date, %d tagged -> %s", cache.hits, cache.updated, cache.misses, os.path.relpath(cache.path, ROOT))
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
     from pipeline import processed   # imported late: pipeline.processed is small, extract is imported by many
