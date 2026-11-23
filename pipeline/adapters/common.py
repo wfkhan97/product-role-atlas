@@ -25,6 +25,48 @@ _fetch = threading.local()
 
 def start_fetch():
     _fetch.failed = []
+    _fetch.reused = 0
+
+
+def texts_reused():
+    """How many postings this thread's fetch took from the backlog without reading their text again (Held.take)."""
+    return getattr(_fetch, "reused", 0)
+
+
+class Held:
+    """The postings of an employer's backlog whose text need not be read again today: pipeline.scrape passes it in
+    cfg["held"] (open postings with a text read recently; scrape.fresh_texts) and an adapter that makes one request a
+    posting for the text asks take() for each listed posting before that request. A posting is found by its
+    requisition id, its URL, or the part of its URL from "/job/" (a Workday listing gives that path, not the URL)."""
+
+    def __init__(self, postings=()):
+        self.by_id, self.by_url, self.by_path = {}, {}, {}
+        for j in postings:
+            url = j.get("url") or ""
+            if j.get("external_id"):
+                self.by_id[str(j["external_id"])] = j
+            if url:
+                self.by_url[url] = j
+                if "/job/" in url:
+                    self.by_path[url[url.index("/job/"):]] = j
+
+    def take(self, title, external_id=None, url=None, path=None):
+        """A copy of the stored posting the listing row names, or None (read the text). Give the one identifier the
+        listing has. The listing's title must be the stored one: a retitled posting is read again."""
+        if external_id is not None:
+            o = self.by_id.get(str(external_id))
+        elif url:
+            o = self.by_url.get(url)
+        else:
+            o = self.by_path.get(path) if path else None
+        if o is None or (o.get("title") or "") != (title or "").strip():
+            return None
+        _fetch.reused = getattr(_fetch, "reused", 0) + 1
+        return dict(o)
+
+
+def held(cfg):
+    return cfg.get("held") or Held()
 
 
 def listing_failures():

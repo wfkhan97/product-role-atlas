@@ -3896,6 +3896,63 @@ a side-project card carries in `web/quests.js`); no route, key, flag or behaviou
 Checked: the web tests, the copy eval (baseline unchanged), and the map, open tree, quests, chrome, keyboard, phone,
 resume and smoke specs.
 
+## The text cache follows each skill, and a stopped extract leaves what it tagged (`fix/extract-cache-checkpoint`, 2026-11-15)
+
+The scheduled `refresh-mba` of 2026-11-15 scraped every family and was then cancelled in its build job: the extract
+ran into the job's three-hour limit with 25,000 of ~97,000 postings tagged. The taxonomy merges of 2026-11-07 (#189,
+#197) had changed the cache's one fingerprint, so every text was tagged from nothing, at about 0.3 s a posting on one
+worker (ten hours); the cache was written only at the end, so the cancelled run left nothing and the next Sunday would
+have gone the same way. (The run of 2026-11-08 failed for another reason: GitHub did not start the jobs, the account's
+Actions spending limit.) The owner: "can't we break them each into the smallest units & get them to run in parallel?
+... this is causing issues & idt it necessarily needs to". The first of three changes; the other two are under Later.
+
+- **The unit is one skill on one text.** `text_parts` keeps each skill's matches and evidence marks apart
+  (`assemble` puts them in the order `text_tags` always gave). `TextCache` holds a hash per skill and per sub-skill
+  (`pattern_hashes`: the role set's wording for the hits, the shared wording for the evidence sentences; a sub-skill's
+  hash carries its parent's). A changed pattern keeps the entries and names the skills to read again: on 3,000 MBA
+  postings, ten changed skills cost 13 ms a posting against 306 ms for all 283.
+- **The code hash is what tagging runs, not the file.** `code_hash` walks from `text_parts` through the functions,
+  patterns and tables of `pipeline/extract.py` it reaches (the sentence splitter, the years patterns, the boilerplate
+  test). An edit to the cleaner, the title rules, the geography or `main` keeps the cache: the cleaned text is in an
+  entry's key and nothing else of the posting is read. `pipeline/tax.py` is no longer hashed; what it gives tagging is
+  the role set's patterns, which the per-skill hashes follow.
+- **A stopped run leaves its work.** The extract writes the cache every ten minutes (`CHECKPOINT_S`); entries not
+  reached yet stay in the file under the patterns they were read with (a generation), so nothing is lost and nothing
+  stale is used. The three refresh workflows push the cache whenever the extract step ran, cancelled or failed
+  included.
+- **The output did not change.** On every eighth file of the 2026-11-15 MBA snapshot (220 files, 10,880 postings
+  tagged), `jobs_mba`, `evidence_mba` and `company_stage_mba` are byte for byte those of the extract before the change,
+  from a run stopped and resumed and from a warm run (42 s against 12 minutes cold, nine workers). No baseline moves.
+- **This change empties the caches once more** (the file format and the code hash are new). With the three-hour
+  limit a cold MBA extract now finishes over four scheduled runs on its own; one extract on a laptop and
+  `pipeline.store push caches --only data/experiments/extract_cache_mba.json.gz` does it in one.
+
+## The scrape does not read a text it already holds (`feat/scrape-skip-known-details`, 2026-11-17)
+
+The second of the three changes. A refresh asked for the page of every listed posting: Workday shard 2 of the MBA run
+of 2026-11-15 made 15,469 such requests for 1,998 new postings, and in 44 Workday files of that day's snapshot 3,425
+of 3,924 open postings (87%) were already held from an earlier run, every one with a text and an id.
+
+- **The backlog answers first.** `scrape.run` hands the adapter the employer's open postings whose text was read
+  recently (`cfg["held"]`, `common.Held`, built by `scrape.fresh_texts`). Workday (by job path), Oracle and Apple (by
+  requisition id) and SuccessFactors (by URL) ask it before the posting's own request and return the stored posting
+  when the listing gives the same title. A changed title, a posting without a text and a count-only read go to the
+  site as before. `merge` is untouched: a posting returned as stored is seen today like any other.
+- **A text is read again about every four weeks.** `text_seen` is the day a posting's text was last read (a posting
+  from before this change counts from `last_seen`). It is due between half and one and a half times `REREAD_DAYS`
+  (28), at a point fixed by a hash of its key, so a board's re-reads spread over the weeks and do not all fall on one
+  run. `--reread-days N` changes it; 0 reads every text. The owner had not named a cadence: 28 is this thread's choice.
+  In three Workday boards read live on 2026-11-16, none of 166 held texts differed from the text stored a week before.
+- **What it saves, measured.** The same three boards, read with and without the held texts (nothing written):
+  posting requests 54 to 2, 74 to 2 and 45 to 1, the same postings both ways on two (the third lost listing pages to
+  429s in one of its reads). The seconds moved less: 717 to 689, 1,502 to 1,280, 1,218 to 996, because each of these
+  boards answers 117 to 123 searches whatever it holds (576 listing requests against 54 posting requests on the
+  first). The posting requests are about a fifth of a Workday shard's requests, so that fifth is what this removes
+  there; the listing is the larger cost and stays under Later. No scheduled run has used it yet: the first refresh
+  after the merge is the real measure (`texts not read again` in each employer's log line and in the totals).
+- **Not done.** Paradox lists without titles, so nothing can be matched before the request; Google has no request per
+  posting. Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters and Avature read a page per posting and could take
+  the same three lines each.
 ## Six employers moved their boards (`fix/dead-board-addresses`, 2026-11-22)
 
 The MBA refresh of 2026-11-15 logged eleven employers whose board answered 404, every week since the board moved. Six
@@ -3911,6 +3968,10 @@ read through its adapter on 2026-11-22: ClassPass and Parloa (Greenhouse to Ashb
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
+- **The other adapters that read a page per posting** (Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters, Avature) ask the backlog first as Workday does (`common.Held`), once the first scheduled run shows what the change saved.
+- **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
+- **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).
+- **The tagger itself**: 0.3 s a posting for 283 patterns; time each pattern on a sample before splitting the extract across jobs.
 - **Five employers with no board the scrape can read** (2026-11-22): Riot is on Workable and Hilbert on Rippling (no adapter for either); no board was found for Nothing, Corridor or Formation. Each logs one error a refresh and closes nothing, so its held postings stay open: decide between an adapter and marking the row unverified, after checking what extract does with a file whose employer left the registry.
 - **The Product field for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle the product set for `api/tree.js`, pass `true` to `treeRoles`, and add a product case to `evals/quests.mjs`. Tech roles after that.
 

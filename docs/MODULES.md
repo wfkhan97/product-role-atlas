@@ -86,7 +86,10 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 
 - `pipeline/scrape.py`, `extract.py`, `build_graph.py` — the three stages. Scrape and extract share one path: title
   filter, cleaning, repost and repeated-URL dedupe, tagging in worker processes, evidence sentences per skill and
-  level. Build_graph carries each posting's board date as `posted` (`posted_day`: YYYY-MM-DD from each board's
+  level. Extract keeps what each skill's patterns find in each text (`TextCache`,
+  `data/experiments/extract_cache_<set>.json.gz`, in the caches store): a changed pattern reads that skill again, a
+  change to the tagging code (`code_hash`) reads everything again, and the file is written every ten minutes so a
+  stopped run leaves its work. Build_graph carries each posting's board date as `posted` (`posted_day`: YYYY-MM-DD from each board's
   shape, null when unreadable or not between 2000 and today), computes shares (company-balanced for the MBA set: `pipeline/balance.py`, one employer at most
   5% of a role), levels per ladder, the axis positions, and writes the index plus one file per role.
 - `data/raw/jobs*/` — the backlog, one file per employer, not in git. A refresh never drops a posting: one still shown
@@ -146,7 +149,9 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
 - `pipeline/adapters/` — one module per ATS (27: Greenhouse, Lever, Ashby, Workday, Eightfold, Phenom, Oracle HCM,
   SmartRecruiters, SuccessFactors, iCIMS, Avature, Jibe, Radancy, Paradox, Amazon, Apple, Google, Meta, McKinsey,
   KPMG, Goldman Sachs, Bank of America, a JSON-LD reader, and others); `common.py` holds the session, the retry loop
-  and `strip_html`. `talnet.py` reads tal.net (Oleeo) boards from
+  and `strip_html`, and `Held`: the open postings of an employer's backlog whose text was read recently
+  (`scrape.fresh_texts`, `REREAD_DAYS`), which Workday, Oracle HCM, SuccessFactors and Apple ask before the one
+  request a posting costs, so a refresh reads the text of new, retitled and due postings only. `talnet.py` reads tal.net (Oleeo) boards from
   the public Atom feed (`…/candidate/jobboard/vacancy/<n>/feed/structured`); a firm names its boards in the config
   (`{"host": "lek.tal.net", "boards": [{"name", "path", "vacancy"}]}`); a board behind a captcha returns nothing and
   says so. `yello.py` reads Yello (recsolu.com) boards: the search URL from the board page, 25 cards a page, then each
