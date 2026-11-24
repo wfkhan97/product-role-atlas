@@ -160,7 +160,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 346
+   "n": 398
   },
   {
    "id": "solutions_engineer",
@@ -174,7 +174,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1346
+   "n": 1681
   },
   {
    "id": "account_executive",
@@ -188,7 +188,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 7740
+   "n": 10158
   },
   {
    "id": "ib_associate",
@@ -202,7 +202,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 903
+   "n": 970
   },
   {
    "id": "ma_integration",
@@ -214,7 +214,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 57
+   "n": 68
   },
   {
    "id": "corp_dev",
@@ -228,7 +228,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 289
+   "n": 342
   },
   {
    "id": "strategic_finance",
@@ -242,7 +242,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 216
+   "n": 240
   },
   {
    "id": "fpa",
@@ -257,7 +257,7 @@
     "strategic_finance",
     "financial_manager"
    ],
-   "n": 668
+   "n": 776
   },
   {
    "id": "treasury",
@@ -271,7 +271,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 173
+   "n": 200
   },
   {
    "id": "commercial_banking_rm",
@@ -283,7 +283,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 911
+   "n": 1057
   },
   {
    "id": "corporate_banking",
@@ -297,7 +297,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 147
+   "n": 165
   },
   {
    "id": "re_acquisitions",
@@ -311,7 +311,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 30
+   "n": 35
   },
   {
    "id": "re_development",
@@ -325,7 +325,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 46
+   "n": 52
   },
   {
    "id": "re_asset_manager",
@@ -337,7 +337,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 83
+   "n": 93
   },
   {
    "id": "pe_associate",
@@ -351,7 +351,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 249
+   "n": 268
   },
   {
    "id": "vc_associate",
@@ -365,7 +365,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 23
+   "n": 25
   },
   {
    "id": "investment_manager",
@@ -379,7 +379,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 396
+   "n": 441
   },
   {
    "id": "chief_of_staff",
@@ -391,7 +391,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 165
+   "n": 190
   },
   {
    "id": "data_scientist",
@@ -405,7 +405,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1144
+   "n": 1474
   },
   {
    "id": "sustainability",
@@ -419,7 +419,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 130
+   "n": 173
   },
   {
    "id": "tech_strategy",
@@ -433,7 +433,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 159
+   "n": 185
   },
   {
    "id": "product_strategy",
@@ -448,7 +448,7 @@
     "product_manager"
    ],
    "product_gate": "pm",
-   "n": 115
+   "n": 112
   },
   {
    "id": "product_manager",
@@ -463,7 +463,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 5141
+   "n": 5131
   },
   {
    "id": "recruiter",
@@ -477,7 +477,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1013
+   "n": 1338
   },
   {
    "id": "fraud_risk",
@@ -491,7 +491,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 490
+   "n": 669
   },
   {
    "id": "implementation",
@@ -505,7 +505,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 330
+   "n": 442
   },
   {
    "id": "bizops",
@@ -517,7 +517,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 942
+   "n": 1110
   },
   {
    "id": "corp_strategy_analyst",
@@ -531,7 +531,7 @@
    "covered_by": [
     "strategy_manager"
    ],
-   "n": 126
+   "n": 144
   },
   {
    "id": "strategy_manager",
@@ -547,7 +547,7 @@
     "corp_strategy_analyst"
    ],
    "covered_by": [],
-   "n": 705
+   "n": 846
   },
   {
    "id": "ai_transformation",
@@ -563,7 +563,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 173
+   "n": 217
   },
   {
    "id": "digital_transformation",
@@ -577,7 +577,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 72
+   "n": 80
   },
   {
    "id": "opex",
@@ -591,7 +591,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 202
+   "n": 240
   },
   {
    "id": "transformation",
@@ -608,7 +608,7 @@
     "ai_transformation"
    ],
    "covered_by": [],
-   "n": 283
+   "n": 348
   },
   {
    "id": "management_consultant",
@@ -622,7 +622,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 2205
+   "n": 2383
   },
   {
    "id": "financial_manager",
@@ -638,7 +638,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 2044
+   "n": 2408
   },
   {
    "id": "general_manager",
@@ -652,7 +652,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 302
+   "n": 360
   },
   {
    "id": "program_manager",
@@ -666,7 +666,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3576
+   "n": 4181
   },
   {
    "id": "pmm",
@@ -679,7 +679,7 @@
    "covers": [],
    "covered_by": [],
    "product_gate": "pmm",
-   "n": 841
+   "n": 839
   },
   {
    "id": "brand_manager",
@@ -691,7 +691,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 322
+   "n": 390
   },
   {
    "id": "growth_manager",
@@ -705,7 +705,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 352
+   "n": 414
   },
   {
    "id": "customer_success",
@@ -719,7 +719,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 822
+   "n": 963
   },
   {
    "id": "partnerships",
@@ -731,7 +731,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 533
+   "n": 626
   },
   {
    "id": "bizdev",
@@ -745,7 +745,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1368
+   "n": 1578
   },
   {
    "id": "business_analytics",
@@ -761,7 +761,7 @@
     "business_intelligence"
    ],
    "covered_by": [],
-   "n": 366
+   "n": 417
   },
   {
    "id": "business_intelligence",
@@ -777,7 +777,7 @@
    "covered_by": [
     "business_analytics"
    ],
-   "n": 123
+   "n": 159
   },
   {
    "id": "data_analyst",
@@ -791,7 +791,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 655
+   "n": 950
   },
   {
    "id": "strategic_sourcing",
@@ -807,7 +807,7 @@
    "covered_by": [
     "procurement"
    ],
-   "n": 516
+   "n": 614
   },
   {
    "id": "category_manager",
@@ -819,7 +819,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 345
+   "n": 403
   },
   {
    "id": "procurement",
@@ -833,7 +833,7 @@
     "strategic_sourcing"
    ],
    "covered_by": [],
-   "n": 686
+   "n": 812
   },
   {
    "id": "supply_chain",
@@ -847,7 +847,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 882
+   "n": 1028
   },
   {
    "id": "project_manager",
@@ -861,7 +861,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1482
+   "n": 2126
   },
   {
    "id": "comp_benefits",
@@ -875,7 +875,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 452
+   "n": 536
   },
   {
    "id": "org_dev",
@@ -889,7 +889,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 204
+   "n": 246
   },
   {
    "id": "hr_manager",
@@ -903,7 +903,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1696
+   "n": 1998
   },
   {
    "id": "enterprise_risk",
@@ -917,7 +917,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 706
+   "n": 816
   },
   {
    "id": "compliance",
@@ -929,7 +929,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 670
+   "n": 779
   },
   {
    "id": "governance",
@@ -943,7 +943,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 261
+   "n": 309
   },
   {
    "id": "sales_manager",
@@ -957,7 +957,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 2171
+   "n": 2572
   },
   {
    "id": "demand_gen",
@@ -971,7 +971,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 286
+   "n": 362
   },
   {
    "id": "market_research",
@@ -985,7 +985,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 183
+   "n": 249
   },
   {
    "id": "marketing_manager",
@@ -997,7 +997,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 1234
+   "n": 1474
   },
   {
    "id": "communications",
@@ -1011,7 +1011,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 583
+   "n": 768
   },
   {
    "id": "public_policy",
@@ -1025,7 +1025,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 232
+   "n": 318
   },
   {
    "id": "operations_manager",
@@ -1039,7 +1039,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3881
+   "n": 4685
   }
  ],
  "covers_status": "confirmed",
@@ -1739,7 +1739,7 @@
    ]
   }
  },
- "generated": "2026-11-07",
+ "generated": "2026-11-23",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"
@@ -1764,6 +1764,10 @@
   },
   "Baker Tilly": {
    "category": "Big Four and accounting"
+  },
+  "Bank of America": {
+   "category": "Investment banking",
+   "industry": "Commercial Banks"
   },
   "BDO USA": {
    "category": "Big Four and accounting"
@@ -1800,6 +1804,9 @@
   },
   "Colliers": {
    "category": "Real estate"
+  },
+  "Cornerstone Research": {
+   "category": "Strategy consulting"
   },
   "Crowe": {
    "category": "Big Four and accounting"
@@ -1917,6 +1924,13 @@
    "category": "Asset management",
    "industry": "Commercial Banks"
   },
+  "Barclays": {
+   "category": "Investment banking"
+  },
+  "BlackRock": {
+   "category": "Asset management",
+   "industry": "Securities"
+  },
   "BMO": {
    "category": "Investment banking"
   },
@@ -1926,6 +1940,10 @@
   "Charles Schwab": {
    "category": "Asset management",
    "industry": "Securities"
+  },
+  "Citizens Financial Group": {
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks"
   },
   "Cushman & Wakefield": {
    "category": "Real estate"
@@ -1954,12 +1972,18 @@
   "Haleon": {
    "category": "Consumer goods"
   },
+  "Huntington Bancshares": {
+   "category": "Commercial and corporate banking"
+  },
   "Invesco": {
    "category": "Asset management"
   },
   "KKR": {
    "category": "Private equity",
    "industry": "Securities"
+  },
+  "Levi Strauss": {
+   "category": "Consumer goods"
   },
   "M&T Bank": {
    "category": "Commercial and corporate banking",
@@ -1971,6 +1995,9 @@
   "Morgan Stanley": {
    "category": "Investment banking",
    "industry": "Commercial Banks"
+  },
+  "MUFG": {
+   "category": "Investment banking"
   },
   "Nasdaq": {
    "industry": "Securities"
@@ -2014,13 +2041,6 @@
   "AQR": {
    "category": "Asset management"
   },
-  "Bank of America": {
-   "category": "Investment banking",
-   "industry": "Commercial Banks"
-  },
-  "Barclays": {
-   "category": "Investment banking"
-  },
   "Bridgewater Associates": {
    "category": "Asset management"
   },
@@ -2034,8 +2054,9 @@
   "Dodge & Cox": {
    "category": "Asset management"
   },
-  "Huntington Bancshares": {
-   "category": "Commercial and corporate banking"
+  "First Citizens BancShares": {
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks"
   },
   "Intercontinental Exchange": {
    "industry": "Securities"
@@ -2070,11 +2091,11 @@
   "HarbourVest": {
    "category": "Private equity"
   },
-  "Levi Strauss": {
-   "category": "Consumer goods"
-  },
   "McCormick": {
    "category": "Consumer goods"
+  },
+  "MFS Investment Management": {
+   "category": "Asset management"
   },
   "Raymond James Financial": {
    "category": "Investment banking",
@@ -2096,10 +2117,6 @@
   "Bain Capital": {
    "category": "Private equity"
   },
-  "BlackRock": {
-   "category": "Asset management",
-   "industry": "Securities"
-  },
   "Blackstone": {
    "category": "Private equity",
    "industry": "Diversified Financials"
@@ -2109,6 +2126,10 @@
   },
   "Cambridge Associates": {
    "category": "Asset management"
+  },
+  "Constellation Brands": {
+   "category": "Consumer goods",
+   "industry": "Beverages"
   },
   "Danone": {
    "category": "Consumer goods"
@@ -2145,6 +2166,9 @@
   "Lazard": {
    "category": "Investment banking"
   },
+  "LEGO Group": {
+   "category": "Consumer goods"
+  },
   "Link Logistics": {
    "category": "Real estate"
   },
@@ -2153,9 +2177,6 @@
   },
   "Morningstar": {
    "category": "Asset management"
-  },
-  "MUFG": {
-   "category": "Investment banking"
   },
   "Public Storage": {
    "category": "Real estate"
@@ -2185,6 +2206,10 @@
   "Cohen & Steers": {
    "category": "Asset management"
   },
+  "EQT": {
+   "category": "Private equity",
+   "industry": "Mining, Crude-Oil Production"
+  },
   "Brookfield": {
    "category": "Private equity"
   },
@@ -2200,9 +2225,6 @@
   "HSBC": {
    "category": "Investment banking"
   },
-  "MFS Investment Management": {
-   "category": "Asset management"
-  },
   "Point72": {
    "category": "Asset management"
   },
@@ -2214,6 +2236,9 @@
   },
   "Stifel": {
    "category": "Investment banking"
+  },
+  "The Clorox Company": {
+   "category": "Consumer goods"
   },
   "Antares Capital": {
    "category": "Private equity"
@@ -2227,9 +2252,8 @@
   "Capital Group": {
    "category": "Asset management"
   },
-  "Citizens Financial Group": {
-   "category": "Commercial and corporate banking",
-   "industry": "Commercial Banks"
+  "Edgewell": {
+   "category": "Consumer goods"
   },
   "Federal Realty": {
    "category": "Real estate"
@@ -2237,8 +2261,17 @@
   "Fidelity Investments": {
    "category": "Asset management"
   },
+  "Hasbro": {
+   "category": "Consumer goods"
+  },
   "Houlihan Lokey": {
    "category": "Investment banking"
+  },
+  "Kellanova": {
+   "category": "Consumer goods"
+  },
+  "L'Oréal": {
+   "category": "Consumer goods"
   },
   "Millennium": {
    "category": "Asset management"
@@ -2251,9 +2284,6 @@
   },
   "Scotiabank": {
    "category": "Investment banking"
-  },
-  "The Clorox Company": {
-   "category": "Consumer goods"
   },
   "Unilever": {
    "category": "Consumer goods"
@@ -2306,10 +2336,6 @@
   "Cullen/Frost": {
    "category": "Commercial and corporate banking"
   },
-  "First Citizens BancShares": {
-   "category": "Commercial and corporate banking",
-   "industry": "Commercial Banks"
-  },
   "Brown Advisory": {
    "category": "Asset management"
   },
@@ -2325,8 +2351,8 @@
   "Janus Henderson": {
    "category": "Asset management"
   },
-  "L'Oréal": {
-   "category": "Consumer goods"
+  "Man Group": {
+   "category": "Asset management"
   },
   "Neuberger Berman": {
    "category": "Private equity"
@@ -2342,10 +2368,6 @@
   },
   "Carlyle": {
    "category": "Private equity"
-  },
-  "EQT": {
-   "category": "Private equity",
-   "industry": "Mining, Crude-Oil Production"
   },
   "General Atlantic": {
    "category": "Private equity"
@@ -2380,15 +2402,8 @@
   "Y Combinator": {
    "category": "Venture capital"
   },
-  "Constellation Brands": {
-   "category": "Consumer goods",
-   "industry": "Beverages"
-  },
   "Hines": {
    "category": "Real estate"
-  },
-  "Hasbro": {
-   "category": "Consumer goods"
   },
   "Bayer": {
    "category": "Consumer goods"
@@ -2411,12 +2426,6 @@
   },
   "Andreessen Horowitz": {
    "category": "Venture capital"
-  },
-  "LEGO Group": {
-   "category": "Consumer goods"
-  },
-  "Kellanova": {
-   "category": "Consumer goods"
   },
   "Lululemon": {
    "category": "Consumer goods"
@@ -2442,17 +2451,11 @@
   "Howard Hughes": {
    "category": "Real estate"
   },
-  "Cornerstone Research": {
-   "category": "Strategy consulting"
-  },
   "LaSalle Investment Management": {
    "category": "Real estate"
   },
   "Extra Space Storage": {
    "category": "Real estate"
-  },
-  "Man Group": {
-   "category": "Asset management"
   },
   "Clarion Partners": {
    "category": "Real estate"
@@ -2462,6 +2465,9 @@
   },
   "TPG": {
    "category": "Private equity"
+  },
+  "Mid-America Apartment Communities": {
+   "category": "Real estate"
   },
   "Essex Property Trust": {
    "category": "Real estate"

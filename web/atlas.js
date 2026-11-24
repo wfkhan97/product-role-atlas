@@ -381,8 +381,8 @@
   // highest share first, few enough that the chart names every one. shares is the field's mean share per skill over
   // its roles (skillmap.js fieldShares), roles the field's index roles (definingList), generic Atlas.genericSkills().
   // The rule: (1) out go credentials and tools (kind, else cluster), and sub-skills are never in (shares are per
-  // skill); (2) the skills asked in every field (the generic ones and the behaviours) keep at most CHART.every, the
-  // highest field share, in their own lane ("every"); (3) the field's own lane ("own") takes every skill that defines
+  // skill); (2) the skills asked in every field (the generic ones and the behaviours) keep at most CHART.every, one
+  // that defines a role of the field first, then the highest field share, in their own lane ("every"); (3) the field's own lane ("own") takes every skill that defines
   // one of its roles, then the highest field share at TIER.some or more, industries and rule sets (kind knowledge)
   // only when they define a role, until CHART.cap rows in all.
   const CHART = { cap: 20, every: 3 };
@@ -395,7 +395,8 @@
       .filter(x => x.s && x.share > 0 && !OUT_KINDS.has(kindOf(x.s)) && x.s.cluster !== "credentials" && x.s.cluster !== "tools")
       .sort((a, b) => b.share - a.share || a.id.localeCompare(b.id));
     const isEvery = x => gen.has(x.id) || kindOf(x.s) === "behaviour";
-    const lane = pool.filter(x => isEvery(x) && x.share >= TIER.some).slice(0, every);
+    const shared = pool.filter(isEvery);   // one that defines a role of the field comes first, whatever its share
+    const lane = [...shared.filter(x => defining.has(x.id)), ...shared.filter(x => !defining.has(x.id) && x.share >= TIER.some)].slice(0, every);
     const own = pool.filter(x => !isEvery(x));
     const must = own.filter(x => defining.has(x.id));
     const rest = own.filter(x => !defining.has(x.id) && x.share >= TIER.some && kindOf(x.s) !== "knowledge");
