@@ -192,15 +192,30 @@ test("the address is the platform's header, the first of a forwarded list, else 
   assert.equal(API.ipOf({ headers: {} }), "unknown");
 });
 
+// a Vercel includeFiles pattern as the paths under web/ it takes: braces expanded, * within one folder
+function expand(p) {
+  const m = /\{([^{}]*)\}/.exec(p);
+  return m ? m[1].split(",").flatMap(x => expand(p.slice(0, m.index) + x + p.slice(m.index + m[0].length))) : [p];
+}
+function bundled(pattern) {
+  const out = new Set();
+  for (const p of expand(pattern)) {
+    const dir = path.dirname(p), re = new RegExp("^" + path.basename(p).replace(/[.+?^$()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]*") + "$");
+    let names = []; try { names = fs.readdirSync(path.join(web, dir), { withFileTypes: true }).filter(d => d.isFile()).map(d => d.name); } catch { }
+    for (const n of names) if (re.test(n)) out.add(path.posix.join(dir, n).replace(/^\.\//, ""));
+  }
+  return out;
+}
 test("the hosting file bundles what the function reads, and the local server serves it", () => {
   const v = JSON.parse(fs.readFileSync(path.join(web, "vercel.json"), "utf8")).functions;
-  const inc = v["api/open.js"].includeFiles;
-  for (const f of ["config.js", "build_kit.json", "standards.json", "graph_mba.json", "graph_mba/*.json"]) assert.ok(inc.includes(f), f);
-  for (const f of v["api/tree.js"].includeFiles.match(/[a-z_]+\.json/g)) assert.ok(inc.includes(f), `the tree's ${f}`);
-  // the product set (2026-11-12: the open form offers the Product field): what web/atlas.js reads for a product role
-  for (const f of ["taxonomy.json", "graph.json", "subskills.json", "bands.json"]) assert.ok(new RegExp(`[{,]${f.replace(".", "\\.")}[,}]`).test(inc), `the product set's ${f}`);
-  // the tech set (2026-11-27: the open flow offers its fields): what web/atlas.js reads for a tech role
-  for (const f of ["taxonomy_tech.json", "roles_tech.json", "bands_tech.json", "graph_tech.json", "subskills_tech.json", "graph_tech/*.json"]) assert.ok(inc.includes(f), `the tech set's ${f}`);
+  // Vercel refuses a pattern over 256 characters, and the deploy fails (2026-11-27: the tech set's files made it 347)
+  for (const [fn, f] of Object.entries(v)) assert.ok(f.includeFiles.length <= 256, `${fn}: includeFiles is ${f.includeFiles.length} characters`);
+  const inc = bundled(v["api/open.js"].includeFiles);
+  for (const f of ["config.js", "data/build_kit.json", "data/standards.json"]) assert.ok(inc.has(f), f);
+  for (const f of bundled(v["api/tree.js"].includeFiles)) assert.ok(inc.has(f), `the tree's ${f}`);
+  // the product set (2026-11-12) and the tech set (2026-11-27): what web/atlas.js reads for a role of either
+  for (const f of ["taxonomy.json", "graph.json", "subskills.json", "bands.json", "taxonomy_tech.json", "roles_tech.json", "bands_tech.json", "graph_tech.json", "subskills_tech.json"]) assert.ok(inc.has("data/" + f), f);
+  for (const d of ["graph_mba", "graph_tech"]) for (const n of fs.readdirSync(path.join(web, "data", d)).filter(n => n.endsWith(".json"))) assert.ok(inc.has(`data/${d}/${n}`), `${d}/${n}`);
   assert.ok(v["api/open.js"].maxDuration * 1000 > API.LIMITS.timeoutMs);
   assert.match(fs.readFileSync(path.join(root, "tests", "ui", "serve.mjs"), "utf8"), /"\/api\/open"/);
 });
