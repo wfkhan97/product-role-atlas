@@ -255,7 +255,7 @@ test("with a form id the booking card follows the two projects and links to the 
   const page = await visitorAt(visitor, "#/map?build=1&role=pmm", { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: false, BOOKING_TALLY: "wA1b2C", SKILL_TREE_ENABLED: true });
   await build(page);
   await expect(page.locator("#open-book h2")).toHaveText(O.book.heading);
-  await expect(page.locator("#open-book")).toContainText("$60");
+  await expect(page.locator("#open-book")).toContainText("$40");
   await expect(page.locator("#open-book")).not.toContainText(/black friday|sale|% off/i);
   const u = new URL(await page.locator("#open-book-link").getAttribute("href"));
   expect(u.origin + u.pathname).toBe("https://tally.so/r/wA1b2C");

@@ -1077,8 +1077,11 @@
         retry: "Try again",
         fallbackHeading: "Two projects you could build",
         fallbackLead: "Picked from what {role} hiring asks people to show. A title and a line each.",
-        session: "Having trouble? Book a free 30-minute session with Wally.",
-        sessionPaid: "Or book a 90-minute working session, $40.",
+        // the help line (owner's words, 2026-11-27): {free} and {paid} are its two links; sessionOne when no paid form
+        session: "Having trouble or want to dive deeper? Book a {free} or {paid} with Wally.",
+        sessionOne: "Having trouble or want to dive deeper? Book a {free} with Wally.",
+        sessionFree: "30-minute follow up",
+        sessionPaid: "90-minute working session",
         kept: "Your projects live in this browser only.",
         change: "Change my answers",
         forget: "Forget them",

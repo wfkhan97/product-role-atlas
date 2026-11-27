@@ -285,7 +285,9 @@ test("the function failing: the two no-model projects in the same frame, without
   await expect(page.locator("#open-preview [data-pick]")).toHaveCount(0);
   await expect(page.locator("#open-why")).toContainText(P.failed);
   const s = page.locator("#pj-session");
-  await expect(s).toHaveText(P.session);
+  await expect(s).toHaveText(P.sessionFree);
+  await expect(page.locator(".pj-help")).toHaveText("Having trouble or want to dive deeper? Book a 30-minute follow up or 90-minute working session with Wally.");
+  await expect(page.locator("#pj-session-paid")).toHaveAttribute("href", /^https:\/\/tally\.so\/r\//);
   await expect(s).toHaveAttribute("href", "https://cal.example.com/wally/30min");
   await expect(s).toHaveAttribute("target", "_blank");
   await shot(page, "fallback");
