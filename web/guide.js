@@ -317,7 +317,7 @@
     ui.card.tabIndex = -1;
     ui.card.innerHTML = `<div class="guide-h"><p class="eyebrow" id="guide-n"></p><button type="button" class="close" data-g="close" aria-label="${esc(C.close)}">×</button></div>
       <h2 id="guide-t"></h2><p class="guide-b" id="guide-b"></p>
-      <div class="guide-f"><button type="button" class="linkish" data-g="skip">${esc(C.skip)}</button><span class="guide-nav"><button type="button" class="btn" data-g="back">${esc(C.back)}</button><button type="button" class="btn primary" data-g="next">${esc(C.next)}</button></span></div>`;
+      <div class="guide-f"><button type="button" class="linkish" data-g="skip">${esc(C.skip)}</button><span class="guide-nav"><button type="button" class="btn sm" data-g="back">${esc(C.back)}</button><button type="button" class="btn primary" data-g="next">${esc(C.next)}</button></span></div>`;
     doc.body.appendChild(ui.card);
     ui.card.addEventListener("click", e => { const b = e.target.closest && e.target.closest("[data-g]"); if (!b) return; act(b.dataset.g); });
     cur.ui = ui;
@@ -423,7 +423,7 @@
     const card = doc.createElement("div");
     card.className = "guide-card guide-none" + (phone() ? " guide-sheet" : "");
     card.setAttribute("role", "dialog"); card.setAttribute("aria-modal", "false"); card.setAttribute("aria-label", C.dialog || ""); card.tabIndex = -1;
-    card.innerHTML = `<p class="guide-b">${esc(C.none)}</p><div class="guide-f"><span></span><button type="button" class="btn" data-g="close">${esc(common().close || "Close")}</button></div>`;
+    card.innerHTML = `<p class="guide-b">${esc(C.none)}</p><div class="guide-f"><span></span><button type="button" class="btn sm" data-g="close">${esc(common().close || "Close")}</button></div>`;
     const close = () => { doc.removeEventListener("keydown", key, true); card.remove(); if (prev && prev.isConnected) try { prev.focus(); } catch { } };
     const key = e => { if (e.key === "Escape") { e.stopPropagation(); close(); } };
     card.querySelector("[data-g]").onclick = close;

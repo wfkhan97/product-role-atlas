@@ -1,0 +1,16 @@
+/* Motion and depth. One short ease for every control: a hover, a press and a panel move the same way.
+   Shadows and the scrim are mixed from the theme's own canvas, so they hold in both modes. */
+:root {
+  --duration-fast: 120ms;   /* hover, press, a colour change */
+  --duration-base: 200ms;   /* a panel, a sheet, a bar's width */
+  --duration-slow: 1000ms;  /* one turn of a spinner */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-panel: -8px 0 30px oklch(0 0 0 / 0.10);   /* a side panel over the page */
+  --shadow-pop: 0 6px 20px oklch(0 0 0 / 0.16);      /* a tooltip, a list under a field */
+  --shadow-dialog: 0 12px 40px oklch(0 0 0 / 0.22);  /* a dialog, a sheet */
+  --scrim: color-mix(in oklch, var(--canvas) 62%, transparent);
+
+  --z-rail: 8; --z-drawer: 10; --z-pop: 20; --z-dialog: 40;
+}

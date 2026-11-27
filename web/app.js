@@ -1738,7 +1738,7 @@
   function stepFrame({ steps, step, inner, nextOk = true, nextLabel = Copy.map.flow.next, err = "", foot = "", wide = false, noNext = false, live = false }) {
     const S = Copy.map.flow, i = steps.indexOf(step), m = steps.length;
     const back = i > 0 ? `<button type="button" class="linkish link" id="sp-back">${esc(S.back)}</button>` : "<span></span>";
-    const next = noNext ? "" : `<div class="sp-next"><button type="button" class="btn primary big" id="sp-go" data-reads${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${err ? `<span class="sp-err" id="sp-err" role="alert">${err}</span>` : ""}${live ? `<span class="small muted" id="sp-status" aria-live="polite"></span>` : ""}</div>`;
+    const next = noNext ? "" : `<div class="sp-next"><button type="button" class="btn primary lg" id="sp-go" data-reads${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${err ? `<span class="sp-err" id="sp-err" role="alert">${err}</span>` : ""}${live ? `<span class="small muted" id="sp-status" aria-live="polite"></span>` : ""}</div>`;
     return `<div class="sp${wide ? " wide" : ""}"><div class="sp-prog" role="progressbar" aria-label="${esc(S.progressAria)}" aria-valuemin="1" aria-valuemax="${m}" aria-valuenow="${i + 1}"><i style="width:${Math.round((i + 1) / m * 100)}%"></i></div>
         <div class="sp-nav">${back}<span class="small muted">${esc(fill(S.stepOf, { n: i + 1, m }))}</span></div>${inner}${next}${foot ? `<p class="small muted sp-out">${foot}</p>` : ""}</div>`;
   }
@@ -2068,7 +2068,7 @@
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
     const lead = sub === "tree" ? (role ? fill(mapUi.tree.roles.length > 1 ? MC.treeSub : MC.treeSubOne, { role }) : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
-      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn sm map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       ${anon && sub === "tree" ? `<div id="open-next"></div>` : ""}<div id="map-body"></div>
       ${anon && sub !== "tree" ? `<div id="open-next"></div>` : ""}${anon ? `<p class="small muted map-only">${esc((map.cards || []).length ? MC.open.keptQuests : MC.open.kept)} <button type="button" class="linkish link" id="open-forget">${esc(MC.open.forget)}</button></p>` : `<p class="small muted map-only">${esc(MC.only)} ${out}</p>`}
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
@@ -2174,8 +2174,8 @@
     }
     let a;
     if (m.locked) a = nextBtn(" primary") + fold;
-    else if (st === "open") a = `<button type="button" class="btn primary big" data-act="start"${busy}>${esc(MC.start)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>${fold}`;
-    else if (st === "started") a = `<button type="button" class="btn primary big" data-act="ship"${busy}>${esc(MC.markShipped)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>`;
+    else if (st === "open") a = `<button type="button" class="btn primary lg" data-act="start"${busy}>${esc(MC.start)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>${fold}`;
+    else if (st === "started") a = `<button type="button" class="btn primary lg" data-act="ship"${busy}>${esc(MC.markShipped)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>`;
     else if (st === "shipped") a = nextBtn(" primary") + fold + `<button type="button" class="linkish link" data-act="unship"${busy}>${esc(MC.notShipped)}</button>`;
     else a = `<button type="button" class="btn primary" data-act="back"${busy}>${esc(MC.bringBack)}</button>${nextBtn("")}`;
     return `<div class="q-actions">${a}</div>${err}`;
@@ -2292,7 +2292,7 @@
       return `<li>${sdot(n)}<span><button type="button" class="linkish" data-node="${esc(n.id)}">${esc(n.name)}</button><small>${esc(lookWords(n))}${q ? ` · <a href="${esc(questHref(q.id))}">${esc(q.title)}</a>` : n.state === "shows" ? "" : ` · ${esc(MC.howNone)}`}</small></span></li>`; };
     body.innerHTML = `<div class="lgwrap"><div class="legend-bar" role="note">${MapModel.STATES.map(s => `<span class="${stCls(s)}"><span class="sdot"></span>${esc(MC.states[s])}</span>`).join("")}<span class="st-built"><span class="sdot"></span>${esc(MC.shippedLegend)}</span><span>${diamond} ${esc(MC.postingNames)}</span><span>${chevron} ${esc(MC.senior)}</span>${how.length ? `<span class="sp"></span><button type="button" class="linkish link lb-how" id="map-how" aria-expanded="false" aria-controls="map-howpop">${esc(MC.how)}</button>` : ""}</div>
       ${how.length ? `<div class="how-pop" id="map-howpop" role="dialog" aria-label="${esc(MC.how)}" hidden><h3>${esc(MC.how)}</h3><p>${esc(MC.howLead)}</p><ul>${how.map(howRow).join("")}</ul></div>` : ""}</div>
-      <div class="seg" role="group" aria-label="${esc(MC.viewAria)}">${["tree", "list"].map(v => `<button type="button" data-view="${v}" aria-pressed="${mapUi.view === v}"${mapUi.view === v ? ` class="on"` : ""}>${esc(MC.view[v])}</button>`).join("")}</div>
+      <div class="seg map-view" role="group" aria-label="${esc(MC.viewAria)}">${["tree", "list"].map(v => `<button type="button" data-view="${v}" aria-pressed="${mapUi.view === v}"${mapUi.view === v ? ` class="on"` : ""}>${esc(MC.view[v])}</button>`).join("")}</div>
       <div id="map-view"></div>`;
     const btn = $("#map-how"), pop = $("#map-howpop");
     if (btn && pop) {
@@ -3520,7 +3520,7 @@
     const hasSponsorship = R.jobs.some(j => j.sponsorship != null);
     const nSponsor = hasSponsorship ? jobsExcept("sponsor").filter(j => j.sponsorship === "yes").length : 0;
     const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="${esc(fill(RL.sponsorsMeasure, { n: fmt(nSponsor), m: fmt(jobsExcept("sponsor").length), no: R.jobs.some(j => j.sponsorship === "no") ? fill(RL.sponsorsNo, { n: fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length) }) : "" }))}">${esc(RL.sponsors)}<span class="n">${fmt(nSponsor)}</span></button>` : "";
-    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn sm filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
     // the list's number beside the facts' open US count says what it counts (2026-11-06): the product set's open
     // postings worldwide (unless a country is picked), the business set's postings of the year, open and closed
