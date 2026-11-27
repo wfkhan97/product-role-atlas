@@ -1,7 +1,9 @@
-// The side-project eval (2026-11-11): what the model behind /api/quests writes, held to the
-// rules web/quests.js validate checks, over a small fixed set: the eight sample résumés of evals/resumes/ × two MBA
-// roles each × two answer profiles (32 cases). It reports the validity rate per rule, how often a project was dropped,
-// the token usage and the cost per person at Claude Opus 5.5's prices, and writes evals/quests_baseline.md.
+// The project-writer eval (2026-11-11; the portfolio flow, 2026-11-27): what the model behind /api/open and
+// /api/quests writes, held to the rules web/quests.js validate checks, over a small fixed set: the eight sample résumés
+// of evals/resumes/ × two or three roles each (MBA, product and tech sets) × three answer profiles (a person who stays
+// with their own tools, a builder open to new ones, and a "none of these" rewrite with feedback and avoided titles).
+// It reports the validity rate per rule (level_mix and share_dropped are notes, not drops), how often a project was
+// dropped, the token usage and the cost per person at Claude Opus 5.5's prices, and writes evals/quests_baseline.md.
 //
 //   node evals/quests.mjs                 # asks the model for any case with no saved answer (ANTHROPIC_API_KEY)
 //   node evals/quests.mjs --reuse         # saved answers only: no network, no key (cases without one are listed)
@@ -11,7 +13,7 @@
 //                                        # QUESTS_TOKEN=<its session access token>; each case POSTs /api/tree (the
 //                                        # sample and the roles, which rebuilds that account's map) then /api/quests;
 //                                        # a preview behind Vercel Authentication takes INFER_COOKIE; the deploy
-//                                        # needs QUESTS_DAILY_CAP of 40 or more for one full run (the cap counts calls)
+//                                        # needs QUESTS_DAILY_CAP of 60 or more for one full run (51 cases) (the cap counts calls)
 //   node evals/quests.mjs --only grad     # filter cases by substring
 //
 // A direct case builds the person's map the way /api/tree does (web/apprentice.js over the atlas on disk) and sends
@@ -34,7 +36,8 @@ const API = require(path.join(root, "web/api/quests.js"));
 const Apprentice = require(path.join(root, "web/apprentice.js"));
 const Matcher = require(path.join(root, "web/match.js"));
 const EvidenceText = require(path.join(root, "web/evidence_text.js"));
-const atlas = require(path.join(root, "web/atlas.js"))({ load: u => JSON.parse(fs.readFileSync(path.join(root, "web", u), "utf8")), Matcher });
+// the atlas as the deployed /api/open reads it: the tech set on (web/api/tree.js theAtlas)
+const atlas = require(path.join(root, "web/atlas.js"))({ load: u => new Promise(r => r(JSON.parse(fs.readFileSync(path.join(root, "web", u), "utf8")))), Matcher, config: () => ({ TECH_ENABLED: true }) });
 const KIT = JSON.parse(fs.readFileSync(path.join(root, "web/data/build_kit.json"), "utf8"));
 // the published standards index, as the deployed function reads it
 const STANDARDS = API.standards();
@@ -51,17 +54,19 @@ const CACHE = path.join(root, "data/experiments/quests");
 const RATES = { in: 4, out: 20, cacheRead: 0.2, cacheWrite: 5 };
 const dollars = u => u ? ((u.input_tokens || 0) * RATES.in + (u.output_tokens || 0) * RATES.out + (u.cache_read_input_tokens || 0) * RATES.cacheRead + (u.cache_creation_input_tokens || 0) * RATES.cacheWrite) / 1e6 : 0;
 
-// the fixed set: each sample's two roles (MBA-set roles, as the tree form offers; the product set's PM roles are not
-// tree roles) and the two answer profiles
+// the fixed set: each sample's roles (the open flow's sets: MBA, product.<id>, tech.<id>) and the answer profiles. The
+// tools and places are kit ids; a profile naming an id the kit no longer has loses it in cleanAnswers, as the site would.
 const ROLES = {
-  course_list: ["business_analytics", "pmm"], experienced_pm: ["pmm", "general_manager"],
-  experienced_with_coursework: ["pmm", "bizops"], grad_student_new: ["pmm", "data_analyst"],
-  pivot_phd_hci: ["market_research", "pmm"], senior_pm_pdf_layout: ["general_manager", "strategy_manager"],
-  staff_pm_terse: ["general_manager", "bizops"], template_placeholder_years: ["marketing_manager", "business_analytics"],
+  course_list: ["business_analytics", "pmm"], experienced_pm: ["pmm", "product.pm"],
+  experienced_with_coursework: ["pmm", "bizops"], grad_student_new: ["pmm", "data_analyst", "tech.data_engineer"],
+  pivot_phd_hci: ["market_research", "tech.ux_researcher"], senior_pm_pdf_layout: ["general_manager", "strategy_manager"],
+  staff_pm_terse: ["general_manager", "tech.software_engineer"], template_placeholder_years: ["marketing_manager", "business_analytics"],
 };
 const PROFILES = {
-  no_code: { tech: "no_code", tools: { chat_pages: "use", research: "learn", docs_data: "learn" }, accounts: { github: "no", vercel: "no", notion: "have", supabase: "no", domain: "no" } },
-  builder: { tech: "write_code", tools: { coding_agents: "use", app_builders: "use", automation: "learn" }, accounts: { github: "have", vercel: "would", notion: "no", supabase: "would", domain: "have" } },
+  own_tools: { answers: { tech: "no_code", tools: { research: "use" }, own_tools: "PowerPoint, Google Sheets with Gemini, ChatGPT", try_new: false, places: ["linkedin"], own_places: "", portfolio: { host: null, note: "" } } },
+  builder: { answers: { tech: "write_code", tools: { coding_agents: "use", app_builders: "use" }, own_tools: "", try_new: true, places: ["linkedin", "github_pages"], own_places: "@me on Bluesky", portfolio: { host: "github_pages", note: "a personal site with three case studies" } } },
+  rewrite: { answers: { tech: "ai_tools", tools: {}, own_tools: "", try_new: null, places: ["linkedin", "notion_page"], own_places: "", portfolio: { host: null, note: "" } },
+    feedback: "These feel like writing exercises. I want something with numbers that I can show in an interview.", avoid: ["A positioning teardown of three competitors", "A launch plan for a new feature"] },
 };
 
 function apiKey() {
@@ -78,11 +83,11 @@ async function mapFor(text, role) {
   const g = await Apprentice.ground({ A: atlas, Matcher, EvidenceText }, { profile: text, roles: [role], posting: "", today: "2026-11-11" });
   return Apprentice.selfServeMap(g, { date: "2026-11-11" }).map;
 }
-async function viaRoute(text, role, answers) {
+async function viaRoute(text, role, { answers, feedback, avoid }) {
   const base = url.replace(/\/api\/quests\/?$/, ""), headers = { "content-type": "application/json", authorization: `Bearer ${process.env.QUESTS_TOKEN}`, ...(process.env.INFER_COOKIE ? { cookie: process.env.INFER_COOKIE } : {}) };
   const t = await fetch(base + "/api/tree", { method: "POST", headers, body: JSON.stringify({ text, roles: [role] }) });
   if (!t.ok) throw Object.assign(new Error(`tree ${t.status}`), { status: t.status });
-  const r = await fetch(url, { method: "POST", headers, body: JSON.stringify({ mode: "write", text, extras: "", answers }) });
+  const r = await fetch(url, { method: "POST", headers, body: JSON.stringify({ mode: "write", text, extras: "", answers, feedback, avoid }) });
   const b = await r.json().catch(() => ({}));
   if (!r.ok && r.status !== 422) throw Object.assign(new Error(`quests ${r.status} ${b.error || ""}`), { status: r.status });
   return { model: b.model || null, usage: b.usage || null, projects: b.projects || [], dropped: b.dropped || [] };
@@ -90,24 +95,26 @@ async function viaRoute(text, role, answers) {
 
 const lines = [], out = s => { lines.push(s); console.log(s); };
 const fails = Object.fromEntries(Q.RULES.map(r => [r, 0]));
-let cases = 0, missing = 0, asked = 0, projectsAsked = 0, projectsKept = 0, zero = 0, retried = 0, total$ = 0;
+let cases = 0, missing = 0, asked = 0, projectsAsked = 0, projectsKept = 0, zero = 0, retried = 0, total$ = 0, shares = 0;
+const levels = { beginner: 0, intermediate: 0 };
 const usage = { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
 const samples = fs.readdirSync(path.join(here, "resumes")).filter(f => READABLE.test(f)).sort();
 
 out("## The cases");
 for (const f of samples) {
   const name = f.replace(READABLE, ""), text = (await extractText(path.join(here, "resumes", f))).trim();
-  for (const role of ROLES[name] || ["pmm", "general_manager"]) for (const [pname, answers] of Object.entries(PROFILES)) {
+  for (const role of ROLES[name] || ["pmm", "general_manager"]) for (const [pname, prof] of Object.entries(PROFILES)) {
+    const answers = prof.answers, ask = Q.cleanAsk(prof);
     const id = `${name} · ${role} · ${pname}`;
     if (only && !id.includes(only)) continue;
     const map = await mapFor(text, role);
-    const input = { map, resume: text, extras: "", answers, kit: KIT, standards: STANDARDS };
+    const input = { map, resume: text, extras: "", answers, feedback: ask.feedback, avoid: ask.avoid, kit: KIT, standards: STANDARDS };
     const body = API.body(input);
     const k = sha(JSON.stringify([url ? "route" : "direct", body])).slice(0, 24), file = path.join(CACHE, k + ".json");
     let rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
     if (!rec && !reuse && (key || url)) {
       try {
-        if (url) { const r = await viaRoute(text, role, answers); rec = { via: "route", host: new URL(url).host, case: id, at: new Date().toISOString(), ...r }; }
+        if (url) { const r = await viaRoute(text, role, { answers, ...ask }); rec = { via: "route", host: new URL(url).host, case: id, at: new Date().toISOString(), ...r }; }
         else {
           const calls = [];
           const call = async (inp, o) => { const r = await API.callModel(inp, o); calls.push({ answer: r.answer, stop: r.stop, usage: r.usage, model: r.model }); return r; };
@@ -122,7 +129,7 @@ for (const f of samples) {
     let kept = 0, line;
     if (rec.via === "direct") {
       // validated again on every run: the first call, and the retry when the first kept nothing
-      const ctx = { kit: KIT, answers, map, tree: Q.treeOf(map), resume: text, posting: null };
+      const ctx = { kit: KIT, answers, map, tree: Q.treeOf(map), resume: text, posting: null, avoid: ask.avoid };
       for (const [i, c] of rec.calls.entries()) {
         const v = Q.validate(c.answer, ctx);
         projectsAsked += v.asked; for (const [r, n] of Object.entries(v.failures)) fails[r] = (fails[r] || 0) + n;
@@ -130,11 +137,13 @@ for (const f of samples) {
         total$ += dollars(c.usage);
         if (i > 0) retried++;
         kept = v.projects.length;
+        if (kept) for (const p of v.projects) { levels[p.level] = (levels[p.level] || 0) + 1; if (p.share) shares++; }
         line = `${v.asked} asked, ${kept} kept${v.dropped.length ? `; dropped: ${v.dropped.map(d => d.rules.join("+")).join(", ")}` : ""}; stop ${c.stop}`;
         if (kept) break;
       }
     } else {
       kept = rec.projects.length;
+      for (const p of rec.projects) { levels[p.level] = (levels[p.level] || 0) + 1; if (p.share) shares++; }
       projectsAsked += kept + rec.dropped.length;
       for (const rules of rec.dropped) for (const r of rules) fails[r] = (fails[r] || 0) + 1;
       for (const kk of Object.keys(usage)) usage[kk] += (rec.usage || {})[kk] || 0;
@@ -151,6 +160,9 @@ out(`\n## Validity per rule (${projectsAsked} projects asked, ${projectsKept} ke
 out(`| rule | projects failing | share of projects |`);
 out(`|---|---|---|`);
 for (const r of Q.RULES) out(`| ${r} | ${fails[r] || 0} | ${pct(fails[r] || 0, projectsAsked)} |`);
+out(`\n(level_mix counts answers whose levels were not two beginner and one intermediate; share_dropped and quote_dropped cut a part, never the project.)`);
+out(`\n## The kept projects`);
+out(`- levels: ${levels.beginner} beginner, ${levels.intermediate} intermediate; with a share: ${shares} of ${projectsKept}`);
 out(`\n## Drops and cost`);
 out(`- cases read: ${cases} of ${cases + missing}${missing ? ` (${missing} with no saved answer)` : ""}; asked this run: ${asked}`);
 out(`- projects dropped: ${projectsAsked - projectsKept} of ${projectsAsked} (${pct(projectsAsked - projectsKept, projectsAsked)}); cases with no project kept after the retry: ${zero}; retries: ${retried}`);

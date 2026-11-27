@@ -201,7 +201,7 @@ and evals run the code the site runs.
   `guide.js`, … `app.js`, `gameshell.js`, the games). `tests/web/assets.test.mjs` checks every
   named script exists and the remote ones pin a version.
 - `config.js` — the flags (README, "The switches"), the catalog project's URL and publishable key, `CAMPUS_DOMAINS`
-  (flag → email domains), `CATALOG_TERM`, the Tally form ids.
+  (flag → email domains), `CATALOG_TERM`, the Tally form ids, `SESSION_URL` (the free session under the projects; the paid one is `BOOKING_TALLY`), `LINKEDIN_URL` (the feedback box).
 - `copy.js` — every string a screen owns, one table grouped by screen (`Copy.door`, `.home`, `.intake`, `.you`,
   `.explore`, `.role`, `.fit`, `.jobs`, `.skills`, `.network`, `.classes`, `.signin`, `.heart`, `.feedback`, `.map`,
   `.about`, `.games`, `.guide`, `.common`). `Copy.fill(template, vars)` fills `{slots}`. Checked by `evals/copy.mjs` and
@@ -226,9 +226,11 @@ and evals run the code the site runs.
   so a click on the door's own chrome counts as Skip), `You` (`You.back`: a `next` is a hash of this site, never the
   sign-in; the résumé step returns to it), `FitCounts` (the rail's "N of M" and the fit screen's lists from one fit),
   `CourseCore`, `Crumbs` (one breadcrumb rule: the section as the top bar names it, then the screen; Build skills is
-  the section `build` at `#/map`), `Theme`, `OpenFlow` (the open form's steps, its stored answers, what a step lacks,
-  the fit screen's role put first), `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
-  screens, the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
+  the section `build` at `#/map`), `Theme`, `OpenFlow` (the open flow's steps, its stored answers, what a step lacks,
+  the fit screen's role put first, the roles' type-ahead `hits` and `named`, the field's kinds and places, the
+  answers as `/api/open` takes them), `RoleFilters`; the role screen's rail, the fit screen, the course screen, the event screen, the apprentice map's
+  screens (with `SKILL_TREE_ENABLED` off, `mapScreen` hands every `#/map` address to `openScreen`), the open flow's
+  projects (`projectsScreen`: the three cards, "None of these"; `pickedScreen`: the picked project and its download), the hearts (`heartHtml`, `toggleHeart`), the feedback box (`openFeedback`, `maybePrompt`), the tree form,
   one drop zone with a real "choose a file" button (a chosen résumé of 40 words or more is kept at once; each
   screen passes the step that follows to `wireResumeForm`). `route()` calls `Guide.after` once a screen draws (the feedback
   prompt waits while a tip is due or open); `topBar` draws "Show me around" beside Feedback.
@@ -290,31 +292,53 @@ and evals run the code the site runs.
   levels and each quest's state from the file and the person's own marks (`worlds`, `ownChoice`, `questState`), the now
   quest and up next, the one-line "You ship" (`shipLine`), the read's lines, the co-asked skills; the level `side`
   (the side projects picked) has a head and no number. `apprentice.js` — the generator's pure part (above).
-- `preview.js` — `Preview`, the pure part of the open tree's foot (`app.js` `openScreen`, `drawOpenNext`; behind
-  `OPEN_TREE_ENABLED`): `pick(map, { standards, skillById })` gives up to two projects, a title and a line each, from
-  the role's shows in `data/standards.json` ranked by the tree's unshown skills, then from the tree's own artifact
-  skills; `hasDuration` keeps out any line that states a length of time; `bookingHref` builds the Tally link from
-  `BOOKING_TALLY`. No model, no network.
-- `quests.js` — `Quests`, the pure part of "Start a side project" (`#/map/start`, `app.js` `startScreen`, whose steps c
-  to e the open form `openForm` shares through `stepFrame`, `techStep`, `toolsStep`, `accountsStep`) and of
-  `/api/quests`: the answers' lists and what they allow (`allowedKinds`, `allowedHosts`, `dbAllowed`), the class tree
-  the projects aim at (`treeOf`), the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint
-  after the kit, `personBlock` the person's material, `request`, `SCHEMA`), `validate` (every rule by id in `RULES`;
-  a failing project is dropped, a quote the résumé lacks is cut), `cardOf` and `addSide` (the card, kind
-  `side_project`, in the world `side` first on the path), `keepSide` (a rebuild keeps them), the daily cap. The kit
-  is `data/build_kit.json`, the one file that names products, each with `checked` and `url`.
+- `preview.js` — `Preview`, the no-model projects (`app.js` `projectsScreen` when `/api/open` is off or refuses;
+  `openScreen`, `drawOpenNext` with `SKILL_TREE_ENABLED` on; behind `OPEN_TREE_ENABLED`): `pick(map, { standards,
+  skillById })` gives up to two projects, a title and a line each, from the role's shows in `data/standards.json`
+  ranked by the tree's unshown skills, then from the tree's own artifact skills; `hasDuration` keeps out any line that
+  states a length of time; `bookingHref` builds the Tally link from `BOOKING_TALLY` (the tree's booking card). No
+  model, no network.
+- `quests.js` — `Quests`, the pure part of the project writer: what the open flow and "Start a side project"
+  (`#/map/start`, `app.js` `startScreen`; both draw steps c to e with `stepFrame`, `techStep`, `toolsStep`,
+  `shareStep`) send, and of `/api/open` and `/api/quests`. `cleanAnswers` (`{ tech, tools, own_tools, try_new, places,
+  own_places, portfolio }`: unknown ids dropped, only "use" counts, free text cut and stripped, LinkedIn the default
+  place) and `cleanAsk` ("None of these": `feedback` cut at 600 characters, `avoid` at six titles); what they allow
+  (`fieldKinds`: a kind whose `fields` is "all" or holds the field, a `code` kind only for a person who reads or writes
+  code; `allowedKinds`: the tapped kinds, plus the field's unless `strictTools`, not open to new tools with something
+  named; `allowedPlaces`: the tapped places, plus `portfolio` with a host; `matchTools`: a name is a kit example of
+  the kind or a tool the person typed); the class tree the projects aim at (`treeOf`; the field is the map's, never
+  the request's); the request (`PROMPT` and `kitBlock` the stable prefix with the cache breakpoint after the kit,
+  `personBlock` the person's material, typed text as data, `request`, `SCHEMA`); `validate` (every rule by id in
+  `RULES`: `level` and `artifact_only` among them, so no résumé, cover letter or LinkedIn profile rewrite; a failing
+  project is dropped; a quote the résumé lacks is cut, as is a share whose place is not allowed or that states a
+  duration; `level_mix` notes a mix other than two beginner and one intermediate, never refuses; `avoided` drops a
+  title already shown); `LEVELS`; `cardOf` (kind `side_project`, level `side`, the project's level as
+  `project_level`, `build_with` with each tool's `url`, `free` and `own`, `live_on` with the place's label and note,
+  `share`) and `addSide` (in the world `side` first on the path), `keepSide` (a rebuild keeps them), the daily cap.
+  The kit is `data/build_kit.json`, the one file that names products: `kinds` (`fields`, `code`, `examples` each with
+  `url`, `checked` and `free`: "free plan" when the allowance refreshes at no cost, "free trial" for one-time credits,
+  else null), `places` (`type` social, page or portfolio; `default` on LinkedIn) and `portfolio_hosts`. File order is
+  the order of relevance.
+- `project_guide.js` — `ProjectGuide`, the project guide the picked project's page downloads: `html(card, { kit, role,
+  answers, date, skills })` is one self-contained HTML document (inline CSS, a small script for the ticks and the
+  Copy buttons, no request; reads on a phone, prints, follows the device's theme); `filename`; `portfolio` writes
+  "Add it to your portfolio" from the host's template in `HOSTS` (code, builder, other; a code host gets a prompt),
+  never from a model; `WORDS` holds every fixed sentence; `esc` and `safeUrl` guard every value. Pure, no network.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
   résumé text and set, `Infer.forget()`. The set is `"both"`, or `"all"` with `TECH_ENABLED` on: the route's list then
   adds the tech set's own skills, and `found` adds what the tech patterns found (`Atlas.roughFit`'s `shownT`).
-- `api/open.js` — the open tree's build quests with no session (README, "Hosting"): `checkInput` (with
-  `answersOf`: the answers cleaned by `Quests.cleanAnswers`, a bare `tech` taken from an older page), `count` (the
-  three daily caps as counts under `open/` in the `maps` bucket, hashed names), then `tree.js` `buildMap` and
-  `quests.js` `write`. It adds no prompt and no rule of its own.
+- `api/open.js` — the open flow's project writer with no session (README, "Hosting"): `checkInput` (with
+  `answersOf`: the answers cleaned by `Quests.cleanAnswers`, a bare `tech` taken from an older page; `feedback` and
+  `avoid` by `Quests.cleanAsk`), `count` (the three daily caps as counts under `open/` in the `maps` bucket, hashed
+  names), then `tree.js` `buildMap` (MBA, product and tech roles, one field per request) and `quests.js` `write`. It
+  adds no prompt and no rule of its own.
 - `api/infer.js`, `api/tree.js`, `api/quests.js` — the other three functions (README, "Hosting"). `quests.js` authenticates
   as `tree.js` does and reuses its Storage calls; raw `fetch` to the Messages API, as `infer.js`. `tree.js` identifies the caller through
   GoTrue (`/auth/v1/user` with the session's token), reads the existing map with the service key, refuses to
   overwrite one with a build card (409), writes with `x-upsert`. `serviceHeaders(key)` puts an `sb_` key in `apikey`
-  alone. Limits: 40,000 characters of text, four roles, 8 s upstream.
+  alone. `ROLE_RE` takes a bare MBA id, `product.<family>` and `tech.<family>`; `theAtlas` reads the tech set only when
+  its index is on disk, which `web/vercel.json` bundles for `open.js` and not for `tree.js`. Limits: 40,000
+  characters of text, four roles, 8 s upstream.
 - `gameshell.js`, `games/` — the shell every game draws inside (`frame`, `foot`, `results`, `keys`, `start`,
   `picker`, the one `localStorage` record under `games`) and the built games. `games/README.md` is the design index.
 - `tokens/`, `style.css` — the GradBuddy design tokens (oklch, dark and light) and the one stylesheet written on

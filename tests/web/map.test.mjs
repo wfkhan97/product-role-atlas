@@ -330,7 +330,11 @@ test("storyOf reads a story card's parts and null for a build card; lineState ma
 // the owner's words of 2026-11-10: no "mission", no "Wally", no "World", no clearing and no time estimate on the map
 test("the map's copy: no mission, no Wally, no World, no clear, no duration word", () => {
   const walk = (v, p, out) => { if (typeof v === "string") out.push([p, v]); else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) walk(x, `${p}.${k}`, out); return out; };
+  // the one exception (owner, 2026-11-27): the open flow's "Having trouble?" line names the owner and the session's
+  // length, in the owner's words; it is a call with a person, not a project, so no project states a length of time
+  const OWNER_LINE = { "map.open.projects.session": "Having trouble? Book a free 30-minute session with Wally." };   // sessionPaid names the 90-minute session the same way
   for (const [p, t] of walk(MC, "map", [])) {
+    if (OWNER_LINE[p]) { assert.equal(t, OWNER_LINE[p], `${p} is the owner's line as given`); continue; }
     assert.doesNotMatch(t, /\bmissions?\b|\bWally\b|\bWorld\b/i, `${p}: ${t}`);
     if (!p.startsWith("map.tree.")) assert.doesNotMatch(t, /\bclear(s|ed)?\b|\b(hour|hours|evening|morning|week|weeks|day|days)\b/i, `${p}: ${t}`);
   }

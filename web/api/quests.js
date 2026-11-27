@@ -1,18 +1,24 @@
-/* POST /api/quests: the side-project flow's model (2026-11-11, behind CONFIG.QUESTS_ENABLED). A signed-in person with a
-   map sends their résumé text, the extra material they added (sent once, never stored, never logged) and their answers
-   (how technical, the kinds of AI tools, the accounts); the function asks Claude Opus 5.5 for three side projects
-   grounded in the person's class tree and the build kit (web/data/build_kit.json), checks every project in code
-   (web/quests.js validate) and returns the ones that pass. A second call picks one: the project, as the function kept
-   it, becomes a card in maps/<uid>/map.json under the "Your side project" level.
+/* POST /api/quests: the project writer for a signed-in person (2026-11-11; behind CONFIG.QUESTS_ENABLED, and behind
+   SKILL_TREE_ENABLED in the browser since 2026-11-27: still live). A person with a map sends their résumé text, the
+   extra material they added (sent once, never stored, never logged), their answers and, for a "none of these"
+   rewrite, what should be different and the titles already shown; the function asks Claude Opus 5.5 for three
+   portfolio projects (two beginner, one intermediate) grounded in the person's class tree and the build kit
+   (web/data/build_kit.json), checks every project in code (web/quests.js validate) and returns the ones that pass. A
+   second call picks one: the project, as the function kept it, becomes a card in maps/<uid>/map.json under the
+   "Your side project" level. The field is the map's, never the request's.
 
    Authenticated as /api/tree is (GoTrue says who the person is; the service role reads and writes their folder).
    Raw fetch to the Messages API, no SDK, as web/api/infer.js does: the site has no build step and no dependency.
 
      request   Authorization: Bearer <the session's access token>
                { mode: "write", text: <the résumé>, extras?: <text, cut at 20,000 characters>,
-                 answers: { tech, tools: { <kind id>: "use" | "learn" }, accounts: { <account id>: "have" | "would" | "no" } } }
+                 answers: { tech, tools: { <kind id>: "use" }, own_tools, try_new, places: [<place id>], own_places,
+                            portfolio: { host, note } }   (Quests.cleanAnswers),
+                 feedback?: <text, at most 600 characters>, avoid?: [<titles, at most 6>] }
                { mode: "pick", id: "p1" | "p2" | "p3" }
-     response  write: { ok: true, projects: [...], left, cap, model, usage }   pick: { ok: true, card: <card id> }
+     response  write: { ok: true, projects: [...], left, cap, model, usage, dropped }   pick: { ok: true, card: <card id> }
+               a project: { id, level, title, ship, atlas_skills, steps, prompt, build_with: { kind, examples, tools:
+               [{ name, url, free, own }] }, live_on: { place }, share: { place, how, post } | null, why_role, why_person }
                401 no_session · 400 bad_mode | text_required | text_too_short | bad_pick · 404 off (the flag is off) ·
                409 no_map (build the tree first) | side_full (three side projects already) · 410 no_options (pick
                with nothing written today) · 429 rate_limited { cap } · 422 no_valid (two answers, no project passed) ·
@@ -21,8 +27,8 @@
 
    What it writes, with the service role, in the person's own folder (the person can read both, never write them):
    quests/count.json ({ date, n }: the daily cap) and quests/pending.json (the projects of the last write, so a pick
-   names one by id and never sends a project back). Neither holds the résumé or the extras. The log line holds the
-   model, the stop reason, the token usage and the rule counts; never the request or the answer's text. */
+   names one by id and never sends a project back). Neither holds the résumé, the extras or the feedback. The log line
+   holds the model, the stop reason, the token usage and the rule counts; never the request or the answer's text. */
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -65,7 +71,7 @@ function checkInput(body, kit = theKit()) {
   if (text.length < LIMITS.minText) return { error: "text_too_short", status: 400 };
   if (text.length > LIMITS.text) return { error: "text_too_long", status: 413 };
   const extras = Quests.clipExtras([typeof b.extras === "string" ? b.extras : ""], LIMITS.extras).text;
-  return { mode: "write", text, extras, answers: Quests.cleanAnswers(b.answers, kit) };
+  return { mode: "write", text, extras, answers: Quests.cleanAnswers(b.answers, kit), ...Quests.cleanAsk(b) };
 }
 
 // ---------- the person's folder: the count and the pending projects (service role) ----------
@@ -107,7 +113,8 @@ const addUsage = (a, u) => { const o = { ...(a || {}) }; for (const k of ["input
 
 // One write: the call, the check, one retry when nothing passed. { projects, dropped, failures, model, usage, stops, calls }
 async function write(input, { apiKey, fetchImpl, signal, call = callModel } = {}) {
-  const ctx = { kit: input.kit, answers: input.answers, map: input.map, tree: Quests.treeOf(input.map), resume: input.resume, posting: null };
+  const ask = Quests.cleanAsk(input);
+  const ctx = { kit: input.kit, answers: input.answers, map: input.map, tree: Quests.treeOf(input.map), resume: input.resume, posting: null, avoid: ask.avoid };
   let usage = null, stops = [], model = MODEL, v = null, calls = 0;
   for (let i = 0; i < 2; i++) {
     const out = await call(input, { apiKey, fetchImpl, signal });
@@ -156,7 +163,7 @@ async function handler(req, res, deps = {}) {
     const day = today(), count = await readObj(user.uid, "count.json", io);
     if (Quests.dayCount(count, day) >= CAP) return send(res, 429, { error: "rate_limited", cap: CAP });
     await writeObj(user.uid, "count.json", Quests.bump(count, day), io);   // counted before the call: the call is the cost
-    const out = await write({ map, resume: input.text, extras: input.extras, answers: input.answers, kit, standards: standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
+    const out = await write({ map, resume: input.text, extras: input.extras, answers: input.answers, feedback: input.feedback, avoid: input.avoid, kit, standards: standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
     // the one log line: what it cost and what the rules dropped, never a word of the request or the answer
     console.log(JSON.stringify({ fn: "quests", model: out.model, stops: out.stops, calls: out.calls, usage: out.usage, kept: out.projects.length, dropped: out.dropped.map(d => d.rules), ms: Date.now() - t0 }));
     if (!out.projects.length) return send(res, 422, { error: "no_valid" });

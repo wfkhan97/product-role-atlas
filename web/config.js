@@ -48,9 +48,25 @@ window.CONFIG = {
   // key. Off, or when the function refuses: the two projects of web/preview.js, no model. On since 2026-11-11
   // (owner), after production's GET /api/open answered key: true, storage: true.
   OPEN_QUESTS_ENABLED: true,
+  // The skill tree and its pages (2026-11-27, owner): on, #/map behaves as before this date: the tree page, the
+  // Quests page, #/map/start for a session, the map's nav and the fit screen's "Get your tree". Off, #/map is the open
+  // flow for everyone, a signed-in person included: the questions at #/map/find/<step>, then three projects at
+  // #/map/projects and the one picked at #/map/projects/<id>. The tree is still grounded in the browser, since the
+  // projects aim at its gaps, but no page draws it; #/map/tree, #/map/quests, #/map/start and ?build=1 land on the
+  // projects held in this browser, else on the first question. Saved maps stay as they are in storage.
+  SKILL_TREE_ENABLED: false,
+  // The "Having trouble?" line under the open flow's projects (2026-11-27): the owner's booking page for a free
+  // 30-minute session, an http(s) address opened in a new tab. null or anything else: the line is not drawn. Beside
+  // it, when BOOKING_TALLY holds a form id, the paid 90-minute session: that form takes the payment and then sends
+  // the person to the owner's 90-minute calendar (the form's own redirect, set in Tally).
+  SESSION_URL: "https://calendar.app.google/FJrPgqtegW6U1ho57",
+  // The owner's LinkedIn profile (2026-11-27): the feedback box offers it as "Connect with Wally on LinkedIn".
+  // null or anything that is not an http(s) address: no line.
+  LINKEDIN_URL: "https://www.linkedin.com/in/wally-khan/",
   // The booking card under the open tree's two projects: the id of the owner's Tally form (the part after
   // tally.so/r/), opened in a new tab with the hidden fields surface, source, role and email. null: no card is drawn.
-  // "Book your project session" (the owner's form, 2026-11-11: the four hidden fields and a payment block).
+  // "Book your project session" (the owner's form, 2026-11-11: the four hidden fields and a payment block). Drawn only
+  // with SKILL_TREE_ENABLED on, under the tree; the open flow's projects page links to it beside the SESSION_URL line.
   BOOKING_TALLY: "6Djx8o",
   /* The feedback box and its prompt (the visitor journey, step 6, 2026-11-05; web/feedback.js). On since the
      `feedback` table was applied (pipeline/sql/2026-11-05_feedback.sql): PostgREST refuses a row for a table it

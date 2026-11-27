@@ -1,6 +1,7 @@
 // "Start a side project" (#/map/start, 2026-11-11), signed in without a real session as map.spec.mjs is: a made-up
 // session in localStorage and the Supabase project stubbed here. The flag is turned on in the page only (an init
-// script sets QUESTS_ENABLED as config.js assigns CONFIG, on or off, whatever web/config.js holds). /api/tree and /api/quests are
+// script sets QUESTS_ENABLED as config.js assigns CONFIG, on or off, whatever web/config.js holds), with the skill
+// tree on (SKILL_TREE_ENABLED, off in web/config.js since 2026-11-27: open_projects.spec.mjs has that side). /api/tree and /api/quests are
 // stubbed with fixtures: no model is called. MAP_SHOTS=1 saves the screens under
 // data/experiments/scratch/map-redesign/shots-flow/ (gitignored).
 import fs from "node:fs";
@@ -25,20 +26,21 @@ const hashOf = page => page.evaluate(() => location.hash);
 const STORIES = EXAMPLE.cards.filter(c => c.kind === "story");
 const SELF = { ...EXAMPLE, student: { slug: null, name_on_page: null, campus: "Cornell Tech", program: null, self_serve: true }, company: null, gap_sentence: null, cards: STORIES, worlds: [{ n: 1, label: "Fundamentals", missions: STORIES.map(c => c.id) }] };
 // three projects as the function returns them (already validated)
-const project = (i, title, kind, host, skills) => ({
+const project = (i, title, kind, place, skills, level = "beginner") => ({ level,
   id: `p${i}`, title, ship: "A public page that shows the positioning of three freight apps.",
   atlas_skills: skills, steps: ["Pick three apps your old customers used.", "Copy each home page headline and pitch.", "Ask the assistant to compare them in a table.", "Publish the page and share the link."],
   prompt: "Help me write a positioning teardown of three freight software products. Compare their headlines and the proof each offers.",
-  build_with: { kind, examples: KIT.kinds.find(k => k.id === kind).examples.slice(0, 2).map(e => e.name) }, live_on: { host }, needs_database: false,
+  build_with: { kind, examples: KIT.kinds.find(k => k.id === kind).examples.slice(0, 2).map(e => e.name), tools: KIT.kinds.find(k => k.id === kind).examples.slice(0, 2).map(e => ({ name: e.name, url: e.url, free: e.free, own: false })) }, live_on: { place },
+  share: { place: "linkedin", how: "Post the page with one screenshot.", post: "I compared three freight apps. Here is what I found." },
   why_role: { text: "Product marketers own positioning.", posting_quote: null }, why_person: { text: "You sold logistics software.", resume_quote: null },
 });
 const PROJECTS = [
-  project(1, "A positioning teardown of three freight apps", "chat_pages", "github_pages", ["positioning_messaging", "gtm"]),
-  project(2, "A launch brief for a partner program", "chat_pages", "claude_artifact", ["gtm", "cross_functional"]),
-  project(3, "A buyer persona page for freight forwarders", "app_builders", "vercel", ["enterprise_saas"]),
+  project(1, "A positioning teardown of three freight apps", "research", "linkedin", ["positioning_messaging", "gtm"]),
+  project(2, "A launch brief for a partner program", "research", "notion_page", ["gtm", "cross_functional"]),
+  project(3, "A buyer persona page for freight forwarders", "design_decks", "substack", ["enterprise_saas"], "intermediate"),
 ];
-const FLAG_OFF = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.QUESTS_ENABLED = false; } }); };
-const FLAG_ON = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) x.QUESTS_ENABLED = true; } }); };
+const FLAG_OFF = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) { x.QUESTS_ENABLED = false; x.SKILL_TREE_ENABLED = true; } } }); };
+const FLAG_ON = () => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: x => { v = x; if (x) { x.QUESTS_ENABLED = true; x.SKILL_TREE_ENABLED = true; } } }); };
 
 async function signedIn(visitor, hash, { map = null, flag = true, ready = "#main h1", extra = {} } = {}) {
   const page = await visitor.open({ storage: { "maps.session": JSON.stringify(SESSION), "door.email": SESSION.email, "door.where": "", "door.seen": "1", ...extra } });
@@ -111,37 +113,43 @@ test("Start a side project: a person with no map walks a to f, picks a project a
   await expect(page.locator(".sp-opt")).toHaveCount(4);
   await shot(page, "c-tech", info);
   await page.getByRole("radio", { name: S.tech.options.ai_tools }).click();
-  // d: the kinds of AI tools, with examples as plain text
+  // d: the tools: what they use, the kinds of the field (examples as plain text), open to a new tool
   await expect.poll(() => hashOf(page)).toBe("#/map/start/tools");
-  await expect(page.locator(".sp-rows li")).toHaveCount(KIT.kinds.length);
-  await expect(page.locator(".sp-rows")).toContainText("Claude Code, Cursor, Codex");
-  await page.locator("[data-kind='chat_pages'][data-v='use']").click();
-  await page.locator("[data-kind='app_builders'][data-v='learn']").click();
-  await expect(page.locator("[data-kind='chat_pages'][data-v='use']")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".sp-taps li")).toHaveCount(Quests.fieldKinds(KIT, "marketing", "ai_tools").length);
+  await expect(page.locator(".sp-taps")).toContainText("Canva, Gamma, Copilot in PowerPoint");
+  await page.locator("#sp-own-tools").fill("PowerPoint");
+  await page.locator("[data-kind='research']").click();
+  await page.locator("[data-kind='design_decks']").click();
+  await page.locator("[data-try='true']").click();
+  await expect(page.locator("[data-kind='research']")).toHaveAttribute("aria-pressed", "true");
   await clean(page);
   await shot(page, "d-tools", info);
   // a reload keeps the place and the answers
   await page.reload();
   await expect(page.locator(".sp h1")).toHaveText(S.tools.title);
-  await expect(page.locator("[data-kind='chat_pages'][data-v='use']")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-kind='research']")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#sp-own-tools")).toHaveValue("PowerPoint");
   await page.locator("#sp-go").click();
-  // e: the accounts
-  await expect(page.locator(".sp h1")).toHaveText(S.accounts.title);
-  await page.locator("[data-acc='github'][data-v='have']").click();
-  await page.locator("[data-acc='supabase'][data-v='no']").click();
+  // e: where the work shows (in the accounts step's place since 2026-11-27)
+  await expect(page.locator(".sp h1")).toHaveText(S.share.title);
+  await expect(page.locator("[data-place='linkedin']")).toHaveAttribute("aria-pressed", "true");
+  await page.locator("[data-place='substack']").click();
+  await page.locator("[data-pf='true']").click();
+  await page.locator("[data-host='notion']").click();
   await clean(page);
-  await shot(page, "e-accounts", info);
+  await shot(page, "e-share", info);
   await page.locator("#sp-go").click();
   // f: the tree first (no map), then three projects
   await expect(page.locator(".sp-choice")).toHaveCount(3);
   expect(page.calls.map(c => c.url)).toEqual(["tree", "quests"]);
   expect(page.calls[0].body.roles).toEqual(["pmm", "brand_manager"]);
   const w = page.calls[1].body;
-  expect([w.mode, w.answers.tech, w.answers.tools, w.answers.accounts.github]).toEqual(["write", "ai_tools", { chat_pages: "use", app_builders: "learn" }, "have"]);
+  expect([w.mode, w.answers.tech, w.answers.tools, w.answers.own_tools, w.answers.try_new, w.answers.places, w.answers.portfolio]).toEqual(["write", "ai_tools", { research: "use", design_decks: "use" }, "PowerPoint", true, ["linkedin", "substack"], { host: "notion", note: "" }]);
   expect(w.extras).toContain("WhatsApp community");
   expect(w.text.length).toBeGreaterThan(200);
   await expect(page.locator(".sp-choice").first().locator(".q-chips .chip")).toHaveCount(2);
-  await expect(page.locator(".sp-choice").first()).toContainText("GitHub Pages");
+  await expect(page.locator(".sp-choice").first()).toContainText("LinkedIn");
+  await expect(page.locator(".sp-choice").first()).toContainText("Gemini Notebook (free plan)");
   await expect(page.locator(".sp-again")).toContainText(Copy.fill(S.pick.left, { left: 4 }));
   await clean(page);
   await shot(page, "f-pick", info);
@@ -157,7 +165,7 @@ test("Start a side project: a person with no map walks a to f, picks a project a
   await expect(now.locator(".q-checks li")).toHaveCount(4);
   await expect(now.locator("#q-prompt")).toHaveText(PROJECTS[1].prompt);
   await expect(now).toContainText(MC.card.buildWith);
-  await expect(now).toContainText("A shared Claude artifact link");
+  await expect(now).toContainText("A public Notion page");
   await expect(now).toContainText(MC.sideTag);
   await expect(page.locator(".q-path .lvl").first()).toContainText(MC.sideHead);
   await clean(page);
@@ -174,7 +182,7 @@ test("Start a side project: with a map, the Quests page head offers it and the f
   await start.click();
   await expect(page.locator(".sp h1")).toHaveText(S.aim.title);
   await expect(page.locator(".sp-picked .sp-role")).toHaveCount(SELF.role_class.roles.length);   // the map's roles, prefilled
-  for (const step of ["tech", "tools", "accounts"]) { await page.evaluate(s => { location.hash = "#/map/start/" + s; }, step); await expect(page.locator(".sp-prog")).toBeVisible(); }
+  for (const step of ["tech", "tools", "share"]) { await page.evaluate(s => { location.hash = "#/map/start/" + s; }, step); await expect(page.locator(".sp-prog")).toBeVisible(); }
   await page.evaluate(() => { location.hash = "#/map/start/pick"; });
   await expect(page.locator(".sp-choice")).toHaveCount(3);
   expect(page.calls.map(c => c.url)).toEqual(["quests"]);
