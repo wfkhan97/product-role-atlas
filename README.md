@@ -207,7 +207,7 @@ overwrites a newer local one.
 | Folder | What is in it |
 |---|---|
 | `pipeline/` | The stages, the role sets (`roles.py`, `roles_mba.py`, `roles_tech.py`), the taxonomy (`taxonomy.json`, `evidence.json`, `fields.json`, `tax.py`), the depth (`depth/`, `depth_gen.py`, `build_steps.py`, `depth_publish.py`), the standards index (`standards.json`, `standards.py`), the stores (`backlog.py`, `store.py`), the adapters (`adapters/`), the catalog export, the funnel, the apprentice generator (`apprentice/`), the migrations (`sql/`), taxonomy tooling (`experiments/`). |
-| `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the four functions; `tokens/` the design tokens. |
+| `web/` | The site. `index.html` is the shell; `app.js` the screens; one module per concern (table above); `data/` the published graphs, bands, catalog and jobs files; `api/` the four functions; `tokens/` the design tokens; `ui.js` the shared components, one rule set each in `style.css` (no component library: `docs/MODULES.md`). |
 | `data/` | `registry.json` (every employer's ATS config, merged from `raw/registry_*.json`), `raw/` (the Fortune list, funds, portfolios, employer lists; the postings backlog is not in git), `processed/` (the tagged postings). |
 | `evals/` | Every eval runner, the expectation files and the committed baselines (`evals/README.md`). |
 | `tests/` | Unit tests, web and python, and the UI harness in `tests/ui/` (`tests/README.md`). |

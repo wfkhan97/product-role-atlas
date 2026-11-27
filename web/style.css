@@ -1,6 +1,9 @@
 /* Role atlas — styled on the GradBuddy tokens (web/tokens/, snapshot 2026-10-09). Look changes through tokens only.
    Three colours with meaning: green = you (evidenced, chosen, current), blue = the postings' numbers, amber = attention
-   (gaps). Skill areas are text, not colours. Desktop only (owner's decision 2026-10-13); no phone layout. */
+   (gaps). Skill areas are text, not colours. The shared components (web/ui.js draws them): the button, the close mark,
+   the field, the chip, the segmented control, the pill, the callout, the spinner, the status line, the eyebrow, the
+   card and the tile each have one rule set here, and a screen's own rule only places one. Phone rules sit in the
+   blocks at max-width 640px. */
 
 :root { --input: oklch(0.52 0.012 160); --page-max: 880px; }
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --input: oklch(0.60 0.006 160); --green-400: oklch(0.485 0.15 145); --primary-tint: oklch(0.485 0.15 145 / 0.12); } }
@@ -610,7 +613,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .gm-rr.dim { opacity: 0.6; }
 /* play first: the start screen, the one coachmark, the shared picker (the Explore field cards as buttons) */
 .gm-start .lead { max-width: 640px; }
-.gm-coach { position: relative; display: flex; justify-content: space-between; gap: 16px; align-items: baseline; border: 1px solid var(--primary); border-radius: var(--radius-md); background: var(--card); padding: 10px 12px; margin: 0 0 14px; font-size: var(--text-sm); color: var(--foreground); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+.gm-coach { position: relative; display: flex; justify-content: space-between; gap: 16px; align-items: baseline; border: 1px solid var(--primary); border-radius: var(--radius-md); background: var(--card); padding: 10px 12px; margin: 0 0 14px; font-size: var(--text-sm); color: var(--foreground); box-shadow: var(--shadow-pop); }
 .gm-coach::after { content: ""; position: absolute; left: 16px; bottom: -6px; width: 10px; height: 10px; background: var(--card); border-right: 1px solid var(--primary); border-bottom: 1px solid var(--primary); transform: rotate(45deg); }
 .gm-coach .link { white-space: nowrap; color: var(--primary); }
 .gm-picker .fcards { margin-top: 16px; }
