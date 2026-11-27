@@ -1582,6 +1582,8 @@
       ${levelWord(c) ? `<p class="pj-level lv-${esc(c.project_level)}">${esc(levelWord(c))}</p>` : ""}<h1 tabindex="-1">${esc(c.title)}</h1>
       <p class="lead"><b>${esc(P.youShip)}</b> ${esc(c.ship)}</p>
       <p class="pj-skills"><b>${esc(P.builds)}</b> ${skillNames(held, c, ix).map(n => `<span class="chip">${esc(n)}</span>`).join(" ")}</p>
+      <section class="pj-dl"><h2>${esc(K.guideHeading)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p>
+        <p>${esc(K.assistLead)}</p><p class="pj-dl-row"><button type="button" class="btn" id="pj-brief-copy">${esc(K.copyBrief)}</button> <button type="button" class="btn" id="pj-brief-dl">${esc(K.downloadBrief)}</button> <span class="small muted" aria-live="polite" id="pj-brief-out"></span></p></section>
       <div class="pj-two"><section><h2>${esc(K.whyRole)}</h2><p>${esc(c.why_role.text)}</p></section><section><h2>${esc(K.whyYou)}</h2><p>${esc(c.why_person.text)}</p></section></div>
       <section><h2>${esc(K.steps)}</h2><p class="small muted">${esc(K.stepsNote)}</p><ol class="pj-steps">${c.steps.map((st, i) => `<li><label${ticks[i] ? ` class="done"` : ""}><input type="checkbox" data-step="${i}"${ticks[i] ? " checked" : ""}> <span>${esc(st)}</span></label></li>`).join("")}</ol></section>
       <section><h2>${esc(K.prompt)}</h2><p class="small muted">${esc(K.promptLead)}</p><pre class="pj-pre" id="pj-prompt">${esc(c.prompt)}</pre>
@@ -1589,22 +1591,30 @@
       <div class="pj-two"><section><h2>${esc(P.buildWith)}</h2>${tools}</section><section><h2>${esc(P.showOn)}</h2>${live}</section></div>
       ${sh ? `<section><h2>${esc(K.share)}</h2><p><b>${link(sh.label, sh.url)}</b>: ${esc(sh.how)}</p>${sh.post ? `<h3>${esc(K.post)}</h3><pre class="pj-pre" id="pj-post">${esc(sh.post)}</pre>
         <p class="pj-copyrow"><button type="button" class="btn" data-copy="pj-post" aria-label="${esc(K.copyPost)}">${esc(K.copy)}</button> <span class="small muted" aria-live="polite" id="pj-post-out"></span></p>` : ""}</section>` : ""}
-      <section class="pj-dl"><h2>${esc(K.download)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p></section>
       <p class="pj-foot"><a href="#/map/projects">${esc(K.back)}</a></p>
       ${helpLine(held)}
     </div>`);
     main.firstElementChild.classList.add("pj-page");
     main.querySelectorAll(".pj-steps input[data-step]").forEach(b => b.onchange = () => { const t = ticksOf(c.id); t[+b.dataset.step] = b.checked; keepTicks(c.id, t); b.closest("label").classList.toggle("done", b.checked); });
     main.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => { const el = $("#" + b.dataset.copy); if (el) copyText(el.textContent, $(`#${b.dataset.copy}-out`)); });
-    $("#pj-download").onclick = () => {
-      if (window.Capture) Capture.cta("open_download", "click");
-      const html = ProjectGuide.html(c, { kit, role: { id: held.map.role.id, label: role }, answers: heldAnswers(held), date: todayIso(), skills: skillNames(held, c, ix) });
-      const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
-      const a = document.createElement("a"); a.href = url; a.download = ProjectGuide.filename(c); a.hidden = true;
+    // the guide (one HTML file) and the brief for an AI assistant (Markdown): built here, saved by the browser
+    const guideOpts = () => ({ kit, role: { id: held.map.role.id, label: role }, answers: heldAnswers(held), date: todayIso(), skills: skillNames(held, c, ix) });
+    const save = (text, type, name) => {
+      const url = URL.createObjectURL(new Blob([text], { type }));
+      const a = document.createElement("a"); a.href = url; a.download = name; a.hidden = true;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
+    };
+    $("#pj-download").onclick = () => {
+      if (window.Capture) Capture.cta("open_download", "click");
+      save(ProjectGuide.html(c, guideOpts()), "text/html;charset=utf-8", ProjectGuide.filename(c));
       if (window.Capture) Capture.cta("open_download", "done");
     };
+    $("#pj-brief-dl").onclick = () => {
+      if (window.Capture) Capture.cta("open_brief", "click");
+      save(ProjectGuide.brief(c, guideOpts()), "text/markdown;charset=utf-8", ProjectGuide.filename(c, "md"));
+    };
+    $("#pj-brief-copy").onclick = () => { if (window.Capture) Capture.cta("open_brief", "click"); copyText(ProjectGuide.brief(c, guideOpts()), $("#pj-brief-out")); };
   }
 
   // above the open tree: the written projects or the two from web/preview.js, then the booking card (only with a form id)

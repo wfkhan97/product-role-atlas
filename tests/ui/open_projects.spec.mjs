@@ -257,6 +257,17 @@ test("the download: one file named for the project, with its title and the portf
   await walk(page, { host: "squarespace", note: "jordanlee.com" });
   await cards(page).first().locator("[data-pick]").click();
   await expect(page.locator("#pj-download")).toHaveText(K.download);
+  // the guide and the brief sit on top of the page, before the steps (owner, 2026-11-27)
+  expect(await page.evaluate(() => !!(document.querySelector("#pj-download").compareDocumentPosition(document.querySelector(".pj-steps")) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+  await shot(page, "picked-top");
+  // the brief for an AI assistant: a Markdown file of the same name, coaching rules first, then the project
+  const [md] = await Promise.all([page.waitForEvent("download"), page.click("#pj-brief-dl")]);
+  expect(md.suggestedFilename()).toBe("project-guide-a-positioning-teardown-of-three-freight-apps.md");
+  const brief = fs.readFileSync(await md.path(), "utf8");
+  expect(brief).toMatch(/^# Project brief: /);
+  expect(brief.indexOf("## How to coach me")).toBeLessThan(brief.indexOf("## The project"));
+  expect(brief).toContain(SET1[0].prompt);
+  expect(brief).toContain("Open your portfolio in the Squarespace editor.");
   const [dl] = await Promise.all([page.waitForEvent("download"), page.click("#pj-download")]);
   expect(dl.suggestedFilename()).toBe("project-guide-a-positioning-teardown-of-three-freight-apps.html");
   const text = fs.readFileSync(await dl.path(), "utf8");

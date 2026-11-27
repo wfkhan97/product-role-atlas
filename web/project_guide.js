@@ -2,7 +2,11 @@
    Pure: no DOM, no network, no model. A classic script that also loads in node, require("web/project_guide.js"), the
    way preview.js does; the browser saves the string as a file (a Blob and a download link, app.js pickedScreen).
      html(card, { kit, role, answers, date, skills })   one self-contained HTML document, as a string
-     filename(card)                                     a safe file name ending in .html
+     filename(card, ext)                                a safe file name ending in .html (or .md for the brief)
+     brief(card, { kit, role, answers, skills, urls })  the same project as a Markdown brief for an AI assistant
+                                                        (Claude, ChatGPT, Codex…): how to coach the person one step
+                                                        at a time, then the project; the guide carries it too,
+                                                        without the tools' addresses (its own list links them)
      portfolio(card, { kit, answers })                  the "Add it to your portfolio" part: { kind, host, lines, prompt }
      HOSTS                                              each portfolio host id of the kit and its kind: code, builder,
                                                         other (a host the table lacks is "other")
@@ -69,6 +73,40 @@
       "Your name and a way to reach you are on it.",
     ],
     foot: "From GradBuddy. This file works offline, and you can print it.",
+    // the brief for an AI assistant (brief(), and the guide's own section): the assistant is the coach
+    coach: "Work through it with an AI assistant",
+    coachLead: "Attach this file to the assistant you use, or copy the brief below into it. It coaches you one step at a time.",
+    coachShow: "Show the brief",
+    copyBrief: "Copy the brief for your assistant",
+    briefTitle: "Project brief: {title}",
+    briefIntro: "You are my coach for this portfolio project. Guide me through it one step at a time.",
+    briefRole: "I want a job as {role}. This project shows skills that role asks for.",
+    briefHow: "How to coach me",
+    briefRules: [
+      "Start by asking what I have done so far and which tool I am using.",
+      "Give me one step at a time. Wait until I say I finished it before the next one.",
+      "When I get stuck, ask what I see on my screen, then suggest one fix.",
+      "The tools below are the ones I picked. I may want another tool, or the one we are talking in. Then adapt the steps and tell me what changes.",
+      "Ask me for any fact about me that you need. Never make one up.",
+      "Stay with the project below. Suggest extras only after the last step.",
+      "After the last step, help me put it live, add it to my portfolio and write the post.",
+      "End with the checks under \"Ready to share\".",
+    ],
+    briefProject: "The project",
+    briefLevel: "Level: {level}",
+    briefShip: "What I ship: {ship}",
+    briefSkills: "Skills it builds: {skills}",
+    briefWhyRole: "Why the role asks for it: {text}",
+    briefWhyMe: "Why it suits me: {text}",
+    briefTools: "Tools",
+    briefSteps: "Steps",
+    briefPrompt: "My starter prompt",
+    briefPromptLead: "I paste this into the tool I build with.",
+    briefLive: "Where it goes live",
+    briefPortfolio: "Adding it to my portfolio",
+    briefShare: "Sharing it",
+    briefPost: "A draft post, to make mine:",
+    briefReady: "Ready to share",
     // the portfolio templates: a site in code, a site builder, somewhere else, no site yet
     code: {
       lead: "Your site lives on {host}. Ask the AI tool you built it with to add the project.",
@@ -127,7 +165,46 @@
   }
 
   const slug = s => String(s || "").normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60).replace(/-+$/g, "");
-  const filename = card => `project-guide-${slug((card || {}).title) || "project"}.html`;
+  const filename = (card, ext = "html") => `project-guide-${slug((card || {}).title) || "project"}.${ext === "md" ? "md" : "html"}`;
+
+  // ---------- the brief: the project as Markdown an AI assistant can coach from ----------
+  // Plain text, so nothing is escaped as HTML; a value is flattened to one line (the prompt and the post keep their
+  // lines inside a fence) and a line of backticks in a value cannot close the fence.
+  const one = s => str(s);
+  const fence = s => "````text\n" + String(s == null ? "" : s).replace(/\u0000/g, "").replace(/`{4,}/g, "```").trim() + "\n````";
+  function brief(card, { kit = null, role = null, answers = null, skills = null, urls = true } = {}) {
+    const c = card || {}, W = WORDS, out = [];
+    const roleLabel = str((role || {}).label) || str((role || {}).id), level = W.levels[c.project_level] || "";
+    const sk = list(skills).filter(Boolean).map(one);
+    out.push(`# ${fill(W.briefTitle, { title: one(c.title) || W.kicker })}`, "", W.briefIntro);
+    if (roleLabel) out.push(fill(W.briefRole, { role: one(roleLabel) }));
+    out.push("", `## ${W.briefHow}`, ...W.briefRules.map(r => `- ${r}`));
+    out.push("", `## ${W.briefProject}`);
+    if (level) out.push(`- ${fill(W.briefLevel, { level })}`);
+    out.push(`- ${fill(W.briefShip, { ship: one(c.ship) })}`);
+    if (sk.length) out.push(`- ${fill(W.briefSkills, { skills: sk.join(", ") })}`);
+    if (one((c.why_role || {}).text)) out.push(`- ${fill(W.briefWhyRole, { text: one(c.why_role.text) })}`);
+    if (one((c.why_person || {}).text)) out.push(`- ${fill(W.briefWhyMe, { text: one(c.why_person.text) })}`);
+    out.push("", `## ${W.briefTools}`);
+    const tools = list(c.build_with).flatMap(b => list(b.tools).length ? list(b.tools).map(t => `- ${one(t.name)}${t.own ? ` (${W.yours})` : t.free ? ` (${one(t.free)})` : ""}${urls && safeUrl(t.url) ? `: ${safeUrl(t.url)}` : ""}`) : [`- ${one(b.name)}`]);
+    out.push(...(tools.length ? tools : [`- ${W.noTools}`]));
+    out.push("", `## ${W.briefSteps}`, ...list(c.steps).map((s, i) => `${i + 1}. ${one(s)}`));
+    if (str(c.prompt)) out.push("", `## ${W.briefPrompt}`, W.briefPromptLead, "", fence(c.prompt));
+    const live = list(c.live_on).map(l => `- ${one(l.name)}${one(l.note) ? `: ${one(l.note)}` : ""}`);
+    if (live.length) out.push("", `## ${W.briefLive}`, ...live);
+    const pf = portfolio(c, { kit, answers }), note = one(((answers || {}).portfolio || {}).note);
+    out.push("", `## ${W.briefPortfolio}`, ...pf.lines.map(l => `- ${l}`));
+    if (pf.prompt) out.push("", fence(pf.prompt), "", ...list(pf.after).map(l => `- ${l}`));
+    if (pf.host && note) out.push(`- ${fill(W.yourSite, { note })}`);
+    const sh = c.share;
+    out.push("", `## ${W.briefShare}`);
+    if (sh && (one(sh.how) || one(sh.post))) {
+      if (one(sh.how)) out.push(`- ${one(sh.label || sh.place)}: ${one(sh.how)}`);
+      if (str(sh.post)) out.push("", W.briefPost, "", fence(sh.post));
+    } else out.push(`- ${W.noShare}`);
+    out.push("", `## ${W.briefReady}`, ...W.checks.map(t => `- [ ] ${t}`), "");
+    return out.join("\n");
+  }
 
   const CSS = `:root{color-scheme:light dark;--bg:#ffffff;--fg:#1d211f;--muted:#59615c;--line:#d8ddd9;--card:#f5f7f6;--accent:#1d7a3d;--tint:#e9f4ec}
 @media (prefers-color-scheme:dark){:root{--bg:#131614;--fg:#e7ebe8;--muted:#a2aba5;--line:#2c322e;--card:#1b1f1c;--accent:#72d091;--tint:#1a2a20}}
@@ -143,6 +220,7 @@ a{color:var(--accent);overflow-wrap:anywhere}
 .level{display:inline-block;margin:14px 0 0;padding:2px 10px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:.85rem;font-weight:600}
 .muted{color:var(--muted)}
 .tag{color:var(--muted);font-size:.9rem}
+details{margin:0 0 10px}summary{cursor:pointer;color:var(--accent);min-height:32px}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:0 0 8px;font:inherit}
 .ticks{list-style:none;padding:0}.ticks li{margin:8px 0}
 .ticks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
@@ -197,6 +275,11 @@ ${level ? `<p class="level">${esc(level)}</p>` : ""}
 <p>${esc(c.ship)}</p>
 ${sk.length ? `<p class="muted">${esc(W.builds)} ${esc(sk.join(", "))}</p>` : ""}
 
+<h2>${esc(W.coach)}</h2>
+<p class="muted">${esc(W.coachLead)}</p>
+${copyRow("g-brief", W.copyBrief)}
+<details><summary>${esc(W.coachShow)}</summary><pre id="g-brief">${esc(brief(c, { kit, role, answers, skills, urls: false }))}</pre></details>
+
 <h2>${esc(W.why)}</h2>
 <h3>${esc(roleLabel ? fill(W.forRole, { role: roleLabel }) : W.whyRole)}</h3>
 <p>${esc((c.why_role || {}).text)}</p>
@@ -237,5 +320,5 @@ ${shareHtml}
 </html>
 `;
   }
-  return { html, filename, portfolio, HOSTS, WORDS, esc, safeUrl, slug };
+  return { html, brief, filename, portfolio, HOSTS, WORDS, esc, safeUrl, slug };
 });
