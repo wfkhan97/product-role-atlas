@@ -3953,6 +3953,15 @@ of 3,924 open postings (87%) were already held from an earlier run, every one wi
 - **Not done.** Paradox lists without titles, so nothing can be matched before the request; Google has no request per
   posting. Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters and Avature read a page per posting and could take
   the same three lines each.
+## Six employers moved their boards (`fix/dead-board-addresses`, 2026-11-22)
+
+The MBA refresh of 2026-11-15 logged eleven employers whose board answered 404, every week since the board moved. Six
+have a new address, found on the employer's own careers page or under the same name at another vendor, and each was
+read through its adapter on 2026-11-22: ClassPass and Parloa (Greenhouse to Ashby, same name), Helsing and Tavily
+(Ashby to Greenhouse, same name), favorited (Ashby `fav`), Beacon Software (Ashby `beaconholdings`; the source row
+"Beacon" shares the board and moves with it). The change is in the source files (`registry_startups.json`,
+`registry_a16z.json`, the `startup_boards.json` cache) and `pipeline.merge_registry` gives the committed
+`data/registry.json`. The postings held under the old boards close by absence at the next refresh, as they should.
 
 ## The 2026-11-23 MBA refresh, and what its checks needed (`fix/mba-refresh-2026-11-23`, 2026-11-23)
 
@@ -4036,6 +4045,7 @@ done). One line per item; the section that explains it is named where it helps.
 - **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
 - **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).
 - **The tagger itself**: 0.3 s a posting for 283 patterns; time each pattern on a sample before splitting the extract across jobs.
+- **Five employers with no board the scrape can read** (2026-11-22): Riot is on Workable and Hilbert on Rippling (no adapter for either); no board was found for Nothing, Corridor or Formation. Each logs one error a refresh and closes nothing, so its held postings stay open: decide between an adapter and marking the row unverified, after checking what extract does with a file whose employer left the registry.
 - **The Product and tech fields for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle both sets for `api/tree.js` as `api/open.js` does and pass `true` to `treeRoles` (`evals/quests.mjs` already has product and tech cases).
 
 **The owner's items**
