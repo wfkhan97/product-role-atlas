@@ -1,32 +1,37 @@
-/* POST /api/open: the open tree's build quests (2026-11-11, behind CONFIG.OPEN_QUESTS_ENABLED with OPEN_TREE_ENABLED).
-   A visitor with no session sends an email, their résumé text, the roles of their tree and the answers of the form's
-   steps (how technical they feel, the kinds of AI tools, the accounts); the
-   function builds the map the way /api/tree does (web/apprentice.js over the bundled atlas; nothing is written), asks
-   Claude Opus 5.5 for three side projects with the request and the rules of /api/quests (web/quests.js request and
-   validate, web/api/quests.js write: one retry when nothing passed) and returns the ones that pass. The browser keeps
-   them beside the tree (localStorage, open.tree); nothing here stores a project, the résumé or the email.
+/* POST /api/open: the open flow's project writer (2026-11-11; the portfolio flow, 2026-11-27; behind
+   CONFIG.OPEN_QUESTS_ENABLED with OPEN_TREE_ENABLED). A visitor with no session sends an email, their résumé text, the
+   roles they picked (one field: the product, MBA or tech set) and the answers of the flow's steps; the function builds
+   the map the way /api/tree does (web/apprentice.js over the bundled atlas; nothing is written), asks Claude Opus 5.5
+   for three portfolio projects (two beginner, one intermediate) with the request and the rules of /api/quests
+   (web/quests.js request and validate, web/api/quests.js write: one retry when nothing passed) and returns the ones
+   that pass. "None of these" sends the same request again with `feedback` and `avoid`. The field the kit is read for
+   is the built map's, never the request's. The browser keeps the projects (localStorage); nothing here stores a
+   project, the résumé, the feedback or the email.
 
    No one is signed in, so the limits are the gate. Each is a small count in the private `maps` bucket under open/,
    a folder no person's policy reaches (pipeline/sql/2026-11-03_maps.sql: a person reads their own <uid>/ folder),
    written with the service role and counted before the call, since the call is the cost:
-     open/email/<hash>.json   { date, n }   one address: OPEN_QUESTS_EMAIL_CAP writes a day (default 2)
+     open/email/<hash>.json   { date, n }   one address: OPEN_QUESTS_EMAIL_CAP writes a day (default 4: a first write
+                                            and "none of these" rewrites)
      open/ip/<hash>.json      { date, n }   one network address: OPEN_QUESTS_IP_CAP a day (default 8)
      open/day.json            { date, n }   everyone: OPEN_QUESTS_DAILY_CAP a day (default 150)
    The hash is SHA-256, cut; the address is the email as typed, lowercased, never verified. Two requests at once can
    both pass a count: the caps bound the spend to the order of the cap, not to the unit. The key's own spend cap is
    the hard stop (PLAN.md).
 
-     request   { email, text, roles: [role ids, the first is the tree's role], posting?: text,
-                 answers?: { tech, tools, accounts } as /api/quests takes them (Quests.cleanAnswers over the kit) }
+     request   { email, text, roles: [role ids of one field, the first is the main role: "pmm", "product.pm",
+                 "tech.software_engineer"], posting?: text,
+                 answers?: { tech, tools, own_tools, try_new, places, own_places, portfolio } (Quests.cleanAnswers),
+                 feedback?: text (at most 600 characters), avoid?: [titles already shown, at most 6] }
                A bare `tech` (a Quests.TECH id, the request before 2026-11-12) is still taken when `answers` has none.
-     response  { ok: true, projects: [...], model, dropped }
+     response  { ok: true, projects: [...], model, dropped }   (a project's shape: web/api/quests.js)
                404 off · 403 cross_origin · 400 email_required | text_required | text_too_short | roles_required |
                too_many_roles | dup_role | unknown_role | mixed_fields · 413 · 429 rate_limited { scope: "email" |
                "ip" | "day" } · 422 no_valid · 503 not_configured · 502 upstream · 504 timeout
      GET       { ok: true, enabled, key, storage }
 
-   The log line holds the model, the stop reasons, the token usage and the rule counts; never the request, the email
-   or a word of the answer. */
+   The log line holds the model, the stop reasons, the token usage and the rule counts; never the request, the email,
+   the feedback or a word of the answer. */
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -40,7 +45,7 @@ const WEB = path.join(__dirname, "..");
 const BUCKET = "maps";
 const LIMITS = { body: 200000, timeoutMs: 80000 };
 const num = (v, d) => { const n = +v; return Number.isInteger(n) && n >= 0 ? n : d; };
-const caps = (env = process.env) => ({ email: num(env.OPEN_QUESTS_EMAIL_CAP, 2), ip: num(env.OPEN_QUESTS_IP_CAP, 8), day: num(env.OPEN_QUESTS_DAILY_CAP, 150) });
+const caps = (env = process.env) => ({ email: num(env.OPEN_QUESTS_EMAIL_CAP, 4), ip: num(env.OPEN_QUESTS_IP_CAP, 8), day: num(env.OPEN_QUESTS_DAILY_CAP, 150) });
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const today = () => new Date().toISOString().slice(0, 10);
 const hash = s => crypto.createHash("sha256").update(String(s)).digest("hex").slice(0, 40);
@@ -51,7 +56,7 @@ function enabled(file = path.join(WEB, "config.js")) {
 }
 
 // ---------- the request ----------
-// the answers of the open form's steps c to e, cleaned as /api/quests cleans them; `tech` alone from an older page
+// the answers of the open flow's steps, cleaned as /api/quests cleans them; `tech` alone from an older page
 function answersOf(b, kit) {
   const a = b.answers && typeof b.answers === "object" && !Array.isArray(b.answers) ? { ...b.answers } : {};
   if (a.tech == null) a.tech = b.tech;
@@ -62,7 +67,7 @@ function checkInput(body, kit) {
   const email = b && typeof b.email === "string" ? b.email.trim().toLowerCase() : "";
   if (!EMAIL_RE.test(email) || email.length > 320) return { error: "email_required", status: 400 };
   const t = Tree.checkInput(b); if (t.error) return t;
-  return { email, text: t.text, roles: t.roles, posting: t.posting, answers: answersOf(b, kit) };
+  return { email, text: t.text, roles: t.roles, posting: t.posting, answers: answersOf(b, kit), ...Quests.cleanAsk(b) };
 }
 // the caller's network address as the platform reports it (Vercel sets both headers); "unknown" shares one count
 function ipOf(req) {
@@ -119,7 +124,7 @@ async function handler(req, res, deps = {}) {
     catch (e) { if (e.code) return send(res, 400, { error: e.code }); throw e; }
     const c = await count({ email: input.email, ip: ipOf(req) }, today(), cap, io);
     if (c.limited) return send(res, 429, { error: "rate_limited", scope: c.limited });
-    const out = await QuestsApi.write({ map: built.map, resume: input.text, extras: "", answers: input.answers, kit, standards: deps.standards !== undefined ? deps.standards : QuestsApi.standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
+    const out = await QuestsApi.write({ map: built.map, resume: input.text, extras: "", answers: input.answers, feedback: input.feedback, avoid: input.avoid, kit, standards: deps.standards !== undefined ? deps.standards : QuestsApi.standards() }, { apiKey, fetchImpl, signal: ctl.signal, call: deps.call });
     console.log(JSON.stringify({ fn: "open", model: out.model, stops: out.stops, calls: out.calls, usage: out.usage, kept: out.projects.length, dropped: out.dropped.map(d => d.rules), ms: Date.now() - t0 }));
     if (!out.projects.length) return send(res, 422, { error: "no_valid" });
     return send(res, 200, { ok: true, projects: out.projects, model: out.model, dropped: out.dropped.map(d => d.rules) });

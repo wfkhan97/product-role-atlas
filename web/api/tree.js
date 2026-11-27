@@ -8,7 +8,7 @@
    /api, so the form says the build failed there.
 
      request   Authorization: Bearer <the session's access token>   (web/auth.js keeps it under maps.session)
-               { text, roles: [role ids, the first is the map's role], posting?: the posting's text, campus?: the door's campus }
+               { text, roles: [role ids, the first is the map's role; product.<id> and tech.<id> for the namespaced sets], posting?: the posting's text, campus?: the door's campus }
      response  { ok: true, role: { id, label }, roles, nodes, stories, band }
                401 no_session · 400 text_required | text_too_short | roles_required | too_many_roles | dup_role |
                unknown_role | mixed_fields · 413 · 409 map_by_hand (the owner wrote this person's map; it stays) ·
@@ -32,7 +32,7 @@ const { sameOrigin, send, readBody } = require("./infer.js");
 
 const WEB = path.join(__dirname, "..");
 const LIMITS = { body: 200000, text: 40000, minText: 80, posting: 20000, roles: 4, timeoutMs: 8000 };
-const ROLE_RE = /^(product\.)?[a-z][a-z0-9_]{1,60}$/;   // product.<family>: the product set's roles (web/atlas.js productKey)
+const ROLE_RE = /^(?:product\.|tech\.)?[a-z][a-z0-9_]{1,60}$/;   // product.<family>, tech.<family>: the namespaced sets (web/atlas.js productKey, techKey)
 const BUCKET = "maps";
 
 // the project the site talks to, from web/config.js (one source: the browser reads the same file)
@@ -47,10 +47,13 @@ const serviceKey = () => process.env.CATALOG_SERVICE_ROLE_KEY || "";
 // service_role JWT goes in both, as before.
 const serviceHeaders = key => /^sb_/.test(key) ? { apikey: key } : { apikey: key, authorization: `Bearer ${key}` };
 
-// the atlas over the bundled files, once per process
+// The atlas over the bundled files, once per process. The load answers with a promise, so a file a function does not
+// bundle is a rejected load the atlas catches (the tech index is optional), never a throw. The tech set is on when its
+// index is on disk: /api/open bundles it (web/vercel.json), /api/tree does not, so there it reads nothing.
 let atlas = null;
+const loadFile = url => new Promise(resolve => resolve(JSON.parse(fs.readFileSync(path.join(WEB, url), "utf8"))));
 function theAtlas() {
-  return atlas ||= atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(WEB, url), "utf8")), Matcher });
+  return atlas ||= atlasFactory({ load: loadFile, Matcher, config: () => ({ TECH_ENABLED: fs.existsSync(path.join(WEB, "data", "graph_tech.json")) }) });
 }
 
 // ---------- the request: checked before anything runs ----------
@@ -138,4 +141,4 @@ async function handler(req, res, deps = {}) {
 }
 
 module.exports = handler;
-Object.assign(module.exports, { LIMITS, siteConfig, serviceHeaders, checkInput, bearer, userOf, readMap, probeStorage, writeMap, buildMap, summary, handler });
+Object.assign(module.exports, { LIMITS, ROLE_RE, theAtlas, siteConfig, serviceHeaders, checkInput, bearer, userOf, readMap, probeStorage, writeMap, buildMap, summary, handler });

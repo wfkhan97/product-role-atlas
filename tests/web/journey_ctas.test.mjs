@@ -45,7 +45,8 @@ test("Get your tree sits on the fit screen behind the tree flag and a sign-in an
   // (2026-11-11) the open tree is a third way in: with its flag on, the box goes straight to the form, no sign-in
   assert.match(app, /const buildOn = \(\) => treeOn\(\) && \(accountsOn\(\) \|\| !!Auth\.stored\(\) \|\| openOn\(\)\);/);
   assert.match(app, /const openOn = \(\) => treeOn\(\) && !!\(window\.CONFIG \|\| \{\}\)\.OPEN_TREE_ENABLED;/);
-  assert.match(app, /const treeCta = buildOn\(\) \?/);
+  // the skill tree's flag (2026-11-27): off, the box is not drawn, since no tree page is reachable
+  assert.match(app, /const treeCta = buildOn\(\) && skillTreeOn\(\) \?/);
   assert.match(app, /const treeHref = `#\/map\?build=1&role=\$\{encodeURIComponent\(role\.id\)\}`/);
   assert.match(app, /Auth\.stored\(\) \|\| openOn\(\) \? treeHref : `#\/signin\?next=\$\{encodeURIComponent\(treeHref\)\}`/);
   assert.match(app, /Capture\.cta\("get_tree", "click", \{ role_id: role\.id \}\)/);
@@ -63,4 +64,16 @@ test("capture accepts the two new ids: cta_shown, cta_click and cta_done rows wi
   for (const id of ["heart", "get_tree"]) for (const step of ["shown", "click", "done"]) assert.equal(await C.cta(id, step, { role_id: "fpa" }), true);
   assert.deepEqual(calls.map(r => [r.name, r.cta, r.role_id]), [["cta_shown", "heart", "fpa"], ["cta_click", "heart", "fpa"], ["cta_done", "heart", "fpa"], ["cta_shown", "get_tree", "fpa"], ["cta_click", "get_tree", "fpa"], ["cta_done", "get_tree", "fpa"]]);
   for (const r of calls) assert.ok(!("text" in r) && !("label" in r), "no text leaves");
+});
+
+test("the open flow's calls to action (2026-11-27): the pick, None of these and the download, in the style of open_tree and open_quests", async () => {
+  const ids = ["open_tree", "open_quests", "open_preview", "open_pick", "open_none", "open_download"];
+  assert.match(app, /Capture\.cta\("open_pick", "click"\)/, "a press on Pick this one");
+  assert.match(app, /Capture\.cta\("open_none", "shown"\)/, "the box opens");
+  assert.match(app, /const cta = ask \? "open_none" : "open_quests";/, "a rewrite clicks and is done as open_none");
+  assert.match(app, /Capture\.cta\("open_download", "click"\)/);
+  const calls = [];
+  const C = captureFactory({ fetch: async (url, init) => { calls.push(JSON.parse(init.body)); return { ok: true }; }, config: () => ({ CAPTURE_ENABLED: true, JOURNEY_ENABLED: true, SUPABASE_URL: "https://x.supabase.co", SUPABASE_PUBLISHABLE_KEY: "pk" }), storage: () => null, local: () => null });
+  for (const id of ids) assert.equal(await C.cta(id, "click"), true, id);
+  assert.deepEqual(calls.map(r => r.cta), ids, "every id passes the cta rule of capture.js and the events table");
 });

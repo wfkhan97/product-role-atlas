@@ -4,6 +4,8 @@
 // form id, the booking card. The flags and the form id are set in the page by an init script, whatever web/config.js
 // holds. Without the build quests nothing here calls a function: the tree is grounded in the browser; with them,
 // /api/open is stubbed. OPEN_SHOTS=1 saves the screens under data/experiments/scratch/open-tree/shots/ (gitignored).
+// Every test here runs with the skill tree on (SKILL_TREE_ENABLED, off in web/config.js since 2026-11-27), the tree
+// page after the questions; tests/ui/open_projects.spec.mjs has the flow as it ships, with the projects page instead.
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
@@ -21,7 +23,7 @@ const hashOf = page => page.evaluate(() => location.hash);
 const flags = extra => [x => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) Object.assign(c, x); } }); }, extra];
 const shot = async (page, name) => { if (process.env.OPEN_SHOTS) { fs.mkdirSync(SHOTS, { recursive: true }); await page.screenshot({ path: path.join(SHOTS, `${name}-${test.info().project.name}.png`), fullPage: true }); } };
 
-async function visitorAt(visitor, hash, config = { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: false, BOOKING_TALLY: null }, storage = {}, open = null) {
+async function visitorAt(visitor, hash, config = { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: false, BOOKING_TALLY: null, SKILL_TREE_ENABLED: true }, storage = {}, open = null) {
   const page = await visitor.open({ storage: { "door.email": "", "door.where": "", "door.seen": "1", resume: RESUME, ...storage } });
   page.posts = []; page.api = [];
   const ctx = page.context();
@@ -40,13 +42,13 @@ const step = page => hashOf(page).then(h => (/^#\/map\/find\/(\w+)/.exec(h) || [
 const next = page => page.click("#sp-go");
 const at = async (page, name) => { await expect.poll(() => step(page)).toBe(name); await page.locator(".sp-ask").waitFor(); };
 // from the roles step (a role picked) to the email, the answers of steps c to e when the build quests are on
-async function walk(page, { tech = "no_code", tools = {}, accounts = {} } = {}) {
+async function walk(page, { tech = "no_code", tools = [], places = [] } = {}) {
   await at(page, "roles"); await next(page);
   await at(page, "resume"); await next(page);
   if (await page.evaluate(() => !!window.CONFIG.OPEN_QUESTS_ENABLED)) {
     await at(page, "tech"); await page.click(`[data-tech="${tech}"]`);
-    await at(page, "tools"); for (const [k, v] of Object.entries(tools)) await page.click(`[data-kind="${k}"][data-v="${v}"]`); await next(page);
-    await at(page, "accounts"); for (const [k, v] of Object.entries(accounts)) await page.click(`[data-acc="${k}"][data-v="${v}"]`); await next(page);
+    await at(page, "tools"); for (const k of tools) await page.click(`[data-kind="${k}"]`); await next(page);
+    await at(page, "share"); for (const k of places) await page.click(`[data-place="${k}"]`); await next(page);
   }
   await at(page, "email");
 }
@@ -115,10 +117,11 @@ test("the steps, build quests off: the fit screen's role, the résumé, the emai
   expect(unexpected(page.consoleErrors)).toEqual([]);
 });
 
-test("the roles step: Next says a role is missing; the search adds one; a field shows its roles as chips; a role of another field says why", async ({ visitor }) => {
+test("the roles step: Next says a role is missing; the search adds the main role; its field's roles show as chips at once; the × removes", async ({ visitor }) => {
   const page = await visitorAt(visitor, "#/map");
   await at(page, "roles");
   expect(await hashOf(page)).toBe("#/map/find/roles");
+  await expect(page.locator(".sp-ask")).toHaveText(O.roles.title);
   await next(page);
   await expect(page.locator("#sp-err")).toHaveText(O.roles.noRole);
   await at(page, "roles");
@@ -126,21 +129,15 @@ test("the roles step: Next says a role is missing; the search adds one; a field 
   await page.locator("#sp-hits [data-add='pmm']").click();
   await expect(page.locator(`[data-drop="pmm"]`)).toBeVisible();
   await expect(page.locator("#sp-err")).toHaveCount(0);
-  // the field of the first role opens: its roles as toggle chips, pmm pressed
-  await expect(page.locator(`#sp-browse [data-toggle="pmm"]`)).toHaveAttribute("aria-pressed", "true");
+  // the field of the first role: its other roles as toggle chips, under "Add up to three more in Marketing"
+  await expect(page.locator("#sp-more-h")).toHaveText(Copy.fill(O.roles.more, { field: "Marketing" }));
+  await expect(page.locator(`#sp-browse [data-toggle="pmm"]`)).toHaveCount(0);
   const mine = page.locator("#sp-browse [data-toggle][aria-pressed='false']").first();
   const second = await mine.getAttribute("data-toggle");
   await mine.click();
   await expect(page.locator(`[data-drop="${second}"]`)).toBeVisible();
   await expect(page.locator(`#sp-browse [data-toggle="${second}"]`)).toBeFocused();
-  // another field: its roles show; one of them says the roles are of one field
-  const fid = await page.locator(".sp-fields [data-browse][aria-pressed='false']").first().getAttribute("data-browse");
-  const other = page.locator(`.sp-fields [data-browse="${fid}"]`);
-  await other.click();
-  await expect(other).toHaveAttribute("aria-pressed", "true");
-  await expect(other).toBeFocused();
-  await page.locator("#sp-browse [data-toggle]").first().click();
-  await expect(page.locator("#sp-err")).toContainText(Copy.map.flow.aim.otherField.split(".")[0]);
+  await expect(page.locator("#sp-one")).toContainText(Copy.fill(O.roles.oneField, { field: "Marketing" }));
   await expect(page.locator(".sp-picked .sp-role")).toHaveCount(2);
   await shot(page, "step-roles-browse");
   // the × removes; the answers are in open.flow
@@ -255,10 +252,10 @@ test("the tree stays on a reload; the quest pages and #/map/start come back to i
 });
 
 test("with a form id the booking card follows the two projects and links to the Tally form, all before the tree", async ({ visitor }) => {
-  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: false, BOOKING_TALLY: "wA1b2C" });
+  const page = await visitorAt(visitor, "#/map?build=1&role=pmm", { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: false, BOOKING_TALLY: "wA1b2C", SKILL_TREE_ENABLED: true });
   await build(page);
   await expect(page.locator("#open-book h2")).toHaveText(O.book.heading);
-  await expect(page.locator("#open-book")).toContainText("$60");
+  await expect(page.locator("#open-book")).toContainText("$40");
   await expect(page.locator("#open-book")).not.toContainText(/black friday|sale|% off/i);
   const u = new URL(await page.locator("#open-book-link").getAttribute("href"));
   expect(u.origin + u.pathname).toBe("https://tally.so/r/wA1b2C");
@@ -295,15 +292,16 @@ test("as config.js ships: Build skills in the top bar opens the form, and no sig
 
 // ---------- the build quests (CONFIG.OPEN_QUESTS_ENABLED): /api/open stubbed with projects as the function returns them ----------
 const KIT = JSON.parse(fs.readFileSync(path.join(ROOT, "web", "data", "build_kit.json"), "utf8"));
-const project = (i, title, skills) => ({
+const project = (i, title, skills, level = "beginner") => ({ level,
   id: `p${i}`, title, ship: "A public page that shows the positioning of three freight apps.",
   atlas_skills: skills, steps: ["Pick three apps your old customers used.", "Copy each home page headline and pitch.", "Ask the assistant to compare them in a table.", "Publish the page and share the link."],
   prompt: "Help me write a positioning teardown of three freight software products. Compare their headlines and the proof each offers.",
-  build_with: { kind: "chat_pages", examples: KIT.kinds.find(k => k.id === "chat_pages").examples.slice(0, 2).map(e => e.name) }, live_on: { host: KIT.hosts.find(h => !h.needs).id }, needs_database: false,
+  build_with: { kind: "research", examples: KIT.kinds.find(k => k.id === "research").examples.slice(0, 2).map(e => e.name), tools: KIT.kinds.find(k => k.id === "research").examples.slice(0, 2).map(e => ({ name: e.name, url: e.url, free: e.free, own: false })) }, live_on: { place: "linkedin" },
+  share: { place: "linkedin", how: "Post the page with one screenshot.", post: "I compared three freight apps. Here is what I found." },
   why_role: { text: "Product marketers own positioning.", posting_quote: null }, why_person: { text: "You sold logistics software.", resume_quote: null },
 });
-const PROJECTS = [project(1, "A positioning teardown of three freight apps", ["positioning_messaging", "gtm"]), project(2, "A launch brief for a partner program", ["gtm", "cross_functional"]), project(3, "A buyer persona page for freight forwarders", ["market_research"])];
-const QUESTS_ON = { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: true, BOOKING_TALLY: "wA1b2C" };
+const PROJECTS = [project(1, "A positioning teardown of three freight apps", ["positioning_messaging", "gtm"]), project(2, "A launch brief for a partner program", ["gtm", "cross_functional"]), project(3, "A buyer persona page for freight forwarders", ["market_research"], "intermediate")];
+const QUESTS_ON = { OPEN_TREE_ENABLED: true, OPEN_QUESTS_ENABLED: true, BOOKING_TALLY: "wA1b2C", SKILL_TREE_ENABLED: true };
 
 test("build quests on: six steps, the answers go with the résumé, the writing line and then three quests come before the tree; each opens on the Quests page", async ({ visitor }) => {
   let release; const hold = new Promise(r => { release = r; });
@@ -317,16 +315,15 @@ test("build quests on: six steps, the answers go with the résumé, the writing 
   await next(page);
   await expect(page.locator("#sp-err")).toHaveText(O.noTech);
   await page.click(`[data-tech="no_code"]`);
-  // d and e can be skipped: Next reads "Skip this" until something is marked
+  // d and e can be skipped: Next always works
   await at(page, "tools");
-  await expect(page.locator("#sp-go")).toHaveText(MC.flow.skipStep);
-  await page.click(`[data-kind="chat_pages"][data-v="use"]`);
-  await expect(page.locator(`[data-kind="chat_pages"][data-v="use"]`)).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(`[data-kind="chat_pages"][data-v="use"]`)).toBeFocused();
   await expect(page.locator("#sp-go")).toHaveText(MC.flow.next);
+  await page.click(`[data-kind="research"]`);
+  await expect(page.locator(`[data-kind="research"]`)).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(`[data-kind="research"]`)).toBeFocused();
   await next(page);
-  await at(page, "accounts");
-  await page.click(`[data-acc="github"][data-v="have"]`);
+  await at(page, "share");
+  await page.click(`[data-place="substack"]`);
   await next(page);
   await at(page, "email");
   await expect(page.locator("#main .sp-privacy")).toHaveText(O.keepsQuests);
@@ -335,8 +332,8 @@ test("build quests on: six steps, the answers go with the résumé, the writing 
   await page.reload();
   await at(page, "email");
   await expect(page.locator("#sp-email")).toHaveValue(EMAIL);
-  await page.goBack(); await at(page, "accounts");
-  await expect(page.locator(`[data-acc="github"][data-v="have"]`)).toHaveAttribute("aria-pressed", "true");
+  await page.goBack(); await at(page, "share");
+  await expect(page.locator(`[data-place="substack"]`)).toHaveAttribute("aria-pressed", "true");
   await page.goBack(); await at(page, "tools");
   await page.goBack(); await at(page, "tech");
   await expect(page.locator(`[data-tech="no_code"]`)).toHaveAttribute("aria-checked", "true");
@@ -355,10 +352,10 @@ test("build quests on: six steps, the answers go with the résumé, the writing 
   await expect(page.locator("#open-book")).toHaveCount(1);
   // what went to the function: the email, the résumé, the role and the three answers; once
   expect(page.asked.length).toBe(1);
-  expect(page.asked[0]).toMatchObject({ email: EMAIL, roles: ["pmm"], answers: { tech: "no_code", tools: { chat_pages: "use" }, accounts: { github: "have" } } });
+  expect(page.asked[0]).toMatchObject({ email: EMAIL, roles: ["pmm"], answers: { tech: "no_code", tools: { research: "use" }, places: ["linkedin", "substack"], portfolio: { host: null, note: "" } } });
   expect(page.asked[0].text).toContain(TEXT.slice(200, 260));
   const held = await page.evaluate(() => JSON.parse(localStorage.getItem("open.tree")));
-  expect([held.tech, held.tools, held.accounts], "kept on the tree for the next day's ask").toEqual(["no_code", { chat_pages: "use" }, { github: "have" }]);
+  expect([held.answers.tech, held.answers.tools, held.answers.places], "kept on the tree for the next day's ask").toEqual(["no_code", { research: "use" }, ["linkedin", "substack"]]);
   await expect(page.locator(".mapnav a")).toHaveText([MC.nav.quests, MC.nav.tree]);
   await shot(page, "quests-tree");
   // a quest opens on the Quests page as a build card: its steps, no résumé story card anywhere

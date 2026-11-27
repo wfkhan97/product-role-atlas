@@ -1,103 +1,640 @@
 {
-  "_note": "The build kit of the side-project flow (#/map/start, web/quests.js, web/api/quests.js): the kinds of AI tools a project may be built with, and the places it may be put live. The one file that names products. Every example carries the date it was checked and its address; a product that is gone leaves the file (OpenAI's Sora app closed in April 2026 and is not listed). tests/web/quests.test.mjs fails on an example without `checked` or `url`. The model may name only a kind and host from here, and only those the person's answers allow.",
-  "checked": "2026-11-10",
+  "_note": "The build kit of the project flow (#/map/find, web/quests.js, web/api/open.js, web/api/quests.js): the kinds of AI tools a project may be built with, per career field, the places a project may be shown, and the portfolio hosts the downloaded guide knows. The one file that names products. `fields` holds the atlas field ids a row suits (the group ids of web/data/graph_mba.json and graph_tech.json), or \"all\". `code: true` marks a kind offered only to a person who reads or writes code. Every example carries the date it was checked, its address and `free` (\"free plan\", \"free trial\" or null: what a newcomer can use without paying, as the product's own pricing page said on that date). A product that is gone leaves the file. tests/web/quests.test.mjs fails on a row without `checked` or `url`. The model may name a kind and a place from here, and the person's own tools as they typed them.",
+  "checked": "2026-11-27",
   "kinds": [
     {
-      "id": "chat_pages",
-      "label": "Chat assistants that make pages or small tools",
+      "id": "legal_ai",
+      "label": "Contracts and legal research",
+      "fields": [
+        "legal",
+        "risk"
+      ],
       "examples": [
-        { "name": "Claude", "url": "https://claude.ai", "checked": "2026-11-10" },
-        { "name": "ChatGPT", "url": "https://chatgpt.com", "checked": "2026-11-10" },
-        { "name": "Gemini", "url": "https://gemini.google.com", "checked": "2026-11-10" }
+        {
+          "name": "Spellbook",
+          "url": "https://spellbook.com",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Gavel Exec",
+          "url": "https://www.gavel.io/exec",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Vincent by Clio",
+          "url": "https://vlex.com/vincent-ai",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
       ]
     },
     {
-      "id": "app_builders",
-      "label": "No-code app builders",
+      "id": "security_scanning",
+      "label": "Code security scanning",
+      "code": true,
+      "fields": [
+        "security"
+      ],
       "examples": [
-        { "name": "Lovable", "url": "https://lovable.dev", "checked": "2026-11-10" },
-        { "name": "Bolt", "url": "https://bolt.new", "checked": "2026-11-10" },
-        { "name": "Replit", "url": "https://replit.com", "checked": "2026-11-10" }
+        {
+          "name": "Semgrep",
+          "url": "https://semgrep.dev",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Snyk",
+          "url": "https://snyk.io",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        }
+      ]
+    },
+    {
+      "id": "ui_design",
+      "label": "UI design and user research",
+      "fields": [
+        "design",
+        "product"
+      ],
+      "examples": [
+        {
+          "name": "Figma Make",
+          "url": "https://www.figma.com/make",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Uizard",
+          "url": "https://uizard.io",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Looppanel",
+          "url": "https://www.looppanel.com",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
+      ]
+    },
+    {
+      "id": "design_decks",
+      "label": "Decks and visuals",
+      "fields": [
+        "consulting_strategy",
+        "marketing",
+        "sales",
+        "banking_investing",
+        "people",
+        "impact",
+        "product",
+        "design",
+        "legal"
+      ],
+      "examples": [
+        {
+          "name": "Canva",
+          "url": "https://www.canva.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Gamma",
+          "url": "https://gamma.app",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Copilot in PowerPoint",
+          "url": "https://www.microsoft.com/en-us/microsoft-365/powerpoint",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
+      ]
+    },
+    {
+      "id": "spreadsheets",
+      "label": "Spreadsheets and models",
+      "fields": [
+        "finance",
+        "banking_investing",
+        "supply_chain",
+        "consulting_strategy",
+        "operations",
+        "risk"
+      ],
+      "examples": [
+        {
+          "name": "Shortcut",
+          "url": "https://shortcut.ai",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Copilot in Excel",
+          "url": "https://www.microsoft.com/en-us/microsoft-365/excel",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Gemini in Google Sheets",
+          "url": "https://workspace.google.com/products/sheets/",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Rows",
+          "url": "https://rows.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        }
+      ]
+    },
+    {
+      "id": "dashboards",
+      "label": "Dashboards and data analysis",
+      "fields": [
+        "analytics",
+        "data_ai",
+        "finance",
+        "supply_chain",
+        "operations",
+        "marketing",
+        "sales",
+        "product",
+        "people",
+        "risk",
+        "impact"
+      ],
+      "examples": [
+        {
+          "name": "Julius",
+          "url": "https://julius.ai",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Hex",
+          "url": "https://hex.tech",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Deepnote",
+          "url": "https://deepnote.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        }
       ]
     },
     {
       "id": "coding_agents",
       "label": "Coding agents",
+      "code": true,
+      "fields": [
+        "software",
+        "data_ai",
+        "security",
+        "analytics",
+        "product"
+      ],
       "examples": [
-        { "name": "Claude Code", "url": "https://claude.com/product/claude-code", "checked": "2026-11-10" },
-        { "name": "Cursor", "url": "https://cursor.com", "checked": "2026-11-10" },
-        { "name": "Codex", "url": "https://openai.com/codex", "checked": "2026-11-10" }
+        {
+          "name": "Cursor",
+          "url": "https://cursor.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "GitHub Copilot",
+          "url": "https://github.com/features/copilot",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Claude Code",
+          "url": "https://claude.com/product/claude-code",
+          "checked": "2026-11-27",
+          "free": null
+        },
+        {
+          "name": "Codex",
+          "url": "https://openai.com/codex",
+          "checked": "2026-11-27",
+          "free": null
+        }
       ]
     },
     {
-      "id": "image",
-      "label": "Image models",
+      "id": "app_builders",
+      "label": "App and prototype builders",
+      "fields": [
+        "product",
+        "software",
+        "design",
+        "data_ai",
+        "analytics",
+        "operations",
+        "marketing",
+        "sales"
+      ],
       "examples": [
-        { "name": "Midjourney", "url": "https://www.midjourney.com", "checked": "2026-11-10" },
-        { "name": "Ideogram", "url": "https://ideogram.ai", "checked": "2026-11-10" },
-        { "name": "Adobe Firefly", "url": "https://firefly.adobe.com", "checked": "2026-11-10" }
+        {
+          "name": "Lovable",
+          "url": "https://lovable.dev",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Bolt",
+          "url": "https://bolt.new",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "v0",
+          "url": "https://v0.app",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Replit",
+          "url": "https://replit.com",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
       ]
     },
     {
-      "id": "video",
-      "label": "Video generation",
+      "id": "video_creative",
+      "label": "Video, image and voice",
+      "fields": [
+        "marketing",
+        "sales",
+        "people",
+        "design",
+        "impact",
+        "product"
+      ],
       "examples": [
-        { "name": "Runway", "url": "https://runwayml.com", "checked": "2026-11-10" },
-        { "name": "Google Flow (Veo)", "url": "https://labs.google/flow", "checked": "2026-11-10" },
-        { "name": "Luma Dream Machine", "url": "https://lumalabs.ai/dream-machine", "checked": "2026-11-10" }
+        {
+          "name": "Higgsfield",
+          "url": "https://higgsfield.ai",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Runway",
+          "url": "https://runway.com",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        },
+        {
+          "name": "Synthesia",
+          "url": "https://www.synthesia.io",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "ElevenLabs",
+          "url": "https://elevenlabs.io",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        }
       ]
     },
     {
-      "id": "voice_audio",
-      "label": "Voice and audio",
+      "id": "diagrams",
+      "label": "Whiteboards and process maps",
+      "fields": [
+        "operations",
+        "supply_chain",
+        "consulting_strategy",
+        "people",
+        "security",
+        "risk",
+        "software",
+        "data_ai",
+        "product",
+        "design"
+      ],
       "examples": [
-        { "name": "ElevenLabs", "url": "https://elevenlabs.io", "checked": "2026-11-10" },
-        { "name": "Descript", "url": "https://www.descript.com", "checked": "2026-11-10" },
-        { "name": "Suno", "url": "https://suno.com", "checked": "2026-11-10" }
+        {
+          "name": "Miro",
+          "url": "https://miro.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "FigJam",
+          "url": "https://www.figma.com/figjam",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Napkin",
+          "url": "https://www.napkin.ai",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        }
       ]
     },
     {
       "id": "automation",
       "label": "Automation and agents",
+      "fields": [
+        "operations",
+        "sales",
+        "people",
+        "supply_chain",
+        "marketing",
+        "finance",
+        "risk",
+        "security"
+      ],
       "examples": [
-        { "name": "Zapier", "url": "https://zapier.com", "checked": "2026-11-10" },
-        { "name": "n8n", "url": "https://n8n.io", "checked": "2026-11-10" },
-        { "name": "Make", "url": "https://www.make.com", "checked": "2026-11-10" }
-      ]
-    },
-    {
-      "id": "docs_data",
-      "label": "Docs and data with AI",
-      "examples": [
-        { "name": "Notion AI", "url": "https://www.notion.com/product/ai", "checked": "2026-11-10" },
-        { "name": "Copilot in Excel", "url": "https://www.microsoft.com/microsoft-365/excel", "checked": "2026-11-10" },
-        { "name": "Julius", "url": "https://julius.ai", "checked": "2026-11-10" }
+        {
+          "name": "Zapier",
+          "url": "https://zapier.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Make",
+          "url": "https://www.make.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "n8n",
+          "url": "https://n8n.io",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
       ]
     },
     {
       "id": "research",
-      "label": "Research tools",
+      "label": "Research and writing",
+      "fields": "all",
       "examples": [
-        { "name": "Perplexity", "url": "https://www.perplexity.ai", "checked": "2026-11-10" },
-        { "name": "NotebookLM", "url": "https://notebooklm.google", "checked": "2026-11-10" },
-        { "name": "Elicit", "url": "https://elicit.com", "checked": "2026-11-10" }
+        {
+          "name": "Gemini Notebook",
+          "url": "https://notebook.google",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Elicit",
+          "url": "https://elicit.com",
+          "checked": "2026-11-27",
+          "free": "free plan"
+        },
+        {
+          "name": "Notion AI",
+          "url": "https://www.notion.com/product/ai",
+          "checked": "2026-11-27",
+          "free": "free trial"
+        }
       ]
     }
   ],
-  "accounts": [
-    { "id": "github", "label": "GitHub" },
-    { "id": "vercel", "label": "Vercel" },
-    { "id": "notion", "label": "Notion" },
-    { "id": "supabase", "label": "Supabase" },
-    { "id": "domain", "label": "A domain of your own" }
+  "places": [
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "type": "social",
+      "fields": "all",
+      "default": true,
+      "note": "A post with the link or a few screenshots, and a Featured item on your profile.",
+      "url": "https://www.linkedin.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "x",
+      "label": "X",
+      "type": "social",
+      "fields": "all",
+      "note": "A short thread with what you built, one image and the link.",
+      "url": "https://x.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "video_link",
+      "label": "A video walkthrough",
+      "type": "page",
+      "fields": "all",
+      "note": "A short screen recording on Loom or YouTube.",
+      "url": "https://www.loom.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "notion_page",
+      "label": "A public Notion page",
+      "type": "page",
+      "fields": "all",
+      "note": "A doc or a case study, published to the web.",
+      "url": "https://www.notion.com/help/public-pages-and-web-publishing",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "canva_link",
+      "label": "A public Canva link",
+      "type": "page",
+      "fields": [
+        "marketing",
+        "consulting_strategy",
+        "sales",
+        "people",
+        "impact",
+        "design",
+        "product",
+        "banking_investing",
+        "legal"
+      ],
+      "note": "A deck or a visual anyone can open.",
+      "url": "https://www.canva.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "tableau_public",
+      "label": "Tableau Public",
+      "type": "page",
+      "fields": [
+        "analytics",
+        "finance",
+        "operations",
+        "supply_chain",
+        "data_ai",
+        "marketing",
+        "impact"
+      ],
+      "note": "A live dashboard on your public profile.",
+      "url": "https://public.tableau.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "github_pages",
+      "label": "GitHub",
+      "type": "page",
+      "fields": [
+        "software",
+        "data_ai",
+        "security",
+        "product",
+        "analytics",
+        "design"
+      ],
+      "note": "A repository, or a free page made from one.",
+      "url": "https://github.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "kaggle",
+      "label": "Kaggle",
+      "type": "page",
+      "fields": [
+        "data_ai",
+        "analytics"
+      ],
+      "note": "A public notebook or dataset under your profile.",
+      "url": "https://www.kaggle.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "hugging_face",
+      "label": "Hugging Face",
+      "type": "page",
+      "fields": [
+        "data_ai",
+        "software"
+      ],
+      "note": "A model or a demo app in a public Space.",
+      "url": "https://huggingface.co/spaces",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "behance",
+      "label": "Behance",
+      "type": "page",
+      "fields": [
+        "design",
+        "marketing"
+      ],
+      "note": "A case study with images of the work.",
+      "url": "https://www.behance.net",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "dribbble",
+      "label": "Dribbble",
+      "type": "page",
+      "fields": [
+        "design"
+      ],
+      "note": "A shot or a short case study of the design.",
+      "url": "https://dribbble.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "substack",
+      "label": "Substack or Medium",
+      "type": "page",
+      "fields": [
+        "consulting_strategy",
+        "marketing",
+        "impact",
+        "banking_investing",
+        "finance",
+        "risk",
+        "legal",
+        "people",
+        "product",
+        "security"
+      ],
+      "note": "A written piece under your name.",
+      "url": "https://substack.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "portfolio",
+      "label": "My own portfolio site",
+      "type": "portfolio",
+      "fields": "all",
+      "note": "Added as a project on the site you already have.",
+      "url": null,
+      "checked": "2026-11-27"
+    }
   ],
-  "hosts": [
-    { "id": "claude_artifact", "label": "A shared Claude artifact link", "needs": null, "note": "No setup. Some viewers may need to sign in to Claude.", "url": "https://claude.ai", "checked": "2026-11-10" },
-    { "id": "chatgpt_share", "label": "A ChatGPT share link", "needs": null, "note": "No setup. Shares the chat that holds the work.", "url": "https://chatgpt.com", "checked": "2026-11-10" },
-    { "id": "github_pages", "label": "GitHub Pages", "needs": "github", "note": "Free hosting for a static page from a repository.", "url": "https://pages.github.com", "checked": "2026-11-10" },
-    { "id": "vercel", "label": "Vercel", "needs": "vercel", "note": "Free Hobby plan for a site or small app.", "url": "https://vercel.com", "checked": "2026-11-10" },
-    { "id": "notion_page", "label": "A public Notion page", "needs": "notion", "note": "A doc or a deck, published to the web.", "url": "https://www.notion.com/help/public-pages-and-web-publishing", "checked": "2026-11-10" },
-    { "id": "video_link", "label": "A video link", "needs": null, "note": "A walkthrough on YouTube or Loom.", "url": "https://www.loom.com", "checked": "2026-11-10" }
-  ],
-  "database": { "needs": "supabase", "label": "Supabase", "url": "https://supabase.com", "checked": "2026-11-10" }
+  "portfolio_hosts": [
+    {
+      "id": "github_pages",
+      "label": "GitHub Pages",
+      "url": "https://pages.github.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "vercel",
+      "label": "Vercel",
+      "url": "https://vercel.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "netlify",
+      "label": "Netlify",
+      "url": "https://www.netlify.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "notion",
+      "label": "Notion",
+      "url": "https://www.notion.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "google_sites",
+      "label": "Google Sites",
+      "url": "https://sites.google.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "wix",
+      "label": "Wix",
+      "url": "https://www.wix.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "squarespace",
+      "label": "Squarespace",
+      "url": "https://www.squarespace.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "webflow",
+      "label": "Webflow",
+      "url": "https://webflow.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "framer",
+      "label": "Framer",
+      "url": "https://www.framer.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "carrd",
+      "label": "Carrd",
+      "url": "https://carrd.com",
+      "checked": "2026-11-27"
+    },
+    {
+      "id": "other",
+      "label": "Somewhere else",
+      "url": null,
+      "checked": "2026-11-27"
+    }
+  ]
 }
