@@ -679,7 +679,7 @@
     const opener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
     const wrap = document.createElement("div");
     wrap.innerHTML = `<div class="fb-back" id="fb-back"></div><div class="fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-h" id="fb-box">
-      <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2><button type="button" class="close" id="fb-close" aria-label="${esc(FB.close)}">×</button></div>
+      <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2>${UI.close(FB.close, { id: "fb-close" })}</div>
       <p class="small muted" style="margin:0">${esc(lead)}</p>
       <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
       <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="" autocomplete="email"></label>
@@ -1507,7 +1507,7 @@
       crumbs([[P.heading, null]]); showAside(null);
       const cards = cardsNow();
       let body;
-      if (writing()) body = `<div class="wait pj-wait" id="open-writing" role="status"><span class="pj-spin" aria-hidden="true"></span><div><b>${esc(held.ask ? P.rewriting : P.writing)}</b><p class="small muted">${esc(P.keepOpen)}</p></div></div>`;
+      if (writing()) body = `<div class="wait pj-wait" id="open-writing" role="status">${UI.spinner()}<div><b>${esc(held.ask ? P.rewriting : P.writing)}</b><p class="small muted">${esc(P.keepOpen)}</p></div></div>`;
       else if (cards.length) {
         body = `<p class="lead">${esc(fill(P.lead, { role }))}</p>${carousel(cards.map((c, i) => card(c, i, cards.length)).join(""), cards.length)}${whyHtml()}
           <section class="pj-none" id="pj-none">${ui.none ? `<label class="tr-lab" for="pj-fb">${esc(P.noneTitle)}</label><textarea id="pj-fb" maxlength="${Quests.LIMITS.feedback}" placeholder="${esc(P.noneHint)}">${esc(ui.feedback)}</textarea>
@@ -2404,7 +2404,7 @@
   // ---------- the side panel (the Skill tree page) ----------
   function panel(html, p) {
     mapUi.panel = p;
-    showAside(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>${html}`);
+    showAside(`${UI.close(CM.close)}${html}`);
     aside.querySelector(".close").onclick = closePanel;
     markTree();
   }
@@ -3098,7 +3098,7 @@
       const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : r.sponsorship === "no" ? JB.noSponsorVisa : null, Jobs.dateLine(r)].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]] || ix.techSkillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
-      return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
+      return `${UI.close(CM.close)}<div class="card jdetail">
         <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2 id="jdetail-h" tabindex="-1">${esc(r.title)}</h2>
         <p class="facts">${facts.map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
@@ -3455,7 +3455,7 @@
     const remote = `<button type="button" class="chip${state.remote ? " on" : ""}" id="remote">${esc(RL.remote)}<span class="n">${fmt(remoteN)}</span></button>`;
     const D = RL.drawer;
     return `<div class="drawer-back" id="drawer-back"></div><div class="drawer" role="dialog" aria-label="${esc(RL.filters)}" id="drawer">
-      <div class="drawer-h"><h2>${esc(RL.filters)}</h2><button type="button" class="close" id="drawer-close" aria-label="${esc(CM.close)}">×</button></div>
+      <div class="drawer-h"><h2>${esc(RL.filters)}</h2>${UI.close(CM.close, { id: "drawer-close" })}</div>
       ${group(esc(D.employers), emp)}${grads}
       ${group(esc(D.industry), chipsOf(sec, state.sector, "sector", esc(D.allIndustries)))}
       ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
@@ -3613,7 +3613,7 @@
     const R = state.R, sel = state.selected;
     if (!sel) { showAside(null); return; }   // nothing selected: no panel, or the rail's own content (owner's choice R8, 2026-10-19)
     // over the rail a card gets "← Back" instead of ×
-    const over = html => railBase ? `<button type="button" class="close back" aria-label="${esc(Copy.games.back)}">${esc(CM.back)}</button>` + html.replace(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>`, "") : html;
+    const over = html => railBase ? `<button type="button" class="close back" aria-label="${esc(Copy.games.back)}">${esc(CM.back)}</button>` + html.replace(`${UI.close(CM.close)}`, "") : html;
     if (sel.kind === "posting") { showAside(over(postingCard(R, R.jobs.find(j => j.id === sel.id)))); wire(); return; }
     const ev = evCache[sel.id];
     showAside(over(skillCard(R, R.skillById[sel.id], sliceOf(), ev))); wire();
@@ -3702,7 +3702,7 @@
       related: `<h3>${esc(RL.together)}</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : `<p class="small muted">${esc(RL.noRelated)}</p>`}`,
     };
     const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${esc(l)}</button>`).join("")}</div>`;
-    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
+    return `${UI.close(CM.close)}<div class="card">
       <p class="eyebrow">${kindLabel ? esc(kindLabel) + " · " : ""}${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
       ${share}${means}${subs}
@@ -3711,12 +3711,12 @@
     </div>`;
   }
   function postingCard(R, j) {
-    if (!j) return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><p class="empty">${esc(RL.notInRole)}</p>`;
+    if (!j) return `${UI.close(CM.close)}<p class="empty">${esc(RL.notInRole)}</p>`;
     const byArea = {}; for (const k of j.skills) { const s = R.skillById[k]; if (s) (byArea[s.cluster] ||= []).push(s); }
     const subNames = (j.sub || []).map(id => { for (const [sid, list] of Object.entries(R.subs)) { const f = list.find(x => x.id === id); if (f) return { sid, name: f.name }; } return null; }).filter(Boolean);
     const who = j.intern ? RL.who.intern : j.entry === "mba" ? RL.who.mba : (j.entry === "pre_mba" || j.entry === "grad") ? RL.who.grads : null;
     const nSkills = j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length;
-    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
+    return `${UI.close(CM.close)}<div class="card">
       <p class="eyebrow">${esc(j.company)}${j.rank ? ` · ${esc(fill(RL.fortune, { n: j.rank }))}` : ""}</p><h2>${esc(j.title)}</h2>
       <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? esc(RL.remoteFact) : ""}${j.yoe ? esc(fill(RL.yearsAsked, { n: j.yoe })) : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
       ${who ? `<p class="small" style="color:var(--primary)">${esc(who)}${j.entry_src === "firm" || j.entry_src === "category" ? esc(RL.whoGrade) : ""}.</p>` : ""}
