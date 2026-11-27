@@ -131,10 +131,15 @@ test("the answers leave with the résumé: the form keeps OpenFlow.answers on th
   assert.match(src, /const OPEN_FLOW_KEY = "open\.flow";/, "the form's own key");
 });
 
-test("the skill tree flag ships off, with the session line's address null; off, #/map is the open flow for a session too", () => {
+test("the skill tree flag ships off, with the owner's session and LinkedIn addresses; off, #/map is the open flow for a session too", () => {
   const cfg = fs.readFileSync(path.join(web, "config.js"), "utf8");
   assert.match(cfg, /\n  SKILL_TREE_ENABLED: false,/);
-  assert.match(cfg, /\n  SESSION_URL: null,/);
+  assert.match(cfg, /\n  SESSION_URL: "https:\/\/calendar\.app\.google\/[A-Za-z0-9]+",/);
+  assert.match(cfg, /\n  LINKEDIN_URL: "https:\/\/www\.linkedin\.com\/in\/[a-z0-9-]+\/",/);
+  // the help line offers the paid session through the booking form beside the free one; the feedback box, LinkedIn
+  assert.match(src, /id="pj-session-paid"/); assert.match(src, /id="fb-connect"/);
+  assert.equal(Copy.map.open.projects.sessionPaid, "Or book a 90-minute working session, $40.");
+  assert.equal(Copy.feedback.connect, "Connect with Wally on LinkedIn");
   const ms = src.slice(src.indexOf("async function mapScreen()"), src.indexOf("const treeOn = "));
   assert.ok(ms.indexOf("if (!skillTreeOn() && openOn()) { await openScreen(); return; }") < ms.indexOf("await mapGate()"), "before the session's map is read");
   assert.match(src, /const treeCta = buildOn\(\) && skillTreeOn\(\) \?/);

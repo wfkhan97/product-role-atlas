@@ -685,6 +685,7 @@
       <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="" autocomplete="email"></label>
       ${onFile ? `<p class="fb-use"><button type="button" class="linkish link" id="fb-use">${esc(fill(FB.useEmail, { email: onFile }))}</button></p>` : ""}
       <p class="small muted" style="margin:0">${esc(FB.privacy)}</p>
+      ${linkedinUrl() ? `<p class="small fb-connect" style="margin:0"><a href="${esc(linkedinUrl())}" target="_blank" rel="noopener" id="fb-connect">${esc(FB.connect)}</a></p>` : ""}
       <div class="fb-f"><button type="button" class="btn quiet" id="fb-later">${esc(FB.notNow)}</button><button type="button" class="btn primary" id="fb-send">${esc(FB.send)}</button></div>
       <p class="small fb-out" id="fb-out" aria-live="polite"></p>
     </div>`;
@@ -1209,6 +1210,13 @@
   // since the projects aim at its gaps; no page draws it.
   const skillTreeOn = () => !!(window.CONFIG || {}).SKILL_TREE_ENABLED;
   // the owner's booking page for a free session (CONFIG.SESSION_URL): an http(s) address, else null and no line
+  const linkedinUrl = () => { const u = (window.CONFIG || {}).LINKEDIN_URL; return typeof u === "string" && /^https?:\/\/[^\s"'<>]+$/i.test(u.trim()) ? u.trim() : null; };
+  // the help line under the projects: the free session and, with a booking form, the paid one (the form's own page)
+  const helpLine = held => {
+    const P = Copy.map.open.projects, u = sessionUrl(); if (!u) return "";
+    const paid = Preview.bookingHref((window.CONFIG || {}).BOOKING_TALLY, { email: (held || {}).email || "", role: (((held || {}).map || {}).role || {}).id || "" });
+    return `<p class="pj-help"><a href="${esc(u)}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a>${paid ? ` <a href="${esc(paid)}" target="_blank" rel="noopener" id="pj-session-paid">${esc(P.sessionPaid)}</a>` : ""}</p>`;
+  };
   const sessionUrl = () => { const u = (window.CONFIG || {}).SESSION_URL; return typeof u === "string" && /^https?:\/\/[^\s"'<>]+$/i.test(u.trim()) ? u.trim() : null; };
   let openHeld = null, apprenticeP = null, standardsP = null, openWriting = null;
   const openKeep = held => { if (openHeld === held) store.set(OPEN_KEY, held); };   // never a tree the visitor forgot
@@ -1480,8 +1488,7 @@
     const cardsNow = () => openQuestsOn() ? held.cards || [] : [];
     const whyHtml = () => !held.why ? "" : `<p class="pj-why" id="open-why" role="status">${esc(held.why === "limited" ? P.limited : P.failed)}${held.why === "failed" && state.resume ? ` <button type="button" class="linkish link" id="open-retry">${esc(P.retry)}</button>` : ""}</p>`;
     const foot = () => {
-      const u = sessionUrl();
-      return `${u ? `<p class="pj-help"><a href="${esc(u)}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a></p>` : ""}
+      return `${helpLine(held)}
         <p class="small muted pj-kept">${esc(P.kept)} <a href="#/map/find/roles">${esc(P.change)}</a> · <button type="button" class="linkish link" id="open-forget">${esc(P.forget)}</button></p>`;
     };
     const card = (c, i, n) => `<article class="pj-card" role="group" aria-roledescription="slide" aria-label="${esc(fill(P.slideAria, { n: i + 1, m: n }))}" data-card="${esc(c.id)}">
@@ -1583,7 +1590,7 @@
         <p class="pj-copyrow"><button type="button" class="btn" data-copy="pj-post" aria-label="${esc(K.copyPost)}">${esc(K.copy)}</button> <span class="small muted" aria-live="polite" id="pj-post-out"></span></p>` : ""}</section>` : ""}
       <section class="pj-dl"><h2>${esc(K.download)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p></section>
       <p class="pj-foot"><a href="#/map/projects">${esc(K.back)}</a></p>
-      ${sessionUrl() ? `<p class="pj-help"><a href="${esc(sessionUrl())}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a></p>` : ""}
+      ${helpLine(held)}
     </div>`);
     main.firstElementChild.classList.add("pj-page");
     main.querySelectorAll(".pj-steps input[data-step]").forEach(b => b.onchange = () => { const t = ticksOf(c.id); t[+b.dataset.step] = b.checked; keepTicks(c.id, t); b.closest("label").classList.toggle("done", b.checked); });

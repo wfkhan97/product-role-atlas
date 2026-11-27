@@ -201,7 +201,7 @@ and evals run the code the site runs.
   `guide.js`, … `app.js`, `gameshell.js`, the games). `tests/web/assets.test.mjs` checks every
   named script exists and the remote ones pin a version.
 - `config.js` — the flags (README, "The switches"), the catalog project's URL and publishable key, `CAMPUS_DOMAINS`
-  (flag → email domains), `CATALOG_TERM`, the Tally form ids, `SESSION_URL` (the booking page under the projects).
+  (flag → email domains), `CATALOG_TERM`, the Tally form ids, `SESSION_URL` (the free session under the projects; the paid one is `BOOKING_TALLY`), `LINKEDIN_URL` (the feedback box).
 - `copy.js` — every string a screen owns, one table grouped by screen (`Copy.door`, `.home`, `.intake`, `.you`,
   `.explore`, `.role`, `.fit`, `.jobs`, `.skills`, `.network`, `.classes`, `.signin`, `.heart`, `.feedback`, `.map`,
   `.about`, `.games`, `.guide`, `.common`). `Copy.fill(template, vars)` fills `{slots}`. Checked by `evals/copy.mjs` and

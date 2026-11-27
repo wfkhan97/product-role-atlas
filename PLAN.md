@@ -4017,7 +4017,10 @@ owner's first:
   with Copy, and one self-contained HTML guide (`web/project_guide.js`). Its "Add it to your portfolio" part is
   templated per host in code, never written by a model.
 - **No $60 booking card under the projects.** One line instead, "Having trouble? Book a free 30-minute session with
-  Wally", linking to `SESSION_URL`; null until the owner gives the calendar link, and then the line is not drawn.
+  Wally", linking to `SESSION_URL` (the owner's 30-minute calendar, given 2026-11-27). Beside it, the paid 90-minute session
+  through the Tally form "Book your project session" (`BOOKING_TALLY`, $40, which redirects to the 90-minute
+  calendar): the form already existed for the 90-minute session alone, so it is used as it is. The feedback box
+  offers the owner's LinkedIn (`LINKEDIN_URL`).
   The booking card stays under the tree for when the flag is on.
 - **The email step stays last.**
 - **The tree is still grounded in the browser**, since the projects aim at its gaps; only its page is hidden.
@@ -4049,8 +4052,8 @@ done). One line per item; the section that explains it is named where it helps.
 - **The Product and tech fields for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle both sets for `api/tree.js` as `api/open.js` does and pass `true` to `treeRoles` (`evals/quests.mjs` already has product and tech cases).
 
 **The owner's items**
-- The 2026-12-02 session: set `SESSION_URL` in `web/config.js` to the calendar link, and raise `OPEN_QUESTS_IP_CAP`
-  and `OPEN_QUESTS_DAILY_CAP` in the Vercel project for the day (a room on one Wi-Fi shares one network address).
+- After the 2026-12-02 session: `OPEN_QUESTS_IP_CAP` (150) and `OPEN_QUESTS_DAILY_CAP` (300) in the Vercel project
+  go back to the defaults (8 and 150) by removing the two variables; they were raised for a room on one Wi-Fi.
 - The open tree's build quests (on since 2026-11-11): a spend cap on the Anthropic key, the hard stop behind the
   daily counts; read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
 - The signed-in tree still opens with two résumé story cards beside the side project (2026-11-11, the owner:

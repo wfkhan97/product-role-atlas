@@ -936,6 +936,7 @@
     thanks: "Thanks. We read every one.",
     failed: "That did not go through. Try again in a moment.",
     privacy: "We keep what you type here, the screen it came from and your email only if you typed it.",
+    connect: "Connect with Wally on LinkedIn",
     // the email box starts empty (owner, decision 4a, 2026-11-06): the address on file is one press away, never sent
     // unasked
     useEmail: "Use {email}",
@@ -1077,6 +1078,7 @@
         fallbackHeading: "Two projects you could build",
         fallbackLead: "Picked from what {role} hiring asks people to show. A title and a line each.",
         session: "Having trouble? Book a free 30-minute session with Wally.",
+        sessionPaid: "Or book a 90-minute working session, $40.",
         kept: "Your projects live in this browser only.",
         change: "Change my answers",
         forget: "Forget them",
@@ -1103,8 +1105,8 @@
       },
       book: {
         heading: "Get a personalized project plan and a 90-minute session to get started",
-        line: "A 1:1 session. We pick your project and plan it around your résumé and your roles. Then we start it together. $60.",
-        button: "Book a session · $60",
+        line: "A 1:1 session. We pick your project and plan it around your résumé and your roles. Then we start it together. $40.",
+        button: "Book a session · $40",
       },
     },
     // the map screen (web/map.js, app.js drawMap), two pages since 2026-11-10: Quests (one quest at a time, the slim
