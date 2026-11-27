@@ -270,23 +270,46 @@
     next: (now, dark) => now === "system" ? (dark ? "light" : "dark") : "system",
     label: (now, dark) => { const to = Theme.next(now, dark), C = Copy.common; return to === "system" ? C.themeToDevice : Copy.fill(C.themeTo, { theme: C.themeNames[to] }); },
   };
-  // The open form's steps (#/map/find/<step>, 2026-11-12): one question per screen for a visitor with no session. The
-  // answers kept in this browser (open.flow), what each step still lacks, and the role the fit screen's link names.
-  //   steps(quests)            the steps in order; without the build quests, tech, tools and accounts are left out
+  // The open form's steps (#/map/find/<step>, 2026-11-12; the portfolio flow, 2026-11-27): one question per screen for
+  // a visitor with no session (and, with SKILL_TREE_ENABLED off, for everyone). The answers kept in this browser
+  // (open.flow), what each step still lacks, the role the fit screen's link names, the roles' type-ahead, the places a
+  // field shows work on and the answers as POST /api/open takes them (web/quests.js cleanAnswers).
+  //   steps(quests)            the steps in order; without the build quests, tech, tools and share are left out
+  //   step(id)                 a step's id from an address: the old "accounts" is "share"
   //   clean(v)                 a stored value as the form reads it (anything else dropped)
-  //   missing(step, c)         what the step lacks for c = { roles, resume, tech, email }, or null; tools and accounts
+  //   missing(step, c)         what the step lacks for c = { roles, resume, tech, email }, or null; tools and share
   //                            can be skipped
   //   firstMissing(steps, c, before)  the first step that lacks something (only those before `before` when given)
   //   preselect(roles, id, fieldOf)   the roles with `id` first: kept beside roles of its field, else alone
+  //   named(roles)             the roles with `name`: the label, and its field beside it when two roles share a label
+  //   hits(roles, picked, q, field)   the type-ahead: the label typed in full first, then a label starting with what
+  //                            was typed, then one starting with its first word, then the rest (web/pick.js filter);
+  //                            roles of another field than `field` left out; six at most
+  //   fieldPlaces(kit, field)  the kit's places of type social or page for the field, in file order
+  //   shownPlaces(flow, kit, field)  the places tapped, or the kit's default ones (LinkedIn) before any tap
+  //   fieldKinds(kit, field, tech)   the kit's kinds for the field (web/quests.js fieldKinds)
+  //   answers(flow, kit, field)      { tech, tools, own_tools, try_new, places, own_places, portfolio: { host, note } }
+  const LIM = { ownTools: 300, ownPlaces: 200, note: 120 };
+  const normWords = s => String(s || "").toLowerCase().replace(/[^a-z0-9&+ ]+/g, " ").replace(/\s+/g, " ").trim();
   const OpenFlow = {
-    STEPS: ["roles", "resume", "tech", "tools", "accounts", "email"],
+    STEPS: ["roles", "resume", "tech", "tools", "share", "email"],
+    LIM,
     steps: quests => quests ? [...OpenFlow.STEPS] : ["roles", "resume", "email"],
+    step: id => id === "accounts" ? "share" : id,
     emailOk: e => { const t = String(e == null ? "" : e).trim(); return t.length <= 320 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t); },
     clean(v) {
-      const o = v && typeof v === "object" && !Array.isArray(v) ? v : {}, obj = x => x && typeof x === "object" && !Array.isArray(x) ? { ...x } : {};
+      const o = v && typeof v === "object" && !Array.isArray(v) ? v : {};
+      const text = (x, n) => typeof x === "string" ? x.slice(0, n) : "";
       const roles = Array.isArray(o.roles) ? [...new Set(o.roles.filter(x => typeof x === "string" && x))].slice(0, 4) : [];
       const tech = Object.hasOwn(Copy.map.flow.tech.options, o.tech) ? o.tech : null;
-      return { roles, tech, tools: obj(o.tools), accounts: obj(o.accounts), email: typeof o.email === "string" ? o.email.slice(0, 320) : "", posting: typeof o.posting === "string" ? o.posting.slice(0, 20000) : "" };
+      const tools = {};
+      if (o.tools && typeof o.tools === "object" && !Array.isArray(o.tools)) for (const [k, x] of Object.entries(o.tools)) if (x === "use" && k) tools[k] = "use";
+      const places = Array.isArray(o.places) ? [...new Set(o.places.filter(x => typeof x === "string" && x))].slice(0, 20) : null;
+      const pf = o.portfolio && typeof o.portfolio === "object" && !Array.isArray(o.portfolio) ? o.portfolio : {};
+      const portfolio = { has: pf.has === true || pf.has === false ? pf.has : null, host: typeof pf.host === "string" && pf.host ? pf.host : null, note: text(pf.note, LIM.note) };
+      const try_new = o.try_new === true || o.try_new === false ? o.try_new : null;
+      return { roles, tech, tools, own_tools: text(o.own_tools, LIM.ownTools), try_new, places, own_places: text(o.own_places, LIM.ownPlaces), portfolio,
+        email: typeof o.email === "string" ? o.email.slice(0, 320) : "", posting: typeof o.posting === "string" ? o.posting.slice(0, 20000) : "" };
     },
     missing(step, c) {
       const x = c || {};
@@ -304,6 +327,35 @@
       const rs = (roles || []).filter(r => r !== id);
       if (!id) return [...(roles || [])];
       return rs.length && fieldOf(rs[0]) === fieldOf(id) ? [id, ...rs].slice(0, 4) : [id];
+    },
+    named(roles) {
+      const n = {};
+      for (const r of roles || []) { const k = normWords(r.label); n[k] = (n[k] || 0) + 1; }
+      return (roles || []).map(r => ({ ...r, name: n[normWords(r.label)] > 1 && r.fieldLabel ? `${r.label} (${r.fieldLabel})` : r.label }));
+    },
+    hits(roles, picked, q, field) {
+      const words = normWords(q).split(" ").filter(Boolean); if (!words.length) return [];
+      const typed = words.join(" "), mine = new Set(picked || []);
+      const hit = r => { const l = normWords(r.label), f = normWords(r.fieldLabel); return words.every(w => l.includes(w) || f.includes(w)); };
+      const rank = r => { const l = normWords(r.label); return l === typed ? 0 : l.startsWith(typed) ? 1 : l.startsWith(words[0]) ? 2 : l.includes(typed) ? 3 : 4; };
+      return (roles || []).filter(r => !mine.has(r.id) && (!field || r.field === field) && hit(r))
+        .map((r, i) => [r, rank(r), i]).sort((a, b) => a[1] - b[1] || a[2] - b[2]).map(x => x[0]).slice(0, 6);
+    },
+    // the kit's kinds for the field, in file order; a code kind only for a person who reads or writes code (the same
+    // rule as web/quests.js fieldKinds, which the browser uses; repeated here so this table loads in node alone)
+    fieldKinds: (kit, field, tech) => ((kit && kit.kinds) || []).filter(k => (k.fields === "all" || (Array.isArray(k.fields) && k.fields.includes(field))) && (!k.code || tech === "read_code" || tech === "write_code")).map(k => k.id),
+    fieldPlaces: (kit, field) => ((kit && kit.places) || []).filter(p => (p.type === "social" || p.type === "page") && (p.fields === "all" || (Array.isArray(p.fields) && p.fields.includes(field)))),
+    shownPlaces(flow, kit, field) {
+      const ids = OpenFlow.fieldPlaces(kit, field).map(p => p.id);
+      if (Array.isArray(flow && flow.places)) return flow.places.filter(id => ids.includes(id));
+      return ((kit && kit.places) || []).filter(p => p.default && ids.includes(p.id)).map(p => p.id);
+    },
+    answers(flow, kit, field) {
+      const f = OpenFlow.clean(flow), hosts = ((kit && kit.portfolio_hosts) || []).map(h => h.id);
+      const has = f.portfolio.has === true, kinds = new Set(OpenFlow.fieldKinds(kit, field, f.tech));
+      const tools = Object.fromEntries(Object.keys(f.tools).filter(k => kinds.has(k)).map(k => [k, "use"]));
+      return { tech: f.tech, tools, own_tools: f.own_tools.trim(), try_new: f.try_new, places: OpenFlow.shownPlaces(f, kit, field), own_places: f.own_places.trim(),
+        portfolio: { host: has && hosts.includes(f.portfolio.host) ? f.portfolio.host : null, note: has ? f.portfolio.note.trim() : "" } };
     },
   };
   return { parseRoute, Stage, Intake, Door, RoleFilters, You, FitCounts, CourseCore, Crumbs, Theme, OpenFlow };
@@ -1090,6 +1142,9 @@
     const MC = Copy.map;
     crumbs([]); showAside(null);
     if (!mapsOn()) { toHash("#/skills"); return; }
+    // the skill tree off (CONFIG.SKILL_TREE_ENABLED, 2026-11-27): #/map is the open flow for everyone, a session
+    // included; no map file is read and no tree, Quests page or #/map/start draws
+    if (!skillTreeOn() && openOn()) { await openScreen(); return; }
     page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(MC.loading)}</p>`, true);
     const g = await mapGate();
     if (Routes.parseRoute(location.hash).name !== "map") return;
@@ -1143,28 +1198,42 @@
   const openOn = () => treeOn() && !!(window.CONFIG || {}).OPEN_TREE_ENABLED;
   const OPEN_KEY = "open.tree";
   // The open tree's build quests (2026-11-11, CONFIG.OPEN_QUESTS_ENABLED): once the tree is built, POST /api/open asks
-  // Claude Opus 5.5 for three side projects (the generator of /api/quests, no session; web/api/open.js holds the caps).
-  // They become cards of the map held in this browser (Quests.cardOf, addSide), so the visitor gets the Quests page a
-  // signed-in person has, with Start, Mark shipped and Skip kept in open.tree. One automatic ask a day per browser;
-  // when the function refuses or fails, the two projects of web/preview.js show instead.
+  // Claude Opus 5.5 for three portfolio projects (the generator of /api/quests, no session; web/api/open.js holds the
+  // caps). They become cards of the map held in this browser (Quests.cardOf). With SKILL_TREE_ENABLED on they are the
+  // Quests page a signed-in person has, with Start, Mark shipped and Skip kept in open.tree; off, they are the three
+  // cards of #/map/projects and the one picked (projectsScreen). When the function refuses or fails, the two projects
+  // of web/preview.js show instead.
   const openQuestsOn = () => openOn() && !!(window.CONFIG || {}).OPEN_QUESTS_ENABLED;
+  // The skill tree and its pages (CONFIG.SKILL_TREE_ENABLED, 2026-11-27, owner): off, #/map is the open flow for
+  // everyone, a session included (mapScreen): the questions, then #/map/projects. The tree is still grounded here,
+  // since the projects aim at its gaps; no page draws it.
+  const skillTreeOn = () => !!(window.CONFIG || {}).SKILL_TREE_ENABLED;
+  // the owner's booking page for a free session (CONFIG.SESSION_URL): an http(s) address, else null and no line
+  const sessionUrl = () => { const u = (window.CONFIG || {}).SESSION_URL; return typeof u === "string" && /^https?:\/\/[^\s"'<>]+$/i.test(u.trim()) ? u.trim() : null; };
   let openHeld = null, apprenticeP = null, standardsP = null, openWriting = null;
   const openKeep = held => { if (openHeld === held) store.set(OPEN_KEY, held); };   // never a tree the visitor forgot
   const openMap = held => { let m = { ...held.map, cards: [], worlds: [] }; for (const c of (openQuestsOn() && held.cards) || []) m = Quests.addSide(m, c); return m; };
-  function writeOpen(held) {
+  // the answers as /api/open takes them: the ones kept with the tree (2026-11-27), else a tree kept before (tech alone)
+  const heldAnswers = held => held.answers || { tech: held.tech || null };
+  // One write: the first one, or "None of these" (`ask`: { feedback, avoid }) with what should be different and the
+  // titles already shown. The new cards replace the old ones and the pick; a failure keeps the old cards.
+  function writeOpen(held, ask) {
     return openWriting ||= (async () => {
-      held.asked = todayIso(); held.why = null; openKeep(held);
-      if (window.Capture) Capture.cta("open_quests", "click");
+      const cta = ask ? "open_none" : "open_quests";
+      held.asked = todayIso(); held.why = null; held.ask = ask ? { feedback: ask.feedback || "" } : null; openKeep(held);
+      if (window.Capture) Capture.cta(cta, "click");
       try {
-        const body = { email: held.email, text: state.resume.text, roles: held.roles || [held.map.role.id], posting: held.posting || "", answers: { tech: held.tech || null, tools: held.tools || {}, accounts: held.accounts || {} } };
+        const body = { email: held.email, text: state.resume.text, roles: held.roles || [held.map.role.id], posting: held.posting || "", answers: heldAnswers(held) };
+        if (ask) { body.feedback = String(ask.feedback || "").slice(0, Quests.LIMITS.feedback); body.avoid = (ask.avoid || []).slice(-Quests.LIMITS.avoid); }
         const [r, kit] = await Promise.all([fetch("api/open", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }), buildKit()]);
         if (!r.ok) throw Object.assign(new Error(`open ${r.status}`), { limited: r.status === 429 });
         const j = await r.json(), cards = [];
         let m = { ...held.map, cards: [], worlds: [] };
         for (const p of j.projects || []) { const c = Quests.cardOf(p, m, { kit, date: todayIso(), model: j.model }); cards.push(c); m = Quests.addSide(m, c); }
         if (!cards.length) throw new Error("open: no project");
-        held.cards = cards; openKeep(held);
-        if (window.Capture) Capture.cta("open_quests", "done");
+        held.seen = [...new Set([...(held.seen || []), ...(held.cards || []).map(c => c.title)])].slice(-Quests.LIMITS.avoid);
+        held.cards = cards; held.pick = null; held.ask = null; openKeep(held);
+        if (window.Capture) Capture.cta(cta, "done");
         return "ok";
       } catch (e) { console.error(e); held.why = e.limited ? "limited" : "failed"; openKeep(held); return held.why; }
     })().finally(() => { openWriting = null; });
@@ -1175,29 +1244,43 @@
     document.head.appendChild(el);
   }));
   const openTree = () => { const h = openHeld || (openHeld = store.get(OPEN_KEY)); return h && h.map && h.map.role && h.map.tree && Array.isArray(h.map.tree.nodes) ? h : null; };
-  // #/map with no session: the open form (#/map/find/<step>) while there is no tree, on ?build=1 (the tree's "Build it
-  // again" and the fit screen's link) and whenever the address names a step; else the tree held in this browser
+  // #/map in the open flow. The form (#/map/find/<step>) whenever the address names a step. With the skill tree off
+  // (2026-11-27): #/map/projects and #/map/projects/<id> while projects are held here; every other address of the map
+  // (#/map, #/map/tree, #/map/quests, #/map/start, ?build=1) lands on them, a bare #/map on the one picked; with
+  // nothing held, or a role named in the address (the fit screen's link), the first question. With the tree on, as
+  // before: the form while there is no tree, on ?build=1 and on a step, else the tree held in this browser.
   async function openScreen() {
-    const R0 = Routes.parseRoute(location.hash), held = openTree();
-    if (!held || R0.query.build === "1" || R0.parts[1] === "find") { await openForm(held); return; }
+    const R0 = Routes.parseRoute(location.hash), held = openTree(), sub = R0.parts[1];
+    if (sub === "find") { await openForm(held); return; }
+    if (!skillTreeOn()) {
+      if (!held || R0.query.role) { await openForm(held); return; }
+      const has = id => (held.cards || []).some(c => c.id === id);
+      const id = sub === "projects" ? R0.parts[2] || null : !sub && !R0.query.build && held.pick && has(held.pick) ? held.pick : null;
+      const want = "#/map/projects" + (id ? "/" + encodeURIComponent(id) : "");
+      if (location.hash !== want) history.replaceState(null, "", location.pathname + location.search + want);
+      await projectsScreen(held, id);
+      return;
+    }
+    if (!held || R0.query.build === "1") { await openForm(held); return; }
     const ix = await Atlas.index().catch(e => { console.error(e); return null; });
     if (Routes.parseRoute(location.hash).name !== "map") return;
     // The tree, and the Quests page once the build quests are written (their marks live in this browser). The
     // side-project flow needs a session, so #/map/start comes to the tree, as the Quests page does with no quest.
-    const map = openMap(held), sub = map.cards.length && R0.parts[1] === "quests" ? "quests" : "tree";
-    const p = new URLSearchParams(R0.search); p.delete("tab"); if (sub === "tree") p.delete("q");
-    const want = `#/map/${sub}` + (p.toString() ? "?" + p : "");
+    const map = openMap(held), page_ = map.cards.length && sub === "quests" ? "quests" : "tree";
+    const p = new URLSearchParams(R0.search); p.delete("tab"); if (page_ === "tree") p.delete("q");
+    const want = `#/map/${page_}` + (p.toString() ? "?" + p : "");
     if (location.hash !== want) history.replaceState(null, "", location.pathname + location.search + want);
     drawMap(map, ix, "", true);
     drawOpenNext(held, ix);
   }
-  // ---------- the open form (#/map/find/<step>, 2026-11-12; the pure parts are Routes.OpenFlow) ----------
-  // One question per screen, the side-project flow's look and its steps c to e (stepFrame, techStep, toolsStep,
-  // accountsStep): the roles (by name or by field), the résumé with a posting tucked away, how technical, the kinds of
-  // AI tools, the accounts (the three only with the build quests on; they only steer the model), then the email and
-  // "Find my projects". The answers stay in this browser (open.flow) and each step is an address, so Back and a reload
-  // keep the place. Next is never a dead button: pressed with something missing, it says what beside it. The tree is
-  // grounded here as before (web/apprentice.js); the answers go with the résumé once to POST /api/open (writeOpen).
+  // ---------- the open form (#/map/find/<step>, 2026-11-12; the portfolio flow, 2026-11-27; the pure parts are Routes.OpenFlow) ----------
+  // One question per screen, the side-project flow's look and its steps (stepFrame, techStep, toolsStep, shareStep):
+  // the roles (the main role first, then up to three more of its field), the résumé with a posting tucked away, how
+  // technical, the tools (what they use, the kit's kinds for the field, open to a new tool), where they would show the
+  // work (the three only with the build quests on; they only steer the model), then the email and "Find my projects".
+  // The answers stay in this browser (open.flow) and each step is an address, so Back and a reload keep the place.
+  // Next is never a dead button: pressed with something missing, it says what beside it. The tree is grounded here as
+  // before (web/apprentice.js); the answers go with the résumé to POST /api/open (writeOpen).
   const OPEN_FLOW_KEY = "open.flow";
   let openShown = false, openStepAt = null;
   async function openForm(held) {
@@ -1209,23 +1292,24 @@
     if (Routes.parseRoute(location.hash).name !== "map") return;
     await Atlas.product().catch(e => console.error(e));   // the Product field's roles; without the file the field is left out
     if (Routes.parseRoute(location.hash).name !== "map") return;
-    const F = treeRoles(ix, true), roles = roleIndex(F, ix);
+    const F = treeRoles(ix, true), roles = OF.named(roleIndex(F, ix));
     const roleOf = id => roles.find(r => r.id === id) || null;
     const steps = OF.steps(openQuestsOn());
     // the answers: this browser's, else the tree held here (a rebuild starts from it); unknown roles dropped
     const saved = store.get(OPEN_FLOW_KEY);
-    const flow = OF.clean(saved || (held ? { roles: held.roles, tech: held.tech, tools: held.tools, accounts: held.accounts, email: held.email, posting: held.posting } : null));
+    const flow = OF.clean(saved || (held ? { ...(held.flow || {}), roles: held.roles, email: held.email, posting: held.posting } : null));
     flow.roles = flow.roles.filter(roleOf);
     if (!flow.email) flow.email = (held || {}).email || doorKept().email || "";
     const picked = R0.query.role;   // the fit screen's link names the role
     if (picked && roleOf(picked)) flow.roles = OF.preselect(flow.roles, picked, id => (roleOf(id) || {}).field);
     const save = () => store.set(OPEN_FLOW_KEY, flow);
     save();
-    const s = { q: "", err: "", errStep: null, browse: flow.roles.length ? roleOf(flow.roles[0]).field : null, change: false, busy: false };
+    const s = { q: "", err: "", errStep: null, browse: null, change: false, busy: false };
     const ctx = () => ({ roles: flow.roles, resume: !!state.resume, tech: flow.tech, email: flow.email });
-    const stepNow = () => { const p = Routes.parseRoute(location.hash).parts[2]; return steps.includes(p) ? p : steps[0]; };
+    const stepNow = () => { const p = OF.step(Routes.parseRoute(location.hash).parts[2]); return steps.includes(p) ? p : steps[0]; };
     const to = step => location.pathname + location.search + "#/map/find/" + step;
-    // into the form from #/map, ?build=1 or a step it cannot reach yet: the address becomes the step, replaced
+    // into the form from #/map, ?build=1, an old address (accounts) or a step it cannot reach yet: the address becomes
+    // the step, replaced
     { const want = atFind() ? stepNow() : steps[0], reach = OF.firstMissing(steps, ctx(), want) || want;
       if (!atFind() || location.hash !== "#/map/find/" + reach) history.replaceState(null, "", to(reach)); }
     const focusAsk = () => { const h = main.querySelector(".sp-ask"); if (h) h.focus({ preventScroll: true }); };
@@ -1234,11 +1318,14 @@
     const head = step => `<h1 class="sp-kicker">${esc(O.heading)}</h1>${step === steps[0] ? `<p class="sp-intro">${esc(O.lead)}</p>` : ""}`;
     const ask = (text, lead) => `<h2 class="sp-ask" tabindex="-1">${esc(text)}</h2>${lead ? `<p class="sp-hint">${esc(lead)}</p>` : ""}`;
     const errHtml = () => s.err ? esc(s.err) + (s.errStep && s.errStep !== stepNow() ? ` <button type="button" class="linkish link" id="sp-fix">${esc(O.last.goThere)}</button>` : "") : "";
+    const field0 = () => flow.roles.length ? roleOf(flow.roles[0]).field : null;
+    const fieldLabel = id => (roles.find(r => r.field === id) || {}).fieldLabel || (F.find(f => f.id === id) || {}).label || "";
     const draw = () => {
       if (!atFind()) return;
       const step = stepNow();
       crumbs([[O.heading, null]]); showAside(null);
-      const html = ({ roles: rolesHtml, resume: resumeHtml, tech: () => stepFrame({ steps, step: "tech", inner: head("tech") + techStep(flow, "h2"), err: errHtml() }), tools: () => stepFrame({ steps, step: "tools", inner: head("tools") + toolsStep(flow, kit, "h2"), nextLabel: Object.keys(flow.tools).length ? S.next : S.skipStep, err: errHtml() }), accounts: () => stepFrame({ steps, step: "accounts", inner: head("accounts") + accountsStep(flow, kit, "h2"), nextLabel: Object.keys(flow.accounts).length ? S.next : S.skipStep, err: errHtml() }), email: emailHtml })[step]();
+      const f = field0(), fl = fieldLabel(f);
+      const html = ({ roles: rolesHtml, resume: resumeHtml, tech: () => stepFrame({ steps, step: "tech", inner: head("tech") + techStep(flow, "h2"), err: errHtml() }), tools: () => stepFrame({ steps, step: "tools", inner: head("tools") + toolsStep(flow, kit, f, fl, "h2"), err: errHtml() }), share: () => stepFrame({ steps, step: "share", inner: head("share") + shareStep(flow, kit, f, "h2"), err: errHtml() }), email: emailHtml })[step]();
       page(html, true);
       main.firstElementChild.classList.add("roomy", "sp-page", "of-page");
       openStepAt = step;
@@ -1251,27 +1338,35 @@
         if (m) { s.err = missLine(m); s.errStep = step; draw(); const b = $("#sp-go"); if (b) b.focus(); return; }
         go(steps[steps.indexOf(step) + 1]);
       };
-      ({ roles: wireRoles, resume: wireResume, tech: () => wireTechStep(flow, () => { save(); go("tools"); }), tools: () => wireToolsStep(flow, () => { save(); draw(); }), accounts: () => wireAccountsStep(flow, () => { save(); draw(); }), email: wireEmail })[step]();
+      ({ roles: wireRoles, resume: wireResume, tech: () => wireTechStep(flow, () => { save(); go("tools"); }), tools: () => wireToolsStep(flow, save, () => { save(); draw(); }), share: () => wireShareStep(flow, kit, f, save, () => { save(); draw(); }), email: wireEmail })[step]();
     };
 
-    // ---------- a. the roles: a search, or a field and its roles as chips ----------
-    const field0 = () => flow.roles.length ? roleOf(flow.roles[0]).field : null;
-    const fieldLabel = id => (F.find(f => f.id === id) || {}).label || (roles.find(r => r.field === id) || {}).fieldLabel || "";
+    // ---------- a. the roles: the main role (a search, or a field and its roles as chips), then more of its field ----------
     function rolesHtml() {
-      const A = S.aim, R = O.roles, f = F.find(x => x.id === s.browse), full = flow.roles.length >= 4;
-      const chips = flow.roles.map(id => `<span class="chip on sp-role">${esc(roleOf(id).label)}<button type="button" data-drop="${esc(id)}" aria-label="${esc(fill(A.remove, { role: roleOf(id).label }))}">×</button></span>`).join("");
-      const fieldBtns = F.map(x => `<button type="button" class="chip" data-browse="${esc(x.id)}" aria-pressed="${s.browse === x.id}">${esc(x.label)}</button>`).join("");
-      const list = f ? `<p class="sp-or">${esc(fill(R.fieldRoles, { field: f.label }))}</p><div class="sp-quick">${f.roles.map(r => `<button type="button" class="chip${flow.roles.includes(r.id) ? " on" : ""}" data-toggle="${esc(r.id)}" aria-pressed="${flow.roles.includes(r.id)}">${esc(r.label)}</button>`).join("")}</div>` : "";
-      return stepFrame({ steps, step: "roles", err: errHtml(), inner: `${head("roles")}${ask(R.title, R.lead)}
-        <div class="sp-ta"><input type="search" id="sp-q" value="${esc(s.q)}" placeholder="${esc(A.search)}" aria-label="${esc(A.searchLabel)}" autocomplete="off"${full ? " disabled" : ""}><div id="sp-hits"></div></div>
-        <div class="sp-picked">${chips}</div>${full ? `<p class="small muted">${esc(A.full)}</p>` : ""}
-        <p class="sp-or">${esc(R.browse)}</p><div class="sp-quick sp-fields" role="group" aria-label="${esc(R.browseAria)}">${fieldBtns}</div>
-        <div id="sp-browse">${list}</div>` });
+      const A = S.aim, R = O.roles, f0 = field0(), full = flow.roles.length >= 4;
+      const chips = flow.roles.map(id => `<span class="chip on sp-role">${esc(roleOf(id).name)}<button type="button" data-drop="${esc(id)}" aria-label="${esc(fill(A.remove, { role: roleOf(id).name }))}">×</button></span>`).join("");
+      const search = `<div class="sp-ta"><input type="search" id="sp-q" value="${esc(s.q)}" placeholder="${esc(A.search)}" aria-label="${esc(A.searchLabel)}" autocomplete="off"${full ? " disabled" : ""}><div id="sp-hits"></div></div>`;
+      if (!f0) {
+        const f = F.find(x => x.id === s.browse);
+        const fieldBtns = F.map(x => `<button type="button" class="chip" data-browse="${esc(x.id)}" aria-pressed="${s.browse === x.id}">${esc(x.label)}</button>`).join("");
+        const list = f ? `<p class="sp-or" id="sp-browse-h">${esc(fill(R.fieldRoles, { field: f.label }))}</p><div class="sp-quick" role="group" aria-labelledby="sp-browse-h">${roles.filter(r => r.field === f.id).map(r => `<button type="button" class="chip" data-toggle="${esc(r.id)}" aria-pressed="false">${esc(r.label)}</button>`).join("")}</div>` : "";
+        return stepFrame({ steps, step: "roles", err: errHtml(), inner: `${head("roles")}${ask(R.title, R.lead)}${search}
+          <p class="sp-or">${esc(R.browse)}</p><div class="sp-quick sp-fields" role="group" aria-label="${esc(R.browseAria)}">${fieldBtns}</div>
+          <div id="sp-browse">${list}</div>` });
+      }
+      const fl = fieldLabel(f0), more = roles.filter(r => r.field === f0 && r.id !== flow.roles[0]);
+      return stepFrame({ steps, step: "roles", err: errHtml(), inner: `${head("roles")}${ask(R.title)}
+        <div class="sp-picked">${chips}</div>
+        <p class="sp-or" id="sp-more-h">${esc(fill(R.more, { field: fl }))}</p>
+        <div class="sp-quick" id="sp-browse" role="group" aria-labelledby="sp-more-h">${more.map(r => { const on = flow.roles.includes(r.id); return `<button type="button" class="chip" data-toggle="${esc(r.id)}" aria-pressed="${on}"${!on && full ? " disabled" : ""}>${esc(r.label)}</button>`; }).join("")}</div>
+        ${full ? `<p class="small muted">${esc(A.full)}</p>` : `<div class="sp-more-q">${search}</div>`}
+        <p class="sp-one" id="sp-one">${esc(fill(R.oneField, { field: fl }))} <button type="button" class="linkish link" id="sp-over">${esc(R.startOver)}</button></p>` });
     }
+    const hitsNow = () => OF.hits(roles, flow.roles, s.q, field0());
     function drawHits() {
       const box = $("#sp-hits"); if (!box) return;
-      const h = roleHits(roles, flow.roles, s.q), f0 = field0();
-      box.innerHTML = !s.q.trim() ? "" : h.length ? `<ul role="listbox" aria-label="${esc(S.aim.searchLabel)}">${h.map(r => `<li><button type="button" data-add="${esc(r.id)}"${f0 && r.field !== f0 ? ` disabled title="${esc(fill(S.aim.otherField, { field: fieldLabel(f0) }))}"` : ""}>${esc(r.label)} <span class="small muted">${esc(r.fieldLabel)}</span></button></li>`).join("")}</ul>` : `<p class="small muted">${esc(S.aim.none)}</p>`;
+      const h = hitsNow();
+      box.innerHTML = !s.q.trim() ? "" : h.length ? `<ul class="sp-hitlist" aria-label="${esc(S.aim.searchLabel)}">${h.map(r => `<li><button type="button" data-add="${esc(r.id)}">${esc(r.name)}${r.name === r.label ? ` <span class="small muted">${esc(r.fieldLabel)}</span>` : ""}</button></li>`).join("")}</ul>` : `<p class="small muted">${esc(S.aim.none)}</p>`;
       box.querySelectorAll("[data-add]").forEach(b => b.onclick = () => add(b.dataset.add, "#sp-q"));
     }
     function add(id, refocus) {
@@ -1279,20 +1374,22 @@
       if (flow.roles.includes(id)) return;
       if (flow.roles.length >= 4) { s.err = S.aim.full; s.errStep = "roles"; draw(); return; }
       if (f0 && r.field !== f0) { s.err = fill(S.aim.otherField, { field: fieldLabel(f0) }); s.errStep = "roles"; draw(); return; }
-      flow.roles.push(id); save(); s.q = ""; s.err = ""; s.errStep = null; if (!s.browse) s.browse = r.field; draw();
+      flow.roles.push(id); save(); s.q = ""; s.err = ""; s.errStep = null; s.browse = null; draw();
       const i = refocus && $(refocus); if (i) i.focus();
     }
     const drop = id => { flow.roles = flow.roles.filter(x => x !== id); save(); s.err = ""; s.errStep = null; draw(); };
     function wireRoles() {
       const i = $("#sp-q");
-      if (i) { i.oninput = () => { s.q = i.value; drawHits(); }; i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); const h = roleHits(roles, flow.roles, s.q).filter(r => !field0() || r.field === field0()); if (h[0]) add(h[0].id, "#sp-q"); } }; drawHits(); }
-      main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { drop(b.dataset.drop); const q = $("#sp-q"); if (q) q.focus(); });
+      if (i) { i.oninput = () => { s.q = i.value; drawHits(); }; i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); const h = hitsNow(); if (h[0]) add(h[0].id, "#sp-q"); } }; drawHits(); }
+      main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { drop(b.dataset.drop); const q = $("#sp-q") || main.querySelector("[data-toggle]"); if (q) q.focus(); });
       main.querySelectorAll("[data-browse]").forEach(b => b.onclick = () => { s.browse = s.browse === b.dataset.browse ? null : b.dataset.browse; draw(); const n = main.querySelector(`[data-browse="${CSS.escape(b.dataset.browse)}"]`); if (n) n.focus(); });
       main.querySelectorAll("[data-toggle]").forEach(b => b.onclick = () => {
-        const id = b.dataset.toggle;
+        const id = b.dataset.toggle, first = !flow.roles.length;
         if (flow.roles.includes(id)) drop(id); else add(id);
-        const n = main.querySelector(`[data-toggle="${CSS.escape(id)}"]`); if (n) n.focus();
+        const n = main.querySelector(`[data-toggle="${CSS.escape(id)}"]`) || (first && $("#sp-q"));
+        if (n) n.focus();
       });
+      const over = $("#sp-over"); if (over) over.onclick = () => { flow.roles = []; save(); s.q = ""; s.err = ""; s.errStep = null; s.browse = null; draw(); const q = $("#sp-q"); if (q) q.focus(); };
     }
 
     // ---------- b. the résumé, and a posting tucked away ----------
@@ -1320,7 +1417,8 @@
       em.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); find(); } };
       if (s.busy) { const b = $("#sp-go"); b.disabled = true; }
     }
-    // the build: every step checked in order, the tree grounded here and kept here; the email goes to the waitlist
+    // the build: every step checked in order, the tree grounded here and kept here; the email goes to the waitlist.
+    // With the skill tree off the projects page is next, else the tree (the build quests above it).
     const find = async () => {
       if (s.busy) return;
       const m = OF.firstMissing(steps, ctx());
@@ -1334,18 +1432,171 @@
         await loadApprentice();
         const g = await Apprentice.ground({ A: Atlas, Matcher, EvidenceText }, { profile: state.resume.text, roles: [...flow.roles], posting: flow.posting || "", today: todayIso() });
         const { map } = Apprentice.selfServeMap(g, { campus: (campusGate().campus || {}).label || null, date: todayIso() });
-        openHeld = { email, map, roles: [...flow.roles], tech: quests ? flow.tech : null, tools: quests ? { ...flow.tools } : {}, accounts: quests ? { ...flow.accounts } : {}, posting: (flow.posting || "").slice(0, 20000), cards: null, mine: {}, asked: null, why: null };
+        const keep = quests ? { tech: flow.tech, tools: { ...flow.tools }, own_tools: flow.own_tools, try_new: flow.try_new, places: flow.places, own_places: flow.own_places, portfolio: { ...flow.portfolio } } : {};
+        openHeld = { email, map, roles: [...flow.roles], posting: (flow.posting || "").slice(0, 20000), flow: keep, answers: quests ? OF.answers(flow, kit, field0()) : null, cards: null, mine: {}, asked: null, why: null, pick: null, seen: [] };
         store.set(OPEN_KEY, openHeld);   // a browser that refuses storage keeps it for this page
       } catch (e) { console.error(e); s.busy = false; if (atFind()) { s.err = O.failed; s.errStep = "email"; draw(); } return; }
       if (window.Capture) { Capture.waitlist(email, "build", { role_id: flow.roles[0] }); Capture.cta("open_tree", "done"); }
       s.busy = false;
       if (!atFind()) return;
-      toHash("#/map/tree"); if (location.hash === "#/map/tree") route();
+      const next = skillTreeOn() ? "#/map/tree" : "#/map/projects";
+      toHash(next); if (location.hash === next) route();
     };
 
     draw();
     if (prevStep && prevStep !== stepNow()) focusAsk();   // Back or Forward between steps: the question takes focus
     if (!openShown && window.Capture) { openShown = true; Capture.cta("open_tree", "shown"); }
+  }
+
+  // ---------- the projects (#/map/projects and #/map/projects/<id>, SKILL_TREE_ENABLED off, 2026-11-27) ----------
+  // The three cards the function wrote (a waiting state while it writes; it can take most of a minute), each with its
+  // level, what you ship, the skills it builds, what to build with and where it shows, and "Pick this one". On a phone
+  // the cards are one row that snaps, one card per screen width, with dots and Previous and Next; on a wide screen,
+  // three columns. "None of these" asks what should be different and writes three new ones (writeOpen with feedback
+  // and the titles shown). The function off or failing: the two projects of web/preview.js in the same frame, without
+  // Pick. The picked project's page has the steps (ticks kept here), the starter prompt, the share suggestion and the
+  // project guide to download (web/project_guide.js). Everything stays in open.tree.
+  const atProjects = () => { const R = Routes.parseRoute(location.hash); return R.name === "map" && R.parts[1] === "projects"; };
+  const levelWord = c => Copy.map.open.projects.levels[c.project_level] || "";
+  const skillNames = (held, c, ix) => { const t = held.map.tree || {}, names = Object.fromEntries([...(t.nodes || []), ...(t.behaviours || []), ...(t.more || [])].map(n => [n.id, n.name])); return (c.atlas_skills || []).map(id => names[id] || ((ix && ix.skillById[id]) || {}).name || id); };
+  const toolTag = t => t.own ? ` <span class="pj-tag">(${esc(Copy.map.open.projects.yours)})</span>` : t.free ? ` <span class="pj-tag">(${esc(t.free)})</span>` : "";
+  const toolWords = t => `${esc(t.name)}${toolTag(t)}`;
+  // copy a text to the clipboard; the line beside the button says it went
+  async function copyText(text, out) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch {
+      try { const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); ok = document.execCommand("copy"); ta.remove(); } catch { ok = false; }
+    }
+    if (out) out.textContent = ok ? Copy.map.open.picked.copied : "";
+  }
+  async function projectsScreen(held, id) {
+    const O = Copy.map.open, P = O.projects;
+    const [ix, kit] = await Promise.all([Atlas.index().catch(e => { console.error(e); return null; }), buildKit().catch(e => { console.error(e); return null; })]);
+    if (!atProjects()) return;
+    if (id) { pickedScreen(held, id, ix, kit); return; }
+    const role = held.map.role.label || "";
+    const ui = { none: false, feedback: (held.ask && held.ask.feedback) || "", at: 0 };
+    const writing = () => !!openWriting;
+    const cardsNow = () => openQuestsOn() ? held.cards || [] : [];
+    const whyHtml = () => !held.why ? "" : `<p class="pj-why" id="open-why" role="status">${esc(held.why === "limited" ? P.limited : P.failed)}${held.why === "failed" && state.resume ? ` <button type="button" class="linkish link" id="open-retry">${esc(P.retry)}</button>` : ""}</p>`;
+    const foot = () => {
+      const u = sessionUrl();
+      return `${u ? `<p class="pj-help"><a href="${esc(u)}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a></p>` : ""}
+        <p class="small muted pj-kept">${esc(P.kept)} <a href="#/map/find/roles">${esc(P.change)}</a> · <button type="button" class="linkish link" id="open-forget">${esc(P.forget)}</button></p>`;
+    };
+    const card = (c, i, n) => `<article class="pj-card" role="group" aria-roledescription="slide" aria-label="${esc(fill(P.slideAria, { n: i + 1, m: n }))}" data-card="${esc(c.id)}">
+        ${levelWord(c) ? `<p class="pj-level lv-${esc(c.project_level)}">${esc(levelWord(c))}</p>` : ""}<h2>${esc(c.title)}</h2>
+        <p class="pj-ship"><b>${esc(P.youShip)}</b> ${esc(c.ship)}</p>
+        <p class="pj-skills"><b>${esc(P.builds)}</b> ${skillNames(held, c, ix).map(n => `<span class="chip">${esc(n)}</span>`).join(" ")}</p>
+        <dl class="pj-recipe"><div><dt>${esc(P.buildWith)}</dt><dd>${(c.build_with || []).map(b => `${esc(b.name)}<small>${(b.tools || []).map(toolWords).join(", ")}</small>`).join("")}</dd></div>
+          <div><dt>${esc(P.showOn)}</dt><dd>${(c.live_on || []).map(l => esc(l.name)).join(", ")}</dd></div></dl>
+        <p class="pj-go"><button type="button" class="btn primary" data-pick="${esc(c.id)}">${esc(P.pick)}</button></p></article>`;
+    const carousel = (inner, n) => `<div class="pj-car" role="region" aria-roledescription="carousel" aria-label="${esc(P.carouselAria)}">
+        <div class="pj-row" id="pj-row">${inner}</div>
+        ${n > 1 ? `<div class="pj-ctl"><button type="button" class="btn pj-arrow" id="pj-prev" aria-label="${esc(P.prev)}">←</button><span class="pj-dots">${Array.from({ length: n }, (_, i) => `<button type="button" class="pj-dot" data-dot="${i}" aria-label="${esc(fill(P.dotAria, { n: i + 1 }))}"${i === ui.at ? ` aria-current="true"` : ""}></button>`).join("")}</span><button type="button" class="btn pj-arrow" id="pj-next" aria-label="${esc(P.next)}">→</button></div>` : ""}</div>`;
+    const draw = async () => {
+      if (!atProjects()) return;
+      crumbs([[P.heading, null]]); showAside(null);
+      const cards = cardsNow();
+      let body;
+      if (writing()) body = `<div class="wait pj-wait" id="open-writing" role="status"><span class="pj-spin" aria-hidden="true"></span><div><b>${esc(held.ask ? P.rewriting : P.writing)}</b><p class="small muted">${esc(P.keepOpen)}</p></div></div>`;
+      else if (cards.length) {
+        body = `<p class="lead">${esc(fill(P.lead, { role }))}</p>${carousel(cards.map((c, i) => card(c, i, cards.length)).join(""), cards.length)}${whyHtml()}
+          <section class="pj-none" id="pj-none">${ui.none ? `<label class="tr-lab" for="pj-fb">${esc(P.noneTitle)}</label><textarea id="pj-fb" maxlength="${Quests.LIMITS.feedback}" placeholder="${esc(P.noneHint)}">${esc(ui.feedback)}</textarea>
+            <p><button type="button" class="btn primary" id="pj-rewrite">${esc(P.rewrite)}</button></p>` : `<p><button type="button" class="btn" id="pj-none-open" aria-expanded="false">${esc(P.none)}</button></p>`}</section>`;
+      } else {
+        let standards = null;
+        try { standards = await (standardsP ||= fetch("data/standards.json").then(r => r.ok ? r.json() : null)); } catch (e) { console.error(e); standardsP = null; }
+        if (!atProjects()) return;
+        const opts = Preview.pick(held.map, { standards, skillById: ix ? ix.skillById : null });
+        const fb = o => `<article class="pj-card" role="group" aria-roledescription="slide" aria-label="${esc(fill(P.slideAria, { n: opts.indexOf(o) + 1, m: opts.length }))}"><h2>${esc(o.title)}</h2><p class="pj-ship">${esc(o.text)}</p>${o.skills.length ? `<p class="pj-skills"><b>${esc(P.builds)}</b> ${o.skills.map(n => `<span class="chip">${esc(n)}</span>`).join(" ")}</p>` : ""}</article>`;
+        body = `<div id="open-preview"><h2 class="pj-sub">${esc(P.fallbackHeading)}</h2><p class="small muted">${esc(fill(P.fallbackLead, { role }))}</p>${opts.length ? carousel(opts.map(fb).join(""), opts.length) : ""}</div>${whyHtml()}`;
+        if (window.Capture && opts.length) Capture.cta("open_preview", "shown");
+      }
+      page(`<div class="pj"><h1>${esc(P.heading)}</h1>${body}${foot()}</div>`);
+      main.firstElementChild.classList.add("pj-page");
+      wire();
+    };
+    // the row's place: the card nearest the row's left edge sets the dots; the buttons scroll by one card
+    function wireRow() {
+      const row = $("#pj-row"); if (!row) return;
+      const n = row.children.length;
+      const at = () => Math.max(0, Math.min(n - 1, Math.round(row.scrollLeft / Math.max(1, row.clientWidth))));
+      const show = i => { const c = row.children[i]; if (c) row.scrollTo({ left: c.offsetLeft - row.offsetLeft, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); };
+      const mark = () => { ui.at = at(); main.querySelectorAll("[data-dot]").forEach(d => { if (+d.dataset.dot === ui.at) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); }); const p = $("#pj-prev"), x = $("#pj-next"); if (p) p.disabled = ui.at === 0; if (x) x.disabled = ui.at === n - 1; };
+      row.addEventListener("scroll", () => { clearTimeout(row._t); row._t = setTimeout(mark, 60); }, { passive: true });
+      main.querySelectorAll("[data-dot]").forEach(d => d.onclick = () => show(+d.dataset.dot));
+      const p = $("#pj-prev"), x = $("#pj-next");
+      if (p) p.onclick = () => show(Math.max(0, at() - 1));
+      if (x) x.onclick = () => show(Math.min(n - 1, at() + 1));
+      if (ui.at) show(ui.at);
+      mark();
+    }
+    function wire() {
+      wireRow();
+      main.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
+        if (window.Capture) Capture.cta("open_pick", "click");
+        held.pick = b.dataset.pick; openKeep(held);
+        location.hash = "#/map/projects/" + encodeURIComponent(b.dataset.pick);
+      });
+      const no = $("#pj-none-open"); if (no) no.onclick = () => { ui.none = true; if (window.Capture) Capture.cta("open_none", "shown"); draw().then(() => { const t = $("#pj-fb"); if (t) t.focus(); }); };
+      const fb = $("#pj-fb"); if (fb) fb.oninput = () => { ui.feedback = fb.value; };
+      const rw = $("#pj-rewrite"); if (rw) rw.onclick = () => rewrite({ feedback: ui.feedback });
+      const retry = $("#open-retry"); if (retry) retry.onclick = () => held.ask || (held.cards || []).length ? rewrite({ feedback: (held.ask && held.ask.feedback) || ui.feedback }) : first();
+      const forget = $("#open-forget"); if (forget) forget.onclick = () => { openHeld = null; store.set(OPEN_KEY, null); store.set(OPEN_FLOW_KEY, null); mapUi = null; toHash("#/map/find/roles"); route(); };
+    }
+    const after = async p => { await draw(); const r = await p; if (!atProjects() || openHeld !== held) return; ui.none = r !== "ok" && ui.none; await draw(); const h = main.querySelector(".pj h1"); if (r === "ok" && h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); } };
+    const rewrite = ask => after(writeOpen(held, { feedback: ask.feedback, avoid: [...(held.seen || []), ...(held.cards || []).map(c => c.title)] }));
+    const first = () => after(writeOpen(held));
+    // the first write: nothing written yet and no failure kept (a reload during a write asks again); a write already
+    // under way is waited for
+    if (openWriting) after(openWriting);
+    else if (openQuestsOn() && state.resume && !(held.cards || []).length && !held.why) first();
+    else await draw();
+  }
+  function pickedScreen(held, id, ix, kit) {
+    const O = Copy.map.open, P = O.projects, K = O.picked;
+    const c = (held.cards || []).find(x => x.id === id);
+    if (!c || !openQuestsOn()) {
+      crumbs([[P.heading, "#/map/projects"]]); showAside(null);
+      page(`<div class="pj"><h1>${esc(P.heading)}</h1><p class="lead">${esc(K.gone)}</p><p><a class="btn primary" href="#/map/projects">${esc(K.toAll)}</a></p></div>`);
+      return;
+    }
+    if (held.pick !== id) { held.pick = id; openKeep(held); }
+    crumbs([[P.heading, "#/map/projects"], [c.title, null]]); showAside(null);
+    const ticks = ticksOf(c.id), role = held.map.role.label || "";
+    const link = (name, url) => /^https?:\/\//i.test(String(url || "")) ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name);
+    const tools = (c.build_with || []).map(b => `<p><b>${esc(b.name)}</b></p><ul class="pj-tools">${(b.tools || []).map(t => `<li>${link(t.name, t.url)}${toolTag(t)}</li>`).join("")}</ul>`).join("");
+    const live = (c.live_on || []).map(l => `<p><b>${link(l.name, l.url)}</b>${l.note ? `<br><span class="muted">${esc(l.note)}</span>` : ""}</p>`).join("");
+    const sh = c.share;
+    page(`<div class="pj pj-one">
+      <p class="pj-backrow"><a href="#/map/projects" id="pj-back">← ${esc(K.back)}</a></p>
+      ${levelWord(c) ? `<p class="pj-level lv-${esc(c.project_level)}">${esc(levelWord(c))}</p>` : ""}<h1 tabindex="-1">${esc(c.title)}</h1>
+      <p class="lead"><b>${esc(P.youShip)}</b> ${esc(c.ship)}</p>
+      <p class="pj-skills"><b>${esc(P.builds)}</b> ${skillNames(held, c, ix).map(n => `<span class="chip">${esc(n)}</span>`).join(" ")}</p>
+      <div class="pj-two"><section><h2>${esc(K.whyRole)}</h2><p>${esc(c.why_role.text)}</p></section><section><h2>${esc(K.whyYou)}</h2><p>${esc(c.why_person.text)}</p></section></div>
+      <section><h2>${esc(K.steps)}</h2><p class="small muted">${esc(K.stepsNote)}</p><ol class="pj-steps">${c.steps.map((st, i) => `<li><label${ticks[i] ? ` class="done"` : ""}><input type="checkbox" data-step="${i}"${ticks[i] ? " checked" : ""}> <span>${esc(st)}</span></label></li>`).join("")}</ol></section>
+      <section><h2>${esc(K.prompt)}</h2><p class="small muted">${esc(K.promptLead)}</p><pre class="pj-pre" id="pj-prompt">${esc(c.prompt)}</pre>
+        <p class="pj-copyrow"><button type="button" class="btn" data-copy="pj-prompt" aria-label="${esc(K.copyPrompt)}">${esc(K.copy)}</button> <span class="small muted" aria-live="polite" id="pj-prompt-out"></span></p></section>
+      <div class="pj-two"><section><h2>${esc(P.buildWith)}</h2>${tools}</section><section><h2>${esc(P.showOn)}</h2>${live}</section></div>
+      ${sh ? `<section><h2>${esc(K.share)}</h2><p><b>${link(sh.label, sh.url)}</b>: ${esc(sh.how)}</p>${sh.post ? `<h3>${esc(K.post)}</h3><pre class="pj-pre" id="pj-post">${esc(sh.post)}</pre>
+        <p class="pj-copyrow"><button type="button" class="btn" data-copy="pj-post" aria-label="${esc(K.copyPost)}">${esc(K.copy)}</button> <span class="small muted" aria-live="polite" id="pj-post-out"></span></p>` : ""}</section>` : ""}
+      <section class="pj-dl"><h2>${esc(K.download)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p></section>
+      <p class="pj-foot"><a href="#/map/projects">${esc(K.back)}</a></p>
+      ${sessionUrl() ? `<p class="pj-help"><a href="${esc(sessionUrl())}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a></p>` : ""}
+    </div>`);
+    main.firstElementChild.classList.add("pj-page");
+    main.querySelectorAll(".pj-steps input[data-step]").forEach(b => b.onchange = () => { const t = ticksOf(c.id); t[+b.dataset.step] = b.checked; keepTicks(c.id, t); b.closest("label").classList.toggle("done", b.checked); });
+    main.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => { const el = $("#" + b.dataset.copy); if (el) copyText(el.textContent, $(`#${b.dataset.copy}-out`)); });
+    $("#pj-download").onclick = () => {
+      if (window.Capture) Capture.cta("open_download", "click");
+      const html = ProjectGuide.html(c, { kit, role: { id: held.map.role.id, label: role }, answers: heldAnswers(held), date: todayIso(), skills: skillNames(held, c, ix) });
+      const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+      const a = document.createElement("a"); a.href = url; a.download = ProjectGuide.filename(c); a.hidden = true;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      if (window.Capture) Capture.cta("open_download", "done");
+    };
   }
 
   // above the open tree: the written projects or the two from web/preview.js, then the booking card (only with a form id)
@@ -1387,9 +1638,10 @@
   // the top bar's entry: shown to every visitor while the tree is on, so an invited person finds the way in
   const buildBar = () => treeOn();
   const selfServe = map => !!(map && map.student && map.student.self_serve);
-  // the open tree also offers the Product field (2026-11-12: its build runs in this browser and /api/open bundles the
-  // product set); the signed-in form and the side-project flow stay on the MBA set, the one /api/tree bundles
-  const treeRoles = (ix, product) => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => !(product ? ["tech"] : ["product", "tech"]).includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
+  // the open flow offers every role set (`open`): the Product field (2026-11-12) and the tech set's fields
+  // (2026-11-27), since its tree is grounded in this browser and /api/open grounds tech roles too ("tech.<family>",
+  // one field per request); the signed-in form and the side-project flow stay on the MBA set, the one /api/tree bundles
+  const treeRoles = (ix, open) => Launcher.fields(ix).map(f => ({ ...f, roles: f.roles.filter(r => open || !["product", "tech"].includes((ix.roles[r.id] || {}).set)) })).filter(f => f.roles.length);
   // `first`: the person has no map yet, so the form is Build skills' first step and says what comes after it; with a
   // map (?build=1), it builds the tree again. A visitor with no session gets the open form instead (openForm, below).
   async function treeForm(out, first) {
@@ -1449,14 +1701,14 @@
 
   // ---------- "Start a side project" (#/map/start/<step>, 2026-11-11; the pure parts are web/quests.js) ----------
   // One question per screen: the roles (a), what you bring (b: the résumé and its band in words, the extras), how
-  // technical (c), the kinds of AI tools (d), the accounts (e), then three side projects a model writes (f). A person
+  // technical (c), the tools (d), where the work shows (e), then three side projects a model writes (f). A person
   // with no map gets the tree first (POST /api/tree, unchanged), from a and b; a self-serve map whose roles changed is
   // built again. The answers stay in this browser (quests.flow) so a reload keeps the place; the extras stay in this
   // page only. Nothing leaves the browser but the final request: the résumé text, the extras and the answers go once
   // to POST /api/quests, which keeps neither the résumé nor the extras. A pick adds the card to the map, and the person
   // lands on it as the now card, opened.
   const questsOn = () => treeOn() && !!(window.CONFIG || {}).QUESTS_ENABLED;
-  const START_STEPS = ["aim", "bring", "tech", "tools", "accounts", "pick"];
+  const START_STEPS = ["aim", "bring", "tech", "tools", "share", "pick"];
   const FLOW_KEY = "quests.flow", OPTS_KEY = "quests.options";
   // the extras, [{ name, text }]: kept in this tab only (sessionStorage, so a reload keeps them and closing the tab
   // drops them), never in localStorage and never on a server
@@ -1465,14 +1717,16 @@
   const keepExtras = () => { try { sessionStorage.setItem(EXTRAS_KEY, JSON.stringify(startExtras)); } catch { } };
   let kitP = null;
   const buildKit = () => kitP ||= Atlas.fetchJson("data/build_kit.json");
-  const flowOf = () => { const f = store.get(FLOW_KEY); return f && typeof f === "object" ? { roles: Array.isArray(f.roles) ? f.roles.slice(0, 4) : [], tech: f.tech || null, tools: f.tools || {}, accounts: f.accounts || {} } : { roles: [], tech: null, tools: {}, accounts: {} }; };
+  // the answers kept (quests.flow), as the open form reads its own (Routes.OpenFlow.clean); an old accounts answer is dropped
+  const flowOf = () => { const f = Routes.OpenFlow.clean(store.get(FLOW_KEY)); delete f.email; delete f.posting; return f; };
   const byHandMap = map => !!map && (map.cards || []).some(c => c && c.kind !== "story" && c.kind !== "side_project");
   const mapRoles = map => ((map && map.role_class && map.role_class.roles) || []).map(r => r.id);
   // ---------- one question per screen: what "Start a side project" and the open form share (2026-11-12) ----------
   // stepFrame: the progress bar, Back and "Step n of m", the step's own html, Next with what is missing beside it (`err`,
-  // html already escaped) and, under it, `foot` (the sign-out line of a session). techStep, toolsStep and accountsStep
-  // draw steps c to e from the answers `flow` ({ tech, tools, accounts }); `h` is the question's heading tag (the open
-  // form has its own h1 above it). Their wire functions set the answer and call back.
+  // html already escaped) and, under it, `foot` (the sign-out line of a session). techStep, toolsStep and shareStep
+  // draw steps c to e from the answers `flow` (Routes.OpenFlow.clean); `h` is the question's heading tag (the open
+  // form has its own h1 above it). Their wire functions set the answer and call back (`saved` for typed text, which
+  // never redraws, `changed` for a tap, which does).
   function stepFrame({ steps, step, inner, nextOk = true, nextLabel = Copy.map.flow.next, err = "", foot = "", wide = false, noNext = false, live = false }) {
     const S = Copy.map.flow, i = steps.indexOf(step), m = steps.length;
     const back = i > 0 ? `<button type="button" class="linkish link" id="sp-back">${esc(S.back)}</button>` : "<span></span>";
@@ -1486,30 +1740,58 @@
     return `${askTag(h, C.title)}<div class="sp-opts" role="radiogroup" aria-label="${esc(C.title)}">${Quests.TECH.map(t => `<button type="button" role="radio" class="sp-opt radio${flow.tech === t ? " on" : ""}" aria-checked="${flow.tech === t}" data-tech="${t}"><span class="box" aria-hidden="true"></span><b>${esc(C.options[t])}</b></button>`).join("")}</div>`;
   }
   const wireTechStep = (flow, picked) => main.querySelectorAll("[data-tech]").forEach(b => b.onclick = () => { flow.tech = b.dataset.tech; picked(); });
-  function toolsStep(flow, kit, h = "h1") {
-    const T = Copy.map.flow.tools;
-    return `${askTag(h, T.title)}<p class="sp-hint">${esc(T.lead)}</p><ul class="sp-rows">${kit.kinds.map(k => `<li><div><b>${esc(k.label)}</b><small>${esc(k.examples.map(e => e.name).join(", "))}</small></div>
-        <div class="seg sp-seg" role="group" aria-label="${esc(k.label)}">${["use", "learn"].map(v => `<button type="button" data-kind="${esc(k.id)}" data-v="${v}" aria-pressed="${flow.tools[k.id] === v}"${flow.tools[k.id] === v ? ` class="on"` : ""}>${esc(T[v])}</button>`).join("")}</div></li>`).join("")}</ul>`;
+  // d. the tools (2026-11-27): what the person already uses, typed; the kit's kinds for the field as taps (a code kind
+  // only for a person who reads code); open to a new tool. Nothing is required.
+  function toolsStep(flow, kit, field, fieldLabel, h = "h1") {
+    const T = Copy.map.flow.tools, kinds = Routes.OpenFlow.fieldKinds(kit, field, flow.tech).map(id => kit.kinds.find(k => k.id === id));
+    const pressed = v => flow.try_new === v;
+    return `${askTag(h, T.title)}<textarea class="sp-text" id="sp-own-tools" rows="2" maxlength="${Routes.OpenFlow.LIM.ownTools}" aria-label="${esc(T.title)}" placeholder="${esc(T.ownHint)}">${esc(flow.own_tools)}</textarea>
+      <h3 class="sp-sub" id="sp-kinds-h">${esc(fieldLabel ? fill(T.kinds, { field: fieldLabel }) : T.kindsAll)}</h3><p class="sp-hint small">${esc(T.kindsLead)}</p>
+      <ul class="sp-taps" aria-labelledby="sp-kinds-h">${kinds.map(k => { const on = flow.tools[k.id] === "use"; return `<li><button type="button" class="sp-tap${on ? " on" : ""}" data-kind="${esc(k.id)}" aria-pressed="${on}"><span class="box" aria-hidden="true"></span><span><b>${esc(k.label)}</b><small>${esc(k.examples.map(e => e.name).join(", "))}</small></span></button></li>`; }).join("")}</ul>
+      <h3 class="sp-sub" id="sp-try-h">${esc(T.tryNew)}</h3>
+      <div class="seg sp-seg sp-yn" role="group" aria-labelledby="sp-try-h">${[[true, T.yes], [false, T.no]].map(([v, l]) => `<button type="button" data-try="${v}" aria-pressed="${pressed(v)}"${pressed(v) ? ` class="on"` : ""}>${esc(l)}</button>`).join("")}</div>
+      <p class="small muted sp-note">${esc(T.tryNewLine)}</p>`;
   }
-  const wireToolsStep = (flow, changed) => main.querySelectorAll("[data-kind]").forEach(b => b.onclick = () => { const k = b.dataset.kind, v = b.dataset.v; if (flow.tools[k] === v) delete flow.tools[k]; else flow.tools[k] = v; changed(); const n = main.querySelector(`[data-kind="${CSS.escape(k)}"][data-v="${v}"]`); if (n) n.focus(); });
-  function accountsStep(flow, kit, h = "h1") {
-    const A = Copy.map.flow.accounts;
-    return `${askTag(h, A.title)}<p class="sp-hint">${esc(A.lead)}</p><ul class="sp-rows">${kit.accounts.map(a => `<li><div><b>${esc(a.label)}</b></div>
-        <div class="seg sp-seg" role="group" aria-label="${esc(a.label)}">${Quests.ACCOUNT_STATES.map(v => `<button type="button" data-acc="${esc(a.id)}" data-v="${v}" aria-pressed="${flow.accounts[a.id] === v}"${flow.accounts[a.id] === v ? ` class="on"` : ""}>${esc(A[v])}</button>`).join("")}</div></li>`).join("")}</ul>`;
+  function wireToolsStep(flow, saved, changed) {
+    const t = $("#sp-own-tools"); if (t) t.oninput = () => { flow.own_tools = t.value.slice(0, Routes.OpenFlow.LIM.ownTools); saved(); };
+    main.querySelectorAll("[data-kind]").forEach(b => b.onclick = () => { const k = b.dataset.kind; if (flow.tools[k] === "use") delete flow.tools[k]; else flow.tools[k] = "use"; changed(); const n = main.querySelector(`[data-kind="${CSS.escape(k)}"]`); if (n) n.focus(); });
+    main.querySelectorAll("[data-try]").forEach(b => b.onclick = () => { const v = b.dataset.try === "true"; flow.try_new = flow.try_new === v ? null : v; changed(); const n = main.querySelector(`[data-try="${v}"]`); if (n) n.focus(); });
   }
-  const wireAccountsStep = (flow, changed) => main.querySelectorAll("[data-acc]").forEach(b => b.onclick = () => { const k = b.dataset.acc, v = b.dataset.v; if (flow.accounts[k] === v) delete flow.accounts[k]; else flow.accounts[k] = v; changed(); const n = main.querySelector(`[data-acc="${CSS.escape(k)}"][data-v="${v}"]`); if (n) n.focus(); });
+  // e. where the work shows (2026-11-27, in the accounts step's place): the kit's places for the field as taps, LinkedIn
+  // tapped until the person taps something; other places typed; a portfolio site and where it lives, with a note
+  function shareStep(flow, kit, field, h = "h1") {
+    const C = Copy.map.flow.share, OF = Routes.OpenFlow, on = new Set(OF.shownPlaces(flow, kit, field)), pf = flow.portfolio || {};
+    const yn = (attr, cur) => [[false, C.no], [true, C.yes]].map(([v, l]) => `<button type="button" data-${attr}="${v}" aria-pressed="${cur === v}"${cur === v ? ` class="on"` : ""}>${esc(l)}</button>`).join("");
+    return `${askTag(h, C.title)}<p class="sp-hint">${esc(C.lead)}</p>
+      <div class="sp-quick" role="group" aria-label="${esc(C.placesAria)}">${OF.fieldPlaces(kit, field).map(p => `<button type="button" class="chip" data-place="${esc(p.id)}" aria-pressed="${on.has(p.id)}" title="${esc(p.note || "")}">${esc(p.label)}</button>`).join("")}</div>
+      <label class="tr-lab sp-lab">${esc(C.own)}<input type="text" id="sp-own-places" maxlength="${OF.LIM.ownPlaces}" placeholder="${esc(C.ownHint)}" value="${esc(flow.own_places)}"></label>
+      <h3 class="sp-sub" id="sp-pf-h">${esc(C.portfolio)}</h3>
+      <div class="seg sp-seg sp-yn" role="group" aria-labelledby="sp-pf-h">${yn("pf", pf.has)}</div>
+      ${pf.has === true ? `<p class="sp-or" id="sp-host-h">${esc(C.host)}</p><div class="sp-quick" role="group" aria-labelledby="sp-host-h">${(kit.portfolio_hosts || []).map(x => `<button type="button" class="chip" data-host="${esc(x.id)}" aria-pressed="${pf.host === x.id}">${esc(x.label)}</button>`).join("")}</div>
+        <label class="tr-lab sp-lab">${esc(C.note)}<input type="text" id="sp-pf-note" maxlength="${OF.LIM.note}" placeholder="${esc(C.noteHint)}" value="${esc(pf.note || "")}"></label>` : ""}`;
+  }
+  function wireShareStep(flow, kit, field, saved, changed) {
+    const OF = Routes.OpenFlow;
+    flow.portfolio = flow.portfolio || { has: null, host: null, note: "" };
+    main.querySelectorAll("[data-place]").forEach(b => b.onclick = () => {
+      const id = b.dataset.place, now = OF.shownPlaces(flow, kit, field);
+      flow.places = now.includes(id) ? now.filter(x => x !== id) : [...now, id];
+      changed(); const n = main.querySelector(`[data-place="${CSS.escape(id)}"]`); if (n) n.focus();
+    });
+    const o = $("#sp-own-places"); if (o) o.oninput = () => { flow.own_places = o.value.slice(0, OF.LIM.ownPlaces); saved(); };
+    main.querySelectorAll("[data-pf]").forEach(b => b.onclick = () => { const v = b.dataset.pf === "true"; flow.portfolio.has = flow.portfolio.has === v ? null : v; changed(); const n = main.querySelector(`[data-pf="${v}"]`); if (n) n.focus(); });
+    main.querySelectorAll("[data-host]").forEach(b => b.onclick = () => { const id = b.dataset.host; flow.portfolio.host = flow.portfolio.host === id ? null : id; changed(); const n = main.querySelector(`[data-host="${CSS.escape(id)}"]`); if (n) n.focus(); });
+    const nt = $("#sp-pf-note"); if (nt) nt.oninput = () => { flow.portfolio.note = nt.value.slice(0, OF.LIM.note); saved(); };
+  }
   // every role of the fields `F` once, with its field (the role's group, as the atlas checks a class) and its label
   function roleIndex(F, ix) {
     const roles = [], seen = new Set();
     for (const f of F) for (const r of f.roles) if (!seen.has(r.id)) { seen.add(r.id); const g = (ix.roles[r.id] || {}).group || f.id; roles.push({ id: r.id, label: r.label, field: g, fieldLabel: ((ix.groups.find(x => x.id === g) || {}).label) || f.label }); }
     return roles;
   }
-  // the type-ahead: the roles not picked yet whose label holds every word typed, six at most
-  function roleHits(roles, picked, q) {
-    const t = String(q || "").trim().toLowerCase(); if (!t) return [];
-    const ws = t.split(/\s+/);
-    return roles.filter(r => !picked.includes(r.id) && ws.every(w => r.label.toLowerCase().includes(w))).slice(0, 6);
-  }
+  // the type-ahead: the roles not picked yet, ranked (Routes.OpenFlow.hits); the side-project flow keeps every field in
+  // the list and says why a role of another field cannot join
+  const roleHits = (roles, picked, q) => Routes.OpenFlow.hits(roles, picked, q, null);
 
   async function startScreen(map, out) {
     const S = Copy.map.flow, MC = Copy.map, here = () => Routes.parseRoute(location.hash).parts[1] === "start" && Routes.parseRoute(location.hash).name === "map";
@@ -1523,7 +1805,9 @@
     const save = () => store.set(FLOW_KEY, flow);
     save();
     const s = { q: "", err: "", band: null, bandFor: null, busy: false, msg: "", change: false };
-    const stepNow = () => { const p = Routes.parseRoute(location.hash).parts[2]; return START_STEPS.includes(p) ? p : "aim"; };
+    const stepNow = () => { const p = Routes.OpenFlow.step(Routes.parseRoute(location.hash).parts[2]); return START_STEPS.includes(p) ? p : "aim"; };
+    if (Routes.parseRoute(location.hash).parts[2] === "accounts") history.replaceState(null, "", location.pathname + location.search + "#/map/start/share");   // the old step's address
+    const fieldNow = () => flow.roles[0] ? roleOf(flow.roles[0]).field : null;
     const go = step => { history.pushState(null, "", location.pathname + location.search + "#/map/start/" + step); s.err = ""; s.msg = ""; draw(); window.scrollTo(0, 0); };
     const canGo = step => step === "aim" || ((flow.roles.length > 0) && (step === "bring" || !!state.resume));
     const frame = (step, inner, nextOk = true, nextLabel = S.next) => stepFrame({ steps: START_STEPS, step, inner, nextOk, nextLabel, err: s.err ? esc(s.err) : "", foot: out, wide: step === "pick", noNext: step === "pick" });
@@ -1532,13 +1816,13 @@
       let step = stepNow();
       if (!canGo(step)) { step = flow.roles.length ? "bring" : "aim"; history.replaceState(null, "", location.pathname + location.search + "#/map/start/" + step); }
       crumbs([[S.heading, null]]); showAside(null);
-      const html = ({ aim: aimHtml, bring: bringHtml, tech: techHtml, tools: toolsHtml, accounts: accountsHtml, pick: pickHtml })[step]();
+      const html = ({ aim: aimHtml, bring: bringHtml, tech: techHtml, tools: toolsHtml, share: shareHtml, pick: pickHtml })[step]();
       page(html, true);
       main.firstElementChild.classList.add("roomy", "sp-page");
       const o = $("#map-out"); if (o) o.onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
       const back = $("#sp-back"); if (back) back.onclick = () => go(START_STEPS[START_STEPS.indexOf(step) - 1]);
       const nx = $("#sp-go"); if (nx) nx.onclick = () => { if (step === "bring" && !state.resume) { s.err = S.bring.noResume; draw(); return; } go(START_STEPS[START_STEPS.indexOf(step) + 1]); };
-      ({ aim: wireAim, bring: wireBring, tech: wireTech, tools: wireTools, accounts: wireAccounts, pick: wirePick })[step]();
+      ({ aim: wireAim, bring: wireBring, tech: wireTech, tools: wireTools, share: wireShare, pick: wirePick })[step]();
     };
 
     // ---------- a. the roles ----------
@@ -1622,13 +1906,13 @@
       readBand();
     }
 
-    // ---------- c to e: how technical, the kinds of AI tools, the accounts (shared with the open form) ----------
+    // ---------- c to e: how technical, the tools, where the work shows (shared with the open form) ----------
     const techHtml = () => frame("tech", techStep(flow), !!flow.tech);
     const wireTech = () => wireTechStep(flow, () => { save(); store.set(OPTS_KEY, null); go("tools"); });
-    const toolsHtml = () => frame("tools", toolsStep(flow, kit));
-    const wireTools = () => wireToolsStep(flow, () => { save(); store.set(OPTS_KEY, null); draw(); });
-    const accountsHtml = () => frame("accounts", accountsStep(flow, kit));
-    const wireAccounts = () => wireAccountsStep(flow, () => { save(); store.set(OPTS_KEY, null); draw(); });
+    const toolsHtml = () => frame("tools", toolsStep(flow, kit, fieldNow(), flow.roles[0] ? roleOf(flow.roles[0]).fieldLabel : ""));
+    const wireTools = () => wireToolsStep(flow, () => { save(); store.set(OPTS_KEY, null); }, () => { save(); store.set(OPTS_KEY, null); draw(); });
+    const shareHtml = () => frame("share", shareStep(flow, kit, fieldNow()));
+    const wireShare = () => wireShareStep(flow, kit, fieldNow(), () => { save(); store.set(OPTS_KEY, null); }, () => { save(); store.set(OPTS_KEY, null); draw(); });
 
     // ---------- f. the three side projects ----------
     const nodeOf = id => { const t = (map && map.tree) || {}; return [...(t.nodes || []), ...(t.behaviours || [])].find(n => n.id === id) || null; };
@@ -1640,10 +1924,11 @@
       if (s.busy) inner += `<div class="wait sp-wait" role="status"><b>${esc(s.msg)}</b><p class="small muted">${esc(P.writingNote)}</p></div>`;
       else if (projects.length) {
         inner += `<p class="sp-hint">${esc(P.lead)}</p><div class="sp-choices">${projects.map(p => {
-          const kind = kit.kinds.find(k => k.id === p.build_with.kind) || { label: p.build_with.kind }, host = kit.hosts.find(h => h.id === p.live_on.host) || { label: p.live_on.host };
+          const kind = kit.kinds.find(k => k.id === p.build_with.kind) || { label: p.build_with.kind }, place = kit.places.find(x => x.id === p.live_on.place) || { label: p.live_on.place };
+          const tools = (p.build_with.tools || p.build_with.examples.map(name => ({ name }))).map(t => `${esc(t.name)}${t.own ? ` (${esc(MC.open.projects.yours)})` : t.free ? ` (${esc(t.free)})` : ""}`).join(", ");
           return `<article class="sp-choice" data-project="${esc(p.id)}"><h2>${esc(p.title)}</h2><p class="q-ship"><b>${esc(MC.youShip)}</b>${esc(p.ship)}</p>
             <div class="q-chips">${p.atlas_skills.map(optionChip).join("")}</div>
-            <dl class="sp-recipe"><div><dt>${esc(P.buildWith)}</dt><dd>${esc(kind.label)}<small>${esc(p.build_with.examples.join(", "))}</small></dd></div><div><dt>${esc(P.liveOn)}</dt><dd>${esc(host.label)}</dd></div></dl>
+            <dl class="sp-recipe"><div><dt>${esc(P.buildWith)}</dt><dd>${esc(kind.label)}<small>${tools}</small></dd></div><div><dt>${esc(P.liveOn)}</dt><dd>${esc(place.label)}</dd></div></dl>
             <p><button type="button" class="btn primary" data-pick="${esc(p.id)}">${esc(P.choose)}</button></p></article>`;
         }).join("")}</div>
         <p class="sp-again"><button type="button" class="btn" id="sp-more">${esc(P.more)}</button>${o.left != null ? ` <span class="small muted">${esc(fill(P.left, { left: o.left }))}</span>` : ""}</p>`;
@@ -1671,7 +1956,7 @@
         if (!map) { s.busy = false; s.msg = P.failed; draw(); return; }
       }
       s.msg = P.writing; draw();
-      const r = await post("api/quests", sess, { mode: "write", text: state.resume.text, extras: extrasClip().text, answers: { tech: flow.tech, tools: flow.tools, accounts: flow.accounts } });
+      const r = await post("api/quests", sess, { mode: "write", text: state.resume.text, extras: extrasClip().text, answers: Routes.OpenFlow.answers(flow, kit, fieldNow()) });
       let j = null; try { j = r ? await r.json() : null; } catch { j = null; }
       if (!here()) return;
       s.busy = false;
@@ -3705,7 +3990,7 @@
     // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
     // visit, click on the press; its done is the tree form's own.
     const treeHref = `#/map?build=1&role=${encodeURIComponent(role.id)}`;
-    const treeCta = buildOn() ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() || openOn() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
+    const treeCta = buildOn() && skillTreeOn() ? `<div class="tree-cta"><b>${esc(FT.tree.heading)}</b><p class="small muted">${esc(fill(FT.tree.lead, { role: role.label }))}</p><a class="btn primary" id="get-tree" href="${esc(Auth.stored() || openOn() ? treeHref : `#/signin?next=${encodeURIComponent(treeHref)}`)}">${esc(FT.tree.button)}</a></div>` : "";
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${core.length ? `<p class="small muted" data-fit-note>${esc(fill(FT.colsNote, { m: core.length }))}</p>` : ""}${standing}${postingBox}
       ${fitTabs}${fitBody}

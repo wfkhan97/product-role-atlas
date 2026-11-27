@@ -6,12 +6,12 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 | file | strings | long | passive | stoplist |
 |---|---:|---:|---:|---:|
-| web/copy.js (gated) | 1530 | 0 | 0 | 0 |
+| web/copy.js (gated) | 1592 | 0 | 0 | 0 |
 | web/data/sp27_campus.json (gated) | 198 | 0 | 0 | 0 |
 | web/data/games.json (gated) | 54 | 0 | 0 | 0 |
-| web/data/graph_mba.json | 13783 | 71 | 51 | 17 |
+| web/data/graph_mba.json | 13819 | 72 | 52 | 17 |
 | web/data/role_blurbs.json | 79 | 2 | 5 | 0 |
-| web/data/graph_mba/_evidence.json | 4519 | 1965 | 131 | 141 |
+| web/data/graph_mba/_evidence.json | 4523 | 1969 | 135 | 147 |
 | web/data/subskills_mba.json | 1590 | 0 | 0 | 3 |
 | web/data/subskills.json | 325 | 0 | 0 | 1 |
 
@@ -19,7 +19,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/copy.js (gated)
 
-1530 strings · 0 long · 0 passive · 0 stoplist
+1592 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/sp27_campus.json (gated)
 
@@ -33,14 +33,15 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/graph_mba.json
 
-13783 strings · 71 long · 51 passive · 17 stoplist
+13819 strings · 72 long · 52 passive · 17 stoplist
 
-**sentences over 20 words** (71, first 20)
+**sentences over 20 words** (72, first 20)
 
 - `skills.product_strategy.what`: 21 words: Choosing where to play and how to win: which customers, which problems, which bets, and what you will deliberately not do
 - `skills.product_vision.what`: 22 words: Painting a credible picture of where the product is going in 2–5 years, vivid enough that teams can make decisions against it
 - `skills.prioritization.what`: 23 words: Deciding what to do first, what to defer, and what to kill, with a rationale others can check, under constraints you don't control
 - `skills.prioritization.fields.product.line`: 21 words: Prioritised a backlog of 200 requests into 4 quarterly themes with a scoring model; said no to 150 with written reasons
+- `skills.prioritization.fields.supply_chain.line`: 22 words: Ranked 30 spend categories by value and supply risk into a 3-wave sourcing plan; the first wave covered 60% of addressable spend
 - `skills.prd.what`: 24 words: Writing the document that tells engineering and design exactly what problem to solve, for whom, with what constraints, and how we'll know it worked
 - `skills.product_lifecycle.build[0]`: 21 words: Project: ship something real end to end (a side project, a no-code tool, an internal tool) and write up each stage
 - `skills.feature_definition.what`: 21 words: Deciding what's in and out of a feature so it solves the problem without ballooning: the minimum that proves the idea
@@ -56,12 +57,12 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `skills.sales_enablement.what`: 21 words: Giving sales and customer-facing teams what they need to sell and support the product: training, materials, and a feedback channel back
 - `skills.customer_interviews.what`: 23 words: Talking to users one-on-one to learn how they actually behave and what they struggle with, without leading them to the answer you want
 - `skills.personas_jtbd.what`: 26 words: Describing who you are building for in a way that is specific enough to change decisions: segments, personas, and the jobs they hire the product for
-- `skills.surveys_feedback.what`: 22 words: Collecting feedback at scale and turning it into something the team can act on: surveys, NPS, beta programs, and in-product feedback loops
 
-**passive constructions** (51, first 20)
+**passive constructions** (52, first 20)
 
 - `kinds.practice.how`: were trusted — "Say who you worked with, how many, and what you were trusted with."
 - `kinds.behaviour.meaning`: was done — "A way of working that every field asks for and no one lists. Shown through how the other work was done."
+- `skills.prioritization.fields.people.line`: were filled — "Sorted 45 open requisitions with business leaders into 3 tiers; the 12 critical roles were filled within a quarter."
 - `skills.prd.subskills[4].example`: is written — "Walk engineering through the doc before a line of code is written."
 - `skills.feature_definition.build[2]`: is being planned — "At work: propose the smaller first release of whatever is being planned."
 - `skills.feature_definition.build[2]`: being planned — "At work: propose the smaller first release of whatever is being planned."
@@ -79,7 +80,6 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `skills.data_modeling.what`: is structured — "Understanding how data is structured, moved, and governed: pipelines, warehouses, schemas, quality, and ownership."
 - `skills.technical_fluency.what`: is built — "Understanding how software is built well enough to make good trade-offs with engineers, without needing to write the code yourself."
 - `skills.technical_fluency.subskills[1].example`: is handled — "Read the PR to check the edge case is handled instead of asking."
-- `skills.system_architecture.what`: are structured — "Understanding how large systems are structured and why: services, data stores, scaling limits, reliability, and what changes cost."
 
 **stoplist words (utilize, leverage, facilitate, in order to, via)** (17)
 
@@ -120,9 +120,9 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/graph_mba/_evidence.json
 
-4519 strings · 1965 long · 131 passive · 141 stoplist
+4523 strings · 1969 long · 135 passive · 147 stoplist
 
-**sentences over 20 words** (1965, first 20)
+**sentences over 20 words** (1969, first 20)
 
 - `roadmap.staff[0]`: 38 words: Act as a key contributor to the roadmap for all categories of Qualcomm Snapdragon chipsets: - Participate in synchronizing the Technology IP roadmaps…
 - `roadmap.staff[2]`: 21 words: Product strategy and roadmap: Define the vision, strategy and roadmap for developer experiences across Business Applications in Work IQ and Dataverse
@@ -130,10 +130,10 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `roadmap.senior[1]`: 22 words: Product Strategy & Roadmap: Own the end-to-end product strategy, vision, and 12-18 month roadmap for Muon Space’s Information Systems and internal to…
 - `roadmap.senior[3]`: 23 words: Provides input into GARS product roadmaps and takes an active role in agile planning and documentation for minimum viable products and long-term road…
 - `roadmap.early[0]`: 26 words: Business Case Analyses, Business Needs, Business Outcomes, Business Processes, Collaboration, Cross-Functional Teamwork, Product Discovery, Product M…
-- `roadmap.early[2]`: 22 words: Developing technology roadmaps in conjunction with product lines within the company, and executing IRAD, CRAD, and programs in support of those roadm…
-- `roadmap.early[3]`: 26 words: Ability to lead the charge to create a roadmap to progress from the current state to the new future state, and drive execution against that roadmap
+- `roadmap.early[1]`: 24 words: Inform the roadmap: Share fraud patterns, product gaps and pricing signals from AI platforms with Product and leadership to shape our AI fraud roadmap
+- `roadmap.early[3]`: 22 words: Developing technology roadmaps in conjunction with product lines within the company, and executing IRAD, CRAD, and programs in support of those roadm…
 - `roadmap.lead[0]`: 21 words: Drive dual-roadmap alignment: translate Microsoft's capability and platform changes into internal roadmap asks, and translate ServiceNow's platform r…
-- `roadmap.lead[3]`: 21 words: Lead the evolution of, and effectively manage, the FP&A technology roadmap and ensure alignment with both the finance and enterprise roadmaps
+- `roadmap.lead[2]`: 22 words: Vision and roadmap: set the multi-year roadmap and investment plan for People products, grounded in business outcomes, employee experience and data q…
 - `product_strategy.early[2]`: 32 words: As a Product Strategy Associate on the Asset Management Product Strategy and Development team you will collaborate with the Americas Product Strategy…
 - `product_strategy.early[3]`: 29 words: The role sits at the intersection of product strategy, commercialization, portfolio strategy and business planning, helping translate emerging opport…
 - `product_strategy.senior[0]`: 21 words: 6+ years of management consulting experience in corporate strategy, business unit strategy, strategic planning, growth strategy, commercial strategy,…
@@ -145,35 +145,36 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `product_strategy.lead[1]`: 28 words: The Strategic Planning Senior Director is a senior leadership role responsible for driving enterprise strategic planning and ensuring alignment of st…
 - `product_strategy.lead[2]`: 34 words: Sets new Digital or Technology product strategies and leads team to define product strategy for a product portfolio, product line or group and overse…
 
-**passive constructions** (131, first 20)
+**passive constructions** (135, first 20)
 
 - `prioritization.early[1]`: are prioritized — "Oversee division-wide portfolio governance, including the global prioritization process and Resource Prioritization Management (RPM), to en…"
 - `prioritization.early[1]`: are deployed — "Oversee division-wide portfolio governance, including the global prioritization process and Resource Prioritization Management (RPM), to en…"
 - `feature_definition.senior[2]`: is fast paced — "Our work is fast paced and dynamic, driving engagement across product architecture, feature definition and program execution across multipl…"
 - `feature_definition.staff[2]`: be hosted — "Define requirements for our unified deployment platform, including the capabilities needed before tenants can be hosted in a unified deploy…"
-- `gtm.early[1]`: is not required — "1+ years of experience and strong interest in pharmaceutical, MedTech, or biotech commercial topics such as launch planning, market access,…"
-- `customer_success.early[2]`: is composed — "The Customer Success organization is composed of four teams: pre-sales, customer success management, account management and support."
+- `gtm.early[2]`: is not required — "1+ years of experience and strong interest in pharmaceutical, MedTech, or biotech commercial topics such as launch planning, market access,…"
+- `customer_success.early[3]`: is composed — "The Customer Success organization is composed of four teams: pre-sales, customer success management, account management and support."
 - `partnerships.early[2]`: be a trusted — "This candidate will be a trusted advisor for our OEM and ISV partnerships and will be focusing on driving a successful GTM business strateg…"
 - `partnerships.early[2]`: be measured — "This candidate will be a trusted advisor for our OEM and ISV partnerships and will be focusing on driving a successful GTM business strateg…"
 - `user_research.senior[1]`: are well-organized — "Support the execution of qualitative research (e.g., ethnographies, co-creation, exploratory studies), ensuring outputs are well-organized,…"
-- `statistics.senior[2]`: is preferred — "Graduate-level Statistics coursework with MS in a quantitative field is preferred (statistics, econometrics, biostatistics, quantitative so…"
 - `technical_fluency.senior[2]`: is highly valued — "An MBA or a mandatory computer science degree (though a technical background is highly valued, we care about what you can build, not your c…"
 - `technical_fluency.staff[0]`: is also valued — "Bachelor’s or Master’s degree in Computer Science, Engineering, or a related technical discipline; an MBA, advanced technical degree, or eq…"
 - `technical_fluency.early[1]`: be considered — "An R&D Engineering background is beneficial, though candidates with a non-technical background, including Software/Computer Science, may al…"
-- `cloud.staff[2]`: is tied — "Familiarity with cloud/platform environments such as OCI, AWS, Azure, or Google Cloud (IaaS/PaaS/SaaS), especially where supply planning is…"
 - `automotive_autonomy.senior[0]`: be kept — "Experience in environments where physical asset state and software state must be kept reconciled, in autonomous vehicles, automotive, EV, r…"
 - `consumer.early[0]`: is preferred — "Experience in consumer technology, mobile apps, subscriptions, gaming, entertainment, or other B2C digital products is preferred"
-- `telecom.lead[3]`: be obtained — "If you will be working at home occasionally or permanently, the internet connection must be obtained through a cable broadband or fiber opt…"
-- `cross_functional.senior[1]`: are managed — "Lead Cross-Functional Teams: Guide and collaborate with cross-functional teams (Engineering, Design, Product Marketing, Platform Risk, Comp…"
-- `influence.staff[0]`: are skilled — "You are skilled at influencing without authority, building trust with Product, Policy, Legal, Investigations, and regional partners to driv…"
-- `exec_communication.staff[1]`: are realized — "QBR Cadence & Account Growth: Lead structured Quarterly Business Reviews (QBRs) and executive steering committees to ensure joint milestone…"
+- `energy_industrial.early[3]`: is strongly preferred — "A&D and manufacturing exposure: Experience in aerospace, defense, or industrial manufacturing (Primes, OEMs, Tier 1/2 suppliers, or large i…"
+- `influence.staff[1]`: are skilled — "You are skilled at influencing without authority, building trust with Product, Policy, Legal, Investigations, and regional partners to driv…"
+- `exec_communication.staff[2]`: are realized — "QBR Cadence & Account Growth: Lead structured Quarterly Business Reviews (QBRs) and executive steering committees to ensure joint milestone…"
+- `ownership.senior[0]`: is overlooked — "Accountability and Ownership: Strong sense of ownership and the drive to master your craft, take initiative, and ensure no detail is overlo…"
+- `ownership.senior[2]`: are driven — "Entrepreneurial and Self-Motivated: You are driven and proactive, taking ownership of your role and responsibilities."
+- `adaptability.senior[3]`: are rewarded — "Thrives in Dynamic Environments: You excel in fast-paced, high-growth environments where speed, initiative, and adaptability are rewarded."
 
-**stoplist words (utilize, leverage, facilitate, in order to, via)** (141, first 20)
+**stoplist words (utilize, leverage, facilitate, in order to, via)** (147, first 20)
 
 - `product_vision.early[1]`: leverage — "Strategic Vision: Ability to develop and articulate a strategic vision for leveraging Marketing Cloud capabilities to drive business outcom…"
 - `prioritization.early[0]`: via — "Drive impact via ruthless prioritization by clearly defining problems, solution options forward, clarity on both business & technical trade…"
 - `prioritization.staff[1]`: utilize — "Ambiguity to Execution: A demonstrated ability to lead ambiguous product spaces from zero to strategy, through execution, utilizing data an…"
 - `feature_definition.senior[1]`: leverage — "Warehouse MVP: Deliver a WMS MVP focused on highest-leverage workflows: receiving, putaway, replenishment, pick/pack, ship confirmation, cy…"
+- `ux_design_collab.early[3]`: facilitate — "Rapid Prototyping: Figma or Balsamiq for UI and UX wireframing; Retool or Appsmith for low-code functional prototype development; Miro or F…"
 - `problem_solving.senior[2]`: utilize — "Proven business analytical skills (ability to utilize critical thinking and analytical skills to identify issues and trends, develop soluti…"
 - `user_research.lead[3]`: leverage — "Lead customer research and insight programs, leveraging quantitative and qualitative methodologies to identify unmet customer needs, emergi…"
 - `discovery.early[2]`: facilitate — "Facilitate discovery sessions, stakeholder interviews, and process reviews to understand operating needs, pain points, controls, and desire…"
@@ -182,14 +183,13 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `metrics_kpis.lead[2]`: leverage — "KPIs and dashboards: Develop and refine KPIs, scorecards, dashboards, and analytical frameworks that highlight trends, track operating leve…"
 - `data_driven.senior[3]`: utilize — "Utilizes critical thinking and data analytics mindset to provide management with data driven results and recommendations and promote focus …"
 - `ab_testing.lead[2]`: leverage — "Experimentation : Establish and scale a culture of experimentation by leveraging A/B testing, customer research, and analytics to validate …"
-- `ab_testing.lead[3]`: via — "6+ years measuring commercial effectiveness via promotional response analysis, closed-loop measurement, A/B testing, or quasi-experimental …"
 - `sql.lead[2]`: in order to — "Experience with SQL, ETL/data pipelines, excel, and BI Tools (Looker or equivalent in order to properly query data sets for data cleanlines…"
 - `data_modeling.lead[3]`: utilize — "Enterprise data architecture utilizing Snowflake, Databricks, data lakes, data warehouses, master data management, metadata management, AI …"
-- `statistics.early[1]`: utilize — "Monitor and Review historical usage trends, research demand drivers, utilize forecast data ad statistical forecast models, analyze auto gen…"
+- `statistics.early[2]`: utilize — "Monitor and Review historical usage trends, research demand drivers, utilize forecast data ad statistical forecast models, analyze auto gen…"
 - `financial_analysis.early[0]`: utilize — "Creates and utilizes analytical financial models, including financial projections, discounted cash flow analysis, leveraged buyout analysis…"
 - `financial_analysis.early[0]`: leverage — "Creates and utilizes analytical financial models, including financial projections, discounted cash flow analysis, leveraged buyout analysis…"
 - `financial_analysis.early[1]`: leverage — "Experience building and analyzing financial models, such as Discounted Cash Flows (DCF), Leveraged Buyout (LBO) models, 13-Week Cash Flow f…"
-- `genai_llm.early[0]`: leverage — "You'll design and implement GenAI/LLM solutions leveraging models such as Claude, GPT, Gemini, Llama, and Mistral — selecting the right app…"
+- `genai_llm.early[2]`: leverage — "You'll design and implement GenAI/LLM solutions leveraging models such as Claude, GPT, Gemini, Llama, and Mistral — selecting the right app…"
 
 ### web/data/subskills_mba.json
 
@@ -198,8 +198,8 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 **stoplist words (utilize, leverage, facilitate, in order to, via)** (3)
 
 - `learning_design[0].name`: facilitate — "Workshop and session facilitation"
-- `governance_design[5].name`: facilitate — "Decision forum facilitation"
 - `communication[4].name`: facilitate — "Listening & facilitation"
+- `governance_design[5].name`: facilitate — "Decision forum facilitation"
 
 ### web/data/subskills.json
 

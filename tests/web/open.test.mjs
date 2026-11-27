@@ -1,5 +1,6 @@
-// web/api/open.js: the open tree's build quests (2026-11-11). No session: the caps are the gate. Nothing here reaches
-// the network: the storage is a dict and the model a stub.
+// web/api/open.js: the open flow's project writer (2026-11-11; the portfolio flow, 2026-11-27). No session: the caps
+// are the gate. Nothing here reaches the network: the storage is a dict and the model a stub. The rules run over an
+// inline kit (tests/web/quests.test.mjs holds the real kit's structure).
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "fs";
@@ -7,19 +8,37 @@ import path from "path";
 import { web, root, require, realAtlas } from "./_load.mjs";
 
 const API = require(path.join(web, "api", "open.js"));
-const KIT = JSON.parse(fs.readFileSync(path.join(web, "data", "build_kit.json"), "utf8"));
+const Q = require(path.join(web, "quests.js"));
+const Tree = require(path.join(web, "api", "tree.js"));
+const ex = (name, free = null) => ({ name, url: `https://example.com/${name.toLowerCase()}`, checked: "2026-11-27", free });
+const KIT = {
+  kinds: [
+    { id: "writing", label: "Docs and writing", fields: "all", examples: [ex("WriterOne", "free plan"), ex("WriterTwo")] },
+    { id: "decks", label: "Decks", fields: ["marketing"], examples: [ex("DeckOne", "free trial")] },
+    { id: "agents", label: "Coding agents", fields: ["software"], code: true, examples: [ex("CodeBot")] },
+  ],
+  places: [
+    { id: "linkedin", label: "LinkedIn", type: "social", fields: "all", default: true, note: "A post.", url: "https://www.linkedin.com", checked: "2026-11-27" },
+    { id: "public_page", label: "A public page", type: "page", fields: "all", note: "On the web.", url: "https://example.com/p", checked: "2026-11-27" },
+    { id: "portfolio", label: "My own portfolio site", type: "portfolio", fields: "all", note: "On your site.", url: null, checked: "2026-11-27" },
+  ],
+  portfolio_hosts: [{ id: "other", label: "Somewhere else", url: null, checked: "2026-11-27" }],
+};
 const RESUME = fs.readFileSync(path.join(root, "pipeline", "apprentice", "examples", "pmm-nyc", "profile.md"), "utf8").replace(/<!--[\s\S]*?-->/g, "");
 const cfg = { url: "https://x.supabase.co", key: "pk" };
 const A = realAtlas();
 
 // a project that passes web/quests.js validate for a pmm tree and no answers
 const good = (over = {}) => ({
+  level: "beginner",
   title: "A positioning teardown of three freight apps", ship: "A public page that compares the positioning of three freight apps.",
   atlas_skills: ["positioning_messaging"], steps: ["Pick three apps your old customers used.", "Copy each home page headline and pitch.", "Ask the assistant to compare them in a table.", "Publish the page and share the link."],
   prompt: "Help me write a positioning teardown of three freight software products. Compare their headlines and the proof each offers.",
-  build_with: { kind: "chat_pages", examples: [KIT.kinds.find(k => k.id === "chat_pages").examples[0].name] }, live_on: { host: KIT.hosts.find(h => !h.needs).id }, needs_database: false,
+  build_with: { kind: "writing", examples: ["WriterOne"] }, live_on: { place: "linkedin" },
+  share: { place: "linkedin", how: "Post the page with one screenshot.", post: "I compared three freight apps. Here is what I learned." },
   why_role: { text: "Product marketers own positioning." }, why_person: { text: "You sold logistics software.", resume_quote: "" }, ...over,
 });
+const NO_ANSWERS = Q.cleanAnswers({}, KIT);
 function storage() {
   const objects = {}, calls = [];
   const fetchImpl = async (url, init = {}) => {
@@ -35,7 +54,7 @@ const res = () => ({ headers: {}, setHeader(k, v) { this.headers[k] = v; }, end(
 const post = (body, headers = {}) => ({ method: "POST", headers: { host: "h", "x-real-ip": "203.0.113.7", ...headers }, body });
 const BODY = { email: "Someone@School.edu", text: RESUME, roles: ["pmm"], tech: "no_code" };
 function deps(s, extra = {}) {
-  const d = { fetchImpl: s.fetchImpl, cfg, key: "svc", apiKey: "ak", enabled: true, kit: KIT, A, standards: null, caps: { email: 2, ip: 8, day: 150 }, asked: [], ...extra };
+  const d = { fetchImpl: s.fetchImpl, cfg, key: "svc", apiKey: "ak", enabled: true, kit: KIT, A, standards: null, caps: { email: 4, ip: 8, day: 150 }, asked: [], ...extra };
   d.call = extra.call || (async input => { d.asked.push(input); return { answer: { projects: [good(), good({ title: "A launch brief for a partner program" })] }, model: "claude-opus-5-5", usage: { input_tokens: 9000, output_tokens: 3000 }, stop: "end_turn" }; });
   return d;
 }
@@ -71,7 +90,8 @@ test("a write: the map is built here, the model is asked with the generator's in
   assert.equal(d.asked.length, 1);
   const input = d.asked[0];
   assert.equal(input.map.role.id, "pmm"); assert.equal(input.map.student.self_serve, true);
-  assert.equal(input.resume, RESUME.trim()); assert.equal(input.extras, ""); assert.deepEqual(input.answers, { tech: "no_code", tools: {}, accounts: {} }, "a bare tech, as an older page sends it");
+  assert.equal(input.resume, RESUME.trim()); assert.equal(input.extras, ""); assert.deepEqual(input.answers, { ...NO_ANSWERS, tech: "no_code" }, "a bare tech, as an older page sends it");
+  assert.deepEqual([input.feedback, input.avoid], ["", []]);
   // the counts: the email lowercased and hashed, the address hashed, the day; nothing else
   const day = new Date().toISOString().slice(0, 10);
   assert.deepEqual(Object.keys(s.objects).sort(), [`open/day.json`, `open/email/${API.hash("someone@school.edu")}.json`, `open/ip/${API.hash("203.0.113.7")}.json`].sort());
@@ -81,34 +101,69 @@ test("a write: the map is built here, the model is asked with the generator's in
   assert.ok(s.calls.every(([, url]) => /\/storage\/v1\/object\/maps\/open\//.test(url)), "the service role touches open/ only: no person's folder, no map written");
 });
 
-test("the answers (2026-11-12): tools and accounts are cleaned as /api/quests cleans them, and a bare tech is still taken", async () => {
-  const answers = { tech: "write_code", tools: { chat_pages: "use", image: "learn", sora: "use", coding_agents: "maybe" }, accounts: { github: "have", supabase: "would", vercel: "no", myspace: "have", notion: "sure" } };
-  const clean = { tech: "write_code", tools: { chat_pages: "use", image: "learn" }, accounts: { github: "have", supabase: "would", vercel: "no" } };
-  assert.deepEqual(API.answersOf({ answers }, KIT), clean, "anything outside the kit's lists is dropped");
-  assert.deepEqual(API.answersOf({ answers }, KIT), require(path.join(web, "quests.js")).cleanAnswers(answers, KIT), "the same cleaning as /api/quests");
-  assert.deepEqual(API.answersOf({ tech: "no_code" }, KIT), { tech: "no_code", tools: {}, accounts: {} }, "an older page: tech alone");
-  assert.deepEqual(API.answersOf({ tech: "no_code", answers: { tools: { image: "use" } } }, KIT), { tech: "no_code", tools: { image: "use" }, accounts: {} }, "answers without a tech fall back to the bare one");
+test("the answers (2026-11-27): cleaned as /api/quests cleans them, a bare tech is still taken, and the field is the map's, never the request's", async () => {
+  const answers = { tech: "write_code", tools: { writing: "use", sora: "use", decks: "maybe" }, own_tools: "Excel\u0000, Gemini", try_new: false, places: ["public_page", "linkedin", "myspace"], own_places: "Bluesky", portfolio: { host: "other", note: "my site" }, field: "legal" };
+  const clean = { tech: "write_code", tools: { writing: "use" }, own_tools: "Excel , Gemini", try_new: false, places: ["public_page", "linkedin"], own_places: "Bluesky", portfolio: { host: "other", note: "my site" } };
+  assert.deepEqual(API.answersOf({ answers }, KIT), clean, "anything outside the kit's lists is dropped, a field in the answers too");
+  assert.deepEqual(API.answersOf({ answers }, KIT), Q.cleanAnswers(answers, KIT), "the same cleaning as /api/quests");
+  assert.deepEqual(API.answersOf({ tech: "no_code" }, KIT), { ...NO_ANSWERS, tech: "no_code" }, "an older page: tech alone");
   assert.equal(API.answersOf({ tech: "no_code", answers: { tech: "read_code" } }, KIT).tech, "read_code", "the answers' own tech wins");
-  for (const b of [{}, { tech: "hacker" }, { answers: "x" }, { answers: [1] }, { answers: null }]) assert.deepEqual(API.answersOf(b, KIT), { tech: null, tools: {}, accounts: {} }, JSON.stringify(b));
+  for (const b of [{}, { tech: "hacker" }, { answers: "x" }, { answers: [1] }, { answers: null }]) assert.deepEqual(API.answersOf(b, KIT), NO_ANSWERS, JSON.stringify(b));
   const s = storage(), d = deps(s);
-  const r = await run({ email: BODY.email, text: RESUME, roles: ["pmm"], answers }, d);
-  assert.equal(r.statusCode, 200);
+  const r = await run({ email: BODY.email, text: RESUME, roles: ["pmm"], answers, field: "legal" }, d);
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
   assert.deepEqual(d.asked[0].answers, clean, "the generator gets the cleaned answers");
+  assert.equal(Q.treeOf(d.asked[0].map).field, "marketing", "the field comes from the built map");
+  assert.ok(Q.request(d.asked[0]).messages[0].content.includes("field: marketing"));
 });
 
-test("the caps: the third write of one email in a day, the ninth from one address and the day's cap all answer 429 without asking the model", async () => {
+test("a rewrite (\"none of these\"): feedback and avoid are cleaned, reach the writer, and an avoided title is dropped", async () => {
+  const s = storage(), d = deps(s);
+  const r = await run({ ...BODY, feedback: "More numbers, \u0007less writing. " + "z".repeat(700), avoid: [good().title, "", "Another", "Another"] }, d);
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  assert.equal(d.asked[0].feedback.length, 600);
+  assert.ok(!d.asked[0].feedback.includes("\u0007"));
+  assert.deepEqual(d.asked[0].avoid, [good().title, "Another"]);
+  assert.deepEqual(r.body.projects.map(p => p.title), ["A launch brief for a partner program"], "the avoided title is dropped, the other kept");
+  assert.ok(r.body.dropped.some(rules => rules.includes("avoided")));
+  const logs = []; const log = console.log; console.log = (...a) => logs.push(a.join(" "));
+  try { await run({ ...BODY, feedback: "SECRET-FEEDBACK-WORDS" }, deps(storage())); } finally { console.log = log; }
+  assert.ok(logs.length === 1 && !logs[0].includes("SECRET-FEEDBACK") && !logs[0].includes("school.edu"), "the log line holds no feedback and no email");
+});
+
+const MAP_PROJECT = (field, skill) => good({ atlas_skills: [skill], build_with: { kind: "writing", examples: ["WriterOne"] } });
+test("the tech and MBA sets each build a map through the handler (the server's own atlas), and the field picks the kit's kinds", async () => {
+  assert.ok(Tree.ROLE_RE.test("tech.software_engineer") && Tree.ROLE_RE.test("product.pm") && Tree.ROLE_RE.test("pmm") && !Tree.ROLE_RE.test("tech.") && !Tree.ROLE_RE.test("evil.pm"));
+  for (const [roles, field] of [[["tech.software_engineer"], "software"], [["tech.product_designer", "tech.ux_researcher"], "design"], [["pmm"], "marketing"]]) {
+    const s = storage(), seen = [];
+    const d = deps(s, { A: undefined, call: async input => { seen.push(input); const skill = Q.treeOf(input.map).skills[0].id; return { answer: { projects: [MAP_PROJECT(field, skill)] }, model: "m", usage: {}, stop: "end_turn" }; } });
+    const log = console.log; console.log = () => { };
+    let r; try { r = await run({ ...BODY, roles, answers: { tech: "write_code" } }, d); } finally { console.log = log; }
+    assert.equal(r.statusCode, 200, `${roles}: ${JSON.stringify(r.body)}`);
+    const T = Q.treeOf(seen[0].map);
+    assert.deepEqual([seen[0].map.role.id, T.field], [roles[0], field], roles.join());
+    assert.ok(T.skills.length > 0, `${roles}: a tree with skills`);
+    const allowed = Q.allowedKinds(seen[0].answers, KIT, T.field);
+    assert.deepEqual(allowed, Q.fieldKinds(KIT, field, "write_code"), `${roles}: the field's kinds`);
+    if (field === "software") assert.ok(allowed.includes("agents"), "a code kind for a software person who writes code");
+  }
+  const r = await run({ ...BODY, roles: ["tech.software_engineer", "pmm"] }, deps(storage(), { A: undefined }));
+  assert.deepEqual([r.statusCode, r.body.error], [400, "mixed_fields"], "one field per request, across sets too");
+});
+
+test("the caps: the fifth write of one email in a day (a first write and three rewrites), the ninth from one address and the day's cap all answer 429 without asking the model", async () => {
   let s = storage(), d = deps(s);
-  for (let i = 0; i < 2; i++) assert.equal((await run(BODY, d)).statusCode, 200);
+  for (let i = 0; i < 4; i++) assert.equal((await run(BODY, d)).statusCode, 200);
   let r = await run(BODY, d); assert.deepEqual([r.statusCode, r.body.error, r.body.scope], [429, "rate_limited", "email"]);
-  assert.equal(d.asked.length, 2);
+  assert.equal(d.asked.length, 4);
   assert.equal((await run({ ...BODY, email: "other@school.edu" }, d)).statusCode, 200, "another address still writes");
 
-  s = storage(); d = deps(s, { caps: { email: 2, ip: 3, day: 150 } });
+  s = storage(); d = deps(s, { caps: { email: 4, ip: 3, day: 150 } });
   for (let i = 0; i < 3; i++) assert.equal((await run({ ...BODY, email: `p${i}@school.edu` }, d)).statusCode, 200);
   r = await run({ ...BODY, email: "p9@school.edu" }, d); assert.deepEqual([r.statusCode, r.body.scope], [429, "ip"]);
   assert.equal((await run({ ...BODY, email: "p9@school.edu" }, d, { "x-real-ip": "198.51.100.2" })).statusCode, 200, "another network address still writes");
 
-  s = storage(); d = deps(s, { caps: { email: 2, ip: 8, day: 2 } });
+  s = storage(); d = deps(s, { caps: { email: 4, ip: 8, day: 2 } });
   for (let i = 0; i < 2; i++) assert.equal((await run({ ...BODY, email: `q${i}@school.edu` }, d, { "x-real-ip": `198.51.100.${i}` })).statusCode, 200);
   r = await run({ ...BODY, email: "q9@school.edu" }, d, { "x-real-ip": "198.51.100.9" }); assert.deepEqual([r.statusCode, r.body.scope], [429, "day"]);
   assert.equal(d.asked.length, 2);
@@ -117,10 +172,10 @@ test("the caps: the third write of one email in a day, the ninth from one addres
   assert.equal((await run({ ...BODY, email: "q9@school.edu" }, d, { "x-real-ip": "198.51.100.9" })).statusCode, 200);
 });
 
-test("the caps come from the environment, with the defaults 2, 8 and 150", () => {
-  assert.deepEqual(API.caps({}), { email: 2, ip: 8, day: 150 });
+test("the caps come from the environment, with the defaults 4, 8 and 150", () => {
+  assert.deepEqual(API.caps({}), { email: 4, ip: 8, day: 150 });
   assert.deepEqual(API.caps({ OPEN_QUESTS_EMAIL_CAP: "1", OPEN_QUESTS_IP_CAP: "0", OPEN_QUESTS_DAILY_CAP: "40" }), { email: 1, ip: 0, day: 40 });
-  assert.deepEqual(API.caps({ OPEN_QUESTS_DAILY_CAP: "lots" }), { email: 2, ip: 8, day: 150 });
+  assert.deepEqual(API.caps({ OPEN_QUESTS_DAILY_CAP: "lots" }), { email: 4, ip: 8, day: 150 });
 });
 
 test("nothing valid after the retry is 422; a failed model is 502; both were counted, since the call is the cost", async () => {
@@ -144,6 +199,8 @@ test("the hosting file bundles what the function reads, and the local server ser
   for (const f of v["api/tree.js"].includeFiles.match(/[a-z_]+\.json/g)) assert.ok(inc.includes(f), `the tree's ${f}`);
   // the product set (2026-11-12: the open form offers the Product field): what web/atlas.js reads for a product role
   for (const f of ["taxonomy.json", "graph.json", "subskills.json", "bands.json"]) assert.ok(new RegExp(`[{,]${f.replace(".", "\\.")}[,}]`).test(inc), `the product set's ${f}`);
+  // the tech set (2026-11-27: the open flow offers its fields): what web/atlas.js reads for a tech role
+  for (const f of ["taxonomy_tech.json", "roles_tech.json", "bands_tech.json", "graph_tech.json", "subskills_tech.json", "graph_tech/*.json"]) assert.ok(inc.includes(f), `the tech set's ${f}`);
   assert.ok(v["api/open.js"].maxDuration * 1000 > API.LIMITS.timeoutMs);
   assert.match(fs.readFileSync(path.join(root, "tests", "ui", "serve.mjs"), "utf8"), /"\/api\/open"/);
 });

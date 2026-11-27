@@ -9,7 +9,7 @@
       "maxDuration": 30
     },
     "api/open.js": {
-      "includeFiles": "{config.js,data/{build_kit.json,standards.json,taxonomy_mba.json,roles_mba.json,bands_mba.json,graph_mba.json,subskills_mba.json,role_blurbs.json,spelling_us.json,taxonomy.json,graph.json,subskills.json,bands.json},data/graph_mba/*.json}",
+      "includeFiles": "{config.js,data/{build_kit.json,standards.json,taxonomy_mba.json,roles_mba.json,bands_mba.json,graph_mba.json,subskills_mba.json,role_blurbs.json,spelling_us.json,taxonomy.json,graph.json,subskills.json,bands.json,taxonomy_tech.json,roles_tech.json,bands_tech.json,graph_tech.json,subskills_tech.json},data/graph_mba/*.json,data/graph_tech/*.json}",
       "maxDuration": 90
     },
     "api/quests.js": {

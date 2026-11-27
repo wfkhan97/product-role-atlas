@@ -27,7 +27,9 @@ async function signedIn(visitor, hash = "#/map", map = EXAMPLE, { ready = "#map-
   page.files = {}; page.writes = [];
   // the map's two pages without "Start a side project" (QUESTS_ENABLED is on in web/config.js since 2026-11-11;
   // tests/ui/quests.spec.mjs has the flow): the flag is off in the page
-  await page.context().addInitScript(() => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) c.QUESTS_ENABLED = false; } }); });
+  // tests/ui/quests.spec.mjs has the flow): the flag is off in the page; the skill tree is on (SKILL_TREE_ENABLED, off in
+  // web/config.js since 2026-11-27, when #/map is the open flow for a session too: open_projects.spec.mjs)
+  await page.context().addInitScript(() => { let v; Object.defineProperty(window, "CONFIG", { configurable: true, get: () => v, set: c => { v = c; if (c) { c.QUESTS_ENABLED = false; c.SKILL_TREE_ENABLED = true; } } }); });
   await page.context().route(/\.supabase\.co\//, route => {
     const req = route.request(), url = new URL(req.url());
     const m = /\/storage\/v1\/object\/(?:authenticated\/)?maps\/(.+)$/.exec(url.pathname);

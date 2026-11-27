@@ -3974,6 +3974,55 @@ on its data commit and makes them pass.
   2026-11-23 with about 15,000 to 19,000 answers of 429 each; the same boards answered from a home address. The run
   that produced this data scraped one small family so the extract could finish from the cache of the cut-off run.
 
+## The open flow finds three portfolio projects; the skill tree goes behind a flag (`claude/portfolio-onboarding-redesign-099d0d`, 2026-11-27)
+
+The owner runs a session on 2026-12-02 for career pivoters, a follow-up to the Cornell Tech AI Society's portfolio
+workshop. A first-time visitor must get from "which role" to three project ideas they can build, then one file to
+take away. The tree, the Quests page and the map's pages stood between the questions and the projects. Decisions, the
+owner's first:
+
+- **`SKILL_TREE_ENABLED`, off.** Nobody, signed in or not, sees the tree page, the Quests page, `#/map/start` or the
+  fit screen's "See how your skills compare"; `#/map` is the open flow for everyone. Those addresses land on the
+  projects held in the browser, else on the first question. Saved maps stay as they are in storage, and
+  `/api/quests` stays live behind its own flag.
+- **One field, and it shows.** The roles step asks for the main role first (search or a field's chips), then offers
+  up to three more of its field as chips; other fields are left out with a line and Start over. One field per request
+  stays because the tree is grounded per field.
+- **The tech set's fields join the open flow** (software, data and AI, security, design, legal). `/api/open` bundles
+  the tech set and takes `tech.<family>`; `/api/tree` does not, so the signed-in path stays MBA only.
+- **The résumé read's third line** says "Identifying skills based on your experience".
+- **The tools step**: a box at the top for what the person already uses, the kit's kinds for their field as taps,
+  and "Open to trying a new tool?". Open: a project may name kit tools, the ones with a free plan or free trial first.
+  Not open: a project stays with what they typed or tapped. The typed tools go straight to the writer, not through a
+  second model, to keep one call and one point of failure. A tool is marked "free plan" only when the allowance
+  refreshes at no cost; one-time credits are "free trial".
+- **The share step** replaces the accounts step: LinkedIn tapped by default, the field's other places, a box for other
+  accounts, and "Do you have a portfolio site?" with its host. The kit lost `accounts`, `hosts` and `database` (no
+  project needs a database now); it gained `places` and `portfolio_hosts`, and each kind names its `fields`.
+- **Three projects: two beginner, one intermediate**, concrete artifacts only (no résumé, cover letter or LinkedIn
+  profile rewrite, a rule in code), each with an optional share suggestion and a draft post. "Pick this one" under
+  each; "None of these" opens a box for what should be different and writes three new ones, with the titles already
+  shown to avoid. A full chat was left out: that box is the back-and-forth. The per-email cap went from 2 to 4 for the
+  rewrites.
+- **The picked project's page and a file to download.** The steps with ticks, the starter prompt and the draft post
+  with Copy, and one self-contained HTML guide (`web/project_guide.js`). Its "Add it to your portfolio" part is
+  templated per host in code, never written by a model.
+- **No $60 booking card under the projects.** One line instead, "Having trouble? Book a free 30-minute session with
+  Wally", linking to `SESSION_URL`; null until the owner gives the calendar link, and then the line is not drawn.
+  The booking card stays under the tree for when the flag is on.
+- **The email step stays last.**
+- **The tree is still grounded in the browser**, since the projects aim at its gaps; only its page is hidden.
+
+What the audit of the old flow found, and what changed: the roles search had no ranking (the label typed in full now
+comes first, then a label that starts with it); a role of another field was greyed with the reason only in a hover
+title (other fields are now left out, with a line); two roles with one label across sets looked the same (the field
+now sits beside the label); and 8 writes a day per network address would stop a room on one Wi-Fi (the owner raises
+the cap for the session, Later).
+
+`evals/quests.mjs` now runs 51 cases (17 roles across the three sets × three profiles, one of them a "None of these"
+rewrite) and reports levels and shares; `evals/quests_baseline.md` is re-recorded with this change. New tests:
+`tests/web/project_guide.test.mjs`, `tests/ui/open_projects.spec.mjs`. The tree's specs set the flag on in the page.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -3987,16 +4036,18 @@ done). One line per item; the section that explains it is named where it helps.
 - **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
 - **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).
 - **The tagger itself**: 0.3 s a posting for 283 patterns; time each pattern on a sample before splitting the extract across jobs.
-- **The Product field for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle the product set for `api/tree.js`, pass `true` to `treeRoles`, and add a product case to `evals/quests.mjs`. Tech roles after that.
+- **The Product and tech fields for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle both sets for `api/tree.js` as `api/open.js` does and pass `true` to `treeRoles` (`evals/quests.mjs` already has product and tech cases).
 
 **The owner's items**
+- The 2026-12-02 session: set `SESSION_URL` in `web/config.js` to the calendar link, and raise `OPEN_QUESTS_IP_CAP`
+  and `OPEN_QUESTS_DAILY_CAP` in the Vercel project for the day (a room on one Wi-Fi shares one network address).
 - The open tree's build quests (on since 2026-11-11): a spend cap on the Anthropic key, the hard stop behind the
   daily counts; read the `open` log lines for a week (kept per write, the rules dropped) and set the three caps.
 - The signed-in tree still opens with two résumé story cards beside the side project (2026-11-11, the owner:
   quests are build items): drop them from `Apprentice.selfServeMap`; the owner's hand-written maps keep theirs.
-- The booking card's heading, now that the plan is free on the page.
-- The open tree (on since 2026-11-11): whether either campus limits paid services to its students; a regular price,
-  if the $60 is to read as an offer with an end date.
+- The booking card (drawn only with `SKILL_TREE_ENABLED` on since 2026-11-27): its heading, now that the plan is free
+  on the page; whether either campus limits paid services to its students; a regular price, if the $60 is to read as
+  an offer with an end date.
 - The open tree, after accounts open: carry `open.tree` into the person's folder at their first sign-in, and decide
   whether the open path stays.
 - The sign-in for everyone (`ACCOUNTS_ENABLED`): a sender domain verified at a mail provider and its SMTP password in
@@ -4080,8 +4131,12 @@ done). One line per item; the section that explains it is named where it helps.
   grounded project is better is not judged yet (`evals/README.md`, "Evals to build", 10).
 - Storing the extras of "Add more about you" (under `maps/<uid>/context/`, with a storage policy and a delete), only
   if the owner wants them kept; today they are sent once and stored nowhere.
-- The side-project eval's first run: `node evals/quests.mjs --baseline` (a key, or `--url` with a test account and a
-  raised `QUESTS_DAILY_CAP`), committed as `evals/quests_baseline.md`; then a judged half (does a project fit).
+- The project writer's judged half: does a project fit the person and the role (`evals/README.md`, "Evals to build", 11).
+- A real back-and-forth on a project (a chat after the pick); today "None of these" and its box are the only turn.
+- A map-grounding eval for tech maps: `CLAUDE.md` asks for an eval counterpart per role set, and the open flow now
+  grounds tech roles with none ("Evals to build", 12).
+- A reload in the middle of a write on `#/map/projects` asks the function again and spends one of the email's four
+  writes: keep the write's start in `open.tree` and wait, or say so on the waiting line.
 - "Start a side project" (on since 2026-11-11): a spend cap and a rate limit on the Anthropic key, and one real
   sign-in through the flow end to end.
 - A side project on a map the owner wrote is lost at the owner's next republish (`map_publish` writes the file
@@ -4106,10 +4161,11 @@ done). One line per item; the section that explains it is named where it helps.
 - Form controls drawn with `--border` edges (`.wait input`, `.ctx select`, `.sm-plan select`, `.cls-select`, `.cls-email`,
   `.jsearch input`, `.jsort select`, `.fb textarea`) sit near 1.4:1 against their surface; `--input` holds 3:1. Move
   them to `--input` (some are on frozen screens).
-- `tests/ui/resume.spec.mjs`'s "the résumé line names the AI reader only when it answered (200)" fails on `main`:
-  the stubbed 200 answers `{}` and the line never says "AI reader". The stub, or the line's rule, wants a look.
+- `tests/ui/resume.spec.mjs`'s "the résumé line names the AI reader only when it answered (200)" fails on `main`
+  (seen again 2026-11-27, unrelated to the open flow): the stubbed 200 answers `{}` and the line never says "AI
+  reader". The stub, or the line's rule, wants a look.
 - `tests/ui/chrome.spec.mjs`'s "About: a late class count keeps the scroll and the open employer list" fails on
-  `main` in most local runs (seen 2026-11-08 on 733401d, both viewports): the page moves about 200px when the count
+  `main` in most local runs (seen 2026-11-08 on 733401d, both viewports, and again 2026-11-27): the page moves about 200px when the count
   lands. CI does not run the UI suite, so nothing flags it; the About screen's late redraw wants a look.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 

@@ -114,7 +114,8 @@ test("a new-style secret key (sb_secret_…) goes in apikey alone, never as a be
 // the product set (2026-11-12): the open tree's form offers the Product field, so the builder takes product.<family>
 test("a product role: the id passes the check, a class of product roles builds a tree, a product and an MBA role are two fields", async () => {
   assert.deepEqual(T.checkInput({ text: profile, roles: ["product.pm", "product.pmm"] }).roles, ["product.pm", "product.pmm"]);
-  assert.equal(T.checkInput({ text: profile, roles: ["tech.swe"] }).error, "roles_required", "no other prefix");
+  assert.deepEqual(T.checkInput({ text: profile, roles: ["tech.software_engineer"] }).roles, ["tech.software_engineer"], "the tech set's prefix (2026-11-27: the open flow offers its fields)");
+  assert.equal(T.checkInput({ text: profile, roles: ["evil.swe"] }).error, "roles_required", "no other prefix");
   assert.equal(T.checkInput({ text: profile, roles: ["product..pm"] }).error, "roles_required");
   const { map } = await T.buildMap({ text: profile, roles: ["product.pm", "product.pmm", "product.product_owner"], posting: "" }, { date: "2026-11-12" });
   assert.equal(map.role.id, "product.pm");
