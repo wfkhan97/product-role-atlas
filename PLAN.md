@@ -4021,6 +4021,9 @@ owner's first:
   through the Tally form "Book your project session" (`BOOKING_TALLY`, $40, which redirects to the 90-minute
   calendar): the form already existed for the 90-minute session alone, so it is used as it is. The feedback box
   offers the owner's LinkedIn (`LINKEDIN_URL`).
+  The line's words changed the same day (owner): "Having trouble or want to dive deeper? Book a 30-minute follow up
+  or 90-minute working session with Wally.", the two session names being its two links; it no longer says free or
+  the price (the form states the price).
   The booking card stays under the tree for when the flag is on.
 - **The email step stays last.**
 - **The tree is still grounded in the browser**, since the projects aim at its gaps; only its page is hidden.

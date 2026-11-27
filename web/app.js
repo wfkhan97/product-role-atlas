@@ -1215,7 +1215,8 @@
   const helpLine = held => {
     const P = Copy.map.open.projects, u = sessionUrl(); if (!u) return "";
     const paid = Preview.bookingHref((window.CONFIG || {}).BOOKING_TALLY, { email: (held || {}).email || "", role: (((held || {}).map || {}).role || {}).id || "" });
-    return `<p class="pj-help"><a href="${esc(u)}" target="_blank" rel="noopener" id="pj-session">${esc(P.session)}</a>${paid ? ` <a href="${esc(paid)}" target="_blank" rel="noopener" id="pj-session-paid">${esc(P.sessionPaid)}</a>` : ""}</p>`;
+    const a = (href, id, text) => `<a href="${esc(href)}" target="_blank" rel="noopener" id="${id}">${esc(text)}</a>`;
+    return `<p class="pj-help">${fill(esc(paid ? P.session : P.sessionOne), { free: a(u, "pj-session", P.sessionFree), paid: paid ? a(paid, "pj-session-paid", P.sessionPaid) : "" })}</p>`;
   };
   const sessionUrl = () => { const u = (window.CONFIG || {}).SESSION_URL; return typeof u === "string" && /^https?:\/\/[^\s"'<>]+$/i.test(u.trim()) ? u.trim() : null; };
   let openHeld = null, apprenticeP = null, standardsP = null, openWriting = null;

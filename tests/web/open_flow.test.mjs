@@ -137,11 +137,12 @@ test("the skill tree flag ships off, with the owner's session and LinkedIn addre
   assert.match(cfg, /\n  SESSION_URL: "https:\/\/calendar\.app\.google\/[A-Za-z0-9]+",/);
   assert.match(cfg, /\n  LINKEDIN_URL: "https:\/\/www\.linkedin\.com\/in\/[a-z0-9-]+\/",/);
   // the help line offers the paid session through the booking form beside the free one; the feedback box, LinkedIn
-  assert.match(src, /id="pj-session-paid"/); assert.match(src, /id="fb-connect"/);
-  assert.equal(Copy.map.open.projects.sessionPaid, "Or book a 90-minute working session, $40.");
+  assert.match(src, /"pj-session-paid"/); assert.match(src, /id="fb-connect"/);
+  assert.equal(Copy.map.open.projects.sessionFree, "30-minute follow up");
+  assert.equal(Copy.map.open.projects.sessionPaid, "90-minute working session");
   assert.equal(Copy.feedback.connect, "Connect with Wally on LinkedIn");
   const ms = src.slice(src.indexOf("async function mapScreen()"), src.indexOf("const treeOn = "));
   assert.ok(ms.indexOf("if (!skillTreeOn() && openOn()) { await openScreen(); return; }") < ms.indexOf("await mapGate()"), "before the session's map is read");
   assert.match(src, /const treeCta = buildOn\(\) && skillTreeOn\(\) \?/);
-  assert.equal(Copy.map.open.projects.session, "Having trouble? Book a free 30-minute session with Wally.");
+  assert.equal(Copy.map.open.projects.session, "Having trouble or want to dive deeper? Book a {free} or {paid} with Wally.");
 });
