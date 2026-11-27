@@ -321,7 +321,9 @@ and evals run the code the site runs.
   the order of relevance.
 - `project_guide.js` — `ProjectGuide`, the project guide the picked project's page downloads: `html(card, { kit, role,
   answers, date, skills })` is one self-contained HTML document (inline CSS, a small script for the ticks and the
-  Copy buttons, no request; reads on a phone, prints, follows the device's theme); `filename`; `portfolio` writes
+  Copy buttons, no request; reads on a phone, prints, follows the device's theme); `brief(card, opts)` is the same
+  project as Markdown for an AI assistant, coaching rules first (the page copies it or saves it as `.md`, and the
+  guide carries it); `filename(card, ext)`; `portfolio` writes
   "Add it to your portfolio" from the host's template in `HOSTS` (code, builder, other; a code host gets a prompt),
   never from a model; `WORDS` holds every fixed sentence; `esc` and `safeUrl` guard every value. Pure, no network.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per

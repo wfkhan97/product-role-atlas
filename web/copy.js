@@ -1103,6 +1103,11 @@
         post: "A draft post",
         download: "Download your project guide",
         downloadLead: "One file with your steps, your prompt and how to show the result. It opens in any browser, offline too.",
+        // the same project as a brief an AI assistant coaches from (ProjectGuide.brief), on top of the page with the guide
+        guideHeading: "Take it with you",
+        assistLead: "Or let an AI assistant coach you through it. Give the brief to Claude, ChatGPT, Codex or the one you use. It takes you one step at a time.",
+        copyBrief: "Copy the brief for your assistant",
+        downloadBrief: "Download the brief (.md)",
         gone: "That project is not in this browser any more.",
         toAll: "See your projects",
       },
