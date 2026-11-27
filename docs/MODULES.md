@@ -151,7 +151,11 @@ Three sets share one pipeline (`--roles product|mba|tech`) and one taxonomy.
   KPMG, Goldman Sachs, Bank of America, a JSON-LD reader, and others); `common.py` holds the session, the retry loop
   and `strip_html`, and `Held`: the open postings of an employer's backlog whose text was read recently
   (`scrape.fresh_texts`, `REREAD_DAYS`), which Workday, Oracle HCM, SuccessFactors and Apple ask before the one
-  request a posting costs, so a refresh reads the text of new, retitled and due postings only. `talnet.py` reads tal.net (Oleeo) boards from
+  request a posting costs, so a refresh reads the text of new, retitled and due postings only. `common.py` also counts
+  each site's answers: a site that answers 429 to 40% of 50 requests or more refuses this address (`refused`,
+  `Refused`), is not asked again in that process, and `pipeline.scrape` skips its remaining employers without writing
+  or closing anything. `workday.py` walks a board that lists under 2,000 postings whole, with no search text
+  (`WALK_UNDER`), and searches only the larger boards, the sampling set and a board narrowed by its own search text. `talnet.py` reads tal.net (Oleeo) boards from
   the public Atom feed (`…/candidate/jobboard/vacancy/<n>/feed/structured`); a firm names its boards in the config
   (`{"host": "lek.tal.net", "boards": [{"name", "path", "vacancy"}]}`); a board behind a captcha returns nothing and
   says so. `yello.py` reads Yello (recsolu.com) boards: the search URL from the board page, 25 cards a page, then each

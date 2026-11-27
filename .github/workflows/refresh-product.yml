@@ -75,6 +75,11 @@ jobs:
         id: families
         env:
           ATS: ${{ inputs.ats || 'all' }}
+          # The repository variable REFRESH_SELF_HOSTED names the families (comma-separated, e.g. "workday") whose
+          # jobs run on the self-hosted Mac (docs/SELF_HOSTED_RUNNER.md) instead of the runner on their line: Workday
+          # answers 429 to GitHub's runners (2026-11-22 on) and 200 to a home address. Empty: every line as written.
+          # Set it only once the runner shows Idle, or the family's jobs wait in the queue.
+          SELF_HOSTED: ${{ vars.REFRESH_SELF_HOSTED }}
           # Every family data/registry.json uses (the product set). One line per family; a family a hosted runner cannot reach gets
           # "runner": ["self-hosted", "macOS"]. The list is built here, not in the scrape job's matrix, because a
           # job-level `if` cannot read `matrix` (GitHub rejects the whole file, and the schedule never fires).
@@ -108,6 +113,10 @@ jobs:
               rows = [r for r in rows if r["family"] == ats]
               if not rows:
                   raise SystemExit(f"::error::no family {ats!r} in this workflow")
+          mine = {x.strip() for x in os.environ.get("SELF_HOSTED", "").split(",") if x.strip()}
+          for r in rows:
+              if r["family"] in mine:
+                  r["runner"] = ["self-hosted", "macOS"]
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write("families=" + json.dumps(rows) + "\n")
           print(", ".join(r["family"] for r in rows))

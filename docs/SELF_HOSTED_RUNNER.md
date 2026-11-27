@@ -1,8 +1,11 @@
 # A self-hosted runner on the Mac mini, for the families a hosted runner cannot reach
 
-Needed only when the runner trial (`evals/runner_trial_2026-10-26.md`) finds a family blocked from GitHub's runners.
-That family's line of FAMILIES in the gate job of `.github/workflows/refresh-mba.yml` (or `refresh-product.yml`) gets
-`"runner": ["self-hosted", "macOS"]`; everything else in the workflow stays. The runner is GitHub's own agent, installed
+Needed for a family blocked from GitHub's runners. Workday is one: it answers 429 to a hosted runner's first request
+and 200 to a home address. The repository variable `REFRESH_SELF_HOSTED` (Settings > Secrets and variables > Actions >
+Variables) names those families, comma-separated (`workday`); the gate job of each refresh workflow gives their jobs
+`"runner": ["self-hosted", "macOS"]` and everything else in the workflow stays. Set the variable only once the runner
+shows Idle: a job for a runner that does not exist waits in the queue and holds the refresh's build job with it.
+One runner takes one job at a time, so a family split in shards runs them one after the other. The runner is GitHub's own agent, installed
 as a launchd service so it survives a reboot and a login; the job it runs is the same checkout, the same `pip
 install`, the same commands as on a hosted runner, so nothing on the Mac is used except its network address and
 its CPU.

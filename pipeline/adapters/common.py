@@ -16,6 +16,49 @@ SESSION.headers.update({"User-Agent": UA, "Accept": "application/json, text/html
 STATS = collections.Counter()
 RETRY_STATUS = (429, 500, 502, 503, 504)  # answers worth waiting on: rate limits and a board that is briefly down
 
+# A site that refuses this machine's address. Workday answers 429 to GitHub's hosted runners from the first request
+# (2026-11-22 on: about 19,000 of them in a 340-minute job, and 30 of 30 answers of 200 from a home address the same
+# day), so waiting helps nothing and every employer of the family takes half an hour to fail. Each answer is counted
+# per site (the last two labels of the host: every Workday tenant is on myworkdayjobs.com); once REFUSE_MIN answers
+# are in and REFUSE_SHARE of them were 429, the site is refused for the rest of the process: a request to it raises
+# Refused without being sent, and pipeline.scrape skips the employers it has not started. Nothing is written for an
+# employer that was not read, so nothing is closed.
+REFUSE_MIN, REFUSE_SHARE = 50, 0.4
+_answers = {}   # site -> [answers, of them 429]
+_answers_lock = threading.Lock()
+
+
+class Refused(RuntimeError):
+    """The site answers 429 to this address too often to go on (see REFUSE_MIN)."""
+
+
+def site_of(url):
+    host = re.sub(r"^[a-z]+://", "", url or "").split("/")[0].split(":")[0].lower()
+    return ".".join(host.split(".")[-2:])
+
+
+def refused(url):
+    """True once the site of this URL (or host) has refused this address; (answers, 429s) are in refusals()."""
+    a = _answers.get(site_of(url))
+    return bool(a and a[0] >= REFUSE_MIN and a[1] >= REFUSE_SHARE * a[0])
+
+
+def refusals():
+    """site -> (answers, of them 429) for every refused site."""
+    return {s: tuple(a) for s, a in _answers.items() if refused(s)}
+
+
+def _count_answer(url, status):
+    site = site_of(url)
+    with _answers_lock:
+        a = _answers.setdefault(site, [0, 0])
+        was = refused(site)
+        a[0] += 1
+        a[1] += status == 429
+        if not was and refused(site):
+            logger.error("%s answered 429 to %d of %d requests: it refuses this address; its employers are not fetched "
+                         "from here (nothing of theirs is written or closed)", site, a[1], a[0])
+
 # The listing pages of the employer this thread is fetching that could not be read. pipeline.scrape fetches employers
 # in parallel threads (an adapter never starts its own), calls start_fetch() before each and reads listing_failures()
 # after: a fetch with a failed listing page is incomplete, so the merge closes nothing. Without this an adapter that
@@ -101,13 +144,16 @@ SEARCH_QUERIES = [
 
 def _request(method, url, kw, listing=False):
     """Up to three tries: a 429 or a 5xx answer waits 5, 10 seconds; a network error waits 2 and is raised on the
-    third. With listing=True (a page that lists jobs, not one job's detail) a final answer that is not 2xx is recorded
+    third. A site that has refused this address (refused(), above) is not asked: Refused is raised. With listing=True (a page that lists jobs, not one job's detail) a final answer that is not 2xx is recorded
     with listing_failed. Only the method and the URL are logged, never the headers or the body."""
     kw.setdefault("timeout", 30)
     for attempt in range(3):
+        if refused(url):
+            raise Refused(f"{site_of(url)} refuses this address")
         STATS["requests"] += 1
         try:
             r = SESSION.request(method, url, **kw)
+            _count_answer(url, r.status_code)
             if r.status_code in RETRY_STATUS and attempt < 2:
                 STATS["429" if r.status_code == 429 else "5xx"] += 1
                 logger.warning("%d from %s %s; waiting %ds", r.status_code, method, url, 5 * (attempt + 1))
