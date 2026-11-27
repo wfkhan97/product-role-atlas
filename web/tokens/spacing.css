@@ -8,6 +8,12 @@
   --radius-md: 8px;   /* cards, buttons, nav items */
   --radius-lg: 12px;  /* artboard / device frame */
   --radius-phone: 36px;
+  --radius-full: 999px; /* pills, dots */
+
+  /* a control's height: sm in a toolbar or a card foot, md the default, lg the one main action of a screen */
+  --control-sm: 32px; --control-md: 40px; --control-lg: 48px;
+  /* the page's side padding: one value for the column and for anything that bleeds to the edge */
+  --gutter: 32px;
 
   --rail-width: 232px;
   --topbar-height: 52px;
@@ -18,3 +24,5 @@
   --phone-width: 390px;
   --phone-height: 844px;
 }
+/* a phone: the page's edge is closer, and a control is a finger's size */
+@media (max-width: 640px) { :root { --gutter: 16px; --control-md: 44px; } }
