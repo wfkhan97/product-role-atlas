@@ -4016,6 +4016,11 @@ owner's first:
 - **The picked project's page and a file to download.** The steps with ticks, the starter prompt and the draft post
   with Copy, and one self-contained HTML guide (`web/project_guide.js`). Its "Add it to your portfolio" part is
   templated per host in code, never written by a model.
+  Since the same day (owner): the guide and a brief for an AI assistant sit on top of the page, before the steps.
+  The brief (`ProjectGuide.brief`, Markdown: how to coach the person one step at a time, then the project) is copied
+  or saved as a file, and the guide carries it too. The site stays where a person picks and tracks a project; the
+  assistant they already use is the coach. No plugin or setup is asked of anyone, and a chat on the site stays under
+  Later.
 - **No $60 booking card under the projects.** One line instead, "Having trouble? Book a free 30-minute session with
   Wally", linking to `SESSION_URL` (the owner's 30-minute calendar, given 2026-11-27). Beside it, the paid 90-minute session
   through the Tally form "Book your project session" (`BOOKING_TALLY`, $40, which redirects to the 90-minute

@@ -1686,6 +1686,9 @@ h2.sp-ask:focus { outline: none; }
 .pj-tools a, .pj-one section a { color: var(--primary); }
 .pj-dl { border: 1px solid var(--primary); border-radius: var(--radius-lg); background: var(--primary-tint); padding: 18px 20px; }
 .pj-dl .btn { min-height: 48px; }
+.pj-dl { margin: 22px 0 6px; }
+.pj-dl p:last-child { margin-bottom: 0; }
+.pj-dl-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 @media (max-width: 640px) { .pj-two { grid-template-columns: 1fr; gap: 0; } }
 @media print { .pj-ctl, .pj-none, .pj-help, .pj-kept, .pj-copyrow, .pj-dl, .pj-go { display: none; } }
 .pj-foot { margin-top: 22px; }
