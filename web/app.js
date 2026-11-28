@@ -685,12 +685,12 @@
     const wrap = document.createElement("div");
     wrap.innerHTML = `<dialog class="fb-box" aria-labelledby="fb-h" id="fb-box">
       <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2>${UI.close(FB.close, { id: "fb-close" })}</div>
-      <p class="small muted" style="margin:0">${esc(lead)}</p>
+      <p class="m-0 small muted">${esc(lead)}</p>
       <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
       <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="" autocomplete="email"></label>
       ${onFile ? `<p class="fb-use"><button type="button" class="linkish link" id="fb-use">${esc(fill(FB.useEmail, { email: onFile }))}</button></p>` : ""}
-      <p class="small muted" style="margin:0">${esc(FB.privacy)}</p>
-      ${linkedinUrl() ? `<p class="small fb-connect" style="margin:0"><a href="${esc(linkedinUrl())}" target="_blank" rel="noopener" id="fb-connect">${esc(FB.connect)}</a></p>` : ""}
+      <p class="m-0 small muted">${esc(FB.privacy)}</p>
+      ${linkedinUrl() ? `<p class="m-0 small fb-connect"><a href="${esc(linkedinUrl())}" target="_blank" rel="noopener" id="fb-connect">${esc(FB.connect)}</a></p>` : ""}
       <div class="fb-f"><button type="button" class="btn quiet" id="fb-later">${esc(FB.notNow)}</button><button type="button" class="btn primary" id="fb-send">${esc(FB.send)}</button></div>
       <p class="small fb-out" id="fb-out" aria-live="polite"></p>
     </dialog>`;
@@ -854,7 +854,7 @@
     const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
           <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
-          ${school ? `<p class="small muted" style="margin:0">${esc(school)}</p>` : ""}
+          ${school ? `<p class="m-0 small muted">${esc(school)}</p>` : ""}
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
     const tally = !accountsOn() && !!(window.Doors && Doors.formIdFor("door", null, formTheme()));   // with accounts, the door is its own form
@@ -2676,7 +2676,7 @@
     if (gm.status === "live" && G && G.mount) { main.innerHTML = ""; window.scrollTo(0, 0); return G.mount(main, { Atlas, game: gm, showAside, crumbs, esc }); }
     page(`<p class="eyebrow">${esc(Copy.games.comingSoon)}</p><h1>${esc(gm.title)}</h1><p class="lead">${esc(gm.tagline)}.</p>
       <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(fill(Copy.games.earlyDesign, { title: gm.title }))}" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
-      <div class="row" style="margin-top:16px"><a class="btn" href="#/home">${esc(CM.backHome)}</a><a class="btn quiet" href="#/explore">${esc(Copy.games.exploreRoles)}</a></div>`, true);
+      <div class="mt-4 row"><a class="btn" href="#/home">${esc(CM.backHome)}</a><a class="btn quiet" href="#/explore">${esc(Copy.games.exploreRoles)}</a></div>`, true);
   }
   // ---------- 2. tell us about you: three questions and an optional resume, then a summary of what we know (Y3) ----------
   // Owner's decisions (2026-10-24): the program options are the ones Cornell Tech and IE New York offer, folded to the
@@ -2783,7 +2783,7 @@
       const after = wiz.after;
       // Back from the step a return link opened goes back to that screen
       const leave = () => { if (wiz.next && i === wiz.first) { const n = wiz.next; wiz = null; location.hash = n; return true; } return false; };
-      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next" data-reads>${esc(nextLabel)}</button></span></div>`;
+      const nav = (nextLabel, nextAction) => `<div class="mt-4 row between"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next" data-reads>${esc(nextLabel)}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
         // the options with their examples (questionOpts); all eleven fields sit above the fold in two columns
@@ -2820,7 +2820,7 @@
     const chosen = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
     const answers = `<div class="list">${row(esc(YOU.study), y.where ? esc(WHERE[y.where]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=0"])}${row(esc(YOU.stage), y.stage ? esc(STAGE[y.stage]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=1"])}${row(esc(YOU.fields), chosen.length ? esc(chosen.join(", ")) : esc(YOU.noFields), [esc(CM.editLower), "#/you?step=2"])}</div>`;
     const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
-    const resume = r ? `<div class="list">${row(esc(r.name), esc(fill(Routes.You.aiRead(r) ? YOU.resumeLine : YOU.resumeLineLocal, { words: fmt(r.words) })), [esc(YOU.replace), "#/you?step=3"])}${row(esc(YOU.closest), closest.length ? closest.join(" · ") : esc(YOU.noRole), null)}</div>` : `<p class="small muted" style="margin-top:8px">${esc(YOU.noResume)} <a class="link" href="#/you?step=3">${esc(YOU.addOne)}</a> ${esc(YOU.addOneAfter)}</p>`;
+    const resume = r ? `<div class="list">${row(esc(r.name), esc(fill(Routes.You.aiRead(r) ? YOU.resumeLine : YOU.resumeLineLocal, { words: fmt(r.words) })), [esc(YOU.replace), "#/you?step=3"])}${row(esc(YOU.closest), closest.length ? closest.join(" · ") : esc(YOU.noRole), null)}</div>` : `<p class="mt-2 small muted">${esc(YOU.noResume)} <a class="link" href="#/you?step=3">${esc(YOU.addOne)}</a> ${esc(YOU.addOneAfter)}</p>`;
     const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), [esc(CM.openArrow), "#/field/" + g.id]));
     // a person who knows the role (stage targeting) gets the role first (v16 step 2): a search over every role's label,
     // and the three roles closest to the resume once one is read
@@ -2841,7 +2841,7 @@
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
-      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over" aria-expanded="false" aria-controls="so-ask">${esc(YOU.startOver)}</button></div>
+      <div class="mt-5 row"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over" aria-expanded="false" aria-controls="so-ask">${esc(YOU.startOver)}</button></div>
       <div class="confirm-row" id="so-ask" role="group" aria-labelledby="so-q" hidden><p id="so-q">${esc(YOU.startOverAsk)}</p><button type="button" class="btn primary" id="so-yes">${esc(YOU.startOverYes)}</button><button type="button" class="btn quiet" id="so-keep">${esc(YOU.startOverKeep)}</button></div>`);
     wireHearts(main);
     // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
@@ -3388,7 +3388,7 @@
     };
     const when = esc(fill(FD.when, { refreshed: g.generated ? fill(g.set === "product" ? FD.scraped : FD.refreshed, { date: g.generated }) : "", world: g.set === "product" ? fill(FD.world, { n: fmt(g.nWorld) }) : "" }));
     const rg = state.resume ? await rough() : null;
-    const mark = r => !rg ? "" : rg.held.includes(r.id) ? ` · <span style="color:var(--primary)">${esc(FD.held)}</span>` : rg.scores[r.id] >= 0.6 ? ` · <span style="color:var(--primary)">${esc(FD.close)}</span>` : "";
+    const mark = r => !rg ? "" : rg.held.includes(r.id) ? ` · <span class="fg-primary">${esc(FD.held)}</span>` : rg.scores[r.id] >= 0.6 ? ` · <span class="fg-primary">${esc(FD.close)}</span>` : "";
     const anyMark = rg && roles.some(r => mark(r));
     // half and half (owner's decision 2026-10-24): the roles on the left, the field's skills on lanes on the right;
     // hovering a role lights its skills; a dot opens the skill card
@@ -3399,7 +3399,7 @@
       <h1>${esc(g.label)}</h1>
       <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""}${charted ? ` <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a>` : ""}</p>
       <div class="list">${roles.map(r => heartRow(r.id, r.label, `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`)).join("")}</div>
-      ${charted ? `<p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>` : ""}
+      ${charted ? `<p class="mt-3 small muted">${esc(FD.hover)}</p>` : ""}
       </div><div${charted ? "" : " hidden"}>
       <div class="chart-stage" id="chart"></div>
       <p class="small muted chart-x">${esc(fill(FD.axis, { field: g.label }))} <span class="mark" data-measure="${esc(fill(FD.axisMeasure, { postings: closed, field: g.label }))}">ⓘ</span>${rg ? ` · <span class="sw have"></span> ${esc(FD.have)} · <span class="sw todo"></span> ${esc(FD.todo)}` : ""}</p>
@@ -3475,7 +3475,7 @@
   // The filters drawer (owner's choice R2, 2026-10-19): employers, who it is for, industry, employer name, location.
   // The level stays on the page as a segmented control. Every count reflects the other filters (owner's choice 7A).
   function drawerHtml(R, countBy) {
-    const group = (label, inner) => `<div class="fgroup"><span class="lbl">${label}</span><div class="chips" style="margin:4px 0 0">${inner}</div></div>`;
+    const group = (label, inner) => `<div class="fgroup"><span class="lbl">${label}</span><div class="m-0 mt-1 chips">${inner}</div></div>`;
     const chipsOf = (items, set, attr, allLabel) => `${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}`;
     const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
     const emp = `<button type="button" class="chip${state.employer === "all" ? " on" : ""}" data-emp="all">${esc(CM.all)}<span class="n">${fmt(empAll)}</span></button>` + R.employerTypes.map(([id, label]) => `<button type="button" class="chip${state.employer === id ? " on" : ""}" data-emp="${id}">${esc(label)}<span class="n">${fmt(empCounts[id] || 0)}</span></button>`).join("");
@@ -3492,7 +3492,7 @@
       <div class="drawer-h"><h2>${esc(RL.filters)}</h2>${UI.close(CM.close, { id: "drawer-close" })}</div>
       ${group(esc(D.employers), emp)}${grads}
       ${group(esc(D.industry), chipsOf(sec, state.sector, "sector", esc(D.allIndustries)))}
-      ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
+      ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="m-0 mt-1 chips">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
       ${R.country ? group(esc(D.location), `<span class="small muted">${esc(fill(D.countryOnly, { country: R.country }))}</span>${remote}`) : group(esc(D.location), chipsOf(cn, state.country, "country", esc(D.anywhere)) + remote)}
       <div class="row between drawer-f">${RoleFilters.changed(state, defaultLevel()) ? `<button type="button" class="btn quiet" id="reset-filters">${esc(CM.resetFilters)}</button>` : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">${esc(CM.done)}</button></div>
     </div>`;
@@ -3578,7 +3578,7 @@
     let summary = "";
     if (creds.length) { const w = inWords(creds[0].v), more = creds.slice(1, 3); summary = `${fill(esc(/posting$/.test(w) ? RL.credAskOne : RL.credAsk), { words: cap(esc(w)), name: low(esc(creds[0].s.name)) })}${more.length ? fill(esc(RL.credMore), { names: join(more.map(x => low(esc(x.s.name)))) }) : ""}.`; }
     if (doms.length) summary += " " + fill(esc(RL.industries), { names: join(doms.slice(0, 3).map(x => esc(x.s.name))) });
-    const also = (creds.length || doms.length) ? `<p class="lead" style="margin-top:14px">${summary}</p>${creds.length ? `<h3>${esc(RL.credentials)}</h3><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<h3>${esc(RL.industriesHeading)}</h3><div class="tags">${doms.map(credChip).join("")}</div>` : ""}` : "";
+    const also = (creds.length || doms.length) ? `<p class="mt-3-5 lead">${summary}</p>${creds.length ? `<h3>${esc(RL.credentials)}</h3><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<h3>${esc(RL.industriesHeading)}</h3><div class="tags">${doms.map(credChip).join("")}</div>` : ""}` : "";
     // postings (owner's choice R6): open only, grouped by employer; employers hiring graduates and interns first
     // (MBA set), then the employers with the most postings. One posting stands alone; several fold under the employer.
     const q = state.query.trim().toLowerCase();
@@ -3591,8 +3591,8 @@
     const jobRow = (j, withCompany) => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${withCompany ? esc(j.company) + (j.location ? " · " : "") : ""}${j.location ? esc(j.location) : ""}${who(j)}</span></button>`;
     const empBox = e => e.jobs.length === 1 ? jobRow(e.jobs[0], true) : `<details class="empbox" data-emp-open="${esc(e.company)}"${state.empOpen.has(e.company) ? " open" : ""}><summary><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(e.jobs.length === 1 ? Copy.jobs.posting : Copy.jobs.postings, { n: fmt(e.jobs.length) }))}</span><span class="m">${esc(e.jobs[0].title)}${e.jobs[0].location ? " · " + esc(e.jobs[0].location) : ""}${who(e.jobs[0])}${e.jobs.length > 1 ? " · …" : ""}</span></summary><div class="list">${e.jobs.map(j => jobRow(j, false)).join("")}</div></details>`;
     const postings = `<input type="search" id="q" placeholder="${esc(RL.searchPostings)}" aria-label="${esc(RL.searchAria)}" value="${esc(state.query)}" autocomplete="off">
-      <div class="list" id="postings">${shownEmps.map(empBox).join("") || `<p class="small muted" style="padding:10px 0">${esc(RL.noOpenMatch)}</p>`}</div>
-      <p class="small muted" style="margin-top:8px">${esc(fill(RL.postingsFoot, { employers: fill(emps.length === 1 ? RL.employer : RL.employers, { n: fmt(emps.length) }), postings: fill(list.length === 1 ? RL.openPosting : RL.openPostings, { n: fmt(list.length) }), grads: R.set === "mba" ? RL.gradsFirst : "" }))} ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">${esc(fill(RL.showMoreEmployers, { n: fmt(Math.min(20, emps.length - shownEmps.length)) }))}</button>` : ""}</p>`;
+      <div class="list" id="postings">${shownEmps.map(empBox).join("") || `<p class="py-2-5 small muted">${esc(RL.noOpenMatch)}</p>`}</div>
+      <p class="mt-2 small muted">${esc(fill(RL.postingsFoot, { employers: fill(emps.length === 1 ? RL.employer : RL.employers, { n: fmt(emps.length) }), postings: fill(list.length === 1 ? RL.openPosting : RL.openPostings, { n: fmt(list.length) }), grads: R.set === "mba" ? RL.gradsFirst : "" }))} ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">${esc(fill(RL.showMoreEmployers, { n: fmt(Math.min(20, emps.length - shownEmps.length)) }))}</button>` : ""}</p>`;
     const TABS = [["skills", RL.tabs.skills, null], ...(POSTINGS ? [["postings", RL.tabs.postings, open.length]] : []), ...(also ? [["also", RL.tabs.also, null]] : [])];
     if (!TABS.some(t => t[0] === state.tab)) state.tab = "skills";
     const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
@@ -3720,10 +3720,10 @@
     const keys = Atlas.fieldKeys(R), hasOverride = !!(s.fields && s.fields[keys[0]]);   // the role's own reading, when its field's does not fit it
     const reads = T.reads(s, keys), kindLabel = ((R.kinds || {})[s.kind] || {}).label || "";
     const cs = s.kind === "behaviour" || s.kind === "practice" ? Atlas.carriers(R, slice, s.id) : null;
-    const carrierTags = cs && cs.ids.length ? `<p class="small" style="margin:8px 0 0">${esc(RL.shownThrough)}${cs.fallback ? ` <span class="subtle">${esc(fill(RL.inFieldNamed, { field: fieldLabel.toLowerCase() }))}</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
+    const carrierTags = cs && cs.ids.length ? `<p class="m-0 mt-2 small">${esc(RL.shownThrough)}${cs.fallback ? ` <span class="subtle">${esc(fill(RL.inFieldNamed, { field: fieldLabel.toLowerCase() }))}</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
     const means = `${reads ? `<p class="small reads"><b>${esc(hasOverride ? fill(RL.forRole, { role: R.role.label }) : fill(RL.inFieldLabel, { field: fieldLabel.toLowerCase() }))}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
     const lineHere = T.line(s, keys);
-    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">${esc(fill(RL.lineShows, { where: lineHere.source === "field" ? (lineHere.role ? fill(RL.lineForRole, { role: R.role.label }) : fill(RL.lineInField, { field: fieldLabel.toLowerCase() })) : "" }))} <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">${esc(fill(RL.lineCarries, { names: R.skillById[cs.ids[0]].name + (cs.ids[1] ? RL.or + R.skillById[cs.ids[1]].name : "") }))} <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
+    const showIt = `<p class="m-0 mt-2-5 small"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">${esc(fill(RL.lineShows, { where: lineHere.source === "field" ? (lineHere.role ? fill(RL.lineForRole, { role: R.role.label }) : fill(RL.lineInField, { field: fieldLabel.toLowerCase() })) : "" }))} <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">${esc(fill(RL.lineCarries, { names: R.skillById[cs.ids[0]].name + (cs.ids[1] ? RL.or + R.skillById[cs.ids[1]].name : "") }))} <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">${esc(RL.noOpenAsks)}</p>`;
     const visible = new Set(Atlas.grid(R, slice).rows.flat(2).map(x => x.id));
@@ -3753,11 +3753,11 @@
     return `${UI.close(CM.close)}<div class="card">
       <p class="eyebrow">${esc(j.company)}${j.rank ? ` · ${esc(fill(RL.fortune, { n: j.rank }))}` : ""}</p><h2>${esc(j.title)}</h2>
       <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? esc(RL.remoteFact) : ""}${j.yoe ? esc(fill(RL.yearsAsked, { n: j.yoe })) : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
-      ${who ? `<p class="small" style="color:var(--primary)">${esc(who)}${j.entry_src === "firm" || j.entry_src === "category" ? esc(RL.whoGrade) : ""}.</p>` : ""}
+      ${who ? `<p class="fg-primary small">${esc(who)}${j.entry_src === "firm" || j.entry_src === "category" ? esc(RL.whoGrade) : ""}.</p>` : ""}
       ${j.snippet ? `<p class="small muted">${esc(j.snippet)}…</p>` : ""}
       ${POSTINGS ? `<p><a class="link" href="${esc(j.url)}" target="_blank" rel="noopener">${esc(RL.openPostingLink)}</a></p>` : ""}
       <h3>${esc(fill(nSkills === 1 ? RL.skillAsked : RL.skillsAsked, { n: fmt(nSkills) }))}</h3>
-      ${Object.entries(byArea).sort((a, b) => b[1].length - a[1].length).map(([c, ss]) => `<p class="small muted" style="margin:8px 0 2px">${esc(R.clusters[c].label)}</p><div class="tags">${ss.map(s => `<button type="button" class="tag" data-skill="${esc(s.id)}">${esc(s.name)}</button>`).join("")}</div>`).join("")}
+      ${Object.entries(byArea).sort((a, b) => b[1].length - a[1].length).map(([c, ss]) => `<p class="m-0 mt-2 mb-0-5 small muted">${esc(R.clusters[c].label)}</p><div class="tags">${ss.map(s => `<button type="button" class="tag" data-skill="${esc(s.id)}">${esc(s.name)}</button>`).join("")}</div>`).join("")}
       ${subNames.length ? `<h3>${esc(RL.specificAsks)}</h3><div class="tags">${subNames.map(x => `<button type="button" class="tag" data-skill="${esc(x.sid)}">${esc(x.name)}</button>`).join("")}</div>` : ""}
     </div>`;
   }
@@ -3843,7 +3843,7 @@
   const intakeDone = what => !!joined()[what];
   const markDone = what => store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) });
   // the native box: the line, the form, the privacy line (and "Not now" where the box can close)
-  const intakeNative = (what, roleId, notNow) => `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${intakeForm(what, roleId)}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${notNow ? " " + notNow : ""}</p>`;
+  const intakeNative = (what, roleId, notNow) => `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${intakeForm(what, roleId)}<p class="m-0 mt-1-5 small muted">${esc(Intake.privacy)}${notNow ? " " + notNow : ""}</p>`;
   const intakeForm = (what, roleId) => `<form class="apply-form" data-wait-form="${esc(what)}"${roleId ? ` data-wait-role="${esc(roleId)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(doorKept().email)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
   // opts.always: drawn whether or not state.wait names it (the fit screen, the launcher, the networking screen, the
   // picker); opts.role_id: the role to record instead of the role screen's (the picker's chosen role)
@@ -3856,8 +3856,8 @@
     // Tally's form says the line and the privacy line itself (2026-11-06: the box said both twice), so the box draws
     // them only around the native form, which is also what the slot falls back to
     const notNow = opts.always || done ? "" : `<a href="#/" data-wait-close>${esc(CM.notNow)}</a>`;
-    const body = done ? `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p><p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>${notNow ? `<p class="small muted" style="margin:6px 0 0">${notNow}</p>` : ""}`
-      : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>${notNow ? `<p class="small muted" style="margin:6px 0 0">${notNow}</p>` : ""}`
+    const body = done ? `<p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p><p class="m-0 mt-1-5 small"><b>${esc(Intake.done)}</b></p>${notNow ? `<p class="m-0 mt-1-5 small muted">${notNow}</p>` : ""}`
+      : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>${notNow ? `<p class="m-0 mt-1-5 small muted">${notNow}</p>` : ""}`
       : intakeNative(what, opts.role_id, notNow);
     return `<div class="wait apply"><b>${esc(Intake.headingOf(what))}</b>${body}</div>`;
   }
@@ -3936,18 +3936,18 @@
     // the classes that cover the most core gaps (step 3 of the pass): three links into the picker with the course open;
     // when the roster cannot be read here, one line from the campus file and the picker's link
     const termName = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
-    const classesHead = `<h3 class="rh" style="margin-top:14px">${esc(RR.classesHeading)}</h3>`;
+    const classesHead = `<h3 class="mt-3-5 rh">${esc(RR.classesHeading)}</h3>`;
     const classesBlock = !coreGaps.length || !classesOpen ? "" : !gc ? `${classesHead}<p class="small muted">${esc(fill(RR.readingRoster, { term: termName }))}</p>`
       : gc.closed ? `${classesHead}<p class="small muted">${esc(gc.closed)} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.termClasses, { term: termName }))}</a></p>`
-      : gc.top && gc.top.length ? `${classesHead}<ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">${esc(fill(RR.covers, { names: c.covered.map(g => g.name).join(", ") }))}</div></li>`).join("")}</ul><p class="small muted" style="margin-top:6px"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.allClasses, { term: termName }))}</a></p>`
+      : gc.top && gc.top.length ? `${classesHead}<ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">${esc(fill(RR.covers, { names: c.covered.map(g => g.name).join(", ") }))}</div></li>`).join("")}</ul><p class="mt-1-5 small muted"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.allClasses, { term: termName }))}</a></p>`
       : gc.failed ? "" : `${classesHead}<p class="small muted">${esc(fill(RR.noClass, { term: termName }))} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.seeRoster)}</a></p>`;
-    const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${waitHtml("positioning")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : "";
+    const gapsHtml = coreGaps.length ? `<h3 class="mt-3-5 rh">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${waitHtml("positioning")}${bandNext && bandNext !== band ? `<p class="mt-2 small muted">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : "";
     // with no gap among them, the rail says so right under the lead line, before the count of what still needs evidence
     // (2026-11-08: it came last, after "11 skills in all still need evidence", and read as a contradiction)
     const allShown = core.length && !coreGaps.length ? `<p class="small muted">${esc(fill(RR.nothingMissing, { m: core.length }))}</p>` : "";
     const n = fit.evid.length + fit.trans.length + (fit.inferred || []).length;
     // "change" goes to the résumé step and back to this role (Routes.You.resumeHref; the wizard honours &next=)
-    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="${esc(resumeHref())}">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${allShown}${counts}${infLine}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
+    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="${esc(resumeHref())}">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${allShown}${counts}${infLine}${gapsHtml}<p class="mt-3"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
     return legend + you + cta;
   }
   function wireRail() {
@@ -3971,7 +3971,7 @@
     const g = await loadRole(id); const R = state.R, role = R.role;
     crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], [FT.crumb, null]]);
     if (!state.resume) {
-      page(`<p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}</p><h1>${esc(FT.addResume)}</h1><p class="lead">${esc(fill(FT.addLead, { role: role.label }))}</p>${resumeForm()}<div class="row" style="margin-top:12px"><a class="btn quiet" href="#/role/${esc(role.id)}">${esc(FT.backRole)}</a></div>`, true);
+      page(`<p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}</p><h1>${esc(FT.addResume)}</h1><p class="lead">${esc(fill(FT.addLead, { role: role.label }))}</p>${resumeForm()}<div class="mt-3 row"><a class="btn quiet" href="#/role/${esc(role.id)}">${esc(FT.backRole)}</a></div>`, true);
       showAside(null); wireResumeForm(() => fitScreen(id));
       return;
     }
@@ -4026,8 +4026,8 @@
     const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${esc(title)} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${esc(more ? FT.showFewer : fill(FT.more, { n: items.length - 5 }))}</button>` : ""}` : `<p class="small muted">${esc(empty)}</p>`}${foot || ""}</div>`; };
     const byPosting = (a, b) => (asks ? (asks.has(b.id) - asks.has(a.id)) : 0) || b.w - a.w;
     const showItems = [...evid, ...trans, ...through, ...inferred].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
-    const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">${esc(fill(FT.sayItButton, { field }))}</button></p>` : "";
-    const courseLink = `<p class="small" style="margin-top:8px"><a href="#/role/${esc(role.id)}/course">${esc(FT.checkCourse)}</a></p>`;
+    const sayLink = trans.length ? `<p class="mt-2 small"><button type="button" class="linkish link" id="say-it">${esc(fill(FT.sayItButton, { field }))}</button></p>` : "";
+    const courseLink = `<p class="mt-2 small"><a href="#/role/${esc(role.id)}/course">${esc(FT.checkCourse)}</a></p>`;
     const showTab = `<div class="fitcols">${col("show", FT.already, showItems, FT.nothingYet, sayLink)}${col("gaps", FT.needsEvidence, stillItems, FT.nothingAmong, courseLink)}</div>`;
     const detailTab = `${infDisc}${sayIt}${thinDisc}<h3>${esc(FT.credentials)}</h3>${credLine + indLine || `<p class="small muted">${esc(FT.noneAsked)}</p>`}${unmapped}`;
     const FTABS = [["show", FT.tabs.show, null], ["details", FT.tabs.details, null]];
@@ -4036,7 +4036,7 @@
     const ctx = `<div class="row between fit-top"><h1 class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}${extra.length ? " · " + esc(extra.join(", ")) : ""}</h1><span class="small muted ctx"><select id="fit-level" aria-label="${esc(RL.levelAria)}">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${esc(s === "all" ? FT.allLevels : R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">${esc(CM.change)}</a></span></div>`;
     // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
     const pSum = asks ? postingSummary(asks, f) : null;
-    const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go" data-reads>${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
+    const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="m-0 mt-2-5 mb-1 row"><button type="button" class="btn primary" id="go" data-reads>${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
     // "Get your tree" (step 5, 2026-11-05): the self-serve tree of step 4, offered where the read is; it needs a
     // session, so with none the link goes through the sign-in and back to the form with this role picked. Only with
     // the tree on and a sign-in anyone can use (or a session already held). cta get_tree: shown once per role per
@@ -4048,7 +4048,7 @@
       ${fitTabs}${fitBody}
       ${treeCta}
       <div class="fit-wait">${applyBox("fit", { always: true })}</div>
-      <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a>${esc(FT.backAfter)}</p>`);
+      <p class="mt-5 small muted"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a>${esc(FT.backAfter)}</p>`);
     wireWait(main, () => keepScroll(() => fitScreen(id)));
     const gt = $("#get-tree"); if (gt) { gt.onclick = () => { if (window.Capture) Capture.cta("get_tree", "click", { role_id: role.id }); }; if (!treeShown.has(role.id)) { treeShown.add(role.id); if (window.Capture) Capture.cta("get_tree", "shown", { role_id: role.id }); } }
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
@@ -4097,7 +4097,7 @@
     const split = c ? (c.teaches ? { teaches: c.teaches, named: c.named } : Atlas.courseSplit(c.found, R.skillById)) : null;
     const form = `${dropZone(CO.drop, c ? esc(fill(CO.read, { name: c.name })) : "")}
       <p class="small muted">${esc(CO.paste)}</p><textarea id="paste" rows="6" aria-label="${esc(CO.aria)}" placeholder="${esc(CO.placeholder)}">${c ? esc(c.text) : ""}</textarea>
-      <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go" data-reads>${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
+      <div class="m-0 mt-3 mb-1 row"><button type="button" class="btn primary" id="go" data-reads>${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
     // the level the count reads (2026-11-06: the role page's level carried over unseen), with a control to change it
     const seg = `<div class="seg course-level" role="group" aria-label="${esc(CO.level)}">${["all", ...Atlas.STEPS].map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-course-level="${s}">${esc(s === "all" ? RL.allLevels : R.stepLabels[s])}</button>`).join("")}</div>`;
     let result = "";
@@ -4120,7 +4120,7 @@
         ${notTaught.length ? `<h2>${esc(CO.notCover)}</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">${esc(CO.notCoverNote)}</p>` : ""}
         <h2>${esc(CO.onList)}</h2><p class="small muted">${esc(CO.onListNote)}</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>${esc(CO.noneFound)}</b> ${esc(c.lines < 3 ? CO.tooShort : CO.checkText)}</div>`;
     }
-    page(`<p class="eyebrow">${esc(fill(CO.eyebrow, { role: role.label }))}</p><h1>${esc(CO.heading)}</h1><p class="lead">${esc(fill(CO.lead, { role: role.label }))}</p><div class="filters">${seg}</div>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a></p>`);
+    page(`<p class="eyebrow">${esc(fill(CO.eyebrow, { role: role.label }))}</p><h1>${esc(CO.heading)}</h1><p class="lead">${esc(fill(CO.lead, { role: role.label }))}</p><div class="filters">${seg}</div>${form}${result}<p class="mt-3 small muted"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a></p>`);
     wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); track("course_read", { role_id: role.id }); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     main.querySelectorAll("[data-course-level]").forEach(b => b.onclick = () => { state.level = b.dataset.courseLevel; state.fitLevel = null; state.fit = null; keepScroll(() => courseScreen(id)); });
@@ -4202,7 +4202,7 @@
         const line = x => x.lines[0] ? `<span class="small muted">“${esc(x.lines[0].text.length > 120 ? x.lines[0].text.slice(0, 117) + "…" : x.lines[0].text)}”</span>` : "";
         return `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${summary}</span></summary><div class="box-body">${have.length ? `<ul class="plain">${have.map(x => `<li><b>${esc(x.name)}</b> <span class="subtle" data-measure="${esc(fill(EV.roleMeasure, { share: pct(x.w), role: r.label }))}">${pct(x.w)}</span> ${line(x)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(EV.showsNone)}</p>`}${ask.length ? `<p class="small muted">${esc(fill(EV.mayAskList, { names: ask.map(askName).join(", ") }))}</p>` : ""}<p class="small"><a href="#/role/${esc(r.id)}">${esc(EV.openRole)}</a></p></div></details>`; }).join("");
     }).catch(e => { const el = $("#roundtable"); if (el) el.insertAdjacentHTML("afterbegin", `<p class="notice">${esc(EV.readFailed)}</p>`); console.error(e); });
-    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.n) }))}</span><span class="m">${[...e.roles].map(roleLabel).filter(Boolean).slice(0, 4).map(esc).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="emp-all">${esc(all ? EV.fewer : fill(EV.allN, { n: top.length }))}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">${esc(EV.loadFailed)}</p>`; console.error(e); });
+    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.n) }))}</span><span class="m">${[...e.roles].map(roleLabel).filter(Boolean).slice(0, 4).map(esc).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="mt-2 small"><button type="button" class="linkish link" id="emp-all">${esc(all ? EV.fewer : fill(EV.allN, { n: top.length }))}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">${esc(EV.loadFailed)}</p>`; console.error(e); });
   }
   function sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) {
     const count = {}; for (const r of roles) for (const id of coreOf(r)) if (rg.shown.has(id) && !GENERIC.has(id)) count[id] = (count[id] || 0) + 1;
