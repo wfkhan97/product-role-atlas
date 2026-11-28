@@ -1663,7 +1663,7 @@ h2.sp-ask:focus { outline: none; }
 .skel { display: block; height: 12px; margin: var(--space-2) 0; border-radius: var(--radius-sm); background: var(--muted); animation: skel 1.4s var(--ease-standard) infinite alternate; }
 .skel.tall { height: 18px; } .skel.box { height: var(--control-lg); margin: 0; border-radius: var(--radius-md); } .skel.btnw { width: 96px; }
 .skel.w30 { width: 30%; } .skel.w50 { width: 50%; } .skel.w70 { width: 70%; } .skel.w90 { width: 90%; }
-.skel-card { cursor: default; }
+.skel-card { padding: var(--space-3-5) var(--space-4); }
 @keyframes skel { from { opacity: 1; } to { opacity: 0.45; } }
 @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
 

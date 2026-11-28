@@ -3071,8 +3071,8 @@
   async function jobsScreen() {
     crumbs([[CM.home, "#/home"], [JB.heading, null]]); showAside(null);
     // while the file loads (14 MB before compression): the page's own layout in grey, so nothing jumps when the
-    // postings land; the words are there for a screen reader
-    const K = UI.skel, bone = `<div class="jcard skel-card" aria-hidden="true">${K("w30")}${K("w70", "tall")}${K("w50")}${K("w90")}</div>`;
+    // postings land; the words are there for a screen reader. A grey card is not a .jcard: scripts wait for that class
+    const K = UI.skel, bone = `<div class="surface skel-card" aria-hidden="true">${K("w30")}${K("w70", "tall")}${K("w50")}${K("w90")}</div>`;
     page(`<h1>${esc(JB.heading)}</h1><p class="lead" role="status">${esc(JB.loading)}</p>
       <div class="jsearch" aria-hidden="true">${K("box")}${K("box")}${K("box", "btnw")}</div>
       <div class="jobs-grid" aria-hidden="true"><div class="jmain"><div class="jlist">${bone.repeat(4)}</div></div><div class="jrail">${K("w50")}${K("w90")}${K("w70")}${K("w90")}${K("w50")}</div></div>`);

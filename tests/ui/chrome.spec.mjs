@@ -180,9 +180,10 @@ test("the theme button names what a press does, every press changes the page, an
     await page.emulateMedia({ colorScheme: scheme });
     const btn = page.locator("#theme");
     const read = () => page.evaluate(() => ({ label: document.querySelector("#theme").getAttribute("aria-label"), bg: getComputedStyle(document.body).backgroundColor }));
-    let was = await read();
     const other = scheme === "light" ? "dark" : "light";
-    expect(was.label, "from the device's theme a press shows the other").toBe(Copy.fill(Copy.common.themeTo, { theme: Copy.common.themeNames[other] }));
+    // the page hears the device's change in a listener, a moment after emulateMedia returns: wait for the name
+    await expect.poll(async () => (await read()).label, { message: "from the device's theme a press shows the other" }).toBe(Copy.fill(Copy.common.themeTo, { theme: Copy.common.themeNames[other] }));
+    let was = await read();
     const first = was.bg;
     for (let i = 1; i <= 3; i++) {
       await btn.click();
