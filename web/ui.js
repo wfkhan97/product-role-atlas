@@ -15,6 +15,8 @@
    UI.pill(label, tone)             a small rounded label: tone "green" (default) | "blue" | "amber" | "neutral".
    UI.eyebrow(label, tag)           the small mono label over a group. tag default "p".
    UI.spinner()                     the one turning ring.
+   UI.skel(...kinds)                a grey placeholder where content is on its way: a line, or with "box" a control.
+                                    kinds: "w30" | "w50" | "w70" | "w90" (a line's width), "tall", "box", "btnw".
    UI.callout(opts)                 a tinted box that says something is happening or asks for one thing.
                                     opts: title, body (HTML), tone "green" (default) | "amber" | "plain", spinner, id, role, cls.
    UI.status(text, opts)            one line of outcome under a control. opts: tone "error" | "done" | "muted" (default),
@@ -72,6 +74,8 @@
   const pill = (label, tone) => `<span class="pill${TONES[tone] || ""}">${esc(label)}</span>`;
   const eyebrow = (label, tag) => { const t = /^(p|h[1-6]|span|div|dt)$/.test(tag || "") ? tag : "p"; return `<${t} class="eyebrow">${esc(label)}</${t}>`; };
   const spinner = () => `<span class="spinner" aria-hidden="true"></span>`;
+  const SKEL = new Set(["w30", "w50", "w70", "w90", "tall", "box", "btnw"]);
+  const skel = (...kinds) => `<span class="${cx("skel", kinds.filter(k => SKEL.has(k)))}"></span>`;
 
   function callout(o = {}) {
     const cls = cx("callout", o.tone === "amber" && "amber", o.tone === "plain" && "plain", o.spinner && "busy", o.cls);
@@ -91,5 +95,5 @@
     return `<label class="${cx("field", o.size === "lg" && "lg", o.cls)}">${o.label ? `<span class="field-label">${esc(o.label)}</span>` : ""}${control}${o.hint ? `<span class="field-hint">${esc(o.hint)}</span>` : ""}</label>`;
   }
 
-  return { esc, cx, attrs, btn, linkBtn, close, chip, pill, eyebrow, spinner, callout, status, field };
+  return { esc, cx, attrs, btn, linkBtn, close, chip, pill, eyebrow, spinner, skel, callout, status, field };
 });
