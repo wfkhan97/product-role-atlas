@@ -4173,7 +4173,7 @@
     const marks = r => (r.definingList.length ? r.definingList : r.asks.filter(a => !GENERIC.has(a.id) && ix.skillById[a.id] && !["credentials", "domain"].includes(ix.skillById[a.id].cluster))).slice(0, 2).map(a => a.id);
     const rg = state.resume ? await rough() : null;
     const coreOf = r => r.asks.filter(a => a.share >= Atlas.TIER.core && ix.skillById[a.id] && ix.skillById[a.id].cluster !== "credentials").map(a => a.id);
-    const chips = `<div class="chips">${EVENTS.map(([k, t]) => `<a class="chip${kind === k ? " on" : ""}" href="#/field/${esc(g.id)}/event?${k}">${esc(t)}</a>`).join("")}</div>`;
+    const chips = `<div class="chips">${EVENTS.map(([k, t]) => `<a class="chip${kind === k ? " on" : ""}"${kind === k ? ` aria-current="page"` : ""} href="#/field/${esc(g.id)}/event?${k}">${esc(t)}</a>`).join("")}</div>`;
     let body = "";
     const nOpen = r => esc(fill(CM.nOpen, { n: fmt(r.nOpen) }));
     if (kind === "networking") {
