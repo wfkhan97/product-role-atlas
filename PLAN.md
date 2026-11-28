@@ -4016,6 +4016,11 @@ owner's first:
 - **The picked project's page and a file to download.** The steps with ticks, the starter prompt and the draft post
   with Copy, and one self-contained HTML guide (`web/project_guide.js`). Its "Add it to your portfolio" part is
   templated per host in code, never written by a model.
+  Since the same day (owner): the guide and a brief for an AI assistant sit on top of the page, before the steps.
+  The brief (`ProjectGuide.brief`, Markdown: how to coach the person one step at a time, then the project) is copied
+  or saved as a file, and the guide carries it too. The site stays where a person picks and tracks a project; the
+  assistant they already use is the coach. No plugin or setup is asked of anyone, and a chat on the site stays under
+  Later.
 - **No $60 booking card under the projects.** One line instead, "Having trouble? Book a free 30-minute session with
   Wally", linking to `SESSION_URL` (the owner's 30-minute calendar, given 2026-11-27). Beside it, the paid 90-minute session
   through the Tally form "Book your project session" (`BOOKING_TALLY`, $40, which redirects to the 90-minute
@@ -4037,6 +4042,48 @@ the cap for the session, Later).
 `evals/quests.mjs` now runs 51 cases (17 roles across the three sets × three profiles, one of them a "None of these"
 rewrite) and reports levels and shares; `evals/quests_baseline.md` is re-recorded with this change. New tests:
 `tests/web/project_guide.test.mjs`, `tests/ui/open_projects.spec.mjs`. The tree's specs set the flag on in the page.
+
+## One set of components, no library (`feat/shared-components`, 2026-11-27)
+
+The owner asked whether the site uses a component or design library (it does not), had the `pick-ui-library` skill
+installed (`.agents/skills/`, one lookup table of library picks) and asked for an audit of every page and flow with
+it, then for reusable components in the site's own look. Seven Opus auditors covered the chrome and entry screens,
+Find jobs and Networking, Explore careers, Find classes and the games, the open flow, the pages behind
+`SKILL_TREE_ENABLED`, and the stylesheet, at phone and desktop width in both themes.
+
+- **No library.** Every pick in the skill's table that applies here (base-ui, Sonner, Vaul, motion, NumberFlow,
+  recharts, Virtuoso, next-themes, cva) is a React or npm package; the site has no build step and ships no
+  dependency, and that stays. clsx alone needs no framework, and three lines do its job (`UI.cx`). Where the skill
+  names a library the site uses the platform: CSS transitions on two motion tokens, scroll-snap, inline `aria-live`
+  status lines, `data-theme`.
+- **What the audit counted** in 1,579 rules: about 40 shared ones; `.btn` resized 15 ways with no hover, press or
+  shared disabled state anywhere; 23 builds of a text field (one, the feedback box's email, with no rule at all); 42
+  card builds; "chosen = green edge and tint" written 13 times; `.seg` defined twice, the later rule winning
+  everywhere and turning the chosen level grey; nine shadows and two scrims as literals; 818 raw pixel values
+  against 18 uses of a spacing token.
+- **The shared layer** is `web/ui.js` (render helpers) and one rule set per component in `web/style.css`
+  (`docs/MODULES.md` lists them). The open flow's look is the reference: 8px controls, 12px cards, the green edge
+  and tint for chosen, weight 500 for emphasis. A screen's older class is listed in the component's selector and
+  keeps its name, since tests and scripts query it; its own rule keeps only padding and layout.
+- **Sizes are three heights**, 32, 40 and 48 (`--control-sm/md/lg`), and md is 44 on a phone. A screen picks `.sm`
+  or `.lg`; it never sets a button's padding.
+- **Every control answers a pointer the same way**: a hover mixes toward the text colour over 120 ms, a press goes
+  one step further, a disabled one is at half opacity. A person who asked for less motion gets none.
+- **One page gutter** (`--gutter`, 32px, 16px on a phone). The page kept 32px at 390px wide, so the project
+  carousel's next card was cut short of the edge.
+- **Two class names meant two things.** `.sp` was the open flow's step frame, the Skill path game's page and a
+  spacer: the frame's rules are now scoped to `.sp-page`. A quest card in its "open" state carried `q-open`, the
+  class of its opened section: that rule now excludes the card.
+- **Phone layouts for what had none**: Climb the ladder could not be finished at 390px (the Check button sat under
+  the rung labels), Guess the role and Skill path's end screen scrolled sideways, the fit screen kept two columns.
+  All three games now play to their end on a phone with no sideways scroll.
+- **The theme is set before the first paint** by one inline line in `index.html`; `app.js` ran last, after the
+  scripts from a CDN.
+- **Not changed, on purpose**: no copy, no route, no flag, no behaviour. The projects and picked pages keep their
+  markup (PR #231 landed there the same day) and take the components through CSS.
+
+Tests: `tests/web/ui.test.mjs` (the helpers, the shell, one rule set per component). `npm run test:ui` fails on the
+same two specs as `main` (Later).
 
 ## Workday from a home address, in a fraction of the requests (`fix/workday-refused-address`, 2026-11-27)
 
@@ -4066,6 +4113,26 @@ had not, 15,487 were Workday's, where 176 of 311 employers with open postings we
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
+- **Components, what the 2026-11-27 pass left** (the section above): the games' answer buttons still have their own
+  markup (`.gopt`, `.ktr-tile`, `.wd-chip`, `.sp-card`, `.cl-line` share the tile's edge and hover, not one helper);
+  `.list .r` has five paddings; about 60 inline `style=` attributes; about 25 dead rules (`gcard`, `gg`, `start-*`,
+  `gm-cols`, `gtr-title`, `cls-email`, …); `skillmap.js` hard-codes its English; raw pixel spacing in the older
+  blocks. Most screens still write a button's markup by hand: move one to `UI.btn` when its screen is next touched.
+- **Dialogs are hand-built three ways** (the feedback box, the guide card, the posting panel, each with its own focus
+  trap and Escape). Native `<dialog>` and the `popover` attribute would replace all three; it changes behaviour, so
+  it needs its own specs.
+- **The role type-ahead in the open flow has no arrow keys** and no combobox roles; Enter adds the first hit, which
+  nothing highlights. `web/pick.js` already is the accessible one.
+- **At 1180px or narrower a tapped skill on a role page draws its card into the closed rail** (auditor's report,
+  2026-11-27; not re-checked): open the rail, or a sheet, when a skill is picked.
+- **Open flow, seen by the audit**: Yes and No swap sides between the tools step and the share step; "Copied." never
+  clears and a failed copy says nothing; `writeOpen` has no client timeout (the function stops at 80 s); the help
+  line's Tally link carries the email in its query string; the downloaded guide has its own palette and weights.
+- **Find jobs loads 14.5 MB** behind one line of text, and a facet click recounts every facet on the main thread
+  (248 ms measured). A worker and a skeleton; the list itself draws 50 cards and needs no virtualization.
+- **The event screen prints raw role ids** ("pm, tpm") in its employer rows (`app.js`, the event's `.list`), and the
+  open tree prints a raw skill id ("Builds: enterprise_saas", `drawOpenNext`): both skip the label lookup their
+  neighbour uses.
 - **The Workday boards of 2,000 postings or more** (21 of 218, 2026-11-27) still take the 117 searches, and their
   searches still stop at the page cap (Abbott: 1,078 requests, 22 minutes, 45 searches capped). To try: a walk per facet value (job family or country), each under 2,000.
 - **Eightfold, Avature and Google** had 1,641, 434 and 711 open postings not seen in the 2026-11-23 refresh though

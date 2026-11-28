@@ -325,7 +325,9 @@ and evals run the code the site runs.
   the order of relevance.
 - `project_guide.js` — `ProjectGuide`, the project guide the picked project's page downloads: `html(card, { kit, role,
   answers, date, skills })` is one self-contained HTML document (inline CSS, a small script for the ticks and the
-  Copy buttons, no request; reads on a phone, prints, follows the device's theme); `filename`; `portfolio` writes
+  Copy buttons, no request; reads on a phone, prints, follows the device's theme); `brief(card, opts)` is the same
+  project as Markdown for an AI assistant, coaching rules first (the page copies it or saves it as `.md`, and the
+  guide carries it); `filename(card, ext)`; `portfolio` writes
   "Add it to your portfolio" from the host's template in `HOSTS` (code, builder, other; a code host gets a prompt),
   never from a model; `WORDS` holds every fixed sentence; `esc` and `safeUrl` guard every value. Pure, no network.
 - `infer.js` — the browser side of the model read: `Infer.read(text, found, set)` calls `/api/infer`, keeps the answer per
@@ -345,8 +347,23 @@ and evals run the code the site runs.
   characters of text, four roles, 8 s upstream.
 - `gameshell.js`, `games/` — the shell every game draws inside (`frame`, `foot`, `results`, `keys`, `start`,
   `picker`, the one `localStorage` record under `games`) and the built games. `games/README.md` is the design index.
-- `tokens/`, `style.css` — the GradBuddy design tokens (oklch, dark and light) and the one stylesheet written on
-  them; look changes go through tokens only.
+- `tokens/`, `style.css` — the GradBuddy design tokens and the one stylesheet written on them; look changes go
+  through tokens only. `colors.css` (oklch, dark and light), `typography.css`, `spacing.css` (the spacing scale, the
+  radii with `--radius-full`, the control heights `--control-sm/md/lg` 32/40/48 with md 44 on a phone, the page's
+  `--gutter` 32, 16 on a phone), `motion.css` (`--duration-fast/base/slow`, `--ease-standard/out`, the shadows
+  `--shadow-panel/pop/dialog`, `--scrim`). No component or design library: the site has no build step and ships no
+  dependency.
+- `ui.js` — the shared components as render helpers (`window.UI`), each returning an HTML string for a template
+  literal: `cx`, `attrs`, `btn`, `linkBtn`, `close`, `chip`, `pill`, `eyebrow`, `spinner`, `callout`, `status`,
+  `field`. Each has one rule set in `style.css`, and a screen places a component, never draws it:
+  `.btn` (`.primary`, `.quiet`; `.sm`, `.lg`; hover, press, disabled), `button.close`, `.icon`, the field (every
+  text input, select and text area through one `:where()` rule; `.input-sm`, `.input-lg`; `.field`), `.chip` (`.on`
+  or `aria-pressed`; `.lg`; `.dead`), `.seg` (`.lg`), `.pill` (`.blue`, `.amber`, `.neutral`), `.callout` (`.wait`
+  is its first name; `.busy`, `.amber`, `.plain`), `.spinner`, `.status` (`.error`, `.done`), `.eyebrow`, the card
+  (`.surface`: one edge, corner and fill), the tile (`.tile`: one answer among a few), `.sr-only`. A screen's older
+  class for the same thing (`.jcard`, `.pj-card`, `.sp-opt`, `.gopt`, `.pj-level`, …) is listed in the component's
+  selector, so it keeps its name and only its own padding and layout. New markup uses the helper and the
+  component's class.
 - `data/` — the published files: `graph.json` (product), `graph_mba.json` + `graph_mba/<role>.json` (the MBA index and
   one file per role, loaded on demand; `_evidence.json` the example sentences), `graph_tech*` (the tech set),
   `taxonomy*.json`, `subskills*.json`, `bands*.json`, `roles_mba.json`, `roles_tech.json`, `role_blurbs.json` (one

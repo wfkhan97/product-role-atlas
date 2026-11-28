@@ -410,7 +410,7 @@
       host.innerHTML = `<div class="sm-plan" role="group" aria-label="Route planner"><span>Plan a route</span>
         <label>from <select id="sm-from" aria-label="From field">${fieldOpts}</select></label>
         <label>to <select id="sm-to" aria-label="To role">${roleOpts}</select></label>
-        <button type="button" class="btn primary" id="sm-show">Show route</button>
+        <button type="button" class="btn primary sm" id="sm-show">Show route</button>
         ${ui.route ? `<button type="button" class="linkish link" id="sm-clear">Clear</button>` : ""}
         <span class="sm-plan-out" id="sm-plan-out" aria-live="polite"></span></div>`;
       host.querySelector("#sm-from").onchange = e => { plan.from = e.target.value; };

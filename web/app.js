@@ -679,7 +679,7 @@
     const opener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
     const wrap = document.createElement("div");
     wrap.innerHTML = `<div class="fb-back" id="fb-back"></div><div class="fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-h" id="fb-box">
-      <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2><button type="button" class="close" id="fb-close" aria-label="${esc(FB.close)}">×</button></div>
+      <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2>${UI.close(FB.close, { id: "fb-close" })}</div>
       <p class="small muted" style="margin:0">${esc(lead)}</p>
       <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
       <label class="fb-lab">${esc(FB.emailLabel)}<input type="email" id="fb-email" maxlength="${Feedback.LIMITS.email}" value="" autocomplete="email"></label>
@@ -1507,7 +1507,7 @@
       crumbs([[P.heading, null]]); showAside(null);
       const cards = cardsNow();
       let body;
-      if (writing()) body = `<div class="wait pj-wait" id="open-writing" role="status"><span class="pj-spin" aria-hidden="true"></span><div><b>${esc(held.ask ? P.rewriting : P.writing)}</b><p class="small muted">${esc(P.keepOpen)}</p></div></div>`;
+      if (writing()) body = `<div class="wait pj-wait" id="open-writing" role="status">${UI.spinner()}<div><b>${esc(held.ask ? P.rewriting : P.writing)}</b><p class="small muted">${esc(P.keepOpen)}</p></div></div>`;
       else if (cards.length) {
         body = `<p class="lead">${esc(fill(P.lead, { role }))}</p>${carousel(cards.map((c, i) => card(c, i, cards.length)).join(""), cards.length)}${whyHtml()}
           <section class="pj-none" id="pj-none">${ui.none ? `<label class="tr-lab" for="pj-fb">${esc(P.noneTitle)}</label><textarea id="pj-fb" maxlength="${Quests.LIMITS.feedback}" placeholder="${esc(P.noneHint)}">${esc(ui.feedback)}</textarea>
@@ -1582,6 +1582,8 @@
       ${levelWord(c) ? `<p class="pj-level lv-${esc(c.project_level)}">${esc(levelWord(c))}</p>` : ""}<h1 tabindex="-1">${esc(c.title)}</h1>
       <p class="lead"><b>${esc(P.youShip)}</b> ${esc(c.ship)}</p>
       <p class="pj-skills"><b>${esc(P.builds)}</b> ${skillNames(held, c, ix).map(n => `<span class="chip">${esc(n)}</span>`).join(" ")}</p>
+      <section class="pj-dl"><h2>${esc(K.guideHeading)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p>
+        <p>${esc(K.assistLead)}</p><p class="pj-dl-row"><button type="button" class="btn" id="pj-brief-copy">${esc(K.copyBrief)}</button> <button type="button" class="btn" id="pj-brief-dl">${esc(K.downloadBrief)}</button> <span class="small muted" aria-live="polite" id="pj-brief-out"></span></p></section>
       <div class="pj-two"><section><h2>${esc(K.whyRole)}</h2><p>${esc(c.why_role.text)}</p></section><section><h2>${esc(K.whyYou)}</h2><p>${esc(c.why_person.text)}</p></section></div>
       <section><h2>${esc(K.steps)}</h2><p class="small muted">${esc(K.stepsNote)}</p><ol class="pj-steps">${c.steps.map((st, i) => `<li><label${ticks[i] ? ` class="done"` : ""}><input type="checkbox" data-step="${i}"${ticks[i] ? " checked" : ""}> <span>${esc(st)}</span></label></li>`).join("")}</ol></section>
       <section><h2>${esc(K.prompt)}</h2><p class="small muted">${esc(K.promptLead)}</p><pre class="pj-pre" id="pj-prompt">${esc(c.prompt)}</pre>
@@ -1589,22 +1591,30 @@
       <div class="pj-two"><section><h2>${esc(P.buildWith)}</h2>${tools}</section><section><h2>${esc(P.showOn)}</h2>${live}</section></div>
       ${sh ? `<section><h2>${esc(K.share)}</h2><p><b>${link(sh.label, sh.url)}</b>: ${esc(sh.how)}</p>${sh.post ? `<h3>${esc(K.post)}</h3><pre class="pj-pre" id="pj-post">${esc(sh.post)}</pre>
         <p class="pj-copyrow"><button type="button" class="btn" data-copy="pj-post" aria-label="${esc(K.copyPost)}">${esc(K.copy)}</button> <span class="small muted" aria-live="polite" id="pj-post-out"></span></p>` : ""}</section>` : ""}
-      <section class="pj-dl"><h2>${esc(K.download)}</h2><p>${esc(K.downloadLead)}</p><p><button type="button" class="btn primary" id="pj-download">${esc(K.download)}</button></p></section>
       <p class="pj-foot"><a href="#/map/projects">${esc(K.back)}</a></p>
       ${helpLine(held)}
     </div>`);
     main.firstElementChild.classList.add("pj-page");
     main.querySelectorAll(".pj-steps input[data-step]").forEach(b => b.onchange = () => { const t = ticksOf(c.id); t[+b.dataset.step] = b.checked; keepTicks(c.id, t); b.closest("label").classList.toggle("done", b.checked); });
     main.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => { const el = $("#" + b.dataset.copy); if (el) copyText(el.textContent, $(`#${b.dataset.copy}-out`)); });
-    $("#pj-download").onclick = () => {
-      if (window.Capture) Capture.cta("open_download", "click");
-      const html = ProjectGuide.html(c, { kit, role: { id: held.map.role.id, label: role }, answers: heldAnswers(held), date: todayIso(), skills: skillNames(held, c, ix) });
-      const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
-      const a = document.createElement("a"); a.href = url; a.download = ProjectGuide.filename(c); a.hidden = true;
+    // the guide (one HTML file) and the brief for an AI assistant (Markdown): built here, saved by the browser
+    const guideOpts = () => ({ kit, role: { id: held.map.role.id, label: role }, answers: heldAnswers(held), date: todayIso(), skills: skillNames(held, c, ix) });
+    const save = (text, type, name) => {
+      const url = URL.createObjectURL(new Blob([text], { type }));
+      const a = document.createElement("a"); a.href = url; a.download = name; a.hidden = true;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
+    };
+    $("#pj-download").onclick = () => {
+      if (window.Capture) Capture.cta("open_download", "click");
+      save(ProjectGuide.html(c, guideOpts()), "text/html;charset=utf-8", ProjectGuide.filename(c));
       if (window.Capture) Capture.cta("open_download", "done");
     };
+    $("#pj-brief-dl").onclick = () => {
+      if (window.Capture) Capture.cta("open_brief", "click");
+      save(ProjectGuide.brief(c, guideOpts()), "text/markdown;charset=utf-8", ProjectGuide.filename(c, "md"));
+    };
+    $("#pj-brief-copy").onclick = () => { if (window.Capture) Capture.cta("open_brief", "click"); copyText(ProjectGuide.brief(c, guideOpts()), $("#pj-brief-out")); };
   }
 
   // above the open tree: the written projects or the two from web/preview.js, then the booking card (only with a form id)
@@ -1738,7 +1748,7 @@
   function stepFrame({ steps, step, inner, nextOk = true, nextLabel = Copy.map.flow.next, err = "", foot = "", wide = false, noNext = false, live = false }) {
     const S = Copy.map.flow, i = steps.indexOf(step), m = steps.length;
     const back = i > 0 ? `<button type="button" class="linkish link" id="sp-back">${esc(S.back)}</button>` : "<span></span>";
-    const next = noNext ? "" : `<div class="sp-next"><button type="button" class="btn primary big" id="sp-go" data-reads${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${err ? `<span class="sp-err" id="sp-err" role="alert">${err}</span>` : ""}${live ? `<span class="small muted" id="sp-status" aria-live="polite"></span>` : ""}</div>`;
+    const next = noNext ? "" : `<div class="sp-next"><button type="button" class="btn primary lg" id="sp-go" data-reads${nextOk ? "" : " disabled"}>${esc(nextLabel)}</button>${err ? `<span class="sp-err" id="sp-err" role="alert">${err}</span>` : ""}${live ? `<span class="small muted" id="sp-status" aria-live="polite"></span>` : ""}</div>`;
     return `<div class="sp${wide ? " wide" : ""}"><div class="sp-prog" role="progressbar" aria-label="${esc(S.progressAria)}" aria-valuemin="1" aria-valuemax="${m}" aria-valuenow="${i + 1}"><i style="width:${Math.round((i + 1) / m * 100)}%"></i></div>
         <div class="sp-nav">${back}<span class="small muted">${esc(fill(S.stepOf, { n: i + 1, m }))}</span></div>${inner}${next}${foot ? `<p class="small muted sp-out">${foot}</p>` : ""}</div>`;
   }
@@ -2068,7 +2078,7 @@
     const h1 = sub === "tree" ? (name ? fill(MC.treeTitle, { name }) : MC.treeHeading) : (name ? fill(MC.questsTitle, { name }) : MC.questsHeading);
     const lead = sub === "tree" ? (role ? fill(mapUi.tree.roles.length > 1 ? MC.treeSub : MC.treeSubOne, { role }) : "") : (role ? (company ? fill(MC.roleAt, { role, company }) : role + ".") : "");
     page(`<div class="map-head"><h1>${esc(h1)}</h1>${lead ? `<p class="map-lead">${esc(lead)}</p>` : ""}</div>
-      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
+      <nav class="mapnav" aria-label="${esc(MC.navAria)}">${(anon && !(map.cards || []).length ? [] : ["quests", "tree"]).map(p => `<a href="#/map/${p}"${p === sub ? ` class="on" aria-current="page"` : ""}>${esc(MC.nav[p])}</a>`).join("")}<span class="sp"></span><span class="map-top">${questsOn() && !anon && sub === "quests" ? `<a class="btn primary map-start" href="#/map/start">${esc(MC.startSide)}</a>` : ""}<button type="button" class="btn sm map-print-btn" id="map-print">${esc(MC.print)}</button></span></nav>
       ${anon && sub === "tree" ? `<div id="open-next"></div>` : ""}<div id="map-body"></div>
       ${anon && sub !== "tree" ? `<div id="open-next"></div>` : ""}${anon ? `<p class="small muted map-only">${esc((map.cards || []).length ? MC.open.keptQuests : MC.open.kept)} <button type="button" class="linkish link" id="open-forget">${esc(MC.open.forget)}</button></p>` : `<p class="small muted map-only">${esc(MC.only)} ${out}</p>`}
       ${treeOn() && selfServe(map) ? `<p class="small muted map-self">${esc(fill(MC.tree.self, { date: MapModel.dateWords(map.published) }))} <a href="#/map?build=1">${esc(MC.tree.again)}</a></p>` : ""}
@@ -2174,8 +2184,8 @@
     }
     let a;
     if (m.locked) a = nextBtn(" primary") + fold;
-    else if (st === "open") a = `<button type="button" class="btn primary big" data-act="start"${busy}>${esc(MC.start)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>${fold}`;
-    else if (st === "started") a = `<button type="button" class="btn primary big" data-act="ship"${busy}>${esc(MC.markShipped)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>`;
+    else if (st === "open") a = `<button type="button" class="btn primary lg" data-act="start"${busy}>${esc(MC.start)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>${fold}`;
+    else if (st === "started") a = `<button type="button" class="btn primary lg" data-act="ship"${busy}>${esc(MC.markShipped)}</button><button type="button" class="linkish link" data-act="skip"${busy}>${esc(MC.skip)}</button>`;
     else if (st === "shipped") a = nextBtn(" primary") + fold + `<button type="button" class="linkish link" data-act="unship"${busy}>${esc(MC.notShipped)}</button>`;
     else a = `<button type="button" class="btn primary" data-act="back"${busy}>${esc(MC.bringBack)}</button>${nextBtn("")}`;
     return `<div class="q-actions">${a}</div>${err}`;
@@ -2292,7 +2302,7 @@
       return `<li>${sdot(n)}<span><button type="button" class="linkish" data-node="${esc(n.id)}">${esc(n.name)}</button><small>${esc(lookWords(n))}${q ? ` · <a href="${esc(questHref(q.id))}">${esc(q.title)}</a>` : n.state === "shows" ? "" : ` · ${esc(MC.howNone)}`}</small></span></li>`; };
     body.innerHTML = `<div class="lgwrap"><div class="legend-bar" role="note">${MapModel.STATES.map(s => `<span class="${stCls(s)}"><span class="sdot"></span>${esc(MC.states[s])}</span>`).join("")}<span class="st-built"><span class="sdot"></span>${esc(MC.shippedLegend)}</span><span>${diamond} ${esc(MC.postingNames)}</span><span>${chevron} ${esc(MC.senior)}</span>${how.length ? `<span class="sp"></span><button type="button" class="linkish link lb-how" id="map-how" aria-expanded="false" aria-controls="map-howpop">${esc(MC.how)}</button>` : ""}</div>
       ${how.length ? `<div class="how-pop" id="map-howpop" role="dialog" aria-label="${esc(MC.how)}" hidden><h3>${esc(MC.how)}</h3><p>${esc(MC.howLead)}</p><ul>${how.map(howRow).join("")}</ul></div>` : ""}</div>
-      <div class="seg" role="group" aria-label="${esc(MC.viewAria)}">${["tree", "list"].map(v => `<button type="button" data-view="${v}" aria-pressed="${mapUi.view === v}"${mapUi.view === v ? ` class="on"` : ""}>${esc(MC.view[v])}</button>`).join("")}</div>
+      <div class="seg map-view" role="group" aria-label="${esc(MC.viewAria)}">${["tree", "list"].map(v => `<button type="button" data-view="${v}" aria-pressed="${mapUi.view === v}"${mapUi.view === v ? ` class="on"` : ""}>${esc(MC.view[v])}</button>`).join("")}</div>
       <div id="map-view"></div>`;
     const btn = $("#map-how"), pop = $("#map-howpop");
     if (btn && pop) {
@@ -2394,7 +2404,7 @@
   // ---------- the side panel (the Skill tree page) ----------
   function panel(html, p) {
     mapUi.panel = p;
-    showAside(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>${html}`);
+    showAside(`${UI.close(CM.close)}${html}`);
     aside.querySelector(".close").onclick = closePanel;
     markTree();
   }
@@ -3088,7 +3098,7 @@
       const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.yoe ? fill(JB.yearsFact, { n: r.yoe }) : null, r.clearance ? JB.clearanceFact : null, r.sponsorship === "yes" ? JB.sponsorsVisa : r.sponsorship === "no" ? JB.noSponsorVisa : null, Jobs.dateLine(r)].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]] || ix.techSkillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
-      return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
+      return `${UI.close(CM.close)}<div class="card jdetail">
         <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2 id="jdetail-h" tabindex="-1">${esc(r.title)}</h2>
         <p class="facts">${facts.map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
@@ -3445,7 +3455,7 @@
     const remote = `<button type="button" class="chip${state.remote ? " on" : ""}" id="remote">${esc(RL.remote)}<span class="n">${fmt(remoteN)}</span></button>`;
     const D = RL.drawer;
     return `<div class="drawer-back" id="drawer-back"></div><div class="drawer" role="dialog" aria-label="${esc(RL.filters)}" id="drawer">
-      <div class="drawer-h"><h2>${esc(RL.filters)}</h2><button type="button" class="close" id="drawer-close" aria-label="${esc(CM.close)}">×</button></div>
+      <div class="drawer-h"><h2>${esc(RL.filters)}</h2>${UI.close(CM.close, { id: "drawer-close" })}</div>
       ${group(esc(D.employers), emp)}${grads}
       ${group(esc(D.industry), chipsOf(sec, state.sector, "sector", esc(D.allIndustries)))}
       ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
@@ -3520,7 +3530,7 @@
     const hasSponsorship = R.jobs.some(j => j.sponsorship != null);
     const nSponsor = hasSponsorship ? jobsExcept("sponsor").filter(j => j.sponsorship === "yes").length : 0;
     const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="${esc(fill(RL.sponsorsMeasure, { n: fmt(nSponsor), m: fmt(jobsExcept("sponsor").length), no: R.jobs.some(j => j.sponsorship === "no") ? fill(RL.sponsorsNo, { n: fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length) }) : "" }))}">${esc(RL.sponsors)}<span class="n">${fmt(nSponsor)}</span></button>` : "";
-    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn sm filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
     // the list's number beside the facts' open US count says what it counts (2026-11-06): the product set's open
     // postings worldwide (unless a country is picked), the business set's postings of the year, open and closed
@@ -3603,7 +3613,7 @@
     const R = state.R, sel = state.selected;
     if (!sel) { showAside(null); return; }   // nothing selected: no panel, or the rail's own content (owner's choice R8, 2026-10-19)
     // over the rail a card gets "← Back" instead of ×
-    const over = html => railBase ? `<button type="button" class="close back" aria-label="${esc(Copy.games.back)}">${esc(CM.back)}</button>` + html.replace(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>`, "") : html;
+    const over = html => railBase ? `<button type="button" class="close back" aria-label="${esc(Copy.games.back)}">${esc(CM.back)}</button>` + html.replace(`${UI.close(CM.close)}`, "") : html;
     if (sel.kind === "posting") { showAside(over(postingCard(R, R.jobs.find(j => j.id === sel.id)))); wire(); return; }
     const ev = evCache[sel.id];
     showAside(over(skillCard(R, R.skillById[sel.id], sliceOf(), ev))); wire();
@@ -3692,7 +3702,7 @@
       related: `<h3>${esc(RL.together)}</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : `<p class="small muted">${esc(RL.noRelated)}</p>`}`,
     };
     const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${esc(l)}</button>`).join("")}</div>`;
-    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
+    return `${UI.close(CM.close)}<div class="card">
       <p class="eyebrow">${kindLabel ? esc(kindLabel) + " · " : ""}${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
       ${share}${means}${subs}
@@ -3701,12 +3711,12 @@
     </div>`;
   }
   function postingCard(R, j) {
-    if (!j) return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><p class="empty">${esc(RL.notInRole)}</p>`;
+    if (!j) return `${UI.close(CM.close)}<p class="empty">${esc(RL.notInRole)}</p>`;
     const byArea = {}; for (const k of j.skills) { const s = R.skillById[k]; if (s) (byArea[s.cluster] ||= []).push(s); }
     const subNames = (j.sub || []).map(id => { for (const [sid, list] of Object.entries(R.subs)) { const f = list.find(x => x.id === id); if (f) return { sid, name: f.name }; } return null; }).filter(Boolean);
     const who = j.intern ? RL.who.intern : j.entry === "mba" ? RL.who.mba : (j.entry === "pre_mba" || j.entry === "grad") ? RL.who.grads : null;
     const nSkills = j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length;
-    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
+    return `${UI.close(CM.close)}<div class="card">
       <p class="eyebrow">${esc(j.company)}${j.rank ? ` · ${esc(fill(RL.fortune, { n: j.rank }))}` : ""}</p><h2>${esc(j.title)}</h2>
       <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? esc(RL.remoteFact) : ""}${j.yoe ? esc(fill(RL.yearsAsked, { n: j.yoe })) : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
       ${who ? `<p class="small" style="color:var(--primary)">${esc(who)}${j.entry_src === "firm" || j.entry_src === "category" ? esc(RL.whoGrade) : ""}.</p>` : ""}

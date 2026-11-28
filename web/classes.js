@@ -285,7 +285,7 @@
     const open = !Catalog.restricted(card);
     const limited = c => [...new Set(String(c.enrollment_limited_to || "").split(/\s*\|\s*/).map(x => x.trim()).filter(Boolean))].join("; ");
     const elig = Catalog.eligibilityLine(card, cm);
-    return `<button type="button" class="close" aria-label="${esc(Copy.common.close)}">×</button><div class="card">
+    return `${UI.close(Copy.common.close)}<div class="card">
       <p class="eyebrow">${esc(card.codes.concat(card.otherCodes || []).join(" / "))}</p><h2 id="cls-detail-h" tabindex="-1">${esc(card.title)}</h2>
       <p class="facts">${esc(Catalog.creditsLine(p.credits))}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
       ${per(esc(CL.description), c => c.description)}${outcomes(card)}${per(esc(CL.prerequisites), c => c.prereq)}
