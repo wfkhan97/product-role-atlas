@@ -2998,9 +2998,11 @@
     const rg = await rough().catch(() => null); if (!rg || state.resume !== r) return false;
     // with the tech set on, the read may also name its own skills ("all"), and what its patterns found is found too
     const all = !!(window.CONFIG || {}).TECH_ENABLED && !!rg.shownT;
-    const list = await Infer.read(r.text, all ? [...new Set([...rg.shown, ...rg.shownT])] : [...rg.shown], all ? "all" : "both");
+    const set = all ? "all" : "both";
+    const list = await Infer.read(r.text, all ? [...new Set([...rg.shown, ...rg.shownT])] : [...rg.shown], set);
     if (state.resume !== r) return false;
-    r.inferred = list; r.aiRead = list.length > 0 || !!Infer.cached(r.text, "both");   // Infer keeps an answer only when the route gave one
+    // Infer keeps an answer only when the route gave one, under the set it was asked for (an empty answer too)
+    r.inferred = list; r.aiRead = list.length > 0 || !!Infer.cached(r.text, set);
     store.set("resume", r); Atlas.useInferred(r.text, list);
     if (!list.length) return false;
     state.rough = null; state.match = null; state.fit = null; matchCache.clear(); for (const k of Object.keys(gapsCache)) delete gapsCache[k];
