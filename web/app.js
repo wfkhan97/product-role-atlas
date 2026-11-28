@@ -1226,6 +1226,7 @@
   const heldAnswers = held => held.answers || { tech: held.tech || null };
   // One write: the first one, or "None of these" (`ask`: { feedback, avoid }) with what should be different and the
   // titles already shown. The new cards replace the old ones and the pick; a failure keeps the old cards.
+  const OPEN_WRITE_MS = 95000;
   function writeOpen(held, ask) {
     return openWriting ||= (async () => {
       const cta = ask ? "open_none" : "open_quests";
@@ -1234,7 +1235,11 @@
       try {
         const body = { email: held.email, text: state.resume.text, roles: held.roles || [held.map.role.id], posting: held.posting || "", answers: heldAnswers(held) };
         if (ask) { body.feedback = String(ask.feedback || "").slice(0, Quests.LIMITS.feedback); body.avoid = (ask.avoid || []).slice(-Quests.LIMITS.avoid); }
-        const [r, kit] = await Promise.all([fetch("api/open", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }), buildKit()]);
+        // the function stops at 80 s; a request still open after OPEN_WRITE_MS is given up here, and Try again is offered
+        const stop = new AbortController(), timer = setTimeout(() => stop.abort(), OPEN_WRITE_MS);
+        let r, kit;
+        try { [r, kit] = await Promise.all([fetch("api/open", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body), signal: stop.signal }), buildKit()]); }
+        finally { clearTimeout(timer); }
         if (!r.ok) throw Object.assign(new Error(`open ${r.status}`), { limited: r.status === 429 });
         const j = await r.json(), cards = [];
         let m = { ...held.map, cards: [], worlds: [] };
@@ -1354,7 +1359,7 @@
     function rolesHtml() {
       const A = S.aim, R = O.roles, f0 = field0(), full = flow.roles.length >= 4;
       const chips = flow.roles.map(id => `<span class="chip on sp-role">${esc(roleOf(id).name)}<button type="button" data-drop="${esc(id)}" aria-label="${esc(fill(A.remove, { role: roleOf(id).name }))}">×</button></span>`).join("");
-      const search = `<div class="sp-ta"><input type="search" id="sp-q" value="${esc(s.q)}" placeholder="${esc(A.search)}" aria-label="${esc(A.searchLabel)}" autocomplete="off"${full ? " disabled" : ""}><div id="sp-hits"></div></div>`;
+      const search = `<div class="sp-ta"><input type="search" id="sp-q" role="combobox" aria-expanded="false" aria-controls="sp-hitbox" aria-autocomplete="list" value="${esc(s.q)}" placeholder="${esc(A.search)}" aria-label="${esc(A.searchLabel)}" autocomplete="off"${full ? " disabled" : ""}><div id="sp-hits"></div></div>`;
       if (!f0) {
         const f = F.find(x => x.id === s.browse);
         const fieldBtns = F.map(x => `<button type="button" class="chip" data-browse="${esc(x.id)}" aria-pressed="${s.browse === x.id}">${esc(x.label)}</button>`).join("");
@@ -1372,24 +1377,41 @@
         <p class="sp-one" id="sp-one">${esc(fill(R.oneField, { field: fl }))} <button type="button" class="linkish link" id="sp-over">${esc(R.startOver)}</button></p>` });
     }
     const hitsNow = () => OF.hits(roles, flow.roles, s.q, field0());
+    // the hits under the search box: a listbox the box owns. The first hit is marked from the start (Enter adds the
+    // marked one), the arrow keys move the mark and wrap, Escape empties the box.
     function drawHits() {
-      const box = $("#sp-hits"); if (!box) return;
-      const h = hitsNow();
-      box.innerHTML = !s.q.trim() ? "" : h.length ? `<ul class="sp-hitlist" aria-label="${esc(S.aim.searchLabel)}">${h.map(r => `<li><button type="button" data-add="${esc(r.id)}">${esc(r.name)}${r.name === r.label ? ` <span class="small muted">${esc(r.fieldLabel)}</span>` : ""}</button></li>`).join("")}</ul>` : `<p class="small muted">${esc(S.aim.none)}</p>`;
+      const box = $("#sp-hits"), i = $("#sp-q"); if (!box) return;
+      const h = hitsNow(), typed = !!s.q.trim();
+      s.hi = h.length ? Math.max(0, Math.min(s.hi || 0, h.length - 1)) : 0;
+      box.innerHTML = !typed ? "" : h.length ? `<ul class="sp-hitlist" id="sp-hitbox" role="listbox" aria-label="${esc(S.aim.searchLabel)}">${h.map((r, n) => `<li role="presentation"><button type="button" role="option" id="sp-hit-${n}" aria-selected="${n === s.hi}"${n === s.hi ? ` class="active"` : ""} data-add="${esc(r.id)}">${esc(r.name)}${r.name === r.label ? ` <span class="small muted">${esc(r.fieldLabel)}</span>` : ""}</button></li>`).join("")}</ul>` : `<p class="small muted" role="status">${esc(S.aim.none)}</p>`;
       box.querySelectorAll("[data-add]").forEach(b => b.onclick = () => add(b.dataset.add, "#sp-q"));
+      if (i) {
+        i.setAttribute("aria-expanded", String(typed && h.length > 0));
+        if (typed && h.length) { i.setAttribute("aria-activedescendant", "sp-hit-" + s.hi); }
+        else i.removeAttribute("aria-activedescendant");
+      }
     }
     function add(id, refocus) {
       const r = roleOf(id), f0 = field0(); if (!r) return;
       if (flow.roles.includes(id)) return;
       if (flow.roles.length >= 4) { s.err = S.aim.full; s.errStep = "roles"; draw(); return; }
       if (f0 && r.field !== f0) { s.err = fill(S.aim.otherField, { field: fieldLabel(f0) }); s.errStep = "roles"; draw(); return; }
-      flow.roles.push(id); save(); s.q = ""; s.err = ""; s.errStep = null; s.browse = null; draw();
+      flow.roles.push(id); save(); s.q = ""; s.hi = 0; s.err = ""; s.errStep = null; s.browse = null; draw();
       const i = refocus && $(refocus); if (i) i.focus();
     }
     const drop = id => { flow.roles = flow.roles.filter(x => x !== id); save(); s.err = ""; s.errStep = null; draw(); };
     function wireRoles() {
       const i = $("#sp-q");
-      if (i) { i.oninput = () => { s.q = i.value; drawHits(); }; i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); const h = hitsNow(); if (h[0]) add(h[0].id, "#sp-q"); } }; drawHits(); }
+      if (i) {
+        i.oninput = () => { s.q = i.value; s.hi = 0; drawHits(); };
+        i.onkeydown = e => {
+          const h = s.q.trim() ? hitsNow() : [];
+          if (e.key === "Enter") { e.preventDefault(); const r = h[s.hi || 0] || h[0]; if (r) add(r.id, "#sp-q"); }
+          else if ((e.key === "ArrowDown" || e.key === "ArrowUp") && h.length) { e.preventDefault(); s.hi = ((s.hi || 0) + (e.key === "ArrowDown" ? 1 : -1) + h.length) % h.length; drawHits(); const on = $("#sp-hit-" + s.hi); if (on) on.scrollIntoView({ block: "nearest" }); }
+          else if (e.key === "Escape" && s.q) { e.preventDefault(); s.q = ""; i.value = ""; s.hi = 0; drawHits(); }
+        };
+        drawHits();
+      }
       main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { drop(b.dataset.drop); const q = $("#sp-q") || main.querySelector("[data-toggle]"); if (q) q.focus(); });
       main.querySelectorAll("[data-browse]").forEach(b => b.onclick = () => { s.browse = s.browse === b.dataset.browse ? null : b.dataset.browse; draw(); const n = main.querySelector(`[data-browse="${CSS.escape(b.dataset.browse)}"]`); if (n) n.focus(); });
       main.querySelectorAll("[data-toggle]").forEach(b => b.onclick = () => {
@@ -1467,16 +1489,23 @@
   // project guide to download (web/project_guide.js). Everything stays in open.tree.
   const atProjects = () => { const R = Routes.parseRoute(location.hash); return R.name === "map" && R.parts[1] === "projects"; };
   const levelWord = c => Copy.map.open.projects.levels[c.project_level] || "";
-  const skillNames = (held, c, ix) => { const t = held.map.tree || {}, names = Object.fromEntries([...(t.nodes || []), ...(t.behaviours || []), ...(t.more || [])].map(n => [n.id, n.name])); return (c.atlas_skills || []).map(id => names[id] || ((ix && ix.skillById[id]) || {}).name || id); };
+  // a skill's name: the tree's, the atlas's, the product graph's; an id none of them knows is read as words, never shown raw
+  const idWords = id => { const w = String(id || "").replace(/^[a-z]+\./, "").replace(/_/g, " ").trim(); return w ? w[0].toUpperCase() + w.slice(1) : ""; };
+  const skillNames = (held, c, ix) => { const t = held.map.tree || {}, names = Object.fromEntries([...(t.nodes || []), ...(t.behaviours || []), ...(t.more || [])].map(n => [n.id, n.name])); return (c.atlas_skills || []).map(id => names[id] || ((ix && ix.skillById[id]) || {}).name || (productNames || {})[id] || idWords(id)); };
   const toolTag = t => t.own ? ` <span class="pj-tag">(${esc(Copy.map.open.projects.yours)})</span>` : t.free ? ` <span class="pj-tag">(${esc(t.free)})</span>` : "";
   const toolWords = t => `${esc(t.name)}${toolTag(t)}`;
-  // copy a text to the clipboard; the line beside the button says it went
+  // copy a text to the clipboard; the line beside the button says it went, then clears; a copy the browser refused
+  // says to copy by hand and stays
+  const COPIED_MS = 4000;
   async function copyText(text, out) {
     let ok = false;
     try { await navigator.clipboard.writeText(text); ok = true; } catch {
       try { const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); ok = document.execCommand("copy"); ta.remove(); } catch { ok = false; }
     }
-    if (out) out.textContent = ok ? Copy.map.open.picked.copied : "";
+    if (!out) return;
+    out.textContent = ok ? Copy.map.open.picked.copied : Copy.map.open.picked.copyFailed;
+    clearTimeout(out._t);
+    if (ok) out._t = setTimeout(() => { out.textContent = ""; }, COPIED_MS);
   }
   async function projectsScreen(held, id) {
     const O = Copy.map.open, P = O.projects;
@@ -1628,8 +1657,7 @@
       const cards = held.cards || [];
       if (cards.length) {
         // the tree page lists the quests (each opens on the Quests page); the Quests page shows them itself
-        const names = Object.fromEntries([...(held.map.tree.nodes || []), ...(held.map.tree.behaviours || [])].map(n => [n.id, n.name]));
-        const row = c => `<a class="op-card op-quest" href="${esc(questHref(c.id))}"><h3>${esc(c.title)}</h3><p>${esc(c.ship)}</p><p class="small muted">${esc(fill(O.builds, { skills: (c.atlas_skills || []).map(id => names[id] || id).join(", ") }))}</p></a>`;
+        const row = c => `<a class="op-card op-quest" href="${esc(questHref(c.id))}"><h3>${esc(c.title)}</h3><p>${esc(c.ship)}</p><p class="small muted">${esc(fill(O.builds, { skills: skillNames(held, c, ix).join(", ") }))}</p></a>`;
         el.innerHTML = (mapUi && mapUi.page === "tree" ? `<section class="op-prev" id="open-quests"><h2>${esc(O.questsHeading)}</h2><p class="small muted">${esc(O.questsLead)}</p><div class="op-grid">${cards.map(row).join("")}</div></section>` : "") + bookHtml;
         wireBook(); return;
       }
@@ -1779,7 +1807,7 @@
   // tapped until the person taps something; other places typed; a portfolio site and where it lives, with a note
   function shareStep(flow, kit, field, h = "h1") {
     const C = Copy.map.flow.share, OF = Routes.OpenFlow, on = new Set(OF.shownPlaces(flow, kit, field)), pf = flow.portfolio || {};
-    const yn = (attr, cur) => [[false, C.no], [true, C.yes]].map(([v, l]) => `<button type="button" data-${attr}="${v}" aria-pressed="${cur === v}"${cur === v ? ` class="on"` : ""}>${esc(l)}</button>`).join("");
+    const yn = (attr, cur) => [[true, C.yes], [false, C.no]].map(([v, l]) => `<button type="button" data-${attr}="${v}" aria-pressed="${cur === v}"${cur === v ? ` class="on"` : ""}>${esc(l)}</button>`).join("");
     return `${askTag(h, C.title)}<p class="sp-hint">${esc(C.lead)}</p>
       <div class="sp-quick" role="group" aria-label="${esc(C.placesAria)}">${OF.fieldPlaces(kit, field).map(p => `<button type="button" class="chip" data-place="${esc(p.id)}" aria-pressed="${on.has(p.id)}" title="${esc(p.note || "")}">${esc(p.label)}</button>`).join("")}</div>
       <label class="tr-lab sp-lab">${esc(C.own)}<input type="text" id="sp-own-places" maxlength="${OF.LIM.ownPlaces}" placeholder="${esc(C.ownHint)}" value="${esc(flow.own_places)}"></label>
@@ -4124,6 +4152,9 @@
     crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [EV.crumb, null]]); showAside(null);
     const roles = g.roles.map(r => ix.roles[r]).sort((a, b) => b.nOpen - a.nOpen);
     const nameOf = id => (ix.skillById[id] || (productNames ? { name: productNames[id] } : null) || { name: id }).name;
+    // a posting names its role by family ("pm" in the product set, the role's id elsewhere): the label, never the id
+    const labels = Object.fromEntries(roles.flatMap(r => [[r.id, r.label], [r.family, r.label]]));
+    const roleLabel = f => labels[f] || (ix.roles[f] || {}).label || "";
     // what sets a role apart: its defining skills, else its most asked skills that are not generic to every role
     const marks = r => (r.definingList.length ? r.definingList : r.asks.filter(a => !GENERIC.has(a.id) && ix.skillById[a.id] && !["credentials", "domain"].includes(ix.skillById[a.id].cluster))).slice(0, 2).map(a => a.id);
     const rg = state.resume ? await rough() : null;
@@ -4165,7 +4196,7 @@
         const line = x => x.lines[0] ? `<span class="small muted">“${esc(x.lines[0].text.length > 120 ? x.lines[0].text.slice(0, 117) + "…" : x.lines[0].text)}”</span>` : "";
         return `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${summary}</span></summary><div class="box-body">${have.length ? `<ul class="plain">${have.map(x => `<li><b>${esc(x.name)}</b> <span class="subtle" data-measure="${esc(fill(EV.roleMeasure, { share: pct(x.w), role: r.label }))}">${pct(x.w)}</span> ${line(x)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(EV.showsNone)}</p>`}${ask.length ? `<p class="small muted">${esc(fill(EV.mayAskList, { names: ask.map(askName).join(", ") }))}</p>` : ""}<p class="small"><a href="#/role/${esc(r.id)}">${esc(EV.openRole)}</a></p></div></details>`; }).join("");
     }).catch(e => { const el = $("#roundtable"); if (el) el.insertAdjacentHTML("afterbegin", `<p class="notice">${esc(EV.readFailed)}</p>`); console.error(e); });
-    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.n) }))}</span><span class="m">${[...e.roles].map(f => esc((ix.roles[f] || {}).label || f)).slice(0, 4).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="emp-all">${esc(all ? EV.fewer : fill(EV.allN, { n: top.length }))}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">${esc(EV.loadFailed)}</p>`; console.error(e); });
+    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.n) }))}</span><span class="m">${[...e.roles].map(roleLabel).filter(Boolean).slice(0, 4).map(esc).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="emp-all">${esc(all ? EV.fewer : fill(EV.allN, { n: top.length }))}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">${esc(EV.loadFailed)}</p>`; console.error(e); });
   }
   function sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) {
     const count = {}; for (const r of roles) for (const id of coreOf(r)) if (rg.shown.has(id) && !GENERIC.has(id)) count[id] = (count[id] || 0) + 1;
