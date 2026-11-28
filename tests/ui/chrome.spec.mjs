@@ -105,7 +105,9 @@ test("sign-in: a rate limit says to wait, never to check the connection", async 
 
 // ---------- About ----------
 test("About: a late class count keeps the scroll and the open employer list", async ({ visitor }) => {
-  const page = await visitor.open({ storage: { "door.email": CAMPUS_EMAIL, "door.where": "", "door.seen": "1" } });
+  // a visitor who has seen About's tips: a first visit opens them and scrolls to the first one, which is the guide's
+  // move and not the late count's (guide.spec.mjs has the tips)
+  const page = await visitor.open({ storage: { "door.email": CAMPUS_EMAIL, "door.where": "", "door.seen": "1", "guide.seen": JSON.stringify({ about: 99 }) } });
   let release; const held = new Promise(r => { release = r; });
   await page.context().route(/data\/catalog\/cornell_tech\.json/, async r => { await held; await r.continue(); });
   await page.goto("/#/about");
