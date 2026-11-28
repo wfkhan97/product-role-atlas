@@ -331,12 +331,12 @@
     }
     const secs = Catalog.mdSections(P.profile_md || "");
     const angle = secs["Networking angle"] ? `<div id="prof-angle"><h2>${esc(CL.angle)}</h2>${Catalog.mdHtml(secs["Networking angle"])}</div>` : "";
-    const bio = secs["Bio"] ? `<details class="disc" style="margin-top:14px"><summary>${esc(CL.more)}</summary><div class="disc-body">${Catalog.mdHtml(secs["Bio"])}</div></details>` : "";
+    const bio = secs["Bio"] ? `<details class="mt-3-5 disc"><summary>${esc(CL.more)}</summary><div class="disc-body">${Catalog.mdHtml(secs["Bio"])}</div></details>` : "";
     const links = [[P.official_profile_url, CL.links.official], [P.personal_site_url, CL.links.site], [P.scholar_url, CL.links.scholar], [P.linkedin_url, CL.links.linkedin]].filter(([u]) => u).map(([u, l]) => `<a class="link" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join(" · ");
     page(`<p class="eyebrow">${esc(CL.professor)}</p><h1>${esc(P.name)}</h1>
       <p class="lead">${esc([P.title, P.affiliation].filter(Boolean).join(" · ") || CL.noTitle)}</p>
       ${(P.expertise || []).length ? `<div class="tags" id="prof-tags">${P.expertise.map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>` : ""}
-      ${taught}${gapsBlock}${angle}${links ? `<p class="small" style="margin-top:14px">${links}</p>` : ""}${bio}`, true);
+      ${taught}${gapsBlock}${angle}${links ? `<p class="mt-3-5 small">${links}</p>` : ""}${bio}`, true);
   }
 
   // "Your gaps" on the professor card: "" when no role is chosen, no fit is on file, or the instructor teaches nothing

@@ -71,3 +71,18 @@ test("style.css has one rule set per component, on the tokens, and no second cop
   // the open flow's step frame is scoped to its page: the Skill path game's page carries the same class name
   assert.ok(!/^\.sp (\{|h1)/m.test(css), "a bare .sp rule in style.css");
 });
+
+test("skel: a grey placeholder, its known kinds as classes and nothing else", () => {
+  assert.equal(UI.skel(), '<span class="skel"></span>');
+  assert.equal(UI.skel("w70", "tall", "x\" onload=\""), '<span class="skel w70 tall"></span>');
+  assert.match(css, /^\.skel \{/m);
+  assert.match(css, /prefers-reduced-motion: reduce\) \{ \.skel \{ animation: none; \} \}/);
+});
+
+test("spacing on one element is a class on the token scale, never a fixed style attribute", () => {
+  for (const f of ["app.js", "classes.js", "skillmap.js", "gameshell.js", "guide.js", "launcher.js"]) {
+    const src = fs.readFileSync(path.join(web, f), "utf8");
+    const fixed = src.match(/ style="[^"$]*"/g) || [];
+    assert.deepEqual(fixed, [], `${f}: a style attribute with a fixed value`);
+  }
+});

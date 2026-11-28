@@ -4082,34 +4082,60 @@ Find jobs and Networking, Explore careers, Find classes and the games, the open 
 - **Not changed, on purpose**: no copy, no route, no flag, no behaviour. The projects and picked pages keep their
   markup (PR #231 landed there the same day) and take the components through CSS.
 
-Tests: `tests/web/ui.test.mjs` (the helpers, the shell, one rule set per component). `npm run test:ui` fails on the
-same two specs as `main` (Later).
+Tests: `tests/web/ui.test.mjs` (the helpers, the shell, one rule set per component). `npm run test:ui` failed on the
+same two specs as `main` (fixed in the next section).
+
+## The audit's follow-ups (`feat/audit-followups`, 2026-11-27)
+
+The owner merged "One set of components" and asked for everything the audit had left under Later. What changed, and
+what stayed with its reason (the reasons are the new Later lines).
+
+- **The open flow.** Yes comes before No on both steps that ask (the share step had No first). "Copied." clears
+  after four seconds, and a copy the browser refuses says "Select the text and copy it." and stays. The write to
+  `/api/open` is given up after 95 s (the function stops at 80 s), so a hung request ends in "Try again" and not in
+  a spinner. The role search is a combobox: the first hit is marked, the arrow keys move the mark and wrap, Enter
+  adds the marked one, Escape empties the box.
+- **Labels where ids showed.** The event screen's employer rows named roles by family id ("pm, tpm"): a product
+  posting's family is not its role id, so the lookup missed. The open tree's "Builds:" line named a skill the tree
+  does not hold by its id. Both read the label now; an id nothing knows is read as words (`idWords`), never raw.
+- **A skill's card on a narrow screen.** At 1180px and under the rail is off the canvas until its tab opens it, and
+  a tapped skill drew its card there unseen (the auditor's report held). `showAside` opens the rail.
+- **The feedback box is a native `<dialog>`**, shown modal: the browser makes the page inert, draws the scrim
+  (`::backdrop`) and closes it on Escape; the Tab loop stays (a modal dialog alone lets Tab out to the browser's
+  bar). Escape no longer also closes what is under it.
+- **The résumé line and the tech set.** With `TECH_ENABLED` on the model read is asked for the set "all", and the
+  line looked for its saved answer under "both": an empty answer never read as "once by our AI reader". The lookup
+  uses the set that was asked. This was `resume.spec.mjs`'s failure on `main`.
+- **The About spec** measured the guide: a first visit opens the page's tips and scrolls to the first. Its visitor
+  has now seen them (`guide.seen`); the page itself never moved. `npm run test:ui` has no known failure.
+- **Find jobs.** The page's layout is drawn in grey while the file loads (`UI.skel`), and a facet is counted in one
+  pass over the rows the other filters keep (a tally for role, level, sector and company) where it was one pass per
+  value; a test holds the two ways equal on the real file.
+- **The stylesheet.** 50 rules for classes nothing draws are gone (`gcard`, `start-*`, `gm-cols`, `card-link`, …).
+  Forty fixed `style=` attributes became spacing classes on the token scale (`.m-0`, `.mt-2`, …; `ui.test.mjs`
+  refuses a new one). A list row has two densities, 12px and 8px, where it had five. The picker's small text is at
+  the 13px floor.
+- **The downloaded guide** carries the site's colours by value (the file stands alone), its type stack and its
+  weight 500, where it had its own palette and bold.
 
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
 done). One line per item; the section that explains it is named where it helps.
 
-- **Components, what the 2026-11-27 pass left** (the section above): the games' answer buttons still have their own
-  markup (`.gopt`, `.ktr-tile`, `.wd-chip`, `.sp-card`, `.cl-line` share the tile's edge and hover, not one helper);
-  `.list .r` has five paddings; about 60 inline `style=` attributes; about 25 dead rules (`gcard`, `gg`, `start-*`,
-  `gm-cols`, `gtr-title`, `cls-email`, …); `skillmap.js` hard-codes its English; raw pixel spacing in the older
-  blocks. Most screens still write a button's markup by hand: move one to `UI.btn` when its screen is next touched.
-- **Dialogs are hand-built three ways** (the feedback box, the guide card, the posting panel, each with its own focus
-  trap and Escape). Native `<dialog>` and the `popover` attribute would replace all three; it changes behaviour, so
-  it needs its own specs.
-- **The role type-ahead in the open flow has no arrow keys** and no combobox roles; Enter adds the first hit, which
-  nothing highlights. `web/pick.js` already is the accessible one.
-- **At 1180px or narrower a tapped skill on a role page draws its card into the closed rail** (auditor's report,
-  2026-11-27; not re-checked): open the rail, or a sheet, when a skill is picked.
-- **Open flow, seen by the audit**: Yes and No swap sides between the tools step and the share step; "Copied." never
-  clears and a failed copy says nothing; `writeOpen` has no client timeout (the function stops at 80 s); the help
-  line's Tally link carries the email in its query string; the downloaded guide has its own palette and weights.
-- **Find jobs loads 14.5 MB** behind one line of text, and a facet click recounts every facet on the main thread
-  (248 ms measured). A worker and a skeleton; the list itself draws 50 cards and needs no virtualization.
-- **The event screen prints raw role ids** ("pm, tpm") in its employer rows (`app.js`, the event's `.list`), and the
-  open tree prints a raw skill id ("Builds: enterprise_saas", `drawOpenNext`): both skip the label lookup their
-  neighbour uses.
+- **Components, left on purpose** ("The audit's follow-ups", 2026-11-27): the games' answer buttons keep their own
+  markup and `skillmap.js` its hard-coded English and its 10px and 11px chart labels (both screens are frozen, below);
+  most screens write a button's markup by hand and take the shared look from the class (move one to `UI.btn` when
+  its screen is next touched); raw pixel spacing in the older blocks.
+- **Find jobs still reads and expands 14.5 MB on the main thread** before its first card. A worker for the load and
+  the search means every caller of `Jobs.searchJobs` and `filterJobs` waits for an answer: a change to the whole
+  screen with its own specs, after the 2026-12-02 session.
+- **The guide card and a posting's panel are not native dialogs.** The guide is not modal (the page behind it is
+  read and pressed), and the panel is the page's `<aside>`, a dialog only on a phone. Each keeps its own keys.
+- **A booking or help link carries the email in Tally's address** (`Preview.bookingHref`), as every form of
+  `web/doors.js` does (`HIDDEN`): Tally reads hidden fields from the query alone. To drop it, the form asks for it.
+- **The signed-in start screen's role search** (`aimHtml`, behind `ACCOUNTS_ENABLED`) has no arrow keys; the open
+  flow's has them. One search for both when accounts open.
 - **Workday throttles the hosted runners** (2026-11-23): two runs in a row lost both shards to 429s. To try: a slower
   pace with a longer wait on 429, or `"runner": ["self-hosted", "macOS"]` for the family (`docs/SELF_HOSTED_RUNNER.md`).
 - **`posted` depends on the machine's time zone** (2026-11-23): `build_graph` on a Mac writes dates a day earlier than
@@ -4241,15 +4267,6 @@ done). One line per item; the section that explains it is named where it helps.
   mapped to role and skill boosts), then embeddings of titles and skill names built per refresh with an `/api/embed`
   route (Anthropic has no embeddings endpoint; Voyage or similar needs a key in the Vercel project), blended with the
   word score.
-- Form controls drawn with `--border` edges (`.wait input`, `.ctx select`, `.sm-plan select`, `.cls-select`, `.cls-email`,
-  `.jsearch input`, `.jsort select`, `.fb textarea`) sit near 1.4:1 against their surface; `--input` holds 3:1. Move
-  them to `--input` (some are on frozen screens).
-- `tests/ui/resume.spec.mjs`'s "the résumé line names the AI reader only when it answered (200)" fails on `main`
-  (seen again 2026-11-27, unrelated to the open flow): the stubbed 200 answers `{}` and the line never says "AI
-  reader". The stub, or the line's rule, wants a look.
-- `tests/ui/chrome.spec.mjs`'s "About: a late class count keeps the scroll and the open employer list" fails on
-  `main` in most local runs (seen 2026-11-08 on 733401d, both viewports, and again 2026-11-27): the page moves about 200px when the count
-  lands. CI does not run the UI suite, so nothing flags it; the About screen's late redraw wants a look.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 
 **The pipeline**

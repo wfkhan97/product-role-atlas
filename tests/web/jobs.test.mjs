@@ -606,3 +606,13 @@ test("roleKey: two ids that share a label filter as one role", () => {
   assert.deepEqual(f({ role: "x" }), [], "without a key a role is itself");
   assert.deepEqual(ids(J.filterJobs(R, { role: "product_manager" }, { fieldOf: kctx.fieldOf })), ["x2"], "a ctx without roleKey compares ids");
 });
+
+test("facetCounts in one pass gives what one filter per value gives, on the real file", () => {
+  const file = JSON.parse(fs.readFileSync(path.join(web, "data", "jobs_open.json"), "utf8"));
+  const rows = J.rowsOf(file).filter((_, i) => i % 7 === 0);   // a seventh of the file keeps the test quick
+  const slow = (f, facet, values) => Object.fromEntries(values.map(v => [v, J.filterJobs(rows, Object.assign({}, f, { [facet]: v }), {}).length]));
+  const top = key => { const n = {}; for (const r of rows) if (r[key]) n[r[key]] = (n[r[key]] || 0) + 1; return Object.keys(n).sort((a, b) => n[b] - n[a]).slice(0, 12); };
+  const values = { role: top("role"), level: [...new Set(rows.map(J.levelWord))].filter(Boolean), sector: top("sector"), company: top("company"), entry: J.ENTRY_IDS, years: J.YEARS.map(([v]) => v), sponsor: J.SPONSOR, remote: [true], noclear: [true], group: J.EMPLOYERS.map(e => Array.isArray(e) ? e[0] : e) };
+  const states = [{}, { remote: true }, { level: values.level[0], sponsor: "open" }, { company: values.company[0], entry: "grads" }, { role: values.role[0], sector: values.sector[0] }, { location: "new york", years: values.years[0] }];
+  for (const f of states) for (const [facet, vs] of Object.entries(values)) assert.deepEqual(J.facetCounts(rows, f, facet, vs, {}), slow(f, facet, vs), `${facet} with ${JSON.stringify(f)}`);
+});

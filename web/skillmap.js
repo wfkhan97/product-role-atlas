@@ -360,7 +360,7 @@
     const C = ui.chart; if (!C || !data || !document.body.contains(C.el)) return;
     const FS = data.FS[C.field]; const w = C.el.clientWidth, h = C.el.clientHeight; if (!w || !h) return;
     const LN = Copy.explore.field.lanes;
-    if (!FS) { C.el.innerHTML = `<p class="small muted" style="padding:16px">${esc(LN.loading)}</p>`; return; }
+    if (!FS) { C.el.innerHTML = `<p class="p-4 small muted">${esc(LN.loading)}</p>`; return; }
     const rows = Atlas.fieldChart({ shares: Object.fromEntries(Object.entries(FS).filter(([id]) => data.byId[id])), skillById: data.ix.skillById, roles: C.roles, generic: C.generic });
     const items = rows.map(r => ({ id: r.id, name: data.byId[r.id].name, share: r.share, lane: laneOfSkill(r) }));
     // a lane with no dot is left out (with a resume that shows every skill, say), so no empty band is drawn

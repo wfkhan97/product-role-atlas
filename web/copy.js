@@ -1097,6 +1097,7 @@
         promptLead: "Paste it into the tool you build with.",
         copy: "Copy",
         copied: "Copied.",
+        copyFailed: "Select the text and copy it.",
         copyPrompt: "Copy the starter prompt",
         copyPost: "Copy the draft post",
         share: "Share it",

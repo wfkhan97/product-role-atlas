@@ -105,7 +105,9 @@ test("sign-in: a rate limit says to wait, never to check the connection", async 
 
 // ---------- About ----------
 test("About: a late class count keeps the scroll and the open employer list", async ({ visitor }) => {
-  const page = await visitor.open({ storage: { "door.email": CAMPUS_EMAIL, "door.where": "", "door.seen": "1" } });
+  // a visitor who has seen About's tips: a first visit opens them and scrolls to the first one, which is the guide's
+  // move and not the late count's (guide.spec.mjs has the tips)
+  const page = await visitor.open({ storage: { "door.email": CAMPUS_EMAIL, "door.where": "", "door.seen": "1", "guide.seen": JSON.stringify({ about: 99 }) } });
   let release; const held = new Promise(r => { release = r; });
   await page.context().route(/data\/catalog\/cornell_tech\.json/, async r => { await held; await r.continue(); });
   await page.goto("/#/about");
@@ -178,9 +180,10 @@ test("the theme button names what a press does, every press changes the page, an
     await page.emulateMedia({ colorScheme: scheme });
     const btn = page.locator("#theme");
     const read = () => page.evaluate(() => ({ label: document.querySelector("#theme").getAttribute("aria-label"), bg: getComputedStyle(document.body).backgroundColor }));
-    let was = await read();
     const other = scheme === "light" ? "dark" : "light";
-    expect(was.label, "from the device's theme a press shows the other").toBe(Copy.fill(Copy.common.themeTo, { theme: Copy.common.themeNames[other] }));
+    // the page hears the device's change in a listener, a moment after emulateMedia returns: wait for the name
+    await expect.poll(async () => (await read()).label, { message: "from the device's theme a press shows the other" }).toBe(Copy.fill(Copy.common.themeTo, { theme: Copy.common.themeNames[other] }));
+    let was = await read();
     const first = was.bg;
     for (let i = 1; i <= 3; i++) {
       await btn.click();

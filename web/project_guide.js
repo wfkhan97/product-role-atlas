@@ -206,22 +206,26 @@
     return out.join("\n");
   }
 
-  const CSS = `:root{color-scheme:light dark;--bg:#ffffff;--fg:#1d211f;--muted:#59615c;--line:#d8ddd9;--card:#f5f7f6;--accent:#1d7a3d;--tint:#e9f4ec}
-@media (prefers-color-scheme:dark){:root{--bg:#131614;--fg:#e7ebe8;--muted:#a2aba5;--line:#2c322e;--card:#1b1f1c;--accent:#72d091;--tint:#1a2a20}}
+  // the file stands alone, so the site's tokens are written out here by value (web/tokens/colors.css: the light and
+  // the dark theme, followed from the device), with the site's type stack, its weight 500 for headings and emphasis,
+  // its 8px controls and 12px boxes
+  const CSS = `:root{color-scheme:light dark;--bg:oklch(0.99 0.003 160);--fg:oklch(0.24 0.01 160);--head:oklch(0.18 0.01 160);--muted:oklch(0.45 0.01 160);--line:oklch(0.88 0.006 160);--card:oklch(0.965 0.004 160);--accent:oklch(0.485 0.15 145);--tint:oklch(0.485 0.15 145 / 0.12)}
+@media (prefers-color-scheme:dark){:root{--bg:oklch(0.16 0.008 160);--fg:oklch(0.88 0.005 160);--head:oklch(0.95 0.005 160);--muted:oklch(0.72 0.01 160);--line:oklch(0.30 0.012 160);--card:oklch(0.20 0.009 160);--accent:oklch(0.80 0.15 145);--tint:oklch(0.80 0.15 145 / 0.14)}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 "Geist",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3,b,strong{font-weight:500;color:var(--head)}
 main{max-width:720px;margin:0 auto;padding:24px 16px 56px}
-h1{font-size:1.8rem;line-height:1.2;margin:6px 0 10px}
+h1{font-size:1.8rem;line-height:1.2;letter-spacing:-0.015em;margin:6px 0 10px}
 h2{font-size:1.2rem;margin:34px 0 8px;padding-top:18px;border-top:1px solid var(--line)}
 h3{font-size:1rem;margin:16px 0 4px}
 p{margin:0 0 10px}ul,ol{padding-left:22px;margin:0 0 10px}li{margin:4px 0}
 a{color:var(--accent);overflow-wrap:anywhere}
 .kicker{color:var(--muted);font-size:.9rem;margin:0}
-.level{display:inline-block;margin:14px 0 0;padding:2px 10px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:.85rem;font-weight:600}
+.level{display:inline-block;margin:14px 0 0;padding:2px 10px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:.85rem;font-weight:500}
 .muted{color:var(--muted)}
 .tag{color:var(--muted);font-size:.9rem}
 details{margin:0 0 10px}summary{cursor:pointer;color:var(--accent);min-height:32px}
-pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:0 0 8px;font:inherit}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 8px;font:inherit}
 .ticks{list-style:none;padding:0}.ticks li{margin:8px 0}
 .ticks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .ticks input{width:20px;height:20px;margin:3px 0 0;flex:none;accent-color:var(--accent)}
@@ -230,7 +234,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);border:1p
 button{font:inherit;min-height:40px;padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .foot{margin-top:40px;color:var(--muted);font-size:.9rem}
-@media print{:root{--bg:#fff;--fg:#000;--muted:#444;--line:#bbb;--card:#fff;--accent:#000;--tint:#fff}button{display:none}main{max-width:none;padding:0}a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;color:#444}h2{break-after:avoid}pre,li{break-inside:avoid}}`;
+@media print{:root{--bg:#fff;--fg:#000;--head:#000;--muted:#444;--line:#bbb;--card:#fff;--accent:#000;--tint:#fff}button{display:none}main{max-width:none;padding:0}a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;color:#444}h2{break-after:avoid}pre,li{break-inside:avoid}}`;
 
   // the ticks (this file's own localStorage, keyed by its title) and the Copy buttons; no value is written into it
   const SCRIPT = `(function(){var K="project-guide:"+document.title;function get(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return{}}}function put(v){try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}}

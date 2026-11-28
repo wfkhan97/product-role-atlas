@@ -350,13 +350,16 @@ and evals run the code the site runs.
   `--shadow-panel/pop/dialog`, `--scrim`). No component or design library: the site has no build step and ships no
   dependency.
 - `ui.js` — the shared components as render helpers (`window.UI`), each returning an HTML string for a template
-  literal: `cx`, `attrs`, `btn`, `linkBtn`, `close`, `chip`, `pill`, `eyebrow`, `spinner`, `callout`, `status`,
+  literal: `cx`, `attrs`, `btn`, `linkBtn`, `close`, `chip`, `pill`, `eyebrow`, `spinner`, `skel`, `callout`, `status`,
   `field`. Each has one rule set in `style.css`, and a screen places a component, never draws it:
   `.btn` (`.primary`, `.quiet`; `.sm`, `.lg`; hover, press, disabled), `button.close`, `.icon`, the field (every
   text input, select and text area through one `:where()` rule; `.input-sm`, `.input-lg`; `.field`), `.chip` (`.on`
   or `aria-pressed`; `.lg`; `.dead`), `.seg` (`.lg`), `.pill` (`.blue`, `.amber`, `.neutral`), `.callout` (`.wait`
   is its first name; `.busy`, `.amber`, `.plain`), `.spinner`, `.status` (`.error`, `.done`), `.eyebrow`, the card
-  (`.surface`: one edge, corner and fill), the tile (`.tile`: one answer among a few), `.sr-only`. A screen's older
+  (`.surface`: one edge, corner and fill), the tile (`.tile`: one answer among a few), `.skel` (a grey line or box
+  while content loads), `.sr-only`, and the spacing classes (`.m-0`, `.mt-1` to `.mt-5`, `.mb-1`, `.p-4`: the token
+  scale on one element, in place of a `style` attribute). A list row (`.list .r`) has two densities: 12px, and 8px
+  in a panel or a box (`.list.dense`). The feedback box is a native `<dialog>` (`.fb-box`, its scrim `::backdrop`). A screen's older
   class for the same thing (`.jcard`, `.pj-card`, `.sp-opt`, `.gopt`, `.pj-level`, …) is listed in the component's
   selector, so it keeps its name and only its own padding and layout. New markup uses the helper and the
   component's class.

@@ -270,13 +270,38 @@
     return jobs.filter(row => matches(row, f, ctx, locToks));
   }
   // how many rows each value of a facet would leave on, with the other filters as they are (the facet's own current
-  // value plays no part); a field value drops a role outside that field, as the rail does
+  // value plays no part); a field value drops a role outside that field, as the rail does.
+  // One pass over the rows for the other filters, then the facet's own test on what is left: a facet whose test is
+  // "the row's value equals it" (role, level, sector, company) is a tally, so a hundred roles cost one pass and not a
+  // hundred (a click recounted every facet in 248 ms on the 2026-11 file). Field and location keep the plain way: a
+  // field value changes the role filter, a location is words.
+  const TALLY = {
+    role: (row, ctx) => keyOf(row.role, ctx), level: row => levelWord(row), sector: row => row.sector, company: row => row.company,
+  };
   function facetCounts(jobs, f, facet, values, ctx) {
     const out = {};
+    if (facet === "field" || facet === "location") {
+      for (const v of values) {
+        const g = Object.assign(blankFilter(), f || {}, { [facet]: v });
+        if (facet === "field" && g.role && v && !roleInField(g.role, v, ctx)) g.role = "";
+        out[v] = filterJobs(jobs, g, ctx).length;
+      }
+      return out;
+    }
+    const off = blankFilter()[facet];
+    const base = filterJobs(jobs, Object.assign({}, f || {}, { [facet]: off }), ctx);
+    const keyFn = TALLY[facet];
+    if (keyFn) {
+      const n = new Map();
+      for (const row of base) { const k = keyFn(row, ctx); n.set(k, (n.get(k) || 0) + 1); }
+      for (const v of values) out[v] = !v ? base.length : n.get(facet === "role" ? keyOf(v, ctx) : v) || 0;
+      return out;
+    }
     for (const v of values) {
-      const g = Object.assign(blankFilter(), f || {}, { [facet]: v });
-      if (facet === "field" && g.role && v && !roleInField(g.role, v, ctx)) g.role = "";
-      out[v] = filterJobs(jobs, g, ctx).length;
+      if (!v) { out[v] = base.length; continue; }
+      const one = Object.assign(blankFilter(), { [facet]: v });
+      let c = 0; for (const row of base) if (matches(row, one, ctx, [])) c += 1;
+      out[v] = c;
     }
     return out;
   }
