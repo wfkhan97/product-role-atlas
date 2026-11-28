@@ -4085,6 +4085,29 @@ Find jobs and Networking, Explore careers, Find classes and the games, the open 
 Tests: `tests/web/ui.test.mjs` (the helpers, the shell, one rule set per component). `npm run test:ui` fails on the
 same two specs as `main` (Later).
 
+## Workday from a home address, in a fraction of the requests (`fix/workday-refused-address`, 2026-11-27)
+
+After the 2026-11-23 refresh 69% of the 76,248 open MBA postings had been seen that week (52,907); of the 23,341 that
+had not, 15,487 were Workday's, where 176 of 311 employers with open postings were never reached.
+
+- **The cause is the address, not the pace.** A dry run of one Workday employer on a fresh hosted runner (run
+  46065377192, one thread) got 429 on its first request and on 172 of 305; 30 of 30 of the same requests from a home
+  address answered 200 that hour. More hosted jobs or a slower pace cannot help, so the plan's third change (hosted
+  jobs packed by employer) is dropped for Workday.
+- **Workday runs on the self-hosted Mac**, through the repository variable `REFRESH_SELF_HOSTED` (families,
+  comma-separated) read by the gate job of the three refresh workflows. A variable, not an edit of FAMILIES, because
+  a job for a runner that is not there waits in the queue: the owner installs the runner, then sets it.
+- **A refused site stops the job in minutes.** `common` counts each site's answers; at 40% of 50 or more answered 429
+  the site is refused for the process, a request to it raises `Refused` unsent, and `pipeline.scrape` skips the
+  employers it has not started and writes nothing for one it was reading. Two hosted Workday jobs ran 340 minutes
+  each to no use; the build job waited for them.
+- **A board under 2,000 postings is walked, not searched** (`workday.WALK_UNDER`). The 117 MBA searches overlap and
+  stop at a page cap; one walk with no search text reads every posting once. Travelers (388 listed): 20 requests
+  against 519, the same 60 kept. Palo Alto Networks (1,334): 67 against 612, all 420 the searches kept and 21 they
+  missed. Fannie Mae: 3 requests (305 on the refused runner). A walked fetch has no capped search, so it is complete and the merge can close what is gone. 195 of the 218
+  boards list under 2,000 (5,890 pages in all); the eleven that answer exactly 2,000 (where the API stops counting)
+  and the ten above keep their searches, as do the sampling set and a board with `keep_queries`.
+
 ## Later
 
 The backlog, pruned on 2026-11-06 (the audit folded duplicates and dropped what the dated sections above record as
@@ -4110,13 +4133,14 @@ done). One line per item; the section that explains it is named where it helps.
 - **The event screen prints raw role ids** ("pm, tpm") in its employer rows (`app.js`, the event's `.list`), and the
   open tree prints a raw skill id ("Builds: enterprise_saas", `drawOpenNext`): both skip the label lookup their
   neighbour uses.
-- **Workday throttles the hosted runners** (2026-11-23): two runs in a row lost both shards to 429s. To try: a slower
-  pace with a longer wait on 429, or `"runner": ["self-hosted", "macOS"]` for the family (`docs/SELF_HOSTED_RUNNER.md`).
+- **The Workday boards of 2,000 postings or more** (21 of 218, 2026-11-27) still take the 117 searches, and their
+  searches still stop at the page cap (Abbott: 1,078 requests, 22 minutes, 45 searches capped). To try: a walk per facet value (job family or country), each under 2,000.
+- **Eightfold, Avature and Google** had 1,641, 434 and 711 open postings not seen in the 2026-11-23 refresh though
+  their jobs succeeded: find out whether those are partial fetches or postings no fetch can close.
 - **`posted` depends on the machine's time zone** (2026-11-23): `build_graph` on a Mac writes dates a day earlier than
   the runner does. Read the date in UTC so a local rebuild gives the runner's files.
 - **The other adapters that read a page per posting** (Eightfold, Phenom, iCIMS, Radancy, Jibe, SmartRecruiters, Avature) ask the backlog first as Workday does (`common.Held`), once the first scheduled run shows what the change saved.
 - **Scrape jobs by employer, balanced by time** (the third change). Workday is cut in two in registry order: one half took 272 minutes (Accenture alone 150), the other 187. Pack employers into jobs by the seconds of their last run (the logs store has them), the largest alone; not a job per employer (a minute of setup each, and a private repository is billed by the started minute).
-- **Workday's listing** is ~61,000 of a shard's 78,632 requests, and 1,313 searches stopped at the page cap: measure one walk of a large board against the overlapping searches before changing it (Workday may cap the offset).
 - **The tagger itself**: 0.3 s a posting for 283 patterns; time each pattern on a sample before splitting the extract across jobs.
 - **Five employers with no board the scrape can read** (2026-11-22): Riot is on Workable and Hilbert on Rippling (no adapter for either); no board was found for Nothing, Corridor or Formation. Each logs one error a refresh and closes nothing, so its held postings stay open: decide between an adapter and marking the row unverified, after checking what extract does with a file whose employer left the registry.
 - **The Product and tech fields for signed-in people.** `/api/tree` and `#/map/start` are MBA only: bundle both sets for `api/tree.js` as `api/open.js` does and pass `true` to `treeRoles` (`evals/quests.mjs` already has product and tech cases).

@@ -138,7 +138,8 @@ PLAN.md, "A model read of the backlog").
 
 ### Scheduled jobs
 
-Nothing on a schedule depends on a Mac. Each refresh runs on GitHub-hosted runners, pulls the backlog, scrapes,
+Each refresh runs on GitHub-hosted runners, except the families named in the repository variable
+`REFRESH_SELF_HOSTED` (Workday: it answers 429 to GitHub's runners), which run on the self-hosted Mac. It pulls the backlog, scrapes,
 pushes each file back as it is written, re-extracts, rebuilds the graph, runs the checks and opens a `data/` pull
 request, which it merges itself when every check passes (a failing run leaves a draft; the repository variable
 `REFRESH_AUTO_MERGE=off` leaves every pull request open).
@@ -152,7 +153,9 @@ request, which it merges itself when every check passes (a failing run leaves a 
 | `ci.yml` | every pull request and push to `main` | |
 
 By hand: `gh workflow run refresh-mba.yml [-f ats=workday] [-f only="Accenture"] [-f dry_run=true]`. A job board
-that blocks GitHub's runners can run on a self-hosted runner (`docs/SELF_HOSTED_RUNNER.md`). Every stage run writes
+that blocks GitHub's runners runs on a self-hosted runner: install it (`docs/SELF_HOSTED_RUNNER.md`), then set
+`REFRESH_SELF_HOSTED=workday` (comma-separated families). Without it a scrape job stops asking a site that refuses
+its address after 50 requests and leaves that site's employers as they were. Every stage run writes
 one row to the `runs` table (`pipeline/log.py`, `PIPELINE_RUNS=off` turns it off).
 
 `verify-standards.yml` is not a refresh: it runs `pipeline.standards verify` and the standards eval, and opens an

@@ -267,6 +267,8 @@ def check_missing(still_open, company, cfg, old, fetched, closed_since=None):
     def ask(j):
         try:
             return still_open(company, cfg, j)
+        except common.Refused:  # the site refuses this address: no check can be made, the fetch stops
+            raise
         except Exception as e:  # a check never fails the fetch
             logger.debug("%s: check of %s failed: %s: %s", company, j.get("url"), type(e).__name__, e)
             return None
@@ -367,6 +369,7 @@ def main():
     run_timer = log.Timer()
     totals = collections.Counter()
     failed = []
+    refused = []   # employers not read because their site refuses this address (common.Refused)
     lock = threading.Lock()
 
     def run(item):
@@ -375,6 +378,10 @@ def main():
         today = time.strftime("%Y-%m-%d")
         name = entry["company"]
         t = log.Timer()
+        if common.refused(entry.get("config", {}).get("host", "")):  # the site refuses this address: see common.Refused
+            with lock:
+                refused.append(name)
+            return (name, entry["ats"], "not fetched: the site refuses this address")
         try:
             cfg, ok, cat = entry.get("config", {}), title_ok, entry.get("category")
             if args.roles == "mba":  # some title rules and searches depend on the kind of employer
@@ -453,6 +460,10 @@ def main():
                 saved, note = backlog.push_file_safely(path, args.roles)
                 (logger.info if saved else logger.error)("%s", note)
             return (name, entry["ats"], f"{len(uniq)} jobs in {t.seconds:.0f}s" + (f"; PARTIAL: {partial}" if partial else ""))
+        except common.Refused:  # met mid-fetch: the file is as it was, nothing closed
+            with lock:
+                refused.append(name)
+            return (name, entry["ats"], "not fetched: the site refuses this address")
         except Exception as e:
             logger.error("%s (%s) failed after %s: %s: %s", name, entry["ats"], t, type(e).__name__, e, exc_info=True)
             with lock:
@@ -469,6 +480,10 @@ def main():
                 totals["folded"], totals["incomplete"], totals["checked"], totals["reused"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
+    if refused:
+        logger.error("not fetched, the site refuses this address (%s): %d employers: %s",
+                     "; ".join(f"{s} answered 429 to {n429} of {n} requests" for s, (n, n429) in common.refusals().items()),
+                     len(refused), ", ".join(sorted(refused)))
     if count is not None:
         roles_seen, roles_kept = collections.Counter(), collections.Counter()
         for c in count.values():

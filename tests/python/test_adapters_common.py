@@ -47,6 +47,7 @@ def no_sleep(monkeypatch):
     waits = []
     monkeypatch.setattr(common.time, "sleep", waits.append)
     common.STATS.clear()
+    common._answers.clear()
     return waits
 
 
@@ -130,3 +131,36 @@ def test_listing_failures_are_kept_per_thread():
     t = threading.Thread(target=lambda: (common.start_fetch(), seen.append(common.listing_failures())))
     t.start(); t.join()
     assert seen == [[]] and common.listing_failures() == ["this thread"]
+
+
+# ---------- a site that refuses this address ----------
+def test_a_site_that_answers_429_to_most_requests_is_refused_and_no_longer_asked(monkeypatch, no_sleep):
+    request, calls = fake_request([429] * 200)
+    monkeypatch.setattr(common.SESSION, "request", request)
+    for _ in range(16):   # three tries each: 48 answers, all 429, under REFUSE_MIN
+        assert common.get("https://acme.wd5.myworkdayjobs.com/wday/cxs/acme/jobs").status_code == 429
+    assert not common.refused("acme.wd5.myworkdayjobs.com")
+    with pytest.raises(common.Refused):   # the 50th answer tips it: the third try is not made
+        common.get("https://other.wd1.myworkdayjobs.com/wday/cxs/other/jobs")
+    assert len(calls) == 50 and common.refused("https://third.wd3.myworkdayjobs.com/x")
+    with pytest.raises(common.Refused):
+        common.post("https://third.wd3.myworkdayjobs.com/x")
+    assert len(calls) == 50, "a refused site is not asked again"
+    assert common.refusals() == {"myworkdayjobs.com": (50, 50)}
+    assert not common.refused("https://boards.greenhouse.io/acme"), "another site is not touched"
+
+
+def test_a_site_with_some_429s_among_many_answers_is_not_refused(monkeypatch, no_sleep):
+    request, _ = fake_request(([429] + [200] * 9) * 30)   # one in ten, as a home address meets on a long run
+    monkeypatch.setattr(common.SESSION, "request", request)
+    for _ in range(200):
+        common.get("https://acme.wd5.myworkdayjobs.com/jobs")
+    assert not common.refused("https://acme.wd5.myworkdayjobs.com/jobs") and common.refusals() == {}
+
+
+def test_site_of_is_the_last_two_labels_of_the_host():
+    assert common.site_of("https://acme.wd5.myworkdayjobs.com/wday/cxs") == "myworkdayjobs.com"
+    assert common.site_of("acme.wd5.myworkdayjobs.com") == "myworkdayjobs.com"
+    assert common.site_of("https://Boards.Greenhouse.io:443/x") == "greenhouse.io"
+    assert common.site_of("") == ""
+

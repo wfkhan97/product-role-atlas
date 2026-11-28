@@ -81,6 +81,8 @@ jobs:
         id: families
         env:
           ATS: ${{ inputs.ats || 'all' }}
+          # REFRESH_SELF_HOSTED: the families that run on the self-hosted Mac (see refresh-mba.yml, docs/SELF_HOSTED_RUNNER.md)
+          SELF_HOSTED: ${{ vars.REFRESH_SELF_HOSTED }}
           COUNT_ONLY: ${{ inputs.count_only }}
           # Every family data/registry.json uses. A count-only run lists the four families it can count without
           # detail fetches. The list is built here, not in the scrape job's matrix (a job-level `if` cannot read
@@ -117,6 +119,10 @@ jobs:
               rows = [r for r in rows if r["family"] == ats]
               if not rows:
                   raise SystemExit(f"::error::no family {ats!r} in this run")
+          mine = {x.strip() for x in os.environ.get("SELF_HOSTED", "").split(",") if x.strip()}
+          for r in rows:
+              if r["family"] in mine:
+                  r["runner"] = ["self-hosted", "macOS"]
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write("families=" + json.dumps(rows) + "\n")
           print(", ".join(r["family"] for r in rows))
