@@ -1200,8 +1200,8 @@ a.op-quest { display: block; color: inherit; text-decoration: none; } a.op-quest
 .tree-cta { margin: 20px 0 6px; padding: 14px 16px; }
 .tree-cta b { display: block; margin-bottom: 4px; } .tree-cta p { margin: 0 0 10px; }
 /* the feedback box (step 6, 2026-11-05): a small sheet over the page, from the link or the prompt */
-.fb-back { position: fixed; inset: 0; z-index: 11; background: var(--scrim); }
-.fb-box { position: fixed; right: 20px; bottom: 20px; z-index: 12; width: min(400px, calc(100vw - 40px)); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-5) var(--space-4); box-shadow: var(--shadow-dialog); display: grid; gap: 10px; }
+.fb-box::backdrop { background: var(--scrim, hsl(0 0% 0% / 0.4)); }
+.fb-box { position: fixed; inset: auto 20px 20px auto; margin: 0; max-height: calc(100dvh - 40px); overflow-y: auto; color: var(--foreground); z-index: var(--z-dialog); width: min(400px, calc(100vw - 40px)); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-5) var(--space-4); box-shadow: var(--shadow-dialog); display: grid; gap: 10px; }
 .fb-box h2 { margin: 0; font-size: var(--text-lg); } .fb-box .fb-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .fb-box textarea { width: 100%; min-height: 96px; resize: vertical; } .fb-box input[type=email] { width: 100%; }
 .fb-box .fb-lab { display: grid; gap: 4px; font-size: var(--text-sm); color: var(--muted-foreground); }

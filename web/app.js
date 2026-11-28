@@ -452,6 +452,8 @@
     asideDialog(null);
     if (html == null) { asideEsc = null; if (railBase) { const y = aside.hidden ? 0 : aside.scrollTop; aside.hidden = false; aside.innerHTML = railBase(); aside.scrollTop = y; wireRail(); return; } aside.hidden = true; shell.classList.remove("with-aside"); aside.innerHTML = ""; return; }
     aside.hidden = false; if (!railBase) shell.classList.add("with-aside"); aside.innerHTML = html; aside.scrollTop = 0;
+    // a card drawn into the rail: at 1180px and under the rail is off the canvas until its tab opens it, so it opens here
+    if (railBase && !shell.classList.contains("rail-open")) { shell.classList.add("rail-open"); railTab.setAttribute("aria-expanded", "true"); }
   }
   function page(html, narrow) { main.innerHTML = `<div class="page${narrow ? " narrow" : ""}">${html}</div>`; window.scrollTo(0, 0); }
   function fail(e) { console.error(e); page(`<h1>${esc(CM.failHeading)}</h1><p class="lead">${esc(fill(CM.failLine, { message: e.message }))}</p>`, true); showAside(null); }
@@ -485,6 +487,7 @@
     // a posting's panel covers a phone's screen: Tab stays in it (the feedback sheet over it keeps its own)
     if (e.key === "Tab" && asideEsc && !aside.hidden && !fbOpen && onPhone()) { trapTab(aside, e); return; }
     if (e.key !== "Escape") return;
+    if (fbOpen) return;   // the feedback dialog is on top and closes itself; what is under it stays
     if (tipFor) { hideTip(); return; }
     if (state.more && $("#drawer")) { state.more = false; keepScroll(renderRole); return; }
     if (asideEsc && !aside.hidden) { asideEsc(); return; }
@@ -677,8 +680,10 @@
     // the control that opened the sheet gets focus back when it closes, whatever closes it (C-10); a prompt opened by
     // the timer has none, so focus goes to the Feedback link in the top bar
     const opener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
+    // a native <dialog>, shown modal: the browser makes the page behind it inert, draws the scrim (::backdrop) and
+    // closes it on Escape
     const wrap = document.createElement("div");
-    wrap.innerHTML = `<div class="fb-back" id="fb-back"></div><div class="fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-h" id="fb-box">
+    wrap.innerHTML = `<dialog class="fb-box" aria-labelledby="fb-h" id="fb-box">
       <div class="fb-h"><h2 id="fb-h">${esc(FB.heading)}</h2>${UI.close(FB.close, { id: "fb-close" })}</div>
       <p class="small muted" style="margin:0">${esc(lead)}</p>
       <label class="fb-lab"><textarea id="fb-text" maxlength="${Feedback.LIMITS.text}" placeholder="${esc(FB.placeholder)}" aria-label="${esc(FB.heading)}"></textarea><span id="fb-count">${esc(fill(FB.count, { n: 0, max: Feedback.LIMITS.text }))}</span></label>
@@ -688,21 +693,22 @@
       ${linkedinUrl() ? `<p class="small fb-connect" style="margin:0"><a href="${esc(linkedinUrl())}" target="_blank" rel="noopener" id="fb-connect">${esc(FB.connect)}</a></p>` : ""}
       <div class="fb-f"><button type="button" class="btn quiet" id="fb-later">${esc(FB.notNow)}</button><button type="button" class="btn primary" id="fb-send">${esc(FB.send)}</button></div>
       <p class="small fb-out" id="fb-out" aria-live="polite"></p>
-    </div>`;
+    </dialog>`;
     document.body.appendChild(wrap);
+    const box = wrap.querySelector("#fb-box");
     const close = () => {
-      fbOpen = false; wrap.remove(); document.removeEventListener("keydown", onKey);
+      if (!fbOpen) return;
+      fbOpen = false; wrap.remove();
       const back = opener && opener.isConnected ? opener : document.querySelector(".top [data-feedback]");
       if (back) back.focus();
     };
-    // the sheet is modal (aria-modal): Tab and Shift+Tab go round its own controls and never reach the page behind it
-    const box = wrap.querySelector("#fb-box");
-    const onKey = e => {
-      if (e.key === "Escape") { close(); return; }
-      if (e.key === "Tab") trapTab(box, e);
-    };
-    document.addEventListener("keydown", onKey);
-    for (const sel of ["#fb-back", "#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
+    // Tab and Shift+Tab go round the sheet's own controls (a modal dialog alone lets Tab out to the browser's bar);
+    // Escape is the dialog's own (its close event); a press on the scrim, outside the box, closes it too
+    box.addEventListener("keydown", e => { if (e.key === "Tab") trapTab(box, e); });
+    box.addEventListener("close", close);
+    box.addEventListener("click", e => { if (e.target !== box) return; const r = box.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); });
+    for (const sel of ["#fb-close", "#fb-later"]) wrap.querySelector(sel).onclick = close;
+    if (box.showModal) box.showModal(); else box.setAttribute("open", "");
     const ta = wrap.querySelector("#fb-text"), out = wrap.querySelector("#fb-out"), btn = wrap.querySelector("#fb-send"), em = wrap.querySelector("#fb-email");
     const use = wrap.querySelector("#fb-use");
     // a bad address marks the field invalid and points it at the line that says why; typing or "Use …" clears both
